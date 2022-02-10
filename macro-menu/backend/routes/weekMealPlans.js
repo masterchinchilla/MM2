@@ -21,4 +21,29 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 })
 
+router.route('/:id').get((req, res) => {
+    WeekMealPlan.findById(req.params.id)
+        .then(weekMealPlan => res.json(weekMealPlan))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').delete((req, res) => {
+    WeekMealPlan.findByIdAndDelete(req.params.id)
+        .then(() => res.json('Week Meal Plan deleted.'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/update/:id').post((req, res) => {
+    WeekMealPlan.findById(req.params.id)
+        .then(weekMealPlan => {
+            weekMealPlan.name = req.body.name;
+            weekMealPlan.GRFUser = req.body.GRFUser;
+
+            weekMealPlan.save()
+                .then(() => res.json('Week Meal Plan updated!'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 module.exports = router;
