@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Bootstrap from "bootstrap";
+import Popper from "popper.js";
 import "./App.css";
 
 import Navbar from "./components/navbar.component";
@@ -13,10 +14,13 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Route path="/" exact component={WeekMealPlansList} />
-      <Route path="/edit/:id" exact component={EditWeekMealPlan} />
-      <Route path="/create" exact component={CreateWeekMealPlan} />
-      <Route path="/grfuser" exact component={CreateGRFUser} />
+      <br />
+      <Routes>
+        <Route path="/" exact component={WeekMealPlansList} />
+        <Route path="/edit/:id" exact component={EditWeekMealPlan} />
+        <Route path="/create" exact component={CreateWeekMealPlan} />
+        <Route path="/grfuser" exact component={CreateGRFUser} />
+      </Routes>
     </Router>
   );
 }
