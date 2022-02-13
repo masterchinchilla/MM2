@@ -16,10 +16,10 @@ function App() {
       <Navbar />
       <br />
       <Routes>
-        <Route path="/" exact component={WeekMealPlansList} />
-        <Route path="/edit/:id" exact component={EditWeekMealPlan} />
-        <Route path="/create" exact component={CreateWeekMealPlan} />
-        <Route path="/grfuser" exact component={CreateGRFUser} />
+        <Route path="/" element={<WeekMealPlansList />} />
+        <Route path="/edit/:id" element={<EditWeekMealPlan />} />
+        <Route path="/create" element={<CreateWeekMealPlan />} />
+        <Route path="/grfuser" element={<CreateGRFUser />} />
       </Routes>
     </Router>
   );

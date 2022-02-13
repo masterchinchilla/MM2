@@ -6,9 +6,9 @@ export default class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
+        <div className="container-fluid pl-3 pr-3">
           <Link to="/" className="navbar-brand">
-            All Week Meal Plans
+            Macro Menu
           </Link>
           <button
             className="navbar-toggler"
@@ -22,7 +22,7 @@ export default class Navbar extends Component {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-            <div className="navbar-nav mr-auto mb-2 mb-lg-0" id="navbarNav">
+            <ul className="navbar-nav mr-auto mb-2 mb-lg-0" id="navbarNav">
               <li className="nav-item">
                 <Link to="/" className="nav-link">
                   All Week Meal Plans
@@ -32,13 +32,13 @@ export default class Navbar extends Component {
                 <Link to="/create" className="nav-link">
                   Create Week Meal Plan
                 </Link>
-                <li className="nav-item">
-                  <Link to="/grfuser" className="nav-link">
-                    Create GRF User
-                  </Link>
-                </li>
               </li>
-            </div>
+              <li className="nav-item">
+                <Link to="/grfuser" className="nav-link">
+                  Create GRF User
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
