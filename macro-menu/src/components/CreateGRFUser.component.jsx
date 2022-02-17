@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class CreateGRFUser extends Component {
   constructor(props) {
@@ -104,6 +105,9 @@ class CreateGRFUser extends Component {
       verified: this.state.verified,
     };
     console.log(GRFUser);
+    axios
+      .post("http://localhost:5000/GRFUsers/add", GRFUser)
+      .then((res) => console.log(res.data));
   }
 
   render() {

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class CreateWeekMealPlan extends Component {
   constructor(props) {
@@ -15,9 +16,14 @@ export default class CreateWeekMealPlan extends Component {
     };
   }
   componentDidMount() {
-    this.setState({
-      GRFUsers: ["test user"],
-      GRFUser: "test user",
+    axios.get("http://localhost:5000/GRFUsers/").then((response) => {
+      if (response.data.length > 0) {
+        this.setState({
+          GRFUsers: response.data.map((GRFUser) => GRFUser.handle),
+          handle: response.data[0].handle,
+          key: response.data[0]._id,
+        });
+      }
     });
   }
   onChangeName(e) {
@@ -38,6 +44,9 @@ export default class CreateWeekMealPlan extends Component {
       GRFUser: this.state.GRFUser,
     };
     console.log(weekMealPlan);
+    axios
+      .post("http://localhost:5000/weekMealPlans/add", weekMealPlan)
+      .then((res) => console.log(res.data));
   }
 
   render() {
