@@ -107,7 +107,8 @@ class CreateGRFUser extends Component {
     console.log(GRFUser);
     axios
       .post("http://localhost:5000/GRFUsers/add", GRFUser)
-      .then((res) => console.log(res.data));
+      .then((window.location = "/grfusers/"));
+    // .then((res) => console.log(res.data));
   }
 
   render() {

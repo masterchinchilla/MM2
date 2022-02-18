@@ -20,7 +20,6 @@ router.route('/add').post((req, res) => {
         .then(() => res.json('Week Meal Plan added!'))
         .catch(err => res.status(400).json('Error: ' + err));
 })
-
 router.route('/:id').get((req, res) => {
     WeekMealPlan.findById(req.params.id)
         .then(weekMealPlan => res.json(weekMealPlan))

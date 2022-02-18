@@ -9,6 +9,7 @@ import WeekMealPlansList from "./components/WeekMealPlansList.component";
 import EditWeekMealPlan from "./components/EditWeekMealPlan.component";
 import CreateWeekMealPlan from "./components/CreateWeekMealPlan.component";
 import CreateGRFUser from "./components/CreateGRFUser.component";
+import GRFUsersList from "./components/GRFUsersList.component";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <br />
       <Routes>
         <Route path="/" element={<WeekMealPlansList />} />
+        <Route path="/grfusers" element={<GRFUsersList />} />
         <Route path="/edit/:id" element={<EditWeekMealPlan />} />
         <Route path="/create" element={<CreateWeekMealPlan />} />
         <Route path="/grfuser" element={<CreateGRFUser />} />

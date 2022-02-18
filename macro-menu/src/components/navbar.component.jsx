@@ -38,6 +38,11 @@ export default class Navbar extends Component {
                   Create GRF User
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/grfusers" className="nav-link">
+                  All GRF Users
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
