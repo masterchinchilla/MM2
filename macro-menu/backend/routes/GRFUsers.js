@@ -38,5 +38,15 @@ router.route('/add').post((req, res) => {
         .then(() => res.json('GRF User added!'))
         .catch(err => res.status(400).json('Error: ' + err));
 })
+router.route('/:id').delete((req, res) => {
+    GRFUserModel.findByIdAndDelete(req.params.id)
+        .then(() => res.json('GRF User deleted.'))
+        .catch(err => res.status(400).json('Error: ' + err));
+})
+router.route('/:id').get((req, res) => {
+    GRFUserModel.findById(req.params.id)
+        .then(GRFUser => res.json(GRFUser))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = router;

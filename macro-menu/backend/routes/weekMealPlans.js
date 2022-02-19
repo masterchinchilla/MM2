@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let WeekMealPlan = require('../models/weekMealPlan.model')
+let WeekMealPlan = require('../models/weekMealPlan.model');
 
 router.route('/').get((req, res) => {
     WeekMealPlan.find()

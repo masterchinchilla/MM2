@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-class CreateGRFUser extends Component {
+class EditGRFUser extends Component {
   constructor(props) {
     super(props);
 
@@ -19,6 +19,7 @@ class CreateGRFUser extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
+      id: "",
       namePrefix: "",
       givenName: "",
       middleName: "",
@@ -32,7 +33,26 @@ class CreateGRFUser extends Component {
       verified: false,
     };
   }
-
+  componentDidMount() {
+    axios
+      .get("http://localhost:5000/grfusers/" + this.props.match.params.id)
+      .then((response) => {
+        this.setState({
+          id: response.data._id,
+          namePrefix: response.data.namePrefix,
+          givenName: response.data.givenName,
+          middleName: response.data.middleName,
+          familyName: response.data.familyName,
+          nameSuffix: response.data.nameSuffix,
+          email: response.data.email,
+          password: response.data.password,
+          handle: response.data.handle,
+          certURL: response.data.certURL,
+          certName: response.data.certName,
+          verified: response.data.verified,
+        });
+      });
+  }
   onChangeNamePrefix(e) {
     this.setState({
       namePrefix: e.target.value,
@@ -106,15 +126,18 @@ class CreateGRFUser extends Component {
     };
     console.log(GRFUser);
     axios
-      .post("http://localhost:5000/GRFUsers/add", GRFUser)
+      .post(
+        "http://localhost:5000/GRFUsers/update/" + this.props.match.params.id,
+        GRFUser
+      )
+      .then((response) => console.log(response.data))
       .then((window.location = "/grfusers/"));
-    // .then((res) => console.log(res.data));
   }
 
   render() {
     return (
       <div className="container-fluid pl-4 pr-4">
-        <h1>New GRF User</h1>
+        <h1>Edit GRF User</h1>
         <form onSubmit={this.onSubmit}>
           <fieldset>
             <legend>Name: </legend>
@@ -223,7 +246,7 @@ class CreateGRFUser extends Component {
           <div className="form-group mt-4 mb-4">
             <input
               type="submit"
-              value="Create GRF User"
+              value="Update GRF User"
               className="btn btn-primary"
             />
           </div>
@@ -233,4 +256,4 @@ class CreateGRFUser extends Component {
   }
 }
 
-export default CreateGRFUser;
+export default EditGRFUser;
