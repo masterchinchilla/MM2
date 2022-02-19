@@ -16,6 +16,15 @@ export default class EditWeekMealPlan extends Component {
     };
   }
   componentDidMount() {
+    // axios
+    //   .get("http://localhost:5000/" + this.props.match.params.id)
+    //   .then((response) => {
+    //     this.setState({
+    //       name: response.data.name,
+    //       GRFUser: response.data.GRFUser,
+    //     });
+    //   });
+    console.log(this.props);
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
         this.setState({

@@ -11,12 +11,12 @@ router.route('/add').post((req, res) => {
     const name = req.body.name;
     const GRFUser = req.body.GRFUser;
 
-    const newweekMealPlan = new WeekMealPlan({
+    const newWeekMealPlan = new WeekMealPlan({
         name,
         GRFUser
     });
 
-    newweekMealPlan.save()
+    newWeekMealPlan.save()
         .then(() => res.json('Week Meal Plan added!'))
         .catch(err => res.status(400).json('Error: ' + err));
 })

@@ -21,8 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<WeekMealPlansList />} />
         <Route path="/grfusers" element={<GRFUsersList />} />
-        <Route path="/edit/:id" element={<EditWeekMealPlan />} />
-        <Route path="/create" element={<CreateWeekMealPlan />} />
+        <Route path="/update/:id" element={<EditWeekMealPlan />} />
+        <Route path="/weekMealPlan/create" element={<CreateWeekMealPlan />} />
         <Route path="/GRFUser/create" element={<CreateGRFUser />} />
         <Route path="/grfusers/update/:id" element={<EditGRFUser />} />
         {/* <Route path="/grfuser" element={<GRFUser />} /> */}
