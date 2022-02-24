@@ -26,6 +26,12 @@ router.route('/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/edit/:id').get((req, res) => {
+    WeekMealPlan.findById(req.params.id)
+        .then(weekMealPlan => res.json(weekMealPlan))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/:id').delete((req, res) => {
     WeekMealPlan.findByIdAndDelete(req.params.id)
         .then(() => res.json('Week Meal Plan deleted.'))
