@@ -3,42 +3,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import WeekMealPlan from "./WeekMealPlan.component";
 
-// const WeekMealPlan = (props) => (
-//   <tr>
-//     <td>{props.thisWeekMealPlan._id}</td>
-//     <td>{props.thisWeekMealPlan.name}</td>
-//     <td>{props.thisWeekMealPlan.GRFUser}</td>
-//     <td>{props.thisWeekMealPlan.createdAt}</td>
-//     <td>{props.thisWeekMealPlan.updatedAt}</td>
-//     <td>
-//       <Link to={"weekMealPlans/edit/" + props.thisWeekMealPlan._id}>
-//         <button
-//           onClick={console.log(props.thisWeekMealPlan._id)}
-//           type="button"
-//           className="btn btn-primary"
-//         >
-//           edit
-//         </button>
-//       </Link>
-//     </td>
-//     <td>
-//       <button
-//         type="button"
-//         className="btn btn-danger"
-//         href="#"
-//         onClick={() => {
-//           props.deleteWeekMealPlan(props.thisWeekMealPlan._id);
-//         }}
-//       >
-//         delete
-//       </button>
-//     </td>
-//   </tr>
-// );
 export default class WeekMealPlansList extends Component {
   constructor(props) {
     super(props);
-    // this.onDeleteWeekMealPlan = this.onDeleteWeekMealPlan.bind(this);
     this.weekMealPlansList = this.weekMealPlansList.bind(this);
     this.state = { weekMealPlans: [] };
   }

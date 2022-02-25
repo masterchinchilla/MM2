@@ -6,7 +6,8 @@ import "./App.css";
 
 import Navbar from "./components/navbar.component";
 import WeekMealPlansList from "./components/WeekMealPlansList.component";
-import WeekMealPlan from "./components/WeekMealPlan.component";
+// import WeekMealPlan from "./components/WeekMealPlan.component";
+import EditWeekMealPlan from "./components/EditWeekMealPlan.component";
 import CreateWeekMealPlan from "./components/CreateWeekMealPlan.component";
 import CreateGRFUser from "./components/CreateGRFUser.component";
 import EditGRFUser from "./components/EditGRFUser.component";
@@ -19,10 +20,11 @@ function App() {
       <Navbar />
       <br />
       <Routes>
-        <Route path="/" element={<WeekMealPlansList />} />
+        <Route exact path="/" element={<WeekMealPlansList />} />
         <Route path="/grfusers" element={<GRFUsersList />} />
         <Route path="/weekMealPlan/create" element={<CreateWeekMealPlan />} />
-        <Route path="/weekMealPlan/:id" element={<WeekMealPlan />} />
+        {/* <Route path="/weekMealPlan/:id" element={<WeekMealPlan />} /> */}
+        <Route path="/weekMealPlan/edit/:id" element={<EditWeekMealPlan />} />
         <Route path="/GRFUser/create" element={<CreateGRFUser />} />
         <Route path="/GRFUsers/edit/:id" element={<EditGRFUser />} />
         {/* <Route path="/grfuser" element={<GRFUser />} /> */}
