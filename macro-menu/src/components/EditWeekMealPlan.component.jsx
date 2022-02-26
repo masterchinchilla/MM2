@@ -9,11 +9,9 @@ export default class EditWeekMealPlan extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeGRFUser = this.onChangeGRFUser.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    const location = useLocation();
-    const { from } = location.state;
 
     this.state = {
-      id: from,
+      id: "",
       name: "",
       GRFUsers: [],
       GRFUser: "",

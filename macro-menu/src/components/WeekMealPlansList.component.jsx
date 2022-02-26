@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import WeekMealPlan from "./WeekMealPlan.component";
+import CreateWeekMealPlan from "./CreateWeekMealPlan.component";
 
 export default class WeekMealPlansList extends Component {
   constructor(props) {
@@ -66,7 +67,9 @@ export default class WeekMealPlansList extends Component {
         </table>
         <Link to={"/weekMealPlan/create/"}>
           <button type="button" className="btn btn-primary">
+            {/* <CreateWeekMealPlan> */}
             Add New
+            {/* </CreateWeekMealPlan> */}
           </button>
         </Link>
       </div>

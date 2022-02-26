@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import WeekMealPlansList from "./WeekMealPlansList.component";
+import CreateGRFUser from "./CreateGRFUser.component";
+import CreateWeekMealPlan from "./CreateWeekMealPlan.component";
+import GRFUsersList from "./GRFUsersList.component";
 
 export default class Navbar extends Component {
   render() {
@@ -25,22 +29,24 @@ export default class Navbar extends Component {
             <ul className="navbar-nav mr-auto mb-2 mb-lg-0" id="navbarNav">
               <li className="nav-item">
                 <Link to="/" className="nav-link">
-                  All Week Meal Plans
+                  <WeekMealPlansList>Week Meal Plans List</WeekMealPlansList>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/create" className="nav-link">
-                  Create Week Meal Plan
+                  <CreateWeekMealPlan>
+                    Create New Week Meal Plan
+                  </CreateWeekMealPlan>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/grfuser/create" className="nav-link">
-                  Create GRF User
+                  <CreateGRFUser>Create GRFUser</CreateGRFUser>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/grfusers" className="nav-link">
-                  All GRF Users
+                  <GRFUsersList>GRF Users List</GRFUsersList>
                 </Link>
               </li>
             </ul>

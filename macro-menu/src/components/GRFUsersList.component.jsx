@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import CreateGRFUser from "./CreateGRFUser.component";
+import EditGRFUser from "./EditGRFUser.component";
 
 const GRFUser = (props) => (
   <tr>
@@ -20,7 +22,7 @@ const GRFUser = (props) => (
     <td>
       <Link to={"update/" + props.thisGRFUser._id}>
         <button type="button" className="btn btn-primary">
-          edit
+          <EditGRFUser thisGRFUser={props.thisGRFUser._id}>edit</EditGRFUser>
         </button>
       </Link>
     </td>
@@ -121,7 +123,7 @@ export default class GRFUsersList extends Component {
         </table>
         <Link to={"/grfuser/create/"}>
           <button type="button" className="btn btn-primary">
-            Add New
+            <CreateGRFUser>Add New</CreateGRFUser>
           </button>
         </Link>
       </div>

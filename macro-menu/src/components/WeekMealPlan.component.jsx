@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import EditWeekMealPlan from "./EditWeekMealPlan.component";
 
 const WeekMealPlan = (props) => {
   const thisWeekMealPlan = props.thisWeekMealPlan;
@@ -11,11 +12,10 @@ const WeekMealPlan = (props) => {
       <td>{thisWeekMealPlan.createdAt}</td>
       <td>{thisWeekMealPlan.updatedAt}</td>
       <td>
-        <Link
-          to={`weekMealPlan/edit/${thisWeekMealPlan._id}`}
-          state={{ from: "/thisWeekMealPlan._id" }}
-        >
-          Edit
+        <Link to={`weekMealPlan/edit/${thisWeekMealPlan._id}`}>
+          {/* <EditWeekMealPlan thisWeekMealPlan={thisWeekMealPlan}> */}
+          edit
+          {/* </EditWeekMealPlan> */}
         </Link>
       </td>
       <td>
