@@ -28,13 +28,9 @@ function App() {
           element={<CreateWeekMealPlan />}
         />
         {/* <Route path="/weekMealPlan/:id" element={<WeekMealPlan />} /> */}
-        <Route
-          exact
-          path="/weekMealPlan/edit/:id"
-          element={<EditWeekMealPlan />}
-        />
+        <Route exact path="/edit/:id" element={<EditWeekMealPlan />} />
         <Route exact path="/GRFUser/create" element={<CreateGRFUser />} />
-        <Route exact path="/GRFUsers/edit/:id" element={<EditGRFUser />} />
+        {/* <Route exact path="/GRFUsers/edit/:id" element={<EditGRFUser />} /> */}
         {/* <Route path="/grfuser" element={<GRFUser />} /> */}
       </Routes>
     </Router>

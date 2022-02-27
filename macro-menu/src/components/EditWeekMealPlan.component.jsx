@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 export default class EditWeekMealPlan extends Component {
@@ -11,7 +11,7 @@ export default class EditWeekMealPlan extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      id: "",
+      id: this.props.id,
       name: "",
       GRFUsers: [],
       GRFUser: "",
@@ -20,8 +20,9 @@ export default class EditWeekMealPlan extends Component {
     };
   }
   componentDidMount() {
+    console.log(this.state);
     axios
-      .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
+      .get("http://localhost:5000/weekMealPlans/" + this.state.id)
       .then((response) => {
         this.setState({
           id: response.data.name,

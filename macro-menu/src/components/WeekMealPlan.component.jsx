@@ -12,10 +12,14 @@ const WeekMealPlan = (props) => {
       <td>{thisWeekMealPlan.createdAt}</td>
       <td>{thisWeekMealPlan.updatedAt}</td>
       <td>
-        <Link to={`weekMealPlan/edit/${thisWeekMealPlan._id}`}>
-          {/* <EditWeekMealPlan thisWeekMealPlan={thisWeekMealPlan}> */}
+        {/* <Link to={`weekMealPlan/edit/${thisWeekMealPlan._id}`}> */}
+        <Link
+          to={{
+            pathname: "/edit/" + thisWeekMealPlan._id,
+            state: { id: thisWeekMealPlan._id },
+          }}
+        >
           edit
-          {/* </EditWeekMealPlan> */}
         </Link>
       </td>
       <td>

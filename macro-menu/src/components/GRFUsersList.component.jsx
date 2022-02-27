@@ -20,11 +20,11 @@ const GRFUser = (props) => (
     <td>{props.thisGRFUser.createdAt}</td>
     <td>{props.thisGRFUser.updatedAt}</td>
     <td>
-      <Link to={"update/" + props.thisGRFUser._id}>
+      {/* <Link to={"update/" + props.thisGRFUser._id}>
         <button type="button" className="btn btn-primary">
           <EditGRFUser thisGRFUser={props.thisGRFUser._id}>edit</EditGRFUser>
         </button>
-      </Link>
+      </Link> */}
     </td>
     <td>
       <button
