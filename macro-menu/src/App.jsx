@@ -7,7 +7,7 @@ import "./App.css";
 import Navbar from "./components/navbar.component";
 import WeekMealPlansList from "./components/WeekMealPlansList.component";
 // import WeekMealPlan from "./components/WeekMealPlan.component";
-import EditWeekMealPlan from "./components/EditWeekMealPlan.component";
+import EditWeekMealPlan from "./components/EditWeekMealPlan2.component";
 import CreateWeekMealPlan from "./components/CreateWeekMealPlan.component";
 import CreateGRFUser from "./components/CreateGRFUser.component";
 import EditGRFUser from "./components/EditGRFUser.component";

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import EditWeekMealPlan from "./EditWeekMealPlan.component";
+import { Link, useParams } from "react-router-dom";
 
 const WeekMealPlan = (props) => {
   const thisWeekMealPlan = props.thisWeekMealPlan;
@@ -16,8 +15,11 @@ const WeekMealPlan = (props) => {
         <Link
           to={{
             pathname: "/edit/" + thisWeekMealPlan._id,
-            state: { id: thisWeekMealPlan._id },
           }}
+          // id={thisWeekMealPlan._id}
+          // onChangeName={this.props.onChangeName}
+          // onChangeGRFUser={this.props.onChangeGRFUser}
+          // onSubmitWMPChange={this.props.onSubmitWMPChange}
         >
           edit
         </Link>
@@ -37,4 +39,5 @@ const WeekMealPlan = (props) => {
     </tr>
   );
 };
+
 export default WeekMealPlan;
