@@ -2,7 +2,7 @@ const router = require('express').Router();
 let WeekMealPlan = require('../models/weekMealPlan.model');
 
 router.route('/').get((req, res) => {
-    WeekMealPlan.find()
+    WeekMealPlan.find().populate("GRFUser")
         .then(weekMealPlans => res.json(weekMealPlans))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -21,18 +21,19 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 })
 router.route('/:id').get((req, res) => {
-    WeekMealPlan.findById(req.params.id)
+    WeekMealPlan.findById(req.params.id).populate("GRFUser")
         .then(weekMealPlan => res.json(weekMealPlan))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/update/:id').get((req, res) => {
-    WeekMealPlan.findById(req.params.id)
+    WeekMealPlan.findById(req.params.id).populate("GRFUser")
         .then(weekMealPlan => res.json(weekMealPlan))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').delete((req, res) => {
+    console.log(req.params);
     WeekMealPlan.findByIdAndDelete(req.params.id)
         .then(() => res.json('Week Meal Plan deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));

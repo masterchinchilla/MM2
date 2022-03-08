@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default class EditWeekMealPlan extends Component {
@@ -19,19 +19,16 @@ export default class EditWeekMealPlan extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props);
-    console.log(this.state);
     axios
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
         this.setState({
           id: response.data._id,
           name: response.data.name,
-          GRFUser: response.data.GRFUser._id,
+          GRFUser: response.data.GRFUser,
           //   createdAt: response.data.createdAt,
           //   updatedAt: response.data.updatedAt,
         });
-        console.log(this.state);
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
@@ -59,13 +56,13 @@ export default class EditWeekMealPlan extends Component {
       name: this.state.name,
       GRFUser: this.state.GRFUser,
     };
-
     axios
       .post(
         "http://localhost:5000/weekMealPlans/update/" + weekMealPlan.id,
         weekMealPlan
       )
-      .then((window.location = "/"));
+      .then(console.log("updated"));
+    // .then((window.location = "/"));
   };
   render() {
     return (
@@ -81,13 +78,13 @@ export default class EditWeekMealPlan extends Component {
               onChange={this.onChangeName}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group mt-2">
             <label>Author: </label>
             <select
               ref="userInput"
               required
               className="form-control"
-              value={this.state.GRFUser}
+              value={this.state.GRFUser.handle}
               onChange={this.onChangeGRFUser}
             >
               {this.state.GRFUsers.map(function (GRFUser) {
@@ -99,11 +96,21 @@ export default class EditWeekMealPlan extends Component {
               })}
             </select>
           </div>
-          <div className="form-group mt-4 mb-4">
+          <div className="form-group mt-2 mb-4">
+            <Link
+              to={{
+                pathname: "/",
+              }}
+            >
+              <button type="button" className="btn btn-primary" href="#">
+                &lt;&nbsp;go back
+              </button>
+            </Link>
             <input
               type="submit"
-              value="Save Changes"
-              className="btn btn-primary"
+              value="save changes"
+              className="btn btn-warning m-3"
+              style={{ color: "white" }}
             />
           </div>
         </form>

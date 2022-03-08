@@ -8,6 +8,7 @@ export default class WeekMealPlansList extends Component {
   constructor(props) {
     super(props);
     this.weekMealPlansList = this.weekMealPlansList.bind(this);
+    this.handleDeleteWeekMealPlan = this.handleDeleteWeekMealPlan.bind(this);
     this.state = { weekMealPlans: [] };
   }
   componentDidMount() {
@@ -40,27 +41,27 @@ export default class WeekMealPlansList extends Component {
   //     GRFUser: this.state.GRFUser,
   //   };
   // };
-  // onDeleteWeekMealPlan(id) {
-  //   if (
-  //     id === "609f3e444ee536749c75c729" ||
-  //     id === "60e6664d60b9221e84d134db"
-  //   ) {
-  //     console.log("This Week Meal Plan is protected!");
-  //   } else {
-  //     axios
-  //       .delete("http://localhost:5000/" + id)
-  //       .then((response) => console.log(response.data));
-  //     this.setState({
-  //       weekMealPlans: this.state.weekMealPlans.filter((el) => el._id !== id),
-  //     });
-  //   }
-  // }
+  handleDeleteWeekMealPlan(id) {
+    if (
+      id === "609f3e444ee536749c75c729" ||
+      id === "60e6664d60b9221e84d134db"
+    ) {
+      console.log("This Week Meal Plan is protected!");
+    } else {
+      axios
+        .delete("http://localhost:5000/" + id)
+        .then((response) => console.log(response.data));
+    }
+    this.setState({
+      weekMealPlans: this.state.weekMealPlans.filter((el) => el._id !== id),
+    });
+  }
   weekMealPlansList() {
     return this.state.weekMealPlans.map((e) => {
       return (
         <WeekMealPlan
           thisWeekMealPlan={e}
-          // onDeleteWeekMealPlan={this.onDeleteWeekMealPlan}
+          onDeleteWeekMealPlan={this.handleDeleteWeekMealPlan}
           key={e._id}
           // onChangeName={this.handleChangeName}
           // onChangeGRFUser={this.handleChangeGRFUser}

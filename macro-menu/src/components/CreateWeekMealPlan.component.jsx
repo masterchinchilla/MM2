@@ -12,18 +12,18 @@ export default class CreateWeekMealPlan extends Component {
     this.state = {
       name: "",
       GRFUsers: [],
-      GRFUser: "",
+      GRFUser: {},
     };
   }
   componentDidMount() {
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
         this.setState({
-          GRFUsers: response.data.map((GRFUser) => GRFUser.handle),
-          handle: response.data[0].handle,
-          key: response.data[0]._id,
+          GRFUsers: response.data.map((GRFUser) => GRFUser),
+          GRFUser: response.data[0]._id,
         });
       }
+      console.log(this.state);
     });
   }
   onChangeName(e) {
@@ -35,6 +35,7 @@ export default class CreateWeekMealPlan extends Component {
     this.setState({
       GRFUser: e.target.value,
     });
+    console.log(this.state);
   }
 
   onSubmit(e) {
@@ -65,8 +66,8 @@ export default class CreateWeekMealPlan extends Component {
             >
               {this.state.GRFUsers.map(function (GRFUser) {
                 return (
-                  <option key={GRFUser} value={GRFUser}>
-                    {GRFUser}
+                  <option key={GRFUser._id} value={GRFUser._id}>
+                    {GRFUser.handle}
                   </option>
                 );
               })}
