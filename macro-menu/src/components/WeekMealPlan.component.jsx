@@ -1,16 +1,30 @@
 import React, { Component } from "react";
 import { Link, useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
 const WeekMealPlan = (props) => {
   const thisWeekMealPlan = props.thisWeekMealPlan;
-  // const onDeleteWeekMealPlan = props.onDeleteWeekMealPlan;
+  const formatedCreatedAtDate = dayjs(thisWeekMealPlan.createdAt).format(
+    "dddd, MMMM D, YYYY h:mm A"
+  );
+  const formatedUpdatedAtDate = dayjs(thisWeekMealPlan.updatedAt).format(
+    "dddd, MMMM D, YYYY h:mm A"
+  );
   return (
     <tr>
       <td>{thisWeekMealPlan._id}</td>
       <td>{thisWeekMealPlan.name}</td>
-      <td>{thisWeekMealPlan.GRFUser.handle}</td>
-      <td>{thisWeekMealPlan.createdAt}</td>
-      <td>{thisWeekMealPlan.updatedAt}</td>
+      <td>
+        <Link
+          to={{
+            pathname: "/grfusers/edit/" + thisWeekMealPlan.GRFUser._id,
+          }}
+        >
+          {thisWeekMealPlan.GRFUser.handle}
+        </Link>
+      </td>
+      <td>{formatedCreatedAtDate}</td>
+      <td>{formatedUpdatedAtDate}</td>
       <td>
         <Link
           to={{

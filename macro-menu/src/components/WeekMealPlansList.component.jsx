@@ -49,7 +49,7 @@ export default class WeekMealPlansList extends Component {
       console.log("This Week Meal Plan is protected!");
     } else {
       axios
-        .delete("http://localhost:5000/" + id)
+        .delete("http://localhost:5000/weekMealPlans/" + id)
         .then((response) => console.log(response.data));
     }
     this.setState({
@@ -87,11 +87,9 @@ export default class WeekMealPlansList extends Component {
           </thead>
           <tbody>{this.weekMealPlansList()}</tbody>
         </table>
-        <Link to={"/weekMealPlan/create/"}>
+        <Link to={"/create/"}>
           <button type="button" className="btn btn-primary">
-            {/* <CreateWeekMealPlan> */}
-            Add New
-            {/* </CreateWeekMealPlan> */}
+            add new
           </button>
         </Link>
       </div>

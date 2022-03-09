@@ -2,48 +2,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CreateGRFUser from "./CreateGRFUser.component";
+import GRFUser from "./GRFUser.component";
 import EditGRFUser from "./EditGRFUser.component";
 
-const GRFUser = (props) => (
-  <tr>
-    <td>{props.thisGRFUser._id}</td>
-    <td>{props.thisGRFUser.namePrefix}</td>
-    <td>{props.thisGRFUser.givenName}</td>
-    <td>{props.thisGRFUser.middleName}</td>
-    <td>{props.thisGRFUser.familyName}</td>
-    <td>{props.thisGRFUser.nameSuffix}</td>
-    <td>{props.thisGRFUser.email}</td>
-    <td>{props.thisGRFUser.password}</td>
-    <td>{props.thisGRFUser.handle}</td>
-    <td>{props.thisGRFUser.certURL}</td>
-    <td>{props.thisGRFUser.certName}</td>
-    <td>{props.thisGRFUser.createdAt}</td>
-    <td>{props.thisGRFUser.updatedAt}</td>
-    <td>
-      {/* <Link to={"update/" + props.thisGRFUser._id}>
-        <button type="button" className="btn btn-primary">
-          <EditGRFUser thisGRFUser={props.thisGRFUser._id}>edit</EditGRFUser>
-        </button>
-      </Link> */}
-    </td>
-    <td>
-      <button
-        type="button"
-        className="btn btn-danger"
-        href="#"
-        onClick={() => {
-          props.deleteGRFUser(props.thisGRFUser._id);
-        }}
-      >
-        delete
-      </button>
-    </td>
-  </tr>
-);
 export default class GRFUsersList extends Component {
   constructor(props) {
     super(props);
-    this.deleteGRFUser = this.deleteGRFUser.bind(this);
+    this.handleDeleteGRFUser = this.handleDeleteGRFUser.bind(this);
     this.GRFUsersList = this.GRFUsersList.bind(this);
     this.state = { GRFUsers: [] };
   }
@@ -59,7 +24,7 @@ export default class GRFUsersList extends Component {
         console.log(error);
       });
   }
-  deleteGRFUser(id) {
+  handleDeleteGRFUser(id) {
     if (
       id === "609f3e444ee536749c75c729" ||
       id === "60e6664d60b9221e84d134db"
@@ -79,7 +44,7 @@ export default class GRFUsersList extends Component {
       return (
         <GRFUser
           thisGRFUser={e}
-          deleteGRFUser={this.deleteGRFUser}
+          onDeleteGRFUser={this.handleDeleteGRFUser}
           key={e._id}
         />
       );
@@ -123,7 +88,7 @@ export default class GRFUsersList extends Component {
         </table>
         <Link to={"/grfuser/create/"}>
           <button type="button" className="btn btn-primary">
-            <CreateGRFUser>Add New</CreateGRFUser>
+            add new
           </button>
         </Link>
       </div>

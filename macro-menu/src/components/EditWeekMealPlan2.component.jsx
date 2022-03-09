@@ -61,8 +61,8 @@ export default class EditWeekMealPlan extends Component {
         "http://localhost:5000/weekMealPlans/update/" + weekMealPlan.id,
         weekMealPlan
       )
-      .then(console.log("updated"));
-    // .then((window.location = "/"));
+      .then(console.log("updated"))
+      .then((window.location = "/"));
   };
   render() {
     return (

@@ -21,9 +21,10 @@ function App() {
       <br />
       <Route exact path="/" component={WeekMealPlansList} />
       <Route exact path="/grfusers" component={GRFUsersList} />
-      <Route exact path="/weekMealPlan/create" component={CreateWeekMealPlan} />
+      <Route exact path="/create" component={CreateWeekMealPlan} />
       <Route exact path="/edit/:id" component={EditWeekMealPlan} />
-      <Route exact path="/GRFUser/create" component={CreateGRFUser} />
+      <Route exact path="/grfusers/edit/:id" component={EditGRFUser} />
+      <Route exact path="/grfuser/create" component={CreateGRFUser} />
     </Router>
   );
 }

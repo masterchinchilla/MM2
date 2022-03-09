@@ -48,5 +48,25 @@ router.route('/:id').get((req, res) => {
         .then(GRFUser => res.json(GRFUser))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+router.route('/update/:id').post((req, res) => {
+    GRFUserModel.findById(req.params.id)
+        .then(thisGRFUser => {
+            thisGRFUser.namePrefix = req.body.namePrefix;
+            thisGRFUser.givenName = req.body.givenName;
+            thisGRFUser.middleName = req.body.middleName;
+            thisGRFUser.familyName = req.body.familyName;
+            thisGRFUser.nameSuffix = req.body.nameSuffix;
+            thisGRFUser.email = req.body.email;
+            thisGRFUser.password = req.body.password;
+            thisGRFUser.handle = req.body.handle;
+            thisGRFUser.certURL = req.body.certURL;
+            thisGRFUser.certName = req.body.certName;
+            thisGRFUser.verified = req.body.verified;
+            thisGRFUser.save()
+                .then(() => res.json('GRF User updated!'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = router;
