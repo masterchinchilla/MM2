@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let WeekMealPlan = require('../models/weekMealPlan.model');
+let Day = require('../models/day.model');
 
 router.route('/').get((req, res) => {
     WeekMealPlan.find().populate("GRFUser")
@@ -25,7 +26,6 @@ router.route('/:id').get((req, res) => {
         .then(weekMealPlan => res.json(weekMealPlan))
         .catch(err => res.status(400).json('Error: ' + err));
 });
-
 router.route('/update/:id').get((req, res) => {
     WeekMealPlan.findById(req.params.id).populate("GRFUser")
         .then(weekMealPlan => res.json(weekMealPlan))

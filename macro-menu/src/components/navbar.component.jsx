@@ -38,6 +38,11 @@ export default class Navbar extends Component {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link to="/days" className="nav-link">
+                  Days List
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link to="/create" className="nav-link">
                   Create New Week Meal Plan
                 </Link>

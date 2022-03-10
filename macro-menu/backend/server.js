@@ -19,7 +19,7 @@ connection.once('open', () => {
 });
 
 // const brandsRouter = require('./routes/brands');
-// const daysRouter = require('./routes/days');
+const daysRouter = require('./routes/days');
 // const genRecipeIngredientsRouter = require('./routes/genRecipeIngredients');
 // const genRecipesRouter = require('./routes/genRecipes');
 const GRFUsersRouter = require('./routes/GRFUsers');
@@ -31,7 +31,7 @@ const weekMealPlansRouter = require('./routes/weekMealPlans');
 // const weightTypesRouter = require('./routes/weightTypes');
 
 // app.use('/brands', brandsRouter);
-// app.use('/days', daysRouter);
+app.use('/days', daysRouter);
 // app.use('/genRecipeIngredients', genRecipeIngredientsRouter);
 // app.use('/genRecipes', genRecipesRouter);
 app.use('/GRFUsers', GRFUsersRouter);

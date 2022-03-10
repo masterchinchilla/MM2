@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Day from "./Day.component";
 
 export default class EditWeekMealPlan extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class EditWeekMealPlan extends Component {
       name: "",
       GRFUsers: [],
       GRFUser: "",
+      thisWeeksDays: [],
       //   createdAt: "",
       //   updatedAt: "",
     };
@@ -26,17 +28,27 @@ export default class EditWeekMealPlan extends Component {
           id: response.data._id,
           name: response.data.name,
           GRFUser: response.data.GRFUser,
-          //   createdAt: response.data.createdAt,
-          //   updatedAt: response.data.updatedAt,
         });
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
         this.setState({
-          GRFUsers: response.data.map((GRFUser) => GRFUser.handle),
+          GRFUsers: response.data.map((GRFUser) => GRFUser),
         });
       }
     });
+    axios
+      .get(
+        "http://localhost:5000/days/daysofthiswmp/" + this.props.match.params.id
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.data.length > 0) {
+          this.setState({
+            thisWeeksDays: response.data.map((day) => day),
+          });
+        }
+      });
   }
   onChangeName = (e) => {
     this.setState({
@@ -64,6 +76,11 @@ export default class EditWeekMealPlan extends Component {
       .then(console.log("updated"))
       .then((window.location = "/"));
   };
+  daysList() {
+    return this.state.thisWeeksDays.map((e) => {
+      return <Day thisDay={e} onDeleteDay={this.handleDeleteDay} key={e._id} />;
+    });
+  }
   render() {
     return (
       <div className="container-fluid pl-4 pr-4">
@@ -89,8 +106,8 @@ export default class EditWeekMealPlan extends Component {
             >
               {this.state.GRFUsers.map(function (GRFUser) {
                 return (
-                  <option key={GRFUser} value={GRFUser}>
-                    {GRFUser}
+                  <option key={GRFUser._id} value={GRFUser._id}>
+                    {GRFUser.handle}
                   </option>
                 );
               })}
@@ -114,6 +131,20 @@ export default class EditWeekMealPlan extends Component {
             />
           </div>
         </form>
+        <table className="table table-light">
+          <thead className="thead thead-light">
+            <tr>
+              <th scope="col">Record ID</th>
+              <th scope="col">Day of Week</th>
+              <th scope="col">Week Meal Plan Day is part of</th>
+              <th scope="col">Created</th>
+              <th scope="col">Last Update</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>{this.daysList()}</tbody>
+        </table>
       </div>
     );
   }
