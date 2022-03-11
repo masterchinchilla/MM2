@@ -131,8 +131,8 @@ class EditGRFUser extends Component {
         "http://localhost:5000/grfusers/update/" + this.props.match.params.id,
         thisGRFUser
       )
-      .then((response) => console.log(response.data));
-    //   .then((window.location = "/grfusers/"));
+      .then((response) => console.log(response.data))
+      .then((window.location = "/grfusers/"));
   }
 
   render() {

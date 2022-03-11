@@ -52,6 +52,11 @@ export default class Navbar extends Component {
                   Create GRFUser
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/day/create" className="nav-link">
+                  Create Day
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

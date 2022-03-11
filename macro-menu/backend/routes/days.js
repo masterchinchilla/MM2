@@ -14,14 +14,14 @@ router.route('/daysofthiswmp/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 router.route('/add').post((req, res) => {
-    const weekMealPlan = req.body.weekMealPlan;
     const dayOfWeek = req.body.dayOfWeek;
-
+    const name = req.body.name;
+    const weekMealPlan = req.body.weekMealPlan;
     const newDay = new Day({
-        weekMealPlan,
-        dayOfWeek
+        dayOfWeek,
+        name,
+        weekMealPlan
     });
-
     newDay.save()
         .then(() => res.json('Day added!'))
         .catch(err => res.status(400).json('Error: ' + err));

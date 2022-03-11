@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var daySchema = new Schema(
     {
-        // name: { type: String, required: true, unique: true, maxLength: 500 },
+        name: { type: String, required: true, unique: true, maxLength: 500 },
         dayOfWeek: {type: String, required: true, enum: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], default: 'Sunday'},
         weekMealPlan: {type: Schema.Types.ObjectId, ref: 'WeekMealPlan', required: true},
     },
