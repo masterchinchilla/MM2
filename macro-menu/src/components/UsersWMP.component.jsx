@@ -15,7 +15,7 @@ const UsersWMP = (props) => {
       <td>
         <Link
           to={{
-            pathname: "/weekMealPlans/edit/" + thisWMP._id,
+            pathname: "/edit/" + thisWMP._id,
           }}
         >
           <button type="button" className="btn btn-primary" href="#">
