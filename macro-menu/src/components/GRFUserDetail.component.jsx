@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import UsersWMP from "./UsersWMP.component";
 
-class EditGRFUser extends Component {
+class GRFUserDetail extends Component {
   constructor(props) {
     super(props);
-
+    this.listThisUsersWMPs = this.listThisUsersWMPs.bind(this);
     this.onChangeNamePrefix = this.onChangeNamePrefix.bind(this);
     this.onChangeGivenName = this.onChangeGivenName.bind(this);
     this.onChangeMiddleName = this.onChangeMiddleName.bind(this);
@@ -32,6 +34,7 @@ class EditGRFUser extends Component {
       certURL: "",
       certName: "",
       verified: false,
+      thisUsersWMPs: [],
     };
   }
   componentDidMount() {
@@ -53,6 +56,24 @@ class EditGRFUser extends Component {
           verified: response.data.verified,
         });
       });
+    axios
+      .get(
+        "http://localhost:5000/weekmealplans/wmpsofthisuser/" +
+          this.props.match.params.id
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.data.length > 0) {
+          this.setState({
+            thisUsersWMPs: response.data.map((wmp) => wmp),
+          });
+        }
+      });
+  }
+  listThisUsersWMPs() {
+    return this.state.thisUsersWMPs.map((e) => {
+      return <UsersWMP thisWMP={e} key={e._id} />;
+    });
   }
   onChangeNamePrefix(e) {
     this.setState({
@@ -138,7 +159,23 @@ class EditGRFUser extends Component {
   render() {
     return (
       <div className="container-fluid pl-4 pr-4">
-        <h1>Edit GRF User</h1>
+        <h1>GRF User Detail</h1>
+        <h2>My Week Meal Plans</h2>
+        <table className="table table-light table-bordered">
+          <thead className="thead thead-light">
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Week Meal Plan Name</th>
+              <th scope="col">Author</th>
+              <th scope="col">Created</th>
+              <th scope="col">Last Update</th>
+              <th scope="col">Record ID</th>
+            </tr>
+          </thead>
+          <tbody className="tbody tbody-light">
+            {this.listThisUsersWMPs()}
+          </tbody>
+        </table>
         <form onSubmit={this.onSubmit}>
           <fieldset>
             <legend>Name: </legend>
@@ -267,4 +304,4 @@ class EditGRFUser extends Component {
   }
 }
 
-export default EditGRFUser;
+export default GRFUserDetail;

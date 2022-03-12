@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import CreateGRFUser from "./CreateGRFUser.component";
 import GRFUser from "./GRFUser.component";
-import EditGRFUser from "./EditGRFUser.component";
+import GRFUserDetail from "./GRFUserDetail.component";
 
 export default class GRFUsersList extends Component {
   constructor(props) {

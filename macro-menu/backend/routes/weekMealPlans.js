@@ -7,6 +7,11 @@ router.route('/').get((req, res) => {
         .then(weekMealPlans => res.json(weekMealPlans))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+router.route('/wmpsofthisuser/:id').get((req, res) => {
+    WeekMealPlan.find({GRFUser: req.params.id})
+        .then(wmps => res.json(wmps))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 router.route('/add').post((req, res) => {
     const name = req.body.name;
