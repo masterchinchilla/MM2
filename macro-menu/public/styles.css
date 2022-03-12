@@ -1,0 +1,7 @@
+.inputRowWRightIcons {
+  display: flex;
+  justify-content: space-between;
+}
+.iconGroup {
+  white-space: nowrap;
+}

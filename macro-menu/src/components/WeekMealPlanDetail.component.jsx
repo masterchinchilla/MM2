@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Day from "./Day.component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default class EditWeekMealPlan extends Component {
+export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
@@ -16,8 +17,7 @@ export default class EditWeekMealPlan extends Component {
       GRFUsers: [],
       GRFUser: "",
       thisWeeksDays: [],
-      //   createdAt: "",
-      //   updatedAt: "",
+      WMPFormState: "",
     };
   }
   componentDidMount() {
@@ -84,18 +84,51 @@ export default class EditWeekMealPlan extends Component {
   render() {
     return (
       <div className="container-fluid pl-4 pr-4">
-        <h1>Edit Week Meal Plan</h1>
+        <h1>Week Meal Plan Detail</h1>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>Name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.name}
-              onChange={this.onChangeName}
-            />
+            <label>Plan Name</label>
+            <div className="inputRowWRightIcons">
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.name}
+                onChange={this.onChangeName}
+                disabled={true}
+              />
+              <div className="iconGroup m-1">
+                <FontAwesomeIcon
+                  icon="fa-solid fa-copy"
+                  size="xl"
+                  className="p-1"
+                />
+                <FontAwesomeIcon
+                  icon="fa-solid fa-pen-to-square"
+                  size="xl"
+                  className="p-1"
+                />
+                <FontAwesomeIcon
+                  icon="fa-solid fa-circle-xmark"
+                  size="xl"
+                  className="p-1"
+                  hidden={true}
+                />
+                <FontAwesomeIcon
+                  icon="fa-solid fa-floppy-disk"
+                  size="xl"
+                  className="p-1"
+                  hidden={true}
+                />
+                <FontAwesomeIcon
+                  icon="fa-solid fa-trash-can"
+                  size="xl"
+                  className="p-1"
+                  hidden={true}
+                />
+              </div>
+            </div>
           </div>
-          <div className="form-group mt-2">
+          <div hidden={true} className="form-group mt-2">
             <label>Author: </label>
             <select
               ref="userInput"
@@ -113,7 +146,7 @@ export default class EditWeekMealPlan extends Component {
               })}
             </select>
           </div>
-          <div className="form-group mt-2 mb-4">
+          {/* <div className="form-group mt-2 mb-4">
             <Link
               to={{
                 pathname: "/",
@@ -129,7 +162,7 @@ export default class EditWeekMealPlan extends Component {
               className="btn btn-warning m-3"
               style={{ color: "white" }}
             />
-          </div>
+          </div> */}
         </form>
         <table className="table table-light">
           <thead className="thead thead-light">
