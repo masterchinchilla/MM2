@@ -8,31 +8,44 @@ const EditOptions = (props) => {
   const thisFormState = props.thisFormState;
   console.log(props);
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
-    if (icon == "copy") {
-      if (thisFormState == "viewing") {
-        return false;
-      } else {
-        return true;
-      }
-    } else if (icon == "edit") {
-      if (userIsAuthor == "true") {
-        return false;
-      } else {
-        return true;
-      }
-    } else if (icon == "cancel" || icon == "save") {
-      if (thisFormState == "viewing") {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (thisFormState == "viewing" || thisFormState == "editingCopy") {
-        return true;
-      } else {
-        return false;
-      }
+    let iconHidden = false;
+    switch (icon) {
+      case "copy":
+        if (thisFormState == "editingCopy") {
+          iconHidden = true;
+        } else {
+          iconHidden = false;
+        }
+        break;
+      case "edit":
+        if (userIsAuthor == true && thisFormState == "viewing") {
+          iconHidden = false;
+        } else {
+          iconHidden = true;
+        }
+        break;
+      case "cancel":
+        if (thisFormState == "viewing") {
+          iconHidden = true;
+        } else {
+          iconHidden = false;
+        }
+        break;
+      case "save":
+        if (thisFormState == "viewing") {
+          iconHidden = true;
+        } else {
+          iconHidden = false;
+        }
+        break;
+      case "delete":
+        if (thisFormState == "editingOrig") {
+          iconHidden = false;
+        } else {
+          iconHidden = true;
+        }
     }
+    return iconHidden;
   };
   return (
     <div className="iconGroup m-1">
