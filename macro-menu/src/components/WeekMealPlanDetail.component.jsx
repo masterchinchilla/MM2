@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Day from "./Day.component";
+import DayDetail from "./DayDetail.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import EditOptions from "./EditOptions.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -10,6 +12,7 @@ export default class WeekMealPlanDetail extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeGRFUser = this.onChangeGRFUser.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    const lifeCycleStages = ["viewing", "editingOrig", "editingCopy"];
 
     this.state = {
       id: "",
@@ -17,7 +20,8 @@ export default class WeekMealPlanDetail extends Component {
       GRFUsers: [],
       GRFUser: "",
       thisWeeksDays: [],
-      WMPFormState: "",
+      thisFormState: "viewing",
+      userIsAuthor: false,
     };
   }
   componentDidMount() {
@@ -78,7 +82,9 @@ export default class WeekMealPlanDetail extends Component {
   };
   daysList() {
     return this.state.thisWeeksDays.map((e) => {
-      return <Day thisDay={e} onDeleteDay={this.handleDeleteDay} key={e._id} />;
+      return (
+        <DayDetail thisDay={e} onDeleteDay={this.handleDeleteDay} key={e._id} />
+      );
     });
   }
   render() {
@@ -96,36 +102,11 @@ export default class WeekMealPlanDetail extends Component {
                 onChange={this.onChangeName}
                 disabled={true}
               />
-              <div className="iconGroup m-1">
-                <FontAwesomeIcon
-                  icon="fa-solid fa-copy"
-                  size="xl"
-                  className="p-1"
-                />
-                <FontAwesomeIcon
-                  icon="fa-solid fa-pen-to-square"
-                  size="xl"
-                  className="p-1"
-                />
-                <FontAwesomeIcon
-                  icon="fa-solid fa-circle-xmark"
-                  size="xl"
-                  className="p-1"
-                  hidden={true}
-                />
-                <FontAwesomeIcon
-                  icon="fa-solid fa-floppy-disk"
-                  size="xl"
-                  className="p-1"
-                  hidden={true}
-                />
-                <FontAwesomeIcon
-                  icon="fa-solid fa-trash-can"
-                  size="xl"
-                  className="p-1"
-                  hidden={true}
-                />
-              </div>
+              <EditOptions
+                parentObj={"WMP"}
+                userIsAuthor={this.state.userIsAuthor}
+                thisFormState={this.state.thisFormState}
+              />
             </div>
           </div>
           <div hidden={true} className="form-group mt-2">
@@ -164,7 +145,7 @@ export default class WeekMealPlanDetail extends Component {
             />
           </div> */}
         </form>
-        <table className="table table-light">
+        {/* <table className="table table-light">
           <thead className="thead thead-light">
             <tr>
               <th scope="col">Record ID</th>
@@ -176,8 +157,9 @@ export default class WeekMealPlanDetail extends Component {
               <th></th>
             </tr>
           </thead>
-          <tbody>{this.daysList()}</tbody>
-        </table>
+          <tbody></tbody>
+        </table> */}
+        <div>{this.daysList()}</div>
       </div>
     );
   }
