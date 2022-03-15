@@ -20,7 +20,7 @@ export default class WeekMealPlanDetail extends Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
-    this.daysList = this.daysList.bind(this);
+    // this.daysList = this.daysList.bind(this);
     const lifeCycleStages = [
       "viewing",
       "editingOrig",
@@ -36,13 +36,13 @@ export default class WeekMealPlanDetail extends Component {
       thisWeeksDays: [],
       thisFormState: "viewing",
       userIsAuthor: true,
-      sun: { name: "empty", dayOfWeek: "Sunday" },
-      mon: { dayOfWeek: "Monday", name: "empty" },
-      tues: { dayOfWeek: "Tuesday", name: "empty" },
-      wed: { dayOfWeek: "Wednesday", name: "empty" },
-      thurs: { dayOfWeek: "Thursday", name: "empty" },
-      fri: { dayOfWeek: "Friday", name: "empty" },
-      sat: { dayOfWeek: "Saturday", name: "empty" },
+      sun: {},
+      mon: {},
+      tues: {},
+      wed: {},
+      thurs: {},
+      fri: {},
+      sat: {},
     };
   }
   componentDidMount() {
@@ -116,22 +116,22 @@ export default class WeekMealPlanDetail extends Component {
   handleCreate = () => {
     console.log("Clicked Create");
   };
-  daysList = () => {
-    return this.state.thisWeeksDays.map((e) => {
-      return (
-        <DayDetail
-          thisDay={e}
-          onDeleteDay={this.handleDeleteDay}
-          key={e._id}
-          onSubmitFormChange={this.handleSubmitFormChange}
-          onClickCopy={this.handleClickCopy}
-          onClickEdit={this.handleClickEdit}
-          onCancel={this.handleCancel}
-          onDelete={this.handleDelete}
-        />
-      );
-    });
-  };
+  // daysList = () => {
+  //   return this.state.thisWeeksDays.map((e) => {
+  //     return (
+  //       <DayDetail
+  //         thisDay={e}
+  //         onDeleteDay={this.handleDeleteDay}
+  //         key={e._id}
+  //         onSubmitFormChange={this.handleSubmitFormChange}
+  //         onClickCopy={this.handleClickCopy}
+  //         onClickEdit={this.handleClickEdit}
+  //         onCancel={this.handleCancel}
+  //         onDelete={this.handleDelete}
+  //       />
+  //     );
+  //   });
+  // };
   assignDays = () => {
     let daysCount;
     const daysList = this.state.thisWeeksDays;
@@ -162,50 +162,27 @@ export default class WeekMealPlanDetail extends Component {
       }
     }
   };
-  renderEmptyDay = (dayToRender) => {
+  renderEmptyDay = () => {
     return (
-      <div className="accordion mt-4" id="accordionExample">
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingOne">
-            <button
-              className="accordion-button"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target={"#dayAccrdnMissing" + dayToRender.dayOfWeek}
-              aria-expanded="true"
-              aria-controls="collapseOne"
-            >
-              <div className="accrdnTitle">Some Day{dayToRender.dayOfWeek}</div>
-            </button>
-          </h2>
-          <div
-            id={"dayAccrdnMissing" + dayToRender.dayOfWeek}
-            className="accordion-collapse collapse show"
-            aria-labelledby="headingOne"
-            data-bs-parent="#accordionExample"
-          >
-            <div className="accordion-body">
-              Some words.
-              <button
-                type="button"
-                className="button button-primary"
-                onClick={this.handleCreate}
-              >
-                <FontAwesomeIcon
-                  icon="fa-solid fa-circle-plus"
-                  size="xl"
-                  className="p-1"
-                />
-                Add New
-              </button>
-            </div>
-          </div>
-        </div>
+      <div>
+        <button
+          type="button"
+          className="button button-primary"
+          onClick={this.handleCreate}
+        >
+          <FontAwesomeIcon
+            icon="fa-solid fa-circle-plus"
+            size="xl"
+            className="p-1"
+          />
+          Add New
+        </button>
       </div>
     );
   };
   renderDay = (dayToRender) => {
-    if (dayToRender.name == "empty") {
+    console.log(dayToRender);
+    if (dayToRender == {}) {
       this.renderEmptyDay(dayToRender);
     } else {
       return (
@@ -303,11 +280,11 @@ export default class WeekMealPlanDetail extends Component {
         <div>
           {this.renderDay(this.state.sun)}
           {this.renderDay(this.state.mon)}
-          {this.renderDay(this.state.tues)}
+          {/* {this.renderDay(this.state.tues)}
           {this.renderDay(this.state.wed)}
           {this.renderDay(this.state.thurs)}
           {this.renderDay(this.state.fri)}
-          {this.renderDay(this.state.sat)}
+          {this.renderDay(this.state.sat)} */}
         </div>
       </div>
     );

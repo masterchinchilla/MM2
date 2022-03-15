@@ -45,8 +45,8 @@ class DayDetail extends Component {
   render() {
     return (
       <div className="card mt-3 mb-3">
-        <div class="card-header">
-          <h2 class="card-title">{this.state.thisDay.dayOfWeek}</h2>
+        <div className="card-header">
+          <h2 className="card-title">{this.state.thisDay.dayOfWeek}</h2>
           <EditOptions
             parentObj={"Day"}
             thisFormState={this.state.thisFormState}
