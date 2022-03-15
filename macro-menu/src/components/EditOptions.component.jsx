@@ -8,6 +8,7 @@ const EditOptions = (props) => {
   const thisFormState = props.thisFormState;
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
+  const onClickEdit = props.onClickEdit;
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
     let iconHidden = false;
     switch (icon) {
@@ -58,12 +59,14 @@ const EditOptions = (props) => {
           hidden={hideIcon("copy", userIsAuthor, thisFormState)}
         />
       </button>
-      <FontAwesomeIcon
-        icon="fa-solid fa-pen-to-square"
-        size="xl"
-        className="p-1"
-        hidden={hideIcon("edit", userIsAuthor, thisFormState)}
-      />
+      <button type="button" onClick={() => onClickEdit()}>
+        <FontAwesomeIcon
+          icon="fa-solid fa-pen-to-square"
+          size="xl"
+          className="p-1"
+          hidden={hideIcon("edit", userIsAuthor, thisFormState)}
+        />
+      </button>
       <FontAwesomeIcon
         icon="fa-solid fa-circle-xmark"
         size="xl"

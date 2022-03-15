@@ -42,11 +42,11 @@ class DayDetail extends Component {
                 parentObj={"Day"}
                 thisFormState={this.state.thisFormState}
                 userIsAuthor={true}
-                onSubmitFormChange={this.handleSubmitFormChange}
-                onClickCopy={this.handleClickCopy}
-                onClickEdit={this.handleClickEdit}
-                onCancel={this.handleCancel}
-                onDelete={this.handleDelete}
+                onSubmitFormChange={this.onSubmitFormChange}
+                onClickCopy={this.onClickCopy}
+                onClickEdit={this.onClickEdit}
+                onCancel={this.onCancel}
+                onDelete={this.onDelete}
               />
               <div className="accrdnTitle">{this.state.thisDay.dayOfWeek}</div>
             </button>

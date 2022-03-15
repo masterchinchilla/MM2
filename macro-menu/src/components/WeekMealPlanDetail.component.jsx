@@ -35,7 +35,7 @@ export default class WeekMealPlanDetail extends Component {
       GRFUser: "",
       thisWeeksDays: [],
       thisFormState: "viewing",
-      userIsAuthor: false,
+      userIsAuthor: true,
       sun: { name: "empty", dayOfWeek: "Sunday" },
       mon: { dayOfWeek: "Monday", name: "empty" },
       tues: { dayOfWeek: "Tuesday", name: "empty" },
@@ -104,7 +104,7 @@ export default class WeekMealPlanDetail extends Component {
     console.log("Clicked Copy");
   };
   handleClickEdit = () => {
-    console.log("Clicked Edit");
+    this.setState = { thisFormState: "editingOrig" };
   };
   handleCancel = () => {
     console.log("Clicked Cancel");
@@ -162,7 +162,6 @@ export default class WeekMealPlanDetail extends Component {
     }
   };
   renderEmptyDay = (dayToRender) => {
-    console.log("rendering empty day: " + dayToRender.name);
     return (
       <div className="accordion mt-4" id="accordionExample">
         <div className="accordion-item">
@@ -205,7 +204,6 @@ export default class WeekMealPlanDetail extends Component {
     );
   };
   renderDay = (dayToRender) => {
-    console.log(dayToRender);
     if (dayToRender.name == "empty") {
       this.renderEmptyDay(dayToRender);
     } else {
@@ -236,7 +234,7 @@ export default class WeekMealPlanDetail extends Component {
                 className="form-control"
                 value={this.state.name}
                 onChange={this.onChangeName}
-                disabled={false}
+                disabled={this.state.thisFormState == "viewing" ? true : false}
               />
               <EditOptions
                 parentObj={"WMP"}
