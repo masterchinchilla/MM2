@@ -104,10 +104,11 @@ export default class WeekMealPlanDetail extends Component {
     console.log("Clicked Copy");
   };
   handleClickEdit = () => {
-    this.setState = { thisFormState: "editingOrig" };
+    this.setState({ thisFormState: "editingOrig" });
   };
   handleCancel = () => {
-    console.log("Clicked Cancel");
+    this.setState({ thisFormState: "viewing" });
+    console.log(this.state);
   };
   handleDelete = () => {
     console.log("Clicked Delete");
@@ -212,11 +213,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay={dayToRender}
           onDeleteDay={this.handleDeleteDay}
           key={dayToRender._id}
-          onSubmitFormChange={this.handleSubmitFormChange}
-          onClickCopy={this.handleClickCopy}
-          onClickEdit={this.handleClickEdit}
-          onCancel={this.handleCancel}
-          onDelete={this.handleDelete}
+          // onSubmitFormChange={this.handleSubmitFormChange}
+          // onClickCopy={this.handleClickCopy}
+          // onClickEdit={this.handleClickEdit}
+          // onCancel={this.handleCancel}
+          // onDelete={this.handleDelete}
         />
       );
     }

@@ -13,3 +13,16 @@ button {
   padding: unset;
   border-style: none;
 }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 3px !important;
+}
+.accordion {
+}
+.accordion-header {
+  justify-self: flex-end;
+}
+.accordion-button {
+  padding: 3px 1rem 3px 1rem !important;
+}

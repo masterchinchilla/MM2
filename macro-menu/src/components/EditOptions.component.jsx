@@ -9,6 +9,7 @@ const EditOptions = (props) => {
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
   const onClickEdit = props.onClickEdit;
+  const onCancel = props.onCancel;
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
     let iconHidden = false;
     switch (icon) {
@@ -59,7 +60,7 @@ const EditOptions = (props) => {
           hidden={hideIcon("copy", userIsAuthor, thisFormState)}
         />
       </button>
-      <button type="button" onClick={() => onClickEdit()}>
+      <button type="button" onClick={onClickEdit}>
         <FontAwesomeIcon
           icon="fa-solid fa-pen-to-square"
           size="xl"
@@ -67,12 +68,14 @@ const EditOptions = (props) => {
           hidden={hideIcon("edit", userIsAuthor, thisFormState)}
         />
       </button>
-      <FontAwesomeIcon
-        icon="fa-solid fa-circle-xmark"
-        size="xl"
-        className="p-1"
-        hidden={hideIcon("cancel", userIsAuthor, thisFormState)}
-      />
+      <button type="button" onClick={onCancel}>
+        <FontAwesomeIcon
+          icon="fa-solid fa-circle-xmark"
+          size="xl"
+          className="p-1"
+          hidden={hideIcon("cancel", userIsAuthor, thisFormState)}
+        />
+      </button>
       <button
         type="submit"
         value="submit"
