@@ -5,3 +5,11 @@
 .iconGroup {
   white-space: nowrap;
 }
+button {
+  color: unset;
+  text-shadow: none;
+  background-color: transparent;
+  margin: unset;
+  padding: unset;
+  border-style: none;
+}

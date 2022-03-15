@@ -9,9 +9,15 @@ class DayDetail extends Component {
     super(props);
     this.state = {
       thisDay: this.props.thisDay,
-      thisFormState: "viewing",
+      thisFormState: "creating",
       userIsAuthor: true,
+      thisDaysMeals: [],
     };
+    const onSubmitFormChange = this.props.onSubmitFormChange;
+    const onClickCopy = this.props.onClickCopy;
+    const onClickEdit = this.props.onClickEdit;
+    const onCancel = this.props.onCancel;
+    const onDelete = this.props.onDelete;
     const formatedCreatedAtDate = dayjs(this.state.thisDay.createdAt).format(
       "dddd, MMMM D, YYYY h:mm A"
     );
@@ -36,6 +42,11 @@ class DayDetail extends Component {
                 parentObj={"Day"}
                 thisFormState={this.state.thisFormState}
                 userIsAuthor={true}
+                onSubmitFormChange={this.handleSubmitFormChange}
+                onClickCopy={this.handleClickCopy}
+                onClickEdit={this.handleClickEdit}
+                onCancel={this.handleCancel}
+                onDelete={this.handleDelete}
               />
               <div className="accrdnTitle">{this.state.thisDay.dayOfWeek}</div>
             </button>
@@ -47,14 +58,15 @@ class DayDetail extends Component {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body">
-              <strong>This is the first item's accordion body.</strong> It is
-              shown by default, until the collapse plugin adds the appropriate
-              classes that we use to style each element. These classes control
-              the overall appearance, as well as the showing and hiding via CSS
-              transitions. You can modify any of this with custom CSS or
-              overriding our default variables. It's also worth noting that just
-              about any HTML can go within the <code>.accordion-body</code>,
-              though the transition does limit overflow.
+              <ul>
+                <li>Name:&nbsp;{this.state.thisDay.name}</li>
+                <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
+                <li>
+                  Week Meal Plan:&nbsp;{this.state.thisDay.weekMealPlan.name}
+                </li>
+                <li>Created:&nbsp;{this.formatedCreatedAtDate}</li>
+                <li>Last Updated:&nbsp;{this.formatedUpdatedAtDate}</li>
+              </ul>
             </div>
           </div>
         </div>

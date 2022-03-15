@@ -11,8 +11,22 @@ export default class WeekMealPlanDetail extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeGRFUser = this.onChangeGRFUser.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    const lifeCycleStages = ["viewing", "editingOrig", "editingCopy"];
+    this.assignDays = this.assignDays.bind(this);
+    this.renderDay = this.renderDay.bind(this);
+    this.renderEmptyDay = this.renderEmptyDay.bind(this);
+    this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
+    this.handleClickCopy = this.handleClickCopy.bind(this);
+    this.handleClickEdit = this.handleClickEdit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
+    this.daysList = this.daysList.bind(this);
+    const lifeCycleStages = [
+      "viewing",
+      "editingOrig",
+      "editingCopy",
+      "creating",
+    ];
 
     this.state = {
       id: "",
@@ -22,6 +36,13 @@ export default class WeekMealPlanDetail extends Component {
       thisWeeksDays: [],
       thisFormState: "viewing",
       userIsAuthor: false,
+      sun: { name: "empty", dayOfWeek: "Sunday" },
+      mon: { dayOfWeek: "Monday", name: "empty" },
+      tues: { dayOfWeek: "Tuesday", name: "empty" },
+      wed: { dayOfWeek: "Wednesday", name: "empty" },
+      thurs: { dayOfWeek: "Thursday", name: "empty" },
+      fri: { dayOfWeek: "Friday", name: "empty" },
+      sat: { dayOfWeek: "Saturday", name: "empty" },
     };
   }
   componentDidMount() {
@@ -46,11 +67,11 @@ export default class WeekMealPlanDetail extends Component {
         "http://localhost:5000/days/daysofthiswmp/" + this.props.match.params.id
       )
       .then((response) => {
-        console.log(response);
         if (response.data.length > 0) {
           this.setState({
             thisWeeksDays: response.data.map((day) => day),
           });
+          this.assignDays();
         }
       });
   }
@@ -64,9 +85,8 @@ export default class WeekMealPlanDetail extends Component {
       GRFUser: e.target.value,
     });
   };
-
-  onSubmit = (e) => {
-    e.preventDefault();
+  handleSubmitFormChange = () => {
+    // e.preventDefault();
     const weekMealPlan = {
       id: this.state.id,
       name: this.state.name,
@@ -80,18 +100,134 @@ export default class WeekMealPlanDetail extends Component {
       .then(console.log("updated"))
       .then((window.location = "/"));
   };
-  daysList() {
+  handleClickCopy = () => {
+    console.log("Clicked Copy");
+  };
+  handleClickEdit = () => {
+    console.log("Clicked Edit");
+  };
+  handleCancel = () => {
+    console.log("Clicked Cancel");
+  };
+  handleDelete = () => {
+    console.log("Clicked Delete");
+  };
+  handleCreate = () => {
+    console.log("Clicked Create");
+  };
+  daysList = () => {
     return this.state.thisWeeksDays.map((e) => {
       return (
-        <DayDetail thisDay={e} onDeleteDay={this.handleDeleteDay} key={e._id} />
+        <DayDetail
+          thisDay={e}
+          onDeleteDay={this.handleDeleteDay}
+          key={e._id}
+          onSubmitFormChange={this.handleSubmitFormChange}
+          onClickCopy={this.handleClickCopy}
+          onClickEdit={this.handleClickEdit}
+          onCancel={this.handleCancel}
+          onDelete={this.handleDelete}
+        />
       );
     });
-  }
+  };
+  assignDays = () => {
+    let daysCount;
+    const daysList = this.state.thisWeeksDays;
+    for (daysCount = 0; daysCount < daysList.length; daysCount++) {
+      const thisDay = daysList[daysCount];
+      switch (thisDay.dayOfWeek) {
+        case "Sunday":
+          this.setState({ sun: thisDay });
+          break;
+        case "Monday":
+          this.setState({ mon: thisDay });
+          break;
+        case "Tuesday":
+          this.setState({ tues: thisDay });
+          break;
+        case "Wednesday":
+          this.setState({ wed: thisDay });
+          break;
+        case "Thursday":
+          this.setState({ thurs: thisDay });
+          break;
+        case "Friday":
+          this.setState({ fri: thisDay });
+          break;
+        case "Saturday":
+          this.setState({ sat: thisDay });
+          break;
+      }
+    }
+  };
+  renderEmptyDay = (dayToRender) => {
+    console.log("rendering empty day: " + dayToRender.name);
+    return (
+      <div className="accordion mt-4" id="accordionExample">
+        <div className="accordion-item">
+          <h2 className="accordion-header" id="headingOne">
+            <button
+              className="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target={"#dayAccrdnMissing" + dayToRender.dayOfWeek}
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              <div className="accrdnTitle">Some Day{dayToRender.dayOfWeek}</div>
+            </button>
+          </h2>
+          <div
+            id={"dayAccrdnMissing" + dayToRender.dayOfWeek}
+            className="accordion-collapse collapse show"
+            aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample"
+          >
+            <div className="accordion-body">
+              Some words.
+              <button
+                type="button"
+                className="button button-primary"
+                onClick={this.handleCreate}
+              >
+                <FontAwesomeIcon
+                  icon="fa-solid fa-circle-plus"
+                  size="xl"
+                  className="p-1"
+                />
+                Add New
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  renderDay = (dayToRender) => {
+    console.log(dayToRender);
+    if (dayToRender.name == "empty") {
+      this.renderEmptyDay(dayToRender);
+    } else {
+      return (
+        <DayDetail
+          thisDay={dayToRender}
+          onDeleteDay={this.handleDeleteDay}
+          key={dayToRender._id}
+          onSubmitFormChange={this.handleSubmitFormChange}
+          onClickCopy={this.handleClickCopy}
+          onClickEdit={this.handleClickEdit}
+          onCancel={this.handleCancel}
+          onDelete={this.handleDelete}
+        />
+      );
+    }
+  };
   render() {
     return (
       <div className="container-fluid pl-4 pr-4">
         <h1>Week Meal Plan Detail</h1>
-        <form onSubmit={this.onSubmit}>
+        <form>
           <div className="form-group">
             <label>Plan Name</label>
             <div className="inputRowWRightIcons">
@@ -100,12 +236,17 @@ export default class WeekMealPlanDetail extends Component {
                 className="form-control"
                 value={this.state.name}
                 onChange={this.onChangeName}
-                disabled={true}
+                disabled={false}
               />
               <EditOptions
                 parentObj={"WMP"}
                 userIsAuthor={this.state.userIsAuthor}
                 thisFormState={this.state.thisFormState}
+                onSubmitFormChange={this.handleSubmitFormChange}
+                onClickCopy={this.handleClickCopy}
+                onClickEdit={this.handleClickEdit}
+                onCancel={this.handleCancel}
+                onDelete={this.handleDelete}
               />
             </div>
           </div>
@@ -159,7 +300,16 @@ export default class WeekMealPlanDetail extends Component {
           </thead>
           <tbody></tbody>
         </table> */}
-        <div>{this.daysList()}</div>
+        {/* <div>{this.daysList()}</div> */}
+        <div>
+          {this.renderDay(this.state.sun)}
+          {this.renderDay(this.state.mon)}
+          {this.renderDay(this.state.tues)}
+          {this.renderDay(this.state.wed)}
+          {this.renderDay(this.state.thurs)}
+          {this.renderDay(this.state.fri)}
+          {this.renderDay(this.state.sat)}
+        </div>
       </div>
     );
   }

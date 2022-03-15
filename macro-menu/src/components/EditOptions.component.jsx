@@ -6,12 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EditOptions = (props) => {
   const userIsAuthor = props.userIsAuthor;
   const thisFormState = props.thisFormState;
-  console.log(props);
+  const onSubmitFormChange = props.onSubmitFormChange;
+  const onClickCopy = props.onClickCopy;
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
     let iconHidden = false;
     switch (icon) {
       case "copy":
-        if (thisFormState == "editingCopy") {
+        if (thisFormState == "editingCopy" || thisFormState == "creating") {
           iconHidden = true;
         } else {
           iconHidden = false;
@@ -49,12 +50,14 @@ const EditOptions = (props) => {
   };
   return (
     <div className="iconGroup m-1">
-      <FontAwesomeIcon
-        icon="fa-solid fa-copy"
-        size="xl"
-        className="p-1"
-        hidden={hideIcon("copy", userIsAuthor, thisFormState)}
-      />
+      <button type="button" onClick={onClickCopy}>
+        <FontAwesomeIcon
+          icon="fa-solid fa-copy"
+          size="xl"
+          className="p-1"
+          hidden={hideIcon("copy", userIsAuthor, thisFormState)}
+        />
+      </button>
       <FontAwesomeIcon
         icon="fa-solid fa-pen-to-square"
         size="xl"
@@ -67,12 +70,20 @@ const EditOptions = (props) => {
         className="p-1"
         hidden={hideIcon("cancel", userIsAuthor, thisFormState)}
       />
-      <FontAwesomeIcon
-        icon="fa-solid fa-floppy-disk"
-        size="xl"
-        className="p-1"
-        hidden={hideIcon("save", userIsAuthor, thisFormState)}
-      />
+      <button
+        type="submit"
+        value="submit"
+        // className="btn btn-warning m-3"
+        // style={{ color: "white" }}
+        onClick={onSubmitFormChange}
+      >
+        <FontAwesomeIcon
+          icon="fa-solid fa-floppy-disk"
+          size="xl"
+          className="p-1"
+          hidden={hideIcon("save", userIsAuthor, thisFormState)}
+        />
+      </button>
       <FontAwesomeIcon
         icon="fa-solid fa-trash-can"
         size="xl"
