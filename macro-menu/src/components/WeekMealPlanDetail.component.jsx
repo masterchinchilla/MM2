@@ -5,6 +5,7 @@ import Day from "./Day.component";
 import DayDetail from "./DayDetail.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
+import CreateDay from "./CreateDay.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class WeekMealPlanDetail extends Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
+    this.rerenderParentCallback = this.rerenderParentCallback.bind(this);
     // this.daysList = this.daysList.bind(this);
     const lifeCycleStages = [
       "viewing",
@@ -77,8 +79,6 @@ export default class WeekMealPlanDetail extends Component {
           fri: response.data.filter((day) => day.dayOfWeek == "Friday")[0],
           sat: response.data.filter((day) => day.dayOfWeek == "Saturday")[0],
         });
-
-        console.log(this.state);
         // this.assignDays();
       });
   }
@@ -122,6 +122,12 @@ export default class WeekMealPlanDetail extends Component {
   handleCreate = () => {
     console.log("Clicked Create");
   };
+  // handleUpdateWeekDays = (newDay, dayOfWeekShort) => {
+  //   this.setState({ dayOfWeekShort: newDay });
+  // };
+  rerenderParentCallback() {
+    this.forceUpdate();
+  }
   // daysList = () => {
   //   return this.state.thisWeeksDays.map((e) => {
   //     return (
@@ -169,7 +175,6 @@ export default class WeekMealPlanDetail extends Component {
     }
   };
   renderEmptyDay = (dayToRender, dayOfWeek) => {
-    console.log(dayToRender, dayOfWeek);
     return (
       <div>
         <button
@@ -188,31 +193,38 @@ export default class WeekMealPlanDetail extends Component {
       </div>
     );
   };
-  renderDay = (dayToRender, dayOfWeek) => {
-    console.log(dayToRender, dayOfWeek);
+  renderDay = (dayToRender, dayOfWeek, dayOfWeekShort) => {
     if (dayToRender == undefined) {
       return (
-        <div className="card mt-3 mb-3">
-          <div className="card-header">
-            <h2 className="card-title">{dayOfWeek}</h2>
-          </div>
-          <div>
-            <button
-              type="button"
-              // className="newItemButton"
-              className="btn btn-primary"
-              onClick={this.handleCreate}
-            >
-              <FontAwesomeIcon
-                icon="fa-solid fa-circle-plus"
-                size="xl"
-                className="p-1"
-                dayOfWeek={dayOfWeek}
-              />
-              Add New
-            </button>
-          </div>
-        </div>
+        <CreateDay
+          weekMealPlanId={this.state.id}
+          weekMealPlanName={this.state.name}
+          dayOfWeek={dayOfWeek}
+          dayOfWeekShort={dayOfWeekShort}
+          thisFormState="missing"
+          rerenderParentCallback={this.rerenderParentCallback}
+        />
+        // <div className="card mt-3 mb-3">
+        //   <div className="card-header">
+        //     <h2 className="card-title">{dayOfWeek}</h2>
+        //   </div>
+        //   <div>
+        //     <button
+        //       type="button"
+        //       // className="newItemButton"
+        //       className="btn btn-primary"
+        //       onClick={this.handleCreate}
+        //     >
+        //       <FontAwesomeIcon
+        //         icon="fa-solid fa-circle-plus"
+        //         size="xl"
+        //         className="p-1"
+        //         dayOfWeek={dayOfWeek}
+        //       />
+        //       Add New
+        //     </button>
+        //   </div>
+        // </div>
       );
     } else {
       return (
@@ -308,13 +320,13 @@ export default class WeekMealPlanDetail extends Component {
         </table> */}
         {/* <div>{this.daysList()}</div> */}
         <div>
-          {this.renderDay(this.state.sun, "Sunday")}
-          {this.renderDay(this.state.mon, "Monday")}
-          {this.renderDay(this.state.tues, "Tuesday")}
-          {this.renderDay(this.state.wed, "Wednesday")}
-          {this.renderDay(this.state.thurs, "Thursday")}
-          {this.renderDay(this.state.fri, "Friday")}
-          {this.renderDay(this.state.sat, "Saturday")}
+          {this.renderDay(this.state.sun, "Sunday", "sun")}
+          {this.renderDay(this.state.mon, "Monday", "mon")}
+          {this.renderDay(this.state.tues, "Tuesday", "tues")}
+          {this.renderDay(this.state.wed, "Wednesday", "wed")}
+          {this.renderDay(this.state.thurs, "Thursday", "thurs")}
+          {this.renderDay(this.state.fri, "Friday", "fri")}
+          {this.renderDay(this.state.sat, "Saturday", "sat")}
         </div>
       </div>
     );

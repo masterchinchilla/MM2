@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { response } = require('express');
 let Day = require('../models/day.model');
 let WeekMealPlan = require('../models/weekMealPlan.model');
 
@@ -23,7 +24,7 @@ router.route('/add').post((req, res) => {
         weekMealPlan
     });
     newDay.save()
-        .then(() => res.json('Day added!'))
+        .then(() => res.json(newDay))
         .catch(err => res.status(400).json('Error: ' + err));
 })
 router.route('/:id').get((req, res) => {
