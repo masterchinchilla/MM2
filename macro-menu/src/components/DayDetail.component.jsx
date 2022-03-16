@@ -11,12 +11,14 @@ class DayDetail extends Component {
     this.handleClickCopy = this.handleClickCopy.bind(this);
     this.handleClickEdit = this.handleClickEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    // this.onDeleteDay = this.props.onDeleteDay;
+    // console.log(props);
     this.state = {
       thisDay: this.props.thisDay,
       thisFormState: "viewing",
       userIsAuthor: true,
       thisDaysMeals: [],
+      thisReference: "Days",
     };
   }
   handleSubmitFormChange = () => {
@@ -31,9 +33,9 @@ class DayDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  handleDelete = () => {
-    console.log("Clicked Delete");
-  };
+  // handleDelete = () => {
+  //   console.log("Clicked Delete");
+  // };
   render() {
     return (
       <div className="card mt-3 mb-3">
@@ -43,11 +45,13 @@ class DayDetail extends Component {
             parentObj={"Day"}
             thisFormState={this.state.thisFormState}
             userIsAuthor={this.state.userIsAuthor}
+            thisReference={this.state.thisReference}
+            thisId={this.state.thisDay._id}
             onSubmitFormChange={this.handleSubmitFormChange}
             onClickCopy={this.handleClickCopy}
             onClickEdit={this.handleClickEdit}
             onCancel={this.handleCancel}
-            onDelete={this.handleDelete}
+            onDeleteDay={this.props.onDeleteDay}
           />
         </div>
         <div

@@ -19,7 +19,7 @@ export default class WeekMealPlanDetail extends Component {
     this.handleClickCopy = this.handleClickCopy.bind(this);
     this.handleClickEdit = this.handleClickEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    // this.handleDeleteDay = this.handleDeleteDay.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     this.rerenderParentCallback = this.rerenderParentCallback.bind(this);
     // this.daysList = this.daysList.bind(this);
@@ -116,8 +116,16 @@ export default class WeekMealPlanDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  handleDelete = () => {
-    console.log("Clicked Delete");
+  // handleDelete = () => {
+  //   console.log("Clicked Delete");
+  // };
+  handleDeleteDay = (id) => {
+    axios
+      .delete("http://localhost:5000/days/" + id)
+      .then((response) => console.log(response.data));
+    this.setState({
+      thisWeeksDays: this.state.thisWeeksDays.filter((el) => el._id !== id),
+    });
   };
   handleCreate = () => {
     console.log("Clicked Create");
@@ -230,13 +238,13 @@ export default class WeekMealPlanDetail extends Component {
       return (
         <DayDetail
           thisDay={dayToRender}
-          onDeleteDay={this.handleDeleteDay}
+          // onDelete={this.handleDelete}
           key={dayToRender._id}
           // onSubmitFormChange={this.handleSubmitFormChange}
           // onClickCopy={this.handleClickCopy}
           // onClickEdit={this.handleClickEdit}
           // onCancel={this.handleCancel}
-          // onDelete={this.handleDelete}
+          onDeleteDay={this.handleDeleteDay}
         />
       );
     }
@@ -264,7 +272,6 @@ export default class WeekMealPlanDetail extends Component {
                 onClickCopy={this.handleClickCopy}
                 onClickEdit={this.handleClickEdit}
                 onCancel={this.handleCancel}
-                onDelete={this.handleDelete}
               />
             </div>
           </div>

@@ -4,13 +4,17 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditOptions = (props) => {
+  // console.log(props);
   const parentObj = props.parentObj;
   const userIsAuthor = props.userIsAuthor;
   const thisFormState = props.thisFormState;
+  const thisReference = props.thisReference;
+  const thisId = props.thisId;
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
   const onClickEdit = props.onClickEdit;
   const onCancel = props.onCancel;
+  const onDeleteDay = props.onDeleteDay;
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
     let iconHidden = false;
     switch (icon) {
@@ -97,12 +101,14 @@ const EditOptions = (props) => {
           hidden={hideIcon("save", userIsAuthor, thisFormState)}
         />
       </button>
-      <FontAwesomeIcon
-        icon="fa-solid fa-trash-can"
-        size="xl"
-        className="p-1"
-        hidden={hideIcon("delete", userIsAuthor, thisFormState)}
-      />
+      <button type="button" onClick={onDeleteDay(thisId)} className="iconBttn">
+        <FontAwesomeIcon
+          icon="fa-solid fa-trash-can"
+          size="xl"
+          className="p-1"
+          hidden={hideIcon("delete", userIsAuthor, thisFormState)}
+        />
+      </button>
     </div>
   );
 };

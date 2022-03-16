@@ -9,7 +9,7 @@ export default class CreateDay extends Component {
     this.onChangeWeekMealPlan = this.onChangeWeekMealPlan.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
     this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
-    // this.rerenderParentCallback = this.props.rerenderParentCallback;
+    this.rerenderParentCallback = this.props.rerenderParentCallback;
 
     this.state = {
       dayOfWeek: this.props.dayOfWeek,
@@ -78,7 +78,7 @@ export default class CreateDay extends Component {
     };
     axios
       .post("http://localhost:5000/days/add", day)
-      .then(this.props.rerenderParentCallback);
+      .then(this.rerenderParentCallback);
   }
   render() {
     return (
