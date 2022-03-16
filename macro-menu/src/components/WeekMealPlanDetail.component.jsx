@@ -67,12 +67,19 @@ export default class WeekMealPlanDetail extends Component {
         "http://localhost:5000/days/daysofthiswmp/" + this.props.match.params.id
       )
       .then((response) => {
-        if (response.data.length > 0) {
-          this.setState({
-            thisWeeksDays: response.data.map((day) => day),
-          });
-          this.assignDays();
-        }
+        this.setState({
+          thisWeeksDays: response.data.map((day) => day),
+          sun: response.data.filter((day) => day.dayOfWeek == "Sunday")[0],
+          mon: response.data.filter((day) => day.dayOfWeek == "Monday")[0],
+          tues: response.data.filter((day) => day.dayOfWeek == "Tuesday")[0],
+          wed: response.data.filter((day) => day.dayOfWeek == "Wednesday")[0],
+          thurs: response.data.filter((day) => day.dayOfWeek == "Thursday")[0],
+          fri: response.data.filter((day) => day.dayOfWeek == "Friday")[0],
+          sat: response.data.filter((day) => day.dayOfWeek == "Saturday")[0],
+        });
+
+        console.log(this.state);
+        // this.assignDays();
       });
   }
   onChangeName = (e) => {
@@ -108,7 +115,6 @@ export default class WeekMealPlanDetail extends Component {
   };
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
-    console.log(this.state);
   };
   handleDelete = () => {
     console.log("Clicked Delete");
@@ -162,7 +168,8 @@ export default class WeekMealPlanDetail extends Component {
       }
     }
   };
-  renderEmptyDay = () => {
+  renderEmptyDay = (dayToRender, dayOfWeek) => {
+    console.log(dayToRender, dayOfWeek);
     return (
       <div>
         <button
@@ -174,16 +181,39 @@ export default class WeekMealPlanDetail extends Component {
             icon="fa-solid fa-circle-plus"
             size="xl"
             className="p-1"
+            dayOfWeek={dayOfWeek}
           />
           Add New
         </button>
       </div>
     );
   };
-  renderDay = (dayToRender) => {
-    console.log(dayToRender);
-    if (dayToRender == {}) {
-      this.renderEmptyDay(dayToRender);
+  renderDay = (dayToRender, dayOfWeek) => {
+    console.log(dayToRender, dayOfWeek);
+    if (dayToRender == undefined) {
+      return (
+        <div className="card mt-3 mb-3">
+          <div className="card-header">
+            <h2 className="card-title">{dayOfWeek}</h2>
+          </div>
+          <div>
+            <button
+              type="button"
+              // className="newItemButton"
+              className="btn btn-primary"
+              onClick={this.handleCreate}
+            >
+              <FontAwesomeIcon
+                icon="fa-solid fa-circle-plus"
+                size="xl"
+                className="p-1"
+                dayOfWeek={dayOfWeek}
+              />
+              Add New
+            </button>
+          </div>
+        </div>
+      );
     } else {
       return (
         <DayDetail
@@ -278,13 +308,13 @@ export default class WeekMealPlanDetail extends Component {
         </table> */}
         {/* <div>{this.daysList()}</div> */}
         <div>
-          {this.renderDay(this.state.sun)}
-          {this.renderDay(this.state.mon)}
-          {/* {this.renderDay(this.state.tues)}
-          {this.renderDay(this.state.wed)}
-          {this.renderDay(this.state.thurs)}
-          {this.renderDay(this.state.fri)}
-          {this.renderDay(this.state.sat)} */}
+          {this.renderDay(this.state.sun, "Sunday")}
+          {this.renderDay(this.state.mon, "Monday")}
+          {this.renderDay(this.state.tues, "Tuesday")}
+          {this.renderDay(this.state.wed, "Wednesday")}
+          {this.renderDay(this.state.thurs, "Thursday")}
+          {this.renderDay(this.state.fri, "Friday")}
+          {this.renderDay(this.state.sat, "Saturday")}
         </div>
       </div>
     );

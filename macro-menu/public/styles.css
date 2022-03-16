@@ -5,13 +5,19 @@
 .iconGroup {
   white-space: nowrap;
 }
-button {
+button.iconBttn {
   color: unset;
   text-shadow: none;
   background-color: transparent;
   margin: unset;
   padding: unset;
   border-style: none;
+}
+.btn-primary {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
 }
 .card-header {
   display: flex;
@@ -25,4 +31,12 @@ button {
 }
 .accordion-button {
   padding: 3px 1rem 3px 1rem !important;
+}
+.newItemButton {
+  align-items: center;
+  display: flex;
+  padding: 1rem;
+}
+.btn-primary svg {
+  margin: auto 0.5rem auto -0.5rem;
 }

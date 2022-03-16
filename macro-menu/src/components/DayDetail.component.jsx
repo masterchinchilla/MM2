@@ -18,12 +18,6 @@ class DayDetail extends Component {
       userIsAuthor: true,
       thisDaysMeals: [],
     };
-    const formatedCreatedAtDate = dayjs(this.state.thisDay.createdAt).format(
-      "dddd, MMMM D, YYYY h:mm A"
-    );
-    const formatedUpdatedAtDate = dayjs(this.state.thisDay.updatedAt).format(
-      "dddd, MMMM D, YYYY h:mm A"
-    );
   }
   handleSubmitFormChange = () => {
     console.log("Form submitted");
@@ -33,11 +27,9 @@ class DayDetail extends Component {
   };
   handleClickEdit = () => {
     this.setState({ thisFormState: "editingOrig" });
-    console.log(this.state);
   };
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
-    console.log(this.state);
   };
   handleDelete = () => {
     console.log("Clicked Delete");
@@ -87,10 +79,20 @@ class DayDetail extends Component {
                   <li>Name:&nbsp;{this.state.thisDay.name}</li>
                   <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
                   <li>
-                    Week Meal Plan:&nbsp;{this.state.thisDay.weekMealPlan.name}
+                    {/* Week Meal Plan:&nbsp;{this.state.thisDay.weekMealPlan.name} */}
                   </li>
-                  <li>Created:&nbsp;{this.formatedCreatedAtDate}</li>
-                  <li>Last Updated:&nbsp;{this.formatedUpdatedAtDate}</li>
+                  <li>
+                    Created:&nbsp;
+                    {dayjs(this.state.thisDay.createdAt).format(
+                      "dddd, MMMM D, YYYY h:mm A"
+                    )}
+                  </li>
+                  <li>
+                    Last Updated:&nbsp;
+                    {dayjs(this.state.thisDay.updatedAt).format(
+                      "dddd, MMMM D, YYYY h:mm A"
+                    )}
+                  </li>
                 </ul>
               </div>
             </div>

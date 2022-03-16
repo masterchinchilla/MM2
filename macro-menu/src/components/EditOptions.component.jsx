@@ -4,6 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditOptions = (props) => {
+  const parentObj = props.parentObj;
   const userIsAuthor = props.userIsAuthor;
   const thisFormState = props.thisFormState;
   const onSubmitFormChange = props.onSubmitFormChange;
@@ -35,10 +36,15 @@ const EditOptions = (props) => {
         }
         break;
       case "save":
-        if (thisFormState == "viewing") {
+        if (parentObj == "Day") {
           iconHidden = true;
         } else {
-          iconHidden = false;
+          if (thisFormState == "viewing") {
+            iconHidden = true;
+          } else {
+            iconHidden = false;
+          }
+          return;
         }
         break;
       case "delete":
@@ -52,7 +58,7 @@ const EditOptions = (props) => {
   };
   return (
     <div className="iconGroup m-1">
-      <button type="button" onClick={onClickCopy}>
+      <button type="button" onClick={onClickCopy} className="iconBttn">
         <FontAwesomeIcon
           icon="fa-solid fa-copy"
           size="xl"
@@ -60,7 +66,7 @@ const EditOptions = (props) => {
           hidden={hideIcon("copy", userIsAuthor, thisFormState)}
         />
       </button>
-      <button type="button" onClick={onClickEdit}>
+      <button type="button" onClick={onClickEdit} className="iconBttn">
         <FontAwesomeIcon
           icon="fa-solid fa-pen-to-square"
           size="xl"
@@ -68,7 +74,7 @@ const EditOptions = (props) => {
           hidden={hideIcon("edit", userIsAuthor, thisFormState)}
         />
       </button>
-      <button type="button" onClick={onCancel}>
+      <button type="button" onClick={onCancel} className="iconBttn">
         <FontAwesomeIcon
           icon="fa-solid fa-circle-xmark"
           size="xl"
@@ -82,6 +88,7 @@ const EditOptions = (props) => {
         // className="btn btn-warning m-3"
         // style={{ color: "white" }}
         onClick={onSubmitFormChange}
+        className="iconBttn"
       >
         <FontAwesomeIcon
           icon="fa-solid fa-floppy-disk"
