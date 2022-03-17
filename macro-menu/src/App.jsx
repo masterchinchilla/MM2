@@ -15,7 +15,7 @@ import CreateWeekMealPlan from "./components/CreateWeekMealPlan.component";
 import CreateGRFUser from "./components/CreateGRFUser.component";
 import GRFUserDetail from "./components/GRFUserDetail.component";
 import GRFUsersList from "./components/GRFUsersList.component";
-import CreateDay from "./components/CreateDay.component";
+// import CreateDay from "./components/CreateDay.component";
 // import GRFUser from "./components/GRFUser.component";
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
       <Route exact path="/edit/:id" component={WeekMealPlanDetail} />
       <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} />
       <Route exact path="/grfuser/create" component={CreateGRFUser} />
-      <Route exact path="/day/create" component={CreateDay} />
+      {/* <Route exact path="/day/create" component={CreateDay} /> */}
     </Router>
   );
 }

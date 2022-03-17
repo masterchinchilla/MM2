@@ -8,14 +8,12 @@ const EditOptions = (props) => {
   const parentObj = props.parentObj;
   const userIsAuthor = props.userIsAuthor;
   const thisFormState = props.thisFormState;
-  const thisReference = props.thisReference;
-  const thisObject = props.thisObject;
   const thisId = props.thisId;
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
   const onClickEdit = props.onClickEdit;
   const onCancel = props.onCancel;
-  const onDeleteDay = props.onDeleteDay;
+  const onDelete = props.onDelete;
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
     let iconHidden = false;
     switch (icon) {
@@ -104,7 +102,7 @@ const EditOptions = (props) => {
       </button>
       <button
         type="button"
-        onClick={() => onDeleteDay(thisId, thisObject.dayOfWeek)}
+        onClick={() => onDelete(thisId)}
         className="iconBttn"
       >
         <FontAwesomeIcon

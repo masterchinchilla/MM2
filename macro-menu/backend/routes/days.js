@@ -16,15 +16,15 @@ router.route('/daysofthiswmp/:id').get((req, res) => {
 });
 router.route('/add').post((req, res) => {
     const dayOfWeek = req.body.dayOfWeek;
-    const name = req.body.name;
     const weekMealPlan = req.body.weekMealPlan;
+    const name = req.body.name;
     const newDay = new Day({
         dayOfWeek,
+        weekMealPlan,
         name,
-        weekMealPlan
     });
     newDay.save()
-        .then(() => res.json(newDay))
+        .then(() => res.json("Day added"))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 router.route('/:id').get((req, res) => {
