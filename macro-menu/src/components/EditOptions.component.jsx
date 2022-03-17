@@ -9,6 +9,7 @@ const EditOptions = (props) => {
   const userIsAuthor = props.userIsAuthor;
   const thisFormState = props.thisFormState;
   const thisReference = props.thisReference;
+  const thisObject = props.thisObject;
   const thisId = props.thisId;
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
@@ -101,7 +102,11 @@ const EditOptions = (props) => {
           hidden={hideIcon("save", userIsAuthor, thisFormState)}
         />
       </button>
-      <button type="button" onClick={onDeleteDay(thisId)} className="iconBttn">
+      <button
+        type="button"
+        onClick={() => onDeleteDay(thisId, thisObject.dayOfWeek)}
+        className="iconBttn"
+      >
         <FontAwesomeIcon
           icon="fa-solid fa-trash-can"
           size="xl"

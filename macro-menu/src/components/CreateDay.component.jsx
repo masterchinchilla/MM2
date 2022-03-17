@@ -8,8 +8,6 @@ export default class CreateDay extends Component {
     this.onChangeDayOfWeek = this.onChangeDayOfWeek.bind(this);
     this.onChangeWeekMealPlan = this.onChangeWeekMealPlan.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
-    this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
-    this.rerenderParentCallback = this.props.rerenderParentCallback;
 
     this.state = {
       dayOfWeek: this.props.dayOfWeek,
@@ -63,14 +61,7 @@ export default class CreateDay extends Component {
     });
   }
   handleSubmitFormChange(e) {
-    // const currentWMP = this.state.weekMealPlan;
     e.preventDefault();
-    // function findWMP(thisWMP) {
-    //   return thisWMP._id == currentWMP;
-    // }
-    // const thisWMP = this.state.weekMealPlans.find(findWMP);
-    // const dayName = thisWMP.name + " - " + this.state.dayOfWeek;
-    // console.log(dayName);
     const day = {
       dayOfWeek: this.state.dayOfWeek,
       weekMealPlan: this.state.weekMealPlanId,
@@ -78,7 +69,7 @@ export default class CreateDay extends Component {
     };
     axios
       .post("http://localhost:5000/days/add", day)
-      .then(this.rerenderParentCallback);
+      .then((window.location = "/"));
   }
   render() {
     return (

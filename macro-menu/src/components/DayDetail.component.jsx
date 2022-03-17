@@ -11,10 +11,10 @@ class DayDetail extends Component {
     this.handleClickCopy = this.handleClickCopy.bind(this);
     this.handleClickEdit = this.handleClickEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    // this.onDeleteDay = this.props.onDeleteDay;
-    // console.log(props);
     this.state = {
       thisDay: this.props.thisDay,
+      thisWeekMealPlan: this.props.thisDay.weekMealPlan,
+      thisId: this.props.thisDay._id,
       thisFormState: "viewing",
       userIsAuthor: true,
       thisDaysMeals: [],
@@ -33,9 +33,6 @@ class DayDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  // handleDelete = () => {
-  //   console.log("Clicked Delete");
-  // };
   render() {
     return (
       <div className="card mt-3 mb-3">
@@ -43,10 +40,11 @@ class DayDetail extends Component {
           <h2 className="card-title">{this.state.thisDay.dayOfWeek}</h2>
           <EditOptions
             parentObj={"Day"}
+            thisObject={this.state.thisDay}
             thisFormState={this.state.thisFormState}
             userIsAuthor={this.state.userIsAuthor}
             thisReference={this.state.thisReference}
-            thisId={this.state.thisDay._id}
+            thisId={this.state.thisId}
             onSubmitFormChange={this.handleSubmitFormChange}
             onClickCopy={this.handleClickCopy}
             onClickEdit={this.handleClickEdit}
@@ -83,7 +81,7 @@ class DayDetail extends Component {
                   <li>Name:&nbsp;{this.state.thisDay.name}</li>
                   <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
                   <li>
-                    {/* Week Meal Plan:&nbsp;{this.state.thisDay.weekMealPlan.name} */}
+                    Week Meal Plan:&nbsp;{this.state.thisWeekMealPlan.name}
                   </li>
                   <li>
                     Created:&nbsp;

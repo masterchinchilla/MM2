@@ -26,7 +26,7 @@ router.route('/add').post((req, res) => {
     newDay.save()
         .then(() => res.json(newDay))
         .catch(err => res.status(400).json('Error: ' + err));
-})
+});
 router.route('/:id').get((req, res) => {
     Day.findById(req.params.id).populate("weekMealPlan")
         .then(day => res.json(day))
@@ -40,7 +40,6 @@ router.route('/:id').get((req, res) => {
 // });
 
 router.route('/:id').delete((req, res) => {
-    console.log(req.params);
     Day.findByIdAndDelete(req.params.id)
         .then(() => res.json('Day deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));

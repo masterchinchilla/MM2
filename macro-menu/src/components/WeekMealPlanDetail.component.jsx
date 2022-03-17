@@ -12,17 +12,18 @@ export default class WeekMealPlanDetail extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeGRFUser = this.onChangeGRFUser.bind(this);
-    this.assignDays = this.assignDays.bind(this);
-    this.renderDay = this.renderDay.bind(this);
-    this.renderEmptyDay = this.renderEmptyDay.bind(this);
+    // this.assignDays = this.assignDays.bind(this);
+    // this.renderDay = this.renderDay.bind(this);
+    // this.renderEmptyDay = this.renderEmptyDay.bind(this);
     this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
     this.handleClickCopy = this.handleClickCopy.bind(this);
     this.handleClickEdit = this.handleClickEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    // this.handleDeleteDay = this.handleDeleteDay.bind(this);
+    this.handleDeleteDay = this.handleDeleteDay.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
-    this.rerenderParentCallback = this.rerenderParentCallback.bind(this);
+    // this.rerenderParentCallback = this.rerenderParentCallback.bind(this);
     // this.daysList = this.daysList.bind(this);
+    this.forceUpdate = this.forceUpdate.bind(this);
     const lifeCycleStages = [
       "viewing",
       "editingOrig",
@@ -38,13 +39,13 @@ export default class WeekMealPlanDetail extends Component {
       thisWeeksDays: [],
       thisFormState: "viewing",
       userIsAuthor: true,
-      sun: {},
-      mon: {},
-      tues: {},
-      wed: {},
-      thurs: {},
-      fri: {},
-      sat: {},
+      sun: undefined,
+      mon: undefined,
+      tues: undefined,
+      wed: undefined,
+      thurs: undefined,
+      fri: undefined,
+      sat: undefined,
     };
   }
   componentDidMount() {
@@ -79,7 +80,6 @@ export default class WeekMealPlanDetail extends Component {
           fri: response.data.filter((day) => day.dayOfWeek == "Friday")[0],
           sat: response.data.filter((day) => day.dayOfWeek == "Saturday")[0],
         });
-        // this.assignDays();
       });
   }
   onChangeName = (e) => {
@@ -104,8 +104,8 @@ export default class WeekMealPlanDetail extends Component {
         "http://localhost:5000/weekMealPlans/update/" + weekMealPlan.id,
         weekMealPlan
       )
-      .then(console.log("updated"))
-      .then((window.location = "/"));
+      .then(console.log("updated"));
+    // .then((window.location = "/edit/" + weekMealPlan.id));
   };
   handleClickCopy = () => {
     console.log("Clicked Copy");
@@ -116,16 +116,17 @@ export default class WeekMealPlanDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  // handleDelete = () => {
-  //   console.log("Clicked Delete");
-  // };
-  handleDeleteDay = (id) => {
+  handleDelete = () => {
+    console.log("Clicked Delete");
+  };
+  update = () => {
+    this.forceUpdate();
+  };
+  handleDeleteDay = (id, day) => {
     axios
       .delete("http://localhost:5000/days/" + id)
-      .then((response) => console.log(response.data));
-    this.setState({
-      thisWeeksDays: this.state.thisWeeksDays.filter((el) => el._id !== id),
-    });
+      .then((response) => console.log(response.data))
+      .then((window.location = "/edit/" + this.state.id));
   };
   handleCreate = () => {
     console.log("Clicked Create");
@@ -133,9 +134,10 @@ export default class WeekMealPlanDetail extends Component {
   // handleUpdateWeekDays = (newDay, dayOfWeekShort) => {
   //   this.setState({ dayOfWeekShort: newDay });
   // };
-  rerenderParentCallback() {
+  rerenderParentCallback = () => {
     this.forceUpdate();
-  }
+    console.log("rerender function was called.");
+  };
   // daysList = () => {
   //   return this.state.thisWeeksDays.map((e) => {
   //     return (
@@ -152,57 +154,57 @@ export default class WeekMealPlanDetail extends Component {
   //     );
   //   });
   // };
-  assignDays = () => {
-    let daysCount;
-    const daysList = this.state.thisWeeksDays;
-    for (daysCount = 0; daysCount < daysList.length; daysCount++) {
-      const thisDay = daysList[daysCount];
-      switch (thisDay.dayOfWeek) {
-        case "Sunday":
-          this.setState({ sun: thisDay });
-          break;
-        case "Monday":
-          this.setState({ mon: thisDay });
-          break;
-        case "Tuesday":
-          this.setState({ tues: thisDay });
-          break;
-        case "Wednesday":
-          this.setState({ wed: thisDay });
-          break;
-        case "Thursday":
-          this.setState({ thurs: thisDay });
-          break;
-        case "Friday":
-          this.setState({ fri: thisDay });
-          break;
-        case "Saturday":
-          this.setState({ sat: thisDay });
-          break;
-      }
-    }
-  };
-  renderEmptyDay = (dayToRender, dayOfWeek) => {
-    return (
-      <div>
-        <button
-          type="button"
-          className="button button-primary"
-          onClick={this.handleCreate}
-        >
-          <FontAwesomeIcon
-            icon="fa-solid fa-circle-plus"
-            size="xl"
-            className="p-1"
-            dayOfWeek={dayOfWeek}
-          />
-          Add New
-        </button>
-      </div>
-    );
-  };
+  // assignDays = () => {
+  //   let daysCount;
+  //   const daysList = this.state.thisWeeksDays;
+  //   for (daysCount = 0; daysCount < daysList.length; daysCount++) {
+  //     const thisDay = daysList[daysCount];
+  //     switch (thisDay.dayOfWeek) {
+  //       case "Sunday":
+  //         this.setState({ sun: thisDay });
+  //         break;
+  //       case "Monday":
+  //         this.setState({ mon: thisDay });
+  //         break;
+  //       case "Tuesday":
+  //         this.setState({ tues: thisDay });
+  //         break;
+  //       case "Wednesday":
+  //         this.setState({ wed: thisDay });
+  //         break;
+  //       case "Thursday":
+  //         this.setState({ thurs: thisDay });
+  //         break;
+  //       case "Friday":
+  //         this.setState({ fri: thisDay });
+  //         break;
+  //       case "Saturday":
+  //         this.setState({ sat: thisDay });
+  //         break;
+  //     }
+  //   }
+  // };
+  // renderEmptyDay = (dayToRender, dayOfWeek) => {
+  //   return (
+  //     <div>
+  //       <button
+  //         type="button"
+  //         className="button button-primary"
+  //         onClick={this.handleCreate}
+  //       >
+  //         <FontAwesomeIcon
+  //           icon="fa-solid fa-circle-plus"
+  //           size="xl"
+  //           className="p-1"
+  //           dayOfWeek={dayOfWeek}
+  //         />
+  //         Add New
+  //       </button>
+  //     </div>
+  //   );
+  // };
   renderDay = (dayToRender, dayOfWeek, dayOfWeekShort) => {
-    if (dayToRender == undefined) {
+    if (dayToRender === undefined) {
       return (
         <CreateDay
           weekMealPlanId={this.state.id}
@@ -212,40 +214,22 @@ export default class WeekMealPlanDetail extends Component {
           thisFormState="missing"
           rerenderParentCallback={this.rerenderParentCallback}
         />
-        // <div className="card mt-3 mb-3">
-        //   <div className="card-header">
-        //     <h2 className="card-title">{dayOfWeek}</h2>
-        //   </div>
-        //   <div>
-        //     <button
-        //       type="button"
-        //       // className="newItemButton"
-        //       className="btn btn-primary"
-        //       onClick={this.handleCreate}
-        //     >
-        //       <FontAwesomeIcon
-        //         icon="fa-solid fa-circle-plus"
-        //         size="xl"
-        //         className="p-1"
-        //         dayOfWeek={dayOfWeek}
-        //       />
-        //       Add New
-        //     </button>
-        //   </div>
-        // </div>
       );
     } else {
       return (
-        <DayDetail
-          thisDay={dayToRender}
-          // onDelete={this.handleDelete}
-          key={dayToRender._id}
-          // onSubmitFormChange={this.handleSubmitFormChange}
-          // onClickCopy={this.handleClickCopy}
-          // onClickEdit={this.handleClickEdit}
-          // onCancel={this.handleCancel}
-          onDeleteDay={this.handleDeleteDay}
-        />
+        console.log(dayToRender),
+        (
+          <DayDetail
+            thisDay={dayToRender}
+            // onDelete={this.handleDelete}
+            key={dayToRender._id}
+            // onSubmitFormChange={this.handleSubmitFormChange}
+            // onClickCopy={this.handleClickCopy}
+            // onClickEdit={this.handleClickEdit}
+            // onCancel={this.handleCancel}
+            onDeleteDay={this.handleDeleteDay}
+          />
+        )
       );
     }
   };
