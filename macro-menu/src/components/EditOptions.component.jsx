@@ -13,53 +13,83 @@ const EditOptions = (props) => {
   const onClickEdit = props.onClickEdit;
   const onDelete = props.onDelete;
   const onCancel = props.onCancel;
+  const onCreate = props.onCreate;
+  const recordToCreate = props.recordToCreate;
+  const lifeCycleStages = [
+    "viewing",
+    "editingOrig",
+    "editingCopy",
+    "creating",
+    "missing",
+  ];
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
     let iconHidden = false;
-    switch (icon) {
-      case "copy":
-        if (thisFormState == "editingCopy" || thisFormState == "creating") {
+    if (thisFormState !== "missing") {
+      switch (icon) {
+        case "create":
           iconHidden = true;
-        } else {
-          iconHidden = false;
-        }
-        break;
-      case "edit":
-        if (userIsAuthor == true && thisFormState == "viewing") {
-          iconHidden = false;
-        } else {
-          iconHidden = true;
-        }
-        break;
-      case "cancel":
-        if (thisFormState == "viewing") {
-          iconHidden = true;
-        } else {
-          iconHidden = false;
-        }
-        break;
-      case "save":
-        if (parentObj == "Day") {
-          iconHidden = true;
-        } else {
+          break;
+        case "copy":
+          if (thisFormState == "viewing") {
+            iconHidden = false;
+          } else {
+            iconHidden = true;
+          }
+          break;
+        case "edit":
+          if (userIsAuthor == true && thisFormState == "viewing") {
+            iconHidden = false;
+          } else {
+            iconHidden = true;
+          }
+          break;
+        case "cancel":
           if (thisFormState == "viewing") {
             iconHidden = true;
           } else {
             iconHidden = false;
           }
-          return;
-        }
-        break;
-      case "delete":
-        if (thisFormState == "editingOrig") {
-          iconHidden = false;
-        } else {
-          iconHidden = true;
-        }
+          break;
+        case "save":
+          if (thisFormState == "viewing") {
+            iconHidden = true;
+          } else {
+            iconHidden = false;
+          }
+          break;
+        case "delete":
+          if (thisFormState == "editingOrig") {
+            iconHidden = false;
+          } else {
+            iconHidden = true;
+          }
+      }
+      return iconHidden;
+    } else {
+      if (icon == "create") {
+        iconHidden = false;
+      } else {
+        iconHidden = true;
+      }
     }
     return iconHidden;
   };
   return (
     <div className="iconGroup m-1">
+      <button
+        type="button"
+        onClick={() => {
+          onCreate(recordToCreate);
+        }}
+        className="iconBttn"
+        hidden={hideIcon("create", userIsAuthor, thisFormState)}
+      >
+        <FontAwesomeIcon
+          icon="fa-solid fa-circle-plus"
+          size="xl"
+          className="p-1"
+        />
+      </button>
       <button type="button" onClick={onClickCopy} className="iconBttn">
         <FontAwesomeIcon
           icon="fa-solid fa-copy"
@@ -87,8 +117,6 @@ const EditOptions = (props) => {
       <button
         type="submit"
         value="submit"
-        // className="btn btn-warning m-3"
-        // style={{ color: "white" }}
         onClick={onSubmitFormChange}
         className="iconBttn"
       >
@@ -101,9 +129,9 @@ const EditOptions = (props) => {
       </button>
       <button
         type="button"
-        // className="btn btn-warning m-3"
-        // style={{ color: "white" }}
-        onClick={() => onDelete(thisId)}
+        onClick={() => {
+          onDelete(thisId);
+        }}
         className="iconBttn"
       >
         <FontAwesomeIcon

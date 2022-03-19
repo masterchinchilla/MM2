@@ -15,9 +15,10 @@ class DayDetail extends Component {
       userIsAuthor: true,
       thisDaysMeals: [],
     };
-    console.log(this.state);
   }
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.state.thisId);
+  }
   handleSubmitFormChange = () => {
     console.log("Form submitted");
   };

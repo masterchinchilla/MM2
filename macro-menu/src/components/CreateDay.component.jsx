@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import EditOptions from "./EditOptions.component";
 
 export default class CreateDay extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class CreateDay extends Component {
       weekMealPlanId: this.props.weekMealPlanId,
       name: this.props.weekMealPlanName + " - " + this.props.dayOfWeek,
       userIsAuthor: true,
+      thisFormState: "missing",
     };
   }
   componentDidMount() {
@@ -55,54 +57,18 @@ export default class CreateDay extends Component {
       name: e.target.value,
     });
   }
-  handleSubmitFormChange(e) {
-    e.preventDefault();
-    const day = {
-      dayOfWeek: this.state.dayOfWeek,
-      weekMealPlan: this.state.weekMealPlanId,
-      name: this.state.name,
-    };
-    axios.post("http://localhost:5000/days/add", day).then(() => {
-      this.setState({
-        sun: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Sunday"
-        )[0],
-        mon: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Monday"
-        )[0],
-        tues: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Tuesday"
-        )[0],
-        wed: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Wednesday"
-        )[0],
-        thurs: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Thursday"
-        )[0],
-        fri: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Friday"
-        )[0],
-        sat: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Saturday"
-        )[0],
-      });
-    });
-  }
   render() {
     return (
       <div className="card mt-3 mb-3">
         <div className="card-header">
           <h2 className="card-title">{this.state.dayOfWeek}</h2>
-          {/* <EditOptions
+          <EditOptions
             parentObj={"Day"}
             thisFormState={this.state.thisFormState}
             userIsAuthor={this.state.userIsAuthor}
-            onSubmitFormChange={this.handleSubmitFormChange}
-            // onClickCopy={this.handleClickCopy}
-            // onClickEdit={this.handleClickEdit}
-            // onCancel={this.handleCancel}
-            // onDelete={this.handleDelete}
-          /> */}
+            onCreate={this.props.onCreateDay}
+            recordToCreate={this.state.dayOfWeek}
+          />
         </div>
         <div
           className="accordion accordion-flush"

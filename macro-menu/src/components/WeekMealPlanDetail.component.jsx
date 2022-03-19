@@ -10,12 +10,14 @@ import CreateDay from "./CreateDay.component";
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
+    this.updateStateDayOnAdd = this.updateStateDayOnAdd.bind(this);
 
     const lifeCycleStages = [
       "viewing",
       "editingOrig",
       "editingCopy",
       "creating",
+      "missing",
     ];
 
     this.state = {
@@ -139,35 +141,23 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   };
+  updateStateDayOnAdd = (dayData, dayOfWeek) => {
+    console.log(this);
+    if (dayOfWeek == "Saturday") {
+      this.setState({
+        sat: dayData,
+      });
+    }
+  };
   handleCreateDay = (dayOfWeek) => {
     const day = {
       dayOfWeek: dayOfWeek,
       weekMealPlan: this.state.id,
       name: this.state.name + " - " + dayOfWeek,
     };
-    axios.post("http://localhost:5000/days/add", day).then(() => {
+    axios.post("http://localhost:5000/days/add", day).then((response) => {
       this.setState({
-        sun: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Sunday"
-        )[0],
-        mon: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Monday"
-        )[0],
-        tues: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Tuesday"
-        )[0],
-        wed: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Wednesday"
-        )[0],
-        thurs: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Thursday"
-        )[0],
-        fri: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Friday"
-        )[0],
-        sat: this.state.thisWeeksDays.filter(
-          (day) => day.dayOfWeek == "Saturday"
-        )[0],
+        thisWeeksDays: this.state.thisWeeksDays.push(response.data),
       });
     });
   };
@@ -217,7 +207,6 @@ export default class WeekMealPlanDetail extends Component {
                 onClickCopy={this.handleClickCopy}
                 onClickEdit={this.handleClickEdit}
                 onCancel={this.handleCancel}
-                // onDeleteDay={this.handleDeleteWMP}
               />
             </div>
           </div>
