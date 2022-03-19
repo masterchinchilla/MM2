@@ -7,18 +7,17 @@ import EditOptions from "./EditOptions.component";
 class DayDetail extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
-    this.handleClickCopy = this.handleClickCopy.bind(this);
-    this.handleClickEdit = this.handleClickEdit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
     this.state = {
       thisDay: this.props.thisDay,
+      weekMealPlanName: this.props.weekMealPlanName,
       thisId: this.props.thisDay._id,
       thisFormState: "viewing",
       userIsAuthor: true,
       thisDaysMeals: [],
     };
+    console.log(this.state);
   }
+  componentDidMount() {}
   handleSubmitFormChange = () => {
     console.log("Form submitted");
   };
@@ -45,7 +44,7 @@ class DayDetail extends Component {
             onClickCopy={this.handleClickCopy}
             onClickEdit={this.handleClickEdit}
             onCancel={this.handleCancel}
-            onDelete={this.props.onDelete}
+            onDelete={this.props.onDeleteDay}
           />
         </div>
         <div
@@ -76,9 +75,7 @@ class DayDetail extends Component {
                 <ul>
                   <li>Name:&nbsp;{this.state.thisDay.name}</li>
                   <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
-                  <li>
-                    {/* Week Meal Plan:&nbsp;{this.state.thisDay.weekMealPlan.name} */}
-                  </li>
+                  <li>Week Meal Plan:&nbsp;{this.state.weekMealPlanName}</li>
                   <li>
                     Created:&nbsp;
                     {dayjs(this.state.thisDay.createdAt).format(

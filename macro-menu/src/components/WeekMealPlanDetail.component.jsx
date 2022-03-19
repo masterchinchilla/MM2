@@ -10,17 +10,7 @@ import CreateDay from "./CreateDay.component";
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeGRFUser = this.onChangeGRFUser.bind(this);
-    // this.assignDays = this.assignDays.bind(this);
-    this.renderDay = this.renderDay.bind(this);
-    // this.renderEmptyDay = this.renderEmptyDay.bind(this);
-    this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
-    this.handleClickCopy = this.handleClickCopy.bind(this);
-    this.handleClickEdit = this.handleClickEdit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    // this.daysList = this.daysList.bind(this);
+
     const lifeCycleStages = [
       "viewing",
       "editingOrig",
@@ -77,7 +67,6 @@ export default class WeekMealPlanDetail extends Component {
           fri: response.data.filter((day) => day.dayOfWeek == "Friday")[0],
           sat: response.data.filter((day) => day.dayOfWeek == "Saturday")[0],
         });
-        // this.assignDays();
       });
   }
   onChangeName = (e) => {
@@ -91,7 +80,6 @@ export default class WeekMealPlanDetail extends Component {
     });
   };
   handleSubmitFormChange = () => {
-    // e.preventDefault();
     const weekMealPlan = {
       id: this.state.id,
       name: this.state.name,
@@ -114,12 +102,12 @@ export default class WeekMealPlanDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  handleDelete = (id) => {
+  handleDeleteDay = (idOfRecordToDelete) => {
     function removeDeletedDays(eachDay) {
-      return eachDay._id != id;
+      return eachDay._id != idOfRecordToDelete;
     }
     axios
-      .delete("http://localhost:5000/days/" + id)
+      .delete("http://localhost:5000/days/" + idOfRecordToDelete)
       .then(
         this.setState({
           thisWeeksDays: this.state.thisWeeksDays.filter(removeDeletedDays),
@@ -183,71 +171,6 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  // daysList = () => {
-  //   return this.state.thisWeeksDays.map((e) => {
-  //     return (
-  //       <DayDetail
-  //         thisDay={e}
-  //         onDeleteDay={this.handleDeleteDay}
-  //         key={e._id}
-  //         onSubmitFormChange={this.handleSubmitFormChange}
-  //         onClickCopy={this.handleClickCopy}
-  //         onClickEdit={this.handleClickEdit}
-  //         onCancel={this.handleCancel}
-  //         onDelete={this.handleDelete}
-  //       />
-  //     );
-  //   });
-  // };
-  // assignDays = () => {
-  //   let daysCount;
-  //   const daysList = this.state.thisWeeksDays;
-  //   for (daysCount = 0; daysCount < daysList.length; daysCount++) {
-  //     const thisDay = daysList[daysCount];
-  //     switch (thisDay.dayOfWeek) {
-  //       case "Sunday":
-  //         this.setState({ sun: thisDay });
-  //         break;
-  //       case "Monday":
-  //         this.setState({ mon: thisDay });
-  //         break;
-  //       case "Tuesday":
-  //         this.setState({ tues: thisDay });
-  //         break;
-  //       case "Wednesday":
-  //         this.setState({ wed: thisDay });
-  //         break;
-  //       case "Thursday":
-  //         this.setState({ thurs: thisDay });
-  //         break;
-  //       case "Friday":
-  //         this.setState({ fri: thisDay });
-  //         break;
-  //       case "Saturday":
-  //         this.setState({ sat: thisDay });
-  //         break;
-  //     }
-  //   }
-  // };
-  // renderEmptyDay = (dayToRender, dayOfWeek) => {
-  //   return (
-  //     <div>
-  //       <button
-  //         type="button"
-  //         className="button button-primary"
-  //         onClick={this.handleCreate}
-  //       >
-  //         <FontAwesomeIcon
-  //           icon="fa-solid fa-circle-plus"
-  //           size="xl"
-  //           className="p-1"
-  //           dayOfWeek={dayOfWeek}
-  //         />
-  //         Add New
-  //       </button>
-  //     </div>
-  //   );
-  // };
   renderDay = (dayToRender, dayOfWeek, dayOfWeekShort) => {
     if (dayToRender == undefined) {
       return (
@@ -259,39 +182,14 @@ export default class WeekMealPlanDetail extends Component {
           thisFormState="missing"
           onCreateDay={this.handleCreateDay}
         />
-        // <div className="card mt-3 mb-3">
-        //   <div className="card-header">
-        //     <h2 className="card-title">{dayOfWeek}</h2>
-        //   </div>
-        //   <div>
-        //     <button
-        //       type="button"
-        //       // className="newItemButton"
-        //       className="btn btn-primary"
-        //       onClick={this.handleCreate}
-        //     >
-        //       <FontAwesomeIcon
-        //         icon="fa-solid fa-circle-plus"
-        //         size="xl"
-        //         className="p-1"
-        //         dayOfWeek={dayOfWeek}
-        //       />
-        //       Add New
-        //     </button>
-        //   </div>
-        // </div>
       );
     } else {
       return (
         <DayDetail
           thisDay={dayToRender}
-          onDelete={this.handleDelete}
+          weekMealPlanName={this.state.name}
+          onDeleteDay={this.handleDeleteDay}
           key={dayToRender._id}
-          // onSubmitFormChange={this.handleSubmitFormChange}
-          // onClickCopy={this.handleClickCopy}
-          // onClickEdit={this.handleClickEdit}
-          // onCancel={this.handleCancel}
-          // onDelete={this.handleDelete}
         />
       );
     }
@@ -319,7 +217,7 @@ export default class WeekMealPlanDetail extends Component {
                 onClickCopy={this.handleClickCopy}
                 onClickEdit={this.handleClickEdit}
                 onCancel={this.handleCancel}
-                onDelete={this.handleDelete}
+                // onDeleteDay={this.handleDeleteWMP}
               />
             </div>
           </div>
@@ -341,39 +239,7 @@ export default class WeekMealPlanDetail extends Component {
               })}
             </select>
           </div>
-          {/* <div className="form-group mt-2 mb-4">
-            <Link
-              to={{
-                pathname: "/",
-              }}
-            >
-              <button type="button" className="btn btn-primary" href="#">
-                &lt;&nbsp;go back
-              </button>
-            </Link>
-            <input
-              type="submit"
-              value="save changes"
-              className="btn btn-warning m-3"
-              style={{ color: "white" }}
-            />
-          </div> */}
         </form>
-        {/* <table className="table table-light">
-          <thead className="thead thead-light">
-            <tr>
-              <th scope="col">Record ID</th>
-              <th scope="col">Day of Week</th>
-              <th scope="col">Week Meal Plan Day is part of</th>
-              <th scope="col">Created</th>
-              <th scope="col">Last Update</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table> */}
-        {/* <div>{this.daysList()}</div> */}
         <div>
           {this.renderDay(this.state.sun, "Sunday", "sun")}
           {this.renderDay(this.state.mon, "Monday", "mon")}

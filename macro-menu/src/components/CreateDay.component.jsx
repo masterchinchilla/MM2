@@ -4,13 +4,6 @@ import axios from "axios";
 export default class CreateDay extends Component {
   constructor(props) {
     super(props);
-
-    this.onChangeDayOfWeek = this.onChangeDayOfWeek.bind(this);
-    this.onChangeWeekMealPlan = this.onChangeWeekMealPlan.bind(this);
-    this.onChangeName = this.onChangeName.bind(this);
-    this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
-    // this.rerenderParentCallback = this.props.rerenderParentCallback;
-
     this.state = {
       dayOfWeek: this.props.dayOfWeek,
       dayOfWeekShort: this.props.dayOfWeekShort,
@@ -63,14 +56,7 @@ export default class CreateDay extends Component {
     });
   }
   handleSubmitFormChange(e) {
-    // const currentWMP = this.state.weekMealPlan;
     e.preventDefault();
-    // function findWMP(thisWMP) {
-    //   return thisWMP._id == currentWMP;
-    // }
-    // const thisWMP = this.state.weekMealPlans.find(findWMP);
-    // const dayName = thisWMP.name + " - " + this.state.dayOfWeek;
-    // console.log(dayName);
     const day = {
       dayOfWeek: this.state.dayOfWeek,
       weekMealPlan: this.state.weekMealPlanId,
@@ -161,63 +147,6 @@ export default class CreateDay extends Component {
           </div>
         </div>
       </div>
-      // <div className="container-fluid pl-4 pr-4">
-      //   <h1>New Day</h1>
-      // <form onSubmit={this.onSubmit}>
-      //   <div className="form-group">
-      //     <label>Day of Week: </label>
-      //     <select
-      //       ref="userInput"
-      //       required
-      //       className="form-control"
-      //       value={this.state.dayOfWeek}
-      //       onChange={this.onChangeDayOfWeek}
-      //     >
-      //       {this.state.daysOfWeek.map(function (dayOfWeek) {
-      //         return (
-      //           <option key={dayOfWeek} value={dayOfWeek}>
-      //             {dayOfWeek}
-      //           </option>
-      //         );
-      //       })}
-      //     </select>
-      //   </div>
-      //   <div className="form-group">
-      //     <label>Week Meal Plan Day is part of: </label>
-      //     <select
-      //       ref="userInput"
-      //       required
-      //       className="form-control"
-      //       value={this.state.weekMealPlan}
-      //       onChange={this.onChangeWeekMealPlan}
-      //     >
-      //       {this.state.weekMealPlans.map(function (weekMealPlan) {
-      //         return (
-      //           <option key={weekMealPlan._id} value={weekMealPlan._id}>
-      //             {weekMealPlan.name}
-      //           </option>
-      //         );
-      //       })}
-      //     </select>
-      //   </div>
-      //   {/* <div className="form-group">
-      //     <label>Name: </label>
-      //     <input
-      //       type="text"
-      //       className="form-control"
-      //       value={this.state.name}
-      //       onChange={this.onChangeName}
-      //     />
-      //   </div> */}
-      //   <div className="form-group mt-4 mb-4">
-      //     <input
-      //       type="submit"
-      //       value="Create Day"
-      //       className="btn btn-primary"
-      //     />
-      //   </div>
-      // </form>
-      // </div>
     );
   }
 }
