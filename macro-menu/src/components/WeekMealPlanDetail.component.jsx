@@ -229,14 +229,162 @@ export default class WeekMealPlanDetail extends Component {
             </select>
           </div>
         </form>
-        <div>
-          {this.renderDay(this.state.sun, "Sunday", "sun")}
-          {this.renderDay(this.state.mon, "Monday", "mon")}
-          {this.renderDay(this.state.tues, "Tuesday", "tues")}
-          {this.renderDay(this.state.wed, "Wednesday", "wed")}
-          {this.renderDay(this.state.thurs, "Thursday", "thurs")}
-          {this.renderDay(this.state.fri, "Friday", "fri")}
-          {this.renderDay(this.state.sat, "Saturday", "sat")}
+        <div className="card mt-3 mb-3">
+          <div className="card-header">
+            <h2 className="card-title">Meal Macro Weighting</h2>
+          </div>
+          <div className="card-body">
+            <div
+              className="accordion accordion-flush"
+              id={"accordionFull_MealMacroWeighting" + this.state.id}
+            >
+              <div className="accordion-item">
+                <h2
+                  className="accordion-header"
+                  id={"accordionHeader_MealMacroWeighting" + this.state.id}
+                >
+                  <button
+                    className="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={
+                      "#dayAccrdn_MealMacroWeighting" + this.state.id
+                    }
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  ></button>
+                </h2>
+              </div>
+              <div
+                id={"dayAccrdn_MealMacroWeighting" + this.state.id}
+                className="accordion-collapse collapse show"
+                aria-labelledby={
+                  "#accordionHeader_MealMacroWeighting" + this.state.id
+                }
+                data-bs-parent={
+                  "#accordionFull_MealMacroWeighting" + this.state.id
+                }
+              >
+                <div className="accordion-body accrdnMMacroWghtngBdy">
+                  <div class="badge bg-primary mealMacroWeightBadge">
+                    <h6>Breakfast %</h6>
+                    <input
+                      type="number"
+                      className="form-control mealMacroWeightInput"
+                      value="100.00"
+                      disabled={
+                        // this.state.thisFormState == "viewing" ? true : false
+                        false
+                      }
+                    ></input>
+                  </div>
+                  <div class="badge bg-primary mealMacroWeightBadge">
+                    <h6>Snack 1 %</h6>
+                    <input
+                      type="number"
+                      className="form-control mealMacroWeightInput"
+                      value="100.00"
+                      disabled={
+                        // this.state.thisFormState == "viewing" ? true : false
+                        false
+                      }
+                    ></input>
+                  </div>
+                  <div class="badge bg-primary mealMacroWeightBadge">
+                    <h6>Lunch %</h6>
+                    <input
+                      type="number"
+                      className="form-control mealMacroWeightInput"
+                      value="100.00"
+                      disabled={
+                        // this.state.thisFormState == "viewing" ? true : false
+                        false
+                      }
+                    ></input>
+                  </div>
+                  <div class="badge bg-primary mealMacroWeightBadge">
+                    <h6>Snack 2 %</h6>
+                    <input
+                      type="number"
+                      className="form-control mealMacroWeightInput"
+                      value="100.00"
+                      disabled={
+                        // this.state.thisFormState == "viewing" ? true : false
+                        false
+                      }
+                    ></input>
+                  </div>
+                  <div class="badge bg-primary mealMacroWeightBadge">
+                    <h6>Dinner %</h6>
+                    <input
+                      type="number"
+                      className="form-control mealMacroWeightInput"
+                      value="100.00"
+                      disabled={
+                        // this.state.thisFormState == "viewing" ? true : false
+                        false
+                      }
+                    ></input>
+                  </div>
+                  <div class="badge bg-primary mealMacroWeightBadge">
+                    <h6>Dessert %</h6>
+                    <input
+                      type="number"
+                      className="form-control mealMacroWeightInput"
+                      value="100.00"
+                      disabled={
+                        // this.state.thisFormState == "viewing" ? true : false
+                        false
+                      }
+                    ></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="card mt-3 mb-3">
+          <div className="card-header">
+            <h2 className="card-title">Day Meal Plans</h2>
+          </div>
+          <div className="card-body">
+            <div
+              className="accordion accordion-flush"
+              id={"accordionFull" + this.state.id}
+            >
+              <div className="accordion-item">
+                <h2
+                  className="accordion-header"
+                  id={"accordionHeader" + this.state.id}
+                >
+                  <button
+                    className="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={"#dayAccrdn" + this.state.id}
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  ></button>
+                </h2>
+              </div>
+              <div
+                id={"dayAccrdn" + this.state.id}
+                className="accordion-collapse collapse show"
+                aria-labelledby={"#accordionHeader" + this.state.id}
+                data-bs-parent={"#accordionFull" + this.state.id}
+              >
+                <div className="accordion-body wkDaysAccrdnBdy">
+                  {this.renderDay(this.state.sun, "Sunday", "sun")}
+                  {this.renderDay(this.state.mon, "Monday", "mon")}
+                  {this.renderDay(this.state.tues, "Tuesday", "tues")}
+                  {this.renderDay(this.state.wed, "Wednesday", "wed")}
+                  {this.renderDay(this.state.thurs, "Thursday", "thurs")}
+                  {this.renderDay(this.state.fri, "Friday", "fri")}
+                  {this.renderDay(this.state.sat, "Saturday", "sat")}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

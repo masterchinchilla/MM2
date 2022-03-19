@@ -35,7 +35,7 @@ class DayDetail extends Component {
     return (
       <div className="card mt-3 mb-3">
         <div className="card-header">
-          <h2 className="card-title">{this.state.thisDay.dayOfWeek}</h2>
+          <h3 className="card-title">{this.state.thisDay.dayOfWeek}</h3>
           <EditOptions
             parentObj={"Day"}
             thisFormState={this.state.thisFormState}
@@ -48,48 +48,50 @@ class DayDetail extends Component {
             onDelete={this.props.onDeleteDay}
           />
         </div>
-        <div
-          className="accordion accordion-flush"
-          id={"accordionFull" + this.state.thisDay._id}
-        >
-          <div className="accordion-item">
-            <h2
-              className="accordion-header"
-              id={"accordionHeader" + this.state.thisDay._id}
-            >
-              <button
-                className="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target={"#dayAccrdn" + this.state.thisDay._id}
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              ></button>
-            </h2>
-            <div
-              id={"dayAccrdn" + this.state.thisDay._id}
-              className="accordion-collapse collapse show"
-              aria-labelledby={"#accordionHeader" + this.state.thisDay._id}
-              data-bs-parent={"#accordionFull" + this.state.thisDay._id}
-            >
-              <div className="accordion-body">
-                <ul>
-                  <li>Name:&nbsp;{this.state.thisDay.name}</li>
-                  <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
-                  <li>Week Meal Plan:&nbsp;{this.state.weekMealPlanName}</li>
-                  <li>
-                    Created:&nbsp;
-                    {dayjs(this.state.thisDay.createdAt).format(
-                      "dddd, MMMM D, YYYY h:mm A"
-                    )}
-                  </li>
-                  <li>
-                    Last Updated:&nbsp;
-                    {dayjs(this.state.thisDay.updatedAt).format(
-                      "dddd, MMMM D, YYYY h:mm A"
-                    )}
-                  </li>
-                </ul>
+        <div className="card-body">
+          <div
+            className="accordion accordion-flush"
+            id={"accordionFull" + this.state.thisDay._id}
+          >
+            <div className="accordion-item">
+              <h2
+                className="accordion-header"
+                id={"accordionHeader" + this.state.thisDay._id}
+              >
+                <button
+                  className="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={"#dayAccrdn" + this.state.thisDay._id}
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                ></button>
+              </h2>
+              <div
+                id={"dayAccrdn" + this.state.thisDay._id}
+                className="accordion-collapse collapse show"
+                aria-labelledby={"#accordionHeader" + this.state.thisDay._id}
+                data-bs-parent={"#accordionFull" + this.state.thisDay._id}
+              >
+                <div className="accordion-body">
+                  <ul>
+                    <li>Name:&nbsp;{this.state.thisDay.name}</li>
+                    <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
+                    <li>Week Meal Plan:&nbsp;{this.state.weekMealPlanName}</li>
+                    <li>
+                      Created:&nbsp;
+                      {dayjs(this.state.thisDay.createdAt).format(
+                        "dddd, MMMM D, YYYY h:mm A"
+                      )}
+                    </li>
+                    <li>
+                      Last Updated:&nbsp;
+                      {dayjs(this.state.thisDay.updatedAt).format(
+                        "dddd, MMMM D, YYYY h:mm A"
+                      )}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

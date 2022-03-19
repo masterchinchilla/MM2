@@ -24,6 +24,12 @@ button.iconBttn {
   justify-content: space-between;
   padding-right: 3px !important;
 }
+.card-body {
+  padding: 0 !important;
+}
+.wkDaysAccrdnBdy {
+  padding: 0 1rem !important;
+}
 .accordion {
 }
 .accordion-header {
@@ -39,4 +45,14 @@ button.iconBttn {
 }
 .btn-primary svg {
   margin: auto 0.5rem auto -0.5rem;
+}
+.mealMacroWeightInput {
+  max-width: 6em;
+  text-align: center;
+}
+.mealMacroWeightBadge {
+  margin: 1rem;
+}
+.accrdnMMacroWghtngBdy {
+  padding: 0 !important;
 }
