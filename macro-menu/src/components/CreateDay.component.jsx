@@ -76,9 +76,31 @@ export default class CreateDay extends Component {
       weekMealPlan: this.state.weekMealPlanId,
       name: this.state.name,
     };
-    axios
-      .post("http://localhost:5000/days/add", day)
-      .then(this.props.rerenderParentCallback);
+    axios.post("http://localhost:5000/days/add", day).then(() => {
+      this.setState({
+        sun: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Sunday"
+        )[0],
+        mon: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Monday"
+        )[0],
+        tues: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Tuesday"
+        )[0],
+        wed: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Wednesday"
+        )[0],
+        thurs: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Thursday"
+        )[0],
+        fri: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Friday"
+        )[0],
+        sat: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Saturday"
+        )[0],
+      });
+    });
   }
   render() {
     return (
@@ -121,7 +143,11 @@ export default class CreateDay extends Component {
               data-bs-parent={"#accordionFull" + this.state.name}
             >
               <div className="accordion-body">
-                <form onSubmit={this.handleSubmitFormChange}>
+                <form
+                  onSubmit={() => {
+                    this.props.onCreateDay(this.state.dayOfWeek);
+                  }}
+                >
                   <div className="form-group mt-4 mb-4">
                     <input
                       type="submit"

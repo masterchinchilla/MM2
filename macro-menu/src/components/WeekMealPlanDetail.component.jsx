@@ -12,16 +12,14 @@ export default class WeekMealPlanDetail extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeGRFUser = this.onChangeGRFUser.bind(this);
-    this.assignDays = this.assignDays.bind(this);
+    // this.assignDays = this.assignDays.bind(this);
     this.renderDay = this.renderDay.bind(this);
-    this.renderEmptyDay = this.renderEmptyDay.bind(this);
+    // this.renderEmptyDay = this.renderEmptyDay.bind(this);
     this.handleSubmitFormChange = this.handleSubmitFormChange.bind(this);
     this.handleClickCopy = this.handleClickCopy.bind(this);
     this.handleClickEdit = this.handleClickEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleCreate = this.handleCreate.bind(this);
-    this.rerenderParentCallback = this.rerenderParentCallback.bind(this);
     // this.daysList = this.daysList.bind(this);
     const lifeCycleStages = [
       "viewing",
@@ -116,18 +114,75 @@ export default class WeekMealPlanDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  handleDelete = () => {
-    console.log("Clicked Delete");
+  handleDelete = (id) => {
+    function removeDeletedDays(eachDay) {
+      return eachDay._id != id;
+    }
+    axios
+      .delete("http://localhost:5000/days/" + id)
+      .then(
+        this.setState({
+          thisWeeksDays: this.state.thisWeeksDays.filter(removeDeletedDays),
+        })
+      )
+      .then(() => {
+        this.setState({
+          sun: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Sunday"
+          )[0],
+          mon: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Monday"
+          )[0],
+          tues: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Tuesday"
+          )[0],
+          wed: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Wednesday"
+          )[0],
+          thurs: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Thursday"
+          )[0],
+          fri: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Friday"
+          )[0],
+          sat: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Saturday"
+          )[0],
+        });
+      });
   };
-  handleCreate = () => {
-    console.log("Clicked Create");
+  handleCreateDay = (dayOfWeek) => {
+    const day = {
+      dayOfWeek: dayOfWeek,
+      weekMealPlan: this.state.id,
+      name: this.state.name + " - " + dayOfWeek,
+    };
+    axios.post("http://localhost:5000/days/add", day).then(() => {
+      this.setState({
+        sun: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Sunday"
+        )[0],
+        mon: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Monday"
+        )[0],
+        tues: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Tuesday"
+        )[0],
+        wed: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Wednesday"
+        )[0],
+        thurs: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Thursday"
+        )[0],
+        fri: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Friday"
+        )[0],
+        sat: this.state.thisWeeksDays.filter(
+          (day) => day.dayOfWeek == "Saturday"
+        )[0],
+      });
+    });
   };
-  // handleUpdateWeekDays = (newDay, dayOfWeekShort) => {
-  //   this.setState({ dayOfWeekShort: newDay });
-  // };
-  rerenderParentCallback() {
-    this.forceUpdate();
-  }
   // daysList = () => {
   //   return this.state.thisWeeksDays.map((e) => {
   //     return (
@@ -144,55 +199,55 @@ export default class WeekMealPlanDetail extends Component {
   //     );
   //   });
   // };
-  assignDays = () => {
-    let daysCount;
-    const daysList = this.state.thisWeeksDays;
-    for (daysCount = 0; daysCount < daysList.length; daysCount++) {
-      const thisDay = daysList[daysCount];
-      switch (thisDay.dayOfWeek) {
-        case "Sunday":
-          this.setState({ sun: thisDay });
-          break;
-        case "Monday":
-          this.setState({ mon: thisDay });
-          break;
-        case "Tuesday":
-          this.setState({ tues: thisDay });
-          break;
-        case "Wednesday":
-          this.setState({ wed: thisDay });
-          break;
-        case "Thursday":
-          this.setState({ thurs: thisDay });
-          break;
-        case "Friday":
-          this.setState({ fri: thisDay });
-          break;
-        case "Saturday":
-          this.setState({ sat: thisDay });
-          break;
-      }
-    }
-  };
-  renderEmptyDay = (dayToRender, dayOfWeek) => {
-    return (
-      <div>
-        <button
-          type="button"
-          className="button button-primary"
-          onClick={this.handleCreate}
-        >
-          <FontAwesomeIcon
-            icon="fa-solid fa-circle-plus"
-            size="xl"
-            className="p-1"
-            dayOfWeek={dayOfWeek}
-          />
-          Add New
-        </button>
-      </div>
-    );
-  };
+  // assignDays = () => {
+  //   let daysCount;
+  //   const daysList = this.state.thisWeeksDays;
+  //   for (daysCount = 0; daysCount < daysList.length; daysCount++) {
+  //     const thisDay = daysList[daysCount];
+  //     switch (thisDay.dayOfWeek) {
+  //       case "Sunday":
+  //         this.setState({ sun: thisDay });
+  //         break;
+  //       case "Monday":
+  //         this.setState({ mon: thisDay });
+  //         break;
+  //       case "Tuesday":
+  //         this.setState({ tues: thisDay });
+  //         break;
+  //       case "Wednesday":
+  //         this.setState({ wed: thisDay });
+  //         break;
+  //       case "Thursday":
+  //         this.setState({ thurs: thisDay });
+  //         break;
+  //       case "Friday":
+  //         this.setState({ fri: thisDay });
+  //         break;
+  //       case "Saturday":
+  //         this.setState({ sat: thisDay });
+  //         break;
+  //     }
+  //   }
+  // };
+  // renderEmptyDay = (dayToRender, dayOfWeek) => {
+  //   return (
+  //     <div>
+  //       <button
+  //         type="button"
+  //         className="button button-primary"
+  //         onClick={this.handleCreate}
+  //       >
+  //         <FontAwesomeIcon
+  //           icon="fa-solid fa-circle-plus"
+  //           size="xl"
+  //           className="p-1"
+  //           dayOfWeek={dayOfWeek}
+  //         />
+  //         Add New
+  //       </button>
+  //     </div>
+  //   );
+  // };
   renderDay = (dayToRender, dayOfWeek, dayOfWeekShort) => {
     if (dayToRender == undefined) {
       return (
@@ -202,7 +257,7 @@ export default class WeekMealPlanDetail extends Component {
           dayOfWeek={dayOfWeek}
           dayOfWeekShort={dayOfWeekShort}
           thisFormState="missing"
-          rerenderParentCallback={this.rerenderParentCallback}
+          onCreateDay={this.handleCreateDay}
         />
         // <div className="card mt-3 mb-3">
         //   <div className="card-header">
@@ -230,7 +285,7 @@ export default class WeekMealPlanDetail extends Component {
       return (
         <DayDetail
           thisDay={dayToRender}
-          onDeleteDay={this.handleDeleteDay}
+          onDelete={this.handleDelete}
           key={dayToRender._id}
           // onSubmitFormChange={this.handleSubmitFormChange}
           // onClickCopy={this.handleClickCopy}

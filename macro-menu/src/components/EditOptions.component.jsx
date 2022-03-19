@@ -7,9 +7,11 @@ const EditOptions = (props) => {
   const parentObj = props.parentObj;
   const userIsAuthor = props.userIsAuthor;
   const thisFormState = props.thisFormState;
+  const thisId = props.thisId;
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
   const onClickEdit = props.onClickEdit;
+  const onDelete = props.onDelete;
   const onCancel = props.onCancel;
   const hideIcon = (icon, userIsAuthor, thisFormState) => {
     let iconHidden = false;
@@ -97,12 +99,20 @@ const EditOptions = (props) => {
           hidden={hideIcon("save", userIsAuthor, thisFormState)}
         />
       </button>
-      <FontAwesomeIcon
-        icon="fa-solid fa-trash-can"
-        size="xl"
-        className="p-1"
-        hidden={hideIcon("delete", userIsAuthor, thisFormState)}
-      />
+      <button
+        type="button"
+        // className="btn btn-warning m-3"
+        // style={{ color: "white" }}
+        onClick={() => onDelete(thisId)}
+        className="iconBttn"
+      >
+        <FontAwesomeIcon
+          icon="fa-solid fa-trash-can"
+          size="xl"
+          className="p-1"
+          hidden={hideIcon("delete", userIsAuthor, thisFormState)}
+        />
+      </button>
     </div>
   );
 };
