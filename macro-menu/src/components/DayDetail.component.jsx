@@ -74,6 +74,46 @@ class DayDetail extends Component {
                 data-bs-parent={"#accordionFull" + this.state.thisDay._id}
               >
                 <div className="accordion-body">
+                  <table className="table table-bordered">
+                    <thead className="thead">
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Budget</th>
+                        <th scope="col">Current</th>
+                        <th scope="col">Remaining</th>
+                      </tr>
+                      <tr>
+                        <th scope="row">Calories</th>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Carbs</th>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Protein</th>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Fat</th>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Fiber</th>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                        <td>9999.99</td>
+                      </tr>
+                    </thead>
+                  </table>
                   <ul>
                     <li>Name:&nbsp;{this.state.thisDay.name}</li>
                     <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>

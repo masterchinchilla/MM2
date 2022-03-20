@@ -19,6 +19,9 @@ button.iconBttn {
   align-items: center;
   margin: 1rem;
 }
+.weekMealPlanFormCards {
+  width: 28rem;
+}
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -46,13 +49,13 @@ button.iconBttn {
 .btn-primary svg {
   margin: auto 0.5rem auto -0.5rem;
 }
-.mealMacroWeightInput {
+.weekMealPlanMacroInput {
   max-width: 6em;
   text-align: center;
 }
-.mealMacroWeightBadge {
+.weekMealPlanMacroBadge {
   margin: 1rem;
 }
-.accrdnMMacroWghtngBdy {
+.accrdnWeekMealPlanMacroBdy {
   padding: 0 !important;
 }
