@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
+import MealDetail from "./MealDetail.component";
+import CreateMeal from "./CreateMeal.component";
 
 class DayDetail extends Component {
   constructor(props) {
@@ -14,10 +17,50 @@ class DayDetail extends Component {
       thisFormState: "viewing",
       userIsAuthor: true,
       thisDaysMeals: [],
+      breakfast: {},
+      snack1: {},
+      lunch: {},
+      snack2: {},
+      dinner: {},
+      dessert: {},
+      calsBudget: 0,
+      carbsBudget: 0,
+      proteinBudget: 0,
+      fatBudget: 0,
+      fiberBudget: 0,
+      calsCurrent: 0,
+      carbsCurrent: 0,
+      proteinCurrent: 0,
+      fatCurrent: 0,
+      fiberCurrent: 0,
+      calsRemaining: 0,
+      carbsRemaining: 0,
+      proteinRemaining: 0,
+      fatRemaining: 0,
+      fiberRemaining: 0,
     };
   }
   componentDidMount() {
-    console.log(this.state.thisId);
+    axios
+      .get(
+        "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
+      )
+      .then((response) => {
+        this.setState({
+          thisDaysMeals: response.data.map((meal) => meal),
+          breakfast: response.data.filter(
+            (meal) => meal.mealType == "Breakfast"
+          )[0],
+          snack1: response.data.filter((meal) => meal.mealType == "Snack 1")[0],
+          lunch: response.data.filter((meal) => meal.mealType == "Lunch")[0],
+          snack2: response.data.filter((meal) => meal.mealType == "Snack 2")[0],
+          dinner: response.data.filter((meal) => meal.mealType == "Dinner")[0],
+          dessert: response.data.filter(
+            (meal) => meal.mealType == "Dessert"
+          )[0],
+        });
+        console.log(this.state);
+      });
   }
   handleSubmitFormChange = () => {
     console.log("Form submitted");
@@ -30,6 +73,13 @@ class DayDetail extends Component {
   };
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
+  };
+  renderMeal = (mealToRender) => {
+    if (mealToRender == undefined) {
+      return <CreateMeal />;
+    } else {
+      return <MealDetail thisMeal={mealToRender} key={mealToRender._id} />;
+    }
   };
   render() {
     return (
@@ -131,6 +181,54 @@ class DayDetail extends Component {
                       )}
                     </li>
                   </ul>
+                  <div className="card mt-3 mb-3">
+                    <div className="card-header">
+                      <h4 className="card-title">
+                        {this.state.thisDay.dayOfWeek + " Meals"}
+                      </h4>
+                    </div>
+                    <div className="card-body">
+                      <div
+                        className="accordion accordion-flush"
+                        id={"daysMealsAccordionFull" + this.state.id}
+                      >
+                        <div className="accordion-item">
+                          <h2
+                            className="accordion-header"
+                            id={"daysMealsAccordionHeader" + this.state.id}
+                          >
+                            <button
+                              className="accordion-button"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target={"#mealsAccrdn" + this.state.id}
+                              aria-expanded="true"
+                              aria-controls="collapseOne"
+                            ></button>
+                          </h2>
+                        </div>
+                        <div
+                          id={"mealsAccrdn" + this.state.id}
+                          className="accordion-collapse collapse show"
+                          aria-labelledby={
+                            "#daysMealsAccordionHeader" + this.state.id
+                          }
+                          data-bs-parent={
+                            "#daysMealsAccordionFull" + this.state.id
+                          }
+                        >
+                          <div className="accordion-body wkDaysAccrdnBdy">
+                            {this.renderMeal(this.state.breakfast)}
+                            {this.renderMeal(this.state.snack1)}
+                            {this.renderMeal(this.state.lunch)}
+                            {this.renderMeal(this.state.snack2)}
+                            {this.renderMeal(this.state.dinner)}
+                            {this.renderMeal(this.state.dessert)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

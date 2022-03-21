@@ -33,13 +33,11 @@ button.iconBttn {
 .wkDaysAccrdnBdy {
   padding: 0 1rem !important;
 }
-.accordion {
-}
 .accordion-header {
   justify-self: flex-end;
 }
-.accordion-button {
-  padding: 3px 1rem 3px 1rem !important;
+button.accordion-button {
+  padding: 3px 1rem 3px 1rem;
 }
 .newItemButton {
   align-items: center;
@@ -58,4 +56,14 @@ button.iconBttn {
 }
 .accrdnWeekMealPlanMacroBdy {
   padding: 0 !important;
+}
+.accordionNotFlush {
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1.5px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  margin: 1rem 0;
+}
+.accordionItemNotFlush {
+  border-bottom: 0 !important;
 }
