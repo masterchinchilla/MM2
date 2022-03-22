@@ -1,15 +1,45 @@
+import axios from "axios";
 import React, { Component } from "react";
 class MealDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      thisMeal: this.props.thisMeal,
+      data: false,
+      thisMeal: {},
       thisFormState: "viewing",
       userIsAuthor: true,
       thisMealsMealIngrdnts: [],
+      thisMealsGenRecipe: { name: "Cereal", id: 1 },
+      thisMealTypesGenRecipes: [
+        { name: "Scrambled Eggs", id: 2 },
+        { name: "French Toast", id: 3 },
+        { name: "Cereal", id: 1 },
+      ],
     };
   }
+  componentDidMount() {
+    // axios.get(
+    //   "http://localhost:5000/thisMealTypesGenRecipes/"+this.props.thisMeal.mealType
+    // ).then((response)=>{
+    //   this.setState({
+    //     thisMeal: this.props.thisMeal,
+    //     thisMealTypesGenRecipes:response.data,
+    //     data: true,
+    //   });
+    // })
+    this.setState({
+      thisMeal: this.props.thisMeal,
+      data: true,
+    });
+  }
   render() {
+    if (!this.state.data) {
+      return (
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      );
+    }
     return (
       <div
         className="accordion accordionNotFlush"
@@ -28,7 +58,11 @@ class MealDetail extends Component {
               aria-expanded="true"
               aria-controls="collapseOne"
             >
-              <h5>{this.state.thisMeal.mealType}</h5>
+              <h5>
+                {this.state.thisMeal.day.dayOfWeek +
+                  " " +
+                  this.state.thisMeal.mealType}
+              </h5>
             </button>
           </h2>
         </div>
@@ -43,11 +77,24 @@ class MealDetail extends Component {
           <div className="accordion-body wkDaysAccrdnBdy">
             <div className="card mt-3 mb-3">
               <div className="card-header">
-                <h6 className="card-title">
-                  {this.state.thisMeal.day.dayOfWeek +
-                    " " +
-                    this.state.thisMeal.mealType}
-                </h6>
+                <form>
+                  <select
+                    ref="userInput"
+                    required
+                    className="form-control form-select"
+                    value={this.state.thisMealsGenRecipe}
+                  >
+                    {this.state.thisMealTypesGenRecipes.map(function (
+                      genRecipe
+                    ) {
+                      return (
+                        <option key={genRecipe.id} value={genRecipe.id}>
+                          {genRecipe.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </form>
               </div>
               <div className="card-body">
                 <div

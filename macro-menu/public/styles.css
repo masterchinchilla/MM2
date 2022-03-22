@@ -67,3 +67,9 @@ button.accordion-button {
 .accordionItemNotFlush {
   border-bottom: 0 !important;
 }
+.spinner-border {
+  margin: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

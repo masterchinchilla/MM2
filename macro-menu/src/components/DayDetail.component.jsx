@@ -11,6 +11,7 @@ class DayDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: false,
       thisDay: this.props.thisDay,
       weekMealPlanName: this.props.weekMealPlanName,
       thisId: this.props.thisDay._id,
@@ -41,6 +42,9 @@ class DayDetail extends Component {
     };
   }
   componentDidMount() {
+    this.loadData();
+  }
+  loadData() {
     axios
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
@@ -58,8 +62,8 @@ class DayDetail extends Component {
           dessert: response.data.filter(
             (meal) => meal.mealType == "Dessert"
           )[0],
+          data: true,
         });
-        console.log(this.state);
       });
   }
   handleSubmitFormChange = () => {
@@ -82,6 +86,13 @@ class DayDetail extends Component {
     }
   };
   render() {
+    if (!this.state.data) {
+      return (
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      );
+    }
     return (
       <div className="card mt-3 mb-3">
         <div className="card-header">

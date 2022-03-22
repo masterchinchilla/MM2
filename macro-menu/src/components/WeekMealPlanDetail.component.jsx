@@ -21,6 +21,7 @@ export default class WeekMealPlanDetail extends Component {
     ];
 
     this.state = {
+      data: false,
       id: "",
       name: "",
       GRFUsers: [],
@@ -49,6 +50,9 @@ export default class WeekMealPlanDetail extends Component {
     };
   }
   componentDidMount() {
+    this.loadData();
+  }
+  loadData() {
     axios
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
@@ -67,7 +71,9 @@ export default class WeekMealPlanDetail extends Component {
           proteinBudget: response.data.proteinBudget,
           fatBudget: response.data.fatBudget,
           fiberBudget: response.data.fiberBudget,
+          data: true,
         });
+        console.log(this.state);
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
@@ -273,317 +279,331 @@ export default class WeekMealPlanDetail extends Component {
     }
   };
   render() {
-    return (
-      <div className="container-fluid pl-4 pr-4">
-        <h1>Week Meal Plan Detail</h1>
-        <form>
-          <div className="form-group">
-            <label>Plan Name</label>
-            <div className="inputRowWRightIcons">
-              <input
-                type="text"
+    if (!this.state.data) {
+      return (
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      );
+    } else {
+      return (
+        <div className="container-fluid pl-4 pr-4">
+          <h1>Week Meal Plan Detail</h1>
+          <form>
+            <div className="form-group">
+              <label>Plan Name</label>
+              <div className="inputRowWRightIcons">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.name}
+                  onChange={this.onChangeName}
+                  disabled={
+                    this.state.thisFormState == "viewing" ? true : false
+                  }
+                />
+                <EditOptions
+                  parentObj={"WMP"}
+                  userIsAuthor={this.state.userIsAuthor}
+                  thisFormState={this.state.thisFormState}
+                  onSubmitFormChange={this.handleSubmitFormChange}
+                  onClickCopy={this.handleClickCopy}
+                  onClickEdit={this.handleClickEdit}
+                  onCancel={this.handleCancel}
+                />
+              </div>
+            </div>
+            <div hidden={true} className="form-group mt-2">
+              <label>Author: </label>
+              <select
+                ref="userInput"
+                required
                 className="form-control"
-                value={this.state.name}
-                onChange={this.onChangeName}
-                disabled={this.state.thisFormState == "viewing" ? true : false}
-              />
-              <EditOptions
-                parentObj={"WMP"}
-                userIsAuthor={this.state.userIsAuthor}
-                thisFormState={this.state.thisFormState}
-                onSubmitFormChange={this.handleSubmitFormChange}
-                onClickCopy={this.handleClickCopy}
-                onClickEdit={this.handleClickEdit}
-                onCancel={this.handleCancel}
-              />
+                value={this.state.GRFUser.handle}
+                onChange={this.onChangeGRFUser}
+              >
+                {this.state.GRFUsers.map(function (GRFUser) {
+                  return (
+                    <option key={GRFUser._id} value={GRFUser._id}>
+                      {GRFUser.handle}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
-          </div>
-          <div hidden={true} className="form-group mt-2">
-            <label>Author: </label>
-            <select
-              ref="userInput"
-              required
-              className="form-control"
-              value={this.state.GRFUser.handle}
-              onChange={this.onChangeGRFUser}
-            >
-              {this.state.GRFUsers.map(function (GRFUser) {
-                return (
-                  <option key={GRFUser._id} value={GRFUser._id}>
-                    {GRFUser.handle}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className="card weekMealPlanFormCards mt-3 mb-3">
+            <div className="card weekMealPlanFormCards mt-3 mb-3">
+              <div className="card-header">
+                <h2 className="card-title">Meal Macro Weighting</h2>
+              </div>
+              <div className="card-body">
+                <div
+                  className="accordion accordion-flush"
+                  id={"accordionFull_MealMacroWeighting" + this.state.id}
+                >
+                  <div className="accordion-item">
+                    <h2
+                      className="accordion-header"
+                      id={"accordionHeader_MealMacroWeighting" + this.state.id}
+                    >
+                      <button
+                        className="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={
+                          "#dayAccrdn_MealMacroWeighting" + this.state.id
+                        }
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      ></button>
+                    </h2>
+                  </div>
+                  <div
+                    id={"dayAccrdn_MealMacroWeighting" + this.state.id}
+                    className="accordion-collapse collapse show"
+                    aria-labelledby={
+                      "#accordionHeader_MealMacroWeighting" + this.state.id
+                    }
+                    data-bs-parent={
+                      "#accordionFull_MealMacroWeighting" + this.state.id
+                    }
+                  >
+                    <div className="accordion-body accrdnWeekMealPlanMacroBdy">
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Breakfast %</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="35"
+                          value={this.state.breakfastWeight}
+                          onChange={this.onChangeBreakfastWeight}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Snack 1 %</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="5"
+                          value={this.state.snack1Weight}
+                          onChange={this.onChangeSnack1Weight}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Lunch %</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="30"
+                          value={this.state.lunchWeight}
+                          onChange={this.onChangeLunchWeight}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Snack 2 %</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="5"
+                          value={this.state.snack2Weight}
+                          onChange={this.onChangeSnack2Weight}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Dinner %</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="20"
+                          value={this.state.dinnerWeight}
+                          onChange={this.onChangeDinnerWeight}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Dessert %</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="5"
+                          value={this.state.dessertWeight}
+                          onChange={this.onChangeDessertWeight}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card weekMealPlanFormCards mt-3 mb-3">
+              <div className="card-header">
+                <h2 className="card-title">Macro Daily Budget</h2>
+              </div>
+              <div className="card-body">
+                <div
+                  className="accordion accordion-flush"
+                  id={"accordionFull_MacroBudget" + this.state.id}
+                >
+                  <div className="accordion-item">
+                    <h2
+                      className="accordion-header"
+                      id={"accordionHeader_MacroBudget" + this.state.id}
+                    >
+                      <button
+                        className="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={
+                          "#dayAccrdn_MacroBudget" + this.state.id
+                        }
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      ></button>
+                    </h2>
+                  </div>
+                  <div
+                    id={"dayAccrdn_MacroBudget" + this.state.id}
+                    className="accordion-collapse collapse show"
+                    aria-labelledby={
+                      "#accordionHeader_MacroBudget" + this.state.id
+                    }
+                    data-bs-parent={
+                      "#accordionFull_MacroBudget" + this.state.id
+                    }
+                  >
+                    <div className="accordion-body accrdnWeekMealPlanMacroBdy">
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Calories (g)</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="2000.00"
+                          value={this.state.calsBudget}
+                          onChange={this.onChangeCalsBudget}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Carbs (g)</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="400.00"
+                          value={this.state.carbsBudget}
+                          onChange={this.onChangeCarbsBudget}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Protein (g)</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="300"
+                          value={this.state.proteinBudget}
+                          onChange={this.onChangeProteinBudget}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Fat (g)</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="100"
+                          value={this.state.fatBudget}
+                          onChange={this.onChangeFatBudget}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                      <div className="badge bg-primary weekMealPlanMacroBadge">
+                        <h6>Fiber (g)</h6>
+                        <input
+                          type="number"
+                          className="form-control weekMealPlanMacroInput"
+                          placeholder="40"
+                          value={this.state.fiberBudget}
+                          onChange={this.onChangeFiberBudget}
+                          disabled={
+                            this.state.thisFormState == "viewing" ? true : false
+                          }
+                        ></input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div className="card mt-3 mb-3">
             <div className="card-header">
-              <h2 className="card-title">Meal Macro Weighting</h2>
+              <h2 className="card-title">Day Meal Plans</h2>
             </div>
             <div className="card-body">
               <div
                 className="accordion accordion-flush"
-                id={"accordionFull_MealMacroWeighting" + this.state.id}
+                id={"accordionFull" + this.state.id}
               >
                 <div className="accordion-item">
                   <h2
                     className="accordion-header"
-                    id={"accordionHeader_MealMacroWeighting" + this.state.id}
+                    id={"accordionHeader" + this.state.id}
                   >
                     <button
                       className="accordion-button"
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target={
-                        "#dayAccrdn_MealMacroWeighting" + this.state.id
-                      }
+                      data-bs-target={"#dayAccrdn" + this.state.id}
                       aria-expanded="true"
                       aria-controls="collapseOne"
                     ></button>
                   </h2>
                 </div>
                 <div
-                  id={"dayAccrdn_MealMacroWeighting" + this.state.id}
+                  id={"dayAccrdn" + this.state.id}
                   className="accordion-collapse collapse show"
-                  aria-labelledby={
-                    "#accordionHeader_MealMacroWeighting" + this.state.id
-                  }
-                  data-bs-parent={
-                    "#accordionFull_MealMacroWeighting" + this.state.id
-                  }
+                  aria-labelledby={"#accordionHeader" + this.state.id}
+                  data-bs-parent={"#accordionFull" + this.state.id}
                 >
-                  <div className="accordion-body accrdnWeekMealPlanMacroBdy">
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Breakfast %</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="35"
-                        value={this.state.breakfastWeight}
-                        onChange={this.onChangeBreakfastWeight}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Snack 1 %</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="5"
-                        value={this.state.snack1Weight}
-                        onChange={this.onChangeSnack1Weight}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Lunch %</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="30"
-                        value={this.state.lunchWeight}
-                        onChange={this.onChangeLunchWeight}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Snack 2 %</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="5"
-                        value={this.state.snack2Weight}
-                        onChange={this.onChangeSnack2Weight}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Dinner %</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="20"
-                        value={this.state.dinnerWeight}
-                        onChange={this.onChangeDinnerWeight}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Dessert %</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="5"
-                        value={this.state.dessertWeight}
-                        onChange={this.onChangeDessertWeight}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
+                  <div className="accordion-body wkDaysAccrdnBdy">
+                    {this.renderDay(this.state.sun, "Sunday", "sun")}
+                    {this.renderDay(this.state.mon, "Monday", "mon")}
+                    {this.renderDay(this.state.tues, "Tuesday", "tues")}
+                    {this.renderDay(this.state.wed, "Wednesday", "wed")}
+                    {this.renderDay(this.state.thurs, "Thursday", "thurs")}
+                    {this.renderDay(this.state.fri, "Friday", "fri")}
+                    {this.renderDay(this.state.sat, "Saturday", "sat")}
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card weekMealPlanFormCards mt-3 mb-3">
-            <div className="card-header">
-              <h2 className="card-title">Macro Daily Budget</h2>
-            </div>
-            <div className="card-body">
-              <div
-                className="accordion accordion-flush"
-                id={"accordionFull_MacroBudget" + this.state.id}
-              >
-                <div className="accordion-item">
-                  <h2
-                    className="accordion-header"
-                    id={"accordionHeader_MacroBudget" + this.state.id}
-                  >
-                    <button
-                      className="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={"#dayAccrdn_MacroBudget" + this.state.id}
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    ></button>
-                  </h2>
-                </div>
-                <div
-                  id={"dayAccrdn_MacroBudget" + this.state.id}
-                  className="accordion-collapse collapse show"
-                  aria-labelledby={
-                    "#accordionHeader_MacroBudget" + this.state.id
-                  }
-                  data-bs-parent={"#accordionFull_MacroBudget" + this.state.id}
-                >
-                  <div className="accordion-body accrdnWeekMealPlanMacroBdy">
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Calories (g)</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="2000.00"
-                        value={this.state.calsBudget}
-                        onChange={this.onChangeCalsBudget}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Carbs (g)</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="400.00"
-                        value={this.state.carbsBudget}
-                        onChange={this.onChangeCarbsBudget}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Protein (g)</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="300"
-                        value={this.state.proteinBudget}
-                        onChange={this.onChangeProteinBudget}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Fat (g)</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="100"
-                        value={this.state.fatBudget}
-                        onChange={this.onChangeFatBudget}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                    <div className="badge bg-primary weekMealPlanMacroBadge">
-                      <h6>Fiber (g)</h6>
-                      <input
-                        type="number"
-                        className="form-control weekMealPlanMacroInput"
-                        placeholder="40"
-                        value={this.state.fiberBudget}
-                        onChange={this.onChangeFiberBudget}
-                        disabled={
-                          this.state.thisFormState == "viewing" ? true : false
-                        }
-                      ></input>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-        <div className="card mt-3 mb-3">
-          <div className="card-header">
-            <h2 className="card-title">Day Meal Plans</h2>
-          </div>
-          <div className="card-body">
-            <div
-              className="accordion accordion-flush"
-              id={"accordionFull" + this.state.id}
-            >
-              <div className="accordion-item">
-                <h2
-                  className="accordion-header"
-                  id={"accordionHeader" + this.state.id}
-                >
-                  <button
-                    className="accordion-button"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={"#dayAccrdn" + this.state.id}
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                  ></button>
-                </h2>
-              </div>
-              <div
-                id={"dayAccrdn" + this.state.id}
-                className="accordion-collapse collapse show"
-                aria-labelledby={"#accordionHeader" + this.state.id}
-                data-bs-parent={"#accordionFull" + this.state.id}
-              >
-                <div className="accordion-body wkDaysAccrdnBdy">
-                  {this.renderDay(this.state.sun, "Sunday", "sun")}
-                  {this.renderDay(this.state.mon, "Monday", "mon")}
-                  {this.renderDay(this.state.tues, "Tuesday", "tues")}
-                  {this.renderDay(this.state.wed, "Wednesday", "wed")}
-                  {this.renderDay(this.state.thurs, "Thursday", "thurs")}
-                  {this.renderDay(this.state.fri, "Friday", "fri")}
-                  {this.renderDay(this.state.sat, "Saturday", "sat")}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
