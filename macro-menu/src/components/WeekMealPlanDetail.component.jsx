@@ -28,7 +28,7 @@ export default class WeekMealPlanDetail extends Component {
       GRFUser: "",
       thisWeeksDays: [],
       thisFormState: "viewing",
-      userIsAuthor: true,
+      userType: "author",
       sun: {},
       mon: {},
       tues: {},
@@ -281,7 +281,7 @@ export default class WeekMealPlanDetail extends Component {
     if (!this.state.data) {
       return (
         <div className="spinner-border text-primary" role="status">
-          <span className="sr-only">Loading...</span>
+          {/* <span className="sr-only">Loading...</span> */}
         </div>
       );
     } else {
@@ -303,7 +303,7 @@ export default class WeekMealPlanDetail extends Component {
                 />
                 <EditOptions
                   parentObj={"WMP"}
-                  userIsAuthor={this.state.userIsAuthor}
+                  userType={this.state.userType}
                   thisFormState={this.state.thisFormState}
                   onSubmitFormChange={this.handleSubmitFormChange}
                   onClickCopy={this.handleClickCopy}

@@ -28,6 +28,20 @@ button.iconBttn {
   align-items: center;
   padding-right: 3px !important;
 }
+.mealCardHeader {
+  display: unset;
+  padding: 0 !important;
+}
+hr {
+  margin: 0 !important;
+}
+.mealHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 3px !important;
+  padding: 0 !important;
+}
 .card-body {
   padding: 0 !important;
 }
@@ -90,9 +104,7 @@ button.accordion-button {
 }
 .dropdown-toggle {
 }
-.mealHeader {
-  padding: 0 !important;
-}
+
 .mealEditDDown {
 }
 .mealCardTbl {
@@ -148,4 +160,17 @@ button.accordion-button {
   margin: 0.5rem;
   border-width: 1px !important;
   width: 95% !important;
+}
+.formSctnTitle {
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin: 0;
+}
+.mealAdminAccrdnBttn {
+  height: 0.75rem;
+  margin-bottom: -1px;
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+.mealAdminAccrdnBttn svg {
+  height: 10px;
+  margin: -2px 0 auto 95%;
 }

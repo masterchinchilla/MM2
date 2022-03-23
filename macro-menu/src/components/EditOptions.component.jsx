@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditOptions = (props) => {
   const parentObj = props.parentObj;
-  const userIsAuthor = props.userIsAuthor;
+  const userType = props.userType;
   const thisFormState = props.thisFormState;
   const thisId = props.thisId;
   const onSubmitFormChange = props.onSubmitFormChange;
@@ -22,7 +22,7 @@ const EditOptions = (props) => {
     "creating",
     "missing",
   ];
-  const hideIcon = (icon, userIsAuthor, thisFormState) => {
+  const hideIcon = (icon, userType, thisFormState) => {
     let iconHidden = false;
     if (thisFormState !== "missing") {
       switch (icon) {
@@ -37,7 +37,10 @@ const EditOptions = (props) => {
           }
           break;
         case "edit":
-          if (userIsAuthor == true && thisFormState == "viewing") {
+          if (
+            (userType == "Author" || userType == "Admin") &&
+            thisFormState == "viewing"
+          ) {
             iconHidden = false;
           } else {
             iconHidden = true;
@@ -82,7 +85,7 @@ const EditOptions = (props) => {
           onCreate(recordToCreate);
         }}
         className="iconBttn"
-        hidden={hideIcon("create", userIsAuthor, thisFormState)}
+        hidden={hideIcon("create", userType, thisFormState)}
       >
         <FontAwesomeIcon
           icon="fa-solid fa-circle-plus"
@@ -95,7 +98,7 @@ const EditOptions = (props) => {
           icon="fa-solid fa-copy"
           size="xl"
           className="p-1"
-          hidden={hideIcon("copy", userIsAuthor, thisFormState)}
+          hidden={hideIcon("copy", userType, thisFormState)}
         />
       </button>
       <button type="button" onClick={onClickEdit} className="iconBttn">
@@ -103,7 +106,7 @@ const EditOptions = (props) => {
           icon="fa-solid fa-pen-to-square"
           size="xl"
           className="p-1"
-          hidden={hideIcon("edit", userIsAuthor, thisFormState)}
+          hidden={hideIcon("edit", userType, thisFormState)}
         />
       </button>
       <button type="button" onClick={onCancel} className="iconBttn">
@@ -111,7 +114,7 @@ const EditOptions = (props) => {
           icon="fa-solid fa-circle-xmark"
           size="xl"
           className="p-1"
-          hidden={hideIcon("cancel", userIsAuthor, thisFormState)}
+          hidden={hideIcon("cancel", userType, thisFormState)}
         />
       </button>
       <button
@@ -124,7 +127,7 @@ const EditOptions = (props) => {
           icon="fa-solid fa-floppy-disk"
           size="xl"
           className="p-1"
-          hidden={hideIcon("save", userIsAuthor, thisFormState)}
+          hidden={hideIcon("save", userType, thisFormState)}
         />
       </button>
       <button
@@ -138,7 +141,7 @@ const EditOptions = (props) => {
           icon="fa-solid fa-trash-can"
           size="xl"
           className="p-1"
-          hidden={hideIcon("delete", userIsAuthor, thisFormState)}
+          hidden={hideIcon("delete", userType, thisFormState)}
         />
       </button>
     </div>

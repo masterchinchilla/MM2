@@ -16,7 +16,7 @@ class DayDetail extends Component {
       weekMealPlanName: this.props.weekMealPlanName,
       thisId: this.props.thisDay._id,
       thisFormState: "viewing",
-      userIsAuthor: true,
+      userType: "Author",
       thisDaysMeals: [],
       breakfast: {},
       snack1: {},
@@ -87,11 +87,7 @@ class DayDetail extends Component {
   };
   render() {
     if (!this.state.data) {
-      return (
-        <div className="spinner-border text-primary" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      );
+      return <div className="spinner-border text-primary" role="status"></div>;
     }
     return (
       <div className="card mt-3 mb-3">
@@ -101,7 +97,7 @@ class DayDetail extends Component {
             parentObj={"Day"}
             thisFormState={this.state.thisFormState}
             thisId={this.state.thisId}
-            userIsAuthor={this.state.userIsAuthor}
+            userType={this.state.userType}
             onSubmitFormChange={this.handleSubmitFormChange}
             onClickCopy={this.handleClickCopy}
             onClickEdit={this.handleClickEdit}

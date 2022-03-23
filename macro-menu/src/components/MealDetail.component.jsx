@@ -12,7 +12,7 @@ class MealDetail extends Component {
       thisMealsDay: {},
       thisMealType: {},
       thisFormState: "editingOrig",
-      userIsAuthor: true,
+      userType: "author",
       thisMealsMealIngrdnts: [],
       thisMealsGenRecipe: { name: "Cereal", id: 1 },
       thisMealTypesGenRecipes: [
@@ -55,13 +55,16 @@ class MealDetail extends Component {
       });
     });
   }
+  lockUnlockAdminMenus = () => {
+    if (this.state.userType == "admin") {
+      return <FontAwesomeIcon icon="fa-solid fa-lock-open" />;
+    } else {
+      return <FontAwesomeIcon icon="fa-solid fa-lock" />;
+    }
+  };
   render() {
     if (!this.state.data) {
-      return (
-        <div className="spinner-border text-primary" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      );
+      return <div className="spinner-border text-primary" role="status"></div>;
     }
     return (
       <div
@@ -100,28 +103,31 @@ class MealDetail extends Component {
           >
             <div className="accordion-body wkDaysAccrdnBdy">
               <div className="card mt-3 mb-3">
-                <div className="card-header mealHeader">
-                  <div className="dropdown mealEditDDown">
-                    <button
-                      className="btn dropdown-toggle"
-                      type="button"
-                      id={"mealEditDDownBttn" + this.state.thisMeal._id}
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-pen-to-square"
-                        size="xl"
-                        className="p-1"
-                      />
-                    </button>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby={
-                        "mealEditDDownBttn" + this.state.thisMeal._id
-                      }
-                    >
-                      {/* <li>
+                <div className="card-header mealCardHeader">
+                  <h6 className="formSctnTitle">Meal</h6>
+                  <hr />
+                  <div className="mealHeader">
+                    <div className="dropdown mealEditDDown">
+                      <button
+                        className="btn dropdown-toggle"
+                        type="button"
+                        id={"mealEditDDownBttn" + this.state.thisMeal._id}
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-pen-to-square"
+                          size="xl"
+                          className="p-1"
+                        />
+                      </button>
+                      <ul
+                        className="dropdown-menu"
+                        aria-labelledby={
+                          "mealEditDDownBttn" + this.state.thisMeal._id
+                        }
+                      >
+                        {/* <li>
                         <a className="dropdown-item" href="#">
                           <FontAwesomeIcon
                             icon="fa-solid fa-copy"
@@ -145,66 +151,212 @@ class MealDetail extends Component {
                           </span>
                         </a>
                       </li> */}
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-right-left"
-                            size="xl"
-                            className="p-1"
-                          />
-                          <span className="mealEditDDownItemTxt">
-                            Change Recipe
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-pen-to-square"
-                            size="xl"
-                            className="p-1"
-                          />
-                          <span className="mealEditDDownItemTxt">
-                            Edit the Recipe
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-copy"
-                            size="xl"
-                            className="p-1"
-                          />
-                          <span className="mealEditDDownItemTxt">
-                            Edit New Copy of Recipe
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            <FontAwesomeIcon
+                              icon="fa-solid fa-right-left"
+                              size="xl"
+                              className="p-1"
+                            />
+                            <span className="mealEditDDownItemTxt">
+                              Change Recipe
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            <FontAwesomeIcon
+                              icon="fa-solid fa-pen-to-square"
+                              size="xl"
+                              className="p-1"
+                            />
+                            <span className="mealEditDDownItemTxt">
+                              Edit the Recipe
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            <FontAwesomeIcon
+                              icon="fa-solid fa-copy"
+                              size="xl"
+                              className="p-1"
+                            />
+                            <span className="mealEditDDownItemTxt">
+                              Edit New Copy of Recipe
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <h5 className="recipeSelectHeader">Recipe:</h5>
+                    <select
+                      ref="userInput"
+                      required
+                      className="form-control form-select"
+                      value={this.state.thisMealsGenRecipe}
+                      disabled={
+                        this.state.thisFormState == "viewing" ? true : false
+                      }
+                    >
+                      {this.state.thisMealTypesGenRecipes.map(function (
+                        genRecipe
+                      ) {
+                        return (
+                          <option key={genRecipe._id} value={genRecipe._id}>
+                            {genRecipe.name}
+                          </option>
+                        );
+                      })}
+                    </select>
                   </div>
-                  <h5 className="recipeSelectHeader">Recipe:</h5>
-                  <select
-                    ref="userInput"
-                    required
-                    className="form-control form-select"
-                    value={this.state.thisMealsGenRecipe}
-                    disabled={
-                      this.state.thisFormState == "viewing" ? true : false
-                    }
-                  >
-                    {this.state.thisMealTypesGenRecipes.map(function (
-                      genRecipe
-                    ) {
-                      return (
-                        <option key={genRecipe._id} value={genRecipe._id}>
-                          {genRecipe.name}
-                        </option>
-                      );
-                    })}
-                  </select>
                 </div>
                 <div className="card-body">
+                  <div
+                    className="accordion accordion-flush"
+                    id={"mealAdminAccordionFull" + this.state.thisMeal._id}
+                  >
+                    <div className="accordion-item">
+                      <h2
+                        className="accordion-header"
+                        id={
+                          "mealAdminAccordionHeader" + this.state.thisMeal._id
+                        }
+                      >
+                        <button
+                          className="accordion-button collapsed mealAdminAccrdnBttn"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={
+                            "#mealAdminAccrdn" + this.state.thisMeal._id
+                          }
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                          disabled={
+                            this.state.userType == "admin" ? false : true
+                          }
+                        >
+                          {this.lockUnlockAdminMenus()}
+                        </button>
+                      </h2>
+                    </div>
+                    <div
+                      id={"mealAdminAccrdn" + this.state.thisMeal._id}
+                      className="accordion-collapse collapse"
+                      aria-labelledby={
+                        "#mealAdminAccordionHeader" + this.state.thisMeal._id
+                      }
+                      data-bs-parent={
+                        "#mealAdminAccordionFull" + this.state.thisMeal._id
+                      }
+                    >
+                      <div className="accordion-body mealAdminAccordion">
+                        <table className="mealInputsTbl">
+                          <tr>
+                            <th scope="col" className="mealInputsTh">
+                              Img URL
+                            </th>
+                            <th scope="col" className="mealInputsTh">
+                              Name
+                            </th>
+                          </tr>
+                          <tr>
+                            <td className="mealInputsTd">
+                              <input
+                                className="form-control mealInput"
+                                type="text"
+                                disabled={
+                                  this.state.thisFormState == "viewing"
+                                    ? true
+                                    : false
+                                }
+                                value={this.state.thisMeal.genRecipe.photoURL}
+                              />
+                            </td>
+                            <td className="mealInputsTd">
+                              <input
+                                className="form-control mealInput"
+                                type="text"
+                                disabled={
+                                  this.state.thisFormState == "viewing"
+                                    ? true
+                                    : false
+                                }
+                                value={this.state.thisMeal.genRecipe.name}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="col" className="mealInputsTh">
+                              Meal Type
+                            </th>
+                            <th scope="col" className="mealInputsTh">
+                              Author
+                            </th>
+                          </tr>
+                          <tr>
+                            <td className="mealInputsTd">
+                              <select
+                                ref="userInput"
+                                required
+                                className="form-control form-select mealInput"
+                                value={this.state.thisMeal.mealType}
+                                disabled={
+                                  this.state.thisFormState == "viewing"
+                                    ? true
+                                    : false
+                                }
+                              >
+                                {this.state.allMealTypes.map(function (
+                                  mealType
+                                ) {
+                                  return (
+                                    <option
+                                      key={"allMealTypesListItem" + mealType}
+                                      value={mealType}
+                                    >
+                                      {mealType}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </td>
+                            <td className="mealInputsTd">
+                              <select
+                                ref="userInput"
+                                required
+                                className="form-control form-select mealInput"
+                                value={
+                                  this.state.thisMeal.genRecipe.GRFUser.handle
+                                }
+                                disabled={
+                                  this.state.thisFormState == "viewing"
+                                    ? true
+                                    : false
+                                }
+                              >
+                                {this.state.allGRFUsers.map(function (GRFUser) {
+                                  return (
+                                    <option
+                                      key={GRFUser._id}
+                                      value={GRFUser._id}
+                                    >
+                                      {GRFUser.handle}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </td>
+                          </tr>
+                        </table>
+                        <EditOptions
+                          parentObj={"meal"}
+                          userType={this.state.userType}
+                          thisFormState={this.state.thisFormState}
+                        />
+                      </div>
+                    </div>
+                  </div>
                   <table className="table table-bordered mealCardTbl">
                     <tbody>
                       <td className="mealImgNTblRow">
@@ -361,7 +513,7 @@ class MealDetail extends Component {
                         </table>
                         <EditOptions
                           parentObj={"meal"}
-                          userIsAuthor={this.state.userIsAuthor}
+                          userType={this.state.userType}
                           thisFormState={this.state.thisFormState}
                         />
                       </div>
