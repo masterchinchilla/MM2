@@ -25,6 +25,7 @@ button.iconBttn {
 .card-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-right: 3px !important;
 }
 .card-body {
@@ -72,4 +73,79 @@ button.accordion-button {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.dropdown-item {
+  display: flex !important;
+  align-items: center;
+}
+.mealEditDDownItemTxt {
+  margin-left: 1rem;
+}
+.mealForm {
+  width: 100%;
+  margin-right: 1rem;
+}
+.form-select {
+  margin: 0.5rem;
+}
+.dropdown-toggle {
+}
+.mealHeader {
+  padding: 0 !important;
+}
+.mealEditDDown {
+}
+.mealCardTbl {
+  margin: 0 !important;
+}
+.mealCardTbl td {
+  padding: 0;
+}
+.mealImgNTblRow {
+  display: grid;
+  grid-template-columns: max-content;
+  grid-template-rows: 2.5rem;
+  grid-template-areas:
+    "mealImg mealPrepInst"
+    "mealImg mealTextArea";
+}
+.mealImg {
+  margin: 0;
+  padding: 0 !important;
+  grid-area: mealImg;
+}
+.mealTextArea {
+  grid-area: mealTextArea;
+  border-width: 1px !important;
+}
+.mealPrepInst {
+  grid-area: mealPrepInst;
+}
+.mealInnerAccrdnBttn {
+  justify-content: center;
+}
+.mealInnerAccrdnBttn::after {
+  margin: unset !important;
+}
+.recipeSelectHeader {
+  margin: auto 1rem;
+}
+.mealInnerAccordion {
+  padding: 0 !important;
+}
+.mealInputsTbl {
+  width: 100%;
+  margin-top: -1px;
+}
+.mealInputsTh {
+  padding: 0.5rem;
+  border-width: 1px !important;
+}
+.mealInputsTd {
+  border-width: 1px !important;
+}
+.mealInput {
+  margin: 0.5rem;
+  border-width: 1px !important;
+  width: 95% !important;
 }

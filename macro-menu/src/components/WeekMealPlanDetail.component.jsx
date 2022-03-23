@@ -73,7 +73,6 @@ export default class WeekMealPlanDetail extends Component {
           fiberBudget: response.data.fiberBudget,
           data: true,
         });
-        console.log(this.state);
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
