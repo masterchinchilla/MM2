@@ -166,11 +166,29 @@ button.accordion-button {
   margin: 0;
 }
 .mealAdminAccrdnBttn {
-  height: 0.75rem;
+  height: 0.85rem;
   margin-bottom: -1px;
   background-color: rgba(0, 0, 0, 0.03) !important;
 }
 .mealAdminAccrdnBttn svg {
   height: 10px;
-  margin: -2px 0 auto 95%;
+  margin: -2px 0 auto 97%;
+}
+.mealSelect {
+  margin: 0.5rem auto;
+}
+.recIdTd {
+  padding: 0.5rem;
+}
+.mealGenRecipeSctnHdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin-bottom: -1px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.adminMenuHolderTd {
+  padding: 0;
 }

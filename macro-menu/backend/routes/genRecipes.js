@@ -11,4 +11,4 @@ router.route('/thisMealTypesGenRecipes/:mealType').get((req, res)=>{
         .then(mealTypesRecipes=>res.json(mealTypesRecipes))
         .catch(err=>res.status(400).json('Error: '+err));
 })
-module.exports=router;
+module.exports=router; 
