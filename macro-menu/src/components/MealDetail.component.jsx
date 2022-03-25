@@ -103,7 +103,7 @@ class MealDetail extends Component {
               </button>
             </h2>
           </div>
-          <form className="mealForm">
+          <form>
             <div
               id={"mealOuterAccrdn" + this.state.thisMeal._id}
               className="accordion-collapse collapse show"
@@ -213,7 +213,7 @@ class MealDetail extends Component {
                       <select
                         ref="userInput"
                         required
-                        className="form-control form-select"
+                        className="form-control form-select recipeSelect"
                         value={this.state.thisMealsGenRecipe}
                         disabled={
                           this.state.thisFormState == "viewing" ? true : false
@@ -231,7 +231,7 @@ class MealDetail extends Component {
                       </select>
                     </div>
                   </div>
-                  <div className="card-body">
+                  <div className="card-body mealCardBody">
                     <div
                       className="accordion accordion-flush"
                       id={"mealAdminAccordionFull" + this.state.thisMeal._id}
