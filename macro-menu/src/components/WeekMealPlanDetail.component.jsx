@@ -47,6 +47,9 @@ export default class WeekMealPlanDetail extends Component {
       proteinBudget: 0,
       fatBudget: 0,
       fiberBudget: 0,
+      wmpDataHasLoaded: false,
+      allGRFUsersHasLoaded: false,
+      daysOfTheWMPHaveLoaded: false,
     };
   }
   componentDidMount() {
@@ -71,13 +74,14 @@ export default class WeekMealPlanDetail extends Component {
           proteinBudget: response.data.proteinBudget,
           fatBudget: response.data.fatBudget,
           fiberBudget: response.data.fiberBudget,
-          data: true,
+          wmpDataHasLoaded: true,
         });
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
         this.setState({
           GRFUsers: response.data.map((GRFUser) => GRFUser),
+          allGRFUsersHasLoaded: true,
         });
       }
     });
@@ -95,6 +99,7 @@ export default class WeekMealPlanDetail extends Component {
           thurs: response.data.filter((day) => day.dayOfWeek == "Thursday")[0],
           fri: response.data.filter((day) => day.dayOfWeek == "Friday")[0],
           sat: response.data.filter((day) => day.dayOfWeek == "Saturday")[0],
+          daysOfTheWMPHaveLoaded: true,
         });
       });
   }
@@ -278,13 +283,11 @@ export default class WeekMealPlanDetail extends Component {
     }
   };
   render() {
-    if (!this.state.data) {
-      return (
-        <div className="spinner-border text-primary" role="status">
-          {/* <span className="sr-only">Loading...</span> */}
-        </div>
-      );
-    } else {
+    if (
+      this.state.wmpDataHasLoaded == true &&
+      this.state.allGRFUsersHasLoaded == true &&
+      this.state.daysOfTheWMPHaveLoaded == true
+    ) {
       return (
         <div className="container-fluid pl-4 pr-4">
           <h1>Week Meal Plan Detail</h1>
@@ -603,6 +606,8 @@ export default class WeekMealPlanDetail extends Component {
           </div>
         </div>
       );
+    } else {
+      return <div className="spinner-border text-primary" role="status"></div>;
     }
   }
 }
