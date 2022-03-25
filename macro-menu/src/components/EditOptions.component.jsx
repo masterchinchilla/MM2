@@ -38,7 +38,7 @@ const EditOptions = (props) => {
           break;
         case "edit":
           if (
-            (userType == "Author" || userType == "Admin") &&
+            (userType == "author" || userType == "admin") &&
             thisFormState == "viewing"
           ) {
             iconHidden = false;

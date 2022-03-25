@@ -11,10 +11,12 @@ class MealDetail extends Component {
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
       thisMeal: {},
+      thisMealsId: "",
+      thisRecipesId: "",
       thisMealsDay: {},
       thisMealType: {},
-      thisFormState: "editingOrig",
-      userType: "admin",
+      thisFormState: "viewing",
+      userType: "viewer",
       thisMealsMealIngrdnts: [],
       thisMealsGenRecipe: { name: "Cereal", id: 1 },
       thisMealTypesGenRecipes: [
@@ -22,7 +24,11 @@ class MealDetail extends Component {
         { name: "French Toast", id: 3 },
         { name: "Cereal", id: 1 },
       ],
+      thisRecipesInst: "",
       thisMealRecipePic: "",
+      thisRecipesName: "",
+      thisRecipesMealType: "",
+      thisRecipesAuthor: {},
       allMealTypes: [
         "Breakfast",
         "Snack 1",
@@ -44,10 +50,20 @@ class MealDetail extends Component {
       .then((response) => {
         this.setState({
           thisMeal: this.props.thisMeal,
+          thisMealsId: this.props.thisMeal._id,
+          thisGenRecipesId: this.props.thisMeal.genRecipe._id,
           thisMealTypesGenRecipes: response.data.map(
             (mealTypeRecipe) => mealTypeRecipe
           ),
+          thisMealsDay: this.props.thisMeal.day,
+          thisMealType: this.props.thisMeal.mealType,
+          thisMealsGenRecipe: this.props.thisMeal.genRecipe,
+          thisRecipesInst:
+            this.props.thisMeal.genRecipe.defaultPrepInstructions,
           thisMealRecipePic: this.props.thisMeal.genRecipe.photoURL,
+          thisRecipesName: this.props.thisMeal.genRecipe.name,
+          thisRecipesMealType: this.props.thisMeal.genRecipe.availableMealType,
+          thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
           thisMealTypesGenRecipesLoaded: true,
         });
       });
@@ -64,6 +80,76 @@ class MealDetail extends Component {
       });
     });
   }
+  handleChangeMealRecipe = (e) => {
+    this.setState({
+      thisMealsGenRecipe: e.target.value,
+    });
+  };
+  handleChangeMealDay = (e) => {
+    this.setState({
+      thisMealsDay: e.target.value,
+    });
+  };
+  handleChangeMealsType = (e) => {
+    this.setState({
+      thisMealType: e.target.value,
+    });
+  };
+  handleChangeRecipeInst = (e) => {
+    this.setState({
+      thisRecipesInst: e.target.value,
+    });
+  };
+  handleChangeRecipePic = (e) => {
+    this.setState({
+      thisMealRecipePic: e.target.value,
+    });
+  };
+  handleChangeThisRecipesName = (e) => {
+    this.setState({
+      thisRecipesName: e.target.value,
+    });
+  };
+  handleChangeThisRecipesMealType = (e) => {
+    this.setState({
+      thisRecipesMealType: e.target.value,
+    });
+  };
+  handleChangeThisRecipesAuthor = (e) => {
+    this.setState({
+      thisRecipesAuthor: e.target.value,
+    });
+  };
+  handleSubmitMealFormChange = () => {
+    const meal = {
+      id: this.state.thisMealsId,
+      day: this.state.thisMealsDay,
+      genRecipe: this.state.thisMealsGenRecipe,
+      mealType: this.state.thisMealType,
+    };
+    axios
+      .post("http://localhost:5000/meals/update/" + meal.id, meal)
+      .then(console.log("Meal Updated"));
+  };
+  handleSubmitRecipeFormChange = () => {
+    const genRecipe = {
+      id: this.state.thisGenRecipesId,
+      name: this.state.thisRecipesName,
+      availableMealType: this.state.thisRecipesMealType,
+      GRFUser: this.state.thisRecipesAuthor,
+      defaultPrepInstructions: this.state.thisRecipesInst,
+      photoURL: this.state.thisMealRecipePic,
+    };
+    axios
+      .post("http://localhost:5000/genRecipes/update" + genRecipe.id, genRecipe)
+      .then(console.log("Recipe Updated"));
+  };
+  handleClickEdit = () => {
+    this.setState({ thisFormState: "editingOrig" });
+  };
+  handleCancel = () => {
+    this.setState({ thisFormState: "viewing" });
+  };
   lockUnlockAdminMenus = () => {
     if (this.state.userType == "admin") {
       return <FontAwesomeIcon icon="fa-solid fa-lock-open" />;
@@ -80,18 +166,18 @@ class MealDetail extends Component {
       return (
         <div
           className="accordion accordionNotFlush"
-          id={"mealOuterAccordionFull" + this.state.thisMeal._id}
+          id={"mealOuterAccordionFull" + this.state.thisMealsId}
         >
           <div className="accordion-item accordionItemNotFlush">
             <h2
               className="accordion-header"
-              id={"mealOuterAccordionHeader" + this.state.thisMeal._id}
+              id={"mealOuterAccordionHeader" + this.state.thisMealsId}
             >
               <button
                 className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={"#mealOuterAccrdn" + this.state.thisMeal._id}
+                data-bs-target={"#mealOuterAccrdn" + this.state.thisMealsId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               >
@@ -105,13 +191,13 @@ class MealDetail extends Component {
           </div>
           <form>
             <div
-              id={"mealOuterAccrdn" + this.state.thisMeal._id}
+              id={"mealOuterAccrdn" + this.state.thisMealsId}
               className="accordion-collapse collapse show"
               aria-labelledby={
-                "#mealOuterAccordionHeader" + this.state.thisMeal._id
+                "#mealOuterAccordionHeader" + this.state.thisMealsId
               }
               data-bs-parent={
-                "#mealOuterAccordionFull" + this.state.thisMeal._id
+                "#mealOuterAccordionFull" + this.state.thisMealsId
               }
             >
               <div className="accordion-body wkDaysAccrdnBdy">
@@ -123,6 +209,9 @@ class MealDetail extends Component {
                         parentObj={"meal"}
                         userType={this.state.userType}
                         thisFormState={this.state.thisFormState}
+                        onSubmitFormChange={this.handleSubmitMealFormChange}
+                        onClickEdit={this.handleClickEdit}
+                        onCancel={this.handleCancel}
                       />
                     </div>
                     <hr />
@@ -131,7 +220,7 @@ class MealDetail extends Component {
                         <button
                           className="btn dropdown-toggle"
                           type="button"
-                          id={"mealEditDDownBttn" + this.state.thisMeal._id}
+                          id={"mealEditDDownBttn" + this.state.thisMealsId}
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
@@ -144,7 +233,7 @@ class MealDetail extends Component {
                         <ul
                           className="dropdown-menu"
                           aria-labelledby={
-                            "mealEditDDownBttn" + this.state.thisMeal._id
+                            "mealEditDDownBttn" + this.state.thisMealsId
                           }
                         >
                           <li>
@@ -218,6 +307,7 @@ class MealDetail extends Component {
                         disabled={
                           this.state.thisFormState == "viewing" ? true : false
                         }
+                        onChange={this.handleChangeMealRecipe}
                       >
                         {this.state.thisMealTypesGenRecipes.map(function (
                           genRecipe
@@ -234,13 +324,13 @@ class MealDetail extends Component {
                   <div className="card-body mealCardBody">
                     <div
                       className="accordion accordion-flush"
-                      id={"mealAdminAccordionFull" + this.state.thisMeal._id}
+                      id={"mealAdminAccordionFull" + this.state.thisMealsId}
                     >
                       <div className="accordion-item">
                         <h2
                           className="accordion-header"
                           id={
-                            "mealAdminAccordionHeader" + this.state.thisMeal._id
+                            "mealAdminAccordionHeader" + this.state.thisMealsId
                           }
                         >
                           <button
@@ -248,7 +338,7 @@ class MealDetail extends Component {
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target={
-                              "#mealAdminAccrdn" + this.state.thisMeal._id
+                              "#mealAdminAccrdn" + this.state.thisMealsId
                             }
                             aria-expanded="true"
                             aria-controls="collapseOne"
@@ -261,13 +351,13 @@ class MealDetail extends Component {
                         </h2>
                       </div>
                       <div
-                        id={"mealAdminAccrdn" + this.state.thisMeal._id}
+                        id={"mealAdminAccrdn" + this.state.thisMealsId}
                         className="accordion-collapse collapse"
                         aria-labelledby={
-                          "#mealAdminAccordionHeader" + this.state.thisMeal._id
+                          "#mealAdminAccordionHeader" + this.state.thisMealsId
                         }
                         data-bs-parent={
-                          "#mealAdminAccordionFull" + this.state.thisMeal._id
+                          "#mealAdminAccordionFull" + this.state.thisMealsId
                         }
                       >
                         <div className="accordion-body mealInnerAccordion">
@@ -277,12 +367,13 @@ class MealDetail extends Component {
                               ref="userInput"
                               required
                               className="form-control form-select"
-                              value={this.state.thisMeal.day.name}
+                              value={this.state.thisMealsDay}
                               disabled={
                                 this.state.thisFormState == "viewing"
                                   ? true
                                   : false
                               }
+                              onChange={this.handleChangeMealDay}
                             >
                               {this.state.allDays.map(function (day) {
                                 return (
@@ -299,12 +390,13 @@ class MealDetail extends Component {
                               ref="userInput"
                               required
                               className="form-control form-select"
-                              value={this.state.thisMeal.mealType}
+                              value={this.state.thisMealType}
                               disabled={
                                 this.state.thisFormState == "viewing"
                                   ? true
                                   : false
                               }
+                              onChange={this.handleChangeMealsType}
                             >
                               {this.state.allMealTypes.map(function (mealType) {
                                 return (
@@ -337,6 +429,9 @@ class MealDetail extends Component {
                           parentObj={"meal"}
                           userType={this.state.userType}
                           thisFormState={this.state.thisFormState}
+                          onSubmitFormChange={this.handleSubmitRecipeFormChange}
+                          onClickEdit={this.handleClickEdit}
+                          onCancel={this.handleCancel}
                         />
                       </div>
                       <div className="mealImgNTblRow">
@@ -350,23 +445,20 @@ class MealDetail extends Component {
                           disabled={
                             this.state.thisFormState == "viewing" ? true : false
                           }
-                        >
-                          {
-                            this.state.thisMeal.genRecipe
-                              .defaultPrepInstructions
-                          }
-                        </textarea>
+                          onChange={this.handleChangeRecipeInst}
+                          value={this.state.thisRecipesInst}
+                        ></textarea>
                       </div>
                       <div
                         className="accordion accordion-flush"
-                        id={"mealInnerAccordionFull" + this.state.thisMeal._id}
+                        id={"mealInnerAccordionFull" + this.state.thisMealsId}
                       >
                         <div className="accordion-item">
                           <h2
                             className="accordion-header"
                             id={
                               "mealInnerAccordionHeader" +
-                              this.state.thisMeal._id
+                              this.state.thisMealsId
                             }
                           >
                             <button
@@ -374,7 +466,7 @@ class MealDetail extends Component {
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target={
-                                "#mealInnerAccrdn" + this.state.thisMeal._id
+                                "#mealInnerAccrdn" + this.state.thisMealsId
                               }
                               aria-expanded="true"
                               aria-controls="collapseOne"
@@ -382,14 +474,13 @@ class MealDetail extends Component {
                           </h2>
                         </div>
                         <div
-                          id={"mealInnerAccrdn" + this.state.thisMeal._id}
+                          id={"mealInnerAccrdn" + this.state.thisMealsId}
                           className="accordion-collapse collapse"
                           aria-labelledby={
-                            "#mealInnerAccordionHeader" +
-                            this.state.thisMeal._id
+                            "#mealInnerAccordionHeader" + this.state.thisMealsId
                           }
                           data-bs-parent={
-                            "#mealInnerAccordionFull" + this.state.thisMeal._id
+                            "#mealInnerAccordionFull" + this.state.thisMealsId
                           }
                         >
                           <div className="accordion-body mealInnerAccordion">
@@ -403,7 +494,8 @@ class MealDetail extends Component {
                                     ? true
                                     : false
                                 }
-                                value={this.state.thisMeal.genRecipe.name}
+                                onChange={this.handleChangeThisRecipesName}
+                                value={this.state.thisRecipesName}
                               />
                             </div>
                             <div className="form-group">
@@ -416,7 +508,8 @@ class MealDetail extends Component {
                                     ? true
                                     : false
                                 }
-                                value={this.state.thisMeal.genRecipe.photoURL}
+                                onChange={this.handleChangeRecipePic}
+                                value={this.state.thisMealRecipePic}
                               />
                             </div>
                             <div className="form-group">
@@ -435,7 +528,7 @@ class MealDetail extends Component {
                             className="accordion accordion-flush"
                             id={
                               "genRecipeAdminAccordionFull" +
-                              this.state.thisMeal._id
+                              this.state.thisMealsId
                             }
                           >
                             <div className="accordion-item">
@@ -443,7 +536,7 @@ class MealDetail extends Component {
                                 className="accordion-header"
                                 id={
                                   "genRecipeAdminAccordionHeader" +
-                                  this.state.thisMeal._id
+                                  this.state.thisMealsId
                                 }
                               >
                                 <button
@@ -452,7 +545,7 @@ class MealDetail extends Component {
                                   data-bs-toggle="collapse"
                                   data-bs-target={
                                     "#genRecipeAdminAccrdn" +
-                                    this.state.thisMeal._id
+                                    this.state.thisMealsId
                                   }
                                   aria-expanded="true"
                                   aria-controls="collapseOne"
@@ -468,16 +561,16 @@ class MealDetail extends Component {
                             </div>
                             <div
                               id={
-                                "genRecipeAdminAccrdn" + this.state.thisMeal._id
+                                "genRecipeAdminAccrdn" + this.state.thisMealsId
                               }
                               className="accordion-collapse collapse"
                               aria-labelledby={
                                 "#genRecipeAdminAccordionHeader" +
-                                this.state.thisMeal._id
+                                this.state.thisMealsId
                               }
                               data-bs-parent={
                                 "#genRecipeAdminAccordionFull" +
-                                this.state.thisMeal._id
+                                this.state.thisMealsId
                               }
                             >
                               <div className="accordion-body mealInnerAccordion">
@@ -487,14 +580,14 @@ class MealDetail extends Component {
                                     ref="userInput"
                                     required
                                     className="form-control form-select"
-                                    value={
-                                      this.state.thisMeal.genRecipe
-                                        .availableMealType
-                                    }
+                                    value={this.state.thisRecipesMealType}
                                     disabled={
                                       this.state.thisFormState == "viewing"
                                         ? true
                                         : false
+                                    }
+                                    onChange={
+                                      this.handleChangeThisRecipesMealType
                                     }
                                   >
                                     {this.state.allMealTypes.map(function (
@@ -519,14 +612,14 @@ class MealDetail extends Component {
                                     ref="userInput"
                                     required
                                     className="form-control form-select"
-                                    value={
-                                      this.state.thisMeal.genRecipe.GRFUser
-                                        .handle
-                                    }
+                                    value={this.state.thisRecipesAuthor}
                                     disabled={
                                       this.state.thisFormState == "viewing"
                                         ? true
                                         : false
+                                    }
+                                    onChange={
+                                      this.handleChangeThisRecipesAuthor
                                     }
                                   >
                                     {this.state.allGRFUsers.map(function (
