@@ -240,7 +240,6 @@ export default class WeekMealPlanDetail extends Component {
       });
   };
   updateStateDayOnAdd = (dayData, dayOfWeek) => {
-    console.log(this);
     if (dayOfWeek == "Saturday") {
       this.setState({
         sat: dayData,

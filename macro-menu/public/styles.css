@@ -105,6 +105,7 @@ button.accordion-button {
   grid-template-areas:
     "mealImg mealPrepInst"
     "mealImg mealTextArea";
+  margin: -0.75px -0.75px auto -0.75px;
 }
 .mealImg {
   margin: 0;
@@ -170,4 +171,29 @@ button.accordion-button {
 .emptyAndNotAuthor {
   font-style: italic;
   margin: 1rem 1rem 1rem 2rem !important;
+}
+.mealDetailTopAccrdn div.accordion-flush {
+  margin-bottom: -1px !important;
+}
+.macroTblCntnr {
+  display: flex;
+  justify-content: center;
+}
+.macrosTable {
+  background-color: #fff;
+  border: solid 5px;
+  z-index: 999;
+}
+.macrosTable h4,
+.macrosTable h5 {
+  padding: 0;
+  margin: 0;
+}
+.macrosTable td,
+.macrosTable th {
+  font-size: 10pt;
+  padding: 0.2em 0.5em !important;
+}
+.mealMacrosTbl {
+  margin: 0.5rem 0.5rem 0 0.5rem !important;
 }

@@ -150,46 +150,64 @@ class DayDetail extends Component {
                 data-bs-parent={"#accordionFull" + this.state.thisDay._id}
               >
                 <div className="accordion-body">
-                  <table className="table table-bordered">
-                    <thead className="thead">
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Budget</th>
-                        <th scope="col">Current</th>
-                        <th scope="col">Remaining</th>
-                      </tr>
-                      <tr>
-                        <th scope="row">Calories</th>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Carbs</th>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Protein</th>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Fat</th>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Fiber</th>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                        <td>9999.99</td>
-                      </tr>
-                    </thead>
-                  </table>
+                  <div className="macroTblCntnr">
+                    <table className="table table-bordered macrosTable">
+                      <thead className="thead">
+                        <tr>
+                          <th colSpan={6} scope="col">
+                            <h4>Day Macros</h4>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th
+                            scope="col"
+                            className="perpendicularTextCell"
+                          ></th>
+                          <th scope="col" className="perpendicularTextCell">
+                            Cals
+                          </th>
+                          <th scope="col" className="perpendicularTextCell">
+                            Carbs
+                          </th>
+                          <th scope="col" className="perpendicularTextCell">
+                            Protein
+                          </th>
+                          <th scope="col" className="perpendicularTextCell">
+                            Fat
+                          </th>
+                          <th scope="col" className="perpendicularTextCell">
+                            Fiber
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">Bdgt</th>
+                          <td>9999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Crrnt</th>
+                          <td>9999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Left</th>
+                          <td>9999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                          <td>999.99</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <ul>
                     <li>Name:&nbsp;{this.state.thisDay.name}</li>
                     <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>

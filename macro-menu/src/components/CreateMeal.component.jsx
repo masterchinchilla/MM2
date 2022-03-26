@@ -15,6 +15,9 @@ class CreateMeal extends Component {
   componentDidMount() {
     this.loadData();
   }
+  getRndInteger = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
   loadData() {
     axios
       .get(
@@ -32,8 +35,7 @@ class CreateMeal extends Component {
             mealType: this.props.mealType,
             genRecipe: defaultGenRecipe,
           },
-          idForBSElements:
-            "create" + this.props.thisDay.dayOfWeek + this.props.mealType,
+          idForBSElements: this.getRndInteger(10000000, 99999999),
           dataHasLoaded: true,
         });
       });
