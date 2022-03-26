@@ -18,5 +18,11 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
         })
         .then(meals => res.json(meals))
         .catch(err => res.status(400).json('Error: ' + err));
-})
+});
+router.route('/add').post((req, res)=>{
+    const meal=new Meal(req.body);
+    meal.save()
+        .then(()=>res.json(meal))
+        .catch(err=>res.status(400).json('Error: '+err));
+});
 module.exports=router;

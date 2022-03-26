@@ -167,3 +167,7 @@ button.accordion-button {
   margin-bottom: -1px !important;
   border: solid 1px rgba(0, 0, 0, 0.03);
 }
+.emptyAndNotAuthor {
+  font-style: italic;
+  margin: 1rem 1rem 1rem 2rem !important;
+}

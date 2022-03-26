@@ -16,7 +16,7 @@ class DayDetail extends Component {
       weekMealPlanName: this.props.weekMealPlanName,
       thisId: this.props.thisDay._id,
       thisFormState: "viewing",
-      userType: "Author",
+      userType: "viewer",
       thisDaysMeals: [],
       breakfast: {},
       snack1: {},
@@ -78,9 +78,28 @@ class DayDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  renderMeal = (mealToRender) => {
+  handleCreateMeal = (meal) => {
+    const newMeal = {
+      day: meal.day._id,
+      genRecipe: meal.genRecipe._id,
+      mealType: meal.mealType,
+    };
+    axios.post("http://localhost:5000/meals/add", newMeal).then((response) => {
+      this.setState({
+        thisDaysMeals: this.state.thisDaysMeals.push(response.data),
+      });
+    });
+  };
+  renderMeal = (mealToRender, thisDay, mealType) => {
     if (mealToRender == undefined) {
-      return <CreateMeal />;
+      return (
+        <CreateMeal
+          thisDay={thisDay}
+          mealType={mealType}
+          onCreateMeal={this.handleCreateMeal}
+          dayUserType={this.state.userType}
+        />
+      );
     } else {
       return <MealDetail thisMeal={mealToRender} key={mealToRender._id} />;
     }
@@ -225,12 +244,36 @@ class DayDetail extends Component {
                           }
                         >
                           <div className="accordion-body wkDaysAccrdnBdy">
-                            {this.renderMeal(this.state.breakfast)}
-                            {this.renderMeal(this.state.snack1)}
-                            {this.renderMeal(this.state.lunch)}
-                            {this.renderMeal(this.state.snack2)}
-                            {this.renderMeal(this.state.dinner)}
-                            {this.renderMeal(this.state.dessert)}
+                            {this.renderMeal(
+                              this.state.breakfast,
+                              this.state.thisDay,
+                              "Breakfast"
+                            )}
+                            {this.renderMeal(
+                              this.state.snack1,
+                              this.state.thisDay,
+                              "Snack 1"
+                            )}
+                            {this.renderMeal(
+                              this.state.lunch,
+                              this.state.thisDay,
+                              "Lunch"
+                            )}
+                            {this.renderMeal(
+                              this.state.snack2,
+                              this.state.thisDay,
+                              "Snack 2"
+                            )}
+                            {this.renderMeal(
+                              this.state.dinner,
+                              this.state.thisDay,
+                              "Dinner"
+                            )}
+                            {this.renderMeal(
+                              this.state.dessert,
+                              this.state.thisDay,
+                              "Dessert"
+                            )}
                           </div>
                         </div>
                       </div>
