@@ -28,7 +28,7 @@ export default class WeekMealPlanDetail extends Component {
       GRFUser: "",
       thisWeeksDays: [],
       thisFormState: "viewing",
-      userType: "author",
+      userType: "admin",
       sun: {},
       mon: {},
       tues: {},
@@ -269,6 +269,7 @@ export default class WeekMealPlanDetail extends Component {
           dayOfWeekShort={dayOfWeekShort}
           thisFormState="missing"
           onCreateDay={this.handleCreateDay}
+          wmpUserType={this.state.userType}
         />
       );
     } else {

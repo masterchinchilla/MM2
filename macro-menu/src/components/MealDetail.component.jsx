@@ -16,7 +16,7 @@ class MealDetail extends Component {
       thisMealsDay: {},
       thisMealType: {},
       thisFormState: "viewing",
-      userType: "viewer",
+      userType: "admin",
       thisMealsMealIngrdnts: [],
       thisMealsGenRecipe: { name: "Cereal", id: 1 },
       thisMealTypesGenRecipes: [
@@ -189,34 +189,31 @@ class MealDetail extends Component {
               </button>
             </h2>
           </div>
-          <form>
-            <div
-              id={"mealOuterAccrdn" + this.state.thisMealsId}
-              className="accordion-collapse collapse show"
-              aria-labelledby={
-                "#mealOuterAccordionHeader" + this.state.thisMealsId
-              }
-              data-bs-parent={
-                "#mealOuterAccordionFull" + this.state.thisMealsId
-              }
-            >
-              <div className="accordion-body wkDaysAccrdnBdy">
-                <div className="card mt-3 mb-3">
-                  <div className="card-header mealCardHeader">
-                    <div className="mealGenRecipeSctnHdr">
-                      <h5 className="formSctnTitle">Meal</h5>
-                      <EditOptions
-                        parentObj={"meal"}
-                        userType={this.state.userType}
-                        thisFormState={this.state.thisFormState}
-                        onSubmitFormChange={this.handleSubmitMealFormChange}
-                        onClickEdit={this.handleClickEdit}
-                        onCancel={this.handleCancel}
-                      />
-                    </div>
-                    <hr />
-                    <div className="mealHeader">
-                      {/* <div className="dropdown mealEditDDown">
+          <div
+            id={"mealOuterAccrdn" + this.state.thisMealsId}
+            className="accordion-collapse collapse show"
+            aria-labelledby={
+              "#mealOuterAccordionHeader" + this.state.thisMealsId
+            }
+            data-bs-parent={"#mealOuterAccordionFull" + this.state.thisMealsId}
+          >
+            <div className="accordion-body wkDaysAccrdnBdy">
+              <form className="card mt-3 mb-3">
+                <div className="card-header mealCardHeader">
+                  <div className="mealGenRecipeSctnHdr">
+                    <h5 className="formSctnTitle">Meal</h5>
+                    <EditOptions
+                      parentObj={"meal"}
+                      userType={this.state.userType}
+                      thisFormState={this.state.thisFormState}
+                      onSubmitFormChange={this.handleSubmitMealFormChange}
+                      onClickEdit={this.handleClickEdit}
+                      onCancel={this.handleCancel}
+                    />
+                  </div>
+                  <hr />
+                  <div className="mealHeader">
+                    {/* <div className="dropdown mealEditDDown">
                         <button
                           className="btn dropdown-toggle"
                           type="button"
@@ -298,355 +295,349 @@ class MealDetail extends Component {
                           </li>
                         </ul>
                       </div> */}
-                      <h5 className="recipeSelectHeader">Recipe:</h5>
-                      <select
-                        ref="userInput"
-                        required
-                        className="form-control form-select recipeSelect"
-                        value={this.state.thisMealsGenRecipe}
+                    <h5 className="recipeSelectHeader">Recipe:</h5>
+                    <select
+                      ref="userInput"
+                      required
+                      className="form-control form-select recipeSelect"
+                      value={this.state.thisMealsGenRecipe}
+                      disabled={
+                        this.state.thisFormState == "viewing" ? true : false
+                      }
+                      onChange={this.handleChangeMealRecipe}
+                    >
+                      {this.state.thisMealTypesGenRecipes.map(function (
+                        genRecipe
+                      ) {
+                        return (
+                          <option key={genRecipe._id} value={genRecipe._id}>
+                            {genRecipe.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div className="card-body mealCardBody">
+                  <div
+                    className="accordion accordion-flush"
+                    id={"mealAdminAccordionFull" + this.state.thisMealsId}
+                  >
+                    <div className="accordion-item">
+                      <h2
+                        className="accordion-header"
+                        id={"mealAdminAccordionHeader" + this.state.thisMealsId}
+                      >
+                        <button
+                          className="accordion-button collapsed mealAdminAccrdnBttn"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={
+                            "#mealAdminAccrdn" + this.state.thisMealsId
+                          }
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                          disabled={
+                            this.state.userType == "admin" ? false : true
+                          }
+                        >
+                          {this.lockUnlockAdminMenus()}
+                        </button>
+                      </h2>
+                    </div>
+                    <div
+                      id={"mealAdminAccrdn" + this.state.thisMealsId}
+                      className="accordion-collapse collapse"
+                      aria-labelledby={
+                        "#mealAdminAccordionHeader" + this.state.thisMealsId
+                      }
+                      data-bs-parent={
+                        "#mealAdminAccordionFull" + this.state.thisMealsId
+                      }
+                    >
+                      <div className="accordion-body mealInnerAccordion">
+                        <div className="form-group">
+                          <label>Day</label>
+                          <select
+                            ref="userInput"
+                            required
+                            className="form-control form-select"
+                            value={this.state.thisMealsDay}
+                            disabled={
+                              this.state.thisFormState == "viewing"
+                                ? true
+                                : false
+                            }
+                            onChange={this.handleChangeMealDay}
+                          >
+                            {this.state.allDays.map(function (day) {
+                              return (
+                                <option key={day._id} value={day._id}>
+                                  {day.name}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label>Meal Type</label>
+                          <select
+                            ref="userInput"
+                            required
+                            className="form-control form-select"
+                            value={this.state.thisMealType}
+                            disabled={
+                              this.state.thisFormState == "viewing"
+                                ? true
+                                : false
+                            }
+                            onChange={this.handleChangeMealsType}
+                          >
+                            {this.state.allMealTypes.map(function (mealType) {
+                              return (
+                                <option
+                                  key={"allMealTypesListItem" + mealType}
+                                  value={mealType}
+                                >
+                                  {mealType}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label>Record ID</label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            value={this.state.thisMeal.day._id}
+                            disabled={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <form className="card mt-3 mb-3">
+                <div className="card-header mealCardHeader">
+                  <div className="mealGenRecipeSctnHdr">
+                    <h5 className="formSctnTitle">Recipe</h5>
+                    <EditOptions
+                      parentObj={"genRecipe"}
+                      userType={this.state.userType}
+                      thisFormState={this.state.thisFormState}
+                      onSubmitFormChange={this.handleSubmitRecipeFormChange}
+                      onClickEdit={this.handleClickEdit}
+                      onCancel={this.handleCancel}
+                    />
+                  </div>
+                </div>
+                <div className="card-body mealCardBody">
+                  <div className="mealGenRecipeFormSctn">
+                    <div className="mealImgNTblRow">
+                      <img
+                        className="mealImg"
+                        src={this.state.thisMeal.genRecipe.photoURL}
+                      />
+                      <h6 className="mealPrepInst">Prep Instructions:</h6>
+                      <textarea
+                        className="form-control mealTextArea"
                         disabled={
                           this.state.thisFormState == "viewing" ? true : false
                         }
-                        onChange={this.handleChangeMealRecipe}
-                      >
-                        {this.state.thisMealTypesGenRecipes.map(function (
-                          genRecipe
-                        ) {
-                          return (
-                            <option key={genRecipe._id} value={genRecipe._id}>
-                              {genRecipe.name}
-                            </option>
-                          );
-                        })}
-                      </select>
+                        onChange={this.handleChangeRecipeInst}
+                        value={this.state.thisRecipesInst}
+                      ></textarea>
                     </div>
-                  </div>
-                  <div className="card-body mealCardBody">
                     <div
                       className="accordion accordion-flush"
-                      id={"mealAdminAccordionFull" + this.state.thisMealsId}
+                      id={"mealInnerAccordionFull" + this.state.thisMealsId}
                     >
                       <div className="accordion-item">
                         <h2
                           className="accordion-header"
                           id={
-                            "mealAdminAccordionHeader" + this.state.thisMealsId
+                            "mealInnerAccordionHeader" + this.state.thisMealsId
                           }
                         >
                           <button
-                            className="accordion-button collapsed mealAdminAccrdnBttn"
+                            className="accordion-button collapsed mealInnerAccrdnBttn"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target={
-                              "#mealAdminAccrdn" + this.state.thisMealsId
+                              "#mealInnerAccrdn" + this.state.thisMealsId
                             }
                             aria-expanded="true"
                             aria-controls="collapseOne"
-                            disabled={
-                              this.state.userType == "admin" ? false : true
-                            }
-                          >
-                            {this.lockUnlockAdminMenus()}
-                          </button>
+                          ></button>
                         </h2>
                       </div>
                       <div
-                        id={"mealAdminAccrdn" + this.state.thisMealsId}
+                        id={"mealInnerAccrdn" + this.state.thisMealsId}
                         className="accordion-collapse collapse"
                         aria-labelledby={
-                          "#mealAdminAccordionHeader" + this.state.thisMealsId
+                          "#mealInnerAccordionHeader" + this.state.thisMealsId
                         }
                         data-bs-parent={
-                          "#mealAdminAccordionFull" + this.state.thisMealsId
+                          "#mealInnerAccordionFull" + this.state.thisMealsId
                         }
                       >
                         <div className="accordion-body mealInnerAccordion">
                           <div className="form-group">
-                            <label>Day</label>
-                            <select
-                              ref="userInput"
-                              required
-                              className="form-control form-select"
-                              value={this.state.thisMealsDay}
-                              disabled={
-                                this.state.thisFormState == "viewing"
-                                  ? true
-                                  : false
-                              }
-                              onChange={this.handleChangeMealDay}
-                            >
-                              {this.state.allDays.map(function (day) {
-                                return (
-                                  <option key={day._id} value={day._id}>
-                                    {day.name}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-                          <div className="form-group">
-                            <label>Meal Type</label>
-                            <select
-                              ref="userInput"
-                              required
-                              className="form-control form-select"
-                              value={this.state.thisMealType}
-                              disabled={
-                                this.state.thisFormState == "viewing"
-                                  ? true
-                                  : false
-                              }
-                              onChange={this.handleChangeMealsType}
-                            >
-                              {this.state.allMealTypes.map(function (mealType) {
-                                return (
-                                  <option
-                                    key={"allMealTypesListItem" + mealType}
-                                    value={mealType}
-                                  >
-                                    {mealType}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-                          <div className="form-group">
-                            <label>Record ID</label>
+                            <label>Name</label>
                             <input
                               className="form-control"
                               type="text"
-                              value={this.state.thisMeal.day._id}
+                              disabled={
+                                this.state.thisFormState == "viewing"
+                                  ? true
+                                  : false
+                              }
+                              onChange={this.handleChangeThisRecipesName}
+                              value={this.state.thisRecipesName}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Img URL</label>
+                            <input
+                              className="form-control"
+                              type="text"
+                              disabled={
+                                this.state.thisFormState == "viewing"
+                                  ? true
+                                  : false
+                              }
+                              onChange={this.handleChangeRecipePic}
+                              value={this.state.thisMealRecipePic}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Author</label>
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={
+                                this.state.thisMeal.genRecipe.GRFUser.handle
+                              }
                               disabled={true}
                             />
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="mealGenRecipeFormSctn">
-                      <div className="mealGenRecipeSctnHdr">
-                        <h5 className="formSctnTitle">Recipe</h5>
-                        <EditOptions
-                          parentObj={"meal"}
-                          userType={this.state.userType}
-                          thisFormState={this.state.thisFormState}
-                          onSubmitFormChange={this.handleSubmitRecipeFormChange}
-                          onClickEdit={this.handleClickEdit}
-                          onCancel={this.handleCancel}
-                        />
-                      </div>
-                      <div className="mealImgNTblRow">
-                        <img
-                          className="mealImg"
-                          src={this.state.thisMeal.genRecipe.photoURL}
-                        />
-                        <h6 className="mealPrepInst">Prep Instructions:</h6>
-                        <textarea
-                          className="form-control mealTextArea"
-                          disabled={
-                            this.state.thisFormState == "viewing" ? true : false
-                          }
-                          onChange={this.handleChangeRecipeInst}
-                          value={this.state.thisRecipesInst}
-                        ></textarea>
-                      </div>
-                      <div
-                        className="accordion accordion-flush"
-                        id={"mealInnerAccordionFull" + this.state.thisMealsId}
-                      >
-                        <div className="accordion-item">
-                          <h2
-                            className="accordion-header"
-                            id={
-                              "mealInnerAccordionHeader" +
-                              this.state.thisMealsId
-                            }
-                          >
-                            <button
-                              className="accordion-button collapsed mealInnerAccrdnBttn"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target={
-                                "#mealInnerAccrdn" + this.state.thisMealsId
-                              }
-                              aria-expanded="true"
-                              aria-controls="collapseOne"
-                            ></button>
-                          </h2>
-                        </div>
                         <div
-                          id={"mealInnerAccrdn" + this.state.thisMealsId}
-                          className="accordion-collapse collapse"
-                          aria-labelledby={
-                            "#mealInnerAccordionHeader" + this.state.thisMealsId
-                          }
-                          data-bs-parent={
-                            "#mealInnerAccordionFull" + this.state.thisMealsId
+                          className="accordion accordion-flush"
+                          id={
+                            "genRecipeAdminAccordionFull" +
+                            this.state.thisMealsId
                           }
                         >
-                          <div className="accordion-body mealInnerAccordion">
-                            <div className="form-group">
-                              <label>Name</label>
-                              <input
-                                className="form-control"
-                                type="text"
-                                disabled={
-                                  this.state.thisFormState == "viewing"
-                                    ? true
-                                    : false
-                                }
-                                onChange={this.handleChangeThisRecipesName}
-                                value={this.state.thisRecipesName}
-                              />
-                            </div>
-                            <div className="form-group">
-                              <label>Img URL</label>
-                              <input
-                                className="form-control"
-                                type="text"
-                                disabled={
-                                  this.state.thisFormState == "viewing"
-                                    ? true
-                                    : false
-                                }
-                                onChange={this.handleChangeRecipePic}
-                                value={this.state.thisMealRecipePic}
-                              />
-                            </div>
-                            <div className="form-group">
-                              <label>Author</label>
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={
-                                  this.state.thisMeal.genRecipe.GRFUser.handle
-                                }
-                                disabled={true}
-                              />
-                            </div>
-                          </div>
-                          <div
-                            className="accordion accordion-flush"
-                            id={
-                              "genRecipeAdminAccordionFull" +
-                              this.state.thisMealsId
-                            }
-                          >
-                            <div className="accordion-item">
-                              <h2
-                                className="accordion-header"
-                                id={
-                                  "genRecipeAdminAccordionHeader" +
-                                  this.state.thisMealsId
-                                }
-                              >
-                                <button
-                                  className="accordion-button collapsed mealAdminAccrdnBttn"
-                                  type="button"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target={
-                                    "#genRecipeAdminAccrdn" +
-                                    this.state.thisMealsId
-                                  }
-                                  aria-expanded="true"
-                                  aria-controls="collapseOne"
-                                  disabled={
-                                    this.state.userType == "admin"
-                                      ? false
-                                      : true
-                                  }
-                                >
-                                  {this.lockUnlockAdminMenus()}
-                                </button>
-                              </h2>
-                            </div>
-                            <div
+                          <div className="accordion-item">
+                            <h2
+                              className="accordion-header"
                               id={
-                                "genRecipeAdminAccrdn" + this.state.thisMealsId
-                              }
-                              className="accordion-collapse collapse"
-                              aria-labelledby={
-                                "#genRecipeAdminAccordionHeader" +
-                                this.state.thisMealsId
-                              }
-                              data-bs-parent={
-                                "#genRecipeAdminAccordionFull" +
+                                "genRecipeAdminAccordionHeader" +
                                 this.state.thisMealsId
                               }
                             >
-                              <div className="accordion-body mealInnerAccordion">
-                                <div className="form-group">
-                                  <label>Meal Type</label>
-                                  <select
-                                    ref="userInput"
-                                    required
-                                    className="form-control form-select"
-                                    value={this.state.thisRecipesMealType}
-                                    disabled={
-                                      this.state.thisFormState == "viewing"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={
-                                      this.handleChangeThisRecipesMealType
-                                    }
-                                  >
-                                    {this.state.allMealTypes.map(function (
-                                      mealType
-                                    ) {
-                                      return (
-                                        <option
-                                          key={
-                                            "allMealTypesListItem" + mealType
-                                          }
-                                          value={mealType}
-                                        >
-                                          {mealType}
-                                        </option>
-                                      );
-                                    })}
-                                  </select>
-                                </div>
-                                <div className="form-group">
-                                  <label>Author</label>
-                                  <select
-                                    ref="userInput"
-                                    required
-                                    className="form-control form-select"
-                                    value={this.state.thisRecipesAuthor}
-                                    disabled={
-                                      this.state.thisFormState == "viewing"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={
-                                      this.handleChangeThisRecipesAuthor
-                                    }
-                                  >
-                                    {this.state.allGRFUsers.map(function (
-                                      GRFUser
-                                    ) {
-                                      return (
-                                        <option
-                                          key={
-                                            "allGRFUsersListItem" + GRFUser._id
-                                          }
-                                          value={GRFUser._id}
-                                        >
-                                          {GRFUser.handle}
-                                        </option>
-                                      );
-                                    })}
-                                  </select>
-                                </div>
-                                <div className="form-group">
-                                  <label>Record ID</label>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    value={this.state.thisMeal.genRecipe._id}
-                                    disabled={true}
-                                  />
-                                </div>
+                              <button
+                                className="accordion-button collapsed mealAdminAccrdnBttn"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={
+                                  "#genRecipeAdminAccrdn" +
+                                  this.state.thisMealsId
+                                }
+                                aria-expanded="true"
+                                aria-controls="collapseOne"
+                                disabled={
+                                  this.state.userType == "admin" ? false : true
+                                }
+                              >
+                                {this.lockUnlockAdminMenus()}
+                              </button>
+                            </h2>
+                          </div>
+                          <div
+                            id={"genRecipeAdminAccrdn" + this.state.thisMealsId}
+                            className="accordion-collapse collapse"
+                            aria-labelledby={
+                              "#genRecipeAdminAccordionHeader" +
+                              this.state.thisMealsId
+                            }
+                            data-bs-parent={
+                              "#genRecipeAdminAccordionFull" +
+                              this.state.thisMealsId
+                            }
+                          >
+                            <div className="accordion-body mealInnerAccordion">
+                              <div className="form-group">
+                                <label>Meal Type</label>
+                                <select
+                                  ref="userInput"
+                                  required
+                                  className="form-control form-select"
+                                  value={this.state.thisRecipesMealType}
+                                  disabled={
+                                    this.state.thisFormState == "viewing"
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={
+                                    this.handleChangeThisRecipesMealType
+                                  }
+                                >
+                                  {this.state.allMealTypes.map(function (
+                                    mealType
+                                  ) {
+                                    return (
+                                      <option
+                                        key={"allMealTypesListItem" + mealType}
+                                        value={mealType}
+                                      >
+                                        {mealType}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                              </div>
+                              <div className="form-group">
+                                <label>Author</label>
+                                <select
+                                  ref="userInput"
+                                  required
+                                  className="form-control form-select"
+                                  value={this.state.thisRecipesAuthor}
+                                  disabled={
+                                    this.state.thisFormState == "viewing"
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={this.handleChangeThisRecipesAuthor}
+                                >
+                                  {this.state.allGRFUsers.map(function (
+                                    GRFUser
+                                  ) {
+                                    return (
+                                      <option
+                                        key={
+                                          "allGRFUsersListItem" + GRFUser._id
+                                        }
+                                        value={GRFUser._id}
+                                      >
+                                        {GRFUser.handle}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                              </div>
+                              <div className="form-group">
+                                <label>Record ID</label>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  value={this.state.thisMeal.genRecipe._id}
+                                  disabled={true}
+                                />
                               </div>
                             </div>
                           </div>
@@ -655,9 +646,9 @@ class MealDetail extends Component {
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       );
     } else {

@@ -16,7 +16,7 @@ class DayDetail extends Component {
       weekMealPlanName: this.props.weekMealPlanName,
       thisId: this.props.thisDay._id,
       thisFormState: "viewing",
-      userType: "viewer",
+      userType: "admin",
       thisDaysMeals: [],
       breakfast: {},
       snack1: {},

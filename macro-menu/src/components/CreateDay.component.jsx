@@ -21,7 +21,8 @@ export default class CreateDay extends Component {
       days: [],
       weekMealPlanId: this.props.weekMealPlanId,
       name: this.props.weekMealPlanName + " - " + this.props.dayOfWeek,
-      userIsAuthor: true,
+      userType: "author",
+      wmpUserType: this.props.wmpUserType,
       thisFormState: "missing",
     };
   }
@@ -57,6 +58,27 @@ export default class CreateDay extends Component {
       name: e.target.value,
     });
   }
+  renderDayForm = () => {
+    if (this.state.wmpUserType == "viewer") {
+      return <div className="emptyAndNotAuthor">No Day Added...</div>;
+    } else {
+      return (
+        <form
+          onSubmit={() => {
+            this.props.onCreateDay(this.state.dayOfWeek);
+          }}
+        >
+          <div className="form-group mt-4 mb-4">
+            <input
+              type="submit"
+              value="Create Day"
+              className="btn btn-primary"
+            />
+          </div>
+        </form>
+      );
+    }
+  };
   render() {
     return (
       <div className="card mt-3 mb-3">
@@ -115,21 +137,7 @@ export default class CreateDay extends Component {
                   this.state.dayOfWeek
                 }
               >
-                <div className="accordion-body">
-                  <form
-                    onSubmit={() => {
-                      this.props.onCreateDay(this.state.dayOfWeek);
-                    }}
-                  >
-                    <div className="form-group mt-4 mb-4">
-                      <input
-                        type="submit"
-                        value="Create Day"
-                        className="btn btn-primary"
-                      />
-                    </div>
-                  </form>
-                </div>
+                <div className="accordion-body">{this.renderDayForm()}</div>
               </div>
             </div>
           </div>
