@@ -24,21 +24,119 @@ class DayDetail extends Component {
       snack2: {},
       dinner: {},
       dessert: {},
-      calsBudget: 0,
-      carbsBudget: 0,
-      proteinBudget: 0,
-      fatBudget: 0,
-      fiberBudget: 0,
-      calsCurrent: 0,
-      carbsCurrent: 0,
-      proteinCurrent: 0,
-      fatCurrent: 0,
-      fiberCurrent: 0,
-      calsRemaining: 0,
-      carbsRemaining: 0,
-      proteinRemaining: 0,
-      fatRemaining: 0,
-      fiberRemaining: 0,
+      macrosBudget: this.props.macrosBudget,
+      mealsWeighting: this.props.mealsWeighting,
+      macrosCurrent: {},
+      mealMacrosCurrent: {
+        breakfastMacrosCurrent: {
+          cals: 0,
+        },
+      },
+      macrosRemaining: {},
+      mealMacrosBudget: {
+        breakfastMacrosBudget: {
+          cals:
+            this.props.macrosBudget.calsBudget *
+            (this.props.mealsWeighting.breakfastWeight / 100),
+          carbs:
+            this.props.macrosBudget.carbsBudget *
+            (this.props.mealsWeighting.breakfastWeight / 100),
+          protein:
+            this.props.macrosBudget.proteinBudget *
+            (this.props.mealsWeighting.breakfastWeight / 100),
+          fat:
+            this.props.macrosBudget.fatBudget *
+            (this.props.mealsWeighting.breakfastWeight / 100),
+          fiber:
+            this.props.macrosBudget.fiberBudget *
+            (this.props.mealsWeighting.breakfastWeight / 100),
+        },
+        snack1MacrosBudget: {
+          cals:
+            this.props.macrosBudget.calsBudget *
+            (this.props.mealsWeighting.snack1Weight / 100),
+          carbs:
+            this.props.macrosBudget.carbsBudget *
+            (this.props.mealsWeighting.snack1Weight / 100),
+          protein:
+            this.props.macrosBudget.proteinBudget *
+            (this.props.mealsWeighting.snack1Weight / 100),
+          fat:
+            this.props.macrosBudget.fatBudget *
+            (this.props.mealsWeighting.snack1Weight / 100),
+          fiber:
+            this.props.macrosBudget.fiberBudget *
+            (this.props.mealsWeighting.snack1Weight / 100),
+        },
+        lunchMacrosBudget: {
+          cals:
+            this.props.macrosBudget.calsBudget *
+            (this.props.mealsWeighting.lunchWeight / 100),
+          carbs:
+            this.props.macrosBudget.carbsBudget *
+            (this.props.mealsWeighting.lunchWeight / 100),
+          protein:
+            this.props.macrosBudget.proteinBudget *
+            (this.props.mealsWeighting.lunchWeight / 100),
+          fat:
+            this.props.macrosBudget.fatBudget *
+            (this.props.mealsWeighting.lunchWeight / 100),
+          fiber:
+            this.props.macrosBudget.fiberBudget *
+            (this.props.mealsWeighting.lunchWeight / 100),
+        },
+        snack2MacrosBudget: {
+          cals:
+            this.props.macrosBudget.calsBudget *
+            (this.props.mealsWeighting.snack2Weight / 100),
+          carbs:
+            this.props.macrosBudget.carbsBudget *
+            (this.props.mealsWeighting.snack2Weight / 100),
+          protein:
+            this.props.macrosBudget.proteinBudget *
+            (this.props.mealsWeighting.snack2Weight / 100),
+          fat:
+            this.props.macrosBudget.fatBudget *
+            (this.props.mealsWeighting.snack2Weight / 100),
+          fiber:
+            this.props.macrosBudget.fiberBudget *
+            (this.props.mealsWeighting.snack2Weight / 100),
+        },
+        dinnerMacrosBudget: {
+          cals:
+            this.props.macrosBudget.calsBudget *
+            (this.props.mealsWeighting.dinnerWeight / 100),
+          carbs:
+            this.props.macrosBudget.carbsBudget *
+            (this.props.mealsWeighting.dinnerWeight / 100),
+          protein:
+            this.props.macrosBudget.proteinBudget *
+            (this.props.mealsWeighting.dinnerWeight / 100),
+          fat:
+            this.props.macrosBudget.fatBudget *
+            (this.props.mealsWeighting.dinnerWeight / 100),
+          fiber:
+            this.props.macrosBudget.fiberBudget *
+            (this.props.mealsWeighting.dinnerWeight / 100),
+        },
+        dessertMacrosBudget: {
+          cals:
+            this.props.macrosBudget.calsBudget *
+            (this.props.mealsWeighting.dessertWeight / 100),
+          carbs:
+            this.props.macrosBudget.carbsBudget *
+            (this.props.mealsWeighting.dessertWeight / 100),
+          protein:
+            this.props.macrosBudget.proteinBudget *
+            (this.props.mealsWeighting.dessertWeight / 100),
+          fat:
+            this.props.macrosBudget.fatBudget *
+            (this.props.mealsWeighting.dessertWeight / 100),
+          fiber:
+            this.props.macrosBudget.fiberBudget *
+            (this.props.mealsWeighting.dessertWeight / 100),
+        },
+      },
     };
   }
   componentDidMount() {
@@ -90,7 +188,23 @@ class DayDetail extends Component {
       });
     });
   };
-  renderMeal = (mealToRender, thisDay, mealType) => {
+  totalCurrentMacrosMethod = (thisMealsMealIngredients, mealType) => {
+    let mealMacrosCurrent = this.state.mealMacrosCurrent;
+    let i = 0;
+    for (i; i < thisMealsMealIngredients.length; i++) {
+      switch (mealType) {
+        case "Breakfast":
+          mealMacrosCurrent.breakfastMacrosCurrent.cals =
+            this.state.mealMacrosCurrent.breakfastMacrosCurrent.cals +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.calories;
+          this.setState({
+            mealMacrosCurrent: mealMacrosCurrent,
+          });
+          break;
+      }
+    }
+  };
+  renderMeal = (mealToRender, thisDay, mealType, thisMealsMacrosBudget) => {
     if (mealToRender == undefined) {
       return (
         <CreateMeal
@@ -101,7 +215,17 @@ class DayDetail extends Component {
         />
       );
     } else {
-      return <MealDetail thisMeal={mealToRender} key={mealToRender._id} />;
+      return (
+        <MealDetail
+          thisMeal={mealToRender}
+          key={mealToRender._id}
+          thisMealsMacrosBudget={thisMealsMacrosBudget}
+          totalCurrentMacrosMethod={this.totalCurrentMacrosMethod}
+          thisMealsMacrosCurrent={
+            this.state.mealMacrosCurrent.breakfastMacrosCurrent
+          }
+        />
+      );
     }
   };
   render() {
@@ -183,11 +307,11 @@ class DayDetail extends Component {
                       <tbody>
                         <tr>
                           <th scope="row">Bdgt</th>
-                          <td>9999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
+                          <td>{this.state.macrosBudget.calsBudget}</td>
+                          <td>{this.state.macrosBudget.carbsBudget}</td>
+                          <td>{this.state.macrosBudget.proteinBudget}</td>
+                          <td>{this.state.macrosBudget.fatBudget}</td>
+                          <td>{this.state.macrosBudget.fiberBudget}</td>
                         </tr>
                         <tr>
                           <th scope="row">Crrnt</th>
@@ -265,32 +389,38 @@ class DayDetail extends Component {
                             {this.renderMeal(
                               this.state.breakfast,
                               this.state.thisDay,
-                              "Breakfast"
+                              "Breakfast",
+                              this.state.mealMacrosBudget.breakfastMacrosBudget
                             )}
                             {this.renderMeal(
                               this.state.snack1,
                               this.state.thisDay,
-                              "Snack 1"
+                              "Snack 1",
+                              this.state.mealMacrosBudget.snack1MacrosBudget
                             )}
                             {this.renderMeal(
                               this.state.lunch,
                               this.state.thisDay,
-                              "Lunch"
+                              "Lunch",
+                              this.state.mealMacrosBudget.lunchMacrosBudget
                             )}
                             {this.renderMeal(
                               this.state.snack2,
                               this.state.thisDay,
-                              "Snack 2"
+                              "Snack 2",
+                              this.state.mealMacrosBudget.snack2MacrosBudget
                             )}
                             {this.renderMeal(
                               this.state.dinner,
                               this.state.thisDay,
-                              "Dinner"
+                              "Dinner",
+                              this.state.mealMacrosBudget.dinnerMacrosBudget
                             )}
                             {this.renderMeal(
                               this.state.dessert,
                               this.state.thisDay,
-                              "Dessert"
+                              "Dessert",
+                              this.state.mealMacrosBudget.dessertMacrosBudget
                             )}
                           </div>
                         </div>

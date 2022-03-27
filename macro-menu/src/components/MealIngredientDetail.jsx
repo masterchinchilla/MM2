@@ -5,9 +5,7 @@ class MealIngredientDetail extends Component {
     this.state = {
       thisMealIngredient: this.props.thisMealIngredient,
     };
-    console.log(this.state.thisMealIngredient);
   }
-
   render() {
     return (
       <div>
@@ -151,6 +149,61 @@ class MealIngredientDetail extends Component {
                 value={
                   this.state.thisMealIngredient.genRecipeIngredient.ingredient
                     .GRFUser.handle
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Calories:</label>
+              <input
+                type={"text"}
+                className="form-control"
+                value={
+                  this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                    .calories
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Carbs:</label>
+              <input
+                type={"text"}
+                className="form-control"
+                value={
+                  this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                    .carbs
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Protein:</label>
+              <input
+                type={"text"}
+                className="form-control"
+                value={
+                  this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                    .protein
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Fat:</label>
+              <input
+                type={"text"}
+                className="form-control"
+                value={
+                  this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                    .fat
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Fiber:</label>
+              <input
+                type={"text"}
+                className="form-control"
+                value={
+                  this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                    .fiber
                 }
               />
             </div>

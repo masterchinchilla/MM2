@@ -41,6 +41,14 @@ class MealDetail extends Component {
       ],
       allGRFUsers: [],
       allDays: [],
+      thisMealsMacrosBudget: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
     };
   }
   componentDidMount() {
@@ -67,6 +75,7 @@ class MealDetail extends Component {
           thisRecipesMealType: this.props.thisMeal.genRecipe.availableMealType,
           thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
           thisMealTypesGenRecipesLoaded: true,
+          thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
         });
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
@@ -87,14 +96,23 @@ class MealDetail extends Component {
           this.props.thisMeal._id
       )
       .then((response) => {
+        this.props.totalCurrentMacrosMethod(
+          response.data,
+          this.props.thisMeal.mealType
+        );
         this.setState({
           thisMealsMealIngrdnts: response.data.map(
             (mealIngredient) => mealIngredient
           ),
           mealsMealIngrdntsLoaded: true,
         });
-        console.log(this.state);
       });
+    // .then(
+    //   this.props.totalCurrentMacrosMethod(
+    //     this.state.thisMealsMealIngrdnts,
+    //     this.state.thisMealType
+    //   )
+    // );
   }
   handleChangeMealRecipe = (e) => {
     this.setState({
@@ -244,15 +262,15 @@ class MealDetail extends Component {
                 <tbody>
                   <tr>
                     <th scope="row">Bdgt</th>
-                    <td>9999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
+                    <td>{this.state.thisMealsMacrosBudget.cals}</td>
+                    <td>{this.state.thisMealsMacrosBudget.carbs}</td>
+                    <td>{this.state.thisMealsMacrosBudget.protein}</td>
+                    <td>{this.state.thisMealsMacrosBudget.fat}</td>
+                    <td>{this.state.thisMealsMacrosBudget.fiber}</td>
                   </tr>
                   <tr>
                     <th scope="row">Crrnt</th>
-                    <td>9999.99</td>
+                    <td>{this.state.thisMealsMacrosCurrent.cals}</td>
                     <td>999.99</td>
                     <td>999.99</td>
                     <td>999.99</td>

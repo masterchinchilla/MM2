@@ -36,6 +36,7 @@ export default class WeekMealPlanDetail extends Component {
       thurs: {},
       fri: {},
       sat: {},
+      macrosBudget: { cals: 0, carbs: 0, protein: 0, fat: 0, fiber: 0 },
       breakfastWeight: 0,
       snack1Weight: 0,
       lunchWeight: 0,
@@ -190,8 +191,7 @@ export default class WeekMealPlanDetail extends Component {
         "http://localhost:5000/weekMealPlans/update/" + weekMealPlan.id,
         weekMealPlan
       )
-      .then(console.log("updated"))
-      .then((window.location = "/"));
+      .then(console.log("updated"));
   };
   handleClickCopy = () => {
     console.log("Clicked Copy");
@@ -278,6 +278,21 @@ export default class WeekMealPlanDetail extends Component {
           weekMealPlanName={this.state.name}
           onDeleteDay={this.handleDeleteDay}
           key={dayToRender._id}
+          macrosBudget={{
+            calsBudget: this.state.calsBudget,
+            carbsBudget: this.state.carbsBudget,
+            proteinBudget: this.state.proteinBudget,
+            fatBudget: this.state.fatBudget,
+            fiberBudget: this.state.fiberBudget,
+          }}
+          mealsWeighting={{
+            breakfastWeight: this.state.breakfastWeight,
+            snack1Weight: this.state.snack1Weight,
+            lunchWeight: this.state.lunchWeight,
+            snack2Weight: this.state.snack2Weight,
+            dinnerWeight: this.state.dinnerWeight,
+            dessertWeight: this.state.dessertWeight,
+          }}
         />
       );
     }
