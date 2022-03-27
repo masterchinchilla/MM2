@@ -271,10 +271,10 @@ class MealDetail extends Component {
                   <tr>
                     <th scope="row">Crrnt</th>
                     <td>{this.state.thisMealsMacrosCurrent.cals}</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
+                    <td>{this.state.thisMealsMacrosCurrent.carbs}</td>
+                    <td>{this.state.thisMealsMacrosCurrent.protein}</td>
+                    <td>{this.state.thisMealsMacrosCurrent.fat}</td>
+                    <td>{this.state.thisMealsMacrosCurrent.fiber}</td>
                   </tr>
                   <tr>
                     <th scope="row">Left</th>

@@ -26,10 +26,55 @@ class DayDetail extends Component {
       dessert: {},
       macrosBudget: this.props.macrosBudget,
       mealsWeighting: this.props.mealsWeighting,
-      macrosCurrent: {},
+      macrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
       mealMacrosCurrent: {
         breakfastMacrosCurrent: {
           cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        snack1MacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        lunchMacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        snack2MacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        dinnerMacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        dessertMacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
         },
       },
       macrosRemaining: {},
@@ -190,13 +235,167 @@ class DayDetail extends Component {
   };
   totalCurrentMacrosMethod = (thisMealsMealIngredients, mealType) => {
     let mealMacrosCurrent = this.state.mealMacrosCurrent;
+    let macrosCurrent = this.state.macrosCurrent;
     let i = 0;
     for (i; i < thisMealsMealIngredients.length; i++) {
+      console.log(mealMacrosCurrent.breakfastMacrosCurrent);
       switch (mealType) {
         case "Breakfast":
           mealMacrosCurrent.breakfastMacrosCurrent.cals =
             this.state.mealMacrosCurrent.breakfastMacrosCurrent.cals +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.calories;
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+              .calories *
+              thisMealsMealIngredients[i].qty;
+          macrosCurrent.cals =
+            this.state.macrosCurrent.cals +
+            mealMacrosCurrent.breakfastMacrosCurrent.cals;
+          mealMacrosCurrent.breakfastMacrosCurrent.carbs =
+            this.state.mealMacrosCurrent.breakfastMacrosCurrent.carbs +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.breakfastMacrosCurrent.protein =
+            this.state.mealMacrosCurrent.breakfastMacrosCurrent.protein +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.breakfastMacrosCurrent.fat =
+            this.state.mealMacrosCurrent.breakfastMacrosCurrent.fat +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.breakfastMacrosCurrent.fiber =
+            this.state.mealMacrosCurrent.breakfastMacrosCurrent.fiber +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+              thisMealsMealIngredients[i].qty;
+          this.setState({
+            mealMacrosCurrent: mealMacrosCurrent,
+            macrosCurrent: macrosCurrent,
+          });
+          break;
+        case "Snack 1":
+          mealMacrosCurrent.snack1MacrosCurrent.cals =
+            this.state.mealMacrosCurrent.snack1MacrosCurrent.cals +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+              .calories *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack1MacrosCurrent.carbs =
+            this.state.mealMacrosCurrent.snack1MacrosCurrent.carbs +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack1MacrosCurrent.protein =
+            this.state.mealMacrosCurrent.snack1MacrosCurrent.protein +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack1MacrosCurrent.fat =
+            this.state.mealMacrosCurrent.snack1MacrosCurrent.fat +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack1MacrosCurrent.fiber =
+            this.state.mealMacrosCurrent.snack1MacrosCurrent.fiber +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+              thisMealsMealIngredients[i].qty;
+          this.setState({
+            mealMacrosCurrent: mealMacrosCurrent,
+          });
+          break;
+        case "Lunch":
+          mealMacrosCurrent.lunchMacrosCurrent.cals =
+            this.state.mealMacrosCurrent.lunchMacrosCurrent.cals +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+              .calories *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.lunchMacrosCurrent.carbs =
+            this.state.mealMacrosCurrent.lunchMacrosCurrent.carbs +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.lunchMacrosCurrent.protein =
+            this.state.mealMacrosCurrent.lunchMacrosCurrent.protein +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.lunchMacrosCurrent.fat =
+            this.state.mealMacrosCurrent.lunchMacrosCurrent.fat +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.lunchMacrosCurrent.fiber =
+            this.state.mealMacrosCurrent.lunchMacrosCurrent.fiber +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+              thisMealsMealIngredients[i].qty;
+          this.setState({
+            mealMacrosCurrent: mealMacrosCurrent,
+          });
+          break;
+        case "Snack 2":
+          mealMacrosCurrent.snack2MacrosCurrent.cals =
+            this.state.mealMacrosCurrent.snack2MacrosCurrent.cals +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+              .calories *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack2MacrosCurrent.carbs =
+            this.state.mealMacrosCurrent.snack2MacrosCurrent.carbs +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack2MacrosCurrent.protein =
+            this.state.mealMacrosCurrent.snack2MacrosCurrent.protein +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack2MacrosCurrent.fat =
+            this.state.mealMacrosCurrent.snack2MacrosCurrent.fat +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.snack2MacrosCurrent.fiber =
+            this.state.mealMacrosCurrent.snack2MacrosCurrent.fiber +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+              thisMealsMealIngredients[i].qty;
+          this.setState({
+            mealMacrosCurrent: mealMacrosCurrent,
+          });
+          break;
+        case "Dinner":
+          mealMacrosCurrent.dinnerMacrosCurrent.cals =
+            this.state.mealMacrosCurrent.dinnerMacrosCurrent.cals +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+              .calories *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dinnerMacrosCurrent.carbs =
+            this.state.mealMacrosCurrent.dinnerMacrosCurrent.carbs +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dinnerMacrosCurrent.protein =
+            this.state.mealMacrosCurrent.dinnerMacrosCurrent.protein +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dinnerMacrosCurrent.fat =
+            this.state.mealMacrosCurrent.dinnerMacrosCurrent.fat +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dinnerMacrosCurrent.fiber =
+            this.state.mealMacrosCurrent.dinnerMacrosCurrent.fiber +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+              thisMealsMealIngredients[i].qty;
+          this.setState({
+            mealMacrosCurrent: mealMacrosCurrent,
+          });
+          break;
+        case "Dessert":
+          mealMacrosCurrent.dessertMacrosCurrent.cals =
+            this.state.mealMacrosCurrent.dessertMacrosCurrent.cals +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+              .calories *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dessertMacrosCurrent.carbs =
+            this.state.mealMacrosCurrent.dessertMacrosCurrent.carbs +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dessertMacrosCurrent.protein =
+            this.state.mealMacrosCurrent.dessertMacrosCurrent.protein +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dessertMacrosCurrent.fat =
+            this.state.mealMacrosCurrent.dessertMacrosCurrent.fat +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+              thisMealsMealIngredients[i].qty;
+          mealMacrosCurrent.dessertMacrosCurrent.fiber =
+            this.state.mealMacrosCurrent.dessertMacrosCurrent.fiber +
+            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+              thisMealsMealIngredients[i].qty;
           this.setState({
             mealMacrosCurrent: mealMacrosCurrent,
           });
@@ -204,7 +403,13 @@ class DayDetail extends Component {
       }
     }
   };
-  renderMeal = (mealToRender, thisDay, mealType, thisMealsMacrosBudget) => {
+  renderMeal = (
+    mealToRender,
+    thisDay,
+    mealType,
+    thisMealsMacrosBudget,
+    thisMealsMacrosCurrent
+  ) => {
     if (mealToRender == undefined) {
       return (
         <CreateMeal
@@ -221,9 +426,7 @@ class DayDetail extends Component {
           key={mealToRender._id}
           thisMealsMacrosBudget={thisMealsMacrosBudget}
           totalCurrentMacrosMethod={this.totalCurrentMacrosMethod}
-          thisMealsMacrosCurrent={
-            this.state.mealMacrosCurrent.breakfastMacrosCurrent
-          }
+          thisMealsMacrosCurrent={thisMealsMacrosCurrent}
         />
       );
     }
@@ -315,7 +518,7 @@ class DayDetail extends Component {
                         </tr>
                         <tr>
                           <th scope="row">Crrnt</th>
-                          <td>9999.99</td>
+                          <td>{this.state.macrosCurrent.cals}</td>
                           <td>999.99</td>
                           <td>999.99</td>
                           <td>999.99</td>
@@ -390,37 +593,44 @@ class DayDetail extends Component {
                               this.state.breakfast,
                               this.state.thisDay,
                               "Breakfast",
-                              this.state.mealMacrosBudget.breakfastMacrosBudget
+                              this.state.mealMacrosBudget.breakfastMacrosBudget,
+                              this.state.mealMacrosCurrent
+                                .breakfastMacrosCurrent
                             )}
                             {this.renderMeal(
                               this.state.snack1,
                               this.state.thisDay,
                               "Snack 1",
-                              this.state.mealMacrosBudget.snack1MacrosBudget
+                              this.state.mealMacrosBudget.snack1MacrosBudget,
+                              this.state.mealMacrosCurrent.snack1MacrosCurrent
                             )}
                             {this.renderMeal(
                               this.state.lunch,
                               this.state.thisDay,
                               "Lunch",
-                              this.state.mealMacrosBudget.lunchMacrosBudget
+                              this.state.mealMacrosBudget.lunchMacrosBudget,
+                              this.state.mealMacrosCurrent.lunchMacrosCurrent
                             )}
                             {this.renderMeal(
                               this.state.snack2,
                               this.state.thisDay,
                               "Snack 2",
-                              this.state.mealMacrosBudget.snack2MacrosBudget
+                              this.state.mealMacrosBudget.snack2MacrosBudget,
+                              this.state.mealMacrosCurrent.snack2MacrosCurrent
                             )}
                             {this.renderMeal(
                               this.state.dinner,
                               this.state.thisDay,
                               "Dinner",
-                              this.state.mealMacrosBudget.dinnerMacrosBudget
+                              this.state.mealMacrosBudget.dinnerMacrosBudget,
+                              this.state.mealMacrosCurrent.dinnerMacrosCurrent
                             )}
                             {this.renderMeal(
                               this.state.dessert,
                               this.state.thisDay,
                               "Dessert",
-                              this.state.mealMacrosBudget.dessertMacrosBudget
+                              this.state.mealMacrosBudget.dessertMacrosBudget,
+                              this.state.mealMacrosCurrent.dessertMacrosCurrent
                             )}
                           </div>
                         </div>
