@@ -77,7 +77,6 @@ class DayDetail extends Component {
           fiber: 0,
         },
       },
-      macrosRemaining: {},
       mealMacrosBudget: {
         breakfastMacrosBudget: {
           cals:
@@ -238,170 +237,275 @@ class DayDetail extends Component {
     let macrosCurrent = this.state.macrosCurrent;
     let i = 0;
     for (i; i < thisMealsMealIngredients.length; i++) {
-      console.log(mealMacrosCurrent.breakfastMacrosCurrent);
       switch (mealType) {
         case "Breakfast":
           mealMacrosCurrent.breakfastMacrosCurrent.cals =
-            this.state.mealMacrosCurrent.breakfastMacrosCurrent.cals +
+            mealMacrosCurrent.breakfastMacrosCurrent.cals +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient
               .calories *
               thisMealsMealIngredients[i].qty;
           macrosCurrent.cals =
-            this.state.macrosCurrent.cals +
-            mealMacrosCurrent.breakfastMacrosCurrent.cals;
+            macrosCurrent.cals + mealMacrosCurrent.breakfastMacrosCurrent.cals;
           mealMacrosCurrent.breakfastMacrosCurrent.carbs =
-            this.state.mealMacrosCurrent.breakfastMacrosCurrent.carbs +
+            mealMacrosCurrent.breakfastMacrosCurrent.carbs +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.carbs =
+            macrosCurrent.carbs +
+            mealMacrosCurrent.breakfastMacrosCurrent.carbs;
           mealMacrosCurrent.breakfastMacrosCurrent.protein =
-            this.state.mealMacrosCurrent.breakfastMacrosCurrent.protein +
+            mealMacrosCurrent.breakfastMacrosCurrent.protein +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.protein =
+            macrosCurrent.protein +
+            mealMacrosCurrent.breakfastMacrosCurrent.protein;
           mealMacrosCurrent.breakfastMacrosCurrent.fat =
-            this.state.mealMacrosCurrent.breakfastMacrosCurrent.fat +
+            mealMacrosCurrent.breakfastMacrosCurrent.fat +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.fat =
+            macrosCurrent.fat + mealMacrosCurrent.breakfastMacrosCurrent.fat;
           mealMacrosCurrent.breakfastMacrosCurrent.fiber =
-            this.state.mealMacrosCurrent.breakfastMacrosCurrent.fiber +
+            mealMacrosCurrent.breakfastMacrosCurrent.fiber +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
               thisMealsMealIngredients[i].qty;
-          this.setState({
-            mealMacrosCurrent: mealMacrosCurrent,
-            macrosCurrent: macrosCurrent,
-          });
+          macrosCurrent.fiber =
+            macrosCurrent.fiber +
+            mealMacrosCurrent.breakfastMacrosCurrent.fiber;
           break;
         case "Snack 1":
           mealMacrosCurrent.snack1MacrosCurrent.cals =
-            this.state.mealMacrosCurrent.snack1MacrosCurrent.cals +
+            mealMacrosCurrent.snack1MacrosCurrent.cals +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient
               .calories *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.cals =
+            macrosCurrent.cals + mealMacrosCurrent.snack1MacrosCurrent.cals;
           mealMacrosCurrent.snack1MacrosCurrent.carbs =
-            this.state.mealMacrosCurrent.snack1MacrosCurrent.carbs +
+            mealMacrosCurrent.snack1MacrosCurrent.carbs +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.carbs =
+            macrosCurrent.carbs + mealMacrosCurrent.snack1MacrosCurrent.carbs;
           mealMacrosCurrent.snack1MacrosCurrent.protein =
-            this.state.mealMacrosCurrent.snack1MacrosCurrent.protein +
+            mealMacrosCurrent.snack1MacrosCurrent.protein +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.protein =
+            macrosCurrent.protein +
+            mealMacrosCurrent.snack1MacrosCurrent.protein;
           mealMacrosCurrent.snack1MacrosCurrent.fat =
-            this.state.mealMacrosCurrent.snack1MacrosCurrent.fat +
+            mealMacrosCurrent.snack1MacrosCurrent.fat +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.fat =
+            macrosCurrent.fat + mealMacrosCurrent.snack1MacrosCurrent.fat;
           mealMacrosCurrent.snack1MacrosCurrent.fiber =
-            this.state.mealMacrosCurrent.snack1MacrosCurrent.fiber +
+            mealMacrosCurrent.snack1MacrosCurrent.fiber +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
               thisMealsMealIngredients[i].qty;
-          this.setState({
-            mealMacrosCurrent: mealMacrosCurrent,
-          });
+          macrosCurrent.fiber =
+            macrosCurrent.fiber + mealMacrosCurrent.snack1MacrosCurrent.fiber;
           break;
         case "Lunch":
           mealMacrosCurrent.lunchMacrosCurrent.cals =
-            this.state.mealMacrosCurrent.lunchMacrosCurrent.cals +
+            mealMacrosCurrent.lunchMacrosCurrent.cals +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient
               .calories *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.cals =
+            macrosCurrent.cals + mealMacrosCurrent.lunchMacrosCurrent.cals;
           mealMacrosCurrent.lunchMacrosCurrent.carbs =
-            this.state.mealMacrosCurrent.lunchMacrosCurrent.carbs +
+            mealMacrosCurrent.lunchMacrosCurrent.carbs +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.carbs =
+            macrosCurrent.carbs + mealMacrosCurrent.lunchMacrosCurrent.carbs;
           mealMacrosCurrent.lunchMacrosCurrent.protein =
-            this.state.mealMacrosCurrent.lunchMacrosCurrent.protein +
+            mealMacrosCurrent.lunchMacrosCurrent.protein +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.protein =
+            macrosCurrent.protein +
+            mealMacrosCurrent.lunchMacrosCurrent.protein;
           mealMacrosCurrent.lunchMacrosCurrent.fat =
-            this.state.mealMacrosCurrent.lunchMacrosCurrent.fat +
+            mealMacrosCurrent.lunchMacrosCurrent.fat +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.fat =
+            macrosCurrent.fat + mealMacrosCurrent.lunchMacrosCurrent.fat;
           mealMacrosCurrent.lunchMacrosCurrent.fiber =
-            this.state.mealMacrosCurrent.lunchMacrosCurrent.fiber +
+            mealMacrosCurrent.lunchMacrosCurrent.fiber +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
               thisMealsMealIngredients[i].qty;
-          this.setState({
-            mealMacrosCurrent: mealMacrosCurrent,
-          });
+          macrosCurrent.fiber =
+            macrosCurrent.fiber + mealMacrosCurrent.lunchMacrosCurrent.fiber;
           break;
         case "Snack 2":
           mealMacrosCurrent.snack2MacrosCurrent.cals =
-            this.state.mealMacrosCurrent.snack2MacrosCurrent.cals +
+            mealMacrosCurrent.snack2MacrosCurrent.cals +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient
               .calories *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.cals =
+            macrosCurrent.cals + mealMacrosCurrent.snack2MacrosCurrent.cals;
           mealMacrosCurrent.snack2MacrosCurrent.carbs =
-            this.state.mealMacrosCurrent.snack2MacrosCurrent.carbs +
+            mealMacrosCurrent.snack2MacrosCurrent.carbs +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.carbs =
+            macrosCurrent.carbs + mealMacrosCurrent.snack2MacrosCurrent.carbs;
           mealMacrosCurrent.snack2MacrosCurrent.protein =
-            this.state.mealMacrosCurrent.snack2MacrosCurrent.protein +
+            mealMacrosCurrent.snack2MacrosCurrent.protein +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.protein =
+            macrosCurrent.protein +
+            mealMacrosCurrent.snack2MacrosCurrent.protein;
           mealMacrosCurrent.snack2MacrosCurrent.fat =
-            this.state.mealMacrosCurrent.snack2MacrosCurrent.fat +
+            mealMacrosCurrent.snack2MacrosCurrent.fat +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.fat =
+            macrosCurrent.fat + mealMacrosCurrent.snack2MacrosCurrent.fat;
           mealMacrosCurrent.snack2MacrosCurrent.fiber =
-            this.state.mealMacrosCurrent.snack2MacrosCurrent.fiber +
+            mealMacrosCurrent.snack2MacrosCurrent.fiber +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
               thisMealsMealIngredients[i].qty;
-          this.setState({
-            mealMacrosCurrent: mealMacrosCurrent,
-          });
+          macrosCurrent.fiber =
+            macrosCurrent.fiber + mealMacrosCurrent.snack2MacrosCurrent.fiber;
           break;
         case "Dinner":
           mealMacrosCurrent.dinnerMacrosCurrent.cals =
-            this.state.mealMacrosCurrent.dinnerMacrosCurrent.cals +
+            mealMacrosCurrent.dinnerMacrosCurrent.cals +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient
               .calories *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.cals =
+            macrosCurrent.cals + mealMacrosCurrent.dinnerMacrosCurrent.cals;
           mealMacrosCurrent.dinnerMacrosCurrent.carbs =
-            this.state.mealMacrosCurrent.dinnerMacrosCurrent.carbs +
+            mealMacrosCurrent.dinnerMacrosCurrent.carbs +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.carbs =
+            macrosCurrent.carbs + mealMacrosCurrent.dinnerMacrosCurrent.carbs;
           mealMacrosCurrent.dinnerMacrosCurrent.protein =
-            this.state.mealMacrosCurrent.dinnerMacrosCurrent.protein +
+            mealMacrosCurrent.dinnerMacrosCurrent.protein +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.protein =
+            macrosCurrent.protein +
+            mealMacrosCurrent.dinnerMacrosCurrent.protein;
           mealMacrosCurrent.dinnerMacrosCurrent.fat =
-            this.state.mealMacrosCurrent.dinnerMacrosCurrent.fat +
+            mealMacrosCurrent.dinnerMacrosCurrent.fat +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.fat =
+            macrosCurrent.fat + mealMacrosCurrent.dinnerMacrosCurrent.fat;
           mealMacrosCurrent.dinnerMacrosCurrent.fiber =
-            this.state.mealMacrosCurrent.dinnerMacrosCurrent.fiber +
+            mealMacrosCurrent.dinnerMacrosCurrent.fiber +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
               thisMealsMealIngredients[i].qty;
-          this.setState({
-            mealMacrosCurrent: mealMacrosCurrent,
-          });
+          macrosCurrent.fiber =
+            macrosCurrent.fiber + mealMacrosCurrent.dinnerMacrosCurrent.fiber;
           break;
         case "Dessert":
           mealMacrosCurrent.dessertMacrosCurrent.cals =
-            this.state.mealMacrosCurrent.dessertMacrosCurrent.cals +
+            mealMacrosCurrent.dessertMacrosCurrent.cals +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient
               .calories *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.cals =
+            macrosCurrent.cals + mealMacrosCurrent.dessertMacrosCurrent.cals;
           mealMacrosCurrent.dessertMacrosCurrent.carbs =
-            this.state.mealMacrosCurrent.dessertMacrosCurrent.carbs +
+            mealMacrosCurrent.dessertMacrosCurrent.carbs +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.carbs =
+            macrosCurrent.carbs + mealMacrosCurrent.dessertMacrosCurrent.carbs;
           mealMacrosCurrent.dessertMacrosCurrent.protein =
-            this.state.mealMacrosCurrent.dessertMacrosCurrent.protein +
+            mealMacrosCurrent.dessertMacrosCurrent.protein +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.protein =
+            macrosCurrent.protein +
+            mealMacrosCurrent.dessertMacrosCurrent.protein;
           mealMacrosCurrent.dessertMacrosCurrent.fat =
-            this.state.mealMacrosCurrent.dessertMacrosCurrent.fat +
+            mealMacrosCurrent.dessertMacrosCurrent.fat +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
               thisMealsMealIngredients[i].qty;
+          macrosCurrent.fat =
+            macrosCurrent.fat + mealMacrosCurrent.dessertMacrosCurrent.fat;
           mealMacrosCurrent.dessertMacrosCurrent.fiber =
-            this.state.mealMacrosCurrent.dessertMacrosCurrent.fiber +
+            mealMacrosCurrent.dessertMacrosCurrent.fiber +
             thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
               thisMealsMealIngredients[i].qty;
-          this.setState({
-            mealMacrosCurrent: mealMacrosCurrent,
-          });
+          macrosCurrent.fiber =
+            macrosCurrent.fiber + mealMacrosCurrent.dessertMacrosCurrent.fiber;
           break;
       }
     }
+    this.setState({
+      mealMacrosCurrent: mealMacrosCurrent,
+      macrosCurrent: macrosCurrent,
+    });
+  };
+  clearCurrentMacros = () => {
+    this.setState({
+      macrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      mealMacrosCurrent: {
+        breakfastMacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        snack1MacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        lunchMacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        snack2MacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        dinnerMacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+        dessertMacrosCurrent: {
+          cals: 0,
+          carbs: 0,
+          protein: 0,
+          fat: 0,
+          fiber: 0,
+        },
+      },
+    });
+    console.log(this.state);
   };
   renderMeal = (
     mealToRender,
@@ -427,6 +531,7 @@ class DayDetail extends Component {
           thisMealsMacrosBudget={thisMealsMacrosBudget}
           totalCurrentMacrosMethod={this.totalCurrentMacrosMethod}
           thisMealsMacrosCurrent={thisMealsMacrosCurrent}
+          clearCurrentMacros={this.clearCurrentMacros}
         />
       );
     }
@@ -519,18 +624,33 @@ class DayDetail extends Component {
                         <tr>
                           <th scope="row">Crrnt</th>
                           <td>{this.state.macrosCurrent.cals}</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
+                          <td>{this.state.macrosCurrent.carbs}</td>
+                          <td>{this.state.macrosCurrent.protein}</td>
+                          <td>{this.state.macrosCurrent.fat}</td>
+                          <td>{this.state.macrosCurrent.fiber}</td>
                         </tr>
                         <tr>
                           <th scope="row">Left</th>
-                          <td>9999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
-                          <td>999.99</td>
+                          <td>
+                            {this.state.macrosBudget.calsBudget -
+                              this.state.macrosCurrent.cals}
+                          </td>
+                          <td>
+                            {this.state.macrosBudget.carbsBudget -
+                              this.state.macrosCurrent.carbs}
+                          </td>
+                          <td>
+                            {this.state.macrosBudget.proteinBudget -
+                              this.state.macrosCurrent.protein}
+                          </td>
+                          <td>
+                            {this.state.macrosBudget.fatBudget -
+                              this.state.macrosCurrent.fat}
+                          </td>
+                          <td>
+                            {this.state.macrosBudget.fiberBudget -
+                              this.state.macrosCurrent.fiber}
+                          </td>
                         </tr>
                       </tbody>
                     </table>

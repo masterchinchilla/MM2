@@ -6,6 +6,18 @@ class MealIngredientDetail extends Component {
       thisMealIngredient: this.props.thisMealIngredient,
     };
   }
+  handleChangeQty = (e) => {
+    let thisMealIngredient = this.state.thisMealIngredient;
+    thisMealIngredient.qty = e.target.value;
+    this.setState({
+      thisMealIngredient: thisMealIngredient,
+    });
+    this.props.handleUpdateMealIngrdntQty(this.state.thisMealIngredient);
+    // this.props.totalCurrentMacrosMethod(
+    //   [this.state.thisMealIngredient],
+    //   this.state.thisMealIngredient.meal.mealType
+    // );
+  };
   render() {
     return (
       <div>
@@ -23,6 +35,7 @@ class MealIngredientDetail extends Component {
                 placeholder={
                   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
+                onChange={this.handleChangeQty}
               />
             </div>
           </div>

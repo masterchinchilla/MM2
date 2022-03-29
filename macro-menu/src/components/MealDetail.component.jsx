@@ -96,14 +96,16 @@ class MealDetail extends Component {
           this.props.thisMeal._id
       )
       .then((response) => {
-        this.props.totalCurrentMacrosMethod(
-          response.data,
-          this.props.thisMeal.mealType
-        );
         this.setState({
           thisMealsMealIngrdnts: response.data.map(
             (mealIngredient) => mealIngredient
           ),
+        });
+        this.props.totalCurrentMacrosMethod(
+          this.state.thisMealsMealIngrdnts,
+          this.props.thisMeal.mealType
+        );
+        this.setState({
           mealsMealIngrdntsLoaded: true,
         });
       });
@@ -190,6 +192,25 @@ class MealDetail extends Component {
     } else {
       return <FontAwesomeIcon icon="fa-solid fa-lock" />;
     }
+  };
+  handleUpdateMealIngrdntQty = (thisMealIngredient) => {
+    // let thisMealIngrdntIndex;
+    // let i = 0;
+    // let thisMealsIngrdnts = this.state.thisMealsMealIngrdnts;
+    // for (i; i < thisMealsIngrdnts.length; i++) {
+    //   if (thisMealIngredient._id == thisMealsIngrdnts[i]._id) {
+    //     thisMealIngrdntIndex = i;
+    //   }
+    // }
+    // thisMealsIngrdnts[thisMealIngrdntIndex] = thisMealIngredient;
+    // this.setState({
+    //   thisMealsMealIngrdnts: thisMealsIngrdnts,
+    // });
+    this.props.clearCurrentMacros();
+    this.props.totalCurrentMacrosMethod(
+      this.state.thisMealsMealIngrdnts,
+      this.state.thisMealType
+    );
   };
   render() {
     if (
@@ -278,11 +299,26 @@ class MealDetail extends Component {
                   </tr>
                   <tr>
                     <th scope="row">Left</th>
-                    <td>9999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
+                    <td>
+                      {this.state.thisMealsMacrosBudget.cals -
+                        this.state.thisMealsMacrosCurrent.cals}
+                    </td>
+                    <td>
+                      {this.state.thisMealsMacrosBudget.carbs -
+                        this.state.thisMealsMacrosCurrent.carbs}
+                    </td>
+                    <td>
+                      {this.state.thisMealsMacrosBudget.protein -
+                        this.state.thisMealsMacrosCurrent.protein}
+                    </td>
+                    <td>
+                      {this.state.thisMealsMacrosBudget.fat -
+                        this.state.thisMealsMacrosCurrent.fat}
+                    </td>
+                    <td>
+                      {this.state.thisMealsMacrosBudget.fiber -
+                        this.state.thisMealsMacrosCurrent.fiber}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -646,6 +682,10 @@ class MealDetail extends Component {
                   <MealIngredientDetail
                     thisMealIngredient={mealIngredient}
                     key={mealIngredient._id}
+                    totalCurrentMacrosMethod={
+                      this.props.totalCurrentMacrosMethod
+                    }
+                    handleUpdateMealIngrdntQty={this.handleUpdateMealIngrdntQty}
                   />
                 );
               })}
