@@ -11,7 +11,6 @@ class MealDetail extends Component {
       thisMealTypesGenRecipesLoaded: false,
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
-      mealsMealIngrdntsLoaded: false,
       thisMeal: {},
       thisMealsId: "",
       thisRecipesId: "",
@@ -19,7 +18,7 @@ class MealDetail extends Component {
       thisMealType: {},
       thisFormState: "viewing",
       userType: "admin",
-      thisMealsMealIngrdnts: [],
+      thisMealsMealIngredients: [],
       thisMealsGenRecipe: { name: "Cereal", id: 1 },
       thisMealTypesGenRecipes: [
         { name: "Scrambled Eggs", id: 2 },
@@ -41,14 +40,9 @@ class MealDetail extends Component {
       ],
       allGRFUsers: [],
       allDays: [],
-      thisMealsMacrosBudget: {
-        cals: 0,
-        carbs: 0,
-        protein: 0,
-        fat: 0,
-        fiber: 0,
-      },
-      thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
+      thisMealsMacrosBudget: {},
+      thisMealsMacrosCurrent: {},
+      thisMealsMacrosRemaining: {},
     };
   }
   componentDidMount() {
@@ -76,6 +70,9 @@ class MealDetail extends Component {
           thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
           thisMealTypesGenRecipesLoaded: true,
           thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
+          thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
+          thisMealsMacrosRemaining: this.props.thisMealsMacrosRemaining,
+          thisMealsMealIngredients: this.props.thisMealsMealIngredients,
         });
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
@@ -90,29 +87,6 @@ class MealDetail extends Component {
         allDaysLoaded: true,
       });
     });
-    axios
-      .get(
-        "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
-          this.props.thisMeal._id
-      )
-      .then((response) => {
-        this.props.totalCurrentMacrosMethod(
-          response.data,
-          this.props.thisMeal.mealType
-        );
-        this.setState({
-          thisMealsMealIngrdnts: response.data.map(
-            (mealIngredient) => mealIngredient
-          ),
-          mealsMealIngrdntsLoaded: true,
-        });
-      });
-    // .then(
-    //   this.props.totalCurrentMacrosMethod(
-    //     this.state.thisMealsMealIngrdnts,
-    //     this.state.thisMealType
-    //   )
-    // );
   }
   handleChangeMealRecipe = (e) => {
     this.setState({
@@ -195,8 +169,7 @@ class MealDetail extends Component {
     if (
       this.state.thisMealTypesGenRecipesLoaded == true &&
       this.state.allGRFUsersLoaded == true &&
-      this.state.allDaysLoaded == true &&
-      this.state.mealsMealIngrdntsLoaded == true
+      this.state.allDaysLoaded == true
     ) {
       return (
         <div
@@ -278,11 +251,11 @@ class MealDetail extends Component {
                   </tr>
                   <tr>
                     <th scope="row">Left</th>
-                    <td>9999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
-                    <td>999.99</td>
+                    <td>{this.state.thisMealsMacrosRemaining.cals}</td>
+                    <td>{this.state.thisMealsMacrosRemaining.carbs}</td>
+                    <td>{this.state.thisMealsMacrosRemaining.protein}</td>
+                    <td>{this.state.thisMealsMacrosRemaining.fat}</td>
+                    <td>{this.state.thisMealsMacrosRemaining.fiber}</td>
                   </tr>
                 </tbody>
               </table>
@@ -641,7 +614,7 @@ class MealDetail extends Component {
                 </div>
               </form>
               <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
-              {this.state.thisMealsMealIngrdnts.map((mealIngredient) => {
+              {this.state.thisMealsMealIngredients.map((mealIngredient) => {
                 return (
                   <MealIngredientDetail
                     thisMealIngredient={mealIngredient}
