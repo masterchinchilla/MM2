@@ -10,6 +10,7 @@ import CreateMeal from "./CreateMeal.component";
 class DayDetail extends Component {
   constructor(props) {
     super(props);
+    this.loadData = this.loadData.bind(this);
     this.state = {
       dataLoaded: false,
       thisDay: this.props.thisDay,
@@ -126,7 +127,7 @@ class DayDetail extends Component {
           fat: 0,
           fiber: 0,
         },
-        dessertMacrosCurrent: {
+        dessertMacrosRemaining: {
           cals: 0,
           carbs: 0,
           protein: 0,
@@ -243,12 +244,12 @@ class DayDetail extends Component {
   componentDidMount() {
     this.loadData();
   }
-  loadData = () => {
+  loadData() {
     axios
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
       )
-      .then((response) => {
+      .then((response) =>
         this.setState({
           thisDaysMeals: response.data.map((meal) => meal),
           breakfast: response.data.filter(
@@ -261,14 +262,17 @@ class DayDetail extends Component {
           dessert: response.data.filter(
             (meal) => meal.mealType == "Dessert"
           )[0],
-        });
-      })
-      .then(this.getMealIngredients())
-      .then(this.recalculateCurrentAndRemaining())
-      .then(this.setState({ dataLoaded: true }));
+        })
+      );
+    this.finishLoadingData();
+  }
+  finishLoadingData = () => {
+    this.getMealIngredients();
+    this.recalculateCurrentAndRemaining();
+    this.setState({ dataLoaded: true });
   };
   getMealIngredients = () => {
-    if (this.state.breakfast == {}) {
+    if (this.state.breakfast == undefined) {
       return [];
     } else {
       axios
@@ -284,7 +288,7 @@ class DayDetail extends Component {
           })
         );
     }
-    if (this.state.snack1 == {}) {
+    if (this.state.snack1 == undefined) {
       return [];
     } else {
       axios
@@ -300,7 +304,7 @@ class DayDetail extends Component {
           })
         );
     }
-    if (this.state.lunch == {}) {
+    if (this.state.lunch == undefined) {
       return [];
     } else {
       axios
@@ -316,7 +320,7 @@ class DayDetail extends Component {
           })
         );
     }
-    if (this.state.snack2 == {}) {
+    if (this.state.snack2 == undefined) {
       return [];
     } else {
       axios
@@ -332,7 +336,7 @@ class DayDetail extends Component {
           })
         );
     }
-    if (this.state.dinner == {}) {
+    if (this.state.dinner == undefined) {
       return [];
     } else {
       axios
@@ -348,7 +352,7 @@ class DayDetail extends Component {
           })
         );
     }
-    if (this.state.dessert == {}) {
+    if (this.state.dessert == undefined) {
       return [];
     } else {
       axios
@@ -412,8 +416,8 @@ class DayDetail extends Component {
       }
       return b;
     }
-    if (this.state.breakfast == {}) {
-      return;
+    if (this.state.breakfast == undefined) {
+      return [];
     } else {
       let d = mealMacrosBudget.breakfastMacrosBudget;
       let b = mealMacrosCurrent.breakfastMacrosCurrent;
@@ -422,8 +426,8 @@ class DayDetail extends Component {
       let e = mealMacrosCurrent.breakfastMacrosCurrent;
       mealMacrosRemaining.breakfastMacrosRemaining = d - e;
     }
-    if (this.state.snack1 == {}) {
-      return;
+    if (this.state.snack1 == undefined) {
+      return [];
     } else {
       let d = mealMacrosBudget.snack1MacrosBudget;
       let b = mealMacrosCurrent.snack1MacrosCurrent;
@@ -434,8 +438,8 @@ class DayDetail extends Component {
       let e = mealMacrosCurrent.snack1MacrosCurrent;
       mealMacrosRemaining.snack1MacrosRemaining = d - e;
     }
-    if (this.state.lunch == {}) {
-      return;
+    if (this.state.lunch == undefined) {
+      return [];
     } else {
       let d = mealMacrosBudget.lunchMacrosBudget;
       let b = mealMacrosCurrent.lunchMacrosCurrent;
@@ -446,8 +450,8 @@ class DayDetail extends Component {
       let e = mealMacrosCurrent.lunchMacrosCurrent;
       mealMacrosRemaining.lunchMacrosRemaining = d - e;
     }
-    if (this.state.snack2 == {}) {
-      return;
+    if (this.state.snack2 == undefined) {
+      return [];
     } else {
       let d = mealMacrosBudget.snack2MacrosBudget;
       let b = mealMacrosCurrent.snack2MacrosCurrent;
@@ -458,8 +462,8 @@ class DayDetail extends Component {
       let e = mealMacrosCurrent.snack2MacrosCurrent;
       mealMacrosRemaining.snack2MacrosRemaining = d - e;
     }
-    if (this.state.dinner == {}) {
-      return;
+    if (this.state.dinner == undefined) {
+      return [];
     } else {
       let d = mealMacrosBudget.dinnerMacrosBudget;
       let b = mealMacrosCurrent.dinnerMacrosCurrent;
@@ -470,8 +474,8 @@ class DayDetail extends Component {
       let e = mealMacrosCurrent.dinnerMacrosCurrent;
       mealMacrosRemaining.dinnerMacrosRemaining = d - e;
     }
-    if (this.state.dessert == {}) {
-      return;
+    if (this.state.dessert == undefined) {
+      return [];
     } else {
       let d = mealMacrosBudget.dessertMacrosBudget;
       let b = mealMacrosCurrent.dessertMacrosCurrent;
@@ -526,7 +530,6 @@ class DayDetail extends Component {
     if (this.state.dataLoaded == false) {
       return <div className="spinner-border text-primary" role="status" />;
     } else {
-      console.log(this.state.dataLoaded);
       return (
         <div className="card mt-3 mb-3">
           <div className="card-header">

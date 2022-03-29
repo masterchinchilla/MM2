@@ -11,7 +11,7 @@ class MealDetail extends Component {
       thisMealTypesGenRecipesLoaded: false,
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
-      thisMeal: {},
+      thisMeal: this.props.thisMeal,
       thisMealsId: "",
       thisRecipesId: "",
       thisMealsDay: {},
