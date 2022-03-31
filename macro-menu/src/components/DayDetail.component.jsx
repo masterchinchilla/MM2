@@ -18,12 +18,30 @@ class DayDetail extends Component {
       thisFormState: "viewing",
       userType: "admin",
       thisDaysMeals: [],
-      breakfast: {},
-      snack1: {},
-      lunch: {},
-      snack2: {},
-      dinner: {},
-      dessert: {},
+      breakfast: {
+        _id: "missing",
+      },
+      breakfastIngrdnts: [],
+      snack1: {
+        _id: "missing",
+      },
+      snack1Ingrdnts: [],
+      lunch: {
+        _id: "missing",
+      },
+      lunchIngrdnts: [],
+      snack2: {
+        _id: "missing",
+      },
+      snack2Ingrdnts: [],
+      dinner: {
+        _id: "missing",
+      },
+      dinnerIngrdnts: [],
+      dessert: {
+        _id: "missing",
+      },
+      dessertIngrdnts: [],
       macrosBudget: this.props.macrosBudget,
       mealsWeighting: this.props.mealsWeighting,
       macrosCurrent: {
@@ -191,23 +209,111 @@ class DayDetail extends Component {
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
       )
-      .then((response) => {
-        this.setState({
-          thisDaysMeals: response.data.map((meal) => meal),
-          breakfast: response.data.filter(
-            (meal) => meal.mealType == "Breakfast"
-          )[0],
-          snack1: response.data.filter((meal) => meal.mealType == "Snack 1")[0],
-          lunch: response.data.filter((meal) => meal.mealType == "Lunch")[0],
-          snack2: response.data.filter((meal) => meal.mealType == "Snack 2")[0],
-          dinner: response.data.filter((meal) => meal.mealType == "Dinner")[0],
-          dessert: response.data.filter(
-            (meal) => meal.mealType == "Dessert"
-          )[0],
-          data: true,
-        });
-      });
+      .then((response) => this.fetchDayMealsIngrdnts(response.data));
+    // .then((response) => {
+    //   this.setState({
+    //     thisDaysMeals: response.data.map((meal) => meal),
+    //     breakfast: response.data.filter(
+    //       (meal) => meal.mealType == "Breakfast"
+    //     )[0],
+    //     snack1: response.data.filter((meal) => meal.mealType == "Snack 1")[0],
+    //     lunch: response.data.filter((meal) => meal.mealType == "Lunch")[0],
+    //     snack2: response.data.filter((meal) => meal.mealType == "Snack 2")[0],
+    //     dinner: response.data.filter((meal) => meal.mealType == "Dinner")[0],
+    //     dessert: response.data.filter(
+    //       (meal) => meal.mealType == "Dessert"
+    //     )[0],
+    //     data: true,
+    //   });
+    // });
   }
+  fetchDayMealsIngrdnts = (meals) => {
+    if (meals.length == 0) {
+      this.setState({ data: true });
+    } else {
+      let i = 0;
+      for (i; i < meals.length; i++) {
+        switch (meals[i].mealType) {
+          case "Breakfast":
+            this.setState({
+              breakfast: meals[i],
+            });
+            break;
+          case "Snack 1":
+            this.setState({
+              snack1: meals[i],
+            });
+            break;
+          case "Lunch":
+            this.setState({
+              lunch: meals[i],
+            });
+            break;
+          case "Snack 2":
+            this.setState({
+              snack2: meals[i],
+            });
+            break;
+          case "Dinner":
+            this.setState({
+              dinner: meals[i],
+            });
+            break;
+          case "Dessert":
+            this.setState({
+              dessert: meals[i],
+            });
+            break;
+        }
+        axios
+          .get(
+            "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
+              meals[i]._id
+          )
+          .then((response) => this.assignMealIngredientsToState(response.data));
+      }
+    }
+  };
+  assignMealIngredientsToState = (mealMealIngredients) => {
+    if (mealMealIngredients.length == 0) {
+      this.setState({ data: true });
+    } else {
+      let thisMealType = mealMealIngredients[0].meal.mealType;
+      switch (thisMealType) {
+        case "Breakfast":
+          this.setState({
+            breakfastIngrdnts: mealMealIngredients,
+          });
+          break;
+        case "Snack 1":
+          this.setState({
+            snack1Ingrdnts: mealMealIngredients,
+          });
+          break;
+        case "Lunch":
+          this.setState({
+            lunchIngrdnts: mealMealIngredients,
+          });
+          break;
+        case "Snack 2":
+          this.setState({
+            snack2Ingrdnts: mealMealIngredients,
+          });
+          break;
+        case "Dinner":
+          this.setState({
+            dinnerIngrdnts: mealMealIngredients,
+          });
+          break;
+        case "Dessert":
+          this.setState({
+            dessertIngrdnts: mealMealIngredients,
+          });
+          break;
+      }
+      this.totalCurrentMacrosMethod(mealMealIngredients, thisMealType);
+    }
+  };
   handleSubmitFormChange = () => {
     console.log("Form submitted");
   };
@@ -449,6 +555,7 @@ class DayDetail extends Component {
     this.setState({
       mealMacrosCurrent: mealMacrosCurrent,
       macrosCurrent: macrosCurrent,
+      data: true,
     });
   };
   clearCurrentMacros = () => {
@@ -505,16 +612,17 @@ class DayDetail extends Component {
         },
       },
     });
-    console.log(this.state);
   };
   renderMeal = (
     mealToRender,
     thisDay,
     mealType,
     thisMealsMacrosBudget,
-    thisMealsMacrosCurrent
+    thisMealsMacrosCurrent,
+    thisMealsMealIngrdnts
   ) => {
-    if (mealToRender == undefined) {
+    if (mealToRender._id == "missing") {
+      // if (mealToRender == undefined) {
       return (
         <CreateMeal
           thisDay={thisDay}
@@ -531,227 +639,242 @@ class DayDetail extends Component {
           thisMealsMacrosBudget={thisMealsMacrosBudget}
           totalCurrentMacrosMethod={this.totalCurrentMacrosMethod}
           thisMealsMacrosCurrent={thisMealsMacrosCurrent}
+          thisMealsMealIngrdnts={thisMealsMealIngrdnts}
           clearCurrentMacros={this.clearCurrentMacros}
         />
       );
     }
   };
   render() {
-    if (!this.state.data) {
+    if (this.state.data == false) {
       return <div className="spinner-border text-primary" role="status"></div>;
-    }
-    return (
-      <div className="card mt-3 mb-3">
-        <div className="card-header">
-          <h3 className="card-title">{this.state.thisDay.dayOfWeek}</h3>
-          <EditOptions
-            parentObj={"Day"}
-            thisFormState={this.state.thisFormState}
-            thisId={this.state.thisId}
-            userType={this.state.userType}
-            onSubmitFormChange={this.handleSubmitFormChange}
-            onClickCopy={this.handleClickCopy}
-            onClickEdit={this.handleClickEdit}
-            onCancel={this.handleCancel}
-            onDelete={this.props.onDeleteDay}
-          />
-        </div>
-        <div className="card-body">
-          <div
-            className="accordion accordion-flush"
-            id={"accordionFull" + this.state.thisDay._id}
-          >
-            <div className="accordion-item">
-              <h2
-                className="accordion-header"
-                id={"accordionHeader" + this.state.thisDay._id}
-              >
-                <button
-                  className="accordion-button"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target={"#dayAccrdn" + this.state.thisDay._id}
-                  aria-expanded="true"
-                  aria-controls="collapseOne"
-                ></button>
-              </h2>
-              <div
-                id={"dayAccrdn" + this.state.thisDay._id}
-                className="accordion-collapse collapse show"
-                aria-labelledby={"#accordionHeader" + this.state.thisDay._id}
-                data-bs-parent={"#accordionFull" + this.state.thisDay._id}
-              >
-                <div className="accordion-body">
-                  <div className="macroTblCntnr">
-                    <table className="table table-bordered macrosTable">
-                      <thead className="thead">
-                        <tr>
-                          <th colSpan={6} scope="col">
-                            <h4>Day Macros</h4>
-                          </th>
-                        </tr>
-                        <tr>
-                          <th
-                            scope="col"
-                            className="perpendicularTextCell"
-                          ></th>
-                          <th scope="col" className="perpendicularTextCell">
-                            Cals
-                          </th>
-                          <th scope="col" className="perpendicularTextCell">
-                            Carbs
-                          </th>
-                          <th scope="col" className="perpendicularTextCell">
-                            Protein
-                          </th>
-                          <th scope="col" className="perpendicularTextCell">
-                            Fat
-                          </th>
-                          <th scope="col" className="perpendicularTextCell">
-                            Fiber
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">Bdgt</th>
-                          <td>{this.state.macrosBudget.calsBudget}</td>
-                          <td>{this.state.macrosBudget.carbsBudget}</td>
-                          <td>{this.state.macrosBudget.proteinBudget}</td>
-                          <td>{this.state.macrosBudget.fatBudget}</td>
-                          <td>{this.state.macrosBudget.fiberBudget}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Crrnt</th>
-                          <td>{this.state.macrosCurrent.cals}</td>
-                          <td>{this.state.macrosCurrent.carbs}</td>
-                          <td>{this.state.macrosCurrent.protein}</td>
-                          <td>{this.state.macrosCurrent.fat}</td>
-                          <td>{this.state.macrosCurrent.fiber}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Left</th>
-                          <td>
-                            {this.state.macrosBudget.calsBudget -
-                              this.state.macrosCurrent.cals}
-                          </td>
-                          <td>
-                            {this.state.macrosBudget.carbsBudget -
-                              this.state.macrosCurrent.carbs}
-                          </td>
-                          <td>
-                            {this.state.macrosBudget.proteinBudget -
-                              this.state.macrosCurrent.protein}
-                          </td>
-                          <td>
-                            {this.state.macrosBudget.fatBudget -
-                              this.state.macrosCurrent.fat}
-                          </td>
-                          <td>
-                            {this.state.macrosBudget.fiberBudget -
-                              this.state.macrosCurrent.fiber}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <ul>
-                    <li>Name:&nbsp;{this.state.thisDay.name}</li>
-                    <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
-                    <li>Week Meal Plan:&nbsp;{this.state.weekMealPlanName}</li>
-                    <li>
-                      Created:&nbsp;
-                      {dayjs(this.state.thisDay.createdAt).format(
-                        "dddd, MMMM D, YYYY h:mm A"
-                      )}
-                    </li>
-                    <li>
-                      Last Updated:&nbsp;
-                      {dayjs(this.state.thisDay.updatedAt).format(
-                        "dddd, MMMM D, YYYY h:mm A"
-                      )}
-                    </li>
-                  </ul>
-                  <div className="card mt-3 mb-3">
-                    <div className="card-header">
-                      <h4 className="card-title">
-                        {this.state.thisDay.dayOfWeek + " Meals"}
-                      </h4>
+    } else {
+      return (
+        <div className="card mt-3 mb-3">
+          <div className="card-header">
+            <h3 className="card-title">{this.state.thisDay.dayOfWeek}</h3>
+            <EditOptions
+              parentObj={"Day"}
+              thisFormState={this.state.thisFormState}
+              thisId={this.state.thisId}
+              userType={this.state.userType}
+              onSubmitFormChange={this.handleSubmitFormChange}
+              onClickCopy={this.handleClickCopy}
+              onClickEdit={this.handleClickEdit}
+              onCancel={this.handleCancel}
+              onDelete={this.props.onDeleteDay}
+            />
+          </div>
+          <div className="card-body">
+            <div
+              className="accordion accordion-flush"
+              id={"accordionFull" + this.state.thisDay._id}
+            >
+              <div className="accordion-item">
+                <h2
+                  className="accordion-header"
+                  id={"accordionHeader" + this.state.thisDay._id}
+                >
+                  <button
+                    className="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={"#dayAccrdn" + this.state.thisDay._id}
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  ></button>
+                </h2>
+                <div
+                  id={"dayAccrdn" + this.state.thisDay._id}
+                  className="accordion-collapse collapse show"
+                  aria-labelledby={"#accordionHeader" + this.state.thisDay._id}
+                  data-bs-parent={"#accordionFull" + this.state.thisDay._id}
+                >
+                  <div className="accordion-body">
+                    <div className="macroTblCntnr">
+                      <table className="table table-bordered macrosTable">
+                        <thead className="thead">
+                          <tr>
+                            <th colSpan={6} scope="col">
+                              <h4>Day Macros</h4>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th
+                              scope="col"
+                              className="perpendicularTextCell"
+                            ></th>
+                            <th scope="col" className="perpendicularTextCell">
+                              Cals
+                            </th>
+                            <th scope="col" className="perpendicularTextCell">
+                              Carbs
+                            </th>
+                            <th scope="col" className="perpendicularTextCell">
+                              Protein
+                            </th>
+                            <th scope="col" className="perpendicularTextCell">
+                              Fat
+                            </th>
+                            <th scope="col" className="perpendicularTextCell">
+                              Fiber
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Bdgt</th>
+                            <td>{this.state.macrosBudget.calsBudget}</td>
+                            <td>{this.state.macrosBudget.carbsBudget}</td>
+                            <td>{this.state.macrosBudget.proteinBudget}</td>
+                            <td>{this.state.macrosBudget.fatBudget}</td>
+                            <td>{this.state.macrosBudget.fiberBudget}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Crrnt</th>
+                            <td>{this.state.macrosCurrent.cals}</td>
+                            <td>{this.state.macrosCurrent.carbs}</td>
+                            <td>{this.state.macrosCurrent.protein}</td>
+                            <td>{this.state.macrosCurrent.fat}</td>
+                            <td>{this.state.macrosCurrent.fiber}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Left</th>
+                            <td>
+                              {this.state.macrosBudget.calsBudget -
+                                this.state.macrosCurrent.cals}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.carbsBudget -
+                                this.state.macrosCurrent.carbs}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.proteinBudget -
+                                this.state.macrosCurrent.protein}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.fatBudget -
+                                this.state.macrosCurrent.fat}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.fiberBudget -
+                                this.state.macrosCurrent.fiber}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
-                    <div className="card-body">
-                      <div
-                        className="accordion accordion-flush"
-                        id={"daysMealsAccordionFull" + this.state.id}
-                      >
-                        <div className="accordion-item">
-                          <h2
-                            className="accordion-header"
-                            id={"daysMealsAccordionHeader" + this.state.id}
-                          >
-                            <button
-                              className="accordion-button"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target={"#mealsAccrdn" + this.state.id}
-                              aria-expanded="true"
-                              aria-controls="collapseOne"
-                            ></button>
-                          </h2>
-                        </div>
+                    <ul>
+                      <li>Name:&nbsp;{this.state.thisDay.name}</li>
+                      <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
+                      <li>
+                        Week Meal Plan:&nbsp;{this.state.weekMealPlanName}
+                      </li>
+                      <li>
+                        Created:&nbsp;
+                        {dayjs(this.state.thisDay.createdAt).format(
+                          "dddd, MMMM D, YYYY h:mm A"
+                        )}
+                      </li>
+                      <li>
+                        Last Updated:&nbsp;
+                        {dayjs(this.state.thisDay.updatedAt).format(
+                          "dddd, MMMM D, YYYY h:mm A"
+                        )}
+                      </li>
+                    </ul>
+                    <div className="card mt-3 mb-3">
+                      <div className="card-header">
+                        <h4 className="card-title">
+                          {this.state.thisDay.dayOfWeek + " Meals"}
+                        </h4>
+                      </div>
+                      <div className="card-body">
                         <div
-                          id={"mealsAccrdn" + this.state.id}
-                          className="accordion-collapse collapse show"
-                          aria-labelledby={
-                            "#daysMealsAccordionHeader" + this.state.id
-                          }
-                          data-bs-parent={
-                            "#daysMealsAccordionFull" + this.state.id
-                          }
+                          className="accordion accordion-flush"
+                          id={"daysMealsAccordionFull" + this.state.id}
                         >
-                          <div className="accordion-body wkDaysAccrdnBdy">
-                            {this.renderMeal(
-                              this.state.breakfast,
-                              this.state.thisDay,
-                              "Breakfast",
-                              this.state.mealMacrosBudget.breakfastMacrosBudget,
-                              this.state.mealMacrosCurrent
-                                .breakfastMacrosCurrent
-                            )}
-                            {this.renderMeal(
-                              this.state.snack1,
-                              this.state.thisDay,
-                              "Snack 1",
-                              this.state.mealMacrosBudget.snack1MacrosBudget,
-                              this.state.mealMacrosCurrent.snack1MacrosCurrent
-                            )}
-                            {this.renderMeal(
-                              this.state.lunch,
-                              this.state.thisDay,
-                              "Lunch",
-                              this.state.mealMacrosBudget.lunchMacrosBudget,
-                              this.state.mealMacrosCurrent.lunchMacrosCurrent
-                            )}
-                            {this.renderMeal(
-                              this.state.snack2,
-                              this.state.thisDay,
-                              "Snack 2",
-                              this.state.mealMacrosBudget.snack2MacrosBudget,
-                              this.state.mealMacrosCurrent.snack2MacrosCurrent
-                            )}
-                            {this.renderMeal(
-                              this.state.dinner,
-                              this.state.thisDay,
-                              "Dinner",
-                              this.state.mealMacrosBudget.dinnerMacrosBudget,
-                              this.state.mealMacrosCurrent.dinnerMacrosCurrent
-                            )}
-                            {this.renderMeal(
-                              this.state.dessert,
-                              this.state.thisDay,
-                              "Dessert",
-                              this.state.mealMacrosBudget.dessertMacrosBudget,
-                              this.state.mealMacrosCurrent.dessertMacrosCurrent
-                            )}
+                          <div className="accordion-item">
+                            <h2
+                              className="accordion-header"
+                              id={"daysMealsAccordionHeader" + this.state.id}
+                            >
+                              <button
+                                className="accordion-button"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={"#mealsAccrdn" + this.state.id}
+                                aria-expanded="true"
+                                aria-controls="collapseOne"
+                              ></button>
+                            </h2>
+                          </div>
+                          <div
+                            id={"mealsAccrdn" + this.state.id}
+                            className="accordion-collapse collapse show"
+                            aria-labelledby={
+                              "#daysMealsAccordionHeader" + this.state.id
+                            }
+                            data-bs-parent={
+                              "#daysMealsAccordionFull" + this.state.id
+                            }
+                          >
+                            <div className="accordion-body wkDaysAccrdnBdy">
+                              {this.renderMeal(
+                                this.state.breakfast,
+                                this.state.thisDay,
+                                "Breakfast",
+                                this.state.mealMacrosBudget
+                                  .breakfastMacrosBudget,
+                                this.state.mealMacrosCurrent
+                                  .breakfastMacrosCurrent,
+                                this.state.breakfastIngrdnts
+                              )}
+                              {this.renderMeal(
+                                this.state.snack1,
+                                this.state.thisDay,
+                                "Snack 1",
+                                this.state.mealMacrosBudget.snack1MacrosBudget,
+                                this.state.mealMacrosCurrent
+                                  .snack1MacrosCurrent,
+                                this.state.snack1Ingrdnts
+                              )}
+                              {this.renderMeal(
+                                this.state.lunch,
+                                this.state.thisDay,
+                                "Lunch",
+                                this.state.mealMacrosBudget.lunchMacrosBudget,
+                                this.state.mealMacrosCurrent.lunchMacrosCurrent,
+                                this.state.lunchIngrdnts
+                              )}
+                              {this.renderMeal(
+                                this.state.snack2,
+                                this.state.thisDay,
+                                "Snack 2",
+                                this.state.mealMacrosBudget.snack2MacrosBudget,
+                                this.state.mealMacrosCurrent
+                                  .snack2MacrosCurrent,
+                                this.state.snack2Ingrdnts
+                              )}
+                              {this.renderMeal(
+                                this.state.dinner,
+                                this.state.thisDay,
+                                "Dinner",
+                                this.state.mealMacrosBudget.dinnerMacrosBudget,
+                                this.state.mealMacrosCurrent
+                                  .dinnerMacrosCurrent,
+                                this.state.dinnerIngrdnts
+                              )}
+                              {this.renderMeal(
+                                this.state.dessert,
+                                this.state.thisDay,
+                                "Dessert",
+                                this.state.mealMacrosBudget.dessertMacrosBudget,
+                                this.state.mealMacrosCurrent
+                                  .dessertMacrosCurrent,
+                                this.state.dessertIngrdnts
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -762,8 +885,8 @@ class DayDetail extends Component {
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 export default DayDetail;

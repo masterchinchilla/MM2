@@ -76,6 +76,8 @@ class MealDetail extends Component {
           thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
           thisMealTypesGenRecipesLoaded: true,
           thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
+          thisMealsMealIngrdnts: this.props.thisMealsMealIngrdnts,
+          mealsMealIngrdntsLoaded: true,
         });
       });
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
@@ -90,31 +92,25 @@ class MealDetail extends Component {
         allDaysLoaded: true,
       });
     });
-    axios
-      .get(
-        "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
-          this.props.thisMeal._id
-      )
-      .then((response) => {
-        this.setState({
-          thisMealsMealIngrdnts: response.data.map(
-            (mealIngredient) => mealIngredient
-          ),
-        });
-        this.props.totalCurrentMacrosMethod(
-          this.state.thisMealsMealIngrdnts,
-          this.props.thisMeal.mealType
-        );
-        this.setState({
-          mealsMealIngrdntsLoaded: true,
-        });
-      });
-    // .then(
-    //   this.props.totalCurrentMacrosMethod(
-    //     this.state.thisMealsMealIngrdnts,
-    //     this.state.thisMealType
+    // axios
+    //   .get(
+    //     "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
+    //       this.props.thisMeal._id
     //   )
-    // );
+    //   .then((response) => {
+    //     this.setState({
+    //       thisMealsMealIngrdnts: response.data.map(
+    //         (mealIngredient) => mealIngredient
+    //       ),
+    //     });
+    //     this.props.totalCurrentMacrosMethod(
+    //       this.state.thisMealsMealIngrdnts,
+    //       this.props.thisMeal.mealType
+    //     );
+    //     this.setState({
+    //       mealsMealIngrdntsLoaded: true,
+    //     });
+    //   });
   }
   handleChangeMealRecipe = (e) => {
     this.setState({
