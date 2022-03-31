@@ -189,24 +189,29 @@ class MealDetail extends Component {
       return <FontAwesomeIcon icon="fa-solid fa-lock" />;
     }
   };
-  handleUpdateMealIngrdntQty = (thisMealIngredient) => {
-    // let thisMealIngrdntIndex;
-    // let i = 0;
-    // let thisMealsIngrdnts = this.state.thisMealsMealIngrdnts;
-    // for (i; i < thisMealsIngrdnts.length; i++) {
-    //   if (thisMealIngredient._id == thisMealsIngrdnts[i]._id) {
-    //     thisMealIngrdntIndex = i;
-    //   }
-    // }
+  findMealIngrdntIndex = (thisMealIngrdnt) => {
+    let thisMealIngrdntIndex;
+    let i = 0;
+    let thisMealsIngrdnts = this.state.thisMealsMealIngrdnts;
+    for (i; i < thisMealsIngrdnts.length; i++) {
+      if (thisMealIngrdnt._id == thisMealsIngrdnts[i]._id) {
+        thisMealIngrdntIndex = i;
+      }
+    }
+    this.props.updateMealIngrdnt(
+      thisMealIngrdnt,
+      thisMealIngrdntIndex,
+      this.state.thisMealType
+    );
     // thisMealsIngrdnts[thisMealIngrdntIndex] = thisMealIngredient;
     // this.setState({
     //   thisMealsMealIngrdnts: thisMealsIngrdnts,
     // });
-    this.props.clearCurrentMacros();
-    this.props.totalCurrentMacrosMethod(
-      this.state.thisMealsMealIngrdnts,
-      this.state.thisMealType
-    );
+    // this.props.clearCurrentMacros();
+    // this.props.totalCurrentMacrosMethod(
+    //   this.state.thisMealsMealIngrdnts,
+    //   this.state.thisMealType
+    // );
   };
   render() {
     if (
@@ -682,6 +687,7 @@ class MealDetail extends Component {
                       this.props.totalCurrentMacrosMethod
                     }
                     handleUpdateMealIngrdntQty={this.handleUpdateMealIngrdntQty}
+                    findMealIngrdntIndex={this.findMealIngrdntIndex}
                   />
                 );
               })}

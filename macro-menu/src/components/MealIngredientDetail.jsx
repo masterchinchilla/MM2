@@ -18,6 +18,11 @@ class MealIngredientDetail extends Component {
     //   this.state.thisMealIngredient.meal.mealType
     // );
   };
+  handleChangeIngrdntProp = (e) => {
+    let thisMealIngredient = this.state.thisMealIngredient;
+    thisMealIngredient.qty = e.target.value;
+    this.props.findMealIngrdntIndex(thisMealIngredient);
+  };
   render() {
     return (
       <div>
@@ -35,7 +40,7 @@ class MealIngredientDetail extends Component {
                 placeholder={
                   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
-                onChange={this.handleChangeQty}
+                onChange={this.handleChangeIngrdntProp}
               />
             </div>
           </div>

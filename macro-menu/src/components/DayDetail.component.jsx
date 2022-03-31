@@ -202,6 +202,7 @@ class DayDetail extends Component {
     };
   }
   componentDidMount() {
+    console.log("componentDidMount Method is running");
     this.loadData();
   }
   loadData() {
@@ -311,7 +312,7 @@ class DayDetail extends Component {
           });
           break;
       }
-      this.totalCurrentMacrosMethod(mealMealIngredients, thisMealType);
+      this.totalMealsMacros(mealMealIngredients, thisMealType);
     }
   };
   handleSubmitFormChange = () => {
@@ -338,7 +339,40 @@ class DayDetail extends Component {
       });
     });
   };
-  totalCurrentMacrosMethod = (thisMealsMealIngredients, mealType) => {
+  totalAllMacros = () => {
+    this.clearCurrentMacros();
+    if (this.state.breakfast._id == "Missing") {
+      return;
+    } else {
+      this.totalMealsMacros(this.state.breakfastIngrdnts, "Breakfast");
+    }
+    if (this.state.snack1._id == "Missing") {
+      return;
+    } else {
+      this.totalMealsMacros(this.state.snack1Ingrdnts, "Snack1");
+    }
+    if (this.state.lunch._id == "Missing") {
+      return;
+    } else {
+      this.totalMealsMacros(this.state.lunchIngrdnts, "Lunch");
+    }
+    if (this.state.snack2._id == "Missing") {
+      return;
+    } else {
+      this.totalMealsMacros(this.state.snack2Ingrdnts, "Snack 2");
+    }
+    if (this.state.dinner._id == "Missing") {
+      return;
+    } else {
+      this.totalMealsMacros(this.state.dinnerIngrdnts, "Dinner");
+    }
+    if (this.state.dessert._id == "Missing") {
+      return;
+    } else {
+      this.totalMealsMacros(this.state.dessertIngrdnts, "Dessert");
+    }
+  };
+  totalMealsMacros = (thisMealsMealIngredients, mealType) => {
     let mealMacrosCurrent = this.state.mealMacrosCurrent;
     let macrosCurrent = this.state.macrosCurrent;
     let i = 0;
@@ -559,59 +593,73 @@ class DayDetail extends Component {
     });
   };
   clearCurrentMacros = () => {
-    this.setState({
-      macrosCurrent: {
+    let macrosCurrent = {
+      cals: 0,
+      carbs: 0,
+      protein: 0,
+      fat: 0,
+      fiber: 0,
+    };
+    let mealMacrosCurrent = {
+      breakfastMacrosCurrent: {
         cals: 0,
         carbs: 0,
         protein: 0,
         fat: 0,
         fiber: 0,
       },
-      mealMacrosCurrent: {
-        breakfastMacrosCurrent: {
-          cals: 0,
-          carbs: 0,
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-        },
-        snack1MacrosCurrent: {
-          cals: 0,
-          carbs: 0,
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-        },
-        lunchMacrosCurrent: {
-          cals: 0,
-          carbs: 0,
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-        },
-        snack2MacrosCurrent: {
-          cals: 0,
-          carbs: 0,
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-        },
-        dinnerMacrosCurrent: {
-          cals: 0,
-          carbs: 0,
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-        },
-        dessertMacrosCurrent: {
-          cals: 0,
-          carbs: 0,
-          protein: 0,
-          fat: 0,
-          fiber: 0,
-        },
+      snack1MacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
       },
+      lunchMacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      snack2MacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      dinnerMacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      dessertMacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+    };
+    this.setState({
+      macrosCurrent: macrosCurrent,
+      mealMacrosCurrent: mealMacrosCurrent,
     });
+  };
+  updateMealIngrdnt = (thisMealIngrdnt, thisMealIngrdntIndex, thisMealType) => {
+    switch (thisMealType) {
+      case "Breakfast":
+        let mealsMealIngrdnts = this.state.breakfastIngrdnts;
+        mealsMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        this.setState({
+          breakfastIngrdnts: mealsMealIngrdnts,
+        });
+        this.totalAllMacros();
+        break;
+    }
   };
   renderMeal = (
     mealToRender,
@@ -641,6 +689,7 @@ class DayDetail extends Component {
           thisMealsMacrosCurrent={thisMealsMacrosCurrent}
           thisMealsMealIngrdnts={thisMealsMealIngrdnts}
           clearCurrentMacros={this.clearCurrentMacros}
+          updateMealIngrdnt={this.updateMealIngrdnt}
         />
       );
     }
