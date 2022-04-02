@@ -38,10 +38,12 @@ class MealIngredientDetail extends Component {
   render() {
     return (
       <div className="card mlIngrdntsCard">
-        <div className="mlIgrdntCrdTpSctn">
+        <div className="card-header mlIgrdntCrdTpSctn">
           <form className="mlIngrdntFrm">
             <div className="mlIngrdntFrmHdr">
-              <label className="mlIngrdntHdr">Meal Ingrdnt:</label>
+              <label className="mlIngrdntHdr">
+                <h6>Meal Ingrdnt:</h6>
+              </label>
               <EditOptions
                 className="mlIngrdntFrmIcns"
                 parentObj={"mealIngredient"}
@@ -94,7 +96,7 @@ class MealIngredientDetail extends Component {
                   "#mlIngrdntFrmAccrdnFll" + this.props.thisMealIngredient._id
                 }
               >
-                <div className="accordion-body mealInnerAccordion">
+                <div className="accordion-body">
                   <div className="form-group mealIngrdntInputs">
                     <label>Default Recipe Ingredient</label>
                     <input
@@ -127,7 +129,9 @@ class MealIngredientDetail extends Component {
           </form>
           <form className="gnRcpIngrdntFrm">
             <div className="gnRcpIngrdntFrmHdr">
-              <label className="gnRcpIngrdntHdr">Default</label>
+              <label className="gnRcpIngrdntHdr">
+                <h6>Default</h6>
+              </label>
               <EditOptions
                 className="gnRcpIngrdntFrmIcns"
                 parentObj={"genRecipeIngredient"}
@@ -184,7 +188,7 @@ class MealIngredientDetail extends Component {
                   this.props.thisMealIngredient._id
                 }
               >
-                <div className="accordion-body mealInnerAccordion">
+                <div className="accordion-body">
                   <div className="form-group mealIngrdntInputs">
                     <label>Ingredient</label>
                     <input
@@ -296,7 +300,7 @@ class MealIngredientDetail extends Component {
                   "#ingrdntAccrdnFull" + this.props.thisMealIngredient._id
                 }
               >
-                <div class="accordion-body mealInnerAccordion">
+                <div class="accordion-body ingrdntInnrAccrdn">
                   <div className="form-group mealIngrdntInputs">
                     <label>Calories:</label>
                     <input
@@ -399,7 +403,7 @@ class MealIngredientDetail extends Component {
                       this.props.thisMealIngredient._id
                     }
                   >
-                    <div class="accordion-body mealInnerAccordion">
+                    <div class="accordion-body ingrdntInnerAccrdn">
                       <div className="form-group mealIngrdntInputs">
                         <label>Author:</label>
                         <input
