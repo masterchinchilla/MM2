@@ -830,41 +830,63 @@ class DayDetail extends Component {
                         <tbody>
                           <tr>
                             <th scope="row">Bdgt</th>
-                            <td>{this.state.macrosBudget.calsBudget}</td>
-                            <td>{this.state.macrosBudget.carbsBudget}</td>
-                            <td>{this.state.macrosBudget.proteinBudget}</td>
-                            <td>{this.state.macrosBudget.fatBudget}</td>
-                            <td>{this.state.macrosBudget.fiberBudget}</td>
+                            <td>
+                              {this.state.macrosBudget.calsBudget.toFixed(2)}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.carbsBudget.toFixed(2)}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.proteinBudget.toFixed(2)}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.fatBudget.toFixed(2)}
+                            </td>
+                            <td>
+                              {this.state.macrosBudget.fiberBudget.toFixed(2)}
+                            </td>
                           </tr>
                           <tr>
                             <th scope="row">Crrnt</th>
-                            <td>{this.state.macrosCurrent.cals}</td>
-                            <td>{this.state.macrosCurrent.carbs}</td>
-                            <td>{this.state.macrosCurrent.protein}</td>
-                            <td>{this.state.macrosCurrent.fat}</td>
-                            <td>{this.state.macrosCurrent.fiber}</td>
+                            <td>{this.state.macrosCurrent.cals.toFixed(2)}</td>
+                            <td>{this.state.macrosCurrent.carbs.toFixed(2)}</td>
+                            <td>
+                              {this.state.macrosCurrent.protein.toFixed(2)}
+                            </td>
+                            <td>{this.state.macrosCurrent.fat.toFixed(2)}</td>
+                            <td>{this.state.macrosCurrent.fiber.toFixed(2)}</td>
                           </tr>
                           <tr>
                             <th scope="row">Left</th>
                             <td>
-                              {this.state.macrosBudget.calsBudget -
-                                this.state.macrosCurrent.cals}
+                              {(
+                                this.state.macrosBudget.calsBudget -
+                                this.state.macrosCurrent.cals
+                              ).toFixed(2)}
                             </td>
                             <td>
-                              {this.state.macrosBudget.carbsBudget -
-                                this.state.macrosCurrent.carbs}
+                              {(
+                                this.state.macrosBudget.carbsBudget -
+                                this.state.macrosCurrent.carbs
+                              ).toFixed(2)}
                             </td>
                             <td>
-                              {this.state.macrosBudget.proteinBudget -
-                                this.state.macrosCurrent.protein}
+                              {(
+                                this.state.macrosBudget.proteinBudget -
+                                this.state.macrosCurrent.protein
+                              ).toFixed(2)}
                             </td>
                             <td>
-                              {this.state.macrosBudget.fatBudget -
-                                this.state.macrosCurrent.fat}
+                              {(
+                                this.state.macrosBudget.fatBudget -
+                                this.state.macrosCurrent.fat
+                              ).toFixed(2)}
                             </td>
                             <td>
-                              {this.state.macrosBudget.fiberBudget -
-                                this.state.macrosCurrent.fiber}
+                              {(
+                                this.state.macrosBudget.fiberBudget -
+                                this.state.macrosCurrent.fiber
+                              ).toFixed(2)}
                             </td>
                           </tr>
                         </tbody>

@@ -41,8 +41,8 @@ class MealIngredientDetail extends Component {
         <div className="card-header mlIgrdntCrdTpSctn">
           <form className="mlIngrdntFrm">
             <div className="mlIngrdntFrmHdr">
-              <label className="mlIngrdntHdr">
-                <h6>Meal Ingrdnt:</h6>
+              <label className="mlIngrdntHdr doubleHeightLabel">
+                <h6>Qty</h6>
               </label>
               <EditOptions
                 className="mlIngrdntFrmIcns"
@@ -61,10 +61,10 @@ class MealIngredientDetail extends Component {
               />
             </div>
             <div
-              className="accordion accordion-flush"
+              className="accordion accordion-flush flushElement"
               id={"mlIngrdntFrmAccrdnFll" + this.props.thisMealIngredient._id}
             >
-              <div className="accordion-item genRecipeAdminMenuBttn">
+              <div className="accordion-item genRecipeAdminMenuBttn flushElement">
                 <h2
                   className="accordion-header"
                   id={
@@ -98,7 +98,9 @@ class MealIngredientDetail extends Component {
               >
                 <div className="accordion-body">
                   <div className="form-group mealIngrdntInputs">
-                    <label>Default Recipe Ingredient</label>
+                    <label className="doubleHeightLabel">
+                      Default Recipe Ingredient
+                    </label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -108,7 +110,7 @@ class MealIngredientDetail extends Component {
                       }
                     />
                   </div>
-                  <div className="form-group mealIngrdntInputs">
+                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                     <label>Meal</label>
                     <input
                       type={"text"}
@@ -129,8 +131,8 @@ class MealIngredientDetail extends Component {
           </form>
           <form className="gnRcpIngrdntFrm">
             <div className="gnRcpIngrdntFrmHdr">
-              <label className="gnRcpIngrdntHdr">
-                <h6>Default</h6>
+              <label className="gnRcpIngrdntHdr doubleHeightLabel">
+                <h6>Default Qty</h6>
               </label>
               <EditOptions
                 className="gnRcpIngrdntFrmIcns"
@@ -147,12 +149,12 @@ class MealIngredientDetail extends Component {
               />
             </div>
             <div
-              className="accordion accordion-flush"
+              className="accordion accordion-flush flushElement"
               id={
                 "gnRcpIngrdntFrmAccrdnFll" + this.props.thisMealIngredient._id
               }
             >
-              <div className="accordion-item genRecipeAdminMenuBttn">
+              <div className="accordion-item genRecipeAdminMenuBttn flushElement">
                 <h2
                   className="accordion-header"
                   id={
@@ -190,7 +192,7 @@ class MealIngredientDetail extends Component {
               >
                 <div className="accordion-body">
                   <div className="form-group mealIngrdntInputs">
-                    <label>Ingredient</label>
+                    <label className="doubleHeightLabel">Ingredient</label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -200,7 +202,7 @@ class MealIngredientDetail extends Component {
                       }
                     />
                   </div>
-                  <div className="form-group mealIngrdntInputs">
+                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                     <label>Default Recipe</label>
                     <input
                       type={"text"}
@@ -358,7 +360,7 @@ class MealIngredientDetail extends Component {
                   </div>
                 </div>
                 <div
-                  class="accordion accordion-flush"
+                  class="accordion accordion-flush ingrdntAdminMenu"
                   id={
                     "ingrdntAdminMenuAccrdnFull" +
                     this.props.thisMealIngredient._id
@@ -404,7 +406,7 @@ class MealIngredientDetail extends Component {
                     }
                   >
                     <div class="accordion-body ingrdntInnerAccrdn">
-                      <div className="form-group mealIngrdntInputs">
+                      <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                         <label>Author:</label>
                         <input
                           type={"text"}

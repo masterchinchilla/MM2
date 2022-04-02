@@ -285,41 +285,59 @@ class MealDetail extends Component {
                 <tbody>
                   <tr>
                     <th scope="row">Bdgt</th>
-                    <td>{this.state.thisMealsMacrosBudget.cals}</td>
-                    <td>{this.state.thisMealsMacrosBudget.carbs}</td>
-                    <td>{this.state.thisMealsMacrosBudget.protein}</td>
-                    <td>{this.state.thisMealsMacrosBudget.fat}</td>
-                    <td>{this.state.thisMealsMacrosBudget.fiber}</td>
+                    <td>{this.state.thisMealsMacrosBudget.cals.toFixed(2)}</td>
+                    <td>{this.state.thisMealsMacrosBudget.carbs.toFixed(2)}</td>
+                    <td>
+                      {this.state.thisMealsMacrosBudget.protein.toFixed(2)}
+                    </td>
+                    <td>{this.state.thisMealsMacrosBudget.fat.toFixed(2)}</td>
+                    <td>{this.state.thisMealsMacrosBudget.fiber.toFixed(2)}</td>
                   </tr>
                   <tr>
                     <th scope="row">Crrnt</th>
-                    <td>{this.state.thisMealsMacrosCurrent.cals}</td>
-                    <td>{this.state.thisMealsMacrosCurrent.carbs}</td>
-                    <td>{this.state.thisMealsMacrosCurrent.protein}</td>
-                    <td>{this.state.thisMealsMacrosCurrent.fat}</td>
-                    <td>{this.state.thisMealsMacrosCurrent.fiber}</td>
+                    <td>{this.state.thisMealsMacrosCurrent.cals.toFixed(2)}</td>
+                    <td>
+                      {this.state.thisMealsMacrosCurrent.carbs.toFixed(2)}
+                    </td>
+                    <td>
+                      {this.state.thisMealsMacrosCurrent.protein.toFixed(2)}
+                    </td>
+                    <td>{this.state.thisMealsMacrosCurrent.fat.toFixed(2)}</td>
+                    <td>
+                      {this.state.thisMealsMacrosCurrent.fiber.toFixed(2)}
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row">Left</th>
                     <td>
-                      {this.state.thisMealsMacrosBudget.cals -
-                        this.state.thisMealsMacrosCurrent.cals}
+                      {(
+                        this.state.thisMealsMacrosBudget.cals -
+                        this.state.thisMealsMacrosCurrent.cals
+                      ).toFixed(2)}
                     </td>
                     <td>
-                      {this.state.thisMealsMacrosBudget.carbs -
-                        this.state.thisMealsMacrosCurrent.carbs}
+                      {(
+                        this.state.thisMealsMacrosBudget.carbs -
+                        this.state.thisMealsMacrosCurrent.carbs
+                      ).toFixed(2)}
                     </td>
                     <td>
-                      {this.state.thisMealsMacrosBudget.protein -
-                        this.state.thisMealsMacrosCurrent.protein}
+                      {(
+                        this.state.thisMealsMacrosBudget.protein -
+                        this.state.thisMealsMacrosCurrent.protein
+                      ).toFixed(2)}
                     </td>
                     <td>
-                      {this.state.thisMealsMacrosBudget.fat -
-                        this.state.thisMealsMacrosCurrent.fat}
+                      {(
+                        this.state.thisMealsMacrosBudget.fat -
+                        this.state.thisMealsMacrosCurrent.fat
+                      ).toFixed(2)}
                     </td>
                     <td>
-                      {this.state.thisMealsMacrosBudget.fiber -
-                        this.state.thisMealsMacrosCurrent.fiber}
+                      {(
+                        this.state.thisMealsMacrosBudget.fiber -
+                        this.state.thisMealsMacrosCurrent.fiber
+                      ).toFixed(2)}
                     </td>
                   </tr>
                 </tbody>

@@ -20,7 +20,6 @@ button.iconBttn {
   margin: 1rem;
 }
 .weekMealPlanFormCards {
-  width: 28rem;
 }
 .card-header {
   display: flex;
@@ -31,6 +30,7 @@ button.iconBttn {
 .mealCardHeader {
   display: unset;
   padding: 0 !important;
+  border-bottom: unset !important;
 }
 hr {
   margin: 0 !important;
@@ -243,8 +243,8 @@ button.accordion-button {
   display: block !important;
 }
 .mlIgrdntCrdTpSctn{
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
+  align-items: flex-start;
 }
 .mlIngrdntFrm{
 
@@ -284,11 +284,12 @@ button.accordion-button {
 }
 .ingrdntFrmHdr{
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto;
   grid-template-rows: auto auto auto;
   grid-template-areas:
-    "ingrdntHdr ingrdntHdr ingrdntHdr ingrdntFrmIcns"
-    "ingrdntUOM ingrdntWghtType ingrdntBrnd ingrdntName";
+    "ingrdntHdr ingrdntHdr ingrdntFrmIcns"
+    "ingrdntUOM ingrdntWghtType ingrdntBrnd"
+    "ingrdntName ingrdntName ingrdntName";
 }
 .ingrdntHdr{
   grid-area: ingrdntHdr;
@@ -313,9 +314,9 @@ button.accordion-button {
 }
 .mlIngrdntsCard input{
   width: 100%;
+  padding:0.25rem;
 }
 .mlIngrdntsCard div {
-  padding:0.25rem;
 }
 .mlIngrdntsCard div.iconGroup {
   padding: 0;
@@ -325,7 +326,7 @@ button.accordion-button {
   align-items: flex-start;
 }
 .mlIngrdntsCard div.form-group {
-  margin: 0.5rem
+  margin: 0 0.5rem
 }
 .ingrdntFrmHdr div.form-group{
   display: flex;
@@ -341,9 +342,6 @@ div.mlIngrdntFrmHdr,
 div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   padding: 0.5rem !important;
 }
-.mlIngrdntsCard div.accordion, div.mlIngrdntsCard div.accordion *{
-  padding:0 !important;
-}
 .mealAdminAccrdnBttn{
   justify-content: flex-end;
   border-top: 1px solid rgba(0, 0, 0, .125) !important;
@@ -351,7 +349,7 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 .mealAdminAccrdnBttn::after {
   margin: 0.25rem !important;
 }
-.mlIngrdntsCard label{
+.doubleHeightLabel{
   min-height: 3.25rem;
 }
 .ingrdntInnrAccrdn {
@@ -361,4 +359,17 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 
 .ingrdntInnrAccrdn label{
   min-height: unset;
+}
+.flushElement{
+  padding: 0 !important;
+}
+
+.mlIngrdntsCard div.accordion-body{
+  padding: 0 !important;
+}
+.ingrdntAdminMenu{
+  margin-top:0.5rem;
+}
+.ingrdntFrmGrpWBttmPddng{
+  padding-bottom:0.5rem !important;
 }
