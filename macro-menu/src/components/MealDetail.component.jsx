@@ -76,6 +76,7 @@ class MealDetail extends Component {
           thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
           thisMealTypesGenRecipesLoaded: true,
           thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
+          thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
           thisMealsMealIngrdnts: this.props.thisMealsMealIngrdnts,
           mealsMealIngrdntsLoaded: true,
         });
@@ -400,7 +401,7 @@ class MealDetail extends Component {
                       }
                     >
                       <div className="accordion-body mealInnerAccordion">
-                        <div className="form-group">
+                        <div className="form-group mealImputs">
                           <label>Day</label>
                           <select
                             ref="userInput"
@@ -423,7 +424,7 @@ class MealDetail extends Component {
                             })}
                           </select>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mealImputs">
                           <label>Meal Type</label>
                           <select
                             ref="userInput"
@@ -449,7 +450,7 @@ class MealDetail extends Component {
                             })}
                           </select>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mealImputs">
                           <label>Record ID</label>
                           <input
                             className="form-control"
@@ -525,7 +526,7 @@ class MealDetail extends Component {
                       }
                     >
                       <div className="accordion-body mealInnerAccordion">
-                        <div className="form-group">
+                        <div className="form-group mealInputs">
                           <label>Name</label>
                           <input
                             className="form-control"
@@ -539,7 +540,7 @@ class MealDetail extends Component {
                             value={this.state.thisRecipesName}
                           />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mealInputs">
                           <label>Img URL</label>
                           <input
                             className="form-control"
@@ -553,7 +554,7 @@ class MealDetail extends Component {
                             value={this.state.thisMealRecipePic}
                           />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mealInputs">
                           <label>Author</label>
                           <input
                             className="form-control"
@@ -607,7 +608,7 @@ class MealDetail extends Component {
                           }
                         >
                           <div className="accordion-body mealInnerAccordion">
-                            <div className="form-group">
+                            <div className="form-group mealInputs">
                               <label>Meal Type</label>
                               <select
                                 ref="userInput"
@@ -635,7 +636,7 @@ class MealDetail extends Component {
                                 })}
                               </select>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mealInputs">
                               <label>Author</label>
                               <select
                                 ref="userInput"
@@ -661,7 +662,7 @@ class MealDetail extends Component {
                                 })}
                               </select>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mealInputs">
                               <label>Record ID</label>
                               <input
                                 className="form-control"

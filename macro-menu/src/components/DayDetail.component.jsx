@@ -312,7 +312,7 @@ class DayDetail extends Component {
           });
           break;
       }
-      this.totalMealsMacros(mealMealIngredients, thisMealType);
+      this.totalAllMacros();
     }
   };
   handleSubmitFormChange = () => {
@@ -340,251 +340,309 @@ class DayDetail extends Component {
     });
   };
   totalAllMacros = () => {
-    this.clearCurrentMacros();
+    // this.clearCurrentMacros();
+    var macrosCurrent = {
+      cals: 0,
+      carbs: 0,
+      protein: 0,
+      fat: 0,
+      fiber: 0,
+    };
+    var mealMacrosCurrent = {
+      breakfastMacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      snack1MacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      lunchMacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      snack2MacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      dinnerMacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+      dessertMacrosCurrent: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
+    };
+    function totalMealsMacros(thisMealsMealIngredients, mealType) {
+      let i = 0;
+      for (i; i < thisMealsMealIngredients.length; i++) {
+        switch (mealType) {
+          case "Breakfast":
+            mealMacrosCurrent.breakfastMacrosCurrent.cals =
+              mealMacrosCurrent.breakfastMacrosCurrent.cals +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .calories *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.cals =
+              macrosCurrent.cals +
+              mealMacrosCurrent.breakfastMacrosCurrent.cals;
+            mealMacrosCurrent.breakfastMacrosCurrent.carbs =
+              mealMacrosCurrent.breakfastMacrosCurrent.carbs +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.carbs =
+              macrosCurrent.carbs +
+              mealMacrosCurrent.breakfastMacrosCurrent.carbs;
+            mealMacrosCurrent.breakfastMacrosCurrent.protein =
+              mealMacrosCurrent.breakfastMacrosCurrent.protein +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .protein *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.protein =
+              macrosCurrent.protein +
+              mealMacrosCurrent.breakfastMacrosCurrent.protein;
+            mealMacrosCurrent.breakfastMacrosCurrent.fat =
+              mealMacrosCurrent.breakfastMacrosCurrent.fat +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fat =
+              macrosCurrent.fat + mealMacrosCurrent.breakfastMacrosCurrent.fat;
+            mealMacrosCurrent.breakfastMacrosCurrent.fiber =
+              mealMacrosCurrent.breakfastMacrosCurrent.fiber +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fiber =
+              macrosCurrent.fiber +
+              mealMacrosCurrent.breakfastMacrosCurrent.fiber;
+            break;
+          case "Snack 1":
+            mealMacrosCurrent.snack1MacrosCurrent.cals =
+              mealMacrosCurrent.snack1MacrosCurrent.cals +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .calories *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.cals =
+              macrosCurrent.cals + mealMacrosCurrent.snack1MacrosCurrent.cals;
+            mealMacrosCurrent.snack1MacrosCurrent.carbs =
+              mealMacrosCurrent.snack1MacrosCurrent.carbs +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.carbs =
+              macrosCurrent.carbs + mealMacrosCurrent.snack1MacrosCurrent.carbs;
+            mealMacrosCurrent.snack1MacrosCurrent.protein =
+              mealMacrosCurrent.snack1MacrosCurrent.protein +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .protein *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.protein =
+              macrosCurrent.protein +
+              mealMacrosCurrent.snack1MacrosCurrent.protein;
+            mealMacrosCurrent.snack1MacrosCurrent.fat =
+              mealMacrosCurrent.snack1MacrosCurrent.fat +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fat =
+              macrosCurrent.fat + mealMacrosCurrent.snack1MacrosCurrent.fat;
+            mealMacrosCurrent.snack1MacrosCurrent.fiber =
+              mealMacrosCurrent.snack1MacrosCurrent.fiber +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fiber =
+              macrosCurrent.fiber + mealMacrosCurrent.snack1MacrosCurrent.fiber;
+            break;
+          case "Lunch":
+            mealMacrosCurrent.lunchMacrosCurrent.cals =
+              mealMacrosCurrent.lunchMacrosCurrent.cals +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .calories *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.cals =
+              macrosCurrent.cals + mealMacrosCurrent.lunchMacrosCurrent.cals;
+            mealMacrosCurrent.lunchMacrosCurrent.carbs =
+              mealMacrosCurrent.lunchMacrosCurrent.carbs +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.carbs =
+              macrosCurrent.carbs + mealMacrosCurrent.lunchMacrosCurrent.carbs;
+            mealMacrosCurrent.lunchMacrosCurrent.protein =
+              mealMacrosCurrent.lunchMacrosCurrent.protein +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .protein *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.protein =
+              macrosCurrent.protein +
+              mealMacrosCurrent.lunchMacrosCurrent.protein;
+            mealMacrosCurrent.lunchMacrosCurrent.fat =
+              mealMacrosCurrent.lunchMacrosCurrent.fat +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fat =
+              macrosCurrent.fat + mealMacrosCurrent.lunchMacrosCurrent.fat;
+            mealMacrosCurrent.lunchMacrosCurrent.fiber =
+              mealMacrosCurrent.lunchMacrosCurrent.fiber +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fiber =
+              macrosCurrent.fiber + mealMacrosCurrent.lunchMacrosCurrent.fiber;
+            break;
+          case "Snack 2":
+            mealMacrosCurrent.snack2MacrosCurrent.cals =
+              mealMacrosCurrent.snack2MacrosCurrent.cals +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .calories *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.cals =
+              macrosCurrent.cals + mealMacrosCurrent.snack2MacrosCurrent.cals;
+            mealMacrosCurrent.snack2MacrosCurrent.carbs =
+              mealMacrosCurrent.snack2MacrosCurrent.carbs +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.carbs =
+              macrosCurrent.carbs + mealMacrosCurrent.snack2MacrosCurrent.carbs;
+            mealMacrosCurrent.snack2MacrosCurrent.protein =
+              mealMacrosCurrent.snack2MacrosCurrent.protein +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .protein *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.protein =
+              macrosCurrent.protein +
+              mealMacrosCurrent.snack2MacrosCurrent.protein;
+            mealMacrosCurrent.snack2MacrosCurrent.fat =
+              mealMacrosCurrent.snack2MacrosCurrent.fat +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fat =
+              macrosCurrent.fat + mealMacrosCurrent.snack2MacrosCurrent.fat;
+            mealMacrosCurrent.snack2MacrosCurrent.fiber =
+              mealMacrosCurrent.snack2MacrosCurrent.fiber +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fiber =
+              macrosCurrent.fiber + mealMacrosCurrent.snack2MacrosCurrent.fiber;
+            break;
+          case "Dinner":
+            mealMacrosCurrent.dinnerMacrosCurrent.cals =
+              mealMacrosCurrent.dinnerMacrosCurrent.cals +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .calories *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.cals =
+              macrosCurrent.cals + mealMacrosCurrent.dinnerMacrosCurrent.cals;
+            mealMacrosCurrent.dinnerMacrosCurrent.carbs =
+              mealMacrosCurrent.dinnerMacrosCurrent.carbs +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.carbs =
+              macrosCurrent.carbs + mealMacrosCurrent.dinnerMacrosCurrent.carbs;
+            mealMacrosCurrent.dinnerMacrosCurrent.protein =
+              mealMacrosCurrent.dinnerMacrosCurrent.protein +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .protein *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.protein =
+              macrosCurrent.protein +
+              mealMacrosCurrent.dinnerMacrosCurrent.protein;
+            mealMacrosCurrent.dinnerMacrosCurrent.fat =
+              mealMacrosCurrent.dinnerMacrosCurrent.fat +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fat =
+              macrosCurrent.fat + mealMacrosCurrent.dinnerMacrosCurrent.fat;
+            mealMacrosCurrent.dinnerMacrosCurrent.fiber =
+              mealMacrosCurrent.dinnerMacrosCurrent.fiber +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fiber =
+              macrosCurrent.fiber + mealMacrosCurrent.dinnerMacrosCurrent.fiber;
+            break;
+          case "Dessert":
+            mealMacrosCurrent.dessertMacrosCurrent.cals =
+              mealMacrosCurrent.dessertMacrosCurrent.cals +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .calories *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.cals =
+              macrosCurrent.cals + mealMacrosCurrent.dessertMacrosCurrent.cals;
+            mealMacrosCurrent.dessertMacrosCurrent.carbs =
+              mealMacrosCurrent.dessertMacrosCurrent.carbs +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.carbs =
+              macrosCurrent.carbs +
+              mealMacrosCurrent.dessertMacrosCurrent.carbs;
+            mealMacrosCurrent.dessertMacrosCurrent.protein =
+              mealMacrosCurrent.dessertMacrosCurrent.protein +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient
+                .protein *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.protein =
+              macrosCurrent.protein +
+              mealMacrosCurrent.dessertMacrosCurrent.protein;
+            mealMacrosCurrent.dessertMacrosCurrent.fat =
+              mealMacrosCurrent.dessertMacrosCurrent.fat +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fat =
+              macrosCurrent.fat + mealMacrosCurrent.dessertMacrosCurrent.fat;
+            mealMacrosCurrent.dessertMacrosCurrent.fiber =
+              mealMacrosCurrent.dessertMacrosCurrent.fiber +
+              thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
+                thisMealsMealIngredients[i].qty;
+            macrosCurrent.fiber =
+              macrosCurrent.fiber +
+              mealMacrosCurrent.dessertMacrosCurrent.fiber;
+            break;
+        }
+      }
+    }
     if (this.state.breakfast._id == "Missing") {
       return;
     } else {
-      this.totalMealsMacros(this.state.breakfastIngrdnts, "Breakfast");
+      totalMealsMacros(this.state.breakfastIngrdnts, "Breakfast");
     }
     if (this.state.snack1._id == "Missing") {
       return;
     } else {
-      this.totalMealsMacros(this.state.snack1Ingrdnts, "Snack1");
+      totalMealsMacros(this.state.snack1Ingrdnts, "Snack1");
     }
     if (this.state.lunch._id == "Missing") {
       return;
     } else {
-      this.totalMealsMacros(this.state.lunchIngrdnts, "Lunch");
+      totalMealsMacros(this.state.lunchIngrdnts, "Lunch");
     }
     if (this.state.snack2._id == "Missing") {
       return;
     } else {
-      this.totalMealsMacros(this.state.snack2Ingrdnts, "Snack 2");
+      totalMealsMacros(this.state.snack2Ingrdnts, "Snack 2");
     }
     if (this.state.dinner._id == "Missing") {
       return;
     } else {
-      this.totalMealsMacros(this.state.dinnerIngrdnts, "Dinner");
+      totalMealsMacros(this.state.dinnerIngrdnts, "Dinner");
     }
     if (this.state.dessert._id == "Missing") {
       return;
     } else {
-      this.totalMealsMacros(this.state.dessertIngrdnts, "Dessert");
-    }
-  };
-  totalMealsMacros = (thisMealsMealIngredients, mealType) => {
-    let mealMacrosCurrent = this.state.mealMacrosCurrent;
-    let macrosCurrent = this.state.macrosCurrent;
-    let i = 0;
-    for (i; i < thisMealsMealIngredients.length; i++) {
-      switch (mealType) {
-        case "Breakfast":
-          mealMacrosCurrent.breakfastMacrosCurrent.cals =
-            mealMacrosCurrent.breakfastMacrosCurrent.cals +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
-              .calories *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.cals =
-            macrosCurrent.cals + mealMacrosCurrent.breakfastMacrosCurrent.cals;
-          mealMacrosCurrent.breakfastMacrosCurrent.carbs =
-            mealMacrosCurrent.breakfastMacrosCurrent.carbs +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.carbs =
-            macrosCurrent.carbs +
-            mealMacrosCurrent.breakfastMacrosCurrent.carbs;
-          mealMacrosCurrent.breakfastMacrosCurrent.protein =
-            mealMacrosCurrent.breakfastMacrosCurrent.protein +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.protein =
-            macrosCurrent.protein +
-            mealMacrosCurrent.breakfastMacrosCurrent.protein;
-          mealMacrosCurrent.breakfastMacrosCurrent.fat =
-            mealMacrosCurrent.breakfastMacrosCurrent.fat +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fat =
-            macrosCurrent.fat + mealMacrosCurrent.breakfastMacrosCurrent.fat;
-          mealMacrosCurrent.breakfastMacrosCurrent.fiber =
-            mealMacrosCurrent.breakfastMacrosCurrent.fiber +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fiber =
-            macrosCurrent.fiber +
-            mealMacrosCurrent.breakfastMacrosCurrent.fiber;
-          break;
-        case "Snack 1":
-          mealMacrosCurrent.snack1MacrosCurrent.cals =
-            mealMacrosCurrent.snack1MacrosCurrent.cals +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
-              .calories *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.cals =
-            macrosCurrent.cals + mealMacrosCurrent.snack1MacrosCurrent.cals;
-          mealMacrosCurrent.snack1MacrosCurrent.carbs =
-            mealMacrosCurrent.snack1MacrosCurrent.carbs +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.carbs =
-            macrosCurrent.carbs + mealMacrosCurrent.snack1MacrosCurrent.carbs;
-          mealMacrosCurrent.snack1MacrosCurrent.protein =
-            mealMacrosCurrent.snack1MacrosCurrent.protein +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.protein =
-            macrosCurrent.protein +
-            mealMacrosCurrent.snack1MacrosCurrent.protein;
-          mealMacrosCurrent.snack1MacrosCurrent.fat =
-            mealMacrosCurrent.snack1MacrosCurrent.fat +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fat =
-            macrosCurrent.fat + mealMacrosCurrent.snack1MacrosCurrent.fat;
-          mealMacrosCurrent.snack1MacrosCurrent.fiber =
-            mealMacrosCurrent.snack1MacrosCurrent.fiber +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fiber =
-            macrosCurrent.fiber + mealMacrosCurrent.snack1MacrosCurrent.fiber;
-          break;
-        case "Lunch":
-          mealMacrosCurrent.lunchMacrosCurrent.cals =
-            mealMacrosCurrent.lunchMacrosCurrent.cals +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
-              .calories *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.cals =
-            macrosCurrent.cals + mealMacrosCurrent.lunchMacrosCurrent.cals;
-          mealMacrosCurrent.lunchMacrosCurrent.carbs =
-            mealMacrosCurrent.lunchMacrosCurrent.carbs +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.carbs =
-            macrosCurrent.carbs + mealMacrosCurrent.lunchMacrosCurrent.carbs;
-          mealMacrosCurrent.lunchMacrosCurrent.protein =
-            mealMacrosCurrent.lunchMacrosCurrent.protein +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.protein =
-            macrosCurrent.protein +
-            mealMacrosCurrent.lunchMacrosCurrent.protein;
-          mealMacrosCurrent.lunchMacrosCurrent.fat =
-            mealMacrosCurrent.lunchMacrosCurrent.fat +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fat =
-            macrosCurrent.fat + mealMacrosCurrent.lunchMacrosCurrent.fat;
-          mealMacrosCurrent.lunchMacrosCurrent.fiber =
-            mealMacrosCurrent.lunchMacrosCurrent.fiber +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fiber =
-            macrosCurrent.fiber + mealMacrosCurrent.lunchMacrosCurrent.fiber;
-          break;
-        case "Snack 2":
-          mealMacrosCurrent.snack2MacrosCurrent.cals =
-            mealMacrosCurrent.snack2MacrosCurrent.cals +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
-              .calories *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.cals =
-            macrosCurrent.cals + mealMacrosCurrent.snack2MacrosCurrent.cals;
-          mealMacrosCurrent.snack2MacrosCurrent.carbs =
-            mealMacrosCurrent.snack2MacrosCurrent.carbs +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.carbs =
-            macrosCurrent.carbs + mealMacrosCurrent.snack2MacrosCurrent.carbs;
-          mealMacrosCurrent.snack2MacrosCurrent.protein =
-            mealMacrosCurrent.snack2MacrosCurrent.protein +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.protein =
-            macrosCurrent.protein +
-            mealMacrosCurrent.snack2MacrosCurrent.protein;
-          mealMacrosCurrent.snack2MacrosCurrent.fat =
-            mealMacrosCurrent.snack2MacrosCurrent.fat +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fat =
-            macrosCurrent.fat + mealMacrosCurrent.snack2MacrosCurrent.fat;
-          mealMacrosCurrent.snack2MacrosCurrent.fiber =
-            mealMacrosCurrent.snack2MacrosCurrent.fiber +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fiber =
-            macrosCurrent.fiber + mealMacrosCurrent.snack2MacrosCurrent.fiber;
-          break;
-        case "Dinner":
-          mealMacrosCurrent.dinnerMacrosCurrent.cals =
-            mealMacrosCurrent.dinnerMacrosCurrent.cals +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
-              .calories *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.cals =
-            macrosCurrent.cals + mealMacrosCurrent.dinnerMacrosCurrent.cals;
-          mealMacrosCurrent.dinnerMacrosCurrent.carbs =
-            mealMacrosCurrent.dinnerMacrosCurrent.carbs +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.carbs =
-            macrosCurrent.carbs + mealMacrosCurrent.dinnerMacrosCurrent.carbs;
-          mealMacrosCurrent.dinnerMacrosCurrent.protein =
-            mealMacrosCurrent.dinnerMacrosCurrent.protein +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.protein =
-            macrosCurrent.protein +
-            mealMacrosCurrent.dinnerMacrosCurrent.protein;
-          mealMacrosCurrent.dinnerMacrosCurrent.fat =
-            mealMacrosCurrent.dinnerMacrosCurrent.fat +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fat =
-            macrosCurrent.fat + mealMacrosCurrent.dinnerMacrosCurrent.fat;
-          mealMacrosCurrent.dinnerMacrosCurrent.fiber =
-            mealMacrosCurrent.dinnerMacrosCurrent.fiber +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fiber =
-            macrosCurrent.fiber + mealMacrosCurrent.dinnerMacrosCurrent.fiber;
-          break;
-        case "Dessert":
-          mealMacrosCurrent.dessertMacrosCurrent.cals =
-            mealMacrosCurrent.dessertMacrosCurrent.cals +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient
-              .calories *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.cals =
-            macrosCurrent.cals + mealMacrosCurrent.dessertMacrosCurrent.cals;
-          mealMacrosCurrent.dessertMacrosCurrent.carbs =
-            mealMacrosCurrent.dessertMacrosCurrent.carbs +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.carbs *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.carbs =
-            macrosCurrent.carbs + mealMacrosCurrent.dessertMacrosCurrent.carbs;
-          mealMacrosCurrent.dessertMacrosCurrent.protein =
-            mealMacrosCurrent.dessertMacrosCurrent.protein +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.protein *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.protein =
-            macrosCurrent.protein +
-            mealMacrosCurrent.dessertMacrosCurrent.protein;
-          mealMacrosCurrent.dessertMacrosCurrent.fat =
-            mealMacrosCurrent.dessertMacrosCurrent.fat +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fat *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fat =
-            macrosCurrent.fat + mealMacrosCurrent.dessertMacrosCurrent.fat;
-          mealMacrosCurrent.dessertMacrosCurrent.fiber =
-            mealMacrosCurrent.dessertMacrosCurrent.fiber +
-            thisMealsMealIngredients[i].genRecipeIngredient.ingredient.fiber *
-              thisMealsMealIngredients[i].qty;
-          macrosCurrent.fiber =
-            macrosCurrent.fiber + mealMacrosCurrent.dessertMacrosCurrent.fiber;
-          break;
-      }
+      totalMealsMacros(this.state.dessertIngrdnts, "Dessert");
     }
     this.setState({
       mealMacrosCurrent: mealMacrosCurrent,
@@ -685,7 +743,6 @@ class DayDetail extends Component {
           thisMeal={mealToRender}
           key={mealToRender._id}
           thisMealsMacrosBudget={thisMealsMacrosBudget}
-          totalCurrentMacrosMethod={this.totalCurrentMacrosMethod}
           thisMealsMacrosCurrent={thisMealsMacrosCurrent}
           thisMealsMealIngrdnts={thisMealsMealIngrdnts}
           clearCurrentMacros={this.clearCurrentMacros}

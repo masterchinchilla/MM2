@@ -197,3 +197,118 @@ button.accordion-button {
 .mealMacrosTbl {
   margin: 0.5rem 0.5rem 0 0.5rem !important;
 }
+.mealIngrdntSctn {
+  display: flex;
+  flex-direction: row;
+}
+.mealIngrdntSctn div {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: flex-start;
+  align-items: flex-start; */
+}
+.mealIngrdntSctn form.card {
+  box-sizing: border-box;
+  margin: 1rem;
+  min-width: unset;
+}
+.mealIngrdntSctn div.visible, div.mealIngrdntSctn div.hidden{
+  margin: 1rem;
+}
+.mealIngrdntHidden {
+  margin-top: 0 !important;
+}
+.mealIngrdntSctn div.form-group{
+  flex-direction: column;
+}
+.mealIngrdntSctn label {
+  white-space: nowrap;
+  margin-bottom: 0.5rem;
+}
+.mealIngrdntSctn p {
+  white-space: wrap;
+  width: fit-content;
+}
+.ingrdntFormSctn div.form-group{
+  margin-right: 1rem;
+}
+.mealIngrdntSctn div.card-header{
+      min-height: 3.5rem;
+      display: flex;
+      align-items: flex-start;
+}
+.card-header h6 {
+  margin: 0;
+}
+.recipeCard{
+  display: block !important;
+}
+.mlIgrdntCrdTpSctn{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.mlIngrdntFrm{
+
+}
+.mlIngrdntFrmHdr{
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "mlIngrdntHdr mlIngrdntFrmIcns"
+    "mlIngrdntHdr mlIngrdntQty";
+}
+.mlIngrdntHdr{
+  grid-area: mlIngrdntHdr;
+}
+.mlIngrdntFrmIcns{
+  grid-area: mlIngrdntFrmIcns;
+}
+.mlIngrdntQty{
+  grid-area: mlIngrdntQty;
+}
+.gnRcpIngrdntFrmHdr{
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "gnRcpIngrdntHdr gnRcpIngrdntFrmIcns"
+  "gnRcpIngrdntQty gnRcpIngrdntQty";
+}
+.gnRcpIngrdntHdr{
+  grid-area: gnRcpIngrdntHdr;
+}
+.gnRcpIngrdntFrmIcns{
+  grid-area: gnRcpIngrdntFrmIcns;
+}
+.gnRcpIngrdntQty{
+  grid-area: gnRcpIngrdntQty;
+}
+.ingrdntFrmHdr{
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "ingrdntHdr ingrdntHdr ingrdntHdr ingrdntHdr ingrdntFrmIcns"
+    "ingrdntUOM ingrdntWghtType ingrdntBrnd ingrdntName ingrdntName";
+}
+.ingrdntHdr{
+  grid-area: ingrdntHdr;
+}
+.ingrdntFrmIcns{
+  grid-area: ingrdntFrmIcns;
+}
+.ingrdntUOM{
+  grid-area: ingrdntUOM;
+}
+.ingrdntWghtType{
+  grid-area: ingrdntWghtType;
+}
+.ingrdntBrnd{
+  grid-area: ingrdntBrnd;
+}
+.ingrdntName{
+  grid-area: ingrdntName;
+}
+.mlIngrdntsCard input{
+  width: 100%;
+}
