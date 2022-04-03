@@ -35,6 +35,9 @@ class MealIngredientDetail extends Component {
       return <FontAwesomeIcon icon="fa-solid fa-lock" />;
     }
   };
+  onChange = () => {
+    console.log("changing value");
+  };
   render() {
     return (
       <div className="card mlIngrdntsCard">
@@ -108,6 +111,7 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.name
                       }
+                      onChange={this.onChange}
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
@@ -123,6 +127,17 @@ class MealIngredientDetail extends Component {
                         " - " +
                         this.state.thisMealIngredient.meal.mealType
                       }
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+                    <label>Record ID</label>
+                    <input
+                      type={"text"}
+                      className="form-control"
+                      value={this.state.thisMealIngredient._id}
+                      disabled={true}
+                      onChange={this.onChange}
                     />
                   </div>
                 </div>
@@ -146,6 +161,7 @@ class MealIngredientDetail extends Component {
                 value={
                   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
+                onChange={this.onChange}
               />
             </div>
             <div
@@ -200,6 +216,7 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.name
                       }
+                      onChange={this.onChange}
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
@@ -211,6 +228,19 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .genRecipe.name
                       }
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+                    <label>Record ID</label>
+                    <input
+                      type={"text"}
+                      className="form-control"
+                      value={
+                        this.state.thisMealIngredient.genRecipeIngredient._id
+                      }
+                      disabled={true}
+                      onChange={this.onChange}
                     />
                   </div>
                 </div>
@@ -237,6 +267,7 @@ class MealIngredientDetail extends Component {
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
                       .unitOfMeasure.name
                   }
+                  onChange={this.onChange}
                 />
               </div>
               <div className="form-group mealIngrdntInputs ingrdntWghtType">
@@ -248,8 +279,16 @@ class MealIngredientDetail extends Component {
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
                       .weightType.name
                   }
+                  onChange={this.onChange}
                 />
               </div>
+              <div
+                className="ingrdntPicDiv"
+                style={{
+                  backgroundImage: `url(${this.state.thisMealIngredient.genRecipeIngredient.ingredient.photoURL})`,
+                }}
+              ></div>
+
               <div className="form-group mealIngrdntInputs ingrdntBrnd">
                 <label>Brand</label>
                 <input
@@ -259,6 +298,7 @@ class MealIngredientDetail extends Component {
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
                       .brand.name
                   }
+                  onChange={this.onChange}
                 />
               </div>
               <div className="form-group mealIngrdntInputs ingrdntName">
@@ -270,20 +310,21 @@ class MealIngredientDetail extends Component {
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
                       .name
                   }
+                  onChange={this.onChange}
                 />
               </div>
             </div>
             <div
-              class="accordion accordion-flush"
+              className="accordion accordion-flush"
               id={"ingrdntAccrdnFull" + this.props.thisMealIngredient._id}
             >
-              <div class="accordion-item">
+              <div className="accordion-item">
                 <h2
-                  class="accordion-header"
+                  className="accordion-header"
                   id={"ingrdntAccrdnHdr" + this.props.thisMealIngredient._id}
                 >
                   <button
-                    class="accordion-button mealInnerAccrdnBttn collapsed"
+                    className="accordion-button mealInnerAccrdnBttn collapsed"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target={
@@ -294,7 +335,7 @@ class MealIngredientDetail extends Component {
               </div>
               <div
                 id={"ingrdntAccrdnBdy" + this.props.thisMealIngredient._id}
-                class="accordion-collapse collapse"
+                className="accordion-collapse collapse"
                 aria-labelledby={
                   "#ingrdntAccrdnHdr" + this.props.thisMealIngredient._id
                 }
@@ -302,9 +343,9 @@ class MealIngredientDetail extends Component {
                   "#ingrdntAccrdnFull" + this.props.thisMealIngredient._id
                 }
               >
-                <div class="accordion-body ingrdntInnrAccrdn">
+                <div className="accordion-body ingrdntInnrAccrdn">
                   <div className="form-group mealIngrdntInputs">
-                    <label>Calories:</label>
+                    <label>Calories</label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -312,10 +353,11 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.calories
                       }
+                      onChange={this.onChange}
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
-                    <label>Carbs:</label>
+                    <label>Carbs</label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -323,10 +365,11 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.carbs
                       }
+                      onChange={this.onChange}
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
-                    <label>Protein:</label>
+                    <label>Protein</label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -334,10 +377,11 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.protein
                       }
+                      onChange={this.onChange}
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
-                    <label>Fat:</label>
+                    <label>Fat</label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -345,10 +389,11 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.fat
                       }
+                      onChange={this.onChange}
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
-                    <label>Fiber:</label>
+                    <label>Fiber</label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -356,11 +401,24 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.fiber
                       }
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div className="form-group mealIngrdntInputs">
+                    <label>Photo URL</label>
+                    <input
+                      type={"text"}
+                      className="form-control"
+                      value={
+                        this.state.thisMealIngredient.genRecipeIngredient
+                          .ingredient.photoURL
+                      }
+                      onChange={this.onChange}
                     />
                   </div>
                 </div>
                 <div
-                  class="accordion accordion-flush ingrdntAdminMenu"
+                  className="accordion accordion-flush ingrdntAdminMenu"
                   id={
                     "ingrdntAdminMenuAccrdnFull" +
                     this.props.thisMealIngredient._id
@@ -395,7 +453,7 @@ class MealIngredientDetail extends Component {
                       "ingrdntAdminMenuAccrdnBdy" +
                       this.props.thisMealIngredient._id
                     }
-                    class="accordion-collapse collapse"
+                    className="accordion-collapse collapse"
                     aria-labelledby={
                       "#ingrdntAdminMenuAccrdnHdr" +
                       this.props.thisMealIngredient._id
@@ -405,9 +463,9 @@ class MealIngredientDetail extends Component {
                       this.props.thisMealIngredient._id
                     }
                   >
-                    <div class="accordion-body ingrdntInnerAccrdn">
+                    <div className="accordion-body ingrdntInnerAccrdn">
                       <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
-                        <label>Author:</label>
+                        <label>Author</label>
                         <input
                           type={"text"}
                           className="form-control"
@@ -415,6 +473,20 @@ class MealIngredientDetail extends Component {
                             this.state.thisMealIngredient.genRecipeIngredient
                               .ingredient.GRFUser.handle
                           }
+                          onChange={this.onChange}
+                        />
+                      </div>
+                      <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+                        <label>Record ID</label>
+                        <input
+                          type={"text"}
+                          className="form-control"
+                          value={
+                            this.state.thisMealIngredient.genRecipeIngredient
+                              .ingredient._id
+                          }
+                          disabled={true}
+                          onChange={this.onChange}
                         />
                       </div>
                     </div>

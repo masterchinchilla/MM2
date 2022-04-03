@@ -214,6 +214,9 @@ class MealDetail extends Component {
     //   this.state.thisMealType
     // );
   };
+  onChange = () => {
+    console.log("Value changed");
+  };
   render() {
     if (
       this.state.thisMealTypesGenRecipesLoaded == true &&
@@ -475,6 +478,7 @@ class MealDetail extends Component {
                             type="text"
                             value={this.state.thisMeal.day._id}
                             disabled={true}
+                            onChange={this.onChange}
                           />
                         </div>
                       </div>
@@ -579,6 +583,7 @@ class MealDetail extends Component {
                             type="text"
                             value={this.state.thisMeal.genRecipe.GRFUser.handle}
                             disabled={true}
+                            onChange={this.onChange}
                           />
                         </div>
                       </div>
@@ -687,6 +692,7 @@ class MealDetail extends Component {
                                 type="text"
                                 value={this.state.thisMeal.genRecipe._id}
                                 disabled={true}
+                                onChange={this.onChange}
                               />
                             </div>
                           </div>
