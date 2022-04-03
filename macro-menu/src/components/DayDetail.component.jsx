@@ -720,38 +720,6 @@ class DayDetail extends Component {
         break;
     }
   };
-  renderMeal = (
-    mealToRender,
-    thisDay,
-    mealType,
-    thisMealsMacrosBudget,
-    thisMealsMacrosCurrent,
-    thisMealsMealIngrdnts
-  ) => {
-    if (mealToRender._id == "missing") {
-      // if (mealToRender == undefined) {
-      return (
-        <CreateMeal
-          thisDay={thisDay}
-          mealType={mealType}
-          onCreateMeal={this.handleCreateMeal}
-          dayUserType={this.state.userType}
-        />
-      );
-    } else {
-      return (
-        <MealDetail
-          thisMeal={mealToRender}
-          key={mealToRender._id}
-          thisMealsMacrosBudget={thisMealsMacrosBudget}
-          thisMealsMacrosCurrent={thisMealsMacrosCurrent}
-          thisMealsMealIngrdnts={thisMealsMealIngrdnts}
-          clearCurrentMacros={this.clearCurrentMacros}
-          updateMealIngrdnt={this.updateMealIngrdnt}
-        />
-      );
-    }
-  };
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
@@ -952,16 +920,6 @@ class DayDetail extends Component {
                             }
                           >
                             <div className="accordion-body wkDaysAccrdnBdy">
-                              {this.renderMeal(
-                                this.state.breakfast,
-                                this.state.thisDay,
-                                "Breakfast",
-                                this.state.mealMacrosBudget
-                                  .breakfastMacrosBudget,
-                                this.state.mealMacrosCurrent
-                                  .breakfastMacrosCurrent,
-                                this.state.breakfastIngrdnts
-                              )}
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
                                 mealType={"Breakfast"}
@@ -983,50 +941,84 @@ class DayDetail extends Component {
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
                               />
-                              {this.renderMeal(
-                                this.state.snack1,
-                                this.state.thisDay,
-                                "Snack 1",
-                                this.state.mealMacrosBudget.snack1MacrosBudget,
-                                this.state.mealMacrosCurrent
-                                  .snack1MacrosCurrent,
-                                this.state.snack1Ingrdnts
-                              )}
-                              {this.renderMeal(
-                                this.state.lunch,
-                                this.state.thisDay,
-                                "Lunch",
-                                this.state.mealMacrosBudget.lunchMacrosBudget,
-                                this.state.mealMacrosCurrent.lunchMacrosCurrent,
-                                this.state.lunchIngrdnts
-                              )}
-                              {this.renderMeal(
-                                this.state.snack2,
-                                this.state.thisDay,
-                                "Snack 2",
-                                this.state.mealMacrosBudget.snack2MacrosBudget,
-                                this.state.mealMacrosCurrent
-                                  .snack2MacrosCurrent,
-                                this.state.snack2Ingrdnts
-                              )}
-                              {this.renderMeal(
-                                this.state.dinner,
-                                this.state.thisDay,
-                                "Dinner",
-                                this.state.mealMacrosBudget.dinnerMacrosBudget,
-                                this.state.mealMacrosCurrent
-                                  .dinnerMacrosCurrent,
-                                this.state.dinnerIngrdnts
-                              )}
-                              {this.renderMeal(
-                                this.state.dessert,
-                                this.state.thisDay,
-                                "Dessert",
-                                this.state.mealMacrosBudget.dessertMacrosBudget,
-                                this.state.mealMacrosCurrent
-                                  .dessertMacrosCurrent,
-                                this.state.dessertIngrdnts
-                              )}
+                              <MealOrNewMeal
+                                thisDay={this.state.thisDay}
+                                mealType={"Snack 1"}
+                                onCreateMeal={this.handleCreateMeal}
+                                dayUserType={this.state.userType}
+                                thisMeal={this.state.snack1}
+                                key={this.getRndInteger(10000000, 99999999)}
+                                thisMealsMacrosBudget={
+                                  this.state.mealMacrosBudget.snack1MacrosBudget
+                                }
+                                thisMealsMacrosCurrent={
+                                  this.state.mealMacrosCurrent
+                                    .snack1MacrosCurrent
+                                }
+                                thisMealsMealIngrdnts={
+                                  this.state.snack1Ingrdnts
+                                }
+                                clearCurrentMacros={this.clearCurrentMacros}
+                                updateMealIngrdnt={this.updateMealIngrdnt}
+                              />
+                              <MealOrNewMeal
+                                thisDay={this.state.thisDay}
+                                mealType={"Lunch"}
+                                onCreateMeal={this.handleCreateMeal}
+                                dayUserType={this.state.userType}
+                                thisMeal={this.state.lunch}
+                                key={this.getRndInteger(10000000, 99999999)}
+                                thisMealsMacrosBudget={
+                                  this.state.mealMacrosBudget.lunchMacrosBudget
+                                }
+                                thisMealsMacrosCurrent={
+                                  this.state.mealMacrosCurrent
+                                    .lunchMacrosCurrent
+                                }
+                                thisMealsMealIngrdnts={this.state.lunchIngrdnts}
+                                clearCurrentMacros={this.clearCurrentMacros}
+                                updateMealIngrdnt={this.updateMealIngrdnt}
+                              />
+                              <MealOrNewMeal
+                                thisDay={this.state.thisDay}
+                                mealType={"Snack 2"}
+                                onCreateMeal={this.handleCreateMeal}
+                                dayUserType={this.state.userType}
+                                thisMeal={this.state.snack2}
+                                key={this.getRndInteger(10000000, 99999999)}
+                                thisMealsMacrosBudget={
+                                  this.state.mealMacrosBudget.snack2MacrosBudget
+                                }
+                                thisMealsMacrosCurrent={
+                                  this.state.mealMacrosCurrent
+                                    .snack2MacrosCurrent
+                                }
+                                thisMealsMealIngrdnts={
+                                  this.state.snack2Ingrdnts
+                                }
+                                clearCurrentMacros={this.clearCurrentMacros}
+                                updateMealIngrdnt={this.updateMealIngrdnt}
+                              />
+                              <MealOrNewMeal
+                                thisDay={this.state.thisDay}
+                                mealType={"Dinner"}
+                                onCreateMeal={this.handleCreateMeal}
+                                dayUserType={this.state.userType}
+                                thisMeal={this.state.dinner}
+                                key={this.getRndInteger(10000000, 99999999)}
+                                thisMealsMacrosBudget={
+                                  this.state.mealMacrosBudget.dinnerMacrosBudget
+                                }
+                                thisMealsMacrosCurrent={
+                                  this.state.mealMacrosCurrent
+                                    .dinnerMacrosCurrent
+                                }
+                                thisMealsMealIngrdnts={
+                                  this.state.dinnerIngrdnts
+                                }
+                                clearCurrentMacros={this.clearCurrentMacros}
+                                updateMealIngrdnt={this.updateMealIngrdnt}
+                              />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
                                 mealType={"Dessert"}
