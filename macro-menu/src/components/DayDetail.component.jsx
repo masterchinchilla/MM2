@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import MealDetail from "./MealDetail.component";
 import CreateMeal from "./CreateMeal.component";
+import MealOrNewMeal from "./MealOrNewMeal.component";
 
 class DayDetail extends Component {
   constructor(props) {
@@ -751,6 +752,9 @@ class DayDetail extends Component {
       );
     }
   };
+  getRndInteger = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
   render() {
     if (this.state.data == false) {
       return <div className="spinner-border text-primary" role="status"></div>;
@@ -958,6 +962,27 @@ class DayDetail extends Component {
                                   .breakfastMacrosCurrent,
                                 this.state.breakfastIngrdnts
                               )}
+                              <MealOrNewMeal
+                                thisDay={this.state.thisDay}
+                                mealType={"Breakfast"}
+                                onCreateMeal={this.handleCreateMeal}
+                                dayUserType={this.state.userType}
+                                thisMeal={this.state.breakfast}
+                                key={this.getRndInteger(10000000, 99999999)}
+                                thisMealsMacrosBudget={
+                                  this.state.mealMacrosBudget
+                                    .breakfastMacrosBudget
+                                }
+                                thisMealsMacrosCurrent={
+                                  this.state.mealMacrosCurrent
+                                    .breakfastMacrosCurrent
+                                }
+                                thisMealsMealIngrdnts={
+                                  this.state.breakfastIngrdnts
+                                }
+                                clearCurrentMacros={this.clearCurrentMacros}
+                                updateMealIngrdnt={this.updateMealIngrdnt}
+                              />
                               {this.renderMeal(
                                 this.state.snack1,
                                 this.state.thisDay,
@@ -1002,6 +1027,27 @@ class DayDetail extends Component {
                                   .dessertMacrosCurrent,
                                 this.state.dessertIngrdnts
                               )}
+                              <MealOrNewMeal
+                                thisDay={this.state.thisDay}
+                                mealType={"Dessert"}
+                                onCreateMeal={this.handleCreateMeal}
+                                dayUserType={this.state.userType}
+                                thisMeal={this.state.dessert}
+                                key={this.getRndInteger(10000000, 99999999)}
+                                thisMealsMacrosBudget={
+                                  this.state.mealMacrosBudget
+                                    .dessertMacrosBudget
+                                }
+                                thisMealsMacrosCurrent={
+                                  this.state.mealMacrosCurrent
+                                    .dessertMacrosCurrent
+                                }
+                                thisMealsMealIngrdnts={
+                                  this.state.dessertIngrdnts
+                                }
+                                clearCurrentMacros={this.clearCurrentMacros}
+                                updateMealIngrdnt={this.updateMealIngrdnt}
+                              />
                             </div>
                           </div>
                         </div>

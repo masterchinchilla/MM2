@@ -328,11 +328,8 @@ button.accordion-button {
   margin: 1rem 0.5rem 1rem 0;
 }
 .mlIngrdntsCard{
-  margin-bottom: 1rem;
-  max-width:min-content;
-}
-.mlIngrdntsCard * {
-  white-space: nowrap;
+  margin: 0 1rem 1rem 0;
+  max-width:25rem;
 }
 .mlIngrdntsCard input{
   width: 100%;
@@ -398,5 +395,10 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 @media only screen and (max-width: 529px) {
   .mlIngrdntsCard *{
     white-space: normal;
+    margin-right: 0;
   }
+}
+.mlIngrdntsCntnr{
+  display: flex;
+  flex-wrap: wrap;
 }

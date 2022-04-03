@@ -301,8 +301,8 @@ class MealIngredientDetail extends Component {
                   onChange={this.onChange}
                 />
               </div>
-              <div className="form-group mealIngrdntInputs ingrdntName">
-                <label>Name</label>
+              <div className="form-group mealIngrdntInputs ingrdntName badge bg-primary">
+                <label>Ingredient Name</label>
                 <input
                   type={"text"}
                   className="form-control"

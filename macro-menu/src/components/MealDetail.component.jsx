@@ -61,12 +61,14 @@ class MealDetail extends Component {
         this.setState({
           thisMeal: this.props.thisMeal,
           thisMealsId: this.props.thisMeal._id,
-          thisGenRecipesId: this.props.thisMeal.genRecipe._id,
+
           thisMealTypesGenRecipes: response.data.map(
             (mealTypeRecipe) => mealTypeRecipe
           ),
           thisMealsDay: this.props.thisMeal.day,
           thisMealType: this.props.thisMeal.mealType,
+
+          thisGenRecipesId: this.props.thisMeal.genRecipe._id,
           thisMealsGenRecipe: this.props.thisMeal.genRecipe,
           thisRecipesInst:
             this.props.thisMeal.genRecipe.defaultPrepInstructions,
@@ -74,7 +76,9 @@ class MealDetail extends Component {
           thisRecipesName: this.props.thisMeal.genRecipe.name,
           thisRecipesMealType: this.props.thisMeal.genRecipe.availableMealType,
           thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
+
           thisMealTypesGenRecipesLoaded: true,
+
           thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
           thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
           thisMealsMealIngrdnts: this.props.thisMealsMealIngrdnts,
@@ -703,19 +707,23 @@ class MealDetail extends Component {
                 </div>
               </form>
               <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
-              {this.state.thisMealsMealIngrdnts.map((mealIngredient) => {
-                return (
-                  <MealIngredientDetail
-                    thisMealIngredient={mealIngredient}
-                    key={mealIngredient._id}
-                    totalCurrentMacrosMethod={
-                      this.props.totalCurrentMacrosMethod
-                    }
-                    handleUpdateMealIngrdntQty={this.handleUpdateMealIngrdntQty}
-                    findMealIngrdntIndex={this.findMealIngrdntIndex}
-                  />
-                );
-              })}
+              <div className="mlIngrdntsCntnr">
+                {this.state.thisMealsMealIngrdnts.map((mealIngredient) => {
+                  return (
+                    <MealIngredientDetail
+                      thisMealIngredient={mealIngredient}
+                      key={mealIngredient._id}
+                      totalCurrentMacrosMethod={
+                        this.props.totalCurrentMacrosMethod
+                      }
+                      handleUpdateMealIngrdntQty={
+                        this.handleUpdateMealIngrdntQty
+                      }
+                      findMealIngrdntIndex={this.findMealIngrdntIndex}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
