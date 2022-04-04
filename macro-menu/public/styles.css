@@ -100,17 +100,19 @@ button.accordion-button {
 }
 .mealImgNTblRow {
   display: grid;
-  grid-template-columns: max-content;
-  grid-template-rows: 2.5rem;
-  grid-template-areas:
-    "mealImg mealPrepInst"
-    "mealImg mealTextArea";
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 2.5rem minmax(10vw,100px);
+  grid-template-areas: "mealImg mealPrepInst"
+  "mealImg mealTextArea";
   margin: -0.75px -0.75px auto -0.75px;
 }
 .mealImg {
   margin: 0;
   padding: 0 !important;
   grid-area: mealImg;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .mealTextArea {
   grid-area: mealTextArea;
@@ -316,7 +318,7 @@ button.accordion-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-position: center;
+  background-position: top left;
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 0.5rem;

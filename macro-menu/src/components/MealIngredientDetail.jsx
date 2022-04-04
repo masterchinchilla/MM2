@@ -284,9 +284,19 @@ class MealIngredientDetail extends Component {
               </div>
               <div
                 className="ingrdntPicDiv"
-                style={{
-                  backgroundImage: `url(${this.state.thisMealIngredient.genRecipeIngredient.ingredient.photoURL})`,
-                }}
+                // style={{
+                //   backgroundImage: `url(${this.state.thisMealIngredient.genRecipeIngredient.ingredient.photoURL})`,
+                // }}
+                style={
+                  this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                    .photoURL == undefined
+                    ? {
+                        backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
+                      }
+                    : {
+                        backgroundImage: `url(${this.state.thisMealIngredient.genRecipeIngredient.ingredient.photoURL})`,
+                      }
+                }
               ></div>
 
               <div className="form-group mealIngrdntInputs ingrdntBrnd">

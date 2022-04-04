@@ -7,6 +7,7 @@ import EditOptions from "./EditOptions.component";
 import MealDetail from "./MealDetail.component";
 import CreateMeal from "./CreateMeal.component";
 import MealOrNewMeal from "./MealOrNewMeal.component";
+import MacrosTable from "./MacrosTable.component";
 
 class DayDetail extends Component {
   constructor(props) {
@@ -43,7 +44,13 @@ class DayDetail extends Component {
         _id: "missing",
       },
       dessertIngrdnts: [],
-      macrosBudget: this.props.macrosBudget,
+      macrosBudget: {
+        cals: 0,
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+        fiber: 0,
+      },
       mealsWeighting: this.props.mealsWeighting,
       macrosCurrent: {
         cals: 0,
@@ -99,104 +106,104 @@ class DayDetail extends Component {
       mealMacrosBudget: {
         breakfastMacrosBudget: {
           cals:
-            this.props.macrosBudget.calsBudget *
+            this.props.macrosBudget.cals *
             (this.props.mealsWeighting.breakfastWeight / 100),
           carbs:
-            this.props.macrosBudget.carbsBudget *
+            this.props.macrosBudget.carbs *
             (this.props.mealsWeighting.breakfastWeight / 100),
           protein:
-            this.props.macrosBudget.proteinBudget *
+            this.props.macrosBudget.protein *
             (this.props.mealsWeighting.breakfastWeight / 100),
           fat:
-            this.props.macrosBudget.fatBudget *
+            this.props.macrosBudget.fat *
             (this.props.mealsWeighting.breakfastWeight / 100),
           fiber:
-            this.props.macrosBudget.fiberBudget *
+            this.props.macrosBudget.fiber *
             (this.props.mealsWeighting.breakfastWeight / 100),
         },
         snack1MacrosBudget: {
           cals:
-            this.props.macrosBudget.calsBudget *
+            this.props.macrosBudget.cals *
             (this.props.mealsWeighting.snack1Weight / 100),
           carbs:
-            this.props.macrosBudget.carbsBudget *
+            this.props.macrosBudget.carbs *
             (this.props.mealsWeighting.snack1Weight / 100),
           protein:
-            this.props.macrosBudget.proteinBudget *
+            this.props.macrosBudget.protein *
             (this.props.mealsWeighting.snack1Weight / 100),
           fat:
-            this.props.macrosBudget.fatBudget *
+            this.props.macrosBudget.fat *
             (this.props.mealsWeighting.snack1Weight / 100),
           fiber:
-            this.props.macrosBudget.fiberBudget *
+            this.props.macrosBudget.fiber *
             (this.props.mealsWeighting.snack1Weight / 100),
         },
         lunchMacrosBudget: {
           cals:
-            this.props.macrosBudget.calsBudget *
+            this.props.macrosBudget.cals *
             (this.props.mealsWeighting.lunchWeight / 100),
           carbs:
-            this.props.macrosBudget.carbsBudget *
+            this.props.macrosBudget.carbs *
             (this.props.mealsWeighting.lunchWeight / 100),
           protein:
-            this.props.macrosBudget.proteinBudget *
+            this.props.macrosBudget.protein *
             (this.props.mealsWeighting.lunchWeight / 100),
           fat:
-            this.props.macrosBudget.fatBudget *
+            this.props.macrosBudget.fat *
             (this.props.mealsWeighting.lunchWeight / 100),
           fiber:
-            this.props.macrosBudget.fiberBudget *
+            this.props.macrosBudget.fiber *
             (this.props.mealsWeighting.lunchWeight / 100),
         },
         snack2MacrosBudget: {
           cals:
-            this.props.macrosBudget.calsBudget *
+            this.props.macrosBudget.cals *
             (this.props.mealsWeighting.snack2Weight / 100),
           carbs:
-            this.props.macrosBudget.carbsBudget *
+            this.props.macrosBudget.carbs *
             (this.props.mealsWeighting.snack2Weight / 100),
           protein:
-            this.props.macrosBudget.proteinBudget *
+            this.props.macrosBudget.protein *
             (this.props.mealsWeighting.snack2Weight / 100),
           fat:
-            this.props.macrosBudget.fatBudget *
+            this.props.macrosBudget.fat *
             (this.props.mealsWeighting.snack2Weight / 100),
           fiber:
-            this.props.macrosBudget.fiberBudget *
+            this.props.macrosBudget.fiber *
             (this.props.mealsWeighting.snack2Weight / 100),
         },
         dinnerMacrosBudget: {
           cals:
-            this.props.macrosBudget.calsBudget *
+            this.props.macrosBudget.cals *
             (this.props.mealsWeighting.dinnerWeight / 100),
           carbs:
-            this.props.macrosBudget.carbsBudget *
+            this.props.macrosBudget.carbs *
             (this.props.mealsWeighting.dinnerWeight / 100),
           protein:
-            this.props.macrosBudget.proteinBudget *
+            this.props.macrosBudget.protein *
             (this.props.mealsWeighting.dinnerWeight / 100),
           fat:
-            this.props.macrosBudget.fatBudget *
+            this.props.macrosBudget.fat *
             (this.props.mealsWeighting.dinnerWeight / 100),
           fiber:
-            this.props.macrosBudget.fiberBudget *
+            this.props.macrosBudget.fiber *
             (this.props.mealsWeighting.dinnerWeight / 100),
         },
         dessertMacrosBudget: {
           cals:
-            this.props.macrosBudget.calsBudget *
+            this.props.macrosBudget.cals *
             (this.props.mealsWeighting.dessertWeight / 100),
           carbs:
-            this.props.macrosBudget.carbsBudget *
+            this.props.macrosBudget.carbs *
             (this.props.mealsWeighting.dessertWeight / 100),
           protein:
-            this.props.macrosBudget.proteinBudget *
+            this.props.macrosBudget.protein *
             (this.props.mealsWeighting.dessertWeight / 100),
           fat:
-            this.props.macrosBudget.fatBudget *
+            this.props.macrosBudget.fat *
             (this.props.mealsWeighting.dessertWeight / 100),
           fiber:
-            this.props.macrosBudget.fiberBudget *
+            this.props.macrosBudget.fiber *
             (this.props.mealsWeighting.dessertWeight / 100),
         },
       },
@@ -207,27 +214,14 @@ class DayDetail extends Component {
     this.loadData();
   }
   loadData() {
+    this.setState({
+      macrosBudget: this.props.macrosBudget,
+    });
     axios
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
       )
       .then((response) => this.fetchDayMealsIngrdnts(response.data));
-    // .then((response) => {
-    //   this.setState({
-    //     thisDaysMeals: response.data.map((meal) => meal),
-    //     breakfast: response.data.filter(
-    //       (meal) => meal.mealType == "Breakfast"
-    //     )[0],
-    //     snack1: response.data.filter((meal) => meal.mealType == "Snack 1")[0],
-    //     lunch: response.data.filter((meal) => meal.mealType == "Lunch")[0],
-    //     snack2: response.data.filter((meal) => meal.mealType == "Snack 2")[0],
-    //     dinner: response.data.filter((meal) => meal.mealType == "Dinner")[0],
-    //     dessert: response.data.filter(
-    //       (meal) => meal.mealType == "Dessert"
-    //     )[0],
-    //     data: true,
-    //   });
-    // });
   }
   fetchDayMealsIngrdnts = (meals) => {
     if (meals.length == 0) {
@@ -711,10 +705,50 @@ class DayDetail extends Component {
   updateMealIngrdnt = (thisMealIngrdnt, thisMealIngrdntIndex, thisMealType) => {
     switch (thisMealType) {
       case "Breakfast":
-        let mealsMealIngrdnts = this.state.breakfastIngrdnts;
-        mealsMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        let breakfastMealIngrdnts = this.state.breakfastIngrdnts;
+        breakfastMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
         this.setState({
-          breakfastIngrdnts: mealsMealIngrdnts,
+          breakfastIngrdnts: breakfastMealIngrdnts,
+        });
+        this.totalAllMacros();
+        break;
+      case "Snack 1":
+        let snack1MealIngrdnts = this.state.snack1Ingrdnts;
+        snack1MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        this.setState({
+          snack1Ingrdnts: snack1MealIngrdnts,
+        });
+        this.totalAllMacros();
+        break;
+      case "Lunch":
+        let lunchMealIngrdnts = this.state.lunchIngrdnts;
+        lunchMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        this.setState({
+          lunchIngrdnts: lunchMealIngrdnts,
+        });
+        this.totalAllMacros();
+        break;
+      case "Snack 2":
+        let snack2MealIngrdnts = this.state.snack2Ingrdnts;
+        snack2MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        this.setState({
+          snack2Ingrdnts: snack2MealIngrdnts,
+        });
+        this.totalAllMacros();
+        break;
+      case "Dinner":
+        let dinnerMealIngrdnts = this.state.dinnerIngrdnts;
+        dinnerMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        this.setState({
+          dinnerIngrdnts: dinnerMealIngrdnts,
+        });
+        this.totalAllMacros();
+        break;
+      case "Dessert":
+        let dessertMealIngrdnts = this.state.dessertIngrdnts;
+        dessertMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        this.setState({
+          dessertIngrdnts: dessertMealIngrdnts,
         });
         this.totalAllMacros();
         break;
@@ -770,99 +804,11 @@ class DayDetail extends Component {
                 >
                   <div className="accordion-body">
                     <div className="macroTblCntnr">
-                      <table className="table table-bordered macrosTable">
-                        <thead className="thead">
-                          <tr>
-                            <th colSpan={6} scope="col">
-                              <h4>Day Macros</h4>
-                            </th>
-                          </tr>
-                          <tr>
-                            <th
-                              scope="col"
-                              className="perpendicularTextCell"
-                            ></th>
-                            <th scope="col" className="perpendicularTextCell">
-                              Cals
-                            </th>
-                            <th scope="col" className="perpendicularTextCell">
-                              Carbs
-                            </th>
-                            <th scope="col" className="perpendicularTextCell">
-                              Protein
-                            </th>
-                            <th scope="col" className="perpendicularTextCell">
-                              Fat
-                            </th>
-                            <th scope="col" className="perpendicularTextCell">
-                              Fiber
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">Bdgt</th>
-                            <td>
-                              {this.state.macrosBudget.calsBudget.toFixed(2)}
-                            </td>
-                            <td>
-                              {this.state.macrosBudget.carbsBudget.toFixed(2)}
-                            </td>
-                            <td>
-                              {this.state.macrosBudget.proteinBudget.toFixed(2)}
-                            </td>
-                            <td>
-                              {this.state.macrosBudget.fatBudget.toFixed(2)}
-                            </td>
-                            <td>
-                              {this.state.macrosBudget.fiberBudget.toFixed(2)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Crrnt</th>
-                            <td>{this.state.macrosCurrent.cals.toFixed(2)}</td>
-                            <td>{this.state.macrosCurrent.carbs.toFixed(2)}</td>
-                            <td>
-                              {this.state.macrosCurrent.protein.toFixed(2)}
-                            </td>
-                            <td>{this.state.macrosCurrent.fat.toFixed(2)}</td>
-                            <td>{this.state.macrosCurrent.fiber.toFixed(2)}</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Left</th>
-                            <td>
-                              {(
-                                this.state.macrosBudget.calsBudget -
-                                this.state.macrosCurrent.cals
-                              ).toFixed(2)}
-                            </td>
-                            <td>
-                              {(
-                                this.state.macrosBudget.carbsBudget -
-                                this.state.macrosCurrent.carbs
-                              ).toFixed(2)}
-                            </td>
-                            <td>
-                              {(
-                                this.state.macrosBudget.proteinBudget -
-                                this.state.macrosCurrent.protein
-                              ).toFixed(2)}
-                            </td>
-                            <td>
-                              {(
-                                this.state.macrosBudget.fatBudget -
-                                this.state.macrosCurrent.fat
-                              ).toFixed(2)}
-                            </td>
-                            <td>
-                              {(
-                                this.state.macrosBudget.fiberBudget -
-                                this.state.macrosCurrent.fiber
-                              ).toFixed(2)}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <MacrosTable
+                        tableType="Day Macros"
+                        macrosBudget={this.state.macrosBudget}
+                        macrosCurrent={this.state.macrosCurrent}
+                      />
                     </div>
                     <ul>
                       <li>Name:&nbsp;{this.state.thisDay.name}</li>

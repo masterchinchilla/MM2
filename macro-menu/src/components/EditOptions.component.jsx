@@ -101,7 +101,13 @@ const EditOptions = (props) => {
           hidden={hideIcon("copy", userType, thisFormState)}
         />
       </button>
-      <button type="button" onClick={onClickEdit} className="iconBttn">
+      <button
+        type="button"
+        onClick={() => {
+          onClickEdit(parentObj);
+        }}
+        className="iconBttn"
+      >
         <FontAwesomeIcon
           icon="fa-solid fa-pen-to-square"
           size="xl"
@@ -109,7 +115,13 @@ const EditOptions = (props) => {
           hidden={hideIcon("edit", userType, thisFormState)}
         />
       </button>
-      <button type="button" onClick={onCancel} className="iconBttn">
+      <button
+        type="button"
+        onClick={() => {
+          onCancel(parentObj);
+        }}
+        className="iconBttn"
+      >
         <FontAwesomeIcon
           icon="fa-solid fa-circle-xmark"
           size="xl"

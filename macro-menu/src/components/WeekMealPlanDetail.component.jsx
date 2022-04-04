@@ -43,11 +43,11 @@ export default class WeekMealPlanDetail extends Component {
       snack2Weight: 0,
       dinnerWeight: 0,
       dessertWeight: 0,
-      calsBudget: 0,
-      carbsBudget: 0,
-      proteinBudget: 0,
-      fatBudget: 0,
-      fiberBudget: 0,
+      cals: 0,
+      carbs: 0,
+      protein: 0,
+      fat: 0,
+      fiber: 0,
       wmpDataHasLoaded: false,
       allGRFUsersHasLoaded: false,
       daysOfTheWMPHaveLoaded: false,
@@ -70,11 +70,11 @@ export default class WeekMealPlanDetail extends Component {
           snack2Weight: response.data.snack2Weight,
           dinnerWeight: response.data.dinnerWeight,
           dessertWeight: response.data.dessertWeight,
-          calsBudget: response.data.calsBudget,
-          carbsBudget: response.data.carbsBudget,
-          proteinBudget: response.data.proteinBudget,
-          fatBudget: response.data.fatBudget,
-          fiberBudget: response.data.fiberBudget,
+          cals: response.data.calsBudget,
+          carbs: response.data.carbsBudget,
+          protein: response.data.proteinBudget,
+          fat: response.data.fatBudget,
+          fiber: response.data.fiberBudget,
           wmpDataHasLoaded: true,
         });
       });
@@ -146,27 +146,27 @@ export default class WeekMealPlanDetail extends Component {
   };
   onChangeCalsBudget = (e) => {
     this.setState({
-      calsBudget: e.target.value,
+      cals: e.target.value,
     });
   };
   onChangeCarbsBudget = (e) => {
     this.setState({
-      carbsBudget: e.target.value,
+      carbs: e.target.value,
     });
   };
   onChangeProteinBudget = (e) => {
     this.setState({
-      proteinBudget: e.target.value,
+      protein: e.target.value,
     });
   };
   onChangeFatBudget = (e) => {
     this.setState({
-      fatBudget: e.target.value,
+      fat: e.target.value,
     });
   };
   onChangeFiberBudget = (e) => {
     this.setState({
-      fiberBudget: e.target.value,
+      fiber: e.target.value,
     });
   };
   handleSubmitFormChange = () => {
@@ -180,11 +180,11 @@ export default class WeekMealPlanDetail extends Component {
       snack2Weight: this.state.snack2Weight,
       dinnerWeight: this.state.dinnerWeight,
       dessertWeight: this.state.dessertWeight,
-      calsBudget: this.state.calsBudget,
-      carbsBudget: this.state.carbsBudget,
-      proteinBudget: this.state.proteinBudget,
-      fatBudget: this.state.fatBudget,
-      fiberBudget: this.state.fiberBudget,
+      calsBudget: this.state.cals,
+      carbsBudget: this.state.carbs,
+      proteinBudget: this.state.protein,
+      fatBudget: this.state.fat,
+      fiberBudget: this.state.fiber,
     };
     axios
       .post(
@@ -279,11 +279,11 @@ export default class WeekMealPlanDetail extends Component {
           onDeleteDay={this.handleDeleteDay}
           key={dayToRender._id}
           macrosBudget={{
-            calsBudget: this.state.calsBudget,
-            carbsBudget: this.state.carbsBudget,
-            proteinBudget: this.state.proteinBudget,
-            fatBudget: this.state.fatBudget,
-            fiberBudget: this.state.fiberBudget,
+            cals: this.state.cals,
+            carbs: this.state.carbs,
+            protein: this.state.protein,
+            fat: this.state.fat,
+            fiber: this.state.fiber,
           }}
           mealsWeighting={{
             breakfastWeight: this.state.breakfastWeight,
@@ -511,7 +511,7 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="2000.00"
-                          value={this.state.calsBudget}
+                          value={this.state.cals}
                           onChange={this.onChangeCalsBudget}
                           disabled={
                             this.state.thisFormState == "viewing" ? true : false
@@ -524,7 +524,7 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="400.00"
-                          value={this.state.carbsBudget}
+                          value={this.state.carbs}
                           onChange={this.onChangeCarbsBudget}
                           disabled={
                             this.state.thisFormState == "viewing" ? true : false
@@ -537,7 +537,7 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="300"
-                          value={this.state.proteinBudget}
+                          value={this.state.protein}
                           onChange={this.onChangeProteinBudget}
                           disabled={
                             this.state.thisFormState == "viewing" ? true : false
@@ -550,7 +550,7 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="100"
-                          value={this.state.fatBudget}
+                          value={this.state.fat}
                           onChange={this.onChangeFatBudget}
                           disabled={
                             this.state.thisFormState == "viewing" ? true : false
@@ -563,7 +563,7 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="40"
-                          value={this.state.fiberBudget}
+                          value={this.state.fiber}
                           onChange={this.onChangeFiberBudget}
                           disabled={
                             this.state.thisFormState == "viewing" ? true : false

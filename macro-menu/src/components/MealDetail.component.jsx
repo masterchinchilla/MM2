@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import MealIngredientDetail from "./MealIngredientDetail";
+import MacrosTable from "./MacrosTable.component";
 
 class MealDetail extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class MealDetail extends Component {
       thisRecipesId: "",
       thisMealsDay: {},
       thisMealType: {},
-      thisFormState: "viewing",
+      mealFormState: "viewing",
+      genRecipeFormState: "viewing",
       userType: "admin",
       thisMealsMealIngrdnts: [],
       thisMealsGenRecipe: { name: "Cereal", id: 1 },
@@ -177,15 +179,23 @@ class MealDetail extends Component {
       defaultPrepInstructions: this.state.thisRecipesInst,
       photoURL: this.state.thisMealRecipePic,
     };
+    console.log({ genRecipe });
     axios
-      .post("http://localhost:5000/genRecipes/update" + genRecipe.id, genRecipe)
+      .post(
+        "http://localhost:5000/genRecipes/update/" + genRecipe.id,
+        genRecipe
+      )
       .then(console.log("Recipe Updated"));
   };
-  handleClickEdit = () => {
-    this.setState({ thisFormState: "editingOrig" });
+  handleClickEdit = (parentObj) => {
+    parentObj === "meal"
+      ? this.setState({ mealFormState: "editingOrig" })
+      : this.setState({ genRecipeFormState: "editingOrig" });
   };
-  handleCancel = () => {
-    this.setState({ thisFormState: "viewing" });
+  handleCancel = (parentObj) => {
+    parentObj === "meal"
+      ? this.setState({ mealFormState: "viewing" })
+      : this.setState({ genRecipeFormState: "viewing" });
   };
   lockUnlockAdminMenus = () => {
     if (this.state.userType == "admin") {
@@ -208,15 +218,6 @@ class MealDetail extends Component {
       thisMealIngrdntIndex,
       this.state.thisMealType
     );
-    // thisMealsIngrdnts[thisMealIngrdntIndex] = thisMealIngredient;
-    // this.setState({
-    //   thisMealsMealIngrdnts: thisMealsIngrdnts,
-    // });
-    // this.props.clearCurrentMacros();
-    // this.props.totalCurrentMacrosMethod(
-    //   this.state.thisMealsMealIngrdnts,
-    //   this.state.thisMealType
-    // );
   };
   onChange = () => {
     console.log("Value changed");
@@ -263,92 +264,11 @@ class MealDetail extends Component {
             data-bs-parent={"#mealOuterAccordionFull" + this.state.thisMealsId}
           >
             <div className="macroTblCntnr">
-              <table className="table table-bordered macrosTable mealMacrosTbl">
-                <thead className="thead">
-                  <tr>
-                    <th colSpan={6} scope="col">
-                      <h5>Meal Macros</h5>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th scope="col" className="perpendicularTextCell"></th>
-                    <th scope="col" className="perpendicularTextCell">
-                      Cals
-                    </th>
-                    <th scope="col" className="perpendicularTextCell">
-                      Carbs
-                    </th>
-                    <th scope="col" className="perpendicularTextCell">
-                      Protein
-                    </th>
-                    <th scope="col" className="perpendicularTextCell">
-                      Fat
-                    </th>
-                    <th scope="col" className="perpendicularTextCell">
-                      Fiber
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Bdgt</th>
-                    <td>{this.state.thisMealsMacrosBudget.cals.toFixed(2)}</td>
-                    <td>{this.state.thisMealsMacrosBudget.carbs.toFixed(2)}</td>
-                    <td>
-                      {this.state.thisMealsMacrosBudget.protein.toFixed(2)}
-                    </td>
-                    <td>{this.state.thisMealsMacrosBudget.fat.toFixed(2)}</td>
-                    <td>{this.state.thisMealsMacrosBudget.fiber.toFixed(2)}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Crrnt</th>
-                    <td>{this.state.thisMealsMacrosCurrent.cals.toFixed(2)}</td>
-                    <td>
-                      {this.state.thisMealsMacrosCurrent.carbs.toFixed(2)}
-                    </td>
-                    <td>
-                      {this.state.thisMealsMacrosCurrent.protein.toFixed(2)}
-                    </td>
-                    <td>{this.state.thisMealsMacrosCurrent.fat.toFixed(2)}</td>
-                    <td>
-                      {this.state.thisMealsMacrosCurrent.fiber.toFixed(2)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Left</th>
-                    <td>
-                      {(
-                        this.state.thisMealsMacrosBudget.cals -
-                        this.state.thisMealsMacrosCurrent.cals
-                      ).toFixed(2)}
-                    </td>
-                    <td>
-                      {(
-                        this.state.thisMealsMacrosBudget.carbs -
-                        this.state.thisMealsMacrosCurrent.carbs
-                      ).toFixed(2)}
-                    </td>
-                    <td>
-                      {(
-                        this.state.thisMealsMacrosBudget.protein -
-                        this.state.thisMealsMacrosCurrent.protein
-                      ).toFixed(2)}
-                    </td>
-                    <td>
-                      {(
-                        this.state.thisMealsMacrosBudget.fat -
-                        this.state.thisMealsMacrosCurrent.fat
-                      ).toFixed(2)}
-                    </td>
-                    <td>
-                      {(
-                        this.state.thisMealsMacrosBudget.fiber -
-                        this.state.thisMealsMacrosCurrent.fiber
-                      ).toFixed(2)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <MacrosTable
+                tableType="Meal Macros"
+                macrosBudget={this.state.thisMealsMacrosBudget}
+                macrosCurrent={this.state.thisMealsMacrosCurrent}
+              />
             </div>
             <div className="accordion-body wkDaysAccrdnBdy">
               <form className="card mt-3 mb-3">
@@ -358,7 +278,7 @@ class MealDetail extends Component {
                     <EditOptions
                       parentObj={"meal"}
                       userType={this.state.userType}
-                      thisFormState={this.state.thisFormState}
+                      thisFormState={this.state.mealFormState}
                       onSubmitFormChange={this.handleSubmitMealFormChange}
                       onClickEdit={this.handleClickEdit}
                       onCancel={this.handleCancel}
@@ -372,7 +292,7 @@ class MealDetail extends Component {
                       className="form-control form-select recipeSelect"
                       value={this.state.thisMealsGenRecipe}
                       disabled={
-                        this.state.thisFormState == "viewing" ? true : false
+                        this.state.mealFormState == "viewing" ? true : false
                       }
                       onChange={this.handleChangeMealRecipe}
                     >
@@ -434,7 +354,7 @@ class MealDetail extends Component {
                             className="form-control form-select"
                             value={this.state.thisMealsDay}
                             disabled={
-                              this.state.thisFormState == "viewing"
+                              this.state.mealFormState == "viewing"
                                 ? true
                                 : false
                             }
@@ -457,7 +377,7 @@ class MealDetail extends Component {
                             className="form-control form-select"
                             value={this.state.thisMealType}
                             disabled={
-                              this.state.thisFormState == "viewing"
+                              this.state.mealFormState == "viewing"
                                 ? true
                                 : false
                             }
@@ -497,7 +417,7 @@ class MealDetail extends Component {
                     <EditOptions
                       parentObj={"genRecipe"}
                       userType={this.state.userType}
-                      thisFormState={this.state.thisFormState}
+                      thisFormState={this.state.genRecipeFormState}
                       onSubmitFormChange={this.handleSubmitRecipeFormChange}
                       onClickEdit={this.handleClickEdit}
                       onCancel={this.handleCancel}
@@ -506,15 +426,29 @@ class MealDetail extends Component {
                 </div>
                 <div className="card-body mealCardBody">
                   <div className="mealImgNTblRow">
-                    <img
+                    <div
                       className="mealImg"
-                      src={this.state.thisMeal.genRecipe.photoURL}
+                      // style={{
+                      //   backgroundImage: `url(${this.state.thisMeal.genRecipe.photoURL})`,
+                      // }}
+                      style={
+                        this.state.thisMeal.genRecipe.photoURL == undefined
+                          ? {
+                              backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
+                            }
+                          : {
+                              backgroundImage: `url(${this.state.thisMeal.genRecipe.photoURL})`,
+                            }
+                      }
+                      // src={this.state.thisMeal.genRecipe.photoURL}
                     />
                     <h6 className="mealPrepInst">Prep Instructions:</h6>
                     <textarea
                       className="form-control mealTextArea"
                       disabled={
-                        this.state.thisFormState == "viewing" ? true : false
+                        this.state.genRecipeFormState == "viewing"
+                          ? true
+                          : false
                       }
                       onChange={this.handleChangeRecipeInst}
                       value={this.state.thisRecipesInst}
@@ -558,7 +492,7 @@ class MealDetail extends Component {
                             className="form-control"
                             type="text"
                             disabled={
-                              this.state.thisFormState == "viewing"
+                              this.state.genRecipeFormState == "viewing"
                                 ? true
                                 : false
                             }
@@ -572,7 +506,7 @@ class MealDetail extends Component {
                             className="form-control"
                             type="text"
                             disabled={
-                              this.state.thisFormState == "viewing"
+                              this.state.genRecipeFormState == "viewing"
                                 ? true
                                 : false
                             }
@@ -643,7 +577,7 @@ class MealDetail extends Component {
                                 className="form-control form-select"
                                 value={this.state.thisRecipesMealType}
                                 disabled={
-                                  this.state.thisFormState == "viewing"
+                                  this.state.genRecipeFormState == "viewing"
                                     ? true
                                     : false
                                 }
@@ -671,7 +605,7 @@ class MealDetail extends Component {
                                 className="form-control form-select"
                                 value={this.state.thisRecipesAuthor}
                                 disabled={
-                                  this.state.thisFormState == "viewing"
+                                  this.state.genRecipeFormState == "viewing"
                                     ? true
                                     : false
                                 }
