@@ -132,6 +132,7 @@ class MealOrNewMeal extends Component {
             thisMealTypesGenRecipes={this.state.thisMealTypesGenRecipes}
             clearCurrentMacros={this.props.clearCurrentMacros}
             updateMealIngrdnt={this.props.updateMealIngrdnt}
+            updateMealIngrdnt2={this.props.updateMealIngrdnt2}
           />
         );
       }

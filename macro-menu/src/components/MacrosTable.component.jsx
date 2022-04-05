@@ -1,7 +1,9 @@
+import React, { useState, useEffect } from "react";
 const MacrosTable = (props) => {
   const tableType = props.tableType;
   const macrosBudget = props.macrosBudget;
   const macrosCurrent = props.macrosCurrent;
+
   return (
     <table className="table table-bordered macrosTable mealMacrosTbl">
       <thead className="thead">

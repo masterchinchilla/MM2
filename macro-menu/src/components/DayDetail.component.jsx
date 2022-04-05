@@ -8,12 +8,19 @@ import MealDetail from "./MealDetail.component";
 import CreateMeal from "./CreateMeal.component";
 import MealOrNewMeal from "./MealOrNewMeal.component";
 import MacrosTable from "./MacrosTable.component";
+import DayMacrosTable from "./DayMacrosTable.component";
 
 class DayDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: false,
+      breakfastIngrdntsLoaded: false,
+      snack1IngrdntsLoaded: false,
+      lunchIngrdntsLoaded: false,
+      snack2IngrdntsLoaded: false,
+      dinnerIngrdntsLoaded: false,
+      dessertIngrdntsLoaded: false,
       thisDay: this.props.thisDay,
       weekMealPlanName: this.props.weekMealPlanName,
       thisId: this.props.thisDay._id,
@@ -210,7 +217,6 @@ class DayDetail extends Component {
     };
   }
   componentDidMount() {
-    console.log("componentDidMount Method is running");
     this.loadData();
   }
   loadData() {
@@ -225,10 +231,19 @@ class DayDetail extends Component {
   }
   fetchDayMealsIngrdnts = (meals) => {
     if (meals.length == 0) {
-      this.setState({ data: true });
+      this.setState({
+        data: true,
+        breakfastIngrdntsLoaded: true,
+        snack1IngrdntsLoaded: true,
+        lunchIngrdntsLoaded: true,
+        snack2IngrdntsLoaded: true,
+        dinnerIngrdntsLoaded: true,
+        dessertIngrdntsLoaded: true,
+      });
     } else {
       let i = 0;
       for (i; i < meals.length; i++) {
+        console.log(meals[i].mealType);
         switch (meals[i].mealType) {
           case "Breakfast":
             this.setState({
@@ -268,11 +283,12 @@ class DayDetail extends Component {
           )
           .then((response) => this.assignMealIngredientsToState(response.data));
       }
+      this.setState({ data: true });
     }
   };
   assignMealIngredientsToState = (mealMealIngredients) => {
     if (mealMealIngredients.length == 0) {
-      this.setState({ data: true });
+      return;
     } else {
       let thisMealType = mealMealIngredients[0].meal.mealType;
       switch (thisMealType) {
@@ -307,8 +323,8 @@ class DayDetail extends Component {
           });
           break;
       }
-      this.totalAllMacros();
     }
+    // this.totalAllMacros();
   };
   handleSubmitFormChange = () => {
     console.log("Form submitted");
@@ -335,7 +351,6 @@ class DayDetail extends Component {
     });
   };
   totalAllMacros = () => {
-    // this.clearCurrentMacros();
     var macrosCurrent = {
       cals: 0,
       carbs: 0,
@@ -702,7 +717,11 @@ class DayDetail extends Component {
       mealMacrosCurrent: mealMacrosCurrent,
     });
   };
-  updateMealIngrdnt = (thisMealIngrdnt, thisMealIngrdntIndex, thisMealType) => {
+  updateMealIngrdnt2 = (
+    thisMealIngrdnt,
+    thisMealIngrdntIndex,
+    thisMealType
+  ) => {
     switch (thisMealType) {
       case "Breakfast":
         let breakfastMealIngrdnts = this.state.breakfastIngrdnts;
@@ -710,7 +729,6 @@ class DayDetail extends Component {
         this.setState({
           breakfastIngrdnts: breakfastMealIngrdnts,
         });
-        this.totalAllMacros();
         break;
       case "Snack 1":
         let snack1MealIngrdnts = this.state.snack1Ingrdnts;
@@ -718,7 +736,6 @@ class DayDetail extends Component {
         this.setState({
           snack1Ingrdnts: snack1MealIngrdnts,
         });
-        this.totalAllMacros();
         break;
       case "Lunch":
         let lunchMealIngrdnts = this.state.lunchIngrdnts;
@@ -726,7 +743,6 @@ class DayDetail extends Component {
         this.setState({
           lunchIngrdnts: lunchMealIngrdnts,
         });
-        this.totalAllMacros();
         break;
       case "Snack 2":
         let snack2MealIngrdnts = this.state.snack2Ingrdnts;
@@ -734,7 +750,6 @@ class DayDetail extends Component {
         this.setState({
           snack2Ingrdnts: snack2MealIngrdnts,
         });
-        this.totalAllMacros();
         break;
       case "Dinner":
         let dinnerMealIngrdnts = this.state.dinnerIngrdnts;
@@ -742,7 +757,6 @@ class DayDetail extends Component {
         this.setState({
           dinnerIngrdnts: dinnerMealIngrdnts,
         });
-        this.totalAllMacros();
         break;
       case "Dessert":
         let dessertMealIngrdnts = this.state.dessertIngrdnts;
@@ -750,10 +764,61 @@ class DayDetail extends Component {
         this.setState({
           dessertIngrdnts: dessertMealIngrdnts,
         });
-        this.totalAllMacros();
         break;
     }
   };
+  // updateMealIngrdnt = (thisMealIngrdnt, thisMealIngrdntIndex, thisMealType) => {
+  //   switch (thisMealType) {
+  //     case "Breakfast":
+  //       let breakfastMealIngrdnts = this.state.breakfastIngrdnts;
+  //       breakfastMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+  //       this.setState({
+  //         breakfastIngrdnts: breakfastMealIngrdnts,
+  //       });
+  //       this.totalAllMacros();
+  //       break;
+  //     case "Snack 1":
+  //       let snack1MealIngrdnts = this.state.snack1Ingrdnts;
+  //       snack1MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+  //       this.setState({
+  //         snack1Ingrdnts: snack1MealIngrdnts,
+  //       });
+  //       this.totalAllMacros();
+  //       break;
+  //     case "Lunch":
+  //       let lunchMealIngrdnts = this.state.lunchIngrdnts;
+  //       lunchMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+  //       this.setState({
+  //         lunchIngrdnts: lunchMealIngrdnts,
+  //       });
+  //       this.totalAllMacros();
+  //       break;
+  //     case "Snack 2":
+  //       let snack2MealIngrdnts = this.state.snack2Ingrdnts;
+  //       snack2MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+  //       this.setState({
+  //         snack2Ingrdnts: snack2MealIngrdnts,
+  //       });
+  //       this.totalAllMacros();
+  //       break;
+  //     case "Dinner":
+  //       let dinnerMealIngrdnts = this.state.dinnerIngrdnts;
+  //       dinnerMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+  //       this.setState({
+  //         dinnerIngrdnts: dinnerMealIngrdnts,
+  //       });
+  //       this.totalAllMacros();
+  //       break;
+  //     case "Dessert":
+  //       let dessertMealIngrdnts = this.state.dessertIngrdnts;
+  //       dessertMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+  //       this.setState({
+  //         dessertIngrdnts: dessertMealIngrdnts,
+  //       });
+  //       this.totalAllMacros();
+  //       break;
+  //   }
+  // };
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
@@ -804,6 +869,15 @@ class DayDetail extends Component {
                 >
                   <div className="accordion-body">
                     <div className="macroTblCntnr">
+                      <DayMacrosTable
+                        macrosBudget={this.state.macrosBudget}
+                        breakfastIngrdnts={this.state.breakfastIngrdnts}
+                        snack1Ingrdnts={this.state.snack1Ingrdnts}
+                        lunchIngrdnts={this.state.lunchIngrdnts}
+                        snack2Ingrdnts={this.state.snack2Ingrdnts}
+                        dinnerIngrdnts={this.state.dinnerIngrdnts}
+                        dessertIngrdnts={this.state.dessertIngrdnts}
+                      />
                       <MacrosTable
                         tableType="Day Macros"
                         macrosBudget={this.state.macrosBudget}
@@ -886,6 +960,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                updateMealIngrdnt2={this.updateMealIngrdnt2}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -906,6 +981,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                updateMealIngrdnt2={this.updateMealIngrdnt2}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -924,6 +1000,7 @@ class DayDetail extends Component {
                                 thisMealsMealIngrdnts={this.state.lunchIngrdnts}
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                updateMealIngrdnt2={this.updateMealIngrdnt2}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -944,6 +1021,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                updateMealIngrdnt2={this.updateMealIngrdnt2}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -964,6 +1042,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                updateMealIngrdnt2={this.updateMealIngrdnt2}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -985,6 +1064,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                updateMealIngrdnt2={this.updateMealIngrdnt2}
                               />
                             </div>
                           </div>

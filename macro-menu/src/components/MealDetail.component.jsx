@@ -213,7 +213,12 @@ class MealDetail extends Component {
         thisMealIngrdntIndex = i;
       }
     }
-    this.props.updateMealIngrdnt(
+    // this.props.updateMealIngrdnt(
+    //   thisMealIngrdnt,
+    //   thisMealIngrdntIndex,
+    //   this.state.thisMealType
+    // );
+    this.props.updateMealIngrdnt2(
       thisMealIngrdnt,
       thisMealIngrdntIndex,
       this.state.thisMealType
@@ -428,9 +433,6 @@ class MealDetail extends Component {
                   <div className="mealImgNTblRow">
                     <div
                       className="mealImg"
-                      // style={{
-                      //   backgroundImage: `url(${this.state.thisMeal.genRecipe.photoURL})`,
-                      // }}
                       style={
                         this.state.thisMeal.genRecipe.photoURL == undefined
                           ? {
@@ -440,7 +442,6 @@ class MealDetail extends Component {
                               backgroundImage: `url(${this.state.thisMeal.genRecipe.photoURL})`,
                             }
                       }
-                      // src={this.state.thisMeal.genRecipe.photoURL}
                     />
                     <h6 className="mealPrepInst">Prep Instructions:</h6>
                     <textarea
@@ -650,9 +651,7 @@ class MealDetail extends Component {
                       totalCurrentMacrosMethod={
                         this.props.totalCurrentMacrosMethod
                       }
-                      handleUpdateMealIngrdntQty={
-                        this.handleUpdateMealIngrdntQty
-                      }
+                      onChangeMealIngrdntQty={this.handleUpdateMealIngrdntQty}
                       findMealIngrdntIndex={this.findMealIngrdntIndex}
                     />
                   );

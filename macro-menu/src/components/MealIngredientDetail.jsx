@@ -17,7 +17,7 @@ class MealIngredientDetail extends Component {
     this.setState({
       thisMealIngredient: thisMealIngredient,
     });
-    this.props.handleUpdateMealIngrdntQty(this.state.thisMealIngredient);
+    this.props.onChangeMealIngrdntQty(this.state.thisMealIngredient);
     // this.props.totalCurrentMacrosMethod(
     //   [this.state.thisMealIngredient],
     //   this.state.thisMealIngredient.meal.mealType
@@ -284,9 +284,6 @@ class MealIngredientDetail extends Component {
               </div>
               <div
                 className="ingrdntPicDiv"
-                // style={{
-                //   backgroundImage: `url(${this.state.thisMealIngredient.genRecipeIngredient.ingredient.photoURL})`,
-                // }}
                 style={
                   this.state.thisMealIngredient.genRecipeIngredient.ingredient
                     .photoURL == undefined
