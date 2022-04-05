@@ -7,8 +7,11 @@ class MealIngredientDetail extends Component {
     super(props);
     this.state = {
       thisMealIngredient: this.props.thisMealIngredient,
-      userType: "admin",
+      userType: "viewer",
       thisFormState: "viewing",
+      mealIngrdntFormState: "viewing",
+      genRecipeIngrdntFormState: "viewing",
+      ingredientFormState: "viewing",
     };
   }
   handleChangeQty = (e) => {
@@ -35,6 +38,40 @@ class MealIngredientDetail extends Component {
       return <FontAwesomeIcon icon="fa-solid fa-lock" />;
     }
   };
+  onClickCopy = (parentObj) => {
+    if (parentObj == "mealIngredient") {
+      this.setState({ mealIngrdntFormState: "editingCopy" });
+    }
+    if (parentObj == "genRecipeIngredient") {
+      this.setState({ genRecipeIngrdntFormState: "editingCopy" });
+    }
+    if (parentObj == "ingredient") {
+      this.setState({ ingredientFormState: "editingCopy" });
+    }
+  };
+  onClickEdit = (parentObj) => {
+    if (parentObj == "mealIngredient") {
+      this.setState({ mealIngrdntFormState: "editingOrig" });
+    }
+    if (parentObj == "genRecipeIngredient") {
+      this.setState({ genRecipeIngrdntFormState: "editingOrig" });
+    }
+    if (parentObj == "ingredient") {
+      this.setState({ ingredientFormState: "editingOrig" });
+    }
+  };
+  onDelete = (parentObj) => {};
+  onCancel = (parentObj) => {
+    if (parentObj == "mealIngredient") {
+      this.setState({ mealIngrdntFormState: "viewing" });
+    }
+    if (parentObj == "genRecipeIngredient") {
+      this.setState({ genRecipeIngrdntFormState: "viewing" });
+    }
+    if (parentObj == "ingredient") {
+      this.setState({ ingredientFormState: "viewing" });
+    }
+  };
   onChange = () => {
     console.log("changing value");
   };
@@ -51,7 +88,13 @@ class MealIngredientDetail extends Component {
                 className="mlIngrdntFrmIcns"
                 parentObj={"mealIngredient"}
                 userType={this.state.userType}
-                thisFormState={this.state.thisFormState}
+                thisFormState={this.state.mealIngrdntFormState}
+                onSubmitFormChange={this.onSubmitFormChange}
+                onClickCopy={this.onClickCopy}
+                onClickEdit={this.onClickEdit}
+                onDelete={this.onDelete}
+                onCancel={this.onCancel}
+                onCreate={this.onCreate}
               />
               <input
                 type={"number"}
@@ -61,6 +104,9 @@ class MealIngredientDetail extends Component {
                   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
                 onChange={this.handleChangeIngrdntProp}
+                disabled={
+                  this.state.mealIngrdntFormState === "viewing" ? true : false
+                }
               />
             </div>
             <div
@@ -112,6 +158,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.name
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.mealIngrdntFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
@@ -128,6 +179,11 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.meal.mealType
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.mealIngrdntFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
@@ -153,7 +209,12 @@ class MealIngredientDetail extends Component {
                 className="gnRcpIngrdntFrmIcns"
                 parentObj={"genRecipeIngredient"}
                 userType={this.state.userType}
-                thisFormState={this.state.thisFormState}
+                thisFormState={this.state.genRecipeIngrdntFormState}
+                onSubmitFormChange={this.onSubmitFormChange}
+                onClickCopy={this.onClickCopy}
+                onClickEdit={this.onClickEdit}
+                onDelete={this.onDelete}
+                onCancel={this.onCancel}
               />
               <input
                 type={"number"}
@@ -162,6 +223,11 @@ class MealIngredientDetail extends Component {
                   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
                 onChange={this.onChange}
+                disabled={
+                  this.state.genRecipeIngrdntFormState === "viewing"
+                    ? true
+                    : false
+                }
               />
             </div>
             <div
@@ -217,6 +283,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.name
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.genRecipeIngrdntFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
@@ -229,6 +300,11 @@ class MealIngredientDetail extends Component {
                           .genRecipe.name
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.genRecipeIngrdntFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
@@ -256,7 +332,13 @@ class MealIngredientDetail extends Component {
                 className="ingrdntFrmIcns"
                 parentObj={"ingredient"}
                 userType={this.state.userType}
-                thisFormState={this.state.thisFormState}
+                thisFormState={this.state.ingredientFormState}
+                onSubmitFormChange={this.onSubmitFormChange}
+                onClickCopy={this.onClickCopy}
+                onClickEdit={this.onClickEdit}
+                onDelete={this.onDelete}
+                onCancel={this.onCancel}
+                onCreate={this.onCreate}
               />
               <div className="form-group mealIngrdntInputs ingrdntUOM">
                 <label>UOM</label>
@@ -268,6 +350,9 @@ class MealIngredientDetail extends Component {
                       .unitOfMeasure.name
                   }
                   onChange={this.onChange}
+                  disabled={
+                    this.state.ingredientFormState === "viewing" ? true : false
+                  }
                 />
               </div>
               <div className="form-group mealIngrdntInputs ingrdntWghtType">
@@ -280,6 +365,9 @@ class MealIngredientDetail extends Component {
                       .weightType.name
                   }
                   onChange={this.onChange}
+                  disabled={
+                    this.state.ingredientFormState === "viewing" ? true : false
+                  }
                 />
               </div>
               <div
@@ -309,6 +397,9 @@ class MealIngredientDetail extends Component {
                       .brand.name
                   }
                   onChange={this.onChange}
+                  disabled={
+                    this.state.ingredientFormState === "viewing" ? true : false
+                  }
                 />
               </div>
               <div className="form-group mealIngrdntInputs ingrdntName badge bg-primary">
@@ -321,6 +412,9 @@ class MealIngredientDetail extends Component {
                       .name
                   }
                   onChange={this.onChange}
+                  disabled={
+                    this.state.ingredientFormState === "viewing" ? true : false
+                  }
                 />
               </div>
             </div>
@@ -364,6 +458,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.calories
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.ingredientFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
@@ -376,6 +475,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.carbs
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.ingredientFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
@@ -388,6 +492,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.protein
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.ingredientFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
@@ -400,6 +509,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.fat
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.ingredientFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
@@ -412,6 +526,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.fiber
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.ingredientFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                   <div className="form-group mealIngrdntInputs">
@@ -424,6 +543,11 @@ class MealIngredientDetail extends Component {
                           .ingredient.photoURL
                       }
                       onChange={this.onChange}
+                      disabled={
+                        this.state.ingredientFormState === "viewing"
+                          ? true
+                          : false
+                      }
                     />
                   </div>
                 </div>
@@ -484,6 +608,11 @@ class MealIngredientDetail extends Component {
                               .ingredient.GRFUser.handle
                           }
                           onChange={this.onChange}
+                          disabled={
+                            this.state.ingredientFormState === "viewing"
+                              ? true
+                              : false
+                          }
                         />
                       </div>
                       <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
