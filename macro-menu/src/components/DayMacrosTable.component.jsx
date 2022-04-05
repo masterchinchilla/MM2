@@ -28,7 +28,6 @@ const DayMacrosTable = (props) => {
     dinnerIngredients: props.dinnerIngrdnts,
     dessertIngredients: props.dessertIngrdnts,
   };
-  console.log(allMealIngredients);
   let macrosCurrent = {
     cals: 0,
     carbs: 0,
@@ -74,20 +73,26 @@ const DayMacrosTable = (props) => {
   // function totalAllMacros
   (() => {
     clearAllMacros();
+    console.log("Clearing macros");
+    console.log(macrosCurrent);
     for (let a = 0; a < mealTypesArray.length; a++) {
       let thisMealType = mealTypesArray[a];
       let thisMealIngrdntProp = `${thisMealType}Ingredients`;
       let thisIngredientArray = allMealIngredients[thisMealIngrdntProp];
-      for (let b = 0; b < macroTypesArray.length; b++) {
-        let thisMacroType = macroTypesArray[b];
-        for (let c = 0; c < thisIngredientArray.length; c++) {
+      for (let c = 0; c < thisIngredientArray.length; c++) {
+        let thisMealIngredientQty = thisIngredientArray[c].qty;
+        let thisIngredientItself =
+          thisIngredientArray[c].genRecipeIngredient.ingredient;
+        for (let b = 0; b < ingrdntRecordMacroTypesArray.length; b++) {
+          let thisIngrdntMacroType = ingrdntRecordMacroTypesArray[b];
+          let thisMacroType = macroTypesArray[b];
           let newMealMacroTotal =
-            thisIngredientArray[c].qty *
-            thisIngredientArray[c].genRecipeIngredient.ingredient[
-              ingrdntRecordMacroTypesArray[b]
-            ];
+            thisMealIngredientQty * thisIngredientItself[thisIngrdntMacroType];
           // mealMacrosCurrent[mealTypesArray[a]][macroTypesArray[b]]+=newMealMacroTotal;
           macrosCurrent[thisMacroType] += newMealMacroTotal;
+          console.log(
+            `Adding ${newMealMacroTotal} ${thisMealType} ${thisIngrdntMacroType} to total ${thisMacroType}`
+          );
           console.log(macrosCurrent);
         }
       }
