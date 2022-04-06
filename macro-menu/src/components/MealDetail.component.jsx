@@ -9,6 +9,7 @@ class MealDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userHasChangedRecipe: false,
       thisMealTypesGenRecipesLoaded: false,
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
@@ -21,8 +22,8 @@ class MealDetail extends Component {
       mealFormState: "viewing",
       genRecipeFormState: "viewing",
       userType: "admin",
-      thisMealsMealIngrdnts: [],
-      thisMealsGenRecipe: { name: "Cereal", id: 1 },
+      thisMealsMealIngrdntsCurrent: [],
+      thisMealsGenRecipeCurrent: { name: "Cereal", id: 1 },
       thisMealTypesGenRecipes: [
         { name: "Scrambled Eggs", id: 2 },
         { name: "French Toast", id: 3 },
@@ -71,7 +72,8 @@ class MealDetail extends Component {
           thisMealType: this.props.thisMeal.mealType,
 
           thisGenRecipesId: this.props.thisMeal.genRecipe._id,
-          thisMealsGenRecipe: this.props.thisMeal.genRecipe,
+          thisMealsGenRecipeCurrent: this.props.thisMeal.genRecipe,
+          thisMealsGenRecipeOld: this.props.thisMeal.genRecipe,
           thisRecipesInst:
             this.props.thisMeal.genRecipe.defaultPrepInstructions,
           thisMealRecipePic: this.props.thisMeal.genRecipe.photoURL,
@@ -83,7 +85,8 @@ class MealDetail extends Component {
 
           thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
           thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
-          thisMealsMealIngrdnts: this.props.thisMealsMealIngrdnts,
+          thisMealsMealIngrdntsCurrent: this.props.thisMealsMealIngrdnts,
+          thisMealsMealIngrdntsOld: this.props.thisMealsMealIngrdnts,
           mealsMealIngrdntsLoaded: true,
         });
       });
@@ -106,12 +109,12 @@ class MealDetail extends Component {
     //   )
     //   .then((response) => {
     //     this.setState({
-    //       thisMealsMealIngrdnts: response.data.map(
+    //       thisMealsMealIngrdntsCurrent: response.data.map(
     //         (mealIngredient) => mealIngredient
     //       ),
     //     });
     //     this.props.totalCurrentMacrosMethod(
-    //       this.state.thisMealsMealIngrdnts,
+    //       this.state.thisMealsMealIngrdntsCurrent,
     //       this.props.thisMeal.mealType
     //     );
     //     this.setState({
@@ -121,8 +124,33 @@ class MealDetail extends Component {
   }
   handleChangeMealRecipe = (e) => {
     this.setState({
-      thisMealsGenRecipe: e.target.value,
+      thisMealsGenRecipeCurrent: e.target.value,
+      userHasChangedRecipe: true,
     });
+    axios
+      .get(
+        "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
+          this.state.thisMealsGenRecipeCurrent._id
+      )
+      .then((response) => {
+        const thisGenRecipesGenRecipeIngrdnts = response.data.map(
+          (genRecipeIngredient) => genRecipeIngredient
+        );
+        let thisMealsNewMealIngrdnts = [];
+        for (let i = 0; i < thisGenRecipesGenRecipeIngrdnts.length; i++) {
+          let thisGenRecipeIngrdnt = thisGenRecipesGenRecipeIngrdnts[i];
+          let newMealIngredient = {
+            _id: "tempId-" + this.getRndInteger(10000000, 99999999),
+            qty: thisGenRecipeIngrdnt.defaultQty,
+            genRecipeIngredient: thisGenRecipeIngrdnt,
+            meal: this.state.thisMeal,
+          };
+          thisMealsNewMealIngrdnts.push(newMealIngredient);
+        }
+        this.setState({
+          thisMealsMealIngrdntsCurrent: thisMealsNewMealIngrdnts,
+        });
+      });
   };
   handleChangeMealDay = (e) => {
     this.setState({
@@ -163,7 +191,7 @@ class MealDetail extends Component {
     const meal = {
       id: this.state.thisMealsId,
       day: this.state.thisMealsDay,
-      genRecipe: this.state.thisMealsGenRecipe,
+      genRecipe: this.state.thisMealsGenRecipeCurrent,
       mealType: this.state.thisMealType,
     };
     axios
@@ -194,7 +222,10 @@ class MealDetail extends Component {
   };
   handleCancel = (parentObj) => {
     parentObj === "meal"
-      ? this.setState({ mealFormState: "viewing" })
+      ? this.setState({
+          mealFormState: "viewing",
+          userHasChangedRecipe: false,
+        })
       : this.setState({ genRecipeFormState: "viewing" });
   };
   lockUnlockAdminMenus = () => {
@@ -207,7 +238,7 @@ class MealDetail extends Component {
   findMealIngrdntIndex = (thisMealIngrdnt) => {
     let thisMealIngrdntIndex;
     let i = 0;
-    let thisMealsIngrdnts = this.state.thisMealsMealIngrdnts;
+    let thisMealsIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
     for (i; i < thisMealsIngrdnts.length; i++) {
       if (thisMealIngrdnt._id == thisMealsIngrdnts[i]._id) {
         thisMealIngrdntIndex = i;
@@ -221,6 +252,21 @@ class MealDetail extends Component {
   };
   onChange = () => {
     console.log("Value changed");
+  };
+  showChangeRecipeWarning = () => {
+    if (this.state.userHasChangedRecipe == false) {
+      return;
+    } else {
+      return (
+        <div class="alert alert-warning recipeWarning" role="alert">
+          CAUTION: If you save a change to this Meal's Recipe, your meal
+          ingredient custom qtys will be reset.
+        </div>
+      );
+    }
+  };
+  getRndInteger = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   };
   render() {
     if (
@@ -281,6 +327,7 @@ class MealDetail extends Component {
                       thisFormState={this.state.mealFormState}
                       onSubmitFormChange={this.handleSubmitMealFormChange}
                       onClickEdit={this.handleClickEdit}
+                      userHasChangedRecipe={this.state.userHasChangedRecipe}
                       onCancel={this.handleCancel}
                     />
                   </div>
@@ -290,7 +337,7 @@ class MealDetail extends Component {
                       ref="userInput"
                       required
                       className="form-control form-select recipeSelect"
-                      value={this.state.thisMealsGenRecipe}
+                      value={this.state.thisMealsGenRecipeCurrent}
                       disabled={
                         this.state.mealFormState == "viewing" ? true : false
                       }
@@ -306,6 +353,7 @@ class MealDetail extends Component {
                         );
                       })}
                     </select>
+                    {this.showChangeRecipeWarning()}
                   </div>
                 </div>
                 <div className="card-body mealCardBody">
@@ -642,21 +690,23 @@ class MealDetail extends Component {
               </form>
               <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
               <div className="mlIngrdntsCntnr">
-                {this.state.thisMealsMealIngrdnts.map((mealIngredient) => {
-                  return (
-                    <MealIngredientDetail
-                      thisMealIngredient={mealIngredient}
-                      key={mealIngredient._id}
-                      totalCurrentMacrosMethod={
-                        this.props.totalCurrentMacrosMethod
-                      }
-                      handleUpdateMealIngrdntQty={
-                        this.handleUpdateMealIngrdntQty
-                      }
-                      findMealIngrdntIndex={this.findMealIngrdntIndex}
-                    />
-                  );
-                })}
+                {this.state.thisMealsMealIngrdntsCurrent.map(
+                  (mealIngredient) => {
+                    return (
+                      <MealIngredientDetail
+                        thisMealIngredient={mealIngredient}
+                        key={mealIngredient._id}
+                        totalCurrentMacrosMethod={
+                          this.props.totalCurrentMacrosMethod
+                        }
+                        handleUpdateMealIngrdntQty={
+                          this.handleUpdateMealIngrdntQty
+                        }
+                        findMealIngrdntIndex={this.findMealIngrdntIndex}
+                      />
+                    );
+                  }
+                )}
               </div>
             </div>
           </div>

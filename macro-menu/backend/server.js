@@ -20,7 +20,7 @@ connection.once('open', () => {
 
 // const brandsRouter = require('./routes/brands');
 const daysRouter = require('./routes/days');
-// const genRecipeIngredientsRouter = require('./routes/genRecipeIngredients');
+const genRecipeIngredientsRouter = require('./routes/genRecipeIngredients');
 const genRecipesRouter = require('./routes/genRecipes');
 const GRFUsersRouter = require('./routes/GRFUsers');
 // const ingredientsRouter = require('./routes/ingredients');
@@ -32,7 +32,7 @@ const weekMealPlansRouter = require('./routes/weekMealPlans');
 
 // app.use('/brands', brandsRouter);
 app.use('/days', daysRouter);
-// app.use('/genRecipeIngredients', genRecipeIngredientsRouter);
+app.use('/genRecipeIngredients', genRecipeIngredientsRouter);
 app.use('/genRecipes', genRecipesRouter);
 app.use('/GRFUsers', GRFUsersRouter);
 // app.use('/ingredients', ingredientsRouter);

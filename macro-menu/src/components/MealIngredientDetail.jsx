@@ -7,7 +7,7 @@ class MealIngredientDetail extends Component {
     super(props);
     this.state = {
       thisMealIngredient: this.props.thisMealIngredient,
-      userType: "viewer",
+      userType: "admin",
       thisFormState: "viewing",
       mealIngrdntFormState: "viewing",
       genRecipeIngrdntFormState: "viewing",

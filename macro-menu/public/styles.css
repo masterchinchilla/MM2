@@ -36,9 +36,12 @@ hr {
   margin: 0 !important;
 }
 .mealHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "recipeLabel recipeSelect"
+    "recipeWarning recipeWarning";
   padding-right: 3px !important;
   padding: 0 !important;
 }
@@ -97,13 +100,16 @@ button.accordion-button {
 }
 .recipeSelect {
   margin: 0.5rem;
+  grid-area: recipeSelect;
+  width:98% !important;
 }
 .mealImgNTblRow {
   display: grid;
   grid-template-columns: 30% 70%;
   grid-template-rows: 2.5rem minmax(10vw,100px);
-  grid-template-areas: "mealImg mealPrepInst"
-  "mealImg mealTextArea";
+  grid-template-areas:
+    "mealImg mealPrepInst"
+    "mealImg mealTextArea";
   margin: -0.75px -0.75px auto -0.75px;
 }
 .mealImg {
@@ -133,6 +139,7 @@ button.accordion-button {
 }
 .recipeSelectHeader {
   margin: auto 1rem;
+  grid-area: recipeLabel;
 }
 .formSctnTitle {
   padding: 0.5rem 0 0.5rem 1rem;
@@ -403,4 +410,18 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 .mlIngrdntsCntnr{
   display: flex;
   flex-wrap: wrap;
+}
+.recipeWarning{
+  grid-area: recipeWarning;
+  padding: 0.25rem 0.5rem !important;
+  margin: 0 0.5rem 0.5rem 0.5rem !important;
+  text-align: right;
+  font-size: small;
+  width: fit-content;
+  justify-self: end;
+}
+.changingWarning{
+  color:#ffc107;
+  background-color: #fff;
+  border-radius: 0.25rem;
 }
