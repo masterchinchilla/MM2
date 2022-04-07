@@ -51,9 +51,30 @@ router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
         })
         .populate({
             path: 'meal',
-            populate:{path: 'day',populate: 'weekMealPlan'}
+            populate:{
+                path: 'day',
+                populate:{path:'weekMealPlan'}
+            }
         })
             .then(mealIngredients=>res.json(mealIngredients))
             .catch(err=>res.status(400).json('Error: '+err));
     })
+router.route('/add').post((req,res)=>{
+    const qty=req.body.qty;
+    const genRecipeIngredient=req.body.genRecipeIngredient;
+    const meal=req.body.meal;
+    const newMealIngredient = new MealIngredient({
+        qty,
+        genRecipeIngredient,
+        meal
+    });
+    newMealIngredient.save()
+        .then(()=>res.json(newMealIngredient))
+        .catch(err=>res.status(400).json('Error: '+err));
+});
+router.route('/:id').delete((req, res)=>{
+    MealIngredient.findByIdAndDelete(req.params.id)
+        .then(()=>res.json('Meal Ingredient successfully deleted.'))
+        .catch(err=>res.status(400).json('Error: '+err));
+});
 module.exports=router;

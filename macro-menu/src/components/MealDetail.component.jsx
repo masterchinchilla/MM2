@@ -21,9 +21,12 @@ class MealDetail extends Component {
       thisMealType: {},
       mealFormState: "viewing",
       genRecipeFormState: "viewing",
+      ingredientFormState: "viewing",
       userType: "admin",
       thisMealsMealIngrdntsCurrent: [],
+      thisMealsMealIngrdntsOld: [],
       thisMealsGenRecipeCurrent: { name: "Cereal", id: 1 },
+      thisMealsGenRecipeOld: {},
       thisMealTypesGenRecipes: [
         { name: "Scrambled Eggs", id: 2 },
         { name: "French Toast", id: 3 },
@@ -123,14 +126,16 @@ class MealDetail extends Component {
     //   });
   }
   handleChangeMealRecipe = (e) => {
+    let newSelectedRecipe = e.target.value;
+    console.log(newSelectedRecipe);
     this.setState({
-      thisMealsGenRecipeCurrent: e.target.value,
+      thisMealsGenRecipeCurrent: newSelectedRecipe,
       userHasChangedRecipe: true,
     });
     axios
       .get(
         "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
-          this.state.thisMealsGenRecipeCurrent._id
+          newSelectedRecipe
       )
       .then((response) => {
         const thisGenRecipesGenRecipeIngrdnts = response.data.map(
@@ -149,6 +154,19 @@ class MealDetail extends Component {
         }
         this.setState({
           thisMealsMealIngrdntsCurrent: thisMealsNewMealIngrdnts,
+          thisMealsGenRecipeCurrent:
+            thisGenRecipesGenRecipeIngrdnts[0].genRecipe,
+          thisRecipesId: thisGenRecipesGenRecipeIngrdnts[0].genRecipe._id,
+          thisRecipesInst:
+            thisGenRecipesGenRecipeIngrdnts[0].genRecipe
+              .defaultPrepInstructions,
+          thisMealRecipePic:
+            thisGenRecipesGenRecipeIngrdnts[0].genRecipe.photoURL,
+          thisRecipesName: thisGenRecipesGenRecipeIngrdnts[0].genRecipe.name,
+          thisRecipesMealType:
+            thisGenRecipesGenRecipeIngrdnts[0].genRecipe.availableMealType,
+          thisRecipesAuthor:
+            thisGenRecipesGenRecipeIngrdnts[0].genRecipe.GRFUser.handle,
         });
       });
   };
@@ -188,10 +206,38 @@ class MealDetail extends Component {
     });
   };
   handleSubmitMealFormChange = () => {
+    if (this.state.userHasChangedRecipe === true) {
+      let oldMealIngrdnts = this.state.thisMealsMealIngrdntsOld;
+      let newMealIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
+      for (let i = 0; i < newMealIngrdnts.length; i++) {
+        let thisNewMealIngrdnt = newMealIngrdnts[i];
+        let newMealIngrdnt = {
+          qty: thisNewMealIngrdnt.qty,
+          genRecipeIngredient: thisNewMealIngrdnt.genRecipeIngredient._id,
+          meal: thisNewMealIngrdnt.meal._id,
+        };
+        axios
+          .post("http://localhost:5000/mealIngredients/add", newMealIngrdnt)
+          .then((response) => {
+            console.log(response);
+          });
+        this.setState({
+          thisMealsMealIngrdntsOld: newMealIngrdnts,
+          thisMealsGenRecipeOld:
+            newMealIngrdnts[i].genRecipeIngredient.genRecipe,
+        });
+      }
+      for (let i = 0; i < oldMealIngrdnts.length; i++) {
+        let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
+        axios
+          .delete("http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt)
+          .then((response) => console.log(response));
+      }
+    }
     const meal = {
       id: this.state.thisMealsId,
-      day: this.state.thisMealsDay,
-      genRecipe: this.state.thisMealsGenRecipeCurrent,
+      day: this.state.thisMealsDay._id,
+      genRecipe: this.state.thisMealsGenRecipeCurrent._id,
       mealType: this.state.thisMealType,
     };
     axios
@@ -216,17 +262,49 @@ class MealDetail extends Component {
       .then(console.log("Recipe Updated"));
   };
   handleClickEdit = (parentObj) => {
-    parentObj === "meal"
-      ? this.setState({ mealFormState: "editingOrig" })
-      : this.setState({ genRecipeFormState: "editingOrig" });
+    switch (parentObj) {
+      case "meal":
+        this.setState({
+          mealFormState: "editingOrig",
+        });
+        break;
+      case "genRecipe":
+        this.setState({
+          genRecipeFormState: "editingOrig",
+        });
+        break;
+      default:
+        this.setState({
+          ingredientFormState: "editingOrig",
+        });
+    }
   };
   handleCancel = (parentObj) => {
-    parentObj === "meal"
-      ? this.setState({
-          mealFormState: "viewing",
-          userHasChangedRecipe: false,
-        })
-      : this.setState({ genRecipeFormState: "viewing" });
+    switch (parentObj) {
+      case "meal":
+        if (this.state.userHasChangedRecipe === true) {
+          this.setState({
+            thisMealsMealIngrdntsCurrent: this.state.thisMealsMealIngrdntsOld,
+            thisMealsGenRecipeCurrent: this.state.thisMealsGenRecipeOld,
+            mealFormState: "viewing",
+            userHasChangedRecipe: false,
+          });
+        } else {
+          this.setState({
+            mealFormState: "viewing",
+          });
+        }
+        break;
+      case "genRecipe":
+        this.setState({
+          genRecipeFormState: "viewing",
+        });
+        break;
+      default:
+        this.setState({
+          ingredientFormState: "viewing",
+        });
+    }
   };
   lockUnlockAdminMenus = () => {
     if (this.state.userType == "admin") {
@@ -337,7 +415,7 @@ class MealDetail extends Component {
                       ref="userInput"
                       required
                       className="form-control form-select recipeSelect"
-                      value={this.state.thisMealsGenRecipeCurrent}
+                      // value={this.state.thisMealsGenRecipeCurrent._id}
                       disabled={
                         this.state.mealFormState == "viewing" ? true : false
                       }
@@ -448,7 +526,7 @@ class MealDetail extends Component {
                           <input
                             className="form-control"
                             type="text"
-                            value={this.state.thisMeal.day._id}
+                            value={this.state.thisMeal._id}
                             disabled={true}
                             onChange={this.onChange}
                           />
@@ -480,12 +558,12 @@ class MealDetail extends Component {
                       //   backgroundImage: `url(${this.state.thisMeal.genRecipe.photoURL})`,
                       // }}
                       style={
-                        this.state.thisMeal.genRecipe.photoURL == undefined
+                        this.state.thisMealRecipePic == undefined
                           ? {
                               backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
                             }
                           : {
-                              backgroundImage: `url(${this.state.thisMeal.genRecipe.photoURL})`,
+                              backgroundImage: `url(${this.state.thisMealRecipePic})`,
                             }
                       }
                       // src={this.state.thisMeal.genRecipe.photoURL}
@@ -567,7 +645,7 @@ class MealDetail extends Component {
                           <input
                             className="form-control"
                             type="text"
-                            value={this.state.thisMeal.genRecipe.GRFUser.handle}
+                            value={this.state.thisRecipesAuthor.handle}
                             disabled={true}
                             onChange={this.onChange}
                           />

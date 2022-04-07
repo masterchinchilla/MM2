@@ -9,10 +9,10 @@ var ingredientSchema = new Schema (
         fat: {type: Number, required: true, maxLength: 100},
         fiber: {type: Number, required: true, maxLength: 100},
         unitOfMeasure: {type: Schema.Types.ObjectId, ref: 'UnitOfMeasure', required: true},
-        weightType: { type: Schema.Types.ObjectId, ref: 'WeightType', required: true},
+        weightType: { type: Schema.Types.ObjectId, ref: 'WeightType', required: false},
         photoURL: {type: String, maxLength: 1000},
         GRFUser: {type: Schema.Types.ObjectId, ref: 'GRFUser', required: true},
-        brand: { type: Schema.Types.ObjectId, ref: 'Brand', required: true},
+        brand: { type: Schema.Types.ObjectId, ref: 'Brand', required: false},
     },
     {timestamps: true}
 );

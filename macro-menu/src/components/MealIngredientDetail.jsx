@@ -171,10 +171,7 @@ class MealIngredientDetail extends Component {
                       type={"text"}
                       className="form-control"
                       value={
-                        this.state.thisMealIngredient.meal.day.weekMealPlan
-                          .name +
-                        " - " +
-                        this.state.thisMealIngredient.meal.day.dayOfWeek +
+                        this.state.thisMealIngredient.meal.day.name +
                         " - " +
                         this.state.thisMealIngredient.meal.mealType
                       }
@@ -301,7 +298,7 @@ class MealIngredientDetail extends Component {
                       }
                       onChange={this.onChange}
                       disabled={
-                        this.genRecipeIngrdntFormState === "viewing"
+                        this.state.genRecipeIngrdntFormState === "viewing"
                           ? true
                           : false
                       }
@@ -362,7 +359,10 @@ class MealIngredientDetail extends Component {
                   className="form-control"
                   value={
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
-                      .weightType.name
+                      .weightType == undefined
+                      ? ""
+                      : this.state.thisMealIngredient.genRecipeIngredient
+                          .ingredient.weightType.name
                   }
                   onChange={this.onChange}
                   disabled={
@@ -394,7 +394,10 @@ class MealIngredientDetail extends Component {
                   className="form-control"
                   value={
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
-                      .brand.name
+                      .brand == undefined
+                      ? ""
+                      : this.state.thisMealIngredient.genRecipeIngredient
+                          .ingredient.brand.name
                   }
                   onChange={this.onChange}
                   disabled={

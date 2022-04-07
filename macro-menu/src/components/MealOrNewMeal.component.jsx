@@ -112,7 +112,7 @@ class MealOrNewMeal extends Component {
           <CreateMeal
             thisDay={this.state.thisMealsDay}
             mealType={this.state.thisMealType}
-            onCreateMeal={this.props.handleCreateMeal}
+            onCreateMeal={this.props.onCreateMeal}
             dayUserType={this.state.dayUserType}
             thisMealTypesGenRecipes={this.state.thisMealTypesGenRecipes}
             newMeal={this.state.newMeal}
