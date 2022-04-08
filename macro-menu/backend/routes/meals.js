@@ -10,7 +10,7 @@ router.route('/').get((req, res)=>{
         .then(meals=>res.json(meals))
         .catch(err=>res.status(400).json('Error: '+err));
 });
-router.route('/mealsofthisday/:id').get((req, res)=>{
+router.route('/mealsofthisday/:id').get((req, res)=>{   
     Meal.find({day: req.params.id}).populate('day')
         .populate({
             path: 'genRecipe',
@@ -25,4 +25,16 @@ router.route('/add').post((req, res)=>{
         .then(()=>res.json(meal))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/update/:id').put((req, res)=>{
+    Meal.findById(req.params.id)
+        .then(meal=>{
+            meal.day = req.body.day;
+            meal.genRecipe = req.body.genRecipe;
+            meal.mealType = req.body.mealType;
+            meal.save()
+                .then(()=>res.json(meal))
+                .catch(err=>res.status(400).json('Error: '+err));
+        })
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 module.exports=router;

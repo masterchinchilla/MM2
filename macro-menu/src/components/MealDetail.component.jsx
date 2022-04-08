@@ -127,11 +127,14 @@ class MealDetail extends Component {
   }
   handleChangeMealRecipe = (e) => {
     let newSelectedRecipe = e.target.value;
-    console.log(newSelectedRecipe);
+    let thisMeal = this.state.thisMeal;
+    thisMeal.genRecipe = newSelectedRecipe;
     this.setState({
+      thisMeal: thisMeal,
       thisMealsGenRecipeCurrent: newSelectedRecipe,
       userHasChangedRecipe: true,
     });
+    console.log(this.state);
     axios
       .get(
         "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
@@ -148,11 +151,13 @@ class MealDetail extends Component {
             _id: "tempId-" + this.getRndInteger(10000000, 99999999),
             qty: thisGenRecipeIngrdnt.defaultQty,
             genRecipeIngredient: thisGenRecipeIngrdnt,
-            meal: this.state.thisMeal,
+            meal: thisMeal,
           };
           thisMealsNewMealIngrdnts.push(newMealIngredient);
         }
+        thisMeal.genRecipe = thisGenRecipesGenRecipeIngrdnts[0].genRecipe;
         this.setState({
+          thisMeal: thisMeal,
           thisMealsMealIngrdntsCurrent: thisMealsNewMealIngrdnts,
           thisMealsGenRecipeCurrent:
             thisGenRecipesGenRecipeIngrdnts[0].genRecipe,
@@ -168,6 +173,7 @@ class MealDetail extends Component {
           thisRecipesAuthor:
             thisGenRecipesGenRecipeIngrdnts[0].genRecipe.GRFUser.handle,
         });
+        console.log(this.state);
       });
   };
   handleChangeMealDay = (e) => {
@@ -209,30 +215,31 @@ class MealDetail extends Component {
     if (this.state.userHasChangedRecipe === true) {
       let oldMealIngrdnts = this.state.thisMealsMealIngrdntsOld;
       let newMealIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
-      for (let i = 0; i < newMealIngrdnts.length; i++) {
-        let thisNewMealIngrdnt = newMealIngrdnts[i];
-        let newMealIngrdnt = {
-          qty: thisNewMealIngrdnt.qty,
-          genRecipeIngredient: thisNewMealIngrdnt.genRecipeIngredient._id,
-          meal: thisNewMealIngrdnt.meal._id,
-        };
-        axios
-          .post("http://localhost:5000/mealIngredients/add", newMealIngrdnt)
-          .then((response) => {
-            console.log(response);
-          });
-        this.setState({
-          thisMealsMealIngrdntsOld: newMealIngrdnts,
-          thisMealsGenRecipeOld:
-            newMealIngrdnts[i].genRecipeIngredient.genRecipe,
-        });
-      }
-      for (let i = 0; i < oldMealIngrdnts.length; i++) {
-        let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
-        axios
-          .delete("http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt)
-          .then((response) => console.log(response));
-      }
+      // for (let i = 0; i < newMealIngrdnts.length; i++) {
+      //   let thisNewMealIngrdnt = newMealIngrdnts[i];
+      //   let newMealIngrdnt = {
+      //     qty: thisNewMealIngrdnt.qty,
+      //     genRecipeIngredient: thisNewMealIngrdnt.genRecipeIngredient._id,
+      //     meal: thisNewMealIngrdnt.meal._id,
+      //   };
+      //   axios
+      //     .post("http://localhost:5000/mealIngredients/add", newMealIngrdnt)
+      //     .then((response) => {
+      //       console.log(response);
+      //     });
+      //   this.setState({
+      //     thisMealsMealIngrdntsOld: newMealIngrdnts,
+      //     thisMealsGenRecipeOld:
+      //       newMealIngrdnts[i].genRecipeIngredient.genRecipe,
+      //   });
+      // }
+      // for (let i = 0; i < oldMealIngrdnts.length; i++) {
+      //   let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
+      //   axios.delete(
+      //     "http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt
+      //   )
+      //   .then((response) => console.log(response));
+      // }
     }
     const meal = {
       id: this.state.thisMealsId,
@@ -241,8 +248,12 @@ class MealDetail extends Component {
       mealType: this.state.thisMealType,
     };
     axios
-      .post("http://localhost:5000/meals/update/" + meal.id, meal)
-      .then(console.log("Meal Updated"));
+      .put("http://localhost:5000/meals/update/" + meal.id, meal)
+      .then((response) => {
+        this.setState({
+          thisMeal: response.data,
+        });
+      });
   };
   handleSubmitRecipeFormChange = () => {
     const genRecipe = {
@@ -255,10 +266,7 @@ class MealDetail extends Component {
     };
     console.log({ genRecipe });
     axios
-      .post(
-        "http://localhost:5000/genRecipes/update/" + genRecipe.id,
-        genRecipe
-      )
+      .put("http://localhost:5000/genRecipes/update/" + genRecipe.id, genRecipe)
       .then(console.log("Recipe Updated"));
   };
   handleClickEdit = (parentObj) => {
@@ -336,7 +344,7 @@ class MealDetail extends Component {
       return;
     } else {
       return (
-        <div class="alert alert-warning recipeWarning" role="alert">
+        <div className="alert alert-warning recipeWarning" role="alert">
           CAUTION: If you save a change to this Meal's Recipe, your meal
           ingredient custom qtys will be reset.
         </div>
