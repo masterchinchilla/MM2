@@ -4,17 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import MealIngredientDetail from "./MealIngredientDetail";
 import MacrosTable from "./MacrosTable.component";
+import dayjs from "dayjs";
 
 class MealDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mealJustCreated: false,
       userHasChangedRecipe: false,
       thisMealTypesGenRecipesLoaded: false,
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
       mealsMealIngrdntsLoaded: false,
-      thisMeal: {},
+      thisMeal: this.props.thisMeal,
       thisMealsId: "",
       thisRecipesId: "",
       thisMealsDay: {},
@@ -58,6 +60,19 @@ class MealDetail extends Component {
     };
   }
   componentDidMount() {
+    let thisCurrentUnixDate = dayjs();
+    let thisMealsCreatedAtUnix;
+    this.props.thisMeal.createdAt !== undefined
+      ? (thisMealsCreatedAtUnix = dayjs(this.props.thisMeal.createdAt))
+      : (thisMealsCreatedAtUnix = 1609459200000);
+    let mealAge = thisCurrentUnixDate.diff(thisMealsCreatedAtUnix);
+    if (mealAge < 25200000) {
+      this.setState({
+        mealJustCreated: true,
+        userHasChangedRecipe: true,
+        mealFormState: "editingOrig",
+      });
+    }
     axios
       .get(
         "http://localhost:5000/genRecipes/thisMealTypesGenRecipes/" +
@@ -65,7 +80,7 @@ class MealDetail extends Component {
       )
       .then((response) => {
         this.setState({
-          thisMeal: this.props.thisMeal,
+          // thisMeal: this.props.thisMeal,
           thisMealsId: this.props.thisMeal._id,
 
           thisMealTypesGenRecipes: response.data.map(
@@ -126,7 +141,12 @@ class MealDetail extends Component {
     //   });
   }
   handleChangeMealRecipe = (e) => {
-    let newSelectedRecipe = e.target.value;
+    let newSelectedRecipe;
+    // if (this.state.mealJustCreated === true) {
+    //   newSelectedRecipe = this.state.thisMeal.genRecipe._id;
+    //   console.log(newSelectedRecipe);
+    // } else {
+    newSelectedRecipe = e.target.value;
     let thisMeal = this.state.thisMeal;
     thisMeal.genRecipe = newSelectedRecipe;
     this.setState({
@@ -134,7 +154,6 @@ class MealDetail extends Component {
       thisMealsGenRecipeCurrent: newSelectedRecipe,
       userHasChangedRecipe: true,
     });
-    console.log(this.state);
     axios
       .get(
         "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
@@ -173,7 +192,6 @@ class MealDetail extends Component {
           thisRecipesAuthor:
             thisGenRecipesGenRecipeIngrdnts[0].genRecipe.GRFUser.handle,
         });
-        console.log(this.state);
       });
   };
   handleChangeMealDay = (e) => {
@@ -215,31 +233,40 @@ class MealDetail extends Component {
     if (this.state.userHasChangedRecipe === true) {
       let oldMealIngrdnts = this.state.thisMealsMealIngrdntsOld;
       let newMealIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
-      // for (let i = 0; i < newMealIngrdnts.length; i++) {
-      //   let thisNewMealIngrdnt = newMealIngrdnts[i];
-      //   let newMealIngrdnt = {
-      //     qty: thisNewMealIngrdnt.qty,
-      //     genRecipeIngredient: thisNewMealIngrdnt.genRecipeIngredient._id,
-      //     meal: thisNewMealIngrdnt.meal._id,
-      //   };
-      //   axios
-      //     .post("http://localhost:5000/mealIngredients/add", newMealIngrdnt)
-      //     .then((response) => {
-      //       console.log(response);
-      //     });
-      //   this.setState({
-      //     thisMealsMealIngrdntsOld: newMealIngrdnts,
-      //     thisMealsGenRecipeOld:
-      //       newMealIngrdnts[i].genRecipeIngredient.genRecipe,
-      //   });
-      // }
-      // for (let i = 0; i < oldMealIngrdnts.length; i++) {
-      //   let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
-      //   axios.delete(
-      //     "http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt
-      //   )
-      //   .then((response) => console.log(response));
-      // }
+      for (let i = 0; i < newMealIngrdnts.length; i++) {
+        let thisNewMealIngrdnt = newMealIngrdnts[i];
+        let newMealIngrdnt = {
+          qty: thisNewMealIngrdnt.qty,
+          genRecipeIngredient: thisNewMealIngrdnt.genRecipeIngredient._id,
+          meal: thisNewMealIngrdnt.meal._id,
+        };
+        // fetch("http://localhost:5000/mealIngredients/add", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(newMealIngrdnt),
+        // })
+        axios
+          .post("http://localhost:5000/mealIngredients/add", newMealIngrdnt)
+          .then((response) => {
+            console.log(response);
+          });
+        this.setState({
+          thisMealsMealIngrdntsOld: newMealIngrdnts,
+          thisMealsGenRecipeOld:
+            newMealIngrdnts[i].genRecipeIngredient.genRecipe,
+        });
+      }
+      for (let i = 0; i < oldMealIngrdnts.length; i++) {
+        let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
+        // fetch("http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt, {
+        //   method: "DELETE",
+        // })
+        axios
+          .delete("http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt)
+          .then((response) => console.log(response));
+      }
     }
     const meal = {
       id: this.state.thisMealsId,
@@ -247,12 +274,22 @@ class MealDetail extends Component {
       genRecipe: this.state.thisMealsGenRecipeCurrent._id,
       mealType: this.state.thisMealType,
     };
+    // fetch("http://localhost:5000/meals/update/" + meal.id, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(meal),
+    // })
     axios
       .put("http://localhost:5000/meals/update/" + meal.id, meal)
       .then((response) => {
         this.setState({
           thisMeal: response.data,
+          userHasChangedRecipe: false,
+          mealFormState: "viewing",
         });
+        console.log(response);
       });
   };
   handleSubmitRecipeFormChange = () => {
@@ -423,7 +460,7 @@ class MealDetail extends Component {
                       ref="userInput"
                       required
                       className="form-control form-select recipeSelect"
-                      // value={this.state.thisMealsGenRecipeCurrent._id}
+                      value={this.state.thisMealsGenRecipeCurrent._id}
                       disabled={
                         this.state.mealFormState == "viewing" ? true : false
                       }
@@ -486,7 +523,7 @@ class MealDetail extends Component {
                             ref="userInput"
                             required
                             className="form-control form-select"
-                            value={this.state.thisMealsDay}
+                            value={this.state.thisMealsDay._id}
                             disabled={
                               this.state.mealFormState == "viewing"
                                 ? true
@@ -737,7 +774,7 @@ class MealDetail extends Component {
                                 ref="userInput"
                                 required
                                 className="form-control form-select"
-                                value={this.state.thisRecipesAuthor}
+                                value={this.state.thisRecipesAuthor._id}
                                 disabled={
                                   this.state.genRecipeFormState == "viewing"
                                     ? true

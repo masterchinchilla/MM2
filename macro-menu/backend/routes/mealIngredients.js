@@ -69,7 +69,7 @@ router.route('/add').post((req,res)=>{
         meal
     });
     newMealIngredient.save()
-        .then(()=>res.json(newMealIngredient))
+        .then(()=>res.json('Meal Ingredient successfully created'))
         .catch(err=>res.status(400).json('Error: '+err));
 });
 router.route('/:id').delete((req, res)=>{

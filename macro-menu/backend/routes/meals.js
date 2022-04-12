@@ -22,7 +22,7 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
 router.route('/add').post((req, res)=>{
     const meal=new Meal(req.body);
     meal.save()
-        .then(()=>res.json(meal))
+        .then(()=>res.json('Meal successfully added'))
         .catch(err=>res.status(400).json('Error: '+err));
 });
 router.route('/update/:id').put((req, res)=>{

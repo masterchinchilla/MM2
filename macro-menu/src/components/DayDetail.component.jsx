@@ -210,7 +210,6 @@ class DayDetail extends Component {
     };
   }
   componentDidMount() {
-    console.log("componentDidMount Method is running");
     this.loadData();
   }
   loadData() {
@@ -327,6 +326,7 @@ class DayDetail extends Component {
       day: meal.day._id,
       genRecipe: meal.genRecipe._id,
       mealType: meal.mealType,
+      createdAt: meal.createdAt,
     };
     axios.post("http://localhost:5000/meals/add", newMeal).then((response) => {
       this.setState({
