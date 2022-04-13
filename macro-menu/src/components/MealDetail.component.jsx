@@ -10,7 +10,7 @@ class MealDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mealJustCreated: false,
+      // mealJustCreated: false,
       userHasChangedRecipe: false,
       thisMealTypesGenRecipesLoaded: false,
       allGRFUsersLoaded: false,
@@ -60,19 +60,6 @@ class MealDetail extends Component {
     };
   }
   componentDidMount() {
-    let thisCurrentUnixDate = dayjs();
-    let thisMealsCreatedAtUnix;
-    this.props.thisMeal.createdAt !== undefined
-      ? (thisMealsCreatedAtUnix = dayjs(this.props.thisMeal.createdAt))
-      : (thisMealsCreatedAtUnix = 1609459200000);
-    let mealAge = thisCurrentUnixDate.diff(thisMealsCreatedAtUnix);
-    if (mealAge < 25200000) {
-      this.setState({
-        mealJustCreated: true,
-        userHasChangedRecipe: true,
-        mealFormState: "editingOrig",
-      });
-    }
     axios
       .get(
         "http://localhost:5000/genRecipes/thisMealTypesGenRecipes/" +
@@ -140,13 +127,31 @@ class MealDetail extends Component {
     //     });
     //   });
   }
-  handleChangeMealRecipe = (e) => {
+  handleChangeMealRecipe = (e, mealAge) => {
+    // let mealJustCreated;
+    // let thisCurrentUnixDate = dayjs();
+    // let thisMealsCreatedAtUnix;
+    // this.props.thisMeal.createdAt !== undefined
+    //   ? (thisMealsCreatedAtUnix = dayjs(this.props.thisMeal.createdAt))
+    //   : (thisMealsCreatedAtUnix = 1609459200000);
+    // let mealAge = thisCurrentUnixDate.diff(thisMealsCreatedAtUnix);
+    // if (mealAge < 1728000000) {
+    //   mealJustCreated = true;
+    //   this.setState({
+    //     mealJustCreated: true,
+    //     userHasChangedRecipe: true,
+    //     mealFormState: "editingOrig",
+    //   });
+    // }
     let newSelectedRecipe;
-    // if (this.state.mealJustCreated === true) {
-    //   newSelectedRecipe = this.state.thisMeal.genRecipe._id;
-    //   console.log(newSelectedRecipe);
-    // } else {
-    newSelectedRecipe = e.target.value;
+    if (mealAge) {
+      newSelectedRecipe = this.props.thisMeal.genRecipe._id;
+      this.setState({
+        mealFormState: "editingOrig",
+      });
+    } else {
+      newSelectedRecipe = e.target.value;
+    }
     let thisMeal = this.state.thisMeal;
     thisMeal.genRecipe = newSelectedRecipe;
     this.setState({
@@ -813,22 +818,36 @@ class MealDetail extends Component {
               </form>
               <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
               <div className="mlIngrdntsCntnr">
-                {this.state.thisMealsMealIngrdntsCurrent.map(
-                  (mealIngredient) => {
-                    return (
-                      <MealIngredientDetail
-                        thisMealIngredient={mealIngredient}
-                        key={mealIngredient._id}
-                        totalCurrentMacrosMethod={
-                          this.props.totalCurrentMacrosMethod
-                        }
-                        handleUpdateMealIngrdntQty={
-                          this.handleUpdateMealIngrdntQty
-                        }
-                        findMealIngrdntIndex={this.findMealIngrdntIndex}
-                      />
-                    );
-                  }
+                {this.state.thisMealsMealIngrdntsCurrent.length < 1 ? (
+                  <div className="form-group mt-4 mb-4">
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        this.handleChangeMealRecipe(0, true);
+                      }}
+                    >
+                      Populate Ingredients
+                    </button>
+                  </div>
+                ) : (
+                  this.state.thisMealsMealIngrdntsCurrent.map(
+                    (mealIngredient) => {
+                      return (
+                        <MealIngredientDetail
+                          thisMealIngredient={mealIngredient}
+                          key={mealIngredient._id}
+                          totalCurrentMacrosMethod={
+                            this.props.totalCurrentMacrosMethod
+                          }
+                          handleUpdateMealIngrdntQty={
+                            this.handleUpdateMealIngrdntQty
+                          }
+                          findMealIngrdntIndex={this.findMealIngrdntIndex}
+                        />
+                      );
+                    }
+                  )
                 )}
               </div>
             </div>
