@@ -10,7 +10,52 @@ let Meal=require('../models/meal.model');
 let Day=require('../models/day.model');
 let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
-
+router.route('/:id').get((req, res)=>{
+    MealIngredient.findById(req.params.id)
+        .populate({
+            path: 'genRecipeIngredient',
+            populate:{
+                path: 'genRecipe',
+            }
+        })
+        .populate({
+            path: 'genRecipeIngredient',
+            populate:{
+                path: 'ingredient',
+                populate:{path: 'unitOfMeasure'}
+            }
+        })
+        .populate({
+            path:'genRecipeIngredient',
+            populate:{
+                path:'ingredient',
+                populate:{path:'weightType'}
+            }
+        })
+        .populate({
+            path:'genRecipeIngredient',
+            populate:{
+                path:'ingredient',
+                populate:{path:'brand'}
+            }
+        })
+        .populate({
+            path:'genRecipeIngredient',
+            populate:{
+                path:'ingredient',
+                populate:{path:'GRFUser'}
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
+                path: 'day',
+                populate:{path:'weekMealPlan'}
+            }
+        })
+            .then(mealIngredient=>res.json(mealIngredient))
+            .catch(err=>res.status(400).json('Error: '+err));
+    });
 router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
     MealIngredient.find({meal:req.params.id})
         .populate({
@@ -69,7 +114,7 @@ router.route('/add').post((req,res)=>{
         meal
     });
     newMealIngredient.save()
-        .then(()=>res.json('Meal Ingredient successfully created'))
+        .then(()=>res.json(newMealIngredient))
         .catch(err=>res.status(400).json('Error: '+err));
 });
 router.route('/:id').delete((req, res)=>{

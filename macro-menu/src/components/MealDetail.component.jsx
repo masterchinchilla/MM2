@@ -10,7 +10,7 @@ class MealDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // mealJustCreated: false,
+      mealJustCreated: false,
       userHasChangedRecipe: false,
       thisMealTypesGenRecipesLoaded: false,
       allGRFUsersLoaded: false,
@@ -59,6 +59,25 @@ class MealDetail extends Component {
       thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
     };
   }
+  colorCodeMealHeaders = () => {
+    let thisGenRecipeId = this.props.thisMeal.genRecipe._id;
+    if (
+      thisGenRecipeId === "62577f516682e3955e98b1d0" ||
+      thisGenRecipeId === "62577a7d93011a9b47306e6f" ||
+      thisGenRecipeId === "62577f666682e3955e98b1d1" ||
+      thisGenRecipeId === "62577f786682e3955e98b1d2" ||
+      thisGenRecipeId === "62577f8b6682e3955e98b1d3" ||
+      thisGenRecipeId === "62577f9c6682e3955e98b1d4"
+    ) {
+      console.log("meal " + this.props.thisMeal._id + " was just created");
+      this.setState({
+        mealFormState: "editingOrig",
+        mealJustCreated: true,
+      });
+    } else {
+      this.setState({ mealJustCreated: false });
+    }
+  };
   componentDidMount() {
     axios
       .get(
@@ -107,6 +126,7 @@ class MealDetail extends Component {
         allDaysLoaded: true,
       });
     });
+    this.colorCodeMealHeaders();
     // axios
     //   .get(
     //     "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
@@ -152,6 +172,7 @@ class MealDetail extends Component {
     } else {
       newSelectedRecipe = e.target.value;
     }
+
     let thisMeal = this.state.thisMeal;
     thisMeal.genRecipe = newSelectedRecipe;
     this.setState({
@@ -198,6 +219,11 @@ class MealDetail extends Component {
             thisGenRecipesGenRecipeIngrdnts[0].genRecipe.GRFUser.handle,
         });
       });
+    if (this.state.mealJustCreated === true) {
+      this.setState({
+        mealJustCreated: false,
+      });
+    }
   };
   handleChangeMealDay = (e) => {
     this.setState({
@@ -235,6 +261,7 @@ class MealDetail extends Component {
     });
   };
   handleSubmitMealFormChange = () => {
+    let newNewMealIngrdnts = [];
     if (this.state.userHasChangedRecipe === true) {
       let oldMealIngrdnts = this.state.thisMealsMealIngrdntsOld;
       let newMealIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
@@ -255,14 +282,18 @@ class MealDetail extends Component {
         axios
           .post("http://localhost:5000/mealIngredients/add", newMealIngrdnt)
           .then((response) => {
-            console.log(response);
+            axios
+              .get("http://localhost:5000/mealIngredients/" + response.data._id)
+              .then((response) => {
+                newNewMealIngrdnts.push(response.data);
+              });
           });
-        this.setState({
-          thisMealsMealIngrdntsOld: newMealIngrdnts,
-          thisMealsGenRecipeOld:
-            newMealIngrdnts[i].genRecipeIngredient.genRecipe,
-        });
       }
+      this.setState({
+        // thisMealsMealIngrdntsCurrent: newNewMealIngrdnts,
+        thisMealsMealIngrdntsOld: newNewMealIngrdnts,
+        thisMealsGenRecipeOld: newMealIngrdnts[0].genRecipeIngredient.genRecipe,
+      });
       for (let i = 0; i < oldMealIngrdnts.length; i++) {
         let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
         // fetch("http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt, {
@@ -306,7 +337,6 @@ class MealDetail extends Component {
       defaultPrepInstructions: this.state.thisRecipesInst,
       photoURL: this.state.thisMealRecipePic,
     };
-    console.log({ genRecipe });
     axios
       .put("http://localhost:5000/genRecipes/update/" + genRecipe.id, genRecipe)
       .then(console.log("Recipe Updated"));
@@ -382,7 +412,7 @@ class MealDetail extends Component {
     console.log("Value changed");
   };
   showChangeRecipeWarning = () => {
-    if (this.state.userHasChangedRecipe == false) {
+    if (this.state.userHasChangedRecipe === false) {
       return;
     } else {
       return (
@@ -459,7 +489,13 @@ class MealDetail extends Component {
                       onCancel={this.handleCancel}
                     />
                   </div>
-                  <div className="mealHeader">
+                  <div
+                    className={
+                      this.state.mealJustCreated === true
+                        ? "mealHeader mealHdrFcsd"
+                        : "mealHeader"
+                    }
+                  >
                     <h5 className="recipeSelectHeader">Recipe:</h5>
                     <select
                       ref="userInput"
