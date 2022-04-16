@@ -282,16 +282,13 @@ class MealDetail extends Component {
         axios
           .post("http://localhost:5000/mealIngredients/add", newMealIngrdnt)
           .then((response) => {
-            axios
-              .get("http://localhost:5000/mealIngredients/" + response.data._id)
-              .then((response) => {
-                newNewMealIngrdnts.push(response.data);
-              });
+            newMealIngrdnts[i]._id = response.data._id;
+            console.log(newMealIngrdnts);
           });
       }
       this.setState({
-        // thisMealsMealIngrdntsCurrent: newNewMealIngrdnts,
-        thisMealsMealIngrdntsOld: newNewMealIngrdnts,
+        thisMealsMealIngrdntsCurrent: newMealIngrdnts,
+        thisMealsMealIngrdntsOld: newMealIngrdnts,
         thisMealsGenRecipeOld: newMealIngrdnts[0].genRecipeIngredient.genRecipe,
       });
       for (let i = 0; i < oldMealIngrdnts.length; i++) {
@@ -327,6 +324,25 @@ class MealDetail extends Component {
         });
         console.log(response);
       });
+  };
+  handleClickDelete = (parentObj) => {
+    if (parentObj === "meal") {
+      let thisMealsIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
+      for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+        let thisMealIngrdnt = thisMealsIngrdnts[i]._id;
+        axios
+          .delete("http://localhost:5000/mealIngredients/" + thisMealIngrdnt)
+          .then((response) => console.log(response));
+        // axios
+        //   .delete("http://localhost:5000/meals/" + this.state.thisMeal._id)
+        //   .then((response) => {
+        //     console.log(response);
+        //   })
+      }
+      this.props.onDeleteMeal(this.state.thisMeal);
+    } else {
+      console.log("some other delete clicked");
+    }
   };
   handleSubmitRecipeFormChange = () => {
     const genRecipe = {
@@ -487,6 +503,7 @@ class MealDetail extends Component {
                       onClickEdit={this.handleClickEdit}
                       userHasChangedRecipe={this.state.userHasChangedRecipe}
                       onCancel={this.handleCancel}
+                      onDelete={this.handleClickDelete}
                     />
                   </div>
                   <div

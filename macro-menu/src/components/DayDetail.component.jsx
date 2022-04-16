@@ -757,6 +757,63 @@ class DayDetail extends Component {
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
+  handleDeleteMeal = (thisMeal) => {
+    axios
+      .delete("http://localhost:5000/meals/" + thisMeal._id)
+      .then((response) => {
+        console.log(response);
+        switch (thisMeal.mealType) {
+          case "Breakfast":
+            this.setState({
+              breakfast: {
+                _id: "missing",
+              },
+              breakfastIngrdnts: [],
+            });
+            break;
+          case "Snack 1":
+            this.setState({
+              snack1: {
+                _id: "missing",
+              },
+              snack1Ingrdnts: [],
+            });
+            break;
+          case "Lunch":
+            this.setState({
+              lunch: {
+                _id: "missing",
+              },
+              lunchIngrdnts: [],
+            });
+            break;
+          case "Snack 2":
+            this.setState({
+              snack2: {
+                _id: "missing",
+              },
+              snack2Ingrdnts: [],
+            });
+            break;
+          case "Dinner":
+            this.setState({
+              dinner: {
+                _id: "missing",
+              },
+              dinnerIngrdnts: [],
+            });
+            break;
+          case "Dessert":
+            this.setState({
+              dessert: {
+                _id: "missing",
+              },
+              dessertIngrdnts: [],
+            });
+            break;
+        }
+      });
+  };
   render() {
     if (this.state.data == false) {
       return <div className="spinner-border text-primary" role="status"></div>;
@@ -886,6 +943,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                onDeleteMeal={this.handleDeleteMeal}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -906,6 +964,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                onDeleteMeal={this.handleDeleteMeal}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -924,6 +983,7 @@ class DayDetail extends Component {
                                 thisMealsMealIngrdnts={this.state.lunchIngrdnts}
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                onDeleteMeal={this.handleDeleteMeal}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -944,6 +1004,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                onDeleteMeal={this.handleDeleteMeal}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -964,6 +1025,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                onDeleteMeal={this.handleDeleteMeal}
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -985,6 +1047,7 @@ class DayDetail extends Component {
                                 }
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
+                                onDeleteMeal={this.handleDeleteMeal}
                               />
                             </div>
                           </div>

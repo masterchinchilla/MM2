@@ -12,7 +12,7 @@ router.route('/thisMealTypesGenRecipes/:mealType').get((req, res)=>{
         .then(mealTypesRecipes=>res.json(mealTypesRecipes))
         .catch(err=>res.status(400).json('Error: '+err));
 })
-router.route('/update/:id').post((req, res)=>{
+router.route('/update/:id').put((req, res)=>{
     GenRecipe.findById(req.params.id)
         .then(genRecipe=>{
             genRecipe.name = req.body.name;
