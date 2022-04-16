@@ -702,11 +702,22 @@ class DayDetail extends Component {
       mealMacrosCurrent: mealMacrosCurrent,
     });
   };
-  updateMealIngrdnt = (thisMealIngrdnt, thisMealIngrdntIndex, thisMealType) => {
+  updateMealIngrdnt = (
+    thisMealIngrdnt,
+    thisMealIngrdntIndex,
+    thisMealType,
+    method
+  ) => {
     switch (thisMealType) {
       case "Breakfast":
+        let breakfast = thisMealIngrdnt.meal;
         let breakfastMealIngrdnts = this.state.breakfastIngrdnts;
-        breakfastMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        if (method === "update") {
+          breakfastMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+          this.setState({ breakfast: breakfast });
+        } else if (method === "delete") {
+          breakfastMealIngrdnts.splice(thisMealIngrdntIndex, 1);
+        }
         this.setState({
           breakfastIngrdnts: breakfastMealIngrdnts,
         });
@@ -714,15 +725,25 @@ class DayDetail extends Component {
         break;
       case "Snack 1":
         let snack1MealIngrdnts = this.state.snack1Ingrdnts;
-        snack1MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        if (method === "update") {
+          snack1MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        } else if (method === "delete") {
+          snack1MealIngrdnts.splice(thisMealIngrdntIndex, 1);
+        }
         this.setState({
           snack1Ingrdnts: snack1MealIngrdnts,
         });
         this.totalAllMacros();
         break;
       case "Lunch":
+        let lunch = thisMealIngrdnt.meal;
         let lunchMealIngrdnts = this.state.lunchIngrdnts;
-        lunchMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        if (method === "update") {
+          lunchMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+          this.setState({ lunch: lunch });
+        } else if (method === "delete") {
+          lunchMealIngrdnts.splice(thisMealIngrdntIndex, 1);
+        }
         this.setState({
           lunchIngrdnts: lunchMealIngrdnts,
         });
@@ -730,7 +751,11 @@ class DayDetail extends Component {
         break;
       case "Snack 2":
         let snack2MealIngrdnts = this.state.snack2Ingrdnts;
-        snack2MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        if (method === "update") {
+          snack2MealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        } else if (method === "delete") {
+          snack2MealIngrdnts.splice(thisMealIngrdntIndex, 1);
+        }
         this.setState({
           snack2Ingrdnts: snack2MealIngrdnts,
         });
@@ -738,7 +763,11 @@ class DayDetail extends Component {
         break;
       case "Dinner":
         let dinnerMealIngrdnts = this.state.dinnerIngrdnts;
-        dinnerMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        if (method === "update") {
+          dinnerMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        } else if (method === "delete") {
+          dinnerMealIngrdnts.splice(thisMealIngrdntIndex, 1);
+        }
         this.setState({
           dinnerIngrdnts: dinnerMealIngrdnts,
         });
@@ -746,7 +775,11 @@ class DayDetail extends Component {
         break;
       case "Dessert":
         let dessertMealIngrdnts = this.state.dessertIngrdnts;
-        dessertMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        if (method === "update") {
+          dessertMealIngrdnts[thisMealIngrdntIndex] = thisMealIngrdnt;
+        } else if (method === "delete") {
+          dessertMealIngrdnts.splice(thisMealIngrdntIndex, 1);
+        }
         this.setState({
           dessertIngrdnts: dessertMealIngrdnts,
         });

@@ -172,7 +172,6 @@ class MealDetail extends Component {
     } else {
       newSelectedRecipe = e.target.value;
     }
-
     let thisMeal = this.state.thisMeal;
     thisMeal.genRecipe = newSelectedRecipe;
     this.setState({
@@ -409,7 +408,7 @@ class MealDetail extends Component {
       return <FontAwesomeIcon icon="fa-solid fa-lock" />;
     }
   };
-  findMealIngrdntIndex = (thisMealIngrdnt) => {
+  findChangeMealIngrdntByIndex = (thisMealIngrdnt, method) => {
     let thisMealIngrdntIndex;
     let i = 0;
     let thisMealsIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
@@ -421,7 +420,8 @@ class MealDetail extends Component {
     this.props.updateMealIngrdnt(
       thisMealIngrdnt,
       thisMealIngrdntIndex,
-      this.state.thisMealType
+      this.state.thisMealType,
+      method
     );
   };
   onChange = () => {
@@ -869,40 +869,51 @@ class MealDetail extends Component {
                   </div>
                 </div>
               </form>
-              <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
-              <div className="mlIngrdntsCntnr">
-                {this.state.thisMealsMealIngrdntsCurrent.length < 1 ? (
-                  <div className="form-group mt-4 mb-4">
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      onClick={() => {
-                        this.handleChangeMealRecipe(0, true);
-                      }}
-                    >
-                      Populate Ingredients
-                    </button>
+              {this.state.thisMealsMealIngrdntsCurrent.length < 1 &&
+              this.state.mealJustCreated === false ? (
+                <React.Fragment>
+                  <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
+                  <div className="mlIngrdntsCntnr">
+                    <div className="form-group mt-4 mb-4">
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        onClick={() => {
+                          this.handleChangeMealRecipe(0, true);
+                        }}
+                      >
+                        Populate Ingredients
+                      </button>
+                    </div>
                   </div>
-                ) : (
-                  this.state.thisMealsMealIngrdntsCurrent.map(
-                    (mealIngredient) => {
-                      return (
-                        <MealIngredientDetail
-                          thisMealIngredient={mealIngredient}
-                          key={mealIngredient._id}
-                          totalCurrentMacrosMethod={
-                            this.props.totalCurrentMacrosMethod
-                          }
-                          handleUpdateMealIngrdntQty={
-                            this.handleUpdateMealIngrdntQty
-                          }
-                          findMealIngrdntIndex={this.findMealIngrdntIndex}
-                        />
-                      );
-                    }
-                  )
-                )}
-              </div>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
+                  <div className="mlIngrdntsCntnr">
+                    {this.state.thisMealsMealIngrdntsCurrent.map(
+                      (mealIngredient) => {
+                        return (
+                          <MealIngredientDetail
+                            thisMealIngredient={mealIngredient}
+                            key={mealIngredient._id}
+                            totalCurrentMacrosMethod={
+                              this.props.totalCurrentMacrosMethod
+                            }
+                            handleUpdateMealIngrdntQty={
+                              this.handleUpdateMealIngrdntQty
+                            }
+                            findChangeMealIngrdntByIndex={
+                              this.findChangeMealIngrdntByIndex
+                            }
+                            onDelete={this.props.onDelete}
+                          />
+                        );
+                      }
+                    )}
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </div>
         </div>

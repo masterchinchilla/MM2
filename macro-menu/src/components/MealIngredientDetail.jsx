@@ -29,7 +29,7 @@ class MealIngredientDetail extends Component {
   handleChangeIngrdntProp = (e) => {
     let thisMealIngredient = this.state.thisMealIngredient;
     thisMealIngredient.qty = e.target.value;
-    this.props.findMealIngrdntIndex(thisMealIngredient);
+    this.props.findChangeMealIngrdntByIndex(thisMealIngredient, "update");
   };
   lockUnlockAdminMenus = () => {
     if (this.state.userType == "admin") {
@@ -60,7 +60,6 @@ class MealIngredientDetail extends Component {
       this.setState({ ingredientFormState: "editingOrig" });
     }
   };
-  onDelete = (parentObj) => {};
   onCancel = (parentObj) => {
     if (parentObj == "mealIngredient") {
       this.setState({ mealIngrdntFormState: "viewing" });
@@ -74,6 +73,10 @@ class MealIngredientDetail extends Component {
   };
   onChange = () => {
     console.log("changing value");
+  };
+  onDelete = (parentObj) => {
+    let thisMealIngrdnt = this.state.thisMealIngredient;
+    this.props.findChangeMealIngrdntByIndex(thisMealIngrdnt, "delete");
   };
   render() {
     return (
