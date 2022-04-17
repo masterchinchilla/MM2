@@ -25,11 +25,7 @@ class MealOrNewMeal extends Component {
       thisFormState: "viewing",
       userType: "admin",
       thisMealsGenRecipe: { name: "Cereal", id: 1 },
-      thisMealTypesGenRecipes: [
-        { name: "Scrambled Eggs", id: 2 },
-        { name: "French Toast", id: 3 },
-        { name: "Cereal", id: 1 },
-      ],
+      thisMealTypesGenRecipes: [],
       thisRecipesInst: "",
       thisMealRecipePic: "",
       thisRecipesName: "",
@@ -43,64 +39,91 @@ class MealOrNewMeal extends Component {
         "Dinner",
         "Dessert",
       ],
-      allGRFUsers: [],
-      allDays: [],
+      // allGRFUsers: [
+      //   { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
+      //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
+      // ],
+      // allDays: [
+      //   {
+      //     _id: "tempDay1Id",
+      //     name: "tempDayName1",
+      //     dayOfWeek: "Sunday",
+      //     weekMealPlan: "625b7e5a4451249a38449792",
+      //   },
+      //   {
+      //     _id: "tempDay2Id",
+      //     name: "tempDayName2",
+      //     dayOfWeek: "Monday",
+      //     weekMealPlan: "625b7e5a4451249a38449792",
+      //   },
+      // ],
       idForNewMeal: "",
       newMeal: {},
     };
   }
   componentDidMount() {
-    this.loadData();
     this.setState({
+      thisMeal: this.props.thisMeal,
       thisMealsId: this.state.thisMeal._id,
+      // allGRFUsers: this.props.allGRFUsers,
+      allGRFUsersLoaded: true,
+      allDaysLoaded: true,
+      thisMealTypesGenRecipes: this.props.thisMealTypesGenRecipes,
+      thisMealTypesGenRecipesLoaded: true,
+      newMeal: {
+        day: this.state.thisDay,
+        mealType: this.state.mealType,
+        genRecipe: this.props.thisMealTypesGenRecipes[0],
+      },
+      idForNewMeal: this.getRndInteger(10000000, 99999999),
     });
+    // this.loadData();
   }
-  loadData() {
-    this.getThisMealsTypesGenRecipes();
-    this.getAllUsers();
-    this.getAllDays();
-  }
+  // loadData() {
+  //   this.getThisMealsTypesGenRecipes();
+  //   this.getAllDays();
+  // }
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-  getThisMealsTypesGenRecipes = () => {
-    axios
-      .get(
-        "http://localhost:5000/genRecipes/thisMealTypesGenRecipes/" +
-          this.props.thisMealType
-      )
-      .then((response) => {
-        const defaultGenRecipe = response.data[0];
-        this.setState({
-          thisMealTypesGenRecipes: response.data.map(
-            (mealTypeRecipe) => mealTypeRecipe
-          ),
-          newMeal: {
-            day: this.state.thisDay,
-            mealType: this.state.mealType,
-            genRecipe: defaultGenRecipe,
-          },
-          idForNewMeal: this.getRndInteger(10000000, 99999999),
-          thisMealTypesGenRecipesLoaded: true,
-        });
-      });
-  };
-  getAllUsers = () => {
-    axios.get("http://localhost:5000/GRFUsers/").then((response) => {
-      this.setState({
-        allGRFUsers: response.data.map((GRFUser) => GRFUser),
-        allGRFUsersLoaded: true,
-      });
-    });
-  };
-  getAllDays = () => {
-    axios.get("http://localhost:5000/days/").then((response) => {
-      this.setState({
-        allDays: response.data.map((day) => day),
-        allDaysLoaded: true,
-      });
-    });
-  };
+  // getThisMealsTypesGenRecipes = () => {
+  //   axios
+  //     .get(
+  //       "http://localhost:5000/genRecipes/thisMealTypesGenRecipes/" +
+  //         this.props.thisMealType
+  //     )
+  //     .then((response) => {
+  //       const defaultGenRecipe = response.data[0];
+  //       this.setState({
+  //         thisMealTypesGenRecipes: response.data.map(
+  //           (mealTypeRecipe) => mealTypeRecipe
+  //         ),
+  //         newMeal: {
+  //           day: this.state.thisDay,
+  //           mealType: this.state.mealType,
+  //           genRecipe: defaultGenRecipe,
+  //         },
+  //         idForNewMeal: this.getRndInteger(10000000, 99999999),
+  //         thisMealTypesGenRecipesLoaded: true,
+  //       });
+  //     });
+  // };
+  // getAllUsers = () => {
+  //   axios.get("http://localhost:5000/GRFUsers/").then((response) => {
+  //     this.setState({
+  //       allGRFUsers: response.data.map((GRFUser) => GRFUser),
+  //       allGRFUsersLoaded: true,
+  //     });
+  //   });
+  // };
+  // getAllDays = () => {
+  //   axios.get("http://localhost:5000/days/").then((response) => {
+  //     this.setState({
+  //       allDays: response.data.map((day) => day),
+  //       allDaysLoaded: true,
+  //     });
+  //   });
+  // };
   render() {
     if (
       this.state.thisMealTypesGenRecipesLoaded == true &&
@@ -114,7 +137,7 @@ class MealOrNewMeal extends Component {
             mealType={this.state.thisMealType}
             onCreateMeal={this.props.onCreateMeal}
             dayUserType={this.state.dayUserType}
-            thisMealTypesGenRecipes={this.state.thisMealTypesGenRecipes}
+            thisMealTypesGenRecipes={this.props.thisMealTypesGenRecipes}
             newMeal={this.state.newMeal}
             idForNewMeal={this.state.idForNewMeal}
           />
@@ -122,17 +145,19 @@ class MealOrNewMeal extends Component {
       } else {
         return (
           <MealDetail
-            thisMeal={this.state.thisMeal}
+            thisMeal={this.props.thisMeal}
             thisMealsMacrosBudget={this.state.thisMealsMacrosBudget}
             thisMealsMacrosCurrent={this.state.thisMealsMacrosCurrent}
             thisMealsMealIngrdnts={this.state.thisMealsMealIngrdnts}
             thisDay={this.state.thisMealsDay}
             mealType={this.state.mealType}
             dayUserType={this.state.dayUserType}
-            thisMealTypesGenRecipes={this.state.thisMealTypesGenRecipes}
+            thisMealTypesGenRecipes={this.props.thisMealTypesGenRecipes}
             clearCurrentMacros={this.props.clearCurrentMacros}
             updateMealIngrdnt={this.props.updateMealIngrdnt}
             onDeleteMeal={this.props.onDeleteMeal}
+            allGRFUsers={this.props.allGRFUsers}
+            allDays={this.props.allDays}
           />
         );
       }

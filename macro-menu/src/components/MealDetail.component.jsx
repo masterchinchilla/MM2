@@ -16,7 +16,7 @@ class MealDetail extends Component {
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
       mealsMealIngrdntsLoaded: false,
-      thisMeal: this.props.thisMeal,
+      thisMeal: {},
       thisMealsId: "",
       thisRecipesId: "",
       thisMealsDay: {},
@@ -29,16 +29,12 @@ class MealDetail extends Component {
       thisMealsMealIngrdntsOld: [],
       thisMealsGenRecipeCurrent: { name: "Cereal", id: 1 },
       thisMealsGenRecipeOld: {},
-      thisMealTypesGenRecipes: [
-        { name: "Scrambled Eggs", id: 2 },
-        { name: "French Toast", id: 3 },
-        { name: "Cereal", id: 1 },
-      ],
+      thisMealTypesGenRecipes: [],
       thisRecipesInst: "",
       thisMealRecipePic: "",
       thisRecipesName: "",
       thisRecipesMealType: "",
-      thisRecipesAuthor: {},
+      thisRecipesAuthor: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
       allMealTypes: [
         "Breakfast",
         "Snack 1",
@@ -47,8 +43,24 @@ class MealDetail extends Component {
         "Dinner",
         "Dessert",
       ],
-      allGRFUsers: [],
-      allDays: [],
+      // allGRFUsers: [
+      //   { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
+      //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
+      // ],
+      // allDays: [
+      //   {
+      //     _id: "tempDay1Id",
+      //     name: "tempDayName1",
+      //     dayOfWeek: "Sunday",
+      //     weekMealPlan: "625b7e5a4451249a38449792",
+      //   },
+      //   {
+      //     _id: "tempDay2Id",
+      //     name: "tempDayName2",
+      //     dayOfWeek: "Monday",
+      //     weekMealPlan: "625b7e5a4451249a38449792",
+      //   },
+      // ],
       thisMealsMacrosBudget: {
         cals: 0,
         carbs: 0,
@@ -57,6 +69,7 @@ class MealDetail extends Component {
         fiber: 0,
       },
       thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
+      dataLoaded: false,
     };
   }
   colorCodeMealHeaders = () => {
@@ -79,53 +92,57 @@ class MealDetail extends Component {
     }
   };
   componentDidMount() {
-    axios
-      .get(
-        "http://localhost:5000/genRecipes/thisMealTypesGenRecipes/" +
-          this.props.thisMeal.mealType
-      )
-      .then((response) => {
-        this.setState({
-          // thisMeal: this.props.thisMeal,
-          thisMealsId: this.props.thisMeal._id,
-
-          thisMealTypesGenRecipes: response.data.map(
-            (mealTypeRecipe) => mealTypeRecipe
-          ),
-          thisMealsDay: this.props.thisMeal.day,
-          thisMealType: this.props.thisMeal.mealType,
-
-          thisGenRecipesId: this.props.thisMeal.genRecipe._id,
-          thisMealsGenRecipeCurrent: this.props.thisMeal.genRecipe,
-          thisMealsGenRecipeOld: this.props.thisMeal.genRecipe,
-          thisRecipesInst:
-            this.props.thisMeal.genRecipe.defaultPrepInstructions,
-          thisMealRecipePic: this.props.thisMeal.genRecipe.photoURL,
-          thisRecipesName: this.props.thisMeal.genRecipe.name,
-          thisRecipesMealType: this.props.thisMeal.genRecipe.availableMealType,
-          thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
-
-          thisMealTypesGenRecipesLoaded: true,
-
-          thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
-          thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
-          thisMealsMealIngrdntsCurrent: this.props.thisMealsMealIngrdnts,
-          thisMealsMealIngrdntsOld: this.props.thisMealsMealIngrdnts,
-          mealsMealIngrdntsLoaded: true,
-        });
-      });
-    axios.get("http://localhost:5000/GRFUsers/").then((response) => {
-      this.setState({
-        allGRFUsers: response.data.map((GRFUser) => GRFUser),
-        allGRFUsersLoaded: true,
-      });
+    console.log(this.props.thisMeal.genRecipe.GRFUser);
+    this.setState({
+      // allGRFUsers: this.props.allGRFUsers,
+      // allDays: this.props.allDays,
+      thisMeal: this.props.thisMeal,
+      allDaysLoaded: true,
+      allGRFUsersLoaded: true,
+      thisMealsId: this.props.thisMeal._id,
+      thisMealsDay: this.props.thisMeal.day,
+      thisMealType: this.props.thisMeal.mealType,
+      thisGenRecipesId: this.props.thisMeal.genRecipe._id,
+      thisMealsGenRecipeCurrent: this.props.thisMeal.genRecipe,
+      thisMealsGenRecipeOld: this.props.thisMeal.genRecipe,
+      thisRecipesInst: this.props.thisMeal.genRecipe.defaultPrepInstructions,
+      thisMealRecipePic: this.props.thisMeal.genRecipe.photoURL,
+      thisRecipesName: this.props.thisMeal.genRecipe.name,
+      thisRecipesMealType: this.props.thisMeal.genRecipe.availableMealType,
+      thisRecipesAuthor: this.props.thisMeal.genRecipe.GRFUser,
+      thisMealTypesGenRecipesLoaded: true,
+      thisMealsMacrosBudget: this.props.thisMealsMacrosBudget,
+      thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
+      thisMealsMealIngrdntsCurrent: this.props.thisMealsMealIngrdnts,
+      thisMealsMealIngrdntsOld: this.props.thisMealsMealIngrdnts,
+      mealsMealIngrdntsLoaded: true,
+      dataLoaded: true,
     });
-    axios.get("http://localhost:5000/days/").then((response) => {
-      this.setState({
-        allDays: response.data.map((day) => day),
-        allDaysLoaded: true,
-      });
-    });
+    // axios
+    //   .get(
+    //     "http://localhost:5000/genRecipes/thisMealTypesGenRecipes/" +
+    //       this.props.thisMeal.mealType
+    //   )
+    //   .then((response) => {
+    //     this.setState({
+    //       // thisMeal: this.props.thisMeal,
+    //       thisMealTypesGenRecipes: response.data.map(
+    //         (mealTypeRecipe) => mealTypeRecipe
+    //       ),
+    //     });
+    //   });
+    // axios.get("http://localhost:5000/GRFUsers/").then((response) => {
+    //   this.setState({
+    //     allGRFUsers: response.data.map((GRFUser) => GRFUser),
+    //     allGRFUsersLoaded: true,
+    //   });
+    // });
+    // axios.get("http://localhost:5000/days/").then((response) => {
+    //   this.setState({
+    //     allDays: response.data.map((day) => day),
+    //     allDaysLoaded: true,
+    //   });
+    // });
     this.colorCodeMealHeaders();
     // axios
     //   .get(
@@ -444,10 +461,11 @@ class MealDetail extends Component {
   };
   render() {
     if (
-      this.state.thisMealTypesGenRecipesLoaded == true &&
-      this.state.allGRFUsersLoaded == true &&
-      this.state.allDaysLoaded == true &&
-      this.state.mealsMealIngrdntsLoaded == true
+      this.state.dataLoaded === true
+      // this.state.thisMealTypesGenRecipesLoaded == true &&
+      // this.state.allGRFUsersLoaded == true &&
+      // this.state.allDaysLoaded == true &&
+      // this.state.mealsMealIngrdntsLoaded == true
     ) {
       return (
         <div
@@ -524,7 +542,7 @@ class MealDetail extends Component {
                       }
                       onChange={this.handleChangeMealRecipe}
                     >
-                      {this.state.thisMealTypesGenRecipes.map(function (
+                      {this.props.thisMealTypesGenRecipes.map(function (
                         genRecipe
                       ) {
                         return (
@@ -589,7 +607,7 @@ class MealDetail extends Component {
                             }
                             onChange={this.handleChangeMealDay}
                           >
-                            {this.state.allDays.map(function (day) {
+                            {this.props.allDays.map(function (day) {
                               return (
                                 <option key={day._id} value={day._id}>
                                   {day.name}
@@ -748,7 +766,7 @@ class MealDetail extends Component {
                           <input
                             className="form-control"
                             type="text"
-                            value={this.state.thisRecipesAuthor.handle}
+                            value={"John"}
                             disabled={true}
                             onChange={this.onChange}
                           />
@@ -832,7 +850,7 @@ class MealDetail extends Component {
                                 ref="userInput"
                                 required
                                 className="form-control form-select"
-                                value={this.state.thisRecipesAuthor._id}
+                                value={"123"}
                                 disabled={
                                   this.state.genRecipeFormState == "viewing"
                                     ? true
@@ -840,7 +858,7 @@ class MealDetail extends Component {
                                 }
                                 onChange={this.handleChangeThisRecipesAuthor}
                               >
-                                {this.state.allGRFUsers.map(function (GRFUser) {
+                                {this.props.allGRFUsers.map(function (GRFUser) {
                                   return (
                                     <option
                                       key={"allGRFUsersListItem" + GRFUser._id}
@@ -907,6 +925,7 @@ class MealDetail extends Component {
                               this.findChangeMealIngrdntByIndex
                             }
                             onDelete={this.props.onDelete}
+                            allGRFUsers={this.props.allGRFUsers}
                           />
                         );
                       }

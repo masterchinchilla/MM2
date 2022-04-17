@@ -12,8 +12,15 @@ class MealIngredientDetail extends Component {
       mealIngrdntFormState: "viewing",
       genRecipeIngrdntFormState: "viewing",
       ingredientFormState: "viewing",
+      // allGRFUsers: [
+      //   { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
+      //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
+      // ],
     };
   }
+  // componentDidMount() {
+  //   this.setState({ allGRFUsers: this.props.allGRFUsers });
+  // }
   handleChangeQty = (e) => {
     let thisMealIngredient = this.state.thisMealIngredient;
     thisMealIngredient.qty = e.target.value;
@@ -77,6 +84,9 @@ class MealIngredientDetail extends Component {
   onDelete = (parentObj) => {
     let thisMealIngrdnt = this.state.thisMealIngredient;
     this.props.findChangeMealIngrdntByIndex(thisMealIngrdnt, "delete");
+  };
+  handleChangeIngrdntAuthor = () => {
+    console.log("Changed Ingredient Author");
   };
   render() {
     return (
@@ -457,7 +467,7 @@ class MealIngredientDetail extends Component {
                   <div className="form-group mealIngrdntInputs">
                     <label>Calories</label>
                     <input
-                      type={"text"}
+                      type={"number"}
                       className="form-control"
                       value={
                         this.state.thisMealIngredient.genRecipeIngredient
@@ -474,7 +484,7 @@ class MealIngredientDetail extends Component {
                   <div className="form-group mealIngrdntInputs">
                     <label>Carbs</label>
                     <input
-                      type={"text"}
+                      type={"number"}
                       className="form-control"
                       value={
                         this.state.thisMealIngredient.genRecipeIngredient
@@ -491,7 +501,7 @@ class MealIngredientDetail extends Component {
                   <div className="form-group mealIngrdntInputs">
                     <label>Protein</label>
                     <input
-                      type={"text"}
+                      type={"number"}
                       className="form-control"
                       value={
                         this.state.thisMealIngredient.genRecipeIngredient
@@ -508,7 +518,7 @@ class MealIngredientDetail extends Component {
                   <div className="form-group mealIngrdntInputs">
                     <label>Fat</label>
                     <input
-                      type={"text"}
+                      type={"number"}
                       className="form-control"
                       value={
                         this.state.thisMealIngredient.genRecipeIngredient
@@ -525,7 +535,7 @@ class MealIngredientDetail extends Component {
                   <div className="form-group mealIngrdntInputs">
                     <label>Fiber</label>
                     <input
-                      type={"text"}
+                      type={"number"}
                       className="form-control"
                       value={
                         this.state.thisMealIngredient.genRecipeIngredient
@@ -606,20 +616,31 @@ class MealIngredientDetail extends Component {
                     <div className="accordion-body ingrdntInnerAccrdn">
                       <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                         <label>Author</label>
-                        <input
-                          type={"text"}
-                          className="form-control"
+                        <select
+                          ref="userInput"
+                          required
+                          className="form-control form-select"
                           value={
                             this.state.thisMealIngredient.genRecipeIngredient
                               .ingredient.GRFUser.handle
                           }
-                          onChange={this.onChange}
                           disabled={
-                            this.state.ingredientFormState === "viewing"
+                            this.state.ingredientFormState == "viewing"
                               ? true
                               : false
                           }
-                        />
+                          onChange={() => {
+                            this.handleChangeIngrdntAuthor();
+                          }}
+                        >
+                          {this.props.allGRFUsers.map(function (GRFUser) {
+                            return (
+                              <option key={GRFUser._id} value={GRFUser._id}>
+                                {GRFUser.handle}
+                              </option>
+                            );
+                          })}
+                        </select>
                       </div>
                       <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                         <label>Record ID</label>

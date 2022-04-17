@@ -24,8 +24,11 @@ export default class WeekMealPlanDetail extends Component {
       data: false,
       id: "",
       name: "",
-      GRFUsers: [],
-      GRFUser: "",
+      allGRFUsers: [
+        { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
+        { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
+      ],
+      GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
       thisWeeksDays: [],
       thisFormState: "viewing",
       userType: "admin",
@@ -51,12 +54,107 @@ export default class WeekMealPlanDetail extends Component {
       wmpDataHasLoaded: false,
       allGRFUsersHasLoaded: false,
       daysOfTheWMPHaveLoaded: false,
+      allDays: [
+        {
+          _id: "tempDay1Id",
+          name: "tempDayName1",
+          dayOfWeek: "Sunday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+        {
+          _id: "tempDay2Id",
+          name: "tempDayName2",
+          dayOfWeek: "Monday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+      ],
+      allGenRecipes: [
+        {
+          _id: "tempGenRecipe1Id",
+          name: "tempGenRecipe1Name",
+          availableMealType: "Breakfast",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+        {
+          _id: "tempGenRecipe2Id",
+          name: "tempGenRecipe2Name",
+          availableMealType: "Dessert",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+      ],
+      allDaysLoaded: false,
+      allBreakfastRecipes: [
+        {
+          _id: "tempGenRecipe1Id",
+          name: "tempGenRecipe1Name",
+          availableMealType: "Breakfast",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+      ],
+      allSnack1Recipes: [
+        {
+          _id: "tempGenRecipe3Id",
+          name: "tempGenRecipe3Name",
+          availableMealType: "Snack 1",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+      ],
+      allLunchRecipes: [
+        {
+          _id: "tempGenRecipe4Id",
+          name: "tempGenRecipe4Name",
+          availableMealType: "Lunch",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+      ],
+      allSnack2Recipes: [
+        {
+          _id: "tempGenRecipe5Id",
+          name: "tempGenRecipe5Name",
+          availableMealType: "Snack 2",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+      ],
+      allDinnerRecipes: [
+        {
+          _id: "tempGenRecipe5Id",
+          name: "tempGenRecipe5Name",
+          availableMealType: "Dinner",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+      ],
+      allDessertRecipes: [
+        {
+          _id: "tempGenRecipe2Id",
+          name: "tempGenRecipe2Name",
+          availableMealType: "Dessert",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+      ],
     };
   }
   componentDidMount() {
     this.loadData();
   }
   loadData() {
+    this.getAllDays();
+    this.getAllRecipes();
     axios
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
@@ -81,7 +179,7 @@ export default class WeekMealPlanDetail extends Component {
     axios.get("http://localhost:5000/GRFUsers/").then((response) => {
       if (response.data.length > 0) {
         this.setState({
-          GRFUsers: response.data.map((GRFUser) => GRFUser),
+          allGRFUsers: response.data.map((GRFUser) => GRFUser),
           allGRFUsersHasLoaded: true,
         });
       }
@@ -104,6 +202,40 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   }
+  getAllDays = () => {
+    axios.get("http://localhost:5000/days/").then((response) => {
+      this.setState({
+        allDays: response.data.map((day) => day),
+        allDaysLoaded: true,
+      });
+    });
+  };
+  getAllRecipes = () => {
+    axios.get("http://localhost:5000/genRecipes/").then((response) => {
+      this.setState({
+        allGenRecipes: response.data.map((genRecipe) => genRecipe),
+        //Note how the syntax for this combined setState and filter function must be EXACT or it produces an error - no extra brackets, paretheses, commas, semicolons, spaces, etc. It's fucking ridiculous
+        allBreakfastRecipes: response.data.filter(
+          (genRecipe) => genRecipe.availableMealType == "Breakfast"
+        ),
+        allSnack1Recipes: response.data.filter(
+          (genRecipe) => genRecipe.availableMealType == "Snack 1"
+        ),
+        allLunchRecipes: response.data.filter(
+          (genRecipe) => genRecipe.availableMealType == "Lunch"
+        ),
+        allSnack2Recipes: response.data.filter(
+          (genRecipe) => genRecipe.availableMealType == "Snack 2"
+        ),
+        allDinnerRecipes: response.data.filter(
+          (genRecipe) => genRecipe.availableMealType == "Dinner"
+        ),
+        allDessertRecipes: response.data.filter(
+          (genRecipe) => genRecipe.availableMealType == "Dessert"
+        ),
+      });
+    });
+  };
   onChangeName = (e) => {
     this.setState({
       name: e.target.value,
@@ -293,6 +425,14 @@ export default class WeekMealPlanDetail extends Component {
             dinnerWeight: this.state.dinnerWeight,
             dessertWeight: this.state.dessertWeight,
           }}
+          allGRFUsers={this.state.allGRFUsers}
+          allDays={this.state.allDays}
+          allBreakfastRecipes={this.state.allBreakfastRecipes}
+          allSnack1Recipes={this.state.allSnack1Recipes}
+          allLunchRecipes={this.state.allLunchRecipes}
+          allSnack2Recipes={this.state.allSnack2Recipes}
+          allDinnerRecipes={this.state.allDinnerRecipes}
+          allDessertRecipes={this.state.allDessertRecipes}
         />
       );
     }
@@ -339,7 +479,7 @@ export default class WeekMealPlanDetail extends Component {
                 value={this.state.GRFUser.handle}
                 onChange={this.onChangeGRFUser}
               >
-                {this.state.GRFUsers.map(function (GRFUser) {
+                {this.state.allGRFUsers.map(function (GRFUser) {
                   return (
                     <option key={GRFUser._id} value={GRFUser._id}>
                       {GRFUser.handle}

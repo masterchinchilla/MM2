@@ -22,26 +22,122 @@ class DayDetail extends Component {
       thisDaysMeals: [],
       breakfast: {
         _id: "missing",
+        day: {
+          _id: "tempDay1Id",
+          name: "tempDayName1",
+          dayOfWeek: "Sunday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+        genRecipe: {
+          _id: "tempGenRecipe1Id",
+          name: "tempGenRecipe1Name",
+          availableMealType: "Breakfast",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+        prepInstructions: "",
+        mealType: "Breakfast",
       },
       breakfastIngrdnts: [],
       snack1: {
         _id: "missing",
+        day: {
+          _id: "tempDay1Id",
+          name: "tempDayName1",
+          dayOfWeek: "Sunday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+        genRecipe: {
+          _id: "tempGenRecipe3Id",
+          name: "tempGenRecipe3Name",
+          availableMealType: "Snack 1",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+        prepInstructions: "",
+        mealType: "Snack 1",
       },
       snack1Ingrdnts: [],
       lunch: {
         _id: "missing",
+        day: {
+          _id: "tempDay1Id",
+          name: "tempDayName1",
+          dayOfWeek: "Sunday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+        genRecipe: {
+          _id: "tempGenRecipe4Id",
+          name: "tempGenRecipe4Name",
+          availableMealType: "Lunch",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+        prepInstructions: "",
+        mealType: "Lunch",
       },
       lunchIngrdnts: [],
       snack2: {
         _id: "missing",
+        day: {
+          _id: "tempDay1Id",
+          name: "tempDayName1",
+          dayOfWeek: "Sunday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+        genRecipe: {
+          _id: "tempGenRecipe5Id",
+          name: "tempGenRecipe5Name",
+          availableMealType: "Snack 2",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+        prepInstructions: "",
+        mealType: "Snack 2",
       },
       snack2Ingrdnts: [],
       dinner: {
         _id: "missing",
+        day: {
+          _id: "tempDay1Id",
+          name: "tempDayName1",
+          dayOfWeek: "Sunday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+        genRecipe: {
+          _id: "tempGenRecipe5Id",
+          name: "tempGenRecipe5Name",
+          availableMealType: "Dinner",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+        prepInstructions: "",
+        mealType: "Dinner",
       },
       dinnerIngrdnts: [],
       dessert: {
         _id: "missing",
+        day: {
+          _id: "tempDay1Id",
+          name: "tempDayName1",
+          dayOfWeek: "Sunday",
+          weekMealPlan: "625b7e5a4451249a38449792",
+        },
+        genRecipe: {
+          _id: "tempGenRecipe2Id",
+          name: "tempGenRecipe2Name",
+          availableMealType: "Dessert",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+          defaultPrepInstructions: "",
+          photoUrl: "",
+        },
+        prepInstructions: "",
+        mealType: "Dessert",
       },
       dessertIngrdnts: [],
       macrosBudget: {
@@ -207,21 +303,39 @@ class DayDetail extends Component {
             (this.props.mealsWeighting.dessertWeight / 100),
         },
       },
+      // allGRFUsers: [
+      //   { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
+      //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
+      // ],
+      allGRFUsersLoaded: false,
     };
   }
   componentDidMount() {
+    this.setState({
+      allGRFUsers: this.props.allGRFUsers,
+      allGRFUsersLoaded: true,
+    });
     this.loadData();
   }
   loadData() {
     this.setState({
       macrosBudget: this.props.macrosBudget,
     });
+    // this.getAllUsers();
     axios
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
       )
       .then((response) => this.fetchDayMealsIngrdnts(response.data));
   }
+  // getAllUsers = () => {
+  //   axios.get("http://localhost:5000/GRFUsers/").then((response) => {
+  //     this.setState({
+  //       allGRFUsers: response.data.map((GRFUser) => GRFUser),
+  //       allGRFUsersLoaded: true,
+  //     });
+  //   });
+  // };
   fetchDayMealsIngrdnts = (meals) => {
     if (meals.length == 0) {
       this.setState({ data: true });
@@ -236,7 +350,7 @@ class DayDetail extends Component {
             break;
           case "Snack 1":
             this.setState({
-              snack1: meals[i],
+              2: meals[i],
             });
             break;
           case "Lunch":
@@ -977,6 +1091,11 @@ class DayDetail extends Component {
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
                                 onDeleteMeal={this.handleDeleteMeal}
+                                allGRFUsers={this.props.allGRFUsers}
+                                allDays={this.props.allDays}
+                                thisMealTypesGenRecipes={
+                                  this.props.allBreakfastRecipes
+                                }
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -998,6 +1117,11 @@ class DayDetail extends Component {
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
                                 onDeleteMeal={this.handleDeleteMeal}
+                                allGRFUsers={this.props.allGRFUsers}
+                                allDays={this.props.allDays}
+                                thisMealTypesGenRecipes={
+                                  this.props.allSnack1Recipes
+                                }
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -1017,6 +1141,11 @@ class DayDetail extends Component {
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
                                 onDeleteMeal={this.handleDeleteMeal}
+                                allGRFUsers={this.props.allGRFUsers}
+                                allDays={this.props.allDays}
+                                thisMealTypesGenRecipes={
+                                  this.props.allLunchRecipes
+                                }
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -1038,6 +1167,11 @@ class DayDetail extends Component {
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
                                 onDeleteMeal={this.handleDeleteMeal}
+                                allGRFUsers={this.props.allGRFUsers}
+                                allDays={this.props.allDays}
+                                thisMealTypesGenRecipes={
+                                  this.props.allSnack2Recipes
+                                }
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -1059,6 +1193,11 @@ class DayDetail extends Component {
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
                                 onDeleteMeal={this.handleDeleteMeal}
+                                allGRFUsers={this.props.allGRFUsers}
+                                allDays={this.props.allDays}
+                                thisMealTypesGenRecipes={
+                                  this.props.allDinnerRecipes
+                                }
                               />
                               <MealOrNewMeal
                                 thisDay={this.state.thisDay}
@@ -1081,6 +1220,11 @@ class DayDetail extends Component {
                                 clearCurrentMacros={this.clearCurrentMacros}
                                 updateMealIngrdnt={this.updateMealIngrdnt}
                                 onDeleteMeal={this.handleDeleteMeal}
+                                allGRFUsers={this.props.allGRFUsers}
+                                allDays={this.props.allDays}
+                                thisMealTypesGenRecipes={
+                                  this.props.allDessertRecipes
+                                }
                               />
                             </div>
                           </div>
