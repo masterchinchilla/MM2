@@ -384,11 +384,38 @@ export default class WeekMealPlanDetail extends Component {
       weekMealPlan: this.state.id,
       name: this.state.name + " - " + dayOfWeek,
     };
-    axios.post("http://localhost:5000/days/add", day).then((response) => {
-      this.setState({
-        thisWeeksDays: this.state.thisWeeksDays.push(response.data),
+    axios
+      .post("http://localhost:5000/days/add", day)
+      .then((response) => {
+        this.setState({
+          thisWeeksDays: this.state.thisWeeksDays.push(response.data),
+        });
+      })
+      .then(() => {
+        this.setState({
+          sun: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Sunday"
+          )[0],
+          mon: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Monday"
+          )[0],
+          tues: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Tuesday"
+          )[0],
+          wed: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Wednesday"
+          )[0],
+          thurs: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Thursday"
+          )[0],
+          fri: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Friday"
+          )[0],
+          sat: this.state.thisWeeksDays.filter(
+            (day) => day.dayOfWeek == "Saturday"
+          )[0],
+        });
       });
-    });
   };
   renderDay = (dayToRender, dayOfWeek, dayOfWeekShort) => {
     if (dayToRender == undefined) {

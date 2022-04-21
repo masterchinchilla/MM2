@@ -50,6 +50,7 @@ class DayDetail extends Component {
         mealType: "Snack 1",
       },
       snack1Ingrdnts: [],
+      userChangedSnack1: false,
       lunch: {
         _id: "missing",
         day: this.props.thisDay,
@@ -278,6 +279,8 @@ class DayDetail extends Component {
       //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
       // ],
       allGRFUsersLoaded: false,
+      deleteDayMsg: "Are you sure you want to delete this Day Meal Plan?",
+      hideDeleteDayBarrier: true,
     };
   }
   componentDidMount() {
@@ -296,7 +299,7 @@ class DayDetail extends Component {
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
       )
-      .then((response) => this.fetchDayMealsIngrdnts(response.data));
+      .then((response) => this.updateMeals(response.data, false));
   }
   // getAllUsers = () => {
   //   axios.get("http://localhost:5000/GRFUsers/").then((response) => {
@@ -306,7 +309,7 @@ class DayDetail extends Component {
   //     });
   //   });
   // };
-  fetchDayMealsIngrdnts = (meals) => {
+  updateMeals = (meals, mealsState) => {
     if (meals.length == 0) {
       this.setState({ data: true });
     } else {
@@ -321,6 +324,7 @@ class DayDetail extends Component {
           case "Snack 1":
             this.setState({
               snack1: meals[i],
+              userChangedSnack1: mealsState ? true : false,
             });
             break;
           case "Lunch":
@@ -344,14 +348,21 @@ class DayDetail extends Component {
             });
             break;
         }
-        axios
-          .get(
-            "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
-              meals[i]._id
-          )
-          .then((response) => this.assignMealIngredientsToState(response.data));
+        if (mealsState) {
+          return;
+        } else {
+          this.fetchDayMealsIngrdnts(meals[i]);
+        }
       }
     }
+  };
+  fetchDayMealsIngrdnts = (meal) => {
+    axios
+      .get(
+        "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
+          meal._id
+      )
+      .then((response) => this.assignMealIngredientsToState(response.data));
   };
   assignMealIngredientsToState = (mealMealIngredients) => {
     if (mealMealIngredients.length == 0) {
@@ -410,28 +421,29 @@ class DayDetail extends Component {
       day: meal.day._id,
       genRecipe: meal.genRecipe._id,
       mealType: meal.mealType,
-      createdAt: meal.createdAt,
     };
     axios.post("http://localhost:5000/meals/add", newMeal).then((response) =>
       (() => {
+        meal._id = response.data._id;
+        console.log(meal);
         switch (response.data.mealType) {
           case "Breakfast":
-            this.setState({ breakfast: response.data });
+            this.setState({ breakfast: meal });
             break;
           case "Snack 1":
-            this.setState({ snack1: response.data });
+            this.setState({ snack1: meal });
             break;
           case "Lunch":
-            this.setState({ lunch: response.data });
+            this.setState({ lunch: meal });
             break;
           case "Snack 2":
-            this.setState({ snack2: response.data });
+            this.setState({ snack2: meal });
             break;
           case "Dinner":
-            this.setState({ dinner: response.data });
+            this.setState({ dinner: meal });
             break;
           case "Dessert":
-            this.setState({ dessert: response.data });
+            this.setState({ dessert: meal });
             break;
         }
       })()
@@ -962,271 +974,352 @@ class DayDetail extends Component {
         }
       });
   };
+  handleClickDeleteDay = () => {
+    if (
+      this.state.breakfastIngrdnts.length === 0 &&
+      this.state.snack1Ingrdnts.length === 0 &&
+      this.state.lunchIngrdnts.length === 0 &&
+      this.state.snack2Ingrdnts.length === 0 &&
+      this.state.dinnerIngrdnts.length === 0 &&
+      this.state.dessertIngrdnts.length === 0
+    ) {
+      this.props.onDeleteDay(this.state.thisDay._id);
+    } else {
+      this.setState({ hideDeleteDayBarrier: false });
+    }
+  };
   render() {
     if (this.state.data == false) {
       return <div className="spinner-border text-primary" role="status"></div>;
     } else {
       return (
-        <div className="card mt-3 mb-3">
-          <div className="card-header">
-            <h3 className="card-title">{this.state.thisDay.dayOfWeek}</h3>
-            <EditOptions
-              parentObj={"Day"}
-              thisFormState={this.state.thisFormState}
-              thisId={this.state.thisId}
-              userType={this.state.userType}
-              onSubmitFormChange={this.handleSubmitFormChange}
-              onClickCopy={this.handleClickCopy}
-              onClickEdit={this.handleClickEdit}
-              onCancel={this.handleCancel}
-              onDelete={this.props.onDeleteDay}
-            />
-          </div>
-          <div className="card-body">
-            <div
-              className="accordion accordion-flush"
-              id={"accordionFull" + this.state.thisDay._id}
-            >
-              <div className="accordion-item">
-                <h2
-                  className="accordion-header"
-                  id={"accordionHeader" + this.state.thisDay._id}
-                >
+        <React.Fragment>
+          <div
+            // className="modal fade deleteWarning"
+            className="deleteWarning"
+            // id="delete_meal_Warn"
+            // data-bs-backdrop="static"
+            // data-bs-keyboard="false"
+            // tabindex="-1"
+            // aria-labelledby="deleteMealWarnLabel"
+            hidden={this.state.hideDeleteDayBarrier}
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="deleteMealWarnLabel">
+                    Cannot Delete Day with Meal Records
+                  </h5>
+                </div>
+                <div className="modal-body">
+                  <div className="alert alert-warning" role="alert">
+                    Delete all day meals before attempting to delete the day
+                    record
+                  </div>
+                </div>
+                <div className="modal-footer">
                   <button
-                    className="accordion-button"
                     type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={"#dayAccrdn" + this.state.thisDay._id}
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                  ></button>
-                </h2>
-                <div
-                  id={"dayAccrdn" + this.state.thisDay._id}
-                  className="accordion-collapse collapse show"
-                  aria-labelledby={"#accordionHeader" + this.state.thisDay._id}
-                  data-bs-parent={"#accordionFull" + this.state.thisDay._id}
-                >
-                  <div className="accordion-body">
-                    <div className="macroTblCntnr">
-                      <MacrosTable
-                        tableType="Day Macros"
-                        macrosBudget={this.state.macrosBudget}
-                        macrosCurrent={this.state.macrosCurrent}
-                      />
-                    </div>
-                    <ul>
-                      <li>Name:&nbsp;{this.state.thisDay.name}</li>
-                      <li>Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}</li>
-                      <li>
-                        Week Meal Plan:&nbsp;{this.state.weekMealPlanName}
-                      </li>
-                      <li>
-                        Created:&nbsp;
-                        {dayjs(this.state.thisDay.createdAt).format(
-                          "dddd, MMMM D, YYYY h:mm A"
-                        )}
-                      </li>
-                      <li>
-                        Last Updated:&nbsp;
-                        {dayjs(this.state.thisDay.updatedAt).format(
-                          "dddd, MMMM D, YYYY h:mm A"
-                        )}
-                      </li>
-                    </ul>
-                    <div className="card mt-3 mb-3">
-                      <div className="card-header">
-                        <h4 className="card-title">
-                          {this.state.thisDay.dayOfWeek + " Meals"}
-                        </h4>
+                    className="btn btn-secondary"
+                    onClick={() => {
+                      this.setState({ hideDeleteDayBarrier: true });
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card mt-3 mb-3">
+            <div className="card-header">
+              <h3 className="card-title">{this.state.thisDay.dayOfWeek}</h3>
+              <EditOptions
+                parentObj={"Day"}
+                thisFormState={this.state.thisFormState}
+                thisId={this.state.thisId}
+                userType={this.state.userType}
+                onSubmitFormChange={this.handleSubmitFormChange}
+                onClickCopy={this.handleClickCopy}
+                onClickEdit={this.handleClickEdit}
+                onCancel={this.handleCancel}
+                onDelete={this.handleClickDeleteDay}
+                deleteMsg={this.state.deleteDayMsg}
+              />
+            </div>
+            <div className="card-body">
+              <div
+                className="accordion accordion-flush"
+                id={"accordionFull" + this.state.thisDay._id}
+              >
+                <div className="accordion-item">
+                  <h2
+                    className="accordion-header"
+                    id={"accordionHeader" + this.state.thisDay._id}
+                  >
+                    <button
+                      className="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={"#dayAccrdn" + this.state.thisDay._id}
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    ></button>
+                  </h2>
+                  <div
+                    id={"dayAccrdn" + this.state.thisDay._id}
+                    className="accordion-collapse collapse show"
+                    aria-labelledby={
+                      "#accordionHeader" + this.state.thisDay._id
+                    }
+                    data-bs-parent={"#accordionFull" + this.state.thisDay._id}
+                  >
+                    <div className="accordion-body">
+                      <div className="macroTblCntnr">
+                        <MacrosTable
+                          tableType="Day Macros"
+                          macrosBudget={this.state.macrosBudget}
+                          macrosCurrent={this.state.macrosCurrent}
+                        />
                       </div>
-                      <div className="card-body">
-                        <div
-                          className="accordion accordion-flush"
-                          id={"daysMealsAccordionFull" + this.state.id}
-                        >
-                          <div className="accordion-item">
-                            <h2
-                              className="accordion-header"
-                              id={"daysMealsAccordionHeader" + this.state.id}
-                            >
-                              <button
-                                className="accordion-button"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target={"#mealsAccrdn" + this.state.id}
-                                aria-expanded="true"
-                                aria-controls="collapseOne"
-                              ></button>
-                            </h2>
-                          </div>
+                      <ul>
+                        <li>Name:&nbsp;{this.state.thisDay.name}</li>
+                        <li>
+                          Day of Week:&nbsp;{this.state.thisDay.dayOfWeek}
+                        </li>
+                        <li>
+                          Week Meal Plan:&nbsp;{this.state.weekMealPlanName}
+                        </li>
+                        <li>
+                          Created:&nbsp;
+                          {dayjs(this.state.thisDay.createdAt).format(
+                            "dddd, MMMM D, YYYY h:mm A"
+                          )}
+                        </li>
+                        <li>
+                          Last Updated:&nbsp;
+                          {dayjs(this.state.thisDay.updatedAt).format(
+                            "dddd, MMMM D, YYYY h:mm A"
+                          )}
+                        </li>
+                      </ul>
+                      <div className="card mt-3 mb-3">
+                        <div className="card-header">
+                          <h4 className="card-title">
+                            {this.state.thisDay.dayOfWeek + " Meals"}
+                          </h4>
+                        </div>
+                        <div className="card-body">
                           <div
-                            id={"mealsAccrdn" + this.state.id}
-                            className="accordion-collapse collapse show"
-                            aria-labelledby={
-                              "#daysMealsAccordionHeader" + this.state.id
-                            }
-                            data-bs-parent={
-                              "#daysMealsAccordionFull" + this.state.id
-                            }
+                            className="accordion accordion-flush"
+                            id={"daysMealsAccordionFull" + this.state.id}
                           >
-                            <div className="accordion-body wkDaysAccrdnBdy">
-                              <MealOrNewMeal
-                                thisDay={this.state.thisDay}
-                                mealType={"Breakfast"}
-                                onCreateMeal={this.handleCreateMeal}
-                                dayUserType={this.state.userType}
-                                thisMeal={this.state.breakfast}
-                                key={this.getRndInteger(10000000, 99999999)}
-                                thisMealsMacrosBudget={
-                                  this.state.mealMacrosBudget
-                                    .breakfastMacrosBudget
-                                }
-                                thisMealsMacrosCurrent={
-                                  this.state.mealMacrosCurrent
-                                    .breakfastMacrosCurrent
-                                }
-                                thisMealsMealIngrdnts={
-                                  this.state.breakfastIngrdnts
-                                }
-                                clearCurrentMacros={this.clearCurrentMacros}
-                                updateMealIngrdnt={this.updateMealIngrdnt}
-                                onDeleteMeal={this.handleDeleteMeal}
-                                allGRFUsers={this.props.allGRFUsers}
-                                allDays={this.props.allDays}
-                                thisMealTypesGenRecipes={
-                                  this.props.allBreakfastRecipes
-                                }
-                              />
-                              <MealOrNewMeal
-                                thisDay={this.state.thisDay}
-                                mealType={"Snack 1"}
-                                onCreateMeal={this.handleCreateMeal}
-                                dayUserType={this.state.userType}
-                                thisMeal={this.state.snack1}
-                                key={this.getRndInteger(10000000, 99999999)}
-                                thisMealsMacrosBudget={
-                                  this.state.mealMacrosBudget.snack1MacrosBudget
-                                }
-                                thisMealsMacrosCurrent={
-                                  this.state.mealMacrosCurrent
-                                    .snack1MacrosCurrent
-                                }
-                                thisMealsMealIngrdnts={
-                                  this.state.snack1Ingrdnts
-                                }
-                                clearCurrentMacros={this.clearCurrentMacros}
-                                updateMealIngrdnt={this.updateMealIngrdnt}
-                                onDeleteMeal={this.handleDeleteMeal}
-                                allGRFUsers={this.props.allGRFUsers}
-                                allDays={this.props.allDays}
-                                thisMealTypesGenRecipes={
-                                  this.props.allSnack1Recipes
-                                }
-                              />
-                              <MealOrNewMeal
-                                thisDay={this.state.thisDay}
-                                mealType={"Lunch"}
-                                onCreateMeal={this.handleCreateMeal}
-                                dayUserType={this.state.userType}
-                                thisMeal={this.state.lunch}
-                                key={this.getRndInteger(10000000, 99999999)}
-                                thisMealsMacrosBudget={
-                                  this.state.mealMacrosBudget.lunchMacrosBudget
-                                }
-                                thisMealsMacrosCurrent={
-                                  this.state.mealMacrosCurrent
-                                    .lunchMacrosCurrent
-                                }
-                                thisMealsMealIngrdnts={this.state.lunchIngrdnts}
-                                clearCurrentMacros={this.clearCurrentMacros}
-                                updateMealIngrdnt={this.updateMealIngrdnt}
-                                onDeleteMeal={this.handleDeleteMeal}
-                                allGRFUsers={this.props.allGRFUsers}
-                                allDays={this.props.allDays}
-                                thisMealTypesGenRecipes={
-                                  this.props.allLunchRecipes
-                                }
-                              />
-                              <MealOrNewMeal
-                                thisDay={this.props.thisDay}
-                                mealType={"Snack 2"}
-                                onCreateMeal={this.handleCreateMeal}
-                                dayUserType={this.state.userType}
-                                thisMeal={this.state.snack2}
-                                key={this.getRndInteger(10000000, 99999999)}
-                                thisMealsMacrosBudget={
-                                  this.state.mealMacrosBudget.snack2MacrosBudget
-                                }
-                                thisMealsMacrosCurrent={
-                                  this.state.mealMacrosCurrent
-                                    .snack2MacrosCurrent
-                                }
-                                thisMealsMealIngrdnts={
-                                  this.state.snack2Ingrdnts
-                                }
-                                clearCurrentMacros={this.clearCurrentMacros}
-                                updateMealIngrdnt={this.updateMealIngrdnt}
-                                onDeleteMeal={this.handleDeleteMeal}
-                                allGRFUsers={this.props.allGRFUsers}
-                                allDays={this.props.allDays}
-                                thisMealTypesGenRecipes={
-                                  this.props.allSnack2Recipes
-                                }
-                              />
-                              <MealOrNewMeal
-                                thisDay={this.state.thisDay}
-                                mealType={"Dinner"}
-                                onCreateMeal={this.handleCreateMeal}
-                                dayUserType={this.state.userType}
-                                thisMeal={this.state.dinner}
-                                key={this.getRndInteger(10000000, 99999999)}
-                                thisMealsMacrosBudget={
-                                  this.state.mealMacrosBudget.dinnerMacrosBudget
-                                }
-                                thisMealsMacrosCurrent={
-                                  this.state.mealMacrosCurrent
-                                    .dinnerMacrosCurrent
-                                }
-                                thisMealsMealIngrdnts={
-                                  this.state.dinnerIngrdnts
-                                }
-                                clearCurrentMacros={this.clearCurrentMacros}
-                                updateMealIngrdnt={this.updateMealIngrdnt}
-                                onDeleteMeal={this.handleDeleteMeal}
-                                allGRFUsers={this.props.allGRFUsers}
-                                allDays={this.props.allDays}
-                                thisMealTypesGenRecipes={
-                                  this.props.allDinnerRecipes
-                                }
-                              />
-                              <MealOrNewMeal
-                                thisDay={this.state.thisDay}
-                                mealType={"Dessert"}
-                                onCreateMeal={this.handleCreateMeal}
-                                dayUserType={this.state.userType}
-                                thisMeal={this.state.dessert}
-                                key={this.getRndInteger(10000000, 99999999)}
-                                thisMealsMacrosBudget={
-                                  this.state.mealMacrosBudget
-                                    .dessertMacrosBudget
-                                }
-                                thisMealsMacrosCurrent={
-                                  this.state.mealMacrosCurrent
-                                    .dessertMacrosCurrent
-                                }
-                                thisMealsMealIngrdnts={
-                                  this.state.dessertIngrdnts
-                                }
-                                clearCurrentMacros={this.clearCurrentMacros}
-                                updateMealIngrdnt={this.updateMealIngrdnt}
-                                onDeleteMeal={this.handleDeleteMeal}
-                                allGRFUsers={this.props.allGRFUsers}
-                                allDays={this.props.allDays}
-                                thisMealTypesGenRecipes={
-                                  this.props.allDessertRecipes
-                                }
-                              />
+                            <div className="accordion-item">
+                              <h2
+                                className="accordion-header"
+                                id={"daysMealsAccordionHeader" + this.state.id}
+                              >
+                                <button
+                                  className="accordion-button"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={
+                                    "#mealsAccrdn" + this.state.id
+                                  }
+                                  aria-expanded="true"
+                                  aria-controls="collapseOne"
+                                ></button>
+                              </h2>
+                            </div>
+                            <div
+                              id={"mealsAccrdn" + this.state.id}
+                              className="accordion-collapse collapse show"
+                              aria-labelledby={
+                                "#daysMealsAccordionHeader" + this.state.id
+                              }
+                              data-bs-parent={
+                                "#daysMealsAccordionFull" + this.state.id
+                              }
+                            >
+                              <div className="accordion-body wkDaysAccrdnBdy">
+                                <MealOrNewMeal
+                                  thisDay={this.state.thisDay}
+                                  mealType={"Breakfast"}
+                                  onCreateMeal={this.handleCreateMeal}
+                                  dayUserType={this.state.userType}
+                                  thisMeal={this.state.breakfast}
+                                  key={this.getRndInteger(10000000, 99999999)}
+                                  thisMealsMacrosBudget={
+                                    this.state.mealMacrosBudget
+                                      .breakfastMacrosBudget
+                                  }
+                                  thisMealsMacrosCurrent={
+                                    this.state.mealMacrosCurrent
+                                      .breakfastMacrosCurrent
+                                  }
+                                  thisMealsMealIngrdnts={
+                                    this.state.breakfastIngrdnts
+                                  }
+                                  clearCurrentMacros={this.clearCurrentMacros}
+                                  updateMealIngrdnt={this.updateMealIngrdnt}
+                                  onDeleteMeal={this.handleDeleteMeal}
+                                  allGRFUsers={this.props.allGRFUsers}
+                                  allDays={this.props.allDays}
+                                  thisMealTypesGenRecipes={
+                                    this.props.allBreakfastRecipes
+                                  }
+                                />
+                                <MealOrNewMeal
+                                  thisDay={this.state.thisDay}
+                                  mealType={"Snack 1"}
+                                  onCreateMeal={this.handleCreateMeal}
+                                  dayUserType={this.state.userType}
+                                  thisMeal={this.state.snack1}
+                                  key={this.getRndInteger(10000000, 99999999)}
+                                  thisMealsMacrosBudget={
+                                    this.state.mealMacrosBudget
+                                      .snack1MacrosBudget
+                                  }
+                                  thisMealsMacrosCurrent={
+                                    this.state.mealMacrosCurrent
+                                      .snack1MacrosCurrent
+                                  }
+                                  thisMealsMealIngrdnts={
+                                    this.state.snack1Ingrdnts
+                                  }
+                                  clearCurrentMacros={this.clearCurrentMacros}
+                                  updateMealIngrdnt={this.updateMealIngrdnt}
+                                  onDeleteMeal={this.handleDeleteMeal}
+                                  allGRFUsers={this.props.allGRFUsers}
+                                  allDays={this.props.allDays}
+                                  thisMealTypesGenRecipes={
+                                    this.props.allSnack1Recipes
+                                  }
+                                  updateMeals={this.updateMeals}
+                                  assignMealIngredientsToState={
+                                    this.assignMealIngredientsToState
+                                  }
+                                  userHasChangedRecipe={
+                                    this.state.userChangedSnack1
+                                  }
+                                  mealFormState={
+                                    this.state.userChangedSnack1
+                                      ? "editingOrig"
+                                      : "viewing"
+                                  }
+                                />
+                                <MealOrNewMeal
+                                  thisDay={this.state.thisDay}
+                                  mealType={"Lunch"}
+                                  onCreateMeal={this.handleCreateMeal}
+                                  dayUserType={this.state.userType}
+                                  thisMeal={this.state.lunch}
+                                  key={this.getRndInteger(10000000, 99999999)}
+                                  thisMealsMacrosBudget={
+                                    this.state.mealMacrosBudget
+                                      .lunchMacrosBudget
+                                  }
+                                  thisMealsMacrosCurrent={
+                                    this.state.mealMacrosCurrent
+                                      .lunchMacrosCurrent
+                                  }
+                                  thisMealsMealIngrdnts={
+                                    this.state.lunchIngrdnts
+                                  }
+                                  clearCurrentMacros={this.clearCurrentMacros}
+                                  updateMealIngrdnt={this.updateMealIngrdnt}
+                                  onDeleteMeal={this.handleDeleteMeal}
+                                  allGRFUsers={this.props.allGRFUsers}
+                                  allDays={this.props.allDays}
+                                  thisMealTypesGenRecipes={
+                                    this.props.allLunchRecipes
+                                  }
+                                />
+                                <MealOrNewMeal
+                                  thisDay={this.props.thisDay}
+                                  mealType={"Snack 2"}
+                                  onCreateMeal={this.handleCreateMeal}
+                                  dayUserType={this.state.userType}
+                                  thisMeal={this.state.snack2}
+                                  key={this.getRndInteger(10000000, 99999999)}
+                                  thisMealsMacrosBudget={
+                                    this.state.mealMacrosBudget
+                                      .snack2MacrosBudget
+                                  }
+                                  thisMealsMacrosCurrent={
+                                    this.state.mealMacrosCurrent
+                                      .snack2MacrosCurrent
+                                  }
+                                  thisMealsMealIngrdnts={
+                                    this.state.snack2Ingrdnts
+                                  }
+                                  clearCurrentMacros={this.clearCurrentMacros}
+                                  updateMealIngrdnt={this.updateMealIngrdnt}
+                                  onDeleteMeal={this.handleDeleteMeal}
+                                  allGRFUsers={this.props.allGRFUsers}
+                                  allDays={this.props.allDays}
+                                  thisMealTypesGenRecipes={
+                                    this.props.allSnack2Recipes
+                                  }
+                                  assignMealIngredientsToState={
+                                    this.assignMealIngredientsToState
+                                  }
+                                />
+                                <MealOrNewMeal
+                                  thisDay={this.state.thisDay}
+                                  mealType={"Dinner"}
+                                  onCreateMeal={this.handleCreateMeal}
+                                  dayUserType={this.state.userType}
+                                  thisMeal={this.state.dinner}
+                                  key={this.getRndInteger(10000000, 99999999)}
+                                  thisMealsMacrosBudget={
+                                    this.state.mealMacrosBudget
+                                      .dinnerMacrosBudget
+                                  }
+                                  thisMealsMacrosCurrent={
+                                    this.state.mealMacrosCurrent
+                                      .dinnerMacrosCurrent
+                                  }
+                                  thisMealsMealIngrdnts={
+                                    this.state.dinnerIngrdnts
+                                  }
+                                  clearCurrentMacros={this.clearCurrentMacros}
+                                  updateMealIngrdnt={this.updateMealIngrdnt}
+                                  onDeleteMeal={this.handleDeleteMeal}
+                                  allGRFUsers={this.props.allGRFUsers}
+                                  allDays={this.props.allDays}
+                                  thisMealTypesGenRecipes={
+                                    this.props.allDinnerRecipes
+                                  }
+                                />
+                                <MealOrNewMeal
+                                  thisDay={this.state.thisDay}
+                                  mealType={"Dessert"}
+                                  onCreateMeal={this.handleCreateMeal}
+                                  dayUserType={this.state.userType}
+                                  thisMeal={this.state.dessert}
+                                  key={this.getRndInteger(10000000, 99999999)}
+                                  thisMealsMacrosBudget={
+                                    this.state.mealMacrosBudget
+                                      .dessertMacrosBudget
+                                  }
+                                  thisMealsMacrosCurrent={
+                                    this.state.mealMacrosCurrent
+                                      .dessertMacrosCurrent
+                                  }
+                                  thisMealsMealIngrdnts={
+                                    this.state.dessertIngrdnts
+                                  }
+                                  clearCurrentMacros={this.clearCurrentMacros}
+                                  updateMealIngrdnt={this.updateMealIngrdnt}
+                                  onDeleteMeal={this.handleDeleteMeal}
+                                  allGRFUsers={this.props.allGRFUsers}
+                                  allDays={this.props.allDays}
+                                  thisMealTypesGenRecipes={
+                                    this.props.allDessertRecipes
+                                  }
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1237,7 +1330,7 @@ class DayDetail extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </React.Fragment>
       );
     }
   }

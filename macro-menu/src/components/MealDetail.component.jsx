@@ -11,7 +11,7 @@ class MealDetail extends Component {
     super(props);
     this.state = {
       mealJustCreated: false,
-      userHasChangedRecipe: false,
+      userHasChangedRecipe: this.props.userHasChangedRecipe,
       thisMealTypesGenRecipesLoaded: false,
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
@@ -21,7 +21,7 @@ class MealDetail extends Component {
       thisRecipesId: "",
       thisMealsDay: this.props.thisDay,
       thisMealType: this.props.mealType,
-      mealFormState: "viewing",
+      mealFormState: this.props.mealForState,
       genRecipeFormState: "viewing",
       ingredientFormState: "viewing",
       userType: "admin",
@@ -70,6 +70,8 @@ class MealDetail extends Component {
       },
       thisMealsMacrosCurrent: this.props.thisMealsMacrosCurrent,
       dataLoaded: false,
+      deleteMealMsg:
+        "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?",
     };
   }
   colorCodeMealHeaders = () => {
@@ -82,7 +84,6 @@ class MealDetail extends Component {
       thisGenRecipeId === "62577f8b6682e3955e98b1d3" ||
       thisGenRecipeId === "62577f9c6682e3955e98b1d4"
     ) {
-      console.log("meal " + this.props.thisMeal._id + " was just created");
       this.setState({
         mealFormState: "editingOrig",
         mealJustCreated: true,
@@ -216,23 +217,25 @@ class MealDetail extends Component {
           thisMealsNewMealIngrdnts.push(newMealIngredient);
         }
         thisMeal.genRecipe = thisGenRecipesGenRecipeIngrdnts[0].genRecipe;
-        this.setState({
-          thisMeal: thisMeal,
-          thisMealsMealIngrdntsCurrent: thisMealsNewMealIngrdnts,
-          thisMealsGenRecipeCurrent:
-            thisGenRecipesGenRecipeIngrdnts[0].genRecipe,
-          thisRecipesId: thisGenRecipesGenRecipeIngrdnts[0].genRecipe._id,
-          thisRecipesInst:
-            thisGenRecipesGenRecipeIngrdnts[0].genRecipe
-              .defaultPrepInstructions,
-          thisMealRecipePic:
-            thisGenRecipesGenRecipeIngrdnts[0].genRecipe.photoURL,
-          thisRecipesName: thisGenRecipesGenRecipeIngrdnts[0].genRecipe.name,
-          thisRecipesMealType:
-            thisGenRecipesGenRecipeIngrdnts[0].genRecipe.availableMealType,
-          thisRecipesAuthor:
-            thisGenRecipesGenRecipeIngrdnts[0].genRecipe.GRFUser.handle,
-        });
+        this.props.updateMeals(thisMeal, true);
+        this.props.assignMealIngredientsToState(thisMealsNewMealIngrdnts);
+        // this.setState({
+        //   thisMeal: thisMeal,
+        //   thisMealsMealIngrdntsCurrent: thisMealsNewMealIngrdnts,
+        //   thisMealsGenRecipeCurrent:
+        //     thisGenRecipesGenRecipeIngrdnts[0].genRecipe,
+        //   thisRecipesId: thisGenRecipesGenRecipeIngrdnts[0].genRecipe._id,
+        //   thisRecipesInst:
+        //     thisGenRecipesGenRecipeIngrdnts[0].genRecipe
+        //       .defaultPrepInstructions,
+        //   thisMealRecipePic:
+        //     thisGenRecipesGenRecipeIngrdnts[0].genRecipe.photoURL,
+        //   thisRecipesName: thisGenRecipesGenRecipeIngrdnts[0].genRecipe.name,
+        //   thisRecipesMealType:
+        //     thisGenRecipesGenRecipeIngrdnts[0].genRecipe.availableMealType,
+        //   thisRecipesAuthor:
+        //     thisGenRecipesGenRecipeIngrdnts[0].genRecipe.GRFUser.handle,
+        // });
       });
     if (this.state.mealJustCreated === true) {
       this.setState({
@@ -332,15 +335,15 @@ class MealDetail extends Component {
     axios
       .put("http://localhost:5000/meals/update/" + meal.id, meal)
       .then((response) => {
-        this.setState({
-          thisMeal: response.data,
-          userHasChangedRecipe: false,
-          mealFormState: "viewing",
-        });
+        // this.setState({
+        //   thisMeal: response.data,
+        //   userHasChangedRecipe: false,
+        //   mealFormState: "viewing",
+        // });
         console.log(response);
       });
   };
-  handleClickDelete = (parentObj) => {
+  handleClickDeleteMeal = (parentObj) => {
     if (parentObj === "meal") {
       let thisMealsIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
       for (let i = 0; i < thisMealsIngrdnts.length; i++) {
@@ -519,7 +522,8 @@ class MealDetail extends Component {
                       onClickEdit={this.handleClickEdit}
                       userHasChangedRecipe={this.state.userHasChangedRecipe}
                       onCancel={this.handleCancel}
-                      onDelete={this.handleClickDelete}
+                      onDelete={this.handleClickDeleteMeal}
+                      deleteMsg={this.state.deleteMealMsg}
                     />
                   </div>
                   <div

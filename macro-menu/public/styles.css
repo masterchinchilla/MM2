@@ -190,7 +190,7 @@ button.accordion-button {
 .macrosTable {
   background-color: #fff;
   border: solid 5px;
-  z-index: 999;
+  z-index: 555;
 }
 .macrosTable h4,
 .macrosTable h5 {
@@ -427,4 +427,14 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 }
 .mealHdrFcsd{
   background-color: #ffc107;
+}
+.modal-title{
+  text-transform: capitalize;
+}
+.deleteWarning{
+  z-index: 999;
+  width:50%;
+  position: fixed;
+  top:25%;
+  left:25%;
 }

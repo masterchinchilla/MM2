@@ -12,6 +12,8 @@ class MealIngredientDetail extends Component {
       mealIngrdntFormState: "editingOrig",
       genRecipeIngrdntFormState: "viewing",
       ingredientFormState: "viewing",
+      deleteMealIngrdntMsg:
+        "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?",
       // allGRFUsers: [
       //   { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
       //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
@@ -108,6 +110,7 @@ class MealIngredientDetail extends Component {
                 onDelete={this.onDelete}
                 onCancel={this.onCancel}
                 onCreate={this.onCreate}
+                deleteMsg={this.state.deleteMealIngrdntMsg}
               />
               <input
                 type={"number"}

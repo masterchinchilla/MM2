@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditOptions = (props) => {
+  const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   const parentObj = props.parentObj;
   const userType = props.userType;
   const thisFormState = props.thisFormState;
@@ -12,6 +13,7 @@ const EditOptions = (props) => {
   const onClickCopy = props.onClickCopy;
   const onClickEdit = props.onClickEdit;
   const onDelete = props.onDelete;
+  const deleteMsg = props.deleteMsg;
   const onCancel = props.onCancel;
   const onCreate = props.onCreate;
   const userHasChangedRecipe = props.userHasChangedRecipe;
@@ -79,8 +81,8 @@ const EditOptions = (props) => {
     return iconHidden;
   };
   function handleDelete(parentObj) {
-    // onDelete(parentObj);
-    console.log("clicked delete meal");
+    toggleHideDeleteWarning(false);
+    console.log("clicked handle delete");
   }
   return (
     <React.Fragment>
@@ -148,7 +150,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onDelete(parentObj);
+            handleDelete(parentObj);
           }}
           className="iconBttn"
           // data-bs-toggle="modal"
@@ -162,35 +164,35 @@ const EditOptions = (props) => {
           />
         </button>
       </div>
-      {/* <div
-        className="modal fade"
-        id="delete_meal_Warn"
+      <div
+        // className="modal fade deleteWarning"
+        className="deleteWarning"
+        // id="delete_meal_Warn"
         // data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="deleteMealWarnLabel"
-        aria-hidden="true"
+        // data-bs-keyboard="false"
+        // tabindex="-1"
+        // aria-labelledby="deleteMealWarnLabel"
+        hidden={hideDeleteWarning}
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="deleteMealWarnLabel">
-                Delete Meal &amp; Custom Ingredient Qtys?
+                Delete {parentObj}?
               </h5>
             </div>
             <div className="modal-body">
               <div className="alert alert-danger" role="alert">
-                CAUTION: If you delete this Meal, your meal ingredient custom
-                qtys will be deleted as well.
+                CAUTION: {deleteMsg}
               </div>
             </div>
             <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
-                data-bs-dismiss="modal"
                 onClick={() => {
                   onCancel("meal");
+                  toggleHideDeleteWarning(true);
                 }}
               >
                 Go Back
@@ -198,17 +200,17 @@ const EditOptions = (props) => {
               <button
                 type="button"
                 className="btn btn-danger"
-                data-bs-dismiss="modal"
                 onClick={() => {
                   onDelete(parentObj);
+                  toggleHideDeleteWarning(true);
                 }}
               >
-                Delete Meal
+                Delete
               </button>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </React.Fragment>
   );
 };

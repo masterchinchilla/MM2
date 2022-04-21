@@ -63,17 +63,17 @@ export default class CreateDay extends Component {
       return <div className="emptyAndNotAuthor">No Day Added...</div>;
     } else {
       return (
-        <form
-          onSubmit={() => {
-            this.props.onCreateDay(this.state.dayOfWeek);
-          }}
-        >
+        <form>
           <div className="form-group mt-4 mb-4">
-            <input
-              type="submit"
-              value="Create Day"
+            <button
+              type="button"
               className="btn btn-primary"
-            />
+              onClick={() => {
+                this.props.onCreateDay(this.state.dayOfWeek);
+              }}
+            >
+              Create Day
+            </button>
           </div>
         </form>
       );

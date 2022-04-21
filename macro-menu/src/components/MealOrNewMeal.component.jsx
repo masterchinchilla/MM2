@@ -158,6 +158,11 @@ class MealOrNewMeal extends Component {
             onDeleteMeal={this.props.onDeleteMeal}
             allGRFUsers={this.props.allGRFUsers}
             allDays={this.props.allDays}
+            updateMeals={this.props.updateMeals}
+            assignMealIngredientsToState={
+              this.props.assignMealIngredientsToState
+            }
+            userHasChangedRecipe={this.props.userHasChangedRecipe}
           />
         );
       }
