@@ -75,17 +75,18 @@ class CreateMeal extends Component {
       return <div className="emptyAndNotAuthor">No Meal Added...</div>;
     } else {
       return (
-        <form
-          onSubmit={() => {
-            this.props.onCreateMeal(this.state.meal);
-          }}
-        >
+        <form>
           <div className="form-group mt-4 mb-4">
-            <input
-              type="submit"
+            <button
+              type="button"
               value="Create Meal"
               className="btn btn-primary"
-            />
+              onClick={() => {
+                this.props.onCreateMeal(this.state.meal);
+              }}
+            >
+              Create Meal
+            </button>
           </div>
         </form>
       );

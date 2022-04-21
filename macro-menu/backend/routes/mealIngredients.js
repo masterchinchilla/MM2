@@ -122,4 +122,16 @@ router.route('/:id').delete((req, res)=>{
         .then(()=>res.json('Meal Ingredient successfully deleted.'))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/:id').put((req, res)=>{
+    MealIngredient.findById(req.params.id)
+        .then(mealIngredient=>{
+            mealIngredient.qty=req.body.qty;
+            mealIngredient.genRecipeIngredient=req.body.genRecipeIngredient._id;
+            mealIngredient.meal=req.body.meal._id;
+            mealIngredient.save()
+                .then(()=>res.json(mealIngredient))
+                .catch(err=>res.status(400).json('Error: '+err));
+        })
+        .catch(err=>res.status(400).json('Error: '+err));
+});
 module.exports=router;

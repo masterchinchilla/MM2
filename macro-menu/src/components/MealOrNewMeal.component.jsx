@@ -64,15 +64,15 @@ class MealOrNewMeal extends Component {
   componentDidMount() {
     this.setState({
       thisMeal: this.props.thisMeal,
-      thisMealsId: this.state.thisMeal._id,
+      thisMealsId: this.props.thisMeal._id,
       // allGRFUsers: this.props.allGRFUsers,
       allGRFUsersLoaded: true,
       allDaysLoaded: true,
       thisMealTypesGenRecipes: this.props.thisMealTypesGenRecipes,
       thisMealTypesGenRecipesLoaded: true,
       newMeal: {
-        day: this.state.thisDay,
-        mealType: this.state.mealType,
+        day: this.props.thisDay,
+        mealType: this.props.mealType,
         genRecipe: this.props.thisMealTypesGenRecipes[0],
       },
       idForNewMeal: this.getRndInteger(10000000, 99999999),
@@ -133,8 +133,8 @@ class MealOrNewMeal extends Component {
       if (this.state.thisMeal._id == "missing") {
         return (
           <CreateMeal
-            thisDay={this.state.thisMealsDay}
-            mealType={this.state.thisMealType}
+            thisDay={this.props.thisDay}
+            mealType={this.props.mealType}
             onCreateMeal={this.props.onCreateMeal}
             dayUserType={this.state.dayUserType}
             thisMealTypesGenRecipes={this.props.thisMealTypesGenRecipes}
@@ -149,8 +149,8 @@ class MealOrNewMeal extends Component {
             thisMealsMacrosBudget={this.state.thisMealsMacrosBudget}
             thisMealsMacrosCurrent={this.state.thisMealsMacrosCurrent}
             thisMealsMealIngrdnts={this.state.thisMealsMealIngrdnts}
-            thisDay={this.state.thisMealsDay}
-            mealType={this.state.mealType}
+            thisDay={this.props.thisDay}
+            mealType={this.props.mealType}
             dayUserType={this.state.dayUserType}
             thisMealTypesGenRecipes={this.props.thisMealTypesGenRecipes}
             clearCurrentMacros={this.props.clearCurrentMacros}

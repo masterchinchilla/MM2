@@ -9,7 +9,7 @@ class MealIngredientDetail extends Component {
       thisMealIngredient: this.props.thisMealIngredient,
       userType: "admin",
       thisFormState: "viewing",
-      mealIngrdntFormState: "viewing",
+      mealIngrdntFormState: "editingOrig",
       genRecipeIngrdntFormState: "viewing",
       ingredientFormState: "viewing",
       // allGRFUsers: [

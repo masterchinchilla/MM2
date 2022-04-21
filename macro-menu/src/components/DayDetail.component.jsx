@@ -22,12 +22,7 @@ class DayDetail extends Component {
       thisDaysMeals: [],
       breakfast: {
         _id: "missing",
-        day: {
-          _id: "tempDay1Id",
-          name: "tempDayName1",
-          dayOfWeek: "Sunday",
-          weekMealPlan: "625b7e5a4451249a38449792",
-        },
+        day: this.props.thisDay,
         genRecipe: {
           _id: "tempGenRecipe1Id",
           name: "tempGenRecipe1Name",
@@ -42,12 +37,7 @@ class DayDetail extends Component {
       breakfastIngrdnts: [],
       snack1: {
         _id: "missing",
-        day: {
-          _id: "tempDay1Id",
-          name: "tempDayName1",
-          dayOfWeek: "Sunday",
-          weekMealPlan: "625b7e5a4451249a38449792",
-        },
+        day: this.props.thisDay,
         genRecipe: {
           _id: "tempGenRecipe3Id",
           name: "tempGenRecipe3Name",
@@ -62,12 +52,7 @@ class DayDetail extends Component {
       snack1Ingrdnts: [],
       lunch: {
         _id: "missing",
-        day: {
-          _id: "tempDay1Id",
-          name: "tempDayName1",
-          dayOfWeek: "Sunday",
-          weekMealPlan: "625b7e5a4451249a38449792",
-        },
+        day: this.props.thisDay,
         genRecipe: {
           _id: "tempGenRecipe4Id",
           name: "tempGenRecipe4Name",
@@ -82,12 +67,7 @@ class DayDetail extends Component {
       lunchIngrdnts: [],
       snack2: {
         _id: "missing",
-        day: {
-          _id: "tempDay1Id",
-          name: "tempDayName1",
-          dayOfWeek: "Sunday",
-          weekMealPlan: "625b7e5a4451249a38449792",
-        },
+        day: this.props.thisDay,
         genRecipe: {
           _id: "tempGenRecipe5Id",
           name: "tempGenRecipe5Name",
@@ -102,12 +82,7 @@ class DayDetail extends Component {
       snack2Ingrdnts: [],
       dinner: {
         _id: "missing",
-        day: {
-          _id: "tempDay1Id",
-          name: "tempDayName1",
-          dayOfWeek: "Sunday",
-          weekMealPlan: "625b7e5a4451249a38449792",
-        },
+        day: this.props.thisDay,
         genRecipe: {
           _id: "tempGenRecipe5Id",
           name: "tempGenRecipe5Name",
@@ -122,12 +97,7 @@ class DayDetail extends Component {
       dinnerIngrdnts: [],
       dessert: {
         _id: "missing",
-        day: {
-          _id: "tempDay1Id",
-          name: "tempDayName1",
-          dayOfWeek: "Sunday",
-          weekMealPlan: "625b7e5a4451249a38449792",
-        },
+        day: this.props.thisDay,
         genRecipe: {
           _id: "tempGenRecipe2Id",
           name: "tempGenRecipe2Name",
@@ -350,7 +320,7 @@ class DayDetail extends Component {
             break;
           case "Snack 1":
             this.setState({
-              2: meals[i],
+              snack1: meals[i],
             });
             break;
           case "Lunch":
@@ -442,11 +412,30 @@ class DayDetail extends Component {
       mealType: meal.mealType,
       createdAt: meal.createdAt,
     };
-    axios.post("http://localhost:5000/meals/add", newMeal).then((response) => {
-      this.setState({
-        thisDaysMeals: this.state.thisDaysMeals.push(response.data),
-      });
-    });
+    axios.post("http://localhost:5000/meals/add", newMeal).then((response) =>
+      (() => {
+        switch (response.data.mealType) {
+          case "Breakfast":
+            this.setState({ breakfast: response.data });
+            break;
+          case "Snack 1":
+            this.setState({ snack1: response.data });
+            break;
+          case "Lunch":
+            this.setState({ lunch: response.data });
+            break;
+          case "Snack 2":
+            this.setState({ snack2: response.data });
+            break;
+          case "Dinner":
+            this.setState({ dinner: response.data });
+            break;
+          case "Dessert":
+            this.setState({ dessert: response.data });
+            break;
+        }
+      })()
+    );
   };
   totalAllMacros = () => {
     // this.clearCurrentMacros();
@@ -900,6 +889,18 @@ class DayDetail extends Component {
         this.totalAllMacros();
         break;
     }
+    if (method === "delete") {
+      axios
+        .delete("http://localhost:5000/mealIngredients/" + thisMealIngrdnt._id)
+        .then((response) => console.log(response));
+    } else if (method === "update") {
+      axios
+        .put(
+          "http://localhost:5000/mealIngredients/" + thisMealIngrdnt._id,
+          thisMealIngrdnt
+        )
+        .then((response) => console.log(response));
+    }
   };
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -1148,7 +1149,7 @@ class DayDetail extends Component {
                                 }
                               />
                               <MealOrNewMeal
-                                thisDay={this.state.thisDay}
+                                thisDay={this.props.thisDay}
                                 mealType={"Snack 2"}
                                 onCreateMeal={this.handleCreateMeal}
                                 dayUserType={this.state.userType}

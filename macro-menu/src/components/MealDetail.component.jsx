@@ -16,11 +16,11 @@ class MealDetail extends Component {
       allGRFUsersLoaded: false,
       allDaysLoaded: false,
       mealsMealIngrdntsLoaded: false,
-      thisMeal: {},
+      thisMeal: this.props.thisMeal,
       thisMealsId: "",
       thisRecipesId: "",
-      thisMealsDay: {},
-      thisMealType: {},
+      thisMealsDay: this.props.thisDay,
+      thisMealType: this.props.mealType,
       mealFormState: "viewing",
       genRecipeFormState: "viewing",
       ingredientFormState: "viewing",
@@ -92,7 +92,6 @@ class MealDetail extends Component {
     }
   };
   componentDidMount() {
-    console.log(this.props.thisMeal.genRecipe.GRFUser);
     this.setState({
       // allGRFUsers: this.props.allGRFUsers,
       // allDays: this.props.allDays,
@@ -427,9 +426,8 @@ class MealDetail extends Component {
   };
   findChangeMealIngrdntByIndex = (thisMealIngrdnt, method) => {
     let thisMealIngrdntIndex;
-    let i = 0;
     let thisMealsIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
-    for (i; i < thisMealsIngrdnts.length; i++) {
+    for (let i = 0; i < thisMealsIngrdnts.length; i++) {
       if (thisMealIngrdnt._id == thisMealsIngrdnts[i]._id) {
         thisMealIngrdntIndex = i;
       }

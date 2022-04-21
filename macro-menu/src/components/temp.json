@@ -1,0 +1,82 @@
+[
+  {
+    "_id": { "$oid": "609f3e444ee536749c75c742" },
+    "day": { "$oid": "609f3e444ee536749c75c72b" },
+    "genRecipe": { "$oid": "609f3e444ee536749c75c732" },
+    "mealType": "Snack 1",
+    "__v": { "$numberInt": "0" },
+    "updatedAt": { "$date": { "$numberLong": "1648227609522" } }
+  },
+  {
+    "_id": { "$oid": "625c64ec82c27beb77f543c2" },
+    "day": { "$oid": "609f3e444ee536749c75c72b" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650222316884" } },
+    "updatedAt": { "$date": { "$numberLong": "1650222316884" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "625c696782c27beb77f548c0" },
+    "day": { "$oid": "623286565d224123cb8fec82" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650223463032" } },
+    "updatedAt": { "$date": { "$numberLong": "1650223463032" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "625c696782c27beb77f548c0" },
+    "day": { "$oid": "623286565d224123cb8fec82" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650223463032" } },
+    "updatedAt": { "$date": { "$numberLong": "1650223463032" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "625c6d9882c27beb77f54e32" },
+    "day": { "$oid": "609f3e444ee536749c75c72b" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650224536033" } },
+    "updatedAt": { "$date": { "$numberLong": "1650224536033" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "625c6e2982c27beb77f54ed1" },
+    "day": { "$oid": "609f3e444ee536749c75c72b" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650224681933" } },
+    "updatedAt": { "$date": { "$numberLong": "1650224681933" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "625f20fd00a6dfba197ed003" },
+    "day": { "$oid": "609f3e444ee536749c75c72b" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650401533063" } },
+    "updatedAt": { "$date": { "$numberLong": "1650401533063" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "625f215200a6dfba197ed0a4" },
+    "day": { "$oid": "609f3e444ee536749c75c72b" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650401618059" } },
+    "updatedAt": { "$date": { "$numberLong": "1650401618059" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "625f29252ed158efcc880749" },
+    "day": { "$oid": "623286565d224123cb8fec82" },
+    "genRecipe": { "$oid": "62577a7d93011a9b47306e6f" },
+    "mealType": "Snack 1",
+    "createdAt": { "$date": { "$numberLong": "1650403621196" } },
+    "updatedAt": { "$date": { "$numberLong": "1650403621196" } },
+    "__v": { "$numberInt": "0" }
+  }
+]
