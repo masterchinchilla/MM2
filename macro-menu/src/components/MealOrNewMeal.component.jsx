@@ -22,7 +22,7 @@ class MealOrNewMeal extends Component {
       allDaysLoaded: false,
       thisMealsId: "",
       thisRecipesId: "",
-      thisFormState: "viewing",
+      thisFormState: this.props.thisFormState,
       userType: "admin",
       thisMealsGenRecipe: { name: "Cereal", id: 1 },
       thisMealTypesGenRecipes: [],
@@ -163,6 +163,7 @@ class MealOrNewMeal extends Component {
               this.props.assignMealIngredientsToState
             }
             userHasChangedRecipe={this.props.userHasChangedRecipe}
+            mealFormState={this.props.mealFormState}
           />
         );
       }

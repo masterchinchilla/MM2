@@ -6,7 +6,7 @@ router.route('/').get((req, res)=>{
         .populate({
             path: 'genRecipe',
             populate: { path: 'GRFUser' }
-        })
+        }).populate('mealType')
         .then(meals=>res.json(meals))
         .catch(err=>res.status(400).json('Error: '+err));
 });
@@ -15,7 +15,7 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
         .populate({
             path: 'genRecipe',
             populate: { path: 'GRFUser' }
-        })
+        }).populate('mealType')
         .then(meals => res.json(meals))
         .catch(err => res.status(400).json('Error: ' + err));
 });

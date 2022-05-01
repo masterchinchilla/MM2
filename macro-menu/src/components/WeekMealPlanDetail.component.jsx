@@ -6,6 +6,7 @@ import DayDetail from "./DayDetail.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import CreateDay from "./CreateDay.component";
+import DayDetail2 from "./DayDetail2.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -147,12 +148,14 @@ export default class WeekMealPlanDetail extends Component {
           photoUrl: "",
         },
       ],
+      mealTypes: [],
     };
   }
   componentDidMount() {
     this.loadData();
   }
   loadData() {
+    this.getAllMealTypes();
     this.getAllDays();
     this.getAllRecipes();
     axios
@@ -202,6 +205,11 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   }
+  getAllMealTypes = () => {
+    axios.get("http://localhost:5000/mealTypes/").then((response) => {
+      this.setState({ mealTypes: response.data.map((mealType) => mealType) });
+    });
+  };
   getAllDays = () => {
     axios.get("http://localhost:5000/days/").then((response) => {
       this.setState({
@@ -460,6 +468,7 @@ export default class WeekMealPlanDetail extends Component {
           allSnack2Recipes={this.state.allSnack2Recipes}
           allDinnerRecipes={this.state.allDinnerRecipes}
           allDessertRecipes={this.state.allDessertRecipes}
+          mealTypes={this.state.mealTypes}
         />
       );
     }
@@ -774,7 +783,28 @@ export default class WeekMealPlanDetail extends Component {
                   data-bs-parent={"#accordionFull" + this.state.id}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
-                    {this.renderDay(this.state.sun, "Sunday", "sun")}
+                    <DayDetail2
+                      thisDay={this.state.sun}
+                      allGRFUsers={this.state.allGRFUsers}
+                      allDays={this.state.allDays}
+                      allBreakfastRecipes={this.state.allBreakfastRecipes}
+                      mealTypes={this.state.mealTypes}
+                      macrosBudget={{
+                        cals: this.state.cals,
+                        carbs: this.state.carbs,
+                        protein: this.state.protein,
+                        fat: this.state.fat,
+                        fiber: this.state.fiber,
+                      }}
+                      mealsWeighting={{
+                        breakfastWeight: this.state.breakfastWeight,
+                        snack1Weight: this.state.snack1Weight,
+                        lunchWeight: this.state.lunchWeight,
+                        snack2Weight: this.state.snack2Weight,
+                        dinnerWeight: this.state.dinnerWeight,
+                        dessertWeight: this.state.dessertWeight,
+                      }}
+                    />
                     {this.renderDay(this.state.mon, "Monday", "mon")}
                     {this.renderDay(this.state.tues, "Tuesday", "tues")}
                     {this.renderDay(this.state.wed, "Wednesday", "wed")}

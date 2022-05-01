@@ -7,20 +7,8 @@ var mealSchema = new Schema(
         day: {type: Schema.Types.ObjectId, ref: 'Day', required: true},
         genRecipe: { type: Schema.Types.ObjectId, ref: 'GenRecipe', required: true},
         prepInstructions: {type: String, maxLength: 3000},
-        mealType: { type: String, required: true, enum: ['Breakfast', 'Snack 1', 'Lunch', 'Snack 2', 'Dinner', 'Dessert'] },
+        mealType: { type: Schema.Types.ObjectId, ref: 'MealType', required: true},
     },
     { timestamps: true }
 );
-// Virtual meal's URL
-mealSchema
-    .virtual('url')
-    .get(function () {
-        return '/dbHome/meal/' + this._id;
-    });
-mealSchema
-    .virtual('iFrameUrl')
-    .get(function () {
-        return '/dbHome/meal/' + this._id + '/iFrame';
-    });
-//Export model
 module.exports = mongoose.model('Meal', mealSchema);

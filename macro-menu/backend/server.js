@@ -29,6 +29,7 @@ const mealsRouter = require('./routes/meals');
 // const unitOfMeasuresRouter = require('./routes/unitOfMeasures');
 const weekMealPlansRouter = require('./routes/weekMealPlans');
 // const weightTypesRouter = require('./routes/weightTypes');
+const mealTypesRouter=require('./routes/mealTypes');
 
 // app.use('/brands', brandsRouter);
 app.use('/days', daysRouter);
@@ -41,6 +42,7 @@ app.use('/meals', mealsRouter);
 // app.use('/unitOfMeasures', unitOfMeasuresRouter);
 app.use('/weekMealPlans', weekMealPlansRouter);
 // app.use('/weightTypes', weightTypesRouter);
+app.use('/mealTypes', mealTypesRouter);
 
 app.listen(port, () => {
     console.log(`server is running on port: ${port}`);

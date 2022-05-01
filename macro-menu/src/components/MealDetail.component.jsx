@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import MealIngredientDetail from "./MealIngredientDetail";
 import MacrosTable from "./MacrosTable.component";
+import MacrosTable2 from "./MacrosTable2.component";
 import dayjs from "dayjs";
 
 class MealDetail extends Component {
@@ -21,7 +22,7 @@ class MealDetail extends Component {
       thisRecipesId: "",
       thisMealsDay: this.props.thisDay,
       thisMealType: this.props.mealType,
-      mealFormState: this.props.mealForState,
+      mealFormState: this.props.mealFormState,
       genRecipeFormState: "viewing",
       ingredientFormState: "viewing",
       userType: "admin",
@@ -43,24 +44,6 @@ class MealDetail extends Component {
         "Dinner",
         "Dessert",
       ],
-      // allGRFUsers: [
-      //   { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
-      //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
-      // ],
-      // allDays: [
-      //   {
-      //     _id: "tempDay1Id",
-      //     name: "tempDayName1",
-      //     dayOfWeek: "Sunday",
-      //     weekMealPlan: "625b7e5a4451249a38449792",
-      //   },
-      //   {
-      //     _id: "tempDay2Id",
-      //     name: "tempDayName2",
-      //     dayOfWeek: "Monday",
-      //     weekMealPlan: "625b7e5a4451249a38449792",
-      //   },
-      // ],
       thisMealsMacrosBudget: {
         cals: 0,
         carbs: 0,
@@ -85,7 +68,7 @@ class MealDetail extends Component {
       thisGenRecipeId === "62577f9c6682e3955e98b1d4"
     ) {
       this.setState({
-        mealFormState: "editingOrig",
+        // mealFormState: "editingOrig",
         mealJustCreated: true,
       });
     } else {
@@ -117,6 +100,8 @@ class MealDetail extends Component {
       thisMealsMealIngrdntsOld: this.props.thisMealsMealIngrdnts,
       mealsMealIngrdntsLoaded: true,
       dataLoaded: true,
+      userHasChangedRecipe: this.props.userHasChangedRecipe,
+      mealFormState: this.props.mealFormState,
     });
     // axios
     //   .get(
@@ -165,27 +150,12 @@ class MealDetail extends Component {
     //   });
   }
   handleChangeMealRecipe = (e, mealAge) => {
-    // let mealJustCreated;
-    // let thisCurrentUnixDate = dayjs();
-    // let thisMealsCreatedAtUnix;
-    // this.props.thisMeal.createdAt !== undefined
-    //   ? (thisMealsCreatedAtUnix = dayjs(this.props.thisMeal.createdAt))
-    //   : (thisMealsCreatedAtUnix = 1609459200000);
-    // let mealAge = thisCurrentUnixDate.diff(thisMealsCreatedAtUnix);
-    // if (mealAge < 1728000000) {
-    //   mealJustCreated = true;
-    //   this.setState({
-    //     mealJustCreated: true,
-    //     userHasChangedRecipe: true,
-    //     mealFormState: "editingOrig",
-    //   });
-    // }
     let newSelectedRecipe;
     if (mealAge) {
       newSelectedRecipe = this.props.thisMeal.genRecipe._id;
-      this.setState({
-        mealFormState: "editingOrig",
-      });
+      // this.setState({
+      //   mealFormState: "editingOrig",
+      // });
     } else {
       newSelectedRecipe = e.target.value;
     }
@@ -194,7 +164,7 @@ class MealDetail extends Component {
     this.setState({
       thisMeal: thisMeal,
       thisMealsGenRecipeCurrent: newSelectedRecipe,
-      userHasChangedRecipe: true,
+      // userHasChangedRecipe: true,
     });
     axios
       .get(
@@ -237,11 +207,11 @@ class MealDetail extends Component {
         //     thisGenRecipesGenRecipeIngrdnts[0].genRecipe.GRFUser.handle,
         // });
       });
-    if (this.state.mealJustCreated === true) {
-      this.setState({
-        mealJustCreated: false,
-      });
-    }
+    // if (this.state.mealJustCreated === true) {
+    //   this.setState({
+    //     mealJustCreated: false,
+    //   });
+    // }
   };
   handleChangeMealDay = (e) => {
     this.setState({
@@ -280,7 +250,7 @@ class MealDetail extends Component {
   };
   handleSubmitMealFormChange = () => {
     let newNewMealIngrdnts = [];
-    if (this.state.userHasChangedRecipe === true) {
+    if (this.props.userHasChangedRecipe === true) {
       let oldMealIngrdnts = this.state.thisMealsMealIngrdntsOld;
       let newMealIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
       for (let i = 0; i < newMealIngrdnts.length; i++) {
@@ -489,7 +459,7 @@ class MealDetail extends Component {
                 <h5>
                   {this.state.thisMeal.day.dayOfWeek +
                     " " +
-                    this.state.thisMeal.mealType}
+                    this.state.thisMeal.mealType.name}
                 </h5>
               </button>
             </h2>
@@ -503,10 +473,40 @@ class MealDetail extends Component {
             data-bs-parent={"#mealOuterAccordionFull" + this.state.thisMealsId}
           >
             <div className="macroTblCntnr">
-              <MacrosTable
+              <MacrosTable2
                 tableType="Meal Macros"
                 macrosBudget={this.state.thisMealsMacrosBudget}
                 macrosCurrent={this.state.thisMealsMacrosCurrent}
+                breakfastIngrdnts={
+                  this.props.mealType === "Breakfast"
+                    ? this.state.thisMealsMealIngrdntsCurrent
+                    : []
+                }
+                snack1Ingrdnts={
+                  this.props.mealType === "Snack 1"
+                    ? this.state.thisMealsMealIngrdntsCurrent
+                    : []
+                }
+                lunchIngrdnts={
+                  this.props.mealType === "Lunch"
+                    ? this.state.thisMealsMealIngrdntsCurrent
+                    : []
+                }
+                snack2Ingrdnts={
+                  this.props.mealType === "Snack 2"
+                    ? this.state.thisMealsMealIngrdntsCurrent
+                    : []
+                }
+                dinnerIngrdnts={
+                  this.props.mealType === "Dinner"
+                    ? this.state.thisMealsMealIngrdntsCurrent
+                    : []
+                }
+                dessertIngrdnts={
+                  this.props.mealType === "Dessert"
+                    ? this.state.thisMealsMealIngrdntsCurrent
+                    : []
+                }
               />
             </div>
             <div className="accordion-body wkDaysAccrdnBdy">
@@ -520,7 +520,7 @@ class MealDetail extends Component {
                       thisFormState={this.state.mealFormState}
                       onSubmitFormChange={this.handleSubmitMealFormChange}
                       onClickEdit={this.handleClickEdit}
-                      userHasChangedRecipe={this.state.userHasChangedRecipe}
+                      userHasChangedRecipe={this.props.userHasChangedRecipe}
                       onCancel={this.handleCancel}
                       onDelete={this.handleClickDeleteMeal}
                       deleteMsg={this.state.deleteMealMsg}
@@ -540,7 +540,7 @@ class MealDetail extends Component {
                       className="form-control form-select recipeSelect"
                       value={this.state.thisMealsGenRecipeCurrent._id}
                       disabled={
-                        this.state.mealFormState == "viewing" ? true : false
+                        this.state.mealFormState === "viewing" ? true : false
                       }
                       onChange={this.handleChangeMealRecipe}
                     >
