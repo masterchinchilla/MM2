@@ -137,7 +137,13 @@ const EditOptions = (props) => {
             hidden={hideIcon("cancel", userType, thisFormState)}
           />
         </button>
-        <button type="button" onClick={onSubmitFormChange} className="iconBttn">
+        <button
+          type="button"
+          onClick={() => {
+            onSubmitFormChange(parentObj);
+          }}
+          className="iconBttn"
+        >
           <FontAwesomeIcon
             icon="fa-solid fa-floppy-disk"
             size="xl"

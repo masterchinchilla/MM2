@@ -11,6 +11,7 @@ import MealOrNewMeal from "./MealOrNewMeal.component";
 import MacrosTable from "./MacrosTable.component";
 import MacrosTable2 from "./MacrosTable2.component";
 import MealDetail2 from "./MealDetail2.component";
+import _ from "lodash";
 
 class DayDetail extends Component {
   constructor(props) {
@@ -561,8 +562,57 @@ class DayDetail extends Component {
       this.setState({ state });
     }
   };
-  handleSubmitFormChange = () => {
-    console.log("Form submitted");
+  handleSubmitMealFormChange = (mealType) => {
+    let thisMeal = this.state[mealType];
+    let oldMeal = this.state[`${mealType}Old`];
+    if (thisMeal.userChangedThisMealsRecipe === true) {
+      let newMealIngrdnts = thisMeal.thisMealsIngrdnts;
+      let oldMealIngrdnts = oldMeal.thisMealsIngrdnts;
+      for (let i = 0; i < newMealIngrdnts.length; i++) {
+        let thisNewMealIngrdnt = newMealIngrdnts[i];
+        let newMealIngrdntToSave = {
+          qty: thisNewMealIngrdnt.qty,
+          genRecipeIngredient: thisNewMealIngrdnt.genRecipeIngredient._id,
+          meal: thisNewMealIngrdnt.meal._id,
+        };
+        axios
+          .post(
+            "http://localhost:5000/mealIngredients/add",
+            newMealIngrdntToSave
+          )
+          .then((response) => {
+            newMealIngrdnts[i]._id = response.data._id;
+          });
+      }
+      thisMeal.thisMealsIngrdnts = newMealIngrdnts;
+      for (let i = 0; i < oldMealIngrdnts.length; i++) {
+        let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
+        axios
+          .delete("http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt)
+          .then((response) => console.log(response));
+      }
+    }
+    const thisMealToSave = {
+      id: thisMeal.thisMeal._id,
+      day: thisMeal.thisMeal.day._id,
+      genRecipe: thisMeal.thisMeal.genRecipe._id,
+      mealType: thisMeal.thisMeal.mealType._id,
+    };
+    axios
+      .put(
+        "http://localhost:5000/meals/update/" + thisMealToSave.id,
+        thisMealToSave
+      )
+      .then((response) => {
+        console.log(response);
+      });
+    thisMeal.thisMealFormState = "viewing";
+    thisMeal.userChangedThisMealsRecipe = false;
+    oldMeal = {};
+    let state = this.state;
+    state[mealType] = thisMeal;
+    state[`${mealType}Old`] = oldMeal;
+    this.setState({ state });
   };
   handleClickCopy = () => {
     console.log("Clicked Copy");
@@ -572,20 +622,17 @@ class DayDetail extends Component {
   };
   handleClickEditOnMeal = (thisMeal) => {
     let state = this.state;
-    console.log(state);
-    state[`${thisMeal}Old`] = state[`${thisMeal}`];
-    console.log(state);
-    let state2 = state;
-    console.log(state2);
-    state2[`${thisMeal}`]["thisMealFormState"] = "editingOrig";
-    state2[`${thisMeal}Old`]["thisMealFormState"] = "editingCopy";
-    console.log(state2);
-    // this.setState({ state });
+    let currentMeal = _.cloneDeep(state[thisMeal]);
+    state[`${thisMeal}Old`] = currentMeal;
+    state[thisMeal]["thisMealFormState"] = "editingOrig";
+    this.setState(state);
   };
   handleCancelMealEdit = (thisMeal) => {
     let state = this.state;
-    state[thisMeal] = state[`${thisMeal}Old`];
-    this.setState({ state });
+    let currentMealRestoredToOld = _.cloneDeep(state[`${thisMeal}Old`]);
+    state[thisMeal] = currentMealRestoredToOld;
+    state[`${thisMeal}Old`] = {};
+    this.setState(state);
   };
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
@@ -986,8 +1033,8 @@ class DayDetail extends Component {
                                   key={this.state.breakfast.thisMeal._id}
                                   thisMeal={this.state.breakfast}
                                   userType={this.state.userType}
-                                  onSubmitFormChange={
-                                    this.handleSubmitFormChange
+                                  onSubmitMealFormChange={
+                                    this.handleSubmitMealFormChange
                                   }
                                   onClickEdit={this.handleClickEditOnMeal}
                                   onCancel={this.handleCancelMealEdit}
@@ -1018,8 +1065,8 @@ class DayDetail extends Component {
                                   key={this.state.lunch.thisMeal._id}
                                   thisMeal={this.state.lunch}
                                   userType={this.state.userType}
-                                  onSubmitFormChange={
-                                    this.handleSubmitFormChange
+                                  onSubmitMealFormChange={
+                                    this.handleSubmitMealFormChange
                                   }
                                   onClickEdit={this.handleClickEditOnMeal}
                                   onCancel={this.handleCancelMealEdit}

@@ -49,6 +49,7 @@ const MealDetail2 = (props) => {
       >
         <div className="macroTblCntnr">
           <MacrosTable2
+            key={"MTbleForMeal" + props.thisMeal.thisMeal._id}
             tableType={"Meal Macros"}
             macrosBudget={props.thisMeal.thisMealsMacrosBudget}
             breakfastIngrdnts={
@@ -89,6 +90,7 @@ const MealDetail2 = (props) => {
               <div className="mealGenRecipeSctnHdr">
                 <h5 className="formSctnTitle">Meal</h5>
                 <EditOptions
+                  key={"EOptionsForMeal" + props.thisMeal.thisMeal._id}
                   parentObj={props.thisMeal.thisMeal.mealType.code}
                   userType={props.userType}
                   thisFormState={props.thisMeal.thisMealFormState}
@@ -147,7 +149,6 @@ const MealDetail2 = (props) => {
                 ) : (
                   ""
                 )}
-                {/* {props.showChangeRecipeWarning()} */}
               </div>
             </div>
             <div className="card-body mealCardBody">
@@ -504,8 +505,8 @@ const MealDetail2 = (props) => {
                 {props.thisMeal.thisMealsIngrdnts.map((mealIngredient) => {
                   return (
                     <MealIngredientDetail
-                      thisMealIngredient={mealIngredient}
                       key={mealIngredient._id}
+                      thisMealIngredient={mealIngredient}
                       onUpdateMealIngrdntQty={props.onUpdateMealIngrdntQty}
                       findChangeMealIngrdntByIndex={
                         props.findChangeMealIngrdntByIndex
