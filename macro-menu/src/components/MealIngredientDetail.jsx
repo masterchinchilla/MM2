@@ -40,13 +40,6 @@ class MealIngredientDetail extends Component {
     thisMealIngredient.qty = e.target.value;
     this.props.findChangeMealIngrdntByIndex(thisMealIngredient, "update");
   };
-  lockUnlockAdminMenus = () => {
-    if (this.state.userType == "admin") {
-      return <FontAwesomeIcon icon="fa-solid fa-lock-open" />;
-    } else {
-      return <FontAwesomeIcon icon="fa-solid fa-lock" />;
-    }
-  };
   onClickCopy = (parentObj) => {
     if (parentObj == "mealIngredient") {
       this.setState({ mealIngrdntFormState: "editingCopy" });
@@ -147,7 +140,11 @@ class MealIngredientDetail extends Component {
                     aria-controls="collapseOne"
                     disabled={this.state.userType == "admin" ? false : true}
                   >
-                    {this.lockUnlockAdminMenus()}
+                    {this.props.userType === "admin" ? (
+                      <FontAwesomeIcon icon="fa-solid fa-lock-open" />
+                    ) : (
+                      <FontAwesomeIcon icon="fa-solid fa-lock" />
+                    )}
                   </button>
                 </h2>
               </div>
@@ -269,7 +266,11 @@ class MealIngredientDetail extends Component {
                     aria-controls="collapseOne"
                     disabled={this.state.userType == "admin" ? false : true}
                   >
-                    {this.lockUnlockAdminMenus()}
+                    {this.props.userType === "admin" ? (
+                      <FontAwesomeIcon icon="fa-solid fa-lock-open" />
+                    ) : (
+                      <FontAwesomeIcon icon="fa-solid fa-lock" />
+                    )}
                   </button>
                 </h2>
               </div>
@@ -597,7 +598,11 @@ class MealIngredientDetail extends Component {
                         aria-controls="collapseOne"
                         disabled={this.state.userType == "admin" ? false : true}
                       >
-                        {this.lockUnlockAdminMenus()}
+                        {this.props.userType === "admin" ? (
+                          <FontAwesomeIcon icon="fa-solid fa-lock-open" />
+                        ) : (
+                          <FontAwesomeIcon icon="fa-solid fa-lock" />
+                        )}
                       </button>
                     </h2>
                   </div>

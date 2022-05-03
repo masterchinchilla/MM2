@@ -164,6 +164,7 @@ class MealOrNewMeal extends Component {
             }
             userHasChangedRecipe={this.props.userHasChangedRecipe}
             mealFormState={this.props.mealFormState}
+            lockUnlockAdminMenus={this.props.lockUnlockAdminMenus}
           />
         );
       }

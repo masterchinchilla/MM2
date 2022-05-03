@@ -205,6 +205,9 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   }
+  getRndInteger = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
   getAllMealTypes = () => {
     axios.get("http://localhost:5000/mealTypes/").then((response) => {
       this.setState({ mealTypes: response.data.map((mealType) => mealType) });
@@ -224,22 +227,22 @@ export default class WeekMealPlanDetail extends Component {
         allGenRecipes: response.data.map((genRecipe) => genRecipe),
         //Note how the syntax for this combined setState and filter function must be EXACT or it produces an error - no extra brackets, paretheses, commas, semicolons, spaces, etc. It's fucking ridiculous
         allBreakfastRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType == "Breakfast"
+          (genRecipe) => genRecipe.availableMealType.code === "breakfast"
         ),
         allSnack1Recipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType == "Snack 1"
+          (genRecipe) => genRecipe.availableMealType.code === "snack1"
         ),
         allLunchRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType == "Lunch"
+          (genRecipe) => genRecipe.availableMealType.code === "lunch"
         ),
         allSnack2Recipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType == "Snack 2"
+          (genRecipe) => genRecipe.availableMealType.code === "snack2"
         ),
         allDinnerRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType == "Dinner"
+          (genRecipe) => genRecipe.availableMealType.code === "dinner"
         ),
         allDessertRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType == "Dessert"
+          (genRecipe) => genRecipe.availableMealType.code === "dessert"
         ),
       });
     });
@@ -788,6 +791,7 @@ export default class WeekMealPlanDetail extends Component {
                       allGRFUsers={this.state.allGRFUsers}
                       allDays={this.state.allDays}
                       allBreakfastRecipes={this.state.allBreakfastRecipes}
+                      allLunchRecipes={this.state.allLunchRecipes}
                       mealTypes={this.state.mealTypes}
                       macrosBudget={{
                         cals: this.state.cals,
@@ -804,6 +808,7 @@ export default class WeekMealPlanDetail extends Component {
                         dinnerWeight: this.state.dinnerWeight,
                         dessertWeight: this.state.dessertWeight,
                       }}
+                      getRndInteger={this.getRndInteger}
                     />
                     {this.renderDay(this.state.mon, "Monday", "mon")}
                     {this.renderDay(this.state.tues, "Tuesday", "tues")}

@@ -18,7 +18,6 @@ const MacrosTable = (props) => {
     props.dinnerIngrdnts ? props.dinnerIngrdnts : [],
     props.dessertIngrdnts ? props.dessertIngrdnts : [],
   ];
-  console.log(thisDaysMealsIngrdnts);
   for (let i = 0; i < thisDaysMealsIngrdnts.length; i++) {
     let thisMealTypesIngrdnts = thisDaysMealsIngrdnts[i];
     for (let i = 0; i < thisMealTypesIngrdnts.length; i++) {

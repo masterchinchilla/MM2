@@ -390,13 +390,6 @@ class MealDetail extends Component {
         });
     }
   };
-  lockUnlockAdminMenus = () => {
-    if (this.state.userType == "admin") {
-      return <FontAwesomeIcon icon="fa-solid fa-lock-open" />;
-    } else {
-      return <FontAwesomeIcon icon="fa-solid fa-lock" />;
-    }
-  };
   findChangeMealIngrdntByIndex = (thisMealIngrdnt, method) => {
     let thisMealIngrdntIndex;
     let thisMealsIngrdnts = this.state.thisMealsMealIngrdntsCurrent;
@@ -580,7 +573,11 @@ class MealDetail extends Component {
                             this.state.userType == "admin" ? false : true
                           }
                         >
-                          {this.lockUnlockAdminMenus()}
+                          {this.state.userType === "admin" ? (
+                            <FontAwesomeIcon icon="fa-solid fa-lock-open" />
+                          ) : (
+                            <FontAwesomeIcon icon="fa-solid fa-lock" />
+                          )}
                         </button>
                       </h2>
                     </div>
@@ -801,7 +798,11 @@ class MealDetail extends Component {
                                 this.state.userType == "admin" ? false : true
                               }
                             >
-                              {this.lockUnlockAdminMenus()}
+                              {this.state.userType === "admin" ? (
+                                <FontAwesomeIcon icon="fa-solid fa-lock-open" />
+                              ) : (
+                                <FontAwesomeIcon icon="fa-solid fa-lock" />
+                              )}
                             </button>
                           </h2>
                         </div>
