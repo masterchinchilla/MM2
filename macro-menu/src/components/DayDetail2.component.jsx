@@ -20,25 +20,35 @@ class DayDetail extends Component {
       data: false,
       thisFormState: "viewing",
       userType: "admin",
+      mealDefaults: this.props.mealDefaults,
       breakfast: {
         thisMealJustCreated: false,
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
-        thisMeal: {
-          _id: "missing",
-          day: this.props.thisDay,
-          genRecipe: {
-            _id: "tempBreakfastRecipe1Id",
-            name: "tempBreakfastRecipe1Name",
-            availableMealType: { code: "breakfast", name: "Breakfast" },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-          prepInstructions: "",
-          mealType: { code: "breakfast", name: "Breakfast" },
-        },
+        thisMeal: this.props.mealDefaults.breakfast.thisMeal,
+        // thisMeal: {
+        //   _id: "missing",
+        //   day: this.props.thisDay,
+        //   genRecipe: {
+        //     _id: "tempBreakfastRecipe1Id",
+        //     name: "tempBreakfastRecipe1Name",
+        //     availableMealType: {
+        //       _id: "626dd6fc21888432c0fe3e90",
+        //       code: "breakfast",
+        //       name: "Breakfast",
+        //     },
+        //     GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        //     defaultPrepInstructions: "",
+        //     photoUrl: "",
+        //   },
+        //   prepInstructions: "",
+        //   mealType: {
+        //     _id: "626dd6fc21888432c0fe3e90",
+        //     code: "breakfast",
+        //     name: "Breakfast",
+        //   },
+        // },
         thisMealsIngrdnts: [
           {
             _id: "missing",
@@ -61,7 +71,11 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempBreakfastRecipe1Id",
                 name: "tempBreakfastRecipe1Name",
-                availableMealType: { code: "breakfast", name: "Breakfast" },
+                availableMealType: {
+                  _id: "626dd6fc21888432c0fe3e90",
+                  code: "breakfast",
+                  name: "Breakfast",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
@@ -74,13 +88,21 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempBreakfastRecipe1Id",
                 name: "tempBreakfastRecipe1Name",
-                availableMealType: { code: "breakfast", name: "Breakfast" },
+                availableMealType: {
+                  _id: "626dd6fc21888432c0fe3e90",
+                  code: "breakfast",
+                  name: "Breakfast",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
               },
               prepInstructions: "",
-              mealType: { code: "breakfast", name: "Breakfast" },
+              mealType: {
+                _id: "626dd6fc21888432c0fe3e90",
+                code: "breakfast",
+                name: "Breakfast",
+              },
             },
           },
         ],
@@ -115,13 +137,21 @@ class DayDetail extends Component {
           genRecipe: {
             _id: "tempSnack1Recipe1Id",
             name: "tempSnack1Recipe1Name",
-            availableMealType: { code: "snack1", name: "Snack 1" },
+            availableMealType: {
+              _id: "626ddf9e21888432c0fe3e91",
+              code: "snack1",
+              name: "Snack 1",
+            },
             GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
             defaultPrepInstructions: "",
             photoUrl: "",
           },
           prepInstructions: "",
-          mealType: { code: "snack1", name: "Snack 1" },
+          mealType: {
+            _id: "626ddf9e21888432c0fe3e91",
+            code: "snack1",
+            name: "Snack 1",
+          },
         },
         thisMealsIngrdnts: [
           {
@@ -145,7 +175,11 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempSnack1Recipe1Id",
                 name: "tempSnack1Recipe1Name",
-                availableMealType: { code: "snack1", name: "Snack 1" },
+                availableMealType: {
+                  _id: "626ddf9e21888432c0fe3e91",
+                  code: "snack1",
+                  name: "Snack 1",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
@@ -158,13 +192,21 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempSnack1Recipe1Id",
                 name: "tempSnack1Recipe1Name",
-                availableMealType: { code: "snack1", name: "Snack 1" },
+                availableMealType: {
+                  _id: "626ddf9e21888432c0fe3e91",
+                  code: "snack1",
+                  name: "Snack 1",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
               },
               prepInstructions: "",
-              mealType: { code: "snack1", name: "Snack 1" },
+              mealType: {
+                _id: "626ddf9e21888432c0fe3e91",
+                code: "snack1",
+                name: "Snack 1",
+              },
             },
           },
         ],
@@ -199,13 +241,21 @@ class DayDetail extends Component {
           genRecipe: {
             _id: "tempLunchRecipe1Id",
             name: "tempLunchRecipe1Name",
-            availableMealType: { code: "lunch", name: "Lunch" },
+            availableMealType: {
+              _id: "626ddfb721888432c0fe3e92",
+              code: "lunch",
+              name: "Lunch",
+            },
             GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
             defaultPrepInstructions: "",
             photoUrl: "",
           },
           prepInstructions: "",
-          mealType: { code: "lunch", name: "Lunch" },
+          mealType: {
+            _id: "626ddfb721888432c0fe3e92",
+            code: "lunch",
+            name: "Lunch",
+          },
         },
         thisMealsIngrdnts: [
           {
@@ -229,7 +279,11 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempLunchRecipe1Id",
                 name: "tempLunchRecipe1Name",
-                availableMealType: { code: "lunch", name: "Lunch" },
+                availableMealType: {
+                  _id: "626ddfb721888432c0fe3e92",
+                  code: "lunch",
+                  name: "Lunch",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
@@ -242,13 +296,21 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempLunchRecipe1Id",
                 name: "tempLunchRecipe1Name",
-                availableMealType: { code: "lunch", name: "Lunch" },
+                availableMealType: {
+                  _id: "626ddfb721888432c0fe3e92",
+                  code: "lunch",
+                  name: "Lunch",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
               },
               prepInstructions: "",
-              mealType: { code: "lunch", name: "Lunch" },
+              mealType: {
+                _id: "626ddfb721888432c0fe3e92",
+                code: "lunch",
+                name: "Lunch",
+              },
             },
           },
         ],
@@ -283,13 +345,21 @@ class DayDetail extends Component {
           genRecipe: {
             _id: "tempSnack2Recipe1Id",
             name: "tempSnack2Recipe1Name",
-            availableMealType: { code: "snack2", name: "Snack 2" },
+            availableMealType: {
+              _id: "626ddfcb21888432c0fe3e93",
+              code: "snack2",
+              name: "Snack 2",
+            },
             GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
             defaultPrepInstructions: "",
             photoUrl: "",
           },
           prepInstructions: "",
-          mealType: { code: "snack2", name: "Snack 2" },
+          mealType: {
+            _id: "626ddfcb21888432c0fe3e93",
+            code: "snack2",
+            name: "Snack 2",
+          },
         },
         thisMealsIngrdnts: [
           {
@@ -313,7 +383,11 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempSnack2Recipe1Id",
                 name: "tempSnack2Recipe1Name",
-                availableMealType: { code: "snack2", name: "Snack 2" },
+                availableMealType: {
+                  _id: "626ddfcb21888432c0fe3e93",
+                  code: "snack2",
+                  name: "Snack 2",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
@@ -326,13 +400,21 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempSnack2Recipe1Id",
                 name: "tempSnack2Recipe1Name",
-                availableMealType: { code: "snack2", name: "Snack 2" },
+                availableMealType: {
+                  _id: "626ddfcb21888432c0fe3e93",
+                  code: "snack2",
+                  name: "Snack 2",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
               },
               prepInstructions: "",
-              mealType: { code: "snack2", name: "Snack 2" },
+              mealType: {
+                _id: "626ddfcb21888432c0fe3e93",
+                code: "snack2",
+                name: "Snack 2",
+              },
             },
           },
         ],
@@ -367,13 +449,21 @@ class DayDetail extends Component {
           genRecipe: {
             _id: "tempDinnerRecipe1Id",
             name: "tempDinnerRecipe1Name",
-            availableMealType: { code: "dinner", name: "Dinner" },
+            availableMealType: {
+              _id: "626ddfdc21888432c0fe3e94",
+              code: "dinner",
+              name: "Dinner",
+            },
             GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
             defaultPrepInstructions: "",
             photoUrl: "",
           },
           prepInstructions: "",
-          mealType: { code: "dinner", name: "Dinner" },
+          mealType: {
+            _id: "626ddfdc21888432c0fe3e94",
+            code: "dinner",
+            name: "Dinner",
+          },
         },
         thisMealsIngrdnts: [
           {
@@ -397,7 +487,11 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempDinnerRecipe1Id",
                 name: "tempDinnerRecipe1Name",
-                availableMealType: { code: "dinner", name: "Dinner" },
+                availableMealType: {
+                  _id: "626ddfdc21888432c0fe3e94",
+                  code: "dinner",
+                  name: "Dinner",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
@@ -410,13 +504,21 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempDinnerRecipe1Id",
                 name: "tempDinnerRecipe1Name",
-                availableMealType: { code: "dinner", name: "Dinner" },
+                availableMealType: {
+                  _id: "626ddfdc21888432c0fe3e94",
+                  code: "dinner",
+                  name: "Dinner",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
               },
               prepInstructions: "",
-              mealType: { code: "dinner", name: "Dinner" },
+              mealType: {
+                _id: "626ddfdc21888432c0fe3e94",
+                code: "dinner",
+                name: "Dinner",
+              },
             },
           },
         ],
@@ -451,13 +553,21 @@ class DayDetail extends Component {
           genRecipe: {
             _id: "tempDessertRecipe1Id",
             name: "tempDessertRecipe1Name",
-            availableMealType: { code: "dessert", name: "Dessert" },
+            availableMealType: {
+              _id: "626ddfee21888432c0fe3e95",
+              code: "dessert",
+              name: "Dessert",
+            },
             GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
             defaultPrepInstructions: "",
             photoUrl: "",
           },
           prepInstructions: "",
-          mealType: { code: "dessert", name: "Dessert" },
+          mealType: {
+            _id: "626ddfee21888432c0fe3e95",
+            code: "dessert",
+            name: "Dessert",
+          },
         },
         thisMealsIngrdnts: [
           {
@@ -481,7 +591,11 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempDessertRecipe1Id",
                 name: "tempDessertRecipe1Name",
-                availableMealType: { code: "dessert", name: "Dessert" },
+                availableMealType: {
+                  _id: "626ddfee21888432c0fe3e95",
+                  code: "dessert",
+                  name: "Dessert",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
@@ -494,13 +608,21 @@ class DayDetail extends Component {
               genRecipe: {
                 _id: "tempDessertRecipe1Id",
                 name: "tempDessertRecipe1Name",
-                availableMealType: { code: "dessert", name: "Dessert" },
+                availableMealType: {
+                  _id: "626ddfee21888432c0fe3e95",
+                  code: "dessert",
+                  name: "Dessert",
+                },
                 GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
                 defaultPrepInstructions: "",
                 photoUrl: "",
               },
               prepInstructions: "",
-              mealType: { code: "dessert", name: "Dessert" },
+              mealType: {
+                _id: "626ddfee21888432c0fe3e95",
+                code: "dessert",
+                name: "Dessert",
+              },
             },
           },
         ],
@@ -538,15 +660,25 @@ class DayDetail extends Component {
   }
   componentDidMount() {
     this.loadData();
+    let state = this.state;
+    let mealTypes = this.props.mealTypes;
+    for (let i = 0; i < mealTypes.length; i++) {
+      state.mealDefaults[mealTypes[i].code]["thisMeal"]["day"] =
+        this.props.thisDay;
+      state.mealDefaults[mealTypes[i].code]["thisMealsIngrdnts"][0]["day"] =
+        this.props.thisDay;
+    }
+    // state.mealDefaults.breakfast.thisMeal.day = this.props.thisDay;
+    // state.mealDefaults.breakfast.thisMealsIngrdnts[0].day = this.props.thisDay;
   }
   loadData() {
     axios
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
       )
-      .then((response) => this.updateMeals(response.data, [], false));
+      .then((response) => this.updateMealsFromDB(response.data, [], false));
   }
-  updateMeals = (meals, newMealIngredients, mealsState) => {
+  updateMealsFromDB = (meals, newMealIngredients, mealsState) => {
     if (meals.length === 0) {
       this.setState({ data: true });
     } else {
@@ -558,6 +690,7 @@ class DayDetail extends Component {
       this.setState({ state });
     }
   };
+  updateRequisite = () => {};
   fetchDayMealsIngrdnts = (meal) => {
     axios
       .get(
@@ -623,7 +756,7 @@ class DayDetail extends Component {
           });
       }
       thisMeal.thisMealsIngrdnts = newMealIngrdnts;
-      if (oldMeal !== {}) {
+      if (oldMeal.thisMeal !== undefined) {
         //this conditional is returning false even when it seems to be true, need to find out why...
         let oldMealIngrdnts = oldMeal.thisMealsIngrdnts;
         for (let i = 0; i < oldMealIngrdnts.length; i++) {
@@ -652,6 +785,8 @@ class DayDetail extends Component {
       });
     thisMeal.thisMealFormState = "viewing";
     thisMeal.userChangedThisMealsRecipe = false;
+    thisMeal.thisMealJustCreated = false;
+    thisMeal.recordChanged = false;
     oldMeal = {};
     let state = this.state;
     state[mealType] = thisMeal;
@@ -686,11 +821,13 @@ class DayDetail extends Component {
     state[newMeal.mealType.code]["thisMeal"] = newMeal;
     state[newMeal.mealType.code]["thisMealJustCreated"] = true;
     state[newMeal.mealType.code]["thisMealFormState"] = "editingOrig";
+    // state[newMeal.mealType.code]["recordChanged"] = true;
     const newMealToSave = {
       day: newMeal.day._id,
       genRecipe: newMeal.genRecipe._id,
       mealType: newMeal.mealType._id,
     };
+    console.log(newMeal);
     this.setState({ state });
     axios
       .post("http://localhost:5000/meals/add", newMealToSave)
@@ -698,7 +835,7 @@ class DayDetail extends Component {
         (() => {
           let newMealData = response.data;
           let state = this.state;
-          state[newMealData.mealType.code]["thisMeal"]["_id"] = newMealData._id;
+          state[newMeal.mealType.code]["thisMeal"]["_id"] = newMealData._id;
           this.setState({ state });
         })()
       );
@@ -800,62 +937,26 @@ class DayDetail extends Component {
         .then((response) => console.log(response));
     }
   };
-  handleDeleteMeal = (thisMeal) => {
+  handleDeleteMeal = (thisMealType) => {
+    let mealToDelete = this.state[thisMealType]["thisMeal"];
+    let mealIngrdntsToDelete = this.state[thisMealType]["thisMealsIngrdnts"];
+    for (let i = 0; i < mealIngrdntsToDelete.length; i++) {
+      let thisMealIngrdnt = mealIngrdntsToDelete[i]._id;
+      axios
+        .delete("http://localhost:5000/mealIngredients/" + thisMealIngrdnt)
+        .then((response) => console.log(response));
+    }
     axios
-      .delete("http://localhost:5000/meals/" + thisMeal._id)
-      .then((response) => {
-        console.log(response);
-        switch (thisMeal.mealType) {
-          case "Breakfast":
-            this.setState({
-              breakfast: {
-                _id: "missing",
-              },
-              breakfastIngrdnts: [],
-            });
-            break;
-          case "Snack 1":
-            this.setState({
-              snack1: {
-                _id: "missing",
-              },
-              snack1Ingrdnts: [],
-            });
-            break;
-          case "Lunch":
-            this.setState({
-              lunch: {
-                _id: "missing",
-              },
-              lunchIngrdnts: [],
-            });
-            break;
-          case "Snack 2":
-            this.setState({
-              snack2: {
-                _id: "missing",
-              },
-              snack2Ingrdnts: [],
-            });
-            break;
-          case "Dinner":
-            this.setState({
-              dinner: {
-                _id: "missing",
-              },
-              dinnerIngrdnts: [],
-            });
-            break;
-          case "Dessert":
-            this.setState({
-              dessert: {
-                _id: "missing",
-              },
-              dessertIngrdnts: [],
-            });
-            break;
-        }
-      });
+      .delete("http://localhost:5000/meals/" + mealToDelete._id)
+      .then((response) => console.log(response));
+    let state = this.state;
+    state[thisMealType] = this.props.mealDefaults[thisMealType];
+    state[thisMealType]["thisRecipesIngrdnts"] =
+      this.state[thisMealType]["thisRecipesIngrdnts"];
+    state[thisMealType]["thisMealsMacrosBudget"] =
+      this.state[thisMealType]["thisMealsMacrosBudget"];
+    console.log(state);
+    this.setState({ state });
   };
   handleClickDeleteDay = () => {
     if (
@@ -1079,13 +1180,12 @@ class DayDetail extends Component {
                                 {this.state.breakfast.thisMeal._id ===
                                 "missing" ? (
                                   <CreateMeal2
-                                    mealType={{
-                                      code: "breakfast",
-                                      name: "Breakfast",
-                                    }}
+                                    mealType={
+                                      this.state.breakfast.thisMeal.mealType
+                                    }
                                     thisDay={this.props.thisDay}
                                     getRndInteger={this.props.getRndInteger}
-                                    onCreateMeal={this.onCreateMeal}
+                                    onCreateMeal={this.handleCreateMeal}
                                   />
                                 ) : (
                                   <MealDetail2
@@ -1097,7 +1197,7 @@ class DayDetail extends Component {
                                     }
                                     onClickEdit={this.handleClickEditOnMeal}
                                     onCancel={this.handleCancelMealEdit}
-                                    onDelete={this.handleDeleteMeal}
+                                    onDeleteMeal={this.handleDeleteMeal}
                                     thisMealOld={this.state.breakfastOld}
                                     onChangeMealRecipe={
                                       this.handleChangeMealRecipe
@@ -1128,13 +1228,12 @@ class DayDetail extends Component {
                                 )}
                                 {this.state.lunch.thisMeal._id === "missing" ? (
                                   <CreateMeal2
-                                    mealType={{
-                                      code: "lunch",
-                                      name: "Lunch",
-                                    }}
+                                    mealType={
+                                      this.state.lunch.thisMeal.mealType
+                                    }
                                     thisDay={this.props.thisDay}
                                     getRndInteger={this.props.getRndInteger}
-                                    onCreateMeal={this.onCreateMeal}
+                                    onCreateMeal={this.handleCreateMeal}
                                   />
                                 ) : (
                                   <MealDetail2
@@ -1146,7 +1245,7 @@ class DayDetail extends Component {
                                     }
                                     onClickEdit={this.handleClickEditOnMeal}
                                     onCancel={this.handleCancelMealEdit}
-                                    onDelete={this.handleDeleteMeal}
+                                    onDeleteMeal={this.handleDeleteMeal}
                                     thisMealOld={this.state.lunchOld}
                                     onChangeMealRecipe={
                                       this.handleChangeMealRecipe
@@ -1178,13 +1277,12 @@ class DayDetail extends Component {
                                 {this.state.snack2.thisMeal._id ===
                                 "missing" ? (
                                   <CreateMeal2
-                                    mealType={{
-                                      code: "snack2",
-                                      name: "Snack2",
-                                    }}
+                                    mealType={
+                                      this.state.snack2.thisMeal.mealType
+                                    }
                                     thisDay={this.props.thisDay}
                                     getRndInteger={this.props.getRndInteger}
-                                    onCreateMeal={this.onCreateMeal}
+                                    onCreateMeal={this.handleCreateMeal}
                                   />
                                 ) : (
                                   <MealDetail2
@@ -1196,7 +1294,7 @@ class DayDetail extends Component {
                                     }
                                     onClickEdit={this.handleClickEditOnMeal}
                                     onCancel={this.handleCancelMealEdit}
-                                    onDelete={this.handleDeleteMeal}
+                                    onDeleteMeal={this.handleDeleteMeal}
                                     thisMealOld={this.state.snack2Old}
                                     onChangeMealRecipe={
                                       this.handleChangeMealRecipe

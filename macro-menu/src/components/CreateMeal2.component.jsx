@@ -9,19 +9,18 @@ const CreateMeal2 = (props) => {
     dinnerId: "62577f8b6682e3955e98b1d3",
     dessertId: "62577f9c6682e3955e98b1d4",
   };
-  const thisMealType = props.mealType;
-  const thisDefaultRecipeId = defaultRecipeIds[`${thisMealType}Id`];
+  const thisDefaultRecipeId = defaultRecipeIds[`${props.mealType.code}Id`];
   const thisDefaultGenRecipe = {
     _id: thisDefaultRecipeId,
     name: " ",
-    availableMealType: thisMealType,
+    availableMealType: props.mealType,
     GRFUser: "62577a533813f4f21c27e1c7",
     defaultPrepInstructions: "",
     photoURL: "",
   };
   const newMeal = {
     day: props.thisDay,
-    mealType: thisMealType,
+    mealType: props.mealType,
     genRecipe: thisDefaultGenRecipe,
   };
   const idForBSElements = props.getRndInteger(10000000, 99999999);
@@ -43,7 +42,7 @@ const CreateMeal2 = (props) => {
             aria-expanded="true"
             aria-controls="collapseOne"
           >
-            <h5>{props.thisDay.dayOfWeek + " " + thisMealType.name}</h5>
+            <h5>{props.thisDay.dayOfWeek + " " + props.mealType.name}</h5>
           </button>
         </h2>
         {props.dayUserType === "viewer" ? (

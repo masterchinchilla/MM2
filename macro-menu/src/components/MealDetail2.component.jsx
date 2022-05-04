@@ -143,7 +143,7 @@ const MealDetail2 = (props) => {
                   onClickEdit={props.onClickEdit}
                   recordChanged={props.thisMeal.recordChanged}
                   onCancel={props.onCancel}
-                  onDelete={props.onDelete}
+                  onDelete={props.onDeleteMeal}
                   deleteMsg={deleteMsg}
                 />
               </div>
@@ -181,7 +181,8 @@ const MealDetail2 = (props) => {
                     );
                   })}
                 </select>
-                {props.thisMeal.userChangedThisMealsRecipe === true ? (
+                {props.thisMeal.userChangedThisMealsRecipe === true &&
+                props.thisMeal.thisMealJustCreated === false ? (
                   <div
                     className="alert alert-warning recipeWarning"
                     role="alert"
