@@ -828,13 +828,12 @@ class DayDetail extends Component {
   showChangeRecipeWarning = () => {
     console.log("Show Change Recipe Warning");
   };
-  handleChangeMealRecipe = (mealType, e) => {
-    let newSelectedRecipe = e.target.value;
+  populateNewMealIngredients = (mealType, thisRecipeId) => {
     let thisMeal = this.state[mealType]["thisMeal"];
     axios
       .get(
         "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
-          newSelectedRecipe
+          thisRecipeId
       )
       .then((response) => {
         const thisGenRecipesGenRecipeIngrdnts = response.data.map(
@@ -852,13 +851,25 @@ class DayDetail extends Component {
           thisMealsNewMealIngrdnts.push(newMealIngredient);
         }
         let state = this.state;
-        state[mealType]["thisMeal"]["genRecipe"] =
-          thisGenRecipesGenRecipeIngrdnts[0].genRecipe;
         state[mealType]["thisMealsIngrdnts"] = thisMealsNewMealIngrdnts;
-        state[mealType]["userChangedThisMealsRecipe"] = true;
+        state[mealType]["thisMealFormState"] = "editingOrig";
         this.setState({ state });
       });
   };
+  handleChangeMealRecipe = (mealType, e) => {
+    let thisRecipeId = e.target.value;
+    axios
+      .get("http://localhost:5000/genRecipes/" + thisRecipeId)
+      .then((response) => {
+        let thisRecipe = response.data;
+        let state = this.state;
+        state[mealType]["thisMeal"]["genRecipe"] = thisRecipe;
+        state[mealType]["userChangedThisMealsRecipe"] = true;
+        this.setState({ state });
+        this.populateNewMealIngredients(mealType, thisRecipeId);
+      });
+  };
+  // state[mealType]["thisMeal"]["genRecipe"] = thisGenRecipesGenRecipeIngrdnts[0].genRecipe;
   render() {
     if (this.state.data === false) {
       return <div className="spinner-border text-primary" role="status"></div>;
@@ -1046,6 +1057,9 @@ class DayDetail extends Component {
                                   showChangeRecipeWarning={
                                     this.showChangeRecipeWarning
                                   }
+                                  populateNewMealIngredients={
+                                    this.populateNewMealIngredients
+                                  }
                                   thisMealTypesGenRecipes={
                                     this.props.allBreakfastRecipes
                                   }
@@ -1077,6 +1091,9 @@ class DayDetail extends Component {
                                   }
                                   showChangeRecipeWarning={
                                     this.showChangeRecipeWarning
+                                  }
+                                  populateNewMealIngredients={
+                                    this.populateNewMealIngredients
                                   }
                                   thisMealTypesGenRecipes={
                                     this.props.allLunchRecipes
