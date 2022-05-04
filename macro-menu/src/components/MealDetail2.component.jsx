@@ -13,6 +13,51 @@ const MealDetail2 = (props) => {
   function onChange() {
     console.log("Changed");
   }
+  function renderMealIngrdnts() {
+    if (props.thisMeal.thisMealsIngrdnts.length > 0) {
+      return props.thisMeal.thisMealsIngrdnts.map((mealIngredient) => {
+        return (
+          <MealIngredientDetail
+            key={mealIngredient._id}
+            thisMealIngredient={mealIngredient}
+            onUpdateMealIngrdntQty={props.onUpdateMealIngrdntQty}
+            findChangeMealIngrdntByIndex={props.findChangeMealIngrdntByIndex}
+            onDelete={props.onDelete}
+            allGRFUsers={props.allGRFUsers}
+          />
+        );
+      });
+    } else {
+      if (props.userType === "viewer") {
+        return <em>This meal does not have any ingredients...</em>;
+      } else {
+        if (props.thisMeal.thisRecipesIngrdnts.length < 1) {
+          return <em>This recipe does not have any ingredients...</em>;
+        } else {
+          if (props.thisMeal.thisMealJustCreated === true) {
+            return;
+          } else {
+            return (
+              <div className="form-group mt-4 mb-4">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    props.populateNewMealIngredients(
+                      props.thisMeal.thisMeal.mealType.code,
+                      props.thisMeal.thisMeal.genRecipe._id
+                    );
+                  }}
+                >
+                  Populate Ingredients
+                </button>
+              </div>
+            );
+          }
+        }
+      }
+    }
+  }
   return (
     <div
       className="accordion accordionNotFlush mealDetailTopAccrdn"
@@ -96,9 +141,7 @@ const MealDetail2 = (props) => {
                   thisFormState={props.thisMeal.thisMealFormState}
                   onSubmitFormChange={props.onSubmitMealFormChange}
                   onClickEdit={props.onClickEdit}
-                  userHasChangedRecipe={
-                    props.thisMeal.userHasChangedThisMealsRecipe
-                  }
+                  recordChanged={props.thisMeal.recordChanged}
                   onCancel={props.onCancel}
                   onDelete={props.onDelete}
                   deleteMsg={deleteMsg}
@@ -480,45 +523,8 @@ const MealDetail2 = (props) => {
               </div>
             </div>
           </form> */}
-          {props.thisMeal.thisMealsIngrdnts.length < 1 &&
-          props.thisMeal.thisMealJustCreated === false ? (
-            <React.Fragment>
-              <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
-              <div className="mlIngrdntsCntnr">
-                <div className="form-group mt-4 mb-4">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      props.onChangeMealRecipe(0, true);
-                    }}
-                  >
-                    Populate Ingredients
-                  </button>
-                </div>
-              </div>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
-              <div className="mlIngrdntsCntnr">
-                {props.thisMeal.thisMealsIngrdnts.map((mealIngredient) => {
-                  return (
-                    <MealIngredientDetail
-                      key={mealIngredient._id}
-                      thisMealIngredient={mealIngredient}
-                      onUpdateMealIngrdntQty={props.onUpdateMealIngrdntQty}
-                      findChangeMealIngrdntByIndex={
-                        props.findChangeMealIngrdntByIndex
-                      }
-                      onDelete={props.onDelete}
-                      allGRFUsers={props.allGRFUsers}
-                    />
-                  );
-                })}
-              </div>
-            </React.Fragment>
-          )}
+          <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
+          <div className="mlIngrdntsCntnr">{renderMealIngrdnts()}</div>
         </div>
       </div>
     </div>

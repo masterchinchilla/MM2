@@ -439,6 +439,7 @@ export default class WeekMealPlanDetail extends Component {
           thisFormState="missing"
           onCreateDay={this.handleCreateDay}
           wmpUserType={this.state.userType}
+          getRndInteger={this.getRndInteger}
         />
       );
     } else {
@@ -447,6 +448,7 @@ export default class WeekMealPlanDetail extends Component {
           thisDay={dayToRender}
           weekMealPlanName={this.state.name}
           onDeleteDay={this.handleDeleteDay}
+          getRndInteger={this.getRndInteger}
           key={dayToRender._id}
           macrosBudget={{
             cals: this.state.cals,
@@ -791,7 +793,11 @@ export default class WeekMealPlanDetail extends Component {
                       allGRFUsers={this.state.allGRFUsers}
                       allDays={this.state.allDays}
                       allBreakfastRecipes={this.state.allBreakfastRecipes}
+                      allSnack1Recipes={this.state.allSnack1Recipes}
                       allLunchRecipes={this.state.allLunchRecipes}
+                      allSnack2Recipes={this.state.allSnack2Recipes}
+                      allDinnerRecipes={this.state.allDinnerRecipes}
+                      allDessertRecipes={this.state.allDessertRecipes}
                       mealTypes={this.state.mealTypes}
                       macrosBudget={{
                         cals: this.state.cals,

@@ -22,6 +22,7 @@ class DayDetail extends Component {
       userType: "admin",
       breakfast: {
         thisMealJustCreated: false,
+        recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
         thisMeal: {
@@ -40,6 +41,7 @@ class DayDetail extends Component {
         },
         thisMealsIngrdnts: [
           {
+            _id: "missing",
             qty: 1,
             genRecipeIngredient: {
               defaultQty: 1,
@@ -82,6 +84,7 @@ class DayDetail extends Component {
             },
           },
         ],
+        thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
           cals:
             this.props.macrosBudget.cals *
@@ -103,6 +106,7 @@ class DayDetail extends Component {
       breakfastOld: {},
       snack1: {
         thisMealJustCreated: false,
+        recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
         thisMeal: {
@@ -121,6 +125,7 @@ class DayDetail extends Component {
         },
         thisMealsIngrdnts: [
           {
+            _id: "missing",
             qty: 1,
             genRecipeIngredient: {
               defaultQty: 1,
@@ -163,6 +168,7 @@ class DayDetail extends Component {
             },
           },
         ],
+        thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
           cals:
             this.props.macrosBudget.cals *
@@ -184,6 +190,7 @@ class DayDetail extends Component {
       snack1Old: {},
       lunch: {
         thisMealJustCreated: false,
+        recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
         thisMeal: {
@@ -202,6 +209,7 @@ class DayDetail extends Component {
         },
         thisMealsIngrdnts: [
           {
+            _id: "missing",
             qty: 1,
             genRecipeIngredient: {
               defaultQty: 1,
@@ -244,6 +252,7 @@ class DayDetail extends Component {
             },
           },
         ],
+        thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
           cals:
             this.props.macrosBudget.cals *
@@ -265,6 +274,7 @@ class DayDetail extends Component {
       lunchOld: {},
       snack2: {
         thisMealJustCreated: false,
+        recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
         thisMeal: {
@@ -283,6 +293,7 @@ class DayDetail extends Component {
         },
         thisMealsIngrdnts: [
           {
+            _id: "missing",
             qty: 1,
             genRecipeIngredient: {
               defaultQty: 1,
@@ -325,6 +336,7 @@ class DayDetail extends Component {
             },
           },
         ],
+        thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
           cals:
             this.props.macrosBudget.cals *
@@ -346,6 +358,7 @@ class DayDetail extends Component {
       snack2Old: {},
       dinner: {
         thisMealJustCreated: false,
+        recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
         thisMeal: {
@@ -364,6 +377,7 @@ class DayDetail extends Component {
         },
         thisMealsIngrdnts: [
           {
+            _id: "missing",
             qty: 1,
             genRecipeIngredient: {
               defaultQty: 1,
@@ -406,6 +420,7 @@ class DayDetail extends Component {
             },
           },
         ],
+        thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
           cals:
             this.props.macrosBudget.cals *
@@ -427,6 +442,7 @@ class DayDetail extends Component {
       dinnerOld: {},
       dessert: {
         thisMealJustCreated: false,
+        recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
         thisMeal: {
@@ -445,6 +461,7 @@ class DayDetail extends Component {
         },
         thisMealsIngrdnts: [
           {
+            _id: "missing",
             qty: 1,
             genRecipeIngredient: {
               defaultQty: 1,
@@ -487,6 +504,7 @@ class DayDetail extends Component {
             },
           },
         ],
+        thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
           cals:
             this.props.macrosBudget.cals *
@@ -546,28 +564,48 @@ class DayDetail extends Component {
         "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
           meal._id
       )
-      .then((response) =>
-        this.assignMealIngredientsToState(response.data, meal.mealType.code)
-      );
+      .then((response) => {
+        this.assignMealIngredientsToState(response.data, meal);
+      });
   };
-  assignMealIngredientsToState = (mealMealIngredients, thisMealType) => {
+  assignMealIngredientsToState = (mealMealIngredients, meal) => {
+    let thisMealType = meal.mealType.code;
     let state = this.state;
-    if (mealMealIngredients.length === 0) {
-      state["data"] = true;
-      this.setState({ state });
-      return;
-    } else {
-      state[thisMealType]["thisMealsIngrdnts"] = mealMealIngredients;
-      state["data"] = true;
-      this.setState({ state });
-    }
+    // if (mealMealIngredients.length === 0) {
+    //   state["data"] = true;
+    //   this.setState({ state });
+    // } else {
+    state[thisMealType]["thisMealsIngrdnts"] = mealMealIngredients;
+    state["data"] = true;
+    this.setState({ state });
+    this.fetchRecipesIngrdnts(meal);
+  };
+  fetchRecipesIngrdnts = (meal) => {
+    let thisRecipeId = meal.genRecipe._id;
+    let mealType = meal.mealType.code;
+    axios
+      .get(
+        "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
+          thisRecipeId
+      )
+      .then((response) => {
+        let thisGenRecipesGenRecipeIngrdnts = response.data.map(
+          (genRecipeIngredient) => genRecipeIngredient
+        );
+        let state = this.state;
+        state[mealType]["thisRecipesIngrdnts"] =
+          thisGenRecipesGenRecipeIngrdnts;
+        this.setState({ state });
+      });
   };
   handleSubmitMealFormChange = (mealType) => {
     let thisMeal = this.state[mealType];
     let oldMeal = this.state[`${mealType}Old`];
-    if (thisMeal.userChangedThisMealsRecipe === true) {
+    let pattern = /tempId/;
+    let thisMeals1stTempIngrdntId = thisMeal.thisMealsIngrdnts[0]._id;
+    let testResult = pattern.test(thisMeals1stTempIngrdntId);
+    if (testResult) {
       let newMealIngrdnts = thisMeal.thisMealsIngrdnts;
-      let oldMealIngrdnts = oldMeal.thisMealsIngrdnts;
       for (let i = 0; i < newMealIngrdnts.length; i++) {
         let thisNewMealIngrdnt = newMealIngrdnts[i];
         let newMealIngrdntToSave = {
@@ -585,11 +623,17 @@ class DayDetail extends Component {
           });
       }
       thisMeal.thisMealsIngrdnts = newMealIngrdnts;
-      for (let i = 0; i < oldMealIngrdnts.length; i++) {
-        let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
-        axios
-          .delete("http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt)
-          .then((response) => console.log(response));
+      if (oldMeal !== {}) {
+        //this conditional is returning false even when it seems to be true, need to find out why...
+        let oldMealIngrdnts = oldMeal.thisMealsIngrdnts;
+        for (let i = 0; i < oldMealIngrdnts.length; i++) {
+          let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
+          axios
+            .delete(
+              "http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt
+            )
+            .then((response) => console.log(response));
+        }
       }
     }
     const thisMealToSave = {
@@ -637,22 +681,27 @@ class DayDetail extends Component {
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
   };
-  handleCreateMeal = (meal) => {
-    const newMeal = {
-      day: meal.day._id,
-      genRecipe: meal.genRecipe._id,
-      mealType: meal.mealType,
+  handleCreateMeal = (newMeal) => {
+    let state = this.state;
+    state[newMeal.mealType.code]["thisMeal"] = newMeal;
+    state[newMeal.mealType.code]["thisMealJustCreated"] = true;
+    state[newMeal.mealType.code]["thisMealFormState"] = "editingOrig";
+    const newMealToSave = {
+      day: newMeal.day._id,
+      genRecipe: newMeal.genRecipe._id,
+      mealType: newMeal.mealType._id,
     };
-    axios.post("http://localhost:5000/meals/add", newMeal).then((response) =>
-      (() => {
-        let newMealData = response.data;
-        let state = this.state;
-        state[newMealData.mealType.code][`${newMealData.mealType.code}Meal`][
-          "_id"
-        ] = newMealData._id;
-        this.setState({ state });
-      })()
-    );
+    this.setState({ state });
+    axios
+      .post("http://localhost:5000/meals/add", newMealToSave)
+      .then((response) =>
+        (() => {
+          let newMealData = response.data;
+          let state = this.state;
+          state[newMealData.mealType.code]["thisMeal"]["_id"] = newMealData._id;
+          this.setState({ state });
+        })()
+      );
   };
   updateMealIngrdnt = (
     thisMealIngrdnt,
@@ -751,9 +800,6 @@ class DayDetail extends Component {
         .then((response) => console.log(response));
     }
   };
-  getRndInteger = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
   handleDeleteMeal = (thisMeal) => {
     axios
       .delete("http://localhost:5000/meals/" + thisMeal._id)
@@ -825,9 +871,6 @@ class DayDetail extends Component {
       this.setState({ hideDeleteDayBarrier: false });
     }
   };
-  showChangeRecipeWarning = () => {
-    console.log("Show Change Recipe Warning");
-  };
   populateNewMealIngredients = (mealType, thisRecipeId) => {
     let thisMeal = this.state[mealType]["thisMeal"];
     axios
@@ -851,6 +894,7 @@ class DayDetail extends Component {
           thisMealsNewMealIngrdnts.push(newMealIngredient);
         }
         let state = this.state;
+        state[mealType]["recordChanged"] = true;
         state[mealType]["thisMealsIngrdnts"] = thisMealsNewMealIngrdnts;
         state[mealType]["thisMealFormState"] = "editingOrig";
         this.setState({ state });
@@ -864,6 +908,7 @@ class DayDetail extends Component {
         let thisRecipe = response.data;
         let state = this.state;
         state[mealType]["thisMeal"]["genRecipe"] = thisRecipe;
+        state[mealType]["recordChanged"] = true;
         state[mealType]["userChangedThisMealsRecipe"] = true;
         this.setState({ state });
         this.populateNewMealIngredients(mealType, thisRecipeId);
@@ -1031,85 +1076,158 @@ class DayDetail extends Component {
                               }
                             >
                               <div className="accordion-body wkDaysAccrdnBdy">
-                                <CreateMeal2
-                                  mealType={{
-                                    code: "breakfast",
-                                    name: "Breakfast",
-                                  }}
-                                  thisDay={this.props.thisDay}
-                                  getRndInteger={this.props.getRndInteger}
-                                  onCreateMeal={this.onCreateMeal}
-                                />
-                                <MealDetail2
-                                  key={this.state.breakfast.thisMeal._id}
-                                  thisMeal={this.state.breakfast}
-                                  userType={this.state.userType}
-                                  onSubmitMealFormChange={
-                                    this.handleSubmitMealFormChange
-                                  }
-                                  onClickEdit={this.handleClickEditOnMeal}
-                                  onCancel={this.handleCancelMealEdit}
-                                  onDelete={this.handleDeleteMeal}
-                                  thisMealOld={this.state.breakfastOld}
-                                  onChangeMealRecipe={
-                                    this.handleChangeMealRecipe
-                                  }
-                                  showChangeRecipeWarning={
-                                    this.showChangeRecipeWarning
-                                  }
-                                  populateNewMealIngredients={
-                                    this.populateNewMealIngredients
-                                  }
-                                  thisMealTypesGenRecipes={
-                                    this.props.allBreakfastRecipes
-                                  }
-                                  onChangeMealDay={this.handleChangeMealDay}
-                                  onChangeMealsType={this.handleChangeMealsType}
-                                  allMealTypes={this.props.mealTypes}
-                                  onUpdateMealIngrdntQty={
-                                    this.handleUpdateMealIngrdntQty
-                                  }
-                                  findChangeMealIngrdntByIndex={
-                                    this.findChangeMealIngrdntByIndex
-                                  }
-                                  allGRFUsers={this.props.allGRFUsers}
-                                  allDays={this.props.allDays}
-                                />
-                                <MealDetail2
-                                  key={this.state.lunch.thisMeal._id}
-                                  thisMeal={this.state.lunch}
-                                  userType={this.state.userType}
-                                  onSubmitMealFormChange={
-                                    this.handleSubmitMealFormChange
-                                  }
-                                  onClickEdit={this.handleClickEditOnMeal}
-                                  onCancel={this.handleCancelMealEdit}
-                                  onDelete={this.handleDeleteMeal}
-                                  thisMealOld={this.state.lunchOld}
-                                  onChangeMealRecipe={
-                                    this.handleChangeMealRecipe
-                                  }
-                                  showChangeRecipeWarning={
-                                    this.showChangeRecipeWarning
-                                  }
-                                  populateNewMealIngredients={
-                                    this.populateNewMealIngredients
-                                  }
-                                  thisMealTypesGenRecipes={
-                                    this.props.allLunchRecipes
-                                  }
-                                  onChangeMealDay={this.handleChangeMealDay}
-                                  onChangeMealsType={this.handleChangeMealsType}
-                                  allMealTypes={this.props.mealTypes}
-                                  onUpdateMealIngrdntQty={
-                                    this.handleUpdateMealIngrdntQty
-                                  }
-                                  findChangeMealIngrdntByIndex={
-                                    this.findChangeMealIngrdntByIndex
-                                  }
-                                  allGRFUsers={this.props.allGRFUsers}
-                                  allDays={this.props.allDays}
-                                />
+                                {this.state.breakfast.thisMeal._id ===
+                                "missing" ? (
+                                  <CreateMeal2
+                                    mealType={{
+                                      code: "breakfast",
+                                      name: "Breakfast",
+                                    }}
+                                    thisDay={this.props.thisDay}
+                                    getRndInteger={this.props.getRndInteger}
+                                    onCreateMeal={this.onCreateMeal}
+                                  />
+                                ) : (
+                                  <MealDetail2
+                                    key={this.state.breakfast.thisMeal._id}
+                                    thisMeal={this.state.breakfast}
+                                    userType={this.state.userType}
+                                    onSubmitMealFormChange={
+                                      this.handleSubmitMealFormChange
+                                    }
+                                    onClickEdit={this.handleClickEditOnMeal}
+                                    onCancel={this.handleCancelMealEdit}
+                                    onDelete={this.handleDeleteMeal}
+                                    thisMealOld={this.state.breakfastOld}
+                                    onChangeMealRecipe={
+                                      this.handleChangeMealRecipe
+                                    }
+                                    showChangeRecipeWarning={
+                                      this.showChangeRecipeWarning
+                                    }
+                                    populateNewMealIngredients={
+                                      this.populateNewMealIngredients
+                                    }
+                                    thisMealTypesGenRecipes={
+                                      this.props.allBreakfastRecipes
+                                    }
+                                    onChangeMealDay={this.handleChangeMealDay}
+                                    onChangeMealsType={
+                                      this.handleChangeMealsType
+                                    }
+                                    allMealTypes={this.props.mealTypes}
+                                    onUpdateMealIngrdntQty={
+                                      this.handleUpdateMealIngrdntQty
+                                    }
+                                    findChangeMealIngrdntByIndex={
+                                      this.findChangeMealIngrdntByIndex
+                                    }
+                                    allGRFUsers={this.props.allGRFUsers}
+                                    allDays={this.props.allDays}
+                                  />
+                                )}
+                                {this.state.lunch.thisMeal._id === "missing" ? (
+                                  <CreateMeal2
+                                    mealType={{
+                                      code: "lunch",
+                                      name: "Lunch",
+                                    }}
+                                    thisDay={this.props.thisDay}
+                                    getRndInteger={this.props.getRndInteger}
+                                    onCreateMeal={this.onCreateMeal}
+                                  />
+                                ) : (
+                                  <MealDetail2
+                                    key={this.state.lunch.thisMeal._id}
+                                    thisMeal={this.state.lunch}
+                                    userType={this.state.userType}
+                                    onSubmitMealFormChange={
+                                      this.handleSubmitMealFormChange
+                                    }
+                                    onClickEdit={this.handleClickEditOnMeal}
+                                    onCancel={this.handleCancelMealEdit}
+                                    onDelete={this.handleDeleteMeal}
+                                    thisMealOld={this.state.lunchOld}
+                                    onChangeMealRecipe={
+                                      this.handleChangeMealRecipe
+                                    }
+                                    showChangeRecipeWarning={
+                                      this.showChangeRecipeWarning
+                                    }
+                                    populateNewMealIngredients={
+                                      this.populateNewMealIngredients
+                                    }
+                                    thisMealTypesGenRecipes={
+                                      this.props.allLunchRecipes
+                                    }
+                                    onChangeMealDay={this.handleChangeMealDay}
+                                    onChangeMealsType={
+                                      this.handleChangeMealsType
+                                    }
+                                    allMealTypes={this.props.mealTypes}
+                                    onUpdateMealIngrdntQty={
+                                      this.handleUpdateMealIngrdntQty
+                                    }
+                                    findChangeMealIngrdntByIndex={
+                                      this.findChangeMealIngrdntByIndex
+                                    }
+                                    allGRFUsers={this.props.allGRFUsers}
+                                    allDays={this.props.allDays}
+                                  />
+                                )}
+                                {this.state.snack2.thisMeal._id ===
+                                "missing" ? (
+                                  <CreateMeal2
+                                    mealType={{
+                                      code: "snack2",
+                                      name: "Snack2",
+                                    }}
+                                    thisDay={this.props.thisDay}
+                                    getRndInteger={this.props.getRndInteger}
+                                    onCreateMeal={this.onCreateMeal}
+                                  />
+                                ) : (
+                                  <MealDetail2
+                                    key={this.state.snack2.thisMeal._id}
+                                    thisMeal={this.state.snack2}
+                                    userType={this.state.userType}
+                                    onSubmitMealFormChange={
+                                      this.handleSubmitMealFormChange
+                                    }
+                                    onClickEdit={this.handleClickEditOnMeal}
+                                    onCancel={this.handleCancelMealEdit}
+                                    onDelete={this.handleDeleteMeal}
+                                    thisMealOld={this.state.snack2Old}
+                                    onChangeMealRecipe={
+                                      this.handleChangeMealRecipe
+                                    }
+                                    showChangeRecipeWarning={
+                                      this.showChangeRecipeWarning
+                                    }
+                                    populateNewMealIngredients={
+                                      this.populateNewMealIngredients
+                                    }
+                                    thisRecipesIngrdnts={
+                                      this.state.snack2.thisRecipesIngrdnts
+                                    }
+                                    thisMealTypesGenRecipes={
+                                      this.props.allSnack2Recipes
+                                    }
+                                    onChangeMealDay={this.handleChangeMealDay}
+                                    onChangeMealsType={
+                                      this.handleChangeMealsType
+                                    }
+                                    allMealTypes={this.props.mealTypes}
+                                    onUpdateMealIngrdntQty={
+                                      this.handleUpdateMealIngrdntQty
+                                    }
+                                    findChangeMealIngrdntByIndex={
+                                      this.findChangeMealIngrdntByIndex
+                                    }
+                                    allGRFUsers={this.props.allGRFUsers}
+                                    allDays={this.props.allDays}
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>

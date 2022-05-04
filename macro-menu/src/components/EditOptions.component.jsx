@@ -16,7 +16,7 @@ const EditOptions = (props) => {
   const deleteMsg = props.deleteMsg;
   const onCancel = props.onCancel;
   const onCreate = props.onCreate;
-  const userHasChangedRecipe = props.userHasChangedRecipe;
+  const recordChanged = props.recordChanged;
   const recordToCreate = props.recordToCreate;
   const lifeCycleStages = [
     "viewing",
@@ -147,9 +147,7 @@ const EditOptions = (props) => {
           <FontAwesomeIcon
             icon="fa-solid fa-floppy-disk"
             size="xl"
-            className={
-              userHasChangedRecipe == true ? "changingWarning p-1" : "p-1"
-            }
+            className={recordChanged == true ? "changingWarning p-1" : "p-1"}
             hidden={hideIcon("save", userType, thisFormState)}
           />
         </button>
