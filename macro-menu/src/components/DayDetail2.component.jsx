@@ -665,9 +665,13 @@ class DayDetail extends Component {
     for (let i = 0; i < mealTypes.length; i++) {
       state.mealDefaults[mealTypes[i].code]["thisMeal"]["day"] =
         this.props.thisDay;
-      state.mealDefaults[mealTypes[i].code]["thisMealsIngrdnts"][0]["day"] =
-        this.props.thisDay;
+      let thisMealDefaultsIngrdnts =
+        state.mealDefaults[mealTypes[i].code]["thisMealsIngrdnts"];
+      thisMealDefaultsIngrdnts[0].meal.day = this.props.thisDay;
+      state.mealDefaults[mealTypes[i].code]["thisMealsIngrdnts"] =
+        thisMealDefaultsIngrdnts;
     }
+    this.setState({ state });
     // state.mealDefaults.breakfast.thisMeal.day = this.props.thisDay;
     // state.mealDefaults.breakfast.thisMealsIngrdnts[0].day = this.props.thisDay;
   }
@@ -950,11 +954,13 @@ class DayDetail extends Component {
       .delete("http://localhost:5000/meals/" + mealToDelete._id)
       .then((response) => console.log(response));
     let state = this.state;
-    state[thisMealType] = this.props.mealDefaults[thisMealType];
-    state[thisMealType]["thisRecipesIngrdnts"] =
-      this.state[thisMealType]["thisRecipesIngrdnts"];
+    let mealDefaults = _.cloneDeep(state.mealDefaults);
+    let oldMeal = _.cloneDeep(state[`${thisMealType}Old`]);
+    state[thisMealType] = mealDefaults[thisMealType];
+    state[thisMealType]["thisRecipesIngrdnts"] = oldMeal.thisRecipesIngrdnts;
     state[thisMealType]["thisMealsMacrosBudget"] =
-      this.state[thisMealType]["thisMealsMacrosBudget"];
+      oldMeal.thisMealsMacrosBudget;
+    state[`${thisMealType}Old`] = {};
     console.log(state);
     this.setState({ state });
   };
@@ -999,6 +1005,7 @@ class DayDetail extends Component {
         state[mealType]["thisMealsIngrdnts"] = thisMealsNewMealIngrdnts;
         state[mealType]["thisMealFormState"] = "editingOrig";
         this.setState({ state });
+        this.fetchRecipesIngrdnts(thisMeal);
       });
   };
   handleChangeMealRecipe = (mealType, e) => {
@@ -1011,6 +1018,7 @@ class DayDetail extends Component {
         state[mealType]["thisMeal"]["genRecipe"] = thisRecipe;
         state[mealType]["recordChanged"] = true;
         state[mealType]["userChangedThisMealsRecipe"] = true;
+        state[mealType]["thisMealJustCreated"] = false;
         this.setState({ state });
         this.populateNewMealIngredients(mealType, thisRecipeId);
       });

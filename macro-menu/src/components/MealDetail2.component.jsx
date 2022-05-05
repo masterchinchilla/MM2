@@ -14,7 +14,10 @@ const MealDetail2 = (props) => {
     console.log("Changed");
   }
   function renderMealIngrdnts() {
-    if (props.thisMeal.thisMealsIngrdnts.length > 0) {
+    if (
+      props.thisMeal.thisMealsIngrdnts.length > 0 &&
+      props.thisMeal.thisMealJustCreated !== true
+    ) {
       return props.thisMeal.thisMealsIngrdnts.map((mealIngredient) => {
         return (
           <MealIngredientDetail
@@ -31,7 +34,10 @@ const MealDetail2 = (props) => {
       if (props.userType === "viewer") {
         return <em>This meal does not have any ingredients...</em>;
       } else {
-        if (props.thisMeal.thisRecipesIngrdnts.length < 1) {
+        if (
+          props.thisMeal.thisRecipesIngrdnts.length < 1 ||
+          props.thisMeal.thisMealJustCreated === true
+        ) {
           return <em>This recipe does not have any ingredients...</em>;
         } else {
           if (props.thisMeal.thisMealJustCreated === true) {

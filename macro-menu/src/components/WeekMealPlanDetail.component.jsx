@@ -157,7 +157,7 @@ export default class WeekMealPlanDetail extends Component {
           thisMealFormState: "viewing",
           thisMeal: {
             _id: "missing",
-            day: this.props.thisDay,
+            day: {},
             genRecipe: {
               _id: "tempBreakfastRecipe1Id",
               name: "tempBreakfastRecipe1Name",
@@ -218,7 +218,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               meal: {
                 _id: "missing",
-                day: this.props.thisDay,
+                day: {},
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -253,7 +253,7 @@ export default class WeekMealPlanDetail extends Component {
           thisMealFormState: "viewing",
           thisMeal: {
             _id: "missing",
-            day: this.props.thisDay,
+            day: {},
             genRecipe: {
               _id: "tempSnack1Recipe1Id",
               name: "tempSnack1Recipe1Name",
@@ -314,7 +314,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               meal: {
                 _id: "missing",
-                day: this.props.thisDay,
+                day: {},
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -349,7 +349,7 @@ export default class WeekMealPlanDetail extends Component {
           thisMealFormState: "viewing",
           thisMeal: {
             _id: "missing",
-            day: this.props.thisDay,
+            day: {},
             genRecipe: {
               _id: "tempLunchRecipe1Id",
               name: "tempLunchRecipe1Name",
@@ -410,7 +410,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               meal: {
                 _id: "missing",
-                day: this.props.thisDay,
+                day: {},
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -445,7 +445,7 @@ export default class WeekMealPlanDetail extends Component {
           thisMealFormState: "viewing",
           thisMeal: {
             _id: "missing",
-            day: this.props.thisDay,
+            day: {},
             genRecipe: {
               _id: "tempSnack2Recipe1Id",
               name: "tempSnack2Recipe1Name",
@@ -506,7 +506,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               meal: {
                 _id: "missing",
-                day: this.props.thisDay,
+                day: {},
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -541,7 +541,7 @@ export default class WeekMealPlanDetail extends Component {
           thisMealFormState: "viewing",
           thisMeal: {
             _id: "missing",
-            day: this.props.thisDay,
+            day: {},
             genRecipe: {
               _id: "tempDinnerRecipe1Id",
               name: "tempDinnerRecipe1Name",
@@ -602,7 +602,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               meal: {
                 _id: "missing",
-                day: this.props.thisDay,
+                day: {},
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -637,7 +637,7 @@ export default class WeekMealPlanDetail extends Component {
           thisMealFormState: "viewing",
           thisMeal: {
             _id: "missing",
-            day: this.props.thisDay,
+            day: {},
             genRecipe: {
               _id: "tempDessertRecipe1Id",
               name: "tempDessertRecipe1Name",
@@ -698,7 +698,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               meal: {
                 _id: "missing",
-                day: this.props.thisDay,
+                day: {},
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
