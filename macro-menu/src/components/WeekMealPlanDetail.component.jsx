@@ -1367,35 +1367,48 @@ export default class WeekMealPlanDetail extends Component {
                   data-bs-parent={"#accordionFull" + this.state.id}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
-                    <DayDetail2
-                      thisDay={this.state.sun}
-                      mealDefaults={this.state.mealDefaults}
-                      allGRFUsers={this.state.allGRFUsers}
-                      allDays={this.state.allDays}
-                      allBreakfastRecipes={this.state.allBreakfastRecipes}
-                      allSnack1Recipes={this.state.allSnack1Recipes}
-                      allLunchRecipes={this.state.allLunchRecipes}
-                      allSnack2Recipes={this.state.allSnack2Recipes}
-                      allDinnerRecipes={this.state.allDinnerRecipes}
-                      allDessertRecipes={this.state.allDessertRecipes}
-                      mealTypes={this.state.mealTypes}
-                      macrosBudget={{
-                        cals: this.state.cals,
-                        carbs: this.state.carbs,
-                        protein: this.state.protein,
-                        fat: this.state.fat,
-                        fiber: this.state.fiber,
-                      }}
-                      mealsWeighting={{
-                        breakfastWeight: this.state.breakfastWeight,
-                        snack1Weight: this.state.snack1Weight,
-                        lunchWeight: this.state.lunchWeight,
-                        snack2Weight: this.state.snack2Weight,
-                        dinnerWeight: this.state.dinnerWeight,
-                        dessertWeight: this.state.dessertWeight,
-                      }}
-                      getRndInteger={this.getRndInteger}
-                    />
+                    {this.state.sun === undefined || this.state.sun === {} ? (
+                      <CreateDay
+                        weekMealPlanId={this.state.id}
+                        weekMealPlanName={this.state.name}
+                        dayOfWeek={"Sunday"}
+                        dayOfWeekShort={"sun"}
+                        thisFormState="missing"
+                        onCreateDay={this.handleCreateDay}
+                        wmpUserType={this.state.userType}
+                        getRndInteger={this.getRndInteger}
+                      />
+                    ) : (
+                      <DayDetail2
+                        thisDay={this.state.sun}
+                        mealDefaults={this.state.mealDefaults}
+                        allGRFUsers={this.state.allGRFUsers}
+                        allDays={this.state.allDays}
+                        allBreakfastRecipes={this.state.allBreakfastRecipes}
+                        allSnack1Recipes={this.state.allSnack1Recipes}
+                        allLunchRecipes={this.state.allLunchRecipes}
+                        allSnack2Recipes={this.state.allSnack2Recipes}
+                        allDinnerRecipes={this.state.allDinnerRecipes}
+                        allDessertRecipes={this.state.allDessertRecipes}
+                        mealTypes={this.state.mealTypes}
+                        macrosBudget={{
+                          cals: this.state.cals,
+                          carbs: this.state.carbs,
+                          protein: this.state.protein,
+                          fat: this.state.fat,
+                          fiber: this.state.fiber,
+                        }}
+                        mealsWeighting={{
+                          breakfastWeight: this.state.breakfastWeight,
+                          snack1Weight: this.state.snack1Weight,
+                          lunchWeight: this.state.lunchWeight,
+                          snack2Weight: this.state.snack2Weight,
+                          dinnerWeight: this.state.dinnerWeight,
+                          dessertWeight: this.state.dessertWeight,
+                        }}
+                        getRndInteger={this.getRndInteger}
+                      />
+                    )}
                     <DayDetail2
                       thisDay={this.state.mon}
                       mealDefaults={this.state.mealDefaults}

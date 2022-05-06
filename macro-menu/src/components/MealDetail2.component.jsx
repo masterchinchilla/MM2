@@ -27,6 +27,8 @@ const MealDetail2 = (props) => {
             findChangeMealIngrdntByIndex={props.findChangeMealIngrdntByIndex}
             onDelete={props.onDelete}
             allGRFUsers={props.allGRFUsers}
+            updateProp={props.updateProp}
+            mealIngrdntsArrayIndex={0}
           />
         );
       });

@@ -112,7 +112,15 @@ class MealIngredientDetail extends Component {
                 placeholder={
                   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
-                onChange={this.handleChangeIngrdntProp}
+                onChange={(e) =>
+                  this.props.updateProp(
+                    "mealIngredient",
+                    this.state.thisMealIngredient.meal.mealType.code,
+                    "qty",
+                    this.props.mealIngrdntsArrayIndex,
+                    e
+                  )
+                }
                 disabled={
                   this.state.mealIngrdntFormState === "viewing" ? true : false
                 }

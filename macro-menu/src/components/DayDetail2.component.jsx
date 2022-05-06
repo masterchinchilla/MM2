@@ -21,6 +21,7 @@ class DayDetail extends Component {
       thisFormState: "viewing",
       userType: "admin",
       mealDefaults: this.props.mealDefaults,
+      thisDay: this.props.thisDay,
       breakfast: {
         thisMealJustCreated: false,
         recordChanged: false,
@@ -49,81 +50,89 @@ class DayDetail extends Component {
         //     name: "Breakfast",
         //   },
         // },
-        thisMealsIngrdnts: [
-          {
-            _id: "missing",
-            qty: 1,
-            genRecipeIngredient: {
-              defaultQty: 1,
-              ingredient: {
-                name: "tempBreakfastIngredient1Name",
-                calories: 1,
-                carbs: 1,
-                protein: 1,
-                fat: 1,
-                fiber: 1,
-                unitOfMeasure: { name: "Each" },
-                weightType: { name: "" },
-                photoURL: "",
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                brand: { name: "" },
-              },
-              genRecipe: {
-                _id: "tempBreakfastRecipe1Id",
-                name: "tempBreakfastRecipe1Name",
-                availableMealType: {
-                  _id: "626dd6fc21888432c0fe3e90",
-                  code: "breakfast",
-                  name: "Breakfast",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              defaultPrepInstructions: "",
-            },
-            meal: {
-              _id: "missing",
-              day: this.props.thisDay,
-              genRecipe: {
-                _id: "tempBreakfastRecipe1Id",
-                name: "tempBreakfastRecipe1Name",
-                availableMealType: {
-                  _id: "626dd6fc21888432c0fe3e90",
-                  code: "breakfast",
-                  name: "Breakfast",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              prepInstructions: "",
-              mealType: {
-                _id: "626dd6fc21888432c0fe3e90",
-                code: "breakfast",
-                name: "Breakfast",
-              },
-            },
-          },
-        ],
+        thisMealsIngrdnts: this.props.mealDefaults.breakfast.thisMealsIngrdnts,
+        // thisMealsIngrdnts: [
+        //   {
+        //     _id: "missing",
+        //     qty: 1,
+        //     genRecipeIngredient: {
+        //       defaultQty: 1,
+        //       ingredient: {
+        //         name: "tempBreakfastIngredient1Name",
+        //         calories: 1,
+        //         carbs: 1,
+        //         protein: 1,
+        //         fat: 1,
+        //         fiber: 1,
+        //         unitOfMeasure: { name: "Each" },
+        //         weightType: { name: "" },
+        //         photoURL: "",
+        //         GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        //         brand: { name: "" },
+        //       },
+        //       genRecipe: {
+        //         _id: "tempBreakfastRecipe1Id",
+        //         name: "tempBreakfastRecipe1Name",
+        //         availableMealType: {
+        //           _id: "626dd6fc21888432c0fe3e90",
+        //           code: "breakfast",
+        //           name: "Breakfast",
+        //         },
+        //         GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        //         defaultPrepInstructions: "",
+        //         photoUrl: "",
+        //       },
+        //       defaultPrepInstructions: "",
+        //     },
+        //     meal: {
+        //       _id: "missing",
+        //       day: this.props.thisDay,
+        //       genRecipe: {
+        //         _id: "tempBreakfastRecipe1Id",
+        //         name: "tempBreakfastRecipe1Name",
+        //         availableMealType: {
+        //           _id: "626dd6fc21888432c0fe3e90",
+        //           code: "breakfast",
+        //           name: "Breakfast",
+        //         },
+        //         GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        //         defaultPrepInstructions: "",
+        //         photoUrl: "",
+        //       },
+        //       prepInstructions: "",
+        //       mealType: {
+        //         _id: "626dd6fc21888432c0fe3e90",
+        //         code: "breakfast",
+        //         name: "Breakfast",
+        //       },
+        //     },
+        //   },
+        // ],
         thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
-          cals:
-            this.props.macrosBudget.cals *
-            (this.props.mealsWeighting.breakfastWeight / 100),
-          carbs:
-            this.props.macrosBudget.carbs *
-            (this.props.mealsWeighting.breakfastWeight / 100),
-          protein:
-            this.props.macrosBudget.protein *
-            (this.props.mealsWeighting.breakfastWeight / 100),
-          fat:
-            this.props.macrosBudget.fat *
-            (this.props.mealsWeighting.breakfastWeight / 100),
-          fiber:
-            this.props.macrosBudget.fiber *
-            (this.props.mealsWeighting.breakfastWeight / 100),
+          cals: 1,
+          carbs: 1,
+          protein: 1,
+          fat: 1,
+          fiber: 1,
         },
+        // thisMealsMacrosBudget: {
+        //   cals:
+        //     this.props.macrosBudget.cals *
+        //     (this.props.mealsWeighting.breakfastWeight / 100),
+        //   carbs:
+        //     this.props.macrosBudget.carbs *
+        //     (this.props.mealsWeighting.breakfastWeight / 100),
+        //   protein:
+        //     this.props.macrosBudget.protein *
+        //     (this.props.mealsWeighting.breakfastWeight / 100),
+        //   fat:
+        //     this.props.macrosBudget.fat *
+        //     (this.props.mealsWeighting.breakfastWeight / 100),
+        //   fiber:
+        //     this.props.macrosBudget.fiber *
+        //     (this.props.mealsWeighting.breakfastWeight / 100),
+        // },
       },
       breakfastOld: {},
       snack1: {
@@ -131,102 +140,15 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
-        thisMeal: {
-          _id: "missing",
-          day: this.props.thisDay,
-          genRecipe: {
-            _id: "tempSnack1Recipe1Id",
-            name: "tempSnack1Recipe1Name",
-            availableMealType: {
-              _id: "626ddf9e21888432c0fe3e91",
-              code: "snack1",
-              name: "Snack 1",
-            },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-          prepInstructions: "",
-          mealType: {
-            _id: "626ddf9e21888432c0fe3e91",
-            code: "snack1",
-            name: "Snack 1",
-          },
-        },
-        thisMealsIngrdnts: [
-          {
-            _id: "missing",
-            qty: 1,
-            genRecipeIngredient: {
-              defaultQty: 1,
-              ingredient: {
-                name: "tempSnack1Ingredient1Name",
-                calories: 1,
-                carbs: 1,
-                protein: 1,
-                fat: 1,
-                fiber: 1,
-                unitOfMeasure: { name: "Each" },
-                weightType: { name: "" },
-                photoURL: "",
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                brand: { name: "" },
-              },
-              genRecipe: {
-                _id: "tempSnack1Recipe1Id",
-                name: "tempSnack1Recipe1Name",
-                availableMealType: {
-                  _id: "626ddf9e21888432c0fe3e91",
-                  code: "snack1",
-                  name: "Snack 1",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              defaultPrepInstructions: "",
-            },
-            meal: {
-              _id: "missing",
-              day: this.props.thisDay,
-              genRecipe: {
-                _id: "tempSnack1Recipe1Id",
-                name: "tempSnack1Recipe1Name",
-                availableMealType: {
-                  _id: "626ddf9e21888432c0fe3e91",
-                  code: "snack1",
-                  name: "Snack 1",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              prepInstructions: "",
-              mealType: {
-                _id: "626ddf9e21888432c0fe3e91",
-                code: "snack1",
-                name: "Snack 1",
-              },
-            },
-          },
-        ],
+        thisMeal: this.props.mealDefaults.snack1.thisMeal,
+        thisMealsIngrdnts: this.props.mealDefaults.snack1.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
-          cals:
-            this.props.macrosBudget.cals *
-            (this.props.mealsWeighting.snack1Weight / 100),
-          carbs:
-            this.props.macrosBudget.carbs *
-            (this.props.mealsWeighting.snack1Weight / 100),
-          protein:
-            this.props.macrosBudget.protein *
-            (this.props.mealsWeighting.snack1Weight / 100),
-          fat:
-            this.props.macrosBudget.fat *
-            (this.props.mealsWeighting.snack1Weight / 100),
-          fiber:
-            this.props.macrosBudget.fiber *
-            (this.props.mealsWeighting.snack1Weight / 100),
+          cals: 1,
+          carbs: 1,
+          protein: 1,
+          fat: 1,
+          fiber: 1,
         },
       },
       snack1Old: {},
@@ -235,102 +157,15 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
-        thisMeal: {
-          _id: "missing",
-          day: this.props.thisDay,
-          genRecipe: {
-            _id: "tempLunchRecipe1Id",
-            name: "tempLunchRecipe1Name",
-            availableMealType: {
-              _id: "626ddfb721888432c0fe3e92",
-              code: "lunch",
-              name: "Lunch",
-            },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-          prepInstructions: "",
-          mealType: {
-            _id: "626ddfb721888432c0fe3e92",
-            code: "lunch",
-            name: "Lunch",
-          },
-        },
-        thisMealsIngrdnts: [
-          {
-            _id: "missing",
-            qty: 1,
-            genRecipeIngredient: {
-              defaultQty: 1,
-              ingredient: {
-                name: "tempLunchIngredient1Name",
-                calories: 1,
-                carbs: 1,
-                protein: 1,
-                fat: 1,
-                fiber: 1,
-                unitOfMeasure: { name: "Each" },
-                weightType: { name: "" },
-                photoURL: "",
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                brand: { name: "" },
-              },
-              genRecipe: {
-                _id: "tempLunchRecipe1Id",
-                name: "tempLunchRecipe1Name",
-                availableMealType: {
-                  _id: "626ddfb721888432c0fe3e92",
-                  code: "lunch",
-                  name: "Lunch",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              defaultPrepInstructions: "",
-            },
-            meal: {
-              _id: "missing",
-              day: this.props.thisDay,
-              genRecipe: {
-                _id: "tempLunchRecipe1Id",
-                name: "tempLunchRecipe1Name",
-                availableMealType: {
-                  _id: "626ddfb721888432c0fe3e92",
-                  code: "lunch",
-                  name: "Lunch",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              prepInstructions: "",
-              mealType: {
-                _id: "626ddfb721888432c0fe3e92",
-                code: "lunch",
-                name: "Lunch",
-              },
-            },
-          },
-        ],
+        thisMeal: this.props.mealDefaults.lunch.thisMeal,
+        thisMealsIngrdnts: this.props.mealDefaults.lunch.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
-          cals:
-            this.props.macrosBudget.cals *
-            (this.props.mealsWeighting.lunchWeight / 100),
-          carbs:
-            this.props.macrosBudget.carbs *
-            (this.props.mealsWeighting.lunchWeight / 100),
-          protein:
-            this.props.macrosBudget.protein *
-            (this.props.mealsWeighting.lunchWeight / 100),
-          fat:
-            this.props.macrosBudget.fat *
-            (this.props.mealsWeighting.lunchWeight / 100),
-          fiber:
-            this.props.macrosBudget.fiber *
-            (this.props.mealsWeighting.lunchWeight / 100),
+          cals: 1,
+          carbs: 1,
+          protein: 1,
+          fat: 1,
+          fiber: 1,
         },
       },
       lunchOld: {},
@@ -339,102 +174,15 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
-        thisMeal: {
-          _id: "missing",
-          day: this.props.thisDay,
-          genRecipe: {
-            _id: "tempSnack2Recipe1Id",
-            name: "tempSnack2Recipe1Name",
-            availableMealType: {
-              _id: "626ddfcb21888432c0fe3e93",
-              code: "snack2",
-              name: "Snack 2",
-            },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-          prepInstructions: "",
-          mealType: {
-            _id: "626ddfcb21888432c0fe3e93",
-            code: "snack2",
-            name: "Snack 2",
-          },
-        },
-        thisMealsIngrdnts: [
-          {
-            _id: "missing",
-            qty: 1,
-            genRecipeIngredient: {
-              defaultQty: 1,
-              ingredient: {
-                name: "tempSnack2Ingredient1Name",
-                calories: 1,
-                carbs: 1,
-                protein: 1,
-                fat: 1,
-                fiber: 1,
-                unitOfMeasure: { name: "Each" },
-                weightType: { name: "" },
-                photoURL: "",
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                brand: { name: "" },
-              },
-              genRecipe: {
-                _id: "tempSnack2Recipe1Id",
-                name: "tempSnack2Recipe1Name",
-                availableMealType: {
-                  _id: "626ddfcb21888432c0fe3e93",
-                  code: "snack2",
-                  name: "Snack 2",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              defaultPrepInstructions: "",
-            },
-            meal: {
-              _id: "missing",
-              day: this.props.thisDay,
-              genRecipe: {
-                _id: "tempSnack2Recipe1Id",
-                name: "tempSnack2Recipe1Name",
-                availableMealType: {
-                  _id: "626ddfcb21888432c0fe3e93",
-                  code: "snack2",
-                  name: "Snack 2",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              prepInstructions: "",
-              mealType: {
-                _id: "626ddfcb21888432c0fe3e93",
-                code: "snack2",
-                name: "Snack 2",
-              },
-            },
-          },
-        ],
+        thisMeal: this.props.mealDefaults.snack2.thisMeal,
+        thisMealsIngrdnts: this.props.mealDefaults.snack2.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
-          cals:
-            this.props.macrosBudget.cals *
-            (this.props.mealsWeighting.snack2Weight / 100),
-          carbs:
-            this.props.macrosBudget.carbs *
-            (this.props.mealsWeighting.snack2Weight / 100),
-          protein:
-            this.props.macrosBudget.protein *
-            (this.props.mealsWeighting.snack2Weight / 100),
-          fat:
-            this.props.macrosBudget.fat *
-            (this.props.mealsWeighting.snack2Weight / 100),
-          fiber:
-            this.props.macrosBudget.fiber *
-            (this.props.mealsWeighting.snack2Weight / 100),
+          cals: 1,
+          carbs: 1,
+          protein: 1,
+          fat: 1,
+          fiber: 1,
         },
       },
       snack2Old: {},
@@ -443,102 +191,15 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
-        thisMeal: {
-          _id: "missing",
-          day: this.props.thisDay,
-          genRecipe: {
-            _id: "tempDinnerRecipe1Id",
-            name: "tempDinnerRecipe1Name",
-            availableMealType: {
-              _id: "626ddfdc21888432c0fe3e94",
-              code: "dinner",
-              name: "Dinner",
-            },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-          prepInstructions: "",
-          mealType: {
-            _id: "626ddfdc21888432c0fe3e94",
-            code: "dinner",
-            name: "Dinner",
-          },
-        },
-        thisMealsIngrdnts: [
-          {
-            _id: "missing",
-            qty: 1,
-            genRecipeIngredient: {
-              defaultQty: 1,
-              ingredient: {
-                name: "tempDinnerIngredient1Name",
-                calories: 1,
-                carbs: 1,
-                protein: 1,
-                fat: 1,
-                fiber: 1,
-                unitOfMeasure: { name: "Each" },
-                weightType: { name: "" },
-                photoURL: "",
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                brand: { name: "" },
-              },
-              genRecipe: {
-                _id: "tempDinnerRecipe1Id",
-                name: "tempDinnerRecipe1Name",
-                availableMealType: {
-                  _id: "626ddfdc21888432c0fe3e94",
-                  code: "dinner",
-                  name: "Dinner",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              defaultPrepInstructions: "",
-            },
-            meal: {
-              _id: "missing",
-              day: this.props.thisDay,
-              genRecipe: {
-                _id: "tempDinnerRecipe1Id",
-                name: "tempDinnerRecipe1Name",
-                availableMealType: {
-                  _id: "626ddfdc21888432c0fe3e94",
-                  code: "dinner",
-                  name: "Dinner",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              prepInstructions: "",
-              mealType: {
-                _id: "626ddfdc21888432c0fe3e94",
-                code: "dinner",
-                name: "Dinner",
-              },
-            },
-          },
-        ],
+        thisMeal: this.props.mealDefaults.dinner.thisMeal,
+        thisMealsIngrdnts: this.props.mealDefaults.dinner.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
-          cals:
-            this.props.macrosBudget.cals *
-            (this.props.mealsWeighting.dinnerWeight / 100),
-          carbs:
-            this.props.macrosBudget.carbs *
-            (this.props.mealsWeighting.dinnerWeight / 100),
-          protein:
-            this.props.macrosBudget.protein *
-            (this.props.mealsWeighting.dinnerWeight / 100),
-          fat:
-            this.props.macrosBudget.fat *
-            (this.props.mealsWeighting.dinnerWeight / 100),
-          fiber:
-            this.props.macrosBudget.fiber *
-            (this.props.mealsWeighting.dinnerWeight / 100),
+          cals: 1,
+          carbs: 1,
+          protein: 1,
+          fat: 1,
+          fiber: 1,
         },
       },
       dinnerOld: {},
@@ -547,102 +208,15 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
-        thisMeal: {
-          _id: "missing",
-          day: this.props.thisDay,
-          genRecipe: {
-            _id: "tempDessertRecipe1Id",
-            name: "tempDessertRecipe1Name",
-            availableMealType: {
-              _id: "626ddfee21888432c0fe3e95",
-              code: "dessert",
-              name: "Dessert",
-            },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-          prepInstructions: "",
-          mealType: {
-            _id: "626ddfee21888432c0fe3e95",
-            code: "dessert",
-            name: "Dessert",
-          },
-        },
-        thisMealsIngrdnts: [
-          {
-            _id: "missing",
-            qty: 1,
-            genRecipeIngredient: {
-              defaultQty: 1,
-              ingredient: {
-                name: "tempDessertIngredient1Name",
-                calories: 1,
-                carbs: 1,
-                protein: 1,
-                fat: 1,
-                fiber: 1,
-                unitOfMeasure: { name: "Each" },
-                weightType: { name: "" },
-                photoURL: "",
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                brand: { name: "" },
-              },
-              genRecipe: {
-                _id: "tempDessertRecipe1Id",
-                name: "tempDessertRecipe1Name",
-                availableMealType: {
-                  _id: "626ddfee21888432c0fe3e95",
-                  code: "dessert",
-                  name: "Dessert",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              defaultPrepInstructions: "",
-            },
-            meal: {
-              _id: "missing",
-              day: this.props.thisDay,
-              genRecipe: {
-                _id: "tempDessertRecipe1Id",
-                name: "tempDessertRecipe1Name",
-                availableMealType: {
-                  _id: "626ddfee21888432c0fe3e95",
-                  code: "dessert",
-                  name: "Dessert",
-                },
-                GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-                defaultPrepInstructions: "",
-                photoUrl: "",
-              },
-              prepInstructions: "",
-              mealType: {
-                _id: "626ddfee21888432c0fe3e95",
-                code: "dessert",
-                name: "Dessert",
-              },
-            },
-          },
-        ],
+        thisMeal: this.props.mealDefaults.dessert.thisMeal,
+        thisMealsIngrdnts: this.props.mealDefaults.dessert.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
         thisMealsMacrosBudget: {
-          cals:
-            this.props.macrosBudget.cals *
-            (this.props.mealsWeighting.dessertWeight / 100),
-          carbs:
-            this.props.macrosBudget.carbs *
-            (this.props.mealsWeighting.dessertWeight / 100),
-          protein:
-            this.props.macrosBudget.protein *
-            (this.props.mealsWeighting.dessertWeight / 100),
-          fat:
-            this.props.macrosBudget.fat *
-            (this.props.mealsWeighting.dessertWeight / 100),
-          fiber:
-            this.props.macrosBudget.fiber *
-            (this.props.mealsWeighting.dessertWeight / 100),
+          cals: 1,
+          carbs: 1,
+          protein: 1,
+          fat: 1,
+          fiber: 1,
         },
       },
       dessertOld: {},
@@ -659,29 +233,46 @@ class DayDetail extends Component {
     };
   }
   componentDidMount() {
-    this.loadData();
-    let state = this.state;
-    let mealTypes = this.props.mealTypes;
-    for (let i = 0; i < mealTypes.length; i++) {
-      state.mealDefaults[mealTypes[i].code]["thisMeal"]["day"] =
-        this.props.thisDay;
-      let thisMealDefaultsIngrdnts =
-        state.mealDefaults[mealTypes[i].code]["thisMealsIngrdnts"];
-      thisMealDefaultsIngrdnts[0].meal.day = this.props.thisDay;
-      state.mealDefaults[mealTypes[i].code]["thisMealsIngrdnts"] =
-        thisMealDefaultsIngrdnts;
-    }
-    this.setState({ state });
-    // state.mealDefaults.breakfast.thisMeal.day = this.props.thisDay;
-    // state.mealDefaults.breakfast.thisMealsIngrdnts[0].day = this.props.thisDay;
+    this.buildDefaultMealData();
+    this.loadDataFromDB();
   }
-  loadData() {
+  loadDataFromDB() {
     axios
       .get(
         "http://localhost:5000/meals/mealsofthisday/" + this.props.thisDay._id
       )
       .then((response) => this.updateMealsFromDB(response.data, [], false));
   }
+  buildDefaultMealData = () => {
+    let state = this.state;
+    let mealTypes = this.props.mealTypes;
+    let macrosBudget = this.props.macrosBudget;
+    let thisDay = this.props.thisDay;
+    for (let i = 0; i < mealTypes.length; i++) {
+      let thisMealTypeCode = mealTypes[i].code;
+      let thisMealDefaultsIngrdnts =
+        state.mealDefaults[thisMealTypeCode]["thisMealsIngrdnts"];
+      let mealWeightPercent =
+        this.props.mealsWeighting[`${thisMealTypeCode}Weight`] / 100;
+      let thisMealsMacrosBudget = {
+        cals: macrosBudget.cals * mealWeightPercent,
+        carbs: macrosBudget.carbs * mealWeightPercent,
+        protein: macrosBudget.protein * mealWeightPercent,
+        fat: macrosBudget.fat * mealWeightPercent,
+        fiber: macrosBudget.fiber * mealWeightPercent,
+      };
+      thisMealDefaultsIngrdnts[0].meal.day = thisDay;
+      state.mealDefaults[thisMealTypeCode]["thisMealsIngrdnts"] =
+        thisMealDefaultsIngrdnts;
+      state[thisMealTypeCode]["thisMealsIngrdnts"] = thisMealDefaultsIngrdnts;
+      state.mealDefaults[thisMealTypeCode]["thisMeal"]["day"] = thisDay;
+      state[thisMealTypeCode]["thisMeal"]["day"] = thisDay;
+      state.mealDefaults[thisMealTypeCode]["thisMealsMacrosBudget"] =
+        thisMealsMacrosBudget;
+      state[thisMealTypeCode]["thisMealsMacrosBudget"] = thisMealsMacrosBudget;
+    }
+    this.setState({ state });
+  };
   updateMealsFromDB = (meals, newMealIngredients, mealsState) => {
     if (meals.length === 0) {
       this.setState({ data: true });
@@ -694,7 +285,122 @@ class DayDetail extends Component {
       this.setState({ state });
     }
   };
-  updateRequisite = () => {};
+  updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e) => {
+    let newValue = e.target.value;
+    let state = this.state;
+    let mealTypes = this.props.mealTypes;
+    switch (stateObject) {
+      case "day":
+        state.thisDay[propToUpdate] = newValue;
+        let editedDay = state.thisDay;
+        for (let i = 0; i < mealTypes.length; i++) {
+          let mealId = state[mealTypes[i].code]["thisMeal"]["_id"];
+          if (mealId === "missing") {
+            return;
+          } else {
+            state[mealTypes[i].code]["thisMeal"]["day"] = editedDay;
+            let mealIngrdntsToUpdate =
+              state[mealTypes[i].code]["thisMealsIngrdnts"];
+            for (let i = 0; i < mealIngrdntsToUpdate.length; i++) {
+              mealIngrdntsToUpdate[i].meal.day = editedDay;
+            }
+            state[mealTypes[i].code]["thisMealsIngrdnts"] =
+              mealIngrdntsToUpdate;
+          }
+        }
+        break;
+      case "meal":
+        state[mealType]["thisMeal"][propToUpdate] = newValue;
+        let editedMeal = state[mealType]["thisMeal"];
+        let mealIngrdntsToUpdateWMeal = state[mealType]["thisMealsIngrdnts"];
+        for (let i = 0; i < mealIngrdntsToUpdateWMeal.length; i++) {
+          mealIngrdntsToUpdateWMeal[i].meal = editedMeal;
+        }
+        state[mealType]["thisMealsIngrdnts"] = mealIngrdntsToUpdateWMeal;
+        break;
+      case "genRecipe":
+        state[mealType]["thisMeal"]["genRecipe"][propToUpdate] = newValue;
+        let editedRecipe = state[mealType]["thisMeal"]["genRecipe"];
+        for (let i = 0; i < mealTypes.length; i++) {
+          let thisMealsRecipesId =
+            state[mealTypes[i].code]["thisMeal"]["genRecipe"]["_id"];
+          if (thisMealsRecipesId !== editedRecipe._id) {
+            return;
+          } else {
+            state[mealTypes[i].code]["thisMeal"]["genRecipe"] = editedRecipe;
+            let mealIngrdntsToUpdateWGenRecipe =
+              state[mealTypes[i].code]["thisMealsIngrdnts"];
+            for (let i = 0; i < mealIngrdntsToUpdateWGenRecipe.length; i++) {
+              mealIngrdntsToUpdateWGenRecipe[i].genRecipeIngredient.genRecipe =
+                editedRecipe;
+            }
+            state[mealTypes[i].code]["thisMealsIngrdnts"] =
+              mealIngrdntsToUpdateWGenRecipe;
+          }
+        }
+        break;
+      case "mealIngredient":
+        state[mealType]["thisMealsIngrdnts"][arrayIndex][propToUpdate] =
+          newValue;
+        break;
+      case "genRecipeIngredient":
+        let relevantMealIngrdnts1 = state[mealType]["thisMealsIngrdnts"];
+        let genRecipeIngrdntToUpdate =
+          relevantMealIngrdnts1[arrayIndex].genRecipeIngredient;
+        genRecipeIngrdntToUpdate[propToUpdate] = newValue;
+        let editedRecipeIngrdnt = genRecipeIngrdntToUpdate;
+        let editedRecipeIngrdntsId = editedRecipeIngrdnt._id;
+        let editedRecipesId = editedRecipeIngrdnt.genRecipe._id;
+        for (let i = 0; i < mealTypes.length; i++) {
+          let thisMeal = state[mealTypes[i].code]["thisMeal"];
+          let thisMealsRecipeId = thisMeal.genRecipe._id;
+          if (thisMealsRecipeId !== editedRecipesId) {
+            return;
+          } else {
+            let mealIngrdntsToChckUpdtWGRI =
+              state[mealTypes[i].code]["thisMealsIngrdnts"];
+            for (let i = 0; i < mealIngrdntsToChckUpdtWGRI.length; i++) {
+              let thisMealIngrdntsId = mealIngrdntsToChckUpdtWGRI[i]._id;
+              if (thisMealIngrdntsId !== editedRecipeIngrdntsId) {
+                return;
+              } else {
+                mealIngrdntsToChckUpdtWGRI[i].genRecipeIngredient =
+                  editedRecipeIngrdnt;
+              }
+            }
+            state[mealTypes[i].code]["thisMealsIngrdnts"] =
+              mealIngrdntsToChckUpdtWGRI;
+          }
+        }
+        break;
+      case "ingredient":
+        let relevantMealIngrdnts2 = state[mealType]["thisMealsIngrdnts"];
+        let ingrdntToUpdate =
+          relevantMealIngrdnts2[arrayIndex].genRecipeIngredient.ingredient;
+        ingrdntToUpdate[propToUpdate] = newValue;
+        let editedIngrdnt = ingrdntToUpdate;
+        let editedIngrdntsId = editedIngrdnt._id;
+        for (let i = 0; i < mealTypes.length; i++) {
+          let mealIngrdntsToChckUpdtWIngrdnt =
+            state[mealTypes[i].code]["thisMealsIngrdnts"];
+          for (let i = 0; i < mealIngrdntsToChckUpdtWIngrdnt.length; i++) {
+            let thisMealsGRIsIngrdnt =
+              mealIngrdntsToChckUpdtWIngrdnt[i].genRecipeIngredient.ingredient;
+            let thisMealsGRIsIngrdntId = thisMealsGRIsIngrdnt._id;
+            if (thisMealsGRIsIngrdntId !== editedIngrdntsId) {
+              return;
+            } else {
+              mealIngrdntsToChckUpdtWIngrdnt[i].genRecipeIngredient.ingredient =
+                editedIngrdnt;
+            }
+          }
+          state[mealTypes[i].code]["thisMealsIngrdnts"] =
+            mealIngrdntsToChckUpdtWIngrdnt;
+        }
+        break;
+    }
+    this.setState({ state });
+  };
   fetchDayMealsIngrdnts = (meal) => {
     axios
       .get(
@@ -966,12 +672,12 @@ class DayDetail extends Component {
   };
   handleClickDeleteDay = () => {
     if (
-      this.state.breakfastIngrdnts.length === 0 &&
-      this.state.snack1Ingrdnts.length === 0 &&
-      this.state.lunchIngrdnts.length === 0 &&
-      this.state.snack2Ingrdnts.length === 0 &&
-      this.state.dinnerIngrdnts.length === 0 &&
-      this.state.dessertIngrdnts.length === 0
+      this.state.breakfast.thisMealsIngrdnts.length === 0 &&
+      this.state.snack1.thisMealsIngrdnts.length === 0 &&
+      this.state.lunch.thisMealsIngrdnts.length === 0 &&
+      this.state.snack2.thisMealsIngrdnts.length === 0 &&
+      this.state.dinner.thisMealsIngrdnts.length === 0 &&
+      this.state.dessert.thisMealsIngrdnts.length === 0
     ) {
       this.props.onDeleteDay(this.state.thisDay._id);
     } else {
@@ -1216,6 +922,7 @@ class DayDetail extends Component {
                                     populateNewMealIngredients={
                                       this.populateNewMealIngredients
                                     }
+                                    updateProp={this.updateProp}
                                     thisMealTypesGenRecipes={
                                       this.props.allBreakfastRecipes
                                     }
@@ -1264,6 +971,7 @@ class DayDetail extends Component {
                                     populateNewMealIngredients={
                                       this.populateNewMealIngredients
                                     }
+                                    updateProp={this.updateProp}
                                     thisMealTypesGenRecipes={
                                       this.props.allLunchRecipes
                                     }
@@ -1313,6 +1021,7 @@ class DayDetail extends Component {
                                     populateNewMealIngredients={
                                       this.populateNewMealIngredients
                                     }
+                                    updateProp={this.updateProp}
                                     thisRecipesIngrdnts={
                                       this.state.snack2.thisRecipesIngrdnts
                                     }
