@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import MealIngredientDetail from "./MealIngredientDetail";
@@ -8,6 +8,7 @@ import MacrosTable2 from "./MacrosTable2.component";
 import dayjs from "dayjs";
 
 const MealDetail2 = (props) => {
+  const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   let deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   function onChange() {
@@ -18,17 +19,21 @@ const MealDetail2 = (props) => {
       props.thisMeal.thisMealsIngrdnts.length > 0 &&
       props.thisMeal.thisMealJustCreated !== true
     ) {
-      return props.thisMeal.thisMealsIngrdnts.map((mealIngredient) => {
+      return props.thisMeal.thisMealsIngrdnts.map((mealIngredient, index) => {
         return (
           <MealIngredientDetail
             key={mealIngredient._id}
             thisMealIngredient={mealIngredient}
-            onUpdateMealIngrdntQty={props.onUpdateMealIngrdntQty}
-            findChangeMealIngrdntByIndex={props.findChangeMealIngrdntByIndex}
-            onDelete={props.onDelete}
             allGRFUsers={props.allGRFUsers}
             updateProp={props.updateProp}
-            mealIngrdntsArrayIndex={0}
+            mealIngrdntsArrayIndex={index}
+            userType={props.userType}
+            onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
+            onClickEdit={props.onClickEdit}
+            recordChanged={props.thisMeal.recordChanged}
+            onCancel={props.onCancel}
+            onDelete={props.onDeleteMeal}
+            deleteMsg={deleteMsg}
           />
         );
       });
@@ -148,9 +153,9 @@ const MealDetail2 = (props) => {
                   userType={props.userType}
                   thisFormState={props.thisMeal.thisMealFormState}
                   onSubmitFormChange={props.onSubmitMealFormChange}
-                  onClickEdit={props.onClickEdit}
+                  onClickEdit={props.onClickEditOnMeal}
                   recordChanged={props.thisMeal.recordChanged}
-                  onCancel={props.onCancel}
+                  onCancel={props.onCancelMealEdit}
                   onDelete={props.onDeleteMeal}
                   deleteMsg={deleteMsg}
                 />
@@ -257,7 +262,16 @@ const MealDetail2 = (props) => {
                             ? true
                             : false
                         }
-                        onChange={props.onChangeMealDay}
+                        //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                        onChange={(e) =>
+                          props.updateProp(
+                            "meal",
+                            props.thisMeal.thisMeal.mealType.code,
+                            "day",
+                            0,
+                            e
+                          )
+                        }
                       >
                         {props.allDays.map(function (day) {
                           return (
@@ -280,7 +294,15 @@ const MealDetail2 = (props) => {
                             ? true
                             : false
                         }
-                        onChange={props.onChangeMealsType}
+                        onChange={(e) =>
+                          props.updateProp(
+                            "meal",
+                            props.thisMeal.thisMeal.mealType.code,
+                            "mealType",
+                            0,
+                            e
+                          )
+                        }
                       >
                         {props.allMealTypes.map(function (mealType) {
                           return (
@@ -309,17 +331,20 @@ const MealDetail2 = (props) => {
               </div>
             </div>
           </form>
-          {/* <form className="card mt-3 mb-3">
+          <form className="card mt-3 mb-3">
             <div className="card-header mealCardHeader">
               <div className="mealGenRecipeSctnHdr">
                 <h5 className="formSctnTitle">Recipe Details</h5>
                 <EditOptions
-                  parentObj={"genRecipe"}
-                  userType={this.state.userType}
-                  thisFormState={this.state.genRecipeFormState}
-                  onSubmitFormChange={this.handleSubmitRecipeFormChange}
-                  onClickEdit={this.handleClickEdit}
-                  onCancel={this.handleCancel}
+                  parentObj={props.thisMeal.thisMeal.mealType.code}
+                  userType={props.userType}
+                  onSubmitFormChange={props.handleSubmitRecipeFormChange}
+                  thisFormState={props.thisMeal.thisGenRecipeFormState}
+                  onClickEdit={props.onClickEditOnGenRecipe}
+                  recordChanged={props.thisMeal.recordChanged}
+                  onCancel={props.onCancelGenRecipeEdit}
+                  onDelete={props.onDeleteMeal}
+                  deleteMsg={deleteMsg}
                 />
               </div>
             </div>
@@ -331,12 +356,12 @@ const MealDetail2 = (props) => {
                   //   backgroundImage: `url(${this.state.thisMeal.thisMeal.genRecipe.photoURL})`,
                   // }}
                   style={
-                    this.state.thisMealRecipePic == undefined
+                    props.thisMeal.thisMeal.genRecipe.photoURL === undefined
                       ? {
                           backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
                         }
                       : {
-                          backgroundImage: `url(${this.state.thisMealRecipePic})`,
+                          backgroundImage: `url(${props.thisMeal.thisMeal.genRecipe.photoURL})`,
                         }
                   }
                   // src={this.state.thisMeal.thisMeal.genRecipe.photoURL}
@@ -345,27 +370,39 @@ const MealDetail2 = (props) => {
                 <textarea
                   className="form-control mealTextArea"
                   disabled={
-                    this.state.genRecipeFormState == "viewing" ? true : false
+                    props.thisMeal.thisGenRecipeFormState === "viewing"
+                      ? true
+                      : false
                   }
-                  onChange={this.handleChangeRecipeInst}
-                  value={this.state.thisRecipesInst}
+                  onChange={(e) =>
+                    props.updateProp(
+                      "genRecipe",
+                      props.thisMeal.thisMeal.mealType.code,
+                      "prepIntructions",
+                      0,
+                      e
+                    )
+                  }
+                  value={props.thisMeal.thisMeal.genRecipe.prepInstructions}
                 ></textarea>
               </div>
               <div
                 className="accordion accordion-flush"
-                id={"mealInnerAccordionFull" + this.state.thisMealsId}
+                id={"mealInnerAccordionFull" + props.thisMeal.thisMeal._id}
               >
                 <div className="accordion-item">
                   <h2
                     className="accordion-header"
-                    id={"mealInnerAccordionHeader" + this.state.thisMealsId}
+                    id={
+                      "mealInnerAccordionHeader" + props.thisMeal.thisMeal._id
+                    }
                   >
                     <button
                       className="accordion-button collapsed mealInnerAccrdnBttn"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target={
-                        "#mealInnerAccrdn" + this.state.thisMealsId
+                        "#mealInnerAccrdn" + props.thisMeal.thisMeal._id
                       }
                       aria-expanded="true"
                       aria-controls="collapseOne"
@@ -373,13 +410,13 @@ const MealDetail2 = (props) => {
                   </h2>
                 </div>
                 <div
-                  id={"mealInnerAccrdn" + this.state.thisMealsId}
+                  id={"mealInnerAccrdn" + props.thisMeal.thisMeal._id}
                   className="accordion-collapse collapse"
                   aria-labelledby={
-                    "#mealInnerAccordionHeader" + this.state.thisMealsId
+                    "#mealInnerAccordionHeader" + props.thisMeal.thisMeal._id
                   }
                   data-bs-parent={
-                    "#mealInnerAccordionFull" + this.state.thisMealsId
+                    "#mealInnerAccordionFull" + props.thisMeal.thisMeal._id
                   }
                 >
                   <div className="accordion-body mealInnerAccordion">
@@ -389,12 +426,20 @@ const MealDetail2 = (props) => {
                         className="form-control"
                         type="text"
                         disabled={
-                          this.state.genRecipeFormState == "viewing"
+                          props.thisMeal.thisGenRecipeFormState === "viewing"
                             ? true
                             : false
                         }
-                        onChange={this.handleChangeThisRecipesName}
-                        value={this.state.thisRecipesName}
+                        value={props.thisMeal.thisMeal.genRecipe.name}
+                        onChange={(e) =>
+                          props.updateProp(
+                            "genRecipe",
+                            props.thisMeal.thisMeal.mealType.code,
+                            "name",
+                            0,
+                            e
+                          )
+                        }
                       />
                     </div>
                     <div className="form-group mealInputs">
@@ -403,35 +448,70 @@ const MealDetail2 = (props) => {
                         className="form-control"
                         type="text"
                         disabled={
-                          this.state.genRecipeFormState == "viewing"
+                          props.thisMeal.thisGenRecipeFormState == "viewing"
                             ? true
                             : false
                         }
-                        onChange={this.handleChangeRecipePic}
-                        value={this.state.thisMealRecipePic}
+                        onChange={(e) =>
+                          props.updateProp(
+                            "genRecipe",
+                            props.thisMeal.thisMeal.mealType.code,
+                            "photoURL",
+                            0,
+                            e
+                          )
+                        }
+                        value={props.thisMeal.thisMeal.genRecipe.photoURL}
                       />
                     </div>
                     <div className="form-group mealInputs">
                       <label>Author</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        value={"John"}
-                        disabled={true}
-                        onChange={this.onChange}
-                      />
+                      <select
+                        // ref="userInput"
+                        required
+                        className="form-control form-select"
+                        value={props.thisMeal.thisMeal.genRecipe.GRFUser}
+                        disabled={
+                          props.thisMeal.thisGenRecipeFormState == "viewing"
+                            ? true
+                            : false
+                        }
+                        onChange={(e) =>
+                          props.updateProp(
+                            "genRecipe",
+                            props.thisMeal.thisMeal.mealType.code,
+                            "GRFUser",
+                            0,
+                            e
+                          )
+                        }
+                      >
+                        {props.allGRFUsers.map(function (GRFUser) {
+                          return (
+                            <option
+                              key={"allGRFUsersListItem" + GRFUser._id}
+                              value={GRFUser._id}
+                            >
+                              {GRFUser.handle}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                   </div>
                   <div
                     className="accordion accordion-flush"
-                    id={"genRecipeAdminAccordionFull" + this.state.thisMealsId}
+                    id={
+                      "genRecipeAdminAccordionFull" +
+                      props.thisMeal.thisMeal._id
+                    }
                   >
                     <div className="accordion-item genRecipeAdminMenuBttn">
                       <h2
                         className="accordion-header"
                         id={
                           "genRecipeAdminAccordionHeader" +
-                          this.state.thisMealsId
+                          props.thisMeal.thisMeal._id
                         }
                       >
                         <button
@@ -439,51 +519,63 @@ const MealDetail2 = (props) => {
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target={
-                            "#genRecipeAdminAccrdn" + this.state.thisMealsId
+                            "#genRecipeAdminAccrdn" +
+                            props.thisMeal.thisMeal._id
                           }
                           aria-expanded="true"
                           aria-controls="collapseOne"
-                          disabled={
-                            this.state.userType == "admin" ? false : true
-                          }
+                          disabled={props.userType == "admin" ? false : true}
                         >
-                          {props.userType==="admin"?<FontAwesomeIcon icon="fa-solid fa-lock-open" />:<FontAwesomeIcon icon="fa-solid fa-lock" />} s
+                          {props.userType === "admin" ? (
+                            <FontAwesomeIcon icon="fa-solid fa-lock-open" />
+                          ) : (
+                            <FontAwesomeIcon icon="fa-solid fa-lock" />
+                          )}{" "}
                         </button>
                       </h2>
                     </div>
                     <div
-                      id={"genRecipeAdminAccrdn" + this.state.thisMealsId}
+                      id={"genRecipeAdminAccrdn" + props.thisMeal.thisMeal._id}
                       className="accordion-collapse collapse"
                       aria-labelledby={
                         "#genRecipeAdminAccordionHeader" +
-                        this.state.thisMealsId
+                        props.thisMeal.thisMeal._id
                       }
                       data-bs-parent={
-                        "#genRecipeAdminAccordionFull" + this.state.thisMealsId
+                        "#genRecipeAdminAccordionFull" +
+                        props.thisMeal.thisMeal._id
                       }
                     >
                       <div className="accordion-body mealInnerAccordion">
                         <div className="form-group mealInputs">
                           <label>Meal Type</label>
                           <select
-                            ref="userInput"
+                            // ref="userInput"
                             required
                             className="form-control form-select"
-                            value={this.state.thisRecipesMealType}
+                            value={props.thisMeal.thisMeal.genRecipe.mealType}
                             disabled={
-                              this.state.genRecipeFormState == "viewing"
+                              props.thisMeal.thisGenRecipeFormState == "viewing"
                                 ? true
                                 : false
                             }
-                            onChange={this.handleChangeThisRecipesMealType}
+                            onChange={(e) =>
+                              props.updateProp(
+                                "genRecipe",
+                                props.thisMeal.thisMeal.mealType.code,
+                                "mealType",
+                                0,
+                                e
+                              )
+                            }
                           >
-                            {this.state.allMealTypes.map(function (mealType) {
+                            {props.allMealTypes.map(function (mealType) {
                               return (
                                 <option
-                                  key={"allMealTypesListItem" + mealType}
+                                  key={"allMealTypesListItem" + mealType._id}
                                   value={mealType}
                                 >
-                                  {mealType}
+                                  {mealType.name}
                                 </option>
                               );
                             })}
@@ -492,18 +584,26 @@ const MealDetail2 = (props) => {
                         <div className="form-group mealInputs">
                           <label>Author</label>
                           <select
-                            ref="userInput"
+                            // ref="userInput"
                             required
                             className="form-control form-select"
-                            value={"123"}
+                            value={props.thisMeal.thisMeal.genRecipe.GRFUser}
                             disabled={
-                              this.state.genRecipeFormState == "viewing"
+                              props.thisMeal.thisGenRecipeFormState == "viewing"
                                 ? true
                                 : false
                             }
-                            onChange={this.handleChangeThisRecipesAuthor}
+                            onChange={(e) =>
+                              props.updateProp(
+                                "genRecipe",
+                                props.thisMeal.thisMeal.mealType.code,
+                                "GRFUser",
+                                0,
+                                e
+                              )
+                            }
                           >
-                            {this.props.allGRFUsers.map(function (GRFUser) {
+                            {props.allGRFUsers.map(function (GRFUser) {
                               return (
                                 <option
                                   key={"allGRFUsersListItem" + GRFUser._id}
@@ -520,9 +620,9 @@ const MealDetail2 = (props) => {
                           <input
                             className="form-control"
                             type="text"
-                            value={this.state.thisMeal.thisMeal.genRecipe._id}
+                            value={props.thisMeal.thisMeal.genRecipe._id}
                             disabled={true}
-                            onChange={this.onChange}
+                            onChange={props.onChange}
                           />
                         </div>
                       </div>
@@ -531,7 +631,7 @@ const MealDetail2 = (props) => {
                 </div>
               </div>
             </div>
-          </form> */}
+          </form>
           <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
           <div className="mlIngrdntsCntnr">{renderMealIngrdnts()}</div>
         </div>

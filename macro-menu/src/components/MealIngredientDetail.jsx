@@ -115,7 +115,7 @@ class MealIngredientDetail extends Component {
                 onChange={(e) =>
                   this.props.updateProp(
                     "mealIngredient",
-                    this.state.thisMealIngredient.meal.mealType.code,
+                    this.props.thisMealIngredient.meal.mealType.code,
                     "qty",
                     this.props.mealIngrdntsArrayIndex,
                     e
@@ -168,9 +168,7 @@ class MealIngredientDetail extends Component {
               >
                 <div className="accordion-body">
                   <div className="form-group mealIngrdntInputs">
-                    <label className="doubleHeightLabel">
-                      Default Recipe Ingredient
-                    </label>
+                    <label className="doubleHeightLabel">Meal Ingredient</label>
                     <input
                       type={"text"}
                       className="form-control"
@@ -178,7 +176,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.name
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "mealIngredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "genRecipeIngredient",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.mealIngrdntFormState === "viewing"
                           ? true
@@ -196,7 +203,16 @@ class MealIngredientDetail extends Component {
                         " - " +
                         this.state.thisMealIngredient.meal.mealType
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "mealIngredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "meal",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.mealIngrdntFormState === "viewing"
                           ? true
@@ -240,7 +256,16 @@ class MealIngredientDetail extends Component {
                 value={
                   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
-                onChange={this.onChange}
+                //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                onChange={(e) =>
+                  this.props.updateProp(
+                    "genRecipeIngredient",
+                    this.props.thisMealIngredient.meal.mealType.code,
+                    "defaultQty",
+                    this.props.mealIngrdntsArrayIndex,
+                    e
+                  )
+                }
                 disabled={
                   this.state.genRecipeIngrdntFormState === "viewing"
                     ? true
@@ -304,7 +329,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.name
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "genRecipeIngredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "ingredient",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.genRecipeIngrdntFormState === "viewing"
                           ? true
@@ -321,7 +355,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .genRecipe.name
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "genRecipeIngredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "genRecipe",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.genRecipeIngrdntFormState === "viewing"
                           ? true
@@ -371,7 +414,16 @@ class MealIngredientDetail extends Component {
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
                       .unitOfMeasure.name
                   }
-                  onChange={this.onChange}
+                  //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                  onChange={(e) =>
+                    this.props.updateProp(
+                      "ingredient",
+                      this.props.thisMealIngredient.meal.mealType.code,
+                      "unitOfMeasure",
+                      this.props.mealIngrdntsArrayIndex,
+                      e
+                    )
+                  }
                   disabled={
                     this.state.ingredientFormState === "viewing" ? true : false
                   }
@@ -389,7 +441,16 @@ class MealIngredientDetail extends Component {
                       : this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.weightType.name
                   }
-                  onChange={this.onChange}
+                  //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                  onChange={(e) =>
+                    this.props.updateProp(
+                      "ingredient",
+                      this.props.thisMealIngredient.meal.mealType.code,
+                      "weightType",
+                      this.props.mealIngrdntsArrayIndex,
+                      e
+                    )
+                  }
                   disabled={
                     this.state.ingredientFormState === "viewing" ? true : false
                   }
@@ -424,7 +485,16 @@ class MealIngredientDetail extends Component {
                       : this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.brand.name
                   }
-                  onChange={this.onChange}
+                  //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                  onChange={(e) =>
+                    this.props.updateProp(
+                      "ingredient",
+                      this.props.thisMealIngredient.meal.mealType.code,
+                      "brand",
+                      this.props.mealIngrdntsArrayIndex,
+                      e
+                    )
+                  }
                   disabled={
                     this.state.ingredientFormState === "viewing" ? true : false
                   }
@@ -439,7 +509,16 @@ class MealIngredientDetail extends Component {
                     this.state.thisMealIngredient.genRecipeIngredient.ingredient
                       .name
                   }
-                  onChange={this.onChange}
+                  //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                  onChange={(e) =>
+                    this.props.updateProp(
+                      "ingredient",
+                      this.props.thisMealIngredient.meal.mealType.code,
+                      "name",
+                      this.props.mealIngrdntsArrayIndex,
+                      e
+                    )
+                  }
                   disabled={
                     this.state.ingredientFormState === "viewing" ? true : false
                   }
@@ -485,7 +564,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.calories
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "ingredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "calories",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.ingredientFormState === "viewing"
                           ? true
@@ -502,7 +590,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.carbs
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "ingredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "carbs",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.ingredientFormState === "viewing"
                           ? true
@@ -519,7 +616,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.protein
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "ingredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "protein",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.ingredientFormState === "viewing"
                           ? true
@@ -536,7 +642,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.fat
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "ingredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "fat",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.ingredientFormState === "viewing"
                           ? true
@@ -553,7 +668,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.fiber
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "ingredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "fiber",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.ingredientFormState === "viewing"
                           ? true
@@ -570,7 +694,16 @@ class MealIngredientDetail extends Component {
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.photoURL
                       }
-                      onChange={this.onChange}
+                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      onChange={(e) =>
+                        this.props.updateProp(
+                          "ingredient",
+                          this.props.thisMealIngredient.meal.mealType.code,
+                          "photoURL",
+                          this.props.mealIngrdntsArrayIndex,
+                          e
+                        )
+                      }
                       disabled={
                         this.state.ingredientFormState === "viewing"
                           ? true
@@ -645,9 +778,16 @@ class MealIngredientDetail extends Component {
                               ? true
                               : false
                           }
-                          onChange={() => {
-                            this.handleChangeIngrdntAuthor();
-                          }}
+                          //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                          onChange={(e) =>
+                            this.props.updateProp(
+                              "ingredient",
+                              this.props.thisMealIngredient.meal.mealType.code,
+                              "GRFUser",
+                              this.props.mealIngrdntsArrayIndex,
+                              e
+                            )
+                          }
                         >
                           {this.props.allGRFUsers.map(function (GRFUser) {
                             return (

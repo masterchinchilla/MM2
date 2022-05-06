@@ -155,6 +155,7 @@ export default class WeekMealPlanDetail extends Component {
           recordChanged: false,
           userChangedThisMealsRecipe: false,
           thisMealFormState: "viewing",
+          thisGenRecipeFormState: "viewing",
           thisMeal: {
             _id: "missing",
             day: {},
@@ -251,6 +252,7 @@ export default class WeekMealPlanDetail extends Component {
           recordChanged: false,
           userChangedThisMealsRecipe: false,
           thisMealFormState: "viewing",
+          thisGenRecipeFormState: "viewing",
           thisMeal: {
             _id: "missing",
             day: {},
@@ -347,6 +349,7 @@ export default class WeekMealPlanDetail extends Component {
           recordChanged: false,
           userChangedThisMealsRecipe: false,
           thisMealFormState: "viewing",
+          thisGenRecipeFormState: "viewing",
           thisMeal: {
             _id: "missing",
             day: {},
@@ -443,6 +446,7 @@ export default class WeekMealPlanDetail extends Component {
           recordChanged: false,
           userChangedThisMealsRecipe: false,
           thisMealFormState: "viewing",
+          thisGenRecipeFormState: "viewing",
           thisMeal: {
             _id: "missing",
             day: {},
@@ -539,6 +543,7 @@ export default class WeekMealPlanDetail extends Component {
           recordChanged: false,
           userChangedThisMealsRecipe: false,
           thisMealFormState: "viewing",
+          thisGenRecipeFormState: "viewing",
           thisMeal: {
             _id: "missing",
             day: {},
@@ -635,6 +640,7 @@ export default class WeekMealPlanDetail extends Component {
           recordChanged: false,
           userChangedThisMealsRecipe: false,
           thisMealFormState: "viewing",
+          thisGenRecipeFormState: "viewing",
           thisMeal: {
             _id: "missing",
             day: {},

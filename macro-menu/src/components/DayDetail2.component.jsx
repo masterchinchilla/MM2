@@ -27,6 +27,7 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.breakfast.thisMeal,
         // thisMeal: {
         //   _id: "missing",
@@ -140,6 +141,7 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.snack1.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.snack1.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
@@ -157,6 +159,7 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.lunch.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.lunch.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
@@ -174,6 +177,7 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.snack2.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.snack2.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
@@ -191,6 +195,7 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.dinner.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.dinner.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
@@ -208,6 +213,7 @@ class DayDetail extends Component {
         recordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.dessert.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.dessert.thisMealsIngrdnts,
         thisRecipesIngrdnts: [],
@@ -516,7 +522,21 @@ class DayDetail extends Component {
     state[thisMeal]["thisMealFormState"] = "editingOrig";
     this.setState(state);
   };
+  handleClickEditOnGenRecipe = (thisMeal) => {
+    let state = this.state;
+    let currentMeal = _.cloneDeep(state[thisMeal]);
+    state[`${thisMeal}Old`] = currentMeal;
+    state[thisMeal]["thisGenRecipeFormState"] = "editingOrig";
+    this.setState(state);
+  };
   handleCancelMealEdit = (thisMeal) => {
+    let state = this.state;
+    let currentMealRestoredToOld = _.cloneDeep(state[`${thisMeal}Old`]);
+    state[thisMeal] = currentMealRestoredToOld;
+    state[`${thisMeal}Old`] = {};
+    this.setState(state);
+  };
+  handleCancelGenRecipeEdit = (thisMeal) => {
     let state = this.state;
     let currentMealRestoredToOld = _.cloneDeep(state[`${thisMeal}Old`]);
     state[thisMeal] = currentMealRestoredToOld;
@@ -909,8 +929,16 @@ class DayDetail extends Component {
                                     onSubmitMealFormChange={
                                       this.handleSubmitMealFormChange
                                     }
-                                    onClickEdit={this.handleClickEditOnMeal}
-                                    onCancel={this.handleCancelMealEdit}
+                                    onClickEditOnMeal={
+                                      this.handleClickEditOnMeal
+                                    }
+                                    onCancelMealEdit={this.handleCancelMealEdit}
+                                    onClickEditOnGenRecipe={
+                                      this.handleClickEditOnGenRecipe
+                                    }
+                                    onCancelGenRecipeEdit={
+                                      this.handleCancelGenRecipeEdit
+                                    }
                                     onDeleteMeal={this.handleDeleteMeal}
                                     thisMealOld={this.state.breakfastOld}
                                     onChangeMealRecipe={
@@ -958,8 +986,16 @@ class DayDetail extends Component {
                                     onSubmitMealFormChange={
                                       this.handleSubmitMealFormChange
                                     }
-                                    onClickEdit={this.handleClickEditOnMeal}
-                                    onCancel={this.handleCancelMealEdit}
+                                    onClickEditOnMeal={
+                                      this.handleClickEditOnMeal
+                                    }
+                                    onCancelMealEdit={this.handleCancelMealEdit}
+                                    onClickEditOnGenRecipe={
+                                      this.handleClickEditOnGenRecipe
+                                    }
+                                    onCancelGenRecipeEdit={
+                                      this.handleCancelGenRecipeEdit
+                                    }
                                     onDeleteMeal={this.handleDeleteMeal}
                                     thisMealOld={this.state.lunchOld}
                                     onChangeMealRecipe={
@@ -1008,8 +1044,16 @@ class DayDetail extends Component {
                                     onSubmitMealFormChange={
                                       this.handleSubmitMealFormChange
                                     }
-                                    onClickEdit={this.handleClickEditOnMeal}
-                                    onCancel={this.handleCancelMealEdit}
+                                    onClickEditOnMeal={
+                                      this.handleClickEditOnMeal
+                                    }
+                                    onCancelMealEdit={this.handleCancelMealEdit}
+                                    onClickEditOnGenRecipe={
+                                      this.handleClickEditOnGenRecipe
+                                    }
+                                    onCancelGenRecipeEdit={
+                                      this.handleCancelGenRecipeEdit
+                                    }
                                     onDeleteMeal={this.handleDeleteMeal}
                                     thisMealOld={this.state.snack2Old}
                                     onChangeMealRecipe={
