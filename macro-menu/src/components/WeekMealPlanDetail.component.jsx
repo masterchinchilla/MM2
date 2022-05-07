@@ -244,7 +244,43 @@ export default class WeekMealPlanDetail extends Component {
               },
             },
           ],
-          thisRecipesIngrdnts: [],
+          thisRecipesIngrdnts: [
+            {
+              defaultQty: 1,
+              ingredient: {
+                name: "tempBreakfastIngredient1Name",
+                calories: 1,
+                carbs: 1,
+                protein: 1,
+                fat: 1,
+                fiber: 1,
+                unitOfMeasure: { name: "Each" },
+                weightType: { name: "" },
+                photoURL: "",
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                brand: { name: "" },
+              },
+              genRecipe: {
+                _id: "tempBreakfastRecipe1Id",
+                name: "tempBreakfastRecipe1Name",
+                availableMealType: {
+                  _id: "626dd6fc21888432c0fe3e90",
+                  code: "breakfast",
+                  name: "Breakfast",
+                },
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                defaultPrepInstructions: "",
+                photoUrl: "",
+              },
+              defaultPrepInstructions: "",
+            },
+          ],
           thisMealsMacrosBudget: {},
         },
         snack1: {
@@ -341,7 +377,43 @@ export default class WeekMealPlanDetail extends Component {
               },
             },
           ],
-          thisRecipesIngrdnts: [],
+          thisRecipesIngrdnts: [
+            {
+              defaultQty: 1,
+              ingredient: {
+                name: "tempSnack1Ingredient1Name",
+                calories: 1,
+                carbs: 1,
+                protein: 1,
+                fat: 1,
+                fiber: 1,
+                unitOfMeasure: { name: "Each" },
+                weightType: { name: "" },
+                photoURL: "",
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                brand: { name: "" },
+              },
+              genRecipe: {
+                _id: "tempSnack1Recipe1Id",
+                name: "tempSnack1Recipe1Name",
+                availableMealType: {
+                  _id: "626ddf9e21888432c0fe3e91",
+                  code: "snack1",
+                  name: "Snack 1",
+                },
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                defaultPrepInstructions: "",
+                photoUrl: "",
+              },
+              defaultPrepInstructions: "",
+            },
+          ],
           thisMealsMacrosBudget: {},
         },
         lunch: {
@@ -438,7 +510,43 @@ export default class WeekMealPlanDetail extends Component {
               },
             },
           ],
-          thisRecipesIngrdnts: [],
+          thisRecipesIngrdnts: [
+            {
+              defaultQty: 1,
+              ingredient: {
+                name: "tempLunchIngredient1Name",
+                calories: 1,
+                carbs: 1,
+                protein: 1,
+                fat: 1,
+                fiber: 1,
+                unitOfMeasure: { name: "Each" },
+                weightType: { name: "" },
+                photoURL: "",
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                brand: { name: "" },
+              },
+              genRecipe: {
+                _id: "tempLunchRecipe1Id",
+                name: "tempLunchRecipe1Name",
+                availableMealType: {
+                  _id: "626ddfb721888432c0fe3e92",
+                  code: "lunch",
+                  name: "Lunch",
+                },
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                defaultPrepInstructions: "",
+                photoUrl: "",
+              },
+              defaultPrepInstructions: "",
+            },
+          ],
           thisMealsMacrosBudget: {},
         },
         snack2: {
@@ -535,7 +643,43 @@ export default class WeekMealPlanDetail extends Component {
               },
             },
           ],
-          thisRecipesIngrdnts: [],
+          thisRecipesIngrdnts: [
+            {
+              defaultQty: 1,
+              ingredient: {
+                name: "tempSnack2Ingredient1Name",
+                calories: 1,
+                carbs: 1,
+                protein: 1,
+                fat: 1,
+                fiber: 1,
+                unitOfMeasure: { name: "Each" },
+                weightType: { name: "" },
+                photoURL: "",
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                brand: { name: "" },
+              },
+              genRecipe: {
+                _id: "tempSnack2Recipe1Id",
+                name: "tempSnack2Recipe1Name",
+                availableMealType: {
+                  _id: "626ddfcb21888432c0fe3e93",
+                  code: "snack2",
+                  name: "Snack 2",
+                },
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                defaultPrepInstructions: "",
+                photoUrl: "",
+              },
+              defaultPrepInstructions: "",
+            },
+          ],
           thisMealsMacrosBudget: {},
         },
         dinner: {
@@ -632,7 +776,43 @@ export default class WeekMealPlanDetail extends Component {
               },
             },
           ],
-          thisRecipesIngrdnts: [],
+          thisRecipesIngrdnts: [
+            {
+              defaultQty: 1,
+              ingredient: {
+                name: "tempDinnerIngredient1Name",
+                calories: 1,
+                carbs: 1,
+                protein: 1,
+                fat: 1,
+                fiber: 1,
+                unitOfMeasure: { name: "Each" },
+                weightType: { name: "" },
+                photoURL: "",
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                brand: { name: "" },
+              },
+              genRecipe: {
+                _id: "tempDinnerRecipe1Id",
+                name: "tempDinnerRecipe1Name",
+                availableMealType: {
+                  _id: "626ddfdc21888432c0fe3e94",
+                  code: "dinner",
+                  name: "Dinner",
+                },
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                defaultPrepInstructions: "",
+                photoUrl: "",
+              },
+              defaultPrepInstructions: "",
+            },
+          ],
           thisMealsMacrosBudget: {},
         },
         dessert: {
@@ -729,19 +909,55 @@ export default class WeekMealPlanDetail extends Component {
               },
             },
           ],
-          thisRecipesIngrdnts: [],
+          thisRecipesIngrdnts: [
+            {
+              defaultQty: 1,
+              ingredient: {
+                name: "tempDessertIngredient1Name",
+                calories: 1,
+                carbs: 1,
+                protein: 1,
+                fat: 1,
+                fiber: 1,
+                unitOfMeasure: { name: "Each" },
+                weightType: { name: "" },
+                photoURL: "",
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                brand: { name: "" },
+              },
+              genRecipe: {
+                _id: "tempDessertRecipe1Id",
+                name: "tempDessertRecipe1Name",
+                availableMealType: {
+                  _id: "626ddfee21888432c0fe3e95",
+                  code: "dessert",
+                  name: "Dessert",
+                },
+                GRFUser: {
+                  _id: "62577a533813f4f21c27e1c7",
+                  handle: "Service",
+                },
+                defaultPrepInstructions: "",
+                photoUrl: "",
+              },
+              defaultPrepInstructions: "",
+            },
+          ],
           thisMealsMacrosBudget: {},
         },
       },
+      allIngredients: [],
+      allGenRecipeIngredients: [],
+      allMeals: [],
     };
   }
   componentDidMount() {
     this.loadData();
   }
   loadData() {
-    this.getAllMealTypes();
-    this.getAllDays();
-    this.getAllRecipes();
     axios
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
@@ -763,14 +979,6 @@ export default class WeekMealPlanDetail extends Component {
           wmpDataHasLoaded: true,
         });
       });
-    axios.get("http://localhost:5000/GRFUsers/").then((response) => {
-      if (response.data.length > 0) {
-        this.setState({
-          allGRFUsers: response.data.map((GRFUser) => GRFUser),
-          allGRFUsersHasLoaded: true,
-        });
-      }
-    });
     axios
       .get(
         "http://localhost:5000/days/daysofthiswmp/" + this.props.match.params.id
@@ -788,9 +996,27 @@ export default class WeekMealPlanDetail extends Component {
           daysOfTheWMPHaveLoaded: true,
         });
       });
+    this.getAllGRFUsers();
+    this.getAllMealTypes();
+    this.getAllDays();
+    this.getAllRecipes();
+    this.getAllIngredients();
+    // this.getAllGenRecipeIngredients();
+    this.getAllMealTypes();
+    this.getAllMeals();
   }
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  getAllGRFUsers = () => {
+    axios.get("http://localhost:5000/GRFUsers/").then((response) => {
+      if (response.data.length > 0) {
+        this.setState({
+          allGRFUsers: response.data.map((GRFUser) => GRFUser),
+          allGRFUsersHasLoaded: true,
+        });
+      }
+    });
   };
   getAllMealTypes = () => {
     axios.get("http://localhost:5000/mealTypes/").then((response) => {
@@ -828,6 +1054,31 @@ export default class WeekMealPlanDetail extends Component {
         allDessertRecipes: response.data.filter(
           (genRecipe) => genRecipe.availableMealType.code === "dessert"
         ),
+      });
+    });
+  };
+  getAllIngredients = () => {
+    axios.get("http://localhost:5000/ingredients/").then((response) => {
+      this.setState({
+        allIngredients: response.data.map((ingredient) => ingredient),
+      });
+    });
+  };
+  getAllGenRecipeIngredients = () => {
+    axios
+      .get("http://localhost:5000/genRecipeIngredients/")
+      .then((response) => {
+        this.setState({
+          allGenRecipeIngredients: response.data.map(
+            (genRecipeIngredient) => genRecipeIngredient
+          ),
+        });
+      });
+  };
+  getAllMeals = () => {
+    axios.get("http://localhost:5000/meals/").then((response) => {
+      this.setState({
+        allMeals: response.data.map((meal) => meal),
       });
     });
   };
@@ -1397,6 +1648,11 @@ export default class WeekMealPlanDetail extends Component {
                         allDinnerRecipes={this.state.allDinnerRecipes}
                         allDessertRecipes={this.state.allDessertRecipes}
                         mealTypes={this.state.mealTypes}
+                        allIngredients={this.state.allIngredients}
+                        // allGenRecipeIngredients={
+                        //   this.state.allGenRecipeIngredients
+                        // }
+                        allMeals={this.state.allMeals}
                         macrosBudget={{
                           cals: this.state.cals,
                           carbs: this.state.carbs,
@@ -1427,6 +1683,11 @@ export default class WeekMealPlanDetail extends Component {
                       allDinnerRecipes={this.state.allDinnerRecipes}
                       allDessertRecipes={this.state.allDessertRecipes}
                       mealTypes={this.state.mealTypes}
+                      allIngredients={this.state.allIngredients}
+                      // allGenRecipeIngredients={
+                      //   this.state.allGenRecipeIngredients
+                      // }
+                      allMeals={this.state.allMeals}
                       macrosBudget={{
                         cals: this.state.cals,
                         carbs: this.state.carbs,
@@ -1456,6 +1717,11 @@ export default class WeekMealPlanDetail extends Component {
                       allDinnerRecipes={this.state.allDinnerRecipes}
                       allDessertRecipes={this.state.allDessertRecipes}
                       mealTypes={this.state.mealTypes}
+                      allIngredients={this.state.allIngredients}
+                      // allGenRecipeIngredients={
+                      //   this.state.allGenRecipeIngredients
+                      // }
+                      allMeals={this.state.allMeals}
                       macrosBudget={{
                         cals: this.state.cals,
                         carbs: this.state.carbs,
@@ -1473,10 +1739,10 @@ export default class WeekMealPlanDetail extends Component {
                       }}
                       getRndInteger={this.getRndInteger}
                     />
-                    {this.renderDay(this.state.wed, "Wednesday", "wed")}
+                    {/* {this.renderDay(this.state.wed, "Wednesday", "wed")}
                     {this.renderDay(this.state.thurs, "Thursday", "thurs")}
                     {this.renderDay(this.state.fri, "Friday", "fri")}
-                    {this.renderDay(this.state.sat, "Saturday", "sat")}
+                    {this.renderDay(this.state.sat, "Saturday", "sat")} */}
                   </div>
                 </div>
               </div>

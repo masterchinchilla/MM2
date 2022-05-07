@@ -438,3 +438,6 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   top:25%;
   left:25%;
 }
+h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
+  margin: 0.5rem auto 1rem auto !important;
+}

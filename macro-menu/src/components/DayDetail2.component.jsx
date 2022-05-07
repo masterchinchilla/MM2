@@ -109,7 +109,8 @@ class DayDetail extends Component {
         //     },
         //   },
         // ],
-        thisRecipesIngrdnts: [],
+        thisRecipesIngrdnts:
+          this.props.mealDefaults.breakfast.thisRecipesIngrdnts,
         thisMealsMacrosBudget: {
           cals: 1,
           carbs: 1,
@@ -144,7 +145,7 @@ class DayDetail extends Component {
         thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.snack1.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.snack1.thisMealsIngrdnts,
-        thisRecipesIngrdnts: [],
+        thisRecipesIngrdnts: this.props.mealDefaults.snack1.thisRecipesIngrdnts,
         thisMealsMacrosBudget: {
           cals: 1,
           carbs: 1,
@@ -162,7 +163,7 @@ class DayDetail extends Component {
         thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.lunch.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.lunch.thisMealsIngrdnts,
-        thisRecipesIngrdnts: [],
+        thisRecipesIngrdnts: this.props.mealDefaults.lunch.thisRecipesIngrdnts,
         thisMealsMacrosBudget: {
           cals: 1,
           carbs: 1,
@@ -180,7 +181,7 @@ class DayDetail extends Component {
         thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.snack2.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.snack2.thisMealsIngrdnts,
-        thisRecipesIngrdnts: [],
+        thisRecipesIngrdnts: this.props.mealDefaults.snack2.thisRecipesIngrdnts,
         thisMealsMacrosBudget: {
           cals: 1,
           carbs: 1,
@@ -198,7 +199,7 @@ class DayDetail extends Component {
         thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.dinner.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.dinner.thisMealsIngrdnts,
-        thisRecipesIngrdnts: [],
+        thisRecipesIngrdnts: this.props.mealDefaults.dinner.thisRecipesIngrdnts,
         thisMealsMacrosBudget: {
           cals: 1,
           carbs: 1,
@@ -216,7 +217,8 @@ class DayDetail extends Component {
         thisGenRecipeFormState: "viewing",
         thisMeal: this.props.mealDefaults.dessert.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.dessert.thisMealsIngrdnts,
-        thisRecipesIngrdnts: [],
+        thisRecipesIngrdnts:
+          this.props.mealDefaults.dessert.thisRecipesIngrdnts,
         thisMealsMacrosBudget: {
           cals: 1,
           carbs: 1,
@@ -267,6 +269,8 @@ class DayDetail extends Component {
         fat: macrosBudget.fat * mealWeightPercent,
         fiber: macrosBudget.fiber * mealWeightPercent,
       };
+      let thisRecipesIngrdnts =
+        state.mealDefaults[thisMealTypeCode]["thisRecipesIngrdnts"];
       thisMealDefaultsIngrdnts[0].meal.day = thisDay;
       state.mealDefaults[thisMealTypeCode]["thisMealsIngrdnts"] =
         thisMealDefaultsIngrdnts;
@@ -276,6 +280,7 @@ class DayDetail extends Component {
       state.mealDefaults[thisMealTypeCode]["thisMealsMacrosBudget"] =
         thisMealsMacrosBudget;
       state[thisMealTypeCode]["thisMealsMacrosBudget"] = thisMealsMacrosBudget;
+      state[thisMealTypeCode]["thisRecipesIngrdnts"] = thisRecipesIngrdnts;
     }
     this.setState({ state });
   };
@@ -294,119 +299,149 @@ class DayDetail extends Component {
   updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e) => {
     let newValue = e.target.value;
     let state = this.state;
-    let mealTypes = this.props.mealTypes;
     switch (stateObject) {
       case "day":
         state.thisDay[propToUpdate] = newValue;
-        let editedDay = state.thisDay;
-        for (let i = 0; i < mealTypes.length; i++) {
-          let mealId = state[mealTypes[i].code]["thisMeal"]["_id"];
-          if (mealId === "missing") {
-            return;
-          } else {
-            state[mealTypes[i].code]["thisMeal"]["day"] = editedDay;
-            let mealIngrdntsToUpdate =
-              state[mealTypes[i].code]["thisMealsIngrdnts"];
-            for (let i = 0; i < mealIngrdntsToUpdate.length; i++) {
-              mealIngrdntsToUpdate[i].meal.day = editedDay;
-            }
-            state[mealTypes[i].code]["thisMealsIngrdnts"] =
-              mealIngrdntsToUpdate;
-          }
-        }
         break;
       case "meal":
         state[mealType]["thisMeal"][propToUpdate] = newValue;
-        let editedMeal = state[mealType]["thisMeal"];
-        let mealIngrdntsToUpdateWMeal = state[mealType]["thisMealsIngrdnts"];
-        for (let i = 0; i < mealIngrdntsToUpdateWMeal.length; i++) {
-          mealIngrdntsToUpdateWMeal[i].meal = editedMeal;
-        }
-        state[mealType]["thisMealsIngrdnts"] = mealIngrdntsToUpdateWMeal;
         break;
       case "genRecipe":
         state[mealType]["thisMeal"]["genRecipe"][propToUpdate] = newValue;
-        let editedRecipe = state[mealType]["thisMeal"]["genRecipe"];
-        for (let i = 0; i < mealTypes.length; i++) {
-          let thisMealsRecipesId =
-            state[mealTypes[i].code]["thisMeal"]["genRecipe"]["_id"];
-          if (thisMealsRecipesId !== editedRecipe._id) {
-            return;
-          } else {
-            state[mealTypes[i].code]["thisMeal"]["genRecipe"] = editedRecipe;
-            let mealIngrdntsToUpdateWGenRecipe =
-              state[mealTypes[i].code]["thisMealsIngrdnts"];
-            for (let i = 0; i < mealIngrdntsToUpdateWGenRecipe.length; i++) {
-              mealIngrdntsToUpdateWGenRecipe[i].genRecipeIngredient.genRecipe =
-                editedRecipe;
-            }
-            state[mealTypes[i].code]["thisMealsIngrdnts"] =
-              mealIngrdntsToUpdateWGenRecipe;
-          }
-        }
         break;
       case "mealIngredient":
         state[mealType]["thisMealsIngrdnts"][arrayIndex][propToUpdate] =
           newValue;
         break;
       case "genRecipeIngredient":
-        let relevantMealIngrdnts1 = state[mealType]["thisMealsIngrdnts"];
-        let genRecipeIngrdntToUpdate =
-          relevantMealIngrdnts1[arrayIndex].genRecipeIngredient;
-        genRecipeIngrdntToUpdate[propToUpdate] = newValue;
-        let editedRecipeIngrdnt = genRecipeIngrdntToUpdate;
-        let editedRecipeIngrdntsId = editedRecipeIngrdnt._id;
-        let editedRecipesId = editedRecipeIngrdnt.genRecipe._id;
-        for (let i = 0; i < mealTypes.length; i++) {
-          let thisMeal = state[mealTypes[i].code]["thisMeal"];
-          let thisMealsRecipeId = thisMeal.genRecipe._id;
-          if (thisMealsRecipeId !== editedRecipesId) {
-            return;
-          } else {
-            let mealIngrdntsToChckUpdtWGRI =
-              state[mealTypes[i].code]["thisMealsIngrdnts"];
-            for (let i = 0; i < mealIngrdntsToChckUpdtWGRI.length; i++) {
-              let thisMealIngrdntsId = mealIngrdntsToChckUpdtWGRI[i]._id;
-              if (thisMealIngrdntsId !== editedRecipeIngrdntsId) {
-                return;
-              } else {
-                mealIngrdntsToChckUpdtWGRI[i].genRecipeIngredient =
-                  editedRecipeIngrdnt;
-              }
-            }
-            state[mealTypes[i].code]["thisMealsIngrdnts"] =
-              mealIngrdntsToChckUpdtWGRI;
-          }
-        }
+        state[mealType]["thisMealsIngrdnts"][arrayIndex]["genRecipeIngredient"][
+          propToUpdate
+        ] = newValue;
         break;
       case "ingredient":
-        let relevantMealIngrdnts2 = state[mealType]["thisMealsIngrdnts"];
-        let ingrdntToUpdate =
-          relevantMealIngrdnts2[arrayIndex].genRecipeIngredient.ingredient;
-        ingrdntToUpdate[propToUpdate] = newValue;
-        let editedIngrdnt = ingrdntToUpdate;
-        let editedIngrdntsId = editedIngrdnt._id;
-        for (let i = 0; i < mealTypes.length; i++) {
-          let mealIngrdntsToChckUpdtWIngrdnt =
-            state[mealTypes[i].code]["thisMealsIngrdnts"];
-          for (let i = 0; i < mealIngrdntsToChckUpdtWIngrdnt.length; i++) {
-            let thisMealsGRIsIngrdnt =
-              mealIngrdntsToChckUpdtWIngrdnt[i].genRecipeIngredient.ingredient;
-            let thisMealsGRIsIngrdntId = thisMealsGRIsIngrdnt._id;
-            if (thisMealsGRIsIngrdntId !== editedIngrdntsId) {
-              return;
-            } else {
-              mealIngrdntsToChckUpdtWIngrdnt[i].genRecipeIngredient.ingredient =
-                editedIngrdnt;
-            }
-          }
-          state[mealTypes[i].code]["thisMealsIngrdnts"] =
-            mealIngrdntsToChckUpdtWIngrdnt;
-        }
+        state[mealType]["thisMealsIngrdnts"][arrayIndex]["genRecipeIngredient"][
+          "ingredient"
+        ][propToUpdate] = newValue;
         break;
     }
     this.setState({ state });
   };
+  // updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e) => {
+  //   let newValue = e.target.value;
+  //   let state = this.state;
+  //   let mealTypes = this.props.mealTypes;
+  //   switch (stateObject) {
+  //     case "day":
+  //       state.thisDay[propToUpdate] = newValue;
+  //       let editedDay = state.thisDay;
+  //       for (let i = 0; i < mealTypes.length; i++) {
+  //         let mealId = state[mealTypes[i].code]["thisMeal"]["_id"];
+  //         if (mealId === "missing") {
+  //           return;
+  //         } else {
+  //           state[mealTypes[i].code]["thisMeal"]["day"] = editedDay;
+  //           let mealIngrdntsToUpdate =
+  //             state[mealTypes[i].code]["thisMealsIngrdnts"];
+  //           for (let i = 0; i < mealIngrdntsToUpdate.length; i++) {
+  //             mealIngrdntsToUpdate[i].meal.day = editedDay;
+  //           }
+  //           state[mealTypes[i].code]["thisMealsIngrdnts"] =
+  //             mealIngrdntsToUpdate;
+  //         }
+  //       }
+  //       break;
+  //     case "meal":
+  //       state[mealType]["thisMeal"][propToUpdate] = newValue;
+  //       let editedMeal = state[mealType]["thisMeal"];
+  //       let mealIngrdntsToUpdateWMeal = state[mealType]["thisMealsIngrdnts"];
+  //       for (let i = 0; i < mealIngrdntsToUpdateWMeal.length; i++) {
+  //         mealIngrdntsToUpdateWMeal[i].meal = editedMeal;
+  //       }
+  //       state[mealType]["thisMealsIngrdnts"] = mealIngrdntsToUpdateWMeal;
+  //       break;
+  //     case "genRecipe":
+  //       state[mealType]["thisMeal"]["genRecipe"][propToUpdate] = newValue;
+  //       let editedRecipe = state[mealType]["thisMeal"]["genRecipe"];
+  //       for (let i = 0; i < mealTypes.length; i++) {
+  //         let thisMealsRecipesId =
+  //           state[mealTypes[i].code]["thisMeal"]["genRecipe"]["_id"];
+  //         if (thisMealsRecipesId !== editedRecipe._id) {
+  //           return;
+  //         } else {
+  //           state[mealTypes[i].code]["thisMeal"]["genRecipe"] = editedRecipe;
+  //           let mealIngrdntsToUpdateWGenRecipe =
+  //             state[mealTypes[i].code]["thisMealsIngrdnts"];
+  //           for (let i = 0; i < mealIngrdntsToUpdateWGenRecipe.length; i++) {
+  //             mealIngrdntsToUpdateWGenRecipe[i].genRecipeIngredient.genRecipe =
+  //               editedRecipe;
+  //           }
+  //           state[mealTypes[i].code]["thisMealsIngrdnts"] =
+  //             mealIngrdntsToUpdateWGenRecipe;
+  //         }
+  //       }
+  //       break;
+  //     case "mealIngredient":
+  //       state[mealType]["thisMealsIngrdnts"][arrayIndex][propToUpdate] =
+  //         newValue;
+  //       break;
+  //     case "genRecipeIngredient":
+  //       let relevantMealIngrdnts1 = state[mealType]["thisMealsIngrdnts"];
+  //       let genRecipeIngrdntToUpdate =
+  //         relevantMealIngrdnts1[arrayIndex].genRecipeIngredient;
+  //       genRecipeIngrdntToUpdate[propToUpdate] = newValue;
+  //       let editedRecipeIngrdnt = genRecipeIngrdntToUpdate;
+  //       let editedRecipeIngrdntsId = editedRecipeIngrdnt._id;
+  //       let editedRecipesId = editedRecipeIngrdnt.genRecipe._id;
+  //       for (let i = 0; i < mealTypes.length; i++) {
+  //         let thisMeal = state[mealTypes[i].code]["thisMeal"];
+  //         let thisMealsRecipeId = thisMeal.genRecipe._id;
+  //         if (thisMealsRecipeId !== editedRecipesId) {
+  //           return;
+  //         } else {
+  //           let mealIngrdntsToChckUpdtWGRI =
+  //             state[mealTypes[i].code]["thisMealsIngrdnts"];
+  //           for (let i = 0; i < mealIngrdntsToChckUpdtWGRI.length; i++) {
+  //             let thisMealIngrdntsId = mealIngrdntsToChckUpdtWGRI[i]._id;
+  //             if (thisMealIngrdntsId !== editedRecipeIngrdntsId) {
+  //               return;
+  //             } else {
+  //               mealIngrdntsToChckUpdtWGRI[i].genRecipeIngredient =
+  //                 editedRecipeIngrdnt;
+  //             }
+  //           }
+  //           state[mealTypes[i].code]["thisMealsIngrdnts"] =
+  //             mealIngrdntsToChckUpdtWGRI;
+  //         }
+  //       }
+  //       break;
+  //     case "ingredient":
+  //       let relevantMealIngrdnts2 = state[mealType]["thisMealsIngrdnts"];
+  //       let ingrdntToUpdate =
+  //         relevantMealIngrdnts2[arrayIndex].genRecipeIngredient.ingredient;
+  //       ingrdntToUpdate[propToUpdate] = newValue;
+  //       let editedIngrdnt = ingrdntToUpdate;
+  //       let editedIngrdntsId = editedIngrdnt._id;
+  //       for (let i = 0; i < mealTypes.length; i++) {
+  //         let mealIngrdntsToChckUpdtWIngrdnt =
+  //           state[mealTypes[i].code]["thisMealsIngrdnts"];
+  //         for (let i = 0; i < mealIngrdntsToChckUpdtWIngrdnt.length; i++) {
+  //           let thisMealsGRIsIngrdnt =
+  //             mealIngrdntsToChckUpdtWIngrdnt[i].genRecipeIngredient.ingredient;
+  //           let thisMealsGRIsIngrdntId = thisMealsGRIsIngrdnt._id;
+  //           if (thisMealsGRIsIngrdntId !== editedIngrdntsId) {
+  //             return;
+  //           } else {
+  //             mealIngrdntsToChckUpdtWIngrdnt[i].genRecipeIngredient.ingredient =
+  //               editedIngrdnt;
+  //           }
+  //         }
+  //         state[mealTypes[i].code]["thisMealsIngrdnts"] =
+  //           mealIngrdntsToChckUpdtWIngrdnt;
+  //       }
+  //       break;
+  //   }
+  //   this.setState({ state });
+  // };
   fetchDayMealsIngrdnts = (meal) => {
     axios
       .get(
@@ -967,6 +1002,17 @@ class DayDetail extends Component {
                                     }
                                     allGRFUsers={this.props.allGRFUsers}
                                     allDays={this.props.allDays}
+                                    // allGenRecipeIngredients={
+                                    //   this.props.allGenRecipeIngredients
+                                    // }
+                                    thisRecipesIngrdnts={
+                                      this.state.breakfast.thisRecipesIngrdnts
+                                    }
+                                    allMeals={this.props.allMeals}
+                                    allIngredients={this.props.allIngredients}
+                                    thisMealsTypesRecipes={
+                                      this.props.allBreakfastRecipes
+                                    }
                                   />
                                 )}
                                 {this.state.lunch.thisMeal._id === "missing" ? (
@@ -1024,6 +1070,17 @@ class DayDetail extends Component {
                                     }
                                     allGRFUsers={this.props.allGRFUsers}
                                     allDays={this.props.allDays}
+                                    // allGenRecipeIngredients={
+                                    //   this.props.allGenRecipeIngredients
+                                    // }
+                                    thisRecipesIngrdnts={
+                                      this.state.lunch.thisRecipesIngrdnts
+                                    }
+                                    allMeals={this.props.allMeals}
+                                    allIngredients={this.props.allIngredients}
+                                    thisMealsTypesRecipes={
+                                      this.props.allLunchRecipes
+                                    }
                                   />
                                 )}
                                 {this.state.snack2.thisMeal._id ===
@@ -1066,9 +1123,6 @@ class DayDetail extends Component {
                                       this.populateNewMealIngredients
                                     }
                                     updateProp={this.updateProp}
-                                    thisRecipesIngrdnts={
-                                      this.state.snack2.thisRecipesIngrdnts
-                                    }
                                     thisMealTypesGenRecipes={
                                       this.props.allSnack2Recipes
                                     }
@@ -1085,6 +1139,17 @@ class DayDetail extends Component {
                                     }
                                     allGRFUsers={this.props.allGRFUsers}
                                     allDays={this.props.allDays}
+                                    // allGenRecipeIngredients={
+                                    //   this.props.allGenRecipeIngredients
+                                    // }
+                                    thisRecipesIngrdnts={
+                                      this.state.snack2.thisRecipesIngrdnts
+                                    }
+                                    allMeals={this.props.allMeals}
+                                    allIngredients={this.props.allIngredients}
+                                    thisMealsTypesRecipes={
+                                      this.props.allSnack2Recipes
+                                    }
                                   />
                                 )}
                               </div>

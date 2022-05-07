@@ -25,6 +25,11 @@ const MealDetail2 = (props) => {
             key={mealIngredient._id}
             thisMealIngredient={mealIngredient}
             allGRFUsers={props.allGRFUsers}
+            allGenRecipeIngredients={props.allGenRecipeIngredients}
+            thisRecipesIngrdnts={props.thisRecipesIngrdnts}
+            allMeals={props.allMeals}
+            allIngredients={props.allIngredients}
+            thisMealsTypesRecipes={props.thisMealsTypesRecipes}
             updateProp={props.updateProp}
             mealIngrdntsArrayIndex={index}
             userType={props.userType}

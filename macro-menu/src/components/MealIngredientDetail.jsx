@@ -14,14 +14,15 @@ class MealIngredientDetail extends Component {
       ingredientFormState: "viewing",
       deleteMealIngrdntMsg:
         "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?",
-      // allGRFUsers: [
-      //   { _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" },
-      //   { _id: "tempGRFUser2Id", handle: "tempGRFUser2Handle" },
-      // ],
+      // allGenRecipeIngredients: this.props.allGenRecipeIngredients,
     };
   }
   // componentDidMount() {
-  //   this.setState({ allGRFUsers: this.props.allGRFUsers });
+  //   this.setState({
+  //     allGenRecipeIngredients: this.props.allGenRecipeIngredients,
+  //   });
+  //   console.log(this.props.allGenRecipeIngredients);
+  //   console.log(this.state.allGenRecipeIngredients);
   // }
   handleChangeQty = (e) => {
     let thisMealIngredient = this.state.thisMealIngredient;
@@ -84,6 +85,7 @@ class MealIngredientDetail extends Component {
     console.log("Changed Ingredient Author");
   };
   render() {
+    console.log("rendering meal ingredient");
     return (
       <div className="card mlIngrdntsCard">
         <div className="card-header mlIgrdntCrdTpSctn">
@@ -168,15 +170,21 @@ class MealIngredientDetail extends Component {
               >
                 <div className="accordion-body">
                   <div className="form-group mealIngrdntInputs">
-                    <label className="doubleHeightLabel">Meal Ingredient</label>
-                    <input
-                      type={"text"}
-                      className="form-control"
+                    <h6 className="mealIngrdntHdr">Custom Ingredient</h6>
+                    <label>Recipe Ingredient</label>
+                    <select
+                      // ref="userInput": React prevents this, but I don't know what it does anyway...
+                      required
+                      className="form-control form-select"
                       value={
-                        this.state.thisMealIngredient.genRecipeIngredient
-                          .ingredient.name
+                        this.props.thisMealIngredient.genRecipeIngredient._id
                       }
-                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      disabled={
+                        this.state.mealIngrdntFormState === "viewing"
+                          ? true
+                          : false
+                      }
+                      //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                       onChange={(e) =>
                         this.props.updateProp(
                           "mealIngredient",
@@ -186,24 +194,34 @@ class MealIngredientDetail extends Component {
                           e
                         )
                       }
+                    >
+                      {this.props.thisRecipesIngrdnts.map(function (
+                        genRecipeIngredient
+                      ) {
+                        return (
+                          <option
+                            key={genRecipeIngredient._id}
+                            value={genRecipeIngredient}
+                          >
+                            {genRecipeIngredient.ingredient.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+                    <label>Meal</label>
+                    <select
+                      // ref="userInput": React prevents this, but I don't know what it does anyway...
+                      required
+                      className="form-control form-select"
+                      value={this.props.thisMealIngredient.meal._id}
                       disabled={
                         this.state.mealIngrdntFormState === "viewing"
                           ? true
                           : false
                       }
-                    />
-                  </div>
-                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
-                    <label>Meal</label>
-                    <input
-                      type={"text"}
-                      className="form-control"
-                      value={
-                        this.state.thisMealIngredient.meal.day.name +
-                        " - " +
-                        this.state.thisMealIngredient.meal.mealType
-                      }
-                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                       onChange={(e) =>
                         this.props.updateProp(
                           "mealIngredient",
@@ -213,12 +231,15 @@ class MealIngredientDetail extends Component {
                           e
                         )
                       }
-                      disabled={
-                        this.state.mealIngrdntFormState === "viewing"
-                          ? true
-                          : false
-                      }
-                    />
+                    >
+                      {this.props.allMeals.map(function (meal) {
+                        return (
+                          <option key={meal._id} value={meal}>
+                            {meal.day.name + " - " + meal.mealType.name}
+                          </option>
+                        );
+                      })}
+                    </select>
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                     <label>Record ID</label>
@@ -297,14 +318,7 @@ class MealIngredientDetail extends Component {
                     }
                     aria-expanded="true"
                     aria-controls="collapseOne"
-                    disabled={this.state.userType == "admin" ? false : true}
-                  >
-                    {this.props.userType === "admin" ? (
-                      <FontAwesomeIcon icon="fa-solid fa-lock-open" />
-                    ) : (
-                      <FontAwesomeIcon icon="fa-solid fa-lock" />
-                    )}
-                  </button>
+                  ></button>
                 </h2>
               </div>
               <div
@@ -321,15 +335,22 @@ class MealIngredientDetail extends Component {
               >
                 <div className="accordion-body">
                   <div className="form-group mealIngrdntInputs">
-                    <label className="doubleHeightLabel">Ingredient</label>
-                    <input
-                      type={"text"}
-                      className="form-control"
+                    <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
+                    <label>Base Ingredient</label>
+                    <select
+                      // ref="userInput": React prevents this, but I don't know what it does anyway...
+                      required
+                      className="form-control form-select"
                       value={
-                        this.state.thisMealIngredient.genRecipeIngredient
-                          .ingredient.name
+                        this.props.thisMealIngredient.genRecipeIngredient
+                          .ingredient._id
                       }
-                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      disabled={
+                        this.state.genRecipeIngrdntFormState === "viewing"
+                          ? true
+                          : false
+                      }
+                      //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                       onChange={(e) =>
                         this.props.updateProp(
                           "genRecipeIngredient",
@@ -339,23 +360,29 @@ class MealIngredientDetail extends Component {
                           e
                         )
                       }
+                    >
+                      {this.props.allIngredients.map(function (ingredient) {
+                        return (
+                          <option key={ingredient._id} value={ingredient}>
+                            {ingredient.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+                    <label>Recipe</label>
+                    <select
+                      // ref="userInput": React prevents this, but I don't know what it does anyway...
+                      required
+                      className="form-control form-select"
+                      value={this.props.thisMealIngredient.meal.genRecipe._id}
                       disabled={
                         this.state.genRecipeIngrdntFormState === "viewing"
                           ? true
                           : false
                       }
-                    />
-                  </div>
-                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
-                    <label>Default Recipe</label>
-                    <input
-                      type={"text"}
-                      className="form-control"
-                      value={
-                        this.state.thisMealIngredient.genRecipeIngredient
-                          .genRecipe.name
-                      }
-                      //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                      //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                       onChange={(e) =>
                         this.props.updateProp(
                           "genRecipeIngredient",
@@ -365,12 +392,17 @@ class MealIngredientDetail extends Component {
                           e
                         )
                       }
-                      disabled={
-                        this.state.genRecipeIngrdntFormState === "viewing"
-                          ? true
-                          : false
-                      }
-                    />
+                    >
+                      {this.props.thisMealsTypesRecipes.map(function (
+                        genRecipe
+                      ) {
+                        return (
+                          <option key={genRecipe._id} value={genRecipe}>
+                            {genRecipe.name}
+                          </option>
+                        );
+                      })}
+                    </select>
                   </div>
                   <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                     <label>Record ID</label>

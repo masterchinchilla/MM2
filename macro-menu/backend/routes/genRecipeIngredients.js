@@ -11,6 +11,44 @@ let Day=require('../models/day.model');
 let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
 
+router.route('/').get((req, res)=>{
+    GenRecipeIngredient.find()
+        .populate({
+            path: 'genRecipe',
+            populate:{
+                path: 'GRFUser',
+            }
+        })
+        .populate({
+            path: 'ingredient',
+            populate:{
+                path: 'GRFUser',
+            }
+        })
+        .populate({
+            path: 'ingredient',
+            populate:{
+                path: 'unitOfMeasure',
+                populate:{path: 'GRFUser'}
+            }
+        })
+        .populate({
+            path:'ingredient',
+            populate:{
+                path:'weightType',
+                populate:{path:'GRFUser'}
+            }
+        })
+        .populate({
+            path:'ingredient',
+            populate:{
+                path:'brand',
+                populate:{path:'GRFUser'}
+            }
+        })
+        .then(genRecipeIngredients=>res.json(genRecipeIngredients))
+        .catch(err=>res.status(400).json('Error: '+err));
+});
 router.route('/thisGenRecipesGenRecipeIngredients/:id').get((req, res)=>{
     GenRecipeIngredient.find({genRecipe: req.params.id})
         .populate({
