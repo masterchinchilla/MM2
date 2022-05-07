@@ -10,6 +10,8 @@ class MealIngredientDetail extends Component {
       userType: "admin",
       thisFormState: "viewing",
       mealIngrdntFormState: "editingOrig",
+      thisIngrdntsBrand: {},
+      thisIngrdntsWeightType: {},
       genRecipeIngrdntFormState: "viewing",
       ingredientFormState: "viewing",
       deleteMealIngrdntMsg:
@@ -17,13 +19,36 @@ class MealIngredientDetail extends Component {
       // allGenRecipeIngredients: this.props.allGenRecipeIngredients,
     };
   }
-  // componentDidMount() {
-  //   this.setState({
-  //     allGenRecipeIngredients: this.props.allGenRecipeIngredients,
-  //   });
-  //   console.log(this.props.allGenRecipeIngredients);
-  //   console.log(this.state.allGenRecipeIngredients);
-  // }
+  componentDidMount() {
+    let thisMealIngredient = this.props.thisMealIngredient;
+    let thisIngrdnt = thisMealIngredient.genRecipeIngredient.ingredient;
+    let thisIngrdntsBrand = thisIngrdnt.brand;
+    let thisIngrdntsWeightType = thisIngrdnt.weightType;
+    if (thisIngrdntsBrand === undefined) {
+      thisIngrdntsBrand = {
+        _id: "627691b69fa56aa1fe318393",
+        name: "",
+        GRFUser: {
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        },
+      };
+    }
+    if (thisIngrdntsWeightType === undefined) {
+      thisIngrdntsWeightType = {
+        _id: "627695899fa56aa1fe318396",
+        name: "",
+        GRFUser: "62577a533813f4f21c27e1c7",
+      };
+    }
+    thisIngrdnt.brand = thisIngrdntsBrand;
+    thisIngrdnt.weightType = thisIngrdntsWeightType;
+    thisMealIngredient.genRecipeIngredient.ingredient = thisIngrdnt;
+    this.setState({
+      thisMealIngredient: thisMealIngredient,
+      thisIngrdntsBrand: thisIngrdntsBrand,
+      thisIngrdntsWeightType: thisIngrdntsWeightType,
+    });
+  }
   handleChangeQty = (e) => {
     let thisMealIngredient = this.state.thisMealIngredient;
     thisMealIngredient.qty = e.target.value;
@@ -439,14 +464,16 @@ class MealIngredientDetail extends Component {
               />
               <div className="form-group mealIngrdntInputs ingrdntUOM">
                 <label>UOM</label>
-                <input
-                  type={"text"}
-                  className="form-control"
+                <select
+                  required
+                  className="form-control form-select"
                   value={
-                    this.state.thisMealIngredient.genRecipeIngredient.ingredient
-                      .unitOfMeasure.name
+                    this.props.thisMealIngredient.genRecipeIngredient.ingredient
+                      .unitOfMeasure._id
                   }
-                  //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                  disabled={
+                    this.state.ingredientFormState === "viewing" ? true : false
+                  }
                   onChange={(e) =>
                     this.props.updateProp(
                       "ingredient",
@@ -456,24 +483,25 @@ class MealIngredientDetail extends Component {
                       e
                     )
                   }
-                  disabled={
-                    this.state.ingredientFormState === "viewing" ? true : false
-                  }
-                />
+                >
+                  {this.props.allUnitOfMeasures.map(function (unitOfMeasure) {
+                    return (
+                      <option key={unitOfMeasure._id} value={unitOfMeasure}>
+                        {unitOfMeasure.name}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div className="form-group mealIngrdntInputs ingrdntWghtType">
                 <label>Weight Type</label>
-                <input
-                  type={"text"}
-                  className="form-control"
-                  value={
-                    this.state.thisMealIngredient.genRecipeIngredient.ingredient
-                      .weightType == undefined
-                      ? ""
-                      : this.state.thisMealIngredient.genRecipeIngredient
-                          .ingredient.weightType.name
+                <select
+                  required
+                  className="form-control form-select"
+                  value={this.state.thisIngrdntsWeightType._id}
+                  disabled={
+                    this.state.ingredientFormState === "viewing" ? true : false
                   }
-                  //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
                   onChange={(e) =>
                     this.props.updateProp(
                       "ingredient",
@@ -483,10 +511,15 @@ class MealIngredientDetail extends Component {
                       e
                     )
                   }
-                  disabled={
-                    this.state.ingredientFormState === "viewing" ? true : false
-                  }
-                />
+                >
+                  {this.props.allWeightTypes.map(function (weightType) {
+                    return (
+                      <option key={weightType._id} value={weightType}>
+                        {weightType.name}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div
                 className="ingrdntPicDiv"
@@ -507,17 +540,13 @@ class MealIngredientDetail extends Component {
 
               <div className="form-group mealIngrdntInputs ingrdntBrnd">
                 <label>Brand</label>
-                <input
-                  type={"text"}
-                  className="form-control"
-                  value={
-                    this.state.thisMealIngredient.genRecipeIngredient.ingredient
-                      .brand == undefined
-                      ? ""
-                      : this.state.thisMealIngredient.genRecipeIngredient
-                          .ingredient.brand.name
+                <select
+                  required
+                  className="form-control form-select"
+                  value={this.state.thisIngrdntsBrand._id}
+                  disabled={
+                    this.state.ingredientFormState === "viewing" ? true : false
                   }
-                  //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
                   onChange={(e) =>
                     this.props.updateProp(
                       "ingredient",
@@ -527,10 +556,15 @@ class MealIngredientDetail extends Component {
                       e
                     )
                   }
-                  disabled={
-                    this.state.ingredientFormState === "viewing" ? true : false
-                  }
-                />
+                >
+                  {this.props.allBrands.map(function (brand) {
+                    return (
+                      <option key={brand._id} value={brand}>
+                        {brand.name}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div className="form-group mealIngrdntInputs ingrdntName badge bg-primary">
                 <label>Ingredient Name</label>

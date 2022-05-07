@@ -18,7 +18,7 @@ connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
 });
 
-// const brandsRouter = require('./routes/brands');
+const brandsRouter = require('./routes/brands');
 const daysRouter = require('./routes/days');
 const genRecipeIngredientsRouter = require('./routes/genRecipeIngredients');
 const genRecipesRouter = require('./routes/genRecipes');
@@ -26,12 +26,12 @@ const GRFUsersRouter = require('./routes/GRFUsers');
 const ingredientsRouter = require('./routes/ingredients');
 const mealIngredientsRouter = require('./routes/mealIngredients');
 const mealsRouter = require('./routes/meals');
-// const unitOfMeasuresRouter = require('./routes/unitOfMeasures');
+const unitOfMeasuresRouter = require('./routes/unitOfMeasures');
 const weekMealPlansRouter = require('./routes/weekMealPlans');
-// const weightTypesRouter = require('./routes/weightTypes');
+const weightTypesRouter = require('./routes/weightTypes');
 const mealTypesRouter=require('./routes/mealTypes');
 
-// app.use('/brands', brandsRouter);
+app.use('/brands', brandsRouter);
 app.use('/days', daysRouter);
 app.use('/genRecipeIngredients', genRecipeIngredientsRouter);
 app.use('/genRecipes', genRecipesRouter);
@@ -39,9 +39,9 @@ app.use('/GRFUsers', GRFUsersRouter);
 app.use('/ingredients', ingredientsRouter);
 app.use('/mealIngredients', mealIngredientsRouter);
 app.use('/meals', mealsRouter);
-// app.use('/unitOfMeasures', unitOfMeasuresRouter);
+app.use('/unitOfMeasures', unitOfMeasuresRouter);
 app.use('/weekMealPlans', weekMealPlansRouter);
-// app.use('/weightTypes', weightTypesRouter);
+app.use('/weightTypes', weightTypesRouter);
 app.use('/mealTypes', mealTypesRouter);
 
 app.listen(port, () => {

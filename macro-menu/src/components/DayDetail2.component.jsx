@@ -1013,6 +1013,11 @@ class DayDetail extends Component {
                                     thisMealsTypesRecipes={
                                       this.props.allBreakfastRecipes
                                     }
+                                    allUnitOfMeasures={
+                                      this.props.allUnitOfMeasures
+                                    }
+                                    allWeightTypes={this.props.allWeightTypes}
+                                    allBrands={this.props.allBrands}
                                   />
                                 )}
                                 {this.state.lunch.thisMeal._id === "missing" ? (
@@ -1081,6 +1086,11 @@ class DayDetail extends Component {
                                     thisMealsTypesRecipes={
                                       this.props.allLunchRecipes
                                     }
+                                    allUnitOfMeasures={
+                                      this.props.allUnitOfMeasures
+                                    }
+                                    allWeightTypes={this.props.allWeightTypes}
+                                    allBrands={this.props.allBrands}
                                   />
                                 )}
                                 {this.state.snack2.thisMeal._id ===
@@ -1150,6 +1160,11 @@ class DayDetail extends Component {
                                     thisMealsTypesRecipes={
                                       this.props.allSnack2Recipes
                                     }
+                                    allUnitOfMeasures={
+                                      this.props.allUnitOfMeasures
+                                    }
+                                    allWeightTypes={this.props.allWeightTypes}
+                                    allBrands={this.props.allBrands}
                                   />
                                 )}
                               </div>

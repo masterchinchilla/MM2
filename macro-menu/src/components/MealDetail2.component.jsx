@@ -30,6 +30,9 @@ const MealDetail2 = (props) => {
             allMeals={props.allMeals}
             allIngredients={props.allIngredients}
             thisMealsTypesRecipes={props.thisMealsTypesRecipes}
+            allUnitOfMeasures={props.allUnitOfMeasures}
+            allWeightTypes={props.allWeightTypes}
+            allBrands={props.allBrands}
             updateProp={props.updateProp}
             mealIngrdntsArrayIndex={index}
             userType={props.userType}

@@ -952,6 +952,9 @@ export default class WeekMealPlanDetail extends Component {
       allIngredients: [],
       allGenRecipeIngredients: [],
       allMeals: [],
+      allUnitOfMeasures: [],
+      allWeightTypes: [],
+      allBrands: [],
     };
   }
   componentDidMount() {
@@ -1004,6 +1007,9 @@ export default class WeekMealPlanDetail extends Component {
     // this.getAllGenRecipeIngredients();
     this.getAllMealTypes();
     this.getAllMeals();
+    this.getAllUnitOfMeasures();
+    this.getAllWeightTypes();
+    this.getAllBrands();
   }
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -1079,6 +1085,27 @@ export default class WeekMealPlanDetail extends Component {
     axios.get("http://localhost:5000/meals/").then((response) => {
       this.setState({
         allMeals: response.data.map((meal) => meal),
+      });
+    });
+  };
+  getAllUnitOfMeasures = () => {
+    axios.get("http://localhost:5000/unitOfMeasures/").then((response) => {
+      this.setState({
+        allUnitOfMeasures: response.data.map((unitOfMeasure) => unitOfMeasure),
+      });
+    });
+  };
+  getAllWeightTypes = () => {
+    axios.get("http://localhost:5000/weightTypes/").then((response) => {
+      this.setState({
+        allWeightTypes: response.data.map((weightType) => weightType),
+      });
+    });
+  };
+  getAllBrands = () => {
+    axios.get("http://localhost:5000/brands/").then((response) => {
+      this.setState({
+        allBrands: response.data.map((brand) => brand),
       });
     });
   };
@@ -1310,6 +1337,9 @@ export default class WeekMealPlanDetail extends Component {
           allDinnerRecipes={this.state.allDinnerRecipes}
           allDessertRecipes={this.state.allDessertRecipes}
           mealTypes={this.state.mealTypes}
+          allUnitOfMeasures={this.state.unitOfMeasures}
+          allWeightTypes={this.state.weightTypes}
+          allBrands={this.state.brands}
         />
       );
     }
@@ -1653,6 +1683,9 @@ export default class WeekMealPlanDetail extends Component {
                         //   this.state.allGenRecipeIngredients
                         // }
                         allMeals={this.state.allMeals}
+                        allUnitOfMeasures={this.state.allUnitOfMeasures}
+                        allWeightTypes={this.state.allWeightTypes}
+                        allBrands={this.state.allBrands}
                         macrosBudget={{
                           cals: this.state.cals,
                           carbs: this.state.carbs,
@@ -1688,6 +1721,9 @@ export default class WeekMealPlanDetail extends Component {
                       //   this.state.allGenRecipeIngredients
                       // }
                       allMeals={this.state.allMeals}
+                      allUnitOfMeasures={this.state.allUnitOfMeasures}
+                      allWeightTypes={this.state.allWeightTypes}
+                      allBrands={this.state.allBrands}
                       macrosBudget={{
                         cals: this.state.cals,
                         carbs: this.state.carbs,
@@ -1722,6 +1758,9 @@ export default class WeekMealPlanDetail extends Component {
                       //   this.state.allGenRecipeIngredients
                       // }
                       allMeals={this.state.allMeals}
+                      allUnitOfMeasures={this.state.allUnitOfMeasures}
+                      allWeightTypes={this.state.allWeightTypes}
+                      allBrands={this.state.allBrands}
                       macrosBudget={{
                         cals: this.state.cals,
                         carbs: this.state.carbs,
