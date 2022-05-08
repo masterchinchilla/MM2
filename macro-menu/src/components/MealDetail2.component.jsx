@@ -264,7 +264,7 @@ const MealDetail2 = (props) => {
                         // ref="userInput"
                         required
                         className="form-control form-select"
-                        value={props.thisMeal.thisMeal.day._id}
+                        value={JSON.stringify(props.thisMeal.thisMeal.day)}
                         disabled={
                           props.thisMeal.thisMealFormState === "viewing"
                             ? true
@@ -277,13 +277,14 @@ const MealDetail2 = (props) => {
                             props.thisMeal.thisMeal.mealType.code,
                             "day",
                             0,
+                            "select",
                             e
                           )
                         }
                       >
                         {props.allDays.map(function (day) {
                           return (
-                            <option key={day._id} value={day._id}>
+                            <option key={day._id} value={JSON.stringify(day)}>
                               {day.name}
                             </option>
                           );
@@ -296,7 +297,7 @@ const MealDetail2 = (props) => {
                         // ref="userInput"
                         required
                         className="form-control form-select"
-                        value={props.thisMeal.thisMeal.mealType}
+                        value={JSON.stringify(props.thisMeal.thisMeal.mealType)}
                         disabled={
                           props.thisMeal.thisMealFormState == "viewing"
                             ? true
@@ -308,6 +309,7 @@ const MealDetail2 = (props) => {
                             props.thisMeal.thisMeal.mealType.code,
                             "mealType",
                             0,
+                            "select",
                             e
                           )
                         }
@@ -316,7 +318,7 @@ const MealDetail2 = (props) => {
                           return (
                             <option
                               key={"allMealTypesListItem" + mealType.code}
-                              value={mealType}
+                              value={JSON.stringify(mealType)}
                             >
                               {mealType.name}
                             </option>
@@ -388,6 +390,7 @@ const MealDetail2 = (props) => {
                       props.thisMeal.thisMeal.mealType.code,
                       "prepIntructions",
                       0,
+                      "textArea",
                       e
                     )
                   }
@@ -445,6 +448,7 @@ const MealDetail2 = (props) => {
                             props.thisMeal.thisMeal.mealType.code,
                             "name",
                             0,
+                            "text",
                             e
                           )
                         }
@@ -456,7 +460,7 @@ const MealDetail2 = (props) => {
                         className="form-control"
                         type="text"
                         disabled={
-                          props.thisMeal.thisGenRecipeFormState == "viewing"
+                          props.thisMeal.thisGenRecipeFormState === "viewing"
                             ? true
                             : false
                         }
@@ -466,6 +470,7 @@ const MealDetail2 = (props) => {
                             props.thisMeal.thisMeal.mealType.code,
                             "photoURL",
                             0,
+                            "text",
                             e
                           )
                         }
@@ -478,7 +483,9 @@ const MealDetail2 = (props) => {
                         // ref="userInput"
                         required
                         className="form-control form-select"
-                        value={props.thisMeal.thisMeal.genRecipe.GRFUser}
+                        value={JSON.stringify(
+                          props.thisMeal.thisMeal.genRecipe.GRFUser
+                        )}
                         disabled={
                           props.thisMeal.thisGenRecipeFormState == "viewing"
                             ? true
@@ -490,6 +497,7 @@ const MealDetail2 = (props) => {
                             props.thisMeal.thisMeal.mealType.code,
                             "GRFUser",
                             0,
+                            "select",
                             e
                           )
                         }
@@ -498,7 +506,7 @@ const MealDetail2 = (props) => {
                           return (
                             <option
                               key={"allGRFUsersListItem" + GRFUser._id}
-                              value={GRFUser._id}
+                              value={JSON.stringify(GRFUser)}
                             >
                               {GRFUser.handle}
                             </option>
@@ -561,7 +569,9 @@ const MealDetail2 = (props) => {
                             // ref="userInput"
                             required
                             className="form-control form-select"
-                            value={props.thisMeal.thisMeal.genRecipe.mealType}
+                            value={JSON.stringify(
+                              props.thisMeal.thisMeal.genRecipe.mealType
+                            )}
                             disabled={
                               props.thisMeal.thisGenRecipeFormState == "viewing"
                                 ? true
@@ -573,6 +583,7 @@ const MealDetail2 = (props) => {
                                 props.thisMeal.thisMeal.mealType.code,
                                 "mealType",
                                 0,
+                                "select",
                                 e
                               )
                             }
@@ -581,7 +592,7 @@ const MealDetail2 = (props) => {
                               return (
                                 <option
                                   key={"allMealTypesListItem" + mealType._id}
-                                  value={mealType}
+                                  value={JSON.stringify(mealType)}
                                 >
                                   {mealType.name}
                                 </option>
@@ -595,7 +606,9 @@ const MealDetail2 = (props) => {
                             // ref="userInput"
                             required
                             className="form-control form-select"
-                            value={props.thisMeal.thisMeal.genRecipe.GRFUser}
+                            value={JSON.stringify(
+                              props.thisMeal.thisMeal.genRecipe.GRFUser
+                            )}
                             disabled={
                               props.thisMeal.thisGenRecipeFormState == "viewing"
                                 ? true
@@ -607,6 +620,7 @@ const MealDetail2 = (props) => {
                                 props.thisMeal.thisMeal.mealType.code,
                                 "GRFUser",
                                 0,
+                                "select",
                                 e
                               )
                             }
@@ -615,7 +629,7 @@ const MealDetail2 = (props) => {
                               return (
                                 <option
                                   key={"allGRFUsersListItem" + GRFUser._id}
-                                  value={GRFUser._id}
+                                  value={JSON.stringify(GRFUser)}
                                 >
                                   {GRFUser.handle}
                                 </option>

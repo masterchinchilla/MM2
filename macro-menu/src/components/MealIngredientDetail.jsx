@@ -10,8 +10,18 @@ class MealIngredientDetail extends Component {
       userType: "admin",
       thisFormState: "viewing",
       mealIngrdntFormState: "editingOrig",
-      thisIngrdntsBrand: {},
-      thisIngrdntsWeightType: {},
+      // thisIngrdntsBrand: {
+      //   _id: "627691b69fa56aa1fe318393",
+      //   name: "",
+      //   GRFUser: {
+      //     GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+      //   },
+      // },
+      // thisIngrdntsWeightType: {
+      //   _id: "627695899fa56aa1fe318396",
+      //   name: "",
+      //   GRFUser: "62577a533813f4f21c27e1c7",
+      // },
       genRecipeIngrdntFormState: "viewing",
       ingredientFormState: "viewing",
       deleteMealIngrdntMsg:
@@ -19,53 +29,36 @@ class MealIngredientDetail extends Component {
       // allGenRecipeIngredients: this.props.allGenRecipeIngredients,
     };
   }
-  componentDidMount() {
-    let thisMealIngredient = this.props.thisMealIngredient;
-    let thisIngrdnt = thisMealIngredient.genRecipeIngredient.ingredient;
-    let thisIngrdntsBrand = thisIngrdnt.brand;
-    let thisIngrdntsWeightType = thisIngrdnt.weightType;
-    if (thisIngrdntsBrand === undefined) {
-      thisIngrdntsBrand = {
-        _id: "627691b69fa56aa1fe318393",
-        name: "",
-        GRFUser: {
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-        },
-      };
-    }
-    if (thisIngrdntsWeightType === undefined) {
-      thisIngrdntsWeightType = {
-        _id: "627695899fa56aa1fe318396",
-        name: "",
-        GRFUser: "62577a533813f4f21c27e1c7",
-      };
-    }
-    thisIngrdnt.brand = thisIngrdntsBrand;
-    thisIngrdnt.weightType = thisIngrdntsWeightType;
-    thisMealIngredient.genRecipeIngredient.ingredient = thisIngrdnt;
-    this.setState({
-      thisMealIngredient: thisMealIngredient,
-      thisIngrdntsBrand: thisIngrdntsBrand,
-      thisIngrdntsWeightType: thisIngrdntsWeightType,
-    });
-  }
-  handleChangeQty = (e) => {
-    let thisMealIngredient = this.state.thisMealIngredient;
-    thisMealIngredient.qty = e.target.value;
-    this.setState({
-      thisMealIngredient: thisMealIngredient,
-    });
-    this.props.handleUpdateMealIngrdntQty(this.state.thisMealIngredient);
-    // this.props.totalCurrentMacrosMethod(
-    //   [this.state.thisMealIngredient],
-    //   this.state.thisMealIngredient.meal.mealType
-    // );
-  };
-  handleChangeIngrdntProp = (e) => {
-    let thisMealIngredient = this.state.thisMealIngredient;
-    thisMealIngredient.qty = e.target.value;
-    this.props.findChangeMealIngrdntByIndex(thisMealIngredient, "update");
-  };
+  // componentDidMount() {
+  //   let thisMealIngredient = this.props.thisMealIngredient;
+  //   let thisIngrdnt = thisMealIngredient.genRecipeIngredient.ingredient;
+  //   let thisIngrdntsBrand = thisIngrdnt.brand;
+  //   let thisIngrdntsWeightType = thisIngrdnt.weightType;
+  //   if (thisIngrdntsBrand === undefined) {
+  //     thisIngrdntsBrand = {
+  //       _id: "627691b69fa56aa1fe318393",
+  //       name: "",
+  //       GRFUser: {
+  //         GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+  //       },
+  //     };
+  //   }
+  //   if (thisIngrdntsWeightType === undefined) {
+  //     thisIngrdntsWeightType = {
+  //       _id: "627695899fa56aa1fe318396",
+  //       name: "",
+  //       GRFUser: "62577a533813f4f21c27e1c7",
+  //     };
+  //   }
+  //   thisIngrdnt.brand = thisIngrdntsBrand;
+  //   thisIngrdnt.weightType = thisIngrdntsWeightType;
+  //   thisMealIngredient.genRecipeIngredient.ingredient = thisIngrdnt;
+  //   this.setState({
+  //     thisMealIngredient: thisMealIngredient,
+  //     thisIngrdntsBrand: thisIngrdntsBrand,
+  //     thisIngrdntsWeightType: thisIngrdntsWeightType,
+  //   });
+  // }
   onClickCopy = (parentObj) => {
     if (parentObj == "mealIngredient") {
       this.setState({ mealIngrdntFormState: "editingCopy" });
@@ -102,15 +95,7 @@ class MealIngredientDetail extends Component {
   onChange = () => {
     console.log("changing value");
   };
-  onDelete = (parentObj) => {
-    let thisMealIngrdnt = this.state.thisMealIngredient;
-    this.props.findChangeMealIngrdntByIndex(thisMealIngrdnt, "delete");
-  };
-  handleChangeIngrdntAuthor = () => {
-    console.log("Changed Ingredient Author");
-  };
   render() {
-    console.log("rendering meal ingredient");
     return (
       <div className="card mlIngrdntsCard">
         <div className="card-header mlIgrdntCrdTpSctn">
@@ -135,16 +120,17 @@ class MealIngredientDetail extends Component {
               <input
                 type={"number"}
                 className="form-control mlIngrdntQty"
-                value={this.state.thisMealIngredient.qty}
-                placeholder={
-                  this.state.thisMealIngredient.genRecipeIngredient.defaultQty
-                }
+                value={this.props.thisMealIngredient.qty}
+                // placeholder={
+                //   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
+                // }
                 onChange={(e) =>
                   this.props.updateProp(
                     "mealIngredient",
                     this.props.thisMealIngredient.meal.mealType.code,
                     "qty",
                     this.props.mealIngrdntsArrayIndex,
+                    "number",
                     e
                   )
                 }
@@ -201,32 +187,49 @@ class MealIngredientDetail extends Component {
                       // ref="userInput": React prevents this, but I don't know what it does anyway...
                       required
                       className="form-control form-select"
-                      value={
-                        this.props.thisMealIngredient.genRecipeIngredient._id
-                      }
+                      value={JSON.stringify(
+                        this.props.thisMealIngredient.genRecipeIngredient
+                      )}
                       disabled={
-                        this.state.mealIngrdntFormState === "viewing"
+                        this.props.thisMealIngredient.mealIngrdntFormState ===
+                        "viewing"
                           ? true
                           : false
                       }
                       //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
-                      onChange={(e) =>
+                      onChange={(e) => {
                         this.props.updateProp(
                           "mealIngredient",
                           this.props.thisMealIngredient.meal.mealType.code,
                           "genRecipeIngredient",
                           this.props.mealIngrdntsArrayIndex,
+                          "select",
                           e
-                        )
-                      }
+                        );
+                      }}
                     >
+                      {/* <option
+                        key={
+                          "selected" +
+                          this.state.thisMealIngredient.genRecipeIngredient._id
+                        }
+                        value={
+                          this.state.thisMealIngredient.genRecipeIngredient
+                        }
+                        selected
+                      >
+                        {
+                          this.state.thisMealIngredient.genRecipeIngredient
+                            .ingredient.name
+                        }
+                      </option> */}
                       {this.props.thisRecipesIngrdnts.map(function (
                         genRecipeIngredient
                       ) {
                         return (
                           <option
                             key={genRecipeIngredient._id}
-                            value={genRecipeIngredient}
+                            value={JSON.stringify(genRecipeIngredient)}
                           >
                             {genRecipeIngredient.ingredient.name}
                           </option>
@@ -240,7 +243,7 @@ class MealIngredientDetail extends Component {
                       // ref="userInput": React prevents this, but I don't know what it does anyway...
                       required
                       className="form-control form-select"
-                      value={this.props.thisMealIngredient.meal._id}
+                      value={JSON.stringify(this.props.thisMealIngredient.meal)}
                       disabled={
                         this.state.mealIngrdntFormState === "viewing"
                           ? true
@@ -253,13 +256,14 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "meal",
                           this.props.mealIngrdntsArrayIndex,
+                          "select",
                           e
                         )
                       }
                     >
                       {this.props.allMeals.map(function (meal) {
                         return (
-                          <option key={meal._id} value={meal}>
+                          <option key={meal._id} value={JSON.stringify(meal)}>
                             {meal.day.name + " - " + meal.mealType.name}
                           </option>
                         );
@@ -300,7 +304,7 @@ class MealIngredientDetail extends Component {
                 type={"number"}
                 className="form-control gnRcpIngrdntQty"
                 value={
-                  this.state.thisMealIngredient.genRecipeIngredient.defaultQty
+                  this.props.thisMealIngredient.genRecipeIngredient.defaultQty
                 }
                 //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
                 onChange={(e) =>
@@ -309,6 +313,7 @@ class MealIngredientDetail extends Component {
                     this.props.thisMealIngredient.meal.mealType.code,
                     "defaultQty",
                     this.props.mealIngrdntsArrayIndex,
+                    "number",
                     e
                   )
                 }
@@ -366,10 +371,10 @@ class MealIngredientDetail extends Component {
                       // ref="userInput": React prevents this, but I don't know what it does anyway...
                       required
                       className="form-control form-select"
-                      value={
+                      value={JSON.stringify(
                         this.props.thisMealIngredient.genRecipeIngredient
-                          .ingredient._id
-                      }
+                          .ingredient
+                      )}
                       disabled={
                         this.state.genRecipeIngrdntFormState === "viewing"
                           ? true
@@ -382,13 +387,17 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "ingredient",
                           this.props.mealIngrdntsArrayIndex,
+                          "select",
                           e
                         )
                       }
                     >
                       {this.props.allIngredients.map(function (ingredient) {
                         return (
-                          <option key={ingredient._id} value={ingredient}>
+                          <option
+                            key={ingredient._id}
+                            value={JSON.stringify(ingredient)}
+                          >
                             {ingredient.name}
                           </option>
                         );
@@ -401,7 +410,9 @@ class MealIngredientDetail extends Component {
                       // ref="userInput": React prevents this, but I don't know what it does anyway...
                       required
                       className="form-control form-select"
-                      value={this.props.thisMealIngredient.meal.genRecipe._id}
+                      value={JSON.stringify(
+                        this.props.thisMealIngredient.meal.genRecipe
+                      )}
                       disabled={
                         this.state.genRecipeIngrdntFormState === "viewing"
                           ? true
@@ -414,6 +425,7 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "genRecipe",
                           this.props.mealIngrdntsArrayIndex,
+                          "select",
                           e
                         )
                       }
@@ -422,7 +434,10 @@ class MealIngredientDetail extends Component {
                         genRecipe
                       ) {
                         return (
-                          <option key={genRecipe._id} value={genRecipe}>
+                          <option
+                            key={genRecipe._id}
+                            value={JSON.stringify(genRecipe)}
+                          >
                             {genRecipe.name}
                           </option>
                         );
@@ -467,10 +482,10 @@ class MealIngredientDetail extends Component {
                 <select
                   required
                   className="form-control form-select"
-                  value={
-                    this.props.thisMealIngredient.genRecipeIngredient.ingredient
-                      .unitOfMeasure._id
-                  }
+                  value={JSON.stringify(
+                    this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                      .unitOfMeasure
+                  )}
                   disabled={
                     this.state.ingredientFormState === "viewing" ? true : false
                   }
@@ -480,13 +495,17 @@ class MealIngredientDetail extends Component {
                       this.props.thisMealIngredient.meal.mealType.code,
                       "unitOfMeasure",
                       this.props.mealIngrdntsArrayIndex,
+                      "select",
                       e
                     )
                   }
                 >
                   {this.props.allUnitOfMeasures.map(function (unitOfMeasure) {
                     return (
-                      <option key={unitOfMeasure._id} value={unitOfMeasure}>
+                      <option
+                        key={unitOfMeasure._id}
+                        value={JSON.stringify(unitOfMeasure)}
+                      >
                         {unitOfMeasure.name}
                       </option>
                     );
@@ -498,7 +517,7 @@ class MealIngredientDetail extends Component {
                 <select
                   required
                   className="form-control form-select"
-                  value={this.state.thisIngrdntsWeightType._id}
+                  value={JSON.stringify(this.state.thisIngrdntsWeightType)}
                   disabled={
                     this.state.ingredientFormState === "viewing" ? true : false
                   }
@@ -508,13 +527,17 @@ class MealIngredientDetail extends Component {
                       this.props.thisMealIngredient.meal.mealType.code,
                       "weightType",
                       this.props.mealIngrdntsArrayIndex,
+                      "select",
                       e
                     )
                   }
                 >
                   {this.props.allWeightTypes.map(function (weightType) {
                     return (
-                      <option key={weightType._id} value={weightType}>
+                      <option
+                        key={weightType._id}
+                        value={JSON.stringify(weightType)}
+                      >
                         {weightType.name}
                       </option>
                     );
@@ -543,7 +566,7 @@ class MealIngredientDetail extends Component {
                 <select
                   required
                   className="form-control form-select"
-                  value={this.state.thisIngrdntsBrand._id}
+                  value={JSON.stringify(this.state.thisIngrdntsBrand)}
                   disabled={
                     this.state.ingredientFormState === "viewing" ? true : false
                   }
@@ -553,13 +576,14 @@ class MealIngredientDetail extends Component {
                       this.props.thisMealIngredient.meal.mealType.code,
                       "brand",
                       this.props.mealIngrdntsArrayIndex,
+                      "select",
                       e
                     )
                   }
                 >
                   {this.props.allBrands.map(function (brand) {
                     return (
-                      <option key={brand._id} value={brand}>
+                      <option key={brand._id} value={JSON.stringify(brand)}>
                         {brand.name}
                       </option>
                     );
@@ -572,7 +596,7 @@ class MealIngredientDetail extends Component {
                   type={"text"}
                   className="form-control"
                   value={
-                    this.state.thisMealIngredient.genRecipeIngredient.ingredient
+                    this.props.thisMealIngredient.genRecipeIngredient.ingredient
                       .name
                   }
                   //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
@@ -582,6 +606,7 @@ class MealIngredientDetail extends Component {
                       this.props.thisMealIngredient.meal.mealType.code,
                       "name",
                       this.props.mealIngrdntsArrayIndex,
+                      "text",
                       e
                     )
                   }
@@ -626,10 +651,10 @@ class MealIngredientDetail extends Component {
                     <input
                       type={"number"}
                       className="form-control"
-                      value={
+                      value={JSON.stringify(
                         this.state.thisMealIngredient.genRecipeIngredient
                           .ingredient.calories
-                      }
+                      )}
                       //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
                       onChange={(e) =>
                         this.props.updateProp(
@@ -637,6 +662,7 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "calories",
                           this.props.mealIngrdntsArrayIndex,
+                          "number",
                           e
                         )
                       }
@@ -663,6 +689,7 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "carbs",
                           this.props.mealIngrdntsArrayIndex,
+                          "number",
                           e
                         )
                       }
@@ -679,7 +706,7 @@ class MealIngredientDetail extends Component {
                       type={"number"}
                       className="form-control"
                       value={
-                        this.state.thisMealIngredient.genRecipeIngredient
+                        this.props.thisMealIngredient.genRecipeIngredient
                           .ingredient.protein
                       }
                       //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
@@ -689,6 +716,7 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "protein",
                           this.props.mealIngrdntsArrayIndex,
+                          "number",
                           e
                         )
                       }
@@ -705,7 +733,7 @@ class MealIngredientDetail extends Component {
                       type={"number"}
                       className="form-control"
                       value={
-                        this.state.thisMealIngredient.genRecipeIngredient
+                        this.props.thisMealIngredient.genRecipeIngredient
                           .ingredient.fat
                       }
                       //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
@@ -715,6 +743,7 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "fat",
                           this.props.mealIngrdntsArrayIndex,
+                          "number",
                           e
                         )
                       }
@@ -731,7 +760,7 @@ class MealIngredientDetail extends Component {
                       type={"number"}
                       className="form-control"
                       value={
-                        this.state.thisMealIngredient.genRecipeIngredient
+                        this.props.thisMealIngredient.genRecipeIngredient
                           .ingredient.fiber
                       }
                       //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
@@ -741,6 +770,7 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "fiber",
                           this.props.mealIngrdntsArrayIndex,
+                          "number",
                           e
                         )
                       }
@@ -757,7 +787,7 @@ class MealIngredientDetail extends Component {
                       type={"text"}
                       className="form-control"
                       value={
-                        this.state.thisMealIngredient.genRecipeIngredient
+                        this.props.thisMealIngredient.genRecipeIngredient
                           .ingredient.photoURL
                       }
                       //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
@@ -767,6 +797,7 @@ class MealIngredientDetail extends Component {
                           this.props.thisMealIngredient.meal.mealType.code,
                           "photoURL",
                           this.props.mealIngrdntsArrayIndex,
+                          "text",
                           e
                         )
                       }
@@ -835,10 +866,10 @@ class MealIngredientDetail extends Component {
                           ref="userInput"
                           required
                           className="form-control form-select"
-                          value={
-                            this.state.thisMealIngredient.genRecipeIngredient
-                              .ingredient.GRFUser.handle
-                          }
+                          value={JSON.stringify(
+                            this.props.thisMealIngredient.genRecipeIngredient
+                              .ingredient.GRFUser
+                          )}
                           disabled={
                             this.state.ingredientFormState == "viewing"
                               ? true
@@ -851,13 +882,17 @@ class MealIngredientDetail extends Component {
                               this.props.thisMealIngredient.meal.mealType.code,
                               "GRFUser",
                               this.props.mealIngrdntsArrayIndex,
+                              "select",
                               e
                             )
                           }
                         >
                           {this.props.allGRFUsers.map(function (GRFUser) {
                             return (
-                              <option key={GRFUser._id} value={GRFUser._id}>
+                              <option
+                                key={GRFUser._id}
+                                value={JSON.stringify(GRFUser)}
+                              >
                                 {GRFUser.handle}
                               </option>
                             );

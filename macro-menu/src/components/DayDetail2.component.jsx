@@ -284,7 +284,7 @@ class DayDetail extends Component {
     }
     this.setState({ state });
   };
-  updateMealsFromDB = (meals, newMealIngredients, mealsState) => {
+  updateMealsFromDB = (meals) => {
     if (meals.length === 0) {
       this.setState({ data: true });
     } else {
@@ -296,8 +296,20 @@ class DayDetail extends Component {
       this.setState({ state });
     }
   };
-  updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e) => {
-    let newValue = e.target.value;
+  updateProp = (
+    stateObject,
+    mealType,
+    propToUpdate,
+    arrayIndex,
+    inputType,
+    e
+  ) => {
+    let newValue;
+    if (inputType === "select" || inputType === "number") {
+      newValue = JSON.parse(e.target.value);
+    } else {
+      newValue = e.target.value;
+    }
     let state = this.state;
     switch (stateObject) {
       case "day":
@@ -455,10 +467,25 @@ class DayDetail extends Component {
   assignMealIngredientsToState = (mealMealIngredients, meal) => {
     let thisMealType = meal.mealType.code;
     let state = this.state;
-    // if (mealMealIngredients.length === 0) {
-    //   state["data"] = true;
-    //   this.setState({ state });
-    // } else {
+    for (let i = 0; i < mealMealIngredients.length; i++) {
+      let thisIngredient =
+        mealMealIngredients[i].genRecipeIngredient.ingredient;
+      if (thisIngredient.weightType === undefined) {
+        thisIngredient.weightType = {
+          _id: "627695899fa56aa1fe318396",
+          name: "",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        };
+      }
+      if (thisIngredient.unitOfMeasure === undefined) {
+        thisIngredient.unitOfMeasure = {
+          _id: "627691b69fa56aa1fe318393",
+          name: "",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        };
+      }
+      mealMealIngredients[i].genRecipeIngredient.ingredient = thisIngredient;
+    }
     state[thisMealType]["thisMealsIngrdnts"] = mealMealIngredients;
     state["data"] = true;
     this.setState({ state });

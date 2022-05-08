@@ -989,13 +989,13 @@ export default class WeekMealPlanDetail extends Component {
       .then((response) => {
         this.setState({
           thisWeeksDays: response.data.map((day) => day),
-          sun: response.data.filter((day) => day.dayOfWeek == "Sunday")[0],
-          mon: response.data.filter((day) => day.dayOfWeek == "Monday")[0],
-          tues: response.data.filter((day) => day.dayOfWeek == "Tuesday")[0],
-          wed: response.data.filter((day) => day.dayOfWeek == "Wednesday")[0],
-          thurs: response.data.filter((day) => day.dayOfWeek == "Thursday")[0],
-          fri: response.data.filter((day) => day.dayOfWeek == "Friday")[0],
-          sat: response.data.filter((day) => day.dayOfWeek == "Saturday")[0],
+          sun: response.data.filter((day) => day.dayOfWeek === "Sunday")[0],
+          mon: response.data.filter((day) => day.dayOfWeek === "Monday")[0],
+          tues: response.data.filter((day) => day.dayOfWeek === "Tuesday")[0],
+          wed: response.data.filter((day) => day.dayOfWeek === "Wednesday")[0],
+          thurs: response.data.filter((day) => day.dayOfWeek === "Thursday")[0],
+          fri: response.data.filter((day) => day.dayOfWeek === "Friday")[0],
+          sat: response.data.filter((day) => day.dayOfWeek === "Saturday")[0],
           daysOfTheWMPHaveLoaded: true,
         });
       });
@@ -1668,6 +1668,7 @@ export default class WeekMealPlanDetail extends Component {
                     ) : (
                       <DayDetail2
                         thisDay={this.state.sun}
+                        key={this.state.sun._id}
                         mealDefaults={this.state.mealDefaults}
                         allGRFUsers={this.state.allGRFUsers}
                         allDays={this.state.allDays}
@@ -1706,6 +1707,7 @@ export default class WeekMealPlanDetail extends Component {
                     )}
                     <DayDetail2
                       thisDay={this.state.mon}
+                      key={this.state.mon._id}
                       mealDefaults={this.state.mealDefaults}
                       allGRFUsers={this.state.allGRFUsers}
                       allDays={this.state.allDays}
@@ -1743,6 +1745,7 @@ export default class WeekMealPlanDetail extends Component {
                     />
                     <DayDetail2
                       thisDay={this.state.tues}
+                      key={this.state.tues._id}
                       mealDefaults={this.state.mealDefaults}
                       allGRFUsers={this.state.allGRFUsers}
                       allDays={this.state.allDays}
