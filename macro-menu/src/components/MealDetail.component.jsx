@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
-import MealIngredientDetail from "./MealIngredientDetail";
+import MealIngredientParent from "./MealIngredientParent";
 import MacrosTable from "./MacrosTable.component";
 import MacrosTable2 from "./MacrosTable2.component";
 import dayjs from "dayjs";
@@ -915,7 +915,7 @@ class MealDetail extends Component {
                     {this.state.thisMealsMealIngrdntsCurrent.map(
                       (mealIngredient) => {
                         return (
-                          <MealIngredientDetail
+                          <MealIngredientParent
                             thisMealIngredient={mealIngredient}
                             key={mealIngredient._id}
                             totalCurrentMacrosMethod={

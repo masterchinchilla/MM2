@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
-import MealIngredientDetail from "./MealIngredientDetail";
 import MealDetail from "./MealDetail.component";
 import CreateMeal from "./CreateMeal.component";
 

@@ -20,6 +20,12 @@ router.route('/').get((req, res)=>{
             }
         })
         .populate({
+            path: 'genRecipe',
+            populate:{
+                path: 'mealType',
+            }
+        })
+        .populate({
             path: 'ingredient',
             populate:{
                 path: 'GRFUser',

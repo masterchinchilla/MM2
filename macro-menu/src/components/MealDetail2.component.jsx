@@ -2,18 +2,66 @@ import axios from "axios";
 import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
-import MealIngredientDetail from "./MealIngredientDetail";
+import MealIngredientDetail from "./MealIngredientParent";
 import MacrosTable from "./MacrosTable.component";
 import MacrosTable2 from "./MacrosTable2.component";
 import dayjs from "dayjs";
 
 const MealDetail2 = (props) => {
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
+  const [mealIngrdntFormState, changeMealIngrdntFormState] =
+    useState("viewing");
+  const [genRecipeIngrdntFormState, changeGenRecipeIngrdntFormState] =
+    useState("viewing");
+  const [ingrdntFormState, changeIngrdntFormState] = useState("viewing");
+  const [mealIngrdntUserType, changeMealIngrdntUserType] = useState(
+    props.userType
+  );
+  const [genRecipeIngrdntUserType, changeGenRecipeIngrdntUserType] = useState(
+    props.userType
+  );
+  const [ingredientUserType, changeIngredientUserType] = useState(
+    props.userType
+  );
   let deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   function onChange() {
     console.log("Changed");
   }
+  const onClickEdit = (parentObj, stateObject) => {
+    if (stateObject === "mealIngredient") {
+      changeMealIngrdntFormState("editingOrig");
+      changeMealIngrdntUserType(props.userType);
+      changeGenRecipeIngrdntFormState("viewing");
+      changeGenRecipeIngrdntUserType("viewer");
+      changeIngrdntFormState("viewing");
+      changeIngredientUserType("viewer");
+    }
+    if (stateObject === "genRecipeIngredient") {
+      changeMealIngrdntFormState("viewing");
+      changeMealIngrdntUserType("viewer");
+      changeGenRecipeIngrdntFormState("editingOrig");
+      changeGenRecipeIngrdntUserType(props.userType);
+      changeIngrdntFormState("viewing");
+      changeIngredientUserType("viewer");
+    }
+    if (stateObject === "ingredient") {
+      changeMealIngrdntFormState("viewing");
+      changeMealIngrdntUserType("viewer");
+      changeGenRecipeIngrdntFormState("viewing");
+      changeGenRecipeIngrdntUserType("viewer");
+      changeIngrdntFormState("editingOrig");
+      changeIngredientUserType(props.userType);
+    }
+  };
+  const onCancel = () => {
+    changeMealIngrdntFormState("viewing");
+    changeMealIngrdntUserType(props.userType);
+    changeGenRecipeIngrdntFormState("viewing");
+    changeGenRecipeIngrdntUserType(props.userType);
+    changeIngrdntFormState("viewing");
+    changeIngredientUserType(props.userType);
+  };
   function renderMealIngrdnts() {
     if (
       props.thisMeal.thisMealsIngrdnts.length > 0 &&
@@ -37,11 +85,17 @@ const MealDetail2 = (props) => {
             mealIngrdntsArrayIndex={index}
             userType={props.userType}
             onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
-            onClickEdit={props.onClickEdit}
+            onClickEdit={onClickEdit}
             recordChanged={props.thisMeal.recordChanged}
-            onCancel={props.onCancel}
+            onCancel={onCancel}
             onDelete={props.onDeleteMeal}
             deleteMsg={deleteMsg}
+            mealIngrdntFormState={mealIngrdntFormState}
+            mealIngrdntUserType={mealIngrdntUserType}
+            genRecipeIngrdntFormState={genRecipeIngrdntFormState}
+            genRecipeIngrdntUserType={genRecipeIngrdntUserType}
+            ingrdntFormState={ingrdntFormState}
+            ingredientUserType={ingredientUserType}
           />
         );
       });

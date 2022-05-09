@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EditOptions = (props) => {
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   const parentObj = props.parentObj;
+  const stateObj = props.stateObj;
   const userType = props.userType;
   const thisFormState = props.thisFormState;
   const thisId = props.thisId;
@@ -80,7 +81,7 @@ const EditOptions = (props) => {
     }
     return iconHidden;
   };
-  function handleDelete(parentObj) {
+  function handleDelete(parentObj, stateObj) {
     toggleHideDeleteWarning(false);
     console.log("clicked handle delete");
   }
@@ -101,7 +102,13 @@ const EditOptions = (props) => {
             className="p-1"
           />
         </button>
-        <button type="button" onClick={onClickCopy} className="iconBttn">
+        <button
+          type="button"
+          onClick={() => {
+            onClickCopy(parentObj, stateObj);
+          }}
+          className="iconBttn"
+        >
           <FontAwesomeIcon
             icon="fa-solid fa-copy"
             size="xl"
@@ -112,7 +119,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onClickEdit(parentObj);
+            onClickEdit(parentObj, stateObj);
           }}
           className="iconBttn"
         >
@@ -126,7 +133,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onCancel(parentObj);
+            onCancel(parentObj, stateObj);
           }}
           className="iconBttn"
         >
@@ -140,7 +147,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onSubmitFormChange(parentObj);
+            onSubmitFormChange(parentObj, stateObj);
           }}
           className="iconBttn"
         >
@@ -154,7 +161,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            handleDelete(parentObj);
+            handleDelete(parentObj, stateObj);
           }}
           className="iconBttn"
           // data-bs-toggle="modal"
@@ -195,7 +202,7 @@ const EditOptions = (props) => {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
-                  onCancel("meal");
+                  onCancel(parentObj, stateObj);
                   toggleHideDeleteWarning(true);
                 }}
               >
@@ -205,7 +212,7 @@ const EditOptions = (props) => {
                 type="button"
                 className="btn btn-danger"
                 onClick={() => {
-                  onDelete(parentObj);
+                  onDelete(parentObj, stateObj);
                   toggleHideDeleteWarning(true);
                 }}
               >

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import EditOptions from "./EditOptions.component";
+import MealIngredientChild from "./MealIngredientChild.component";
+import GenRecipeIngredient from "./GenRecipeIngredient.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class MealIngredientDetail extends Component {
@@ -9,7 +11,7 @@ class MealIngredientDetail extends Component {
       thisMealIngredient: this.props.thisMealIngredient,
       userType: "admin",
       thisFormState: "viewing",
-      mealIngrdntFormState: "editingOrig",
+      // mealIngrdntFormState: "editingOrig",
       // thisIngrdntsBrand: {
       //   _id: "627691b69fa56aa1fe318393",
       //   name: "",
@@ -59,39 +61,39 @@ class MealIngredientDetail extends Component {
   //     thisIngrdntsWeightType: thisIngrdntsWeightType,
   //   });
   // }
-  onClickCopy = (parentObj) => {
-    if (parentObj == "mealIngredient") {
-      this.setState({ mealIngrdntFormState: "editingCopy" });
-    }
-    if (parentObj == "genRecipeIngredient") {
-      this.setState({ genRecipeIngrdntFormState: "editingCopy" });
-    }
-    if (parentObj == "ingredient") {
-      this.setState({ ingredientFormState: "editingCopy" });
-    }
-  };
-  onClickEdit = (parentObj) => {
-    if (parentObj == "mealIngredient") {
-      this.setState({ mealIngrdntFormState: "editingOrig" });
-    }
-    if (parentObj == "genRecipeIngredient") {
-      this.setState({ genRecipeIngrdntFormState: "editingOrig" });
-    }
-    if (parentObj == "ingredient") {
-      this.setState({ ingredientFormState: "editingOrig" });
-    }
-  };
-  onCancel = (parentObj) => {
-    if (parentObj == "mealIngredient") {
-      this.setState({ mealIngrdntFormState: "viewing" });
-    }
-    if (parentObj == "genRecipeIngredient") {
-      this.setState({ genRecipeIngrdntFormState: "viewing" });
-    }
-    if (parentObj == "ingredient") {
-      this.setState({ ingredientFormState: "viewing" });
-    }
-  };
+  // onClickCopy = (parentObj, stateObject) => {
+  //   if (stateObject == "mealIngredient") {
+  //     this.setState({ mealIngrdntFormState: "editingCopy" });
+  //   }
+  //   if (stateObject == "genRecipeIngredient") {
+  //     this.setState({ genRecipeIngrdntFormState: "editingCopy" });
+  //   }
+  //   if (stateObject == "ingredient") {
+  //     this.setState({ ingredientFormState: "editingCopy" });
+  //   }
+  // };
+  // onClickEdit = (parentObj, stateObject) => {
+  //   if (stateObject == "mealIngredient") {
+  //     this.setState({ mealIngrdntFormState: "editingOrig" });
+  //   }
+  //   if (stateObject == "genRecipeIngredient") {
+  //     this.setState({ genRecipeIngrdntFormState: "editingOrig" });
+  //   }
+  //   if (stateObject == "ingredient") {
+  //     this.setState({ ingredientFormState: "editingOrig" });
+  //   }
+  // };
+  // onCancel = (parentObj, stateObject) => {
+  //   if (stateObject == "mealIngredient") {
+  //     this.setState({ mealIngrdntFormState: "viewing" });
+  //   }
+  //   if (stateObject == "genRecipeIngredient") {
+  //     this.setState({ genRecipeIngrdntFormState: "viewing" });
+  //   }
+  //   if (stateObject == "ingredient") {
+  //     this.setState({ ingredientFormState: "viewing" });
+  //   }
+  // };
   onChange = () => {
     console.log("changing value");
   };
@@ -99,191 +101,20 @@ class MealIngredientDetail extends Component {
     return (
       <div className="card mlIngrdntsCard">
         <div className="card-header mlIgrdntCrdTpSctn">
-          <form className="mlIngrdntFrm">
-            <div className="mlIngrdntFrmHdr">
-              <label className="mlIngrdntHdr doubleHeightLabel">
-                <h6>Qty</h6>
-              </label>
-              <EditOptions
-                className="mlIngrdntFrmIcns"
-                parentObj={"mealIngredient"}
-                userType={this.state.userType}
-                thisFormState={this.state.mealIngrdntFormState}
-                onSubmitFormChange={this.onSubmitFormChange}
-                onClickCopy={this.onClickCopy}
-                onClickEdit={this.onClickEdit}
-                onDelete={this.onDelete}
-                onCancel={this.onCancel}
-                onCreate={this.onCreate}
-                deleteMsg={this.state.deleteMealIngrdntMsg}
-              />
-              <input
-                type={"number"}
-                className="form-control mlIngrdntQty"
-                value={this.props.thisMealIngredient.qty}
-                // placeholder={
-                //   this.state.thisMealIngredient.genRecipeIngredient.defaultQty
-                // }
-                onChange={(e) =>
-                  this.props.updateProp(
-                    "mealIngredient",
-                    this.props.thisMealIngredient.meal.mealType.code,
-                    "qty",
-                    this.props.mealIngrdntsArrayIndex,
-                    "number",
-                    e
-                  )
-                }
-                disabled={
-                  this.state.mealIngrdntFormState === "viewing" ? true : false
-                }
-              />
-            </div>
-            <div
-              className="accordion accordion-flush flushElement"
-              id={"mlIngrdntFrmAccrdnFll" + this.props.thisMealIngredient._id}
-            >
-              <div className="accordion-item genRecipeAdminMenuBttn flushElement">
-                <h2
-                  className="accordion-header"
-                  id={
-                    "mlIngrdntFrmAccrdnHdr" + this.props.thisMealIngredient._id
-                  }
-                >
-                  <button
-                    className="accordion-button collapsed mealAdminAccrdnBttn"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={
-                      "#mlIngrdntFrmAccrdn" + this.props.thisMealIngredient._id
-                    }
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                    disabled={this.state.userType == "admin" ? false : true}
-                  >
-                    {this.props.userType === "admin" ? (
-                      <FontAwesomeIcon icon="fa-solid fa-lock-open" />
-                    ) : (
-                      <FontAwesomeIcon icon="fa-solid fa-lock" />
-                    )}
-                  </button>
-                </h2>
-              </div>
-              <div
-                id={"mlIngrdntFrmAccrdn" + this.props.thisMealIngredient._id}
-                className="accordion-collapse collapse"
-                aria-labelledby={
-                  "#mlIngrdntFrmAccrdnHdr" + this.props.thisMealIngredient._id
-                }
-                data-bs-parent={
-                  "#mlIngrdntFrmAccrdnFll" + this.props.thisMealIngredient._id
-                }
-              >
-                <div className="accordion-body">
-                  <div className="form-group mealIngrdntInputs">
-                    <h6 className="mealIngrdntHdr">Custom Ingredient</h6>
-                    <label>Recipe Ingredient</label>
-                    <select
-                      // ref="userInput": React prevents this, but I don't know what it does anyway...
-                      required
-                      className="form-control form-select"
-                      value={JSON.stringify(
-                        this.props.thisMealIngredient.genRecipeIngredient
-                      )}
-                      disabled={
-                        this.props.thisMealIngredient.mealIngrdntFormState ===
-                        "viewing"
-                          ? true
-                          : false
-                      }
-                      //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
-                      onChange={(e) => {
-                        this.props.updateProp(
-                          "mealIngredient",
-                          this.props.thisMealIngredient.meal.mealType.code,
-                          "genRecipeIngredient",
-                          this.props.mealIngrdntsArrayIndex,
-                          "select",
-                          e
-                        );
-                      }}
-                    >
-                      {/* <option
-                        key={
-                          "selected" +
-                          this.state.thisMealIngredient.genRecipeIngredient._id
-                        }
-                        value={
-                          this.state.thisMealIngredient.genRecipeIngredient
-                        }
-                        selected
-                      >
-                        {
-                          this.state.thisMealIngredient.genRecipeIngredient
-                            .ingredient.name
-                        }
-                      </option> */}
-                      {this.props.thisRecipesIngrdnts.map(function (
-                        genRecipeIngredient
-                      ) {
-                        return (
-                          <option
-                            key={genRecipeIngredient._id}
-                            value={JSON.stringify(genRecipeIngredient)}
-                          >
-                            {genRecipeIngredient.ingredient.name}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
-                    <label>Meal</label>
-                    <select
-                      // ref="userInput": React prevents this, but I don't know what it does anyway...
-                      required
-                      className="form-control form-select"
-                      value={JSON.stringify(this.props.thisMealIngredient.meal)}
-                      disabled={
-                        this.state.mealIngrdntFormState === "viewing"
-                          ? true
-                          : false
-                      }
-                      //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
-                      onChange={(e) =>
-                        this.props.updateProp(
-                          "mealIngredient",
-                          this.props.thisMealIngredient.meal.mealType.code,
-                          "meal",
-                          this.props.mealIngrdntsArrayIndex,
-                          "select",
-                          e
-                        )
-                      }
-                    >
-                      {this.props.allMeals.map(function (meal) {
-                        return (
-                          <option key={meal._id} value={JSON.stringify(meal)}>
-                            {meal.day.name + " - " + meal.mealType.name}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                  <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
-                    <label>Record ID</label>
-                    <input
-                      type={"text"}
-                      className="form-control"
-                      value={this.state.thisMealIngredient._id}
-                      disabled={true}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+          <MealIngredientChild
+            key={this.props.thisMealIngredient._id}
+            thisMealIngredient={this.props.thisMealIngredient}
+            thisRecipesIngrdnts={this.props.thisRecipesIngrdnts}
+            allMeals={this.props.allMeals}
+            mealIngrdntsArrayIndex={this.props.mealIngrdntsArrayIndex}
+            userType={this.props.mealIngrdntUserType}
+            thisFormState={this.props.mealIngrdntFormState}
+            onSubmitFormChange={this.props.saveMealIngrdntChange}
+            onClickEdit={this.props.onClickEdit}
+            onDelete={this.props.onDelete}
+            onCancel={this.props.onCancel}
+            updateProp={this.props.updateProp}
+          />
           <form className="gnRcpIngrdntFrm">
             <div className="gnRcpIngrdntFrmHdr">
               <label className="gnRcpIngrdntHdr doubleHeightLabel">
