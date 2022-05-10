@@ -16,6 +16,7 @@ router.route('/:id').get((req, res)=>{
             path: 'genRecipeIngredient',
             populate:{
                 path: 'genRecipe',
+                populate:{path:'availableMealType'}
             }
         })
         .populate({
@@ -62,6 +63,7 @@ router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
             path: 'genRecipeIngredient',
             populate:{
                 path: 'genRecipe',
+                populate:{path:'availableMealType'}
             }
         })
         .populate({

@@ -20,9 +20,7 @@ const MealDetail2 = (props) => {
   const [genRecipeIngrdntUserType, changeGenRecipeIngrdntUserType] = useState(
     props.userType
   );
-  const [ingredientUserType, changeIngredientUserType] = useState(
-    props.userType
-  );
+  const [ingrdntUserType, changeIngrdntUserType] = useState(props.userType);
   let deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   function onChange() {
@@ -35,7 +33,7 @@ const MealDetail2 = (props) => {
       changeGenRecipeIngrdntFormState("viewing");
       changeGenRecipeIngrdntUserType("viewer");
       changeIngrdntFormState("viewing");
-      changeIngredientUserType("viewer");
+      changeIngrdntUserType("viewer");
     }
     if (stateObject === "genRecipeIngredient") {
       changeMealIngrdntFormState("viewing");
@@ -43,7 +41,7 @@ const MealDetail2 = (props) => {
       changeGenRecipeIngrdntFormState("editingOrig");
       changeGenRecipeIngrdntUserType(props.userType);
       changeIngrdntFormState("viewing");
-      changeIngredientUserType("viewer");
+      changeIngrdntUserType("viewer");
     }
     if (stateObject === "ingredient") {
       changeMealIngrdntFormState("viewing");
@@ -51,7 +49,7 @@ const MealDetail2 = (props) => {
       changeGenRecipeIngrdntFormState("viewing");
       changeGenRecipeIngrdntUserType("viewer");
       changeIngrdntFormState("editingOrig");
-      changeIngredientUserType(props.userType);
+      changeIngrdntUserType(props.userType);
     }
   };
   const onCancel = () => {
@@ -60,7 +58,7 @@ const MealDetail2 = (props) => {
     changeGenRecipeIngrdntFormState("viewing");
     changeGenRecipeIngrdntUserType(props.userType);
     changeIngrdntFormState("viewing");
-    changeIngredientUserType(props.userType);
+    changeIngrdntUserType(props.userType);
   };
   function renderMealIngrdnts() {
     if (
@@ -95,7 +93,7 @@ const MealDetail2 = (props) => {
             genRecipeIngrdntFormState={genRecipeIngrdntFormState}
             genRecipeIngrdntUserType={genRecipeIngrdntUserType}
             ingrdntFormState={ingrdntFormState}
-            ingredientUserType={ingredientUserType}
+            ingrdntUserType={ingrdntUserType}
           />
         );
       });

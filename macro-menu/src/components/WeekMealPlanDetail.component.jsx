@@ -73,7 +73,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe1Id",
           name: "tempGenRecipe1Name",
-          availableMealType: "Breakfast",
+          availableMealType: {
+            _id: "626dd6fc21888432c0fe3e90",
+            code: "breakfast",
+            name: "Breakfast",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
@@ -81,7 +85,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe2Id",
           name: "tempGenRecipe2Name",
-          availableMealType: "Dessert",
+          availableMealType: {
+            _id: "626ddfee21888432c0fe3e95",
+            code: "dessert",
+            name: "Dessert",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
@@ -92,7 +100,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe1Id",
           name: "tempGenRecipe1Name",
-          availableMealType: "Breakfast",
+          availableMealType: {
+            _id: "626dd6fc21888432c0fe3e90",
+            code: "breakfast",
+            name: "Breakfast",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
@@ -102,7 +114,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe3Id",
           name: "tempGenRecipe3Name",
-          availableMealType: "Snack 1",
+          availableMealType: {
+            _id: "626ddf9e21888432c0fe3e91",
+            code: "snack1",
+            name: "Snack 1",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
@@ -112,7 +128,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe4Id",
           name: "tempGenRecipe4Name",
-          availableMealType: "Lunch",
+          availableMealType: {
+            _id: "626ddfb721888432c0fe3e92",
+            code: "lunch",
+            name: "Lunch",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
@@ -122,7 +142,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe5Id",
           name: "tempGenRecipe5Name",
-          availableMealType: "Snack 2",
+          availableMealType: {
+            _id: "626ddfcb21888432c0fe3e93",
+            code: "snack2",
+            name: "Snack 2",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
@@ -132,7 +156,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe5Id",
           name: "tempGenRecipe5Name",
-          availableMealType: "Dinner",
+          availableMealType: {
+            _id: "626ddfdc21888432c0fe3e94",
+            code: "dinner",
+            name: "Dinner",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
@@ -142,7 +170,11 @@ export default class WeekMealPlanDetail extends Component {
         {
           _id: "tempGenRecipe2Id",
           name: "tempGenRecipe2Name",
-          availableMealType: "Dessert",
+          availableMealType: {
+            _id: "626ddfee21888432c0fe3e95",
+            code: "dessert",
+            name: "Dessert",
+          },
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
           defaultPrepInstructions: "",
           photoUrl: "",
