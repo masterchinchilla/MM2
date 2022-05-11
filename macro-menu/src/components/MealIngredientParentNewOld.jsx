@@ -5,7 +5,7 @@ import GenRecipeIngredient from "./GenRecipeIngredient.component";
 import Ingredient from "./Ingredient.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class MealIngredientDetail extends Component {
+class MealIngredientParent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -84,4 +84,4 @@ class MealIngredientDetail extends Component {
   }
 }
 
-export default MealIngredientDetail;
+export default MealIngredientParent;

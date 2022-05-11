@@ -31,7 +31,9 @@ export default class WeekMealPlanDetail extends Component {
       ],
       GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
       thisWeeksDays: [],
+      defaultFormState: "viewing",
       thisFormState: "viewing",
+      defaultUserType: "admin",
       userType: "admin",
       sun: {},
       mon: {},
@@ -991,6 +993,10 @@ export default class WeekMealPlanDetail extends Component {
   }
   componentDidMount() {
     this.loadData();
+    this.setState({
+      userType: this.state.defaultUserType,
+      thisFormState: this.state.defaultFormState,
+    });
   }
   loadData() {
     axios
@@ -1236,8 +1242,12 @@ export default class WeekMealPlanDetail extends Component {
   handleClickEdit = () => {
     this.setState({ thisFormState: "editingOrig" });
   };
-  handleCancel = () => {
-    this.setState({ thisFormState: "viewing" });
+  handleCancel = (parentObj, stateObj) => {
+    this.setState({
+      thisFormState: "viewing",
+      defaultFormState: "viewing",
+      defaultUserType: "admin",
+    });
   };
   handleDeleteDay = (idOfRecordToDelete) => {
     function removeDeletedDays(eachDay) {
@@ -1343,6 +1353,7 @@ export default class WeekMealPlanDetail extends Component {
           mealDefaults={this.state.mealDefaults}
           weekMealPlanName={this.state.name}
           onDeleteDay={this.handleDeleteDay}
+          onCancel={this.handleCancel}
           getRndInteger={this.getRndInteger}
           key={dayToRender._id}
           macrosBudget={{
@@ -1372,6 +1383,8 @@ export default class WeekMealPlanDetail extends Component {
           allUnitOfMeasures={this.state.unitOfMeasures}
           allWeightTypes={this.state.weightTypes}
           allBrands={this.state.brands}
+          defaultFormState={this.state.defaultFormState}
+          defaultUserType={this.state.defaultUserType}
         />
       );
     }
@@ -1712,9 +1725,8 @@ export default class WeekMealPlanDetail extends Component {
                         allDessertRecipes={this.state.allDessertRecipes}
                         mealTypes={this.state.mealTypes}
                         allIngredients={this.state.allIngredients}
-                        // allGenRecipeIngredients={
-                        //   this.state.allGenRecipeIngredients
-                        // }
+                        defaultFormState={this.state.defaultFormState}
+                        defaultUserType={this.state.defaultUserType}
                         allMeals={this.state.allMeals}
                         allUnitOfMeasures={this.state.allUnitOfMeasures}
                         allWeightTypes={this.state.allWeightTypes}
@@ -1735,6 +1747,7 @@ export default class WeekMealPlanDetail extends Component {
                           dessertWeight: this.state.dessertWeight,
                         }}
                         getRndInteger={this.getRndInteger}
+                        onCancel={this.handleCancel}
                       />
                     )}
                     <DayDetail2
@@ -1751,9 +1764,8 @@ export default class WeekMealPlanDetail extends Component {
                       allDessertRecipes={this.state.allDessertRecipes}
                       mealTypes={this.state.mealTypes}
                       allIngredients={this.state.allIngredients}
-                      // allGenRecipeIngredients={
-                      //   this.state.allGenRecipeIngredients
-                      // }
+                      defaultFormState={this.state.defaultFormState}
+                      defaultUserType={this.state.defaultUserType}
                       allMeals={this.state.allMeals}
                       allUnitOfMeasures={this.state.allUnitOfMeasures}
                       allWeightTypes={this.state.allWeightTypes}
@@ -1774,6 +1786,7 @@ export default class WeekMealPlanDetail extends Component {
                         dessertWeight: this.state.dessertWeight,
                       }}
                       getRndInteger={this.getRndInteger}
+                      onCancel={this.handleCancel}
                     />
                     <DayDetail2
                       thisDay={this.state.tues}
@@ -1789,9 +1802,8 @@ export default class WeekMealPlanDetail extends Component {
                       allDessertRecipes={this.state.allDessertRecipes}
                       mealTypes={this.state.mealTypes}
                       allIngredients={this.state.allIngredients}
-                      // allGenRecipeIngredients={
-                      //   this.state.allGenRecipeIngredients
-                      // }
+                      defaultFormState={this.state.defaultFormState}
+                      defaultUserType={this.state.defaultUserType}
                       allMeals={this.state.allMeals}
                       allUnitOfMeasures={this.state.allUnitOfMeasures}
                       allWeightTypes={this.state.allWeightTypes}
@@ -1812,6 +1824,7 @@ export default class WeekMealPlanDetail extends Component {
                         dessertWeight: this.state.dessertWeight,
                       }}
                       getRndInteger={this.getRndInteger}
+                      onCancel={this.handleCancel}
                     />
                     {/* {this.renderDay(this.state.wed, "Wednesday", "wed")}
                     {this.renderDay(this.state.thurs, "Thursday", "thurs")}

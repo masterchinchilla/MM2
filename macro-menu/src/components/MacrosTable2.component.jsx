@@ -34,8 +34,6 @@ const MacrosTable = (props) => {
         thisIngrdnt.qty * thisIngrdnt.genRecipeIngredient.ingredient.fiber;
     }
   }
-  // let thisMealType = props.dessertIngrdnts[0].meal.mealType.code;
-  // let thisMealsIngrdnts = props[`${thisMealType}Ingrdnts`];
   return (
     <table className="table table-bordered macrosTable mealMacrosTbl">
       <thead className="thead">

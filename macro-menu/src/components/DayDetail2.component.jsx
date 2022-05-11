@@ -18,8 +18,10 @@ class DayDetail extends Component {
     super(props);
     this.state = {
       data: false,
-      thisFormState: "viewing",
-      userType: "admin",
+      thisFormState: this.props.defaultFormState,
+      defaultFormState: this.props.defaultFormState,
+      userType: this.props.defaultUserType,
+      defaultUserType: this.props.defaultUserType,
       mealDefaults: this.props.mealDefaults,
       thisDay: this.props.thisDay,
       breakfast: {
@@ -238,6 +240,10 @@ class DayDetail extends Component {
       },
       deleteDayMsg: "Are you sure you want to delete this Day Meal Plan?",
       hideDeleteDayBarrier: true,
+      thisNewGenRecipeIngrdnt: {
+        genRecipeIngrdntId: "",
+        genRecipeIngrdntJustCreated: false,
+      },
     };
   }
   componentDidMount() {
@@ -296,14 +302,7 @@ class DayDetail extends Component {
       this.setState({ state });
     }
   };
-  updateProp = (
-    stateObject,
-    mealType,
-    propToUpdate,
-    arrayIndex,
-    inputType,
-    e
-  ) => {
+  updateProp = (stateObj, mealType, propToUpdate, arrayIndex, inputType, e) => {
     let newValue;
     if (inputType === "select" || inputType === "number") {
       newValue = JSON.parse(e.target.value);
@@ -311,7 +310,7 @@ class DayDetail extends Component {
       newValue = e.target.value;
     }
     let state = this.state;
-    switch (stateObject) {
+    switch (stateObj) {
       case "day":
         state.thisDay[propToUpdate] = newValue;
         break;
@@ -338,11 +337,11 @@ class DayDetail extends Component {
     }
     this.setState({ state });
   };
-  // updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e) => {
+  // updateProp = (stateObj, mealType, propToUpdate, arrayIndex, e) => {
   //   let newValue = e.target.value;
   //   let state = this.state;
   //   let mealTypes = this.props.mealTypes;
-  //   switch (stateObject) {
+  //   switch (stateObj) {
   //     case "day":
   //       state.thisDay[propToUpdate] = newValue;
   //       let editedDay = state.thisDay;
@@ -597,6 +596,7 @@ class DayDetail extends Component {
     state[thisMeal] = currentMealRestoredToOld;
     state[`${thisMeal}Old`] = {};
     this.setState(state);
+    this.props.onCancel(currentMealRestoredToOld, "meal");
   };
   handleCancelGenRecipeEdit = (thisMeal) => {
     let state = this.state;
@@ -604,6 +604,7 @@ class DayDetail extends Component {
     state[thisMeal] = currentMealRestoredToOld;
     state[`${thisMeal}Old`] = {};
     this.setState(state);
+    this.props.onCancel(currentMealRestoredToOld, "genRecipe");
   };
   handleCancel = () => {
     this.setState({ thisFormState: "viewing" });
@@ -631,6 +632,29 @@ class DayDetail extends Component {
           this.setState({ state });
         })()
       );
+  };
+  handleCreateGenRecipeIngrdnt = (meal) => {
+    let newGenRecipeIngrdnt = {
+      defaultQty: 1,
+      ingredient: {
+        _id: "627b329721ff100fa01edcaf",
+        name: "",
+        calories: 0.0,
+        carbs: 0.0,
+        protein: 0.0,
+        fat: 0.0,
+        fiber: 0.0,
+        unitOfMeasure: "627691779fa56aa1fe318390",
+        GRFUser: "62577a533813f4f21c27e1c7",
+      },
+      genRecipe: meal.genRecipe,
+      defaultPrepInstructions: "",
+    };
+    let newMealIngrdnt = {
+      qty: 1,
+      genRecipeIngredient: newGenRecipeIngrdnt,
+      meal: meal,
+    };
   };
   updateMealIngrdnt = (
     thisMealIngrdnt,
@@ -811,6 +835,7 @@ class DayDetail extends Component {
         this.populateNewMealIngredients(mealType, thisRecipeId);
       });
   };
+  handleChangeSubordinateObject = () => {};
   // state[mealType]["thisMeal"]["genRecipe"] = thisGenRecipesGenRecipeIngrdnts[0].genRecipe;
   render() {
     if (this.state.data === false) {
@@ -859,7 +884,7 @@ class DayDetail extends Component {
                 onSubmitFormChange={this.handleSubmitFormChange}
                 onClickCopy={this.handleClickCopy}
                 onClickEdit={this.handleClickEdit}
-                onCancel={this.handleCancel}
+                onCancel={this.props.onCancel}
                 onDelete={this.handleClickDeleteDay}
                 deleteMsg={this.state.deleteDayMsg}
               />
@@ -987,7 +1012,10 @@ class DayDetail extends Component {
                                   <MealDetail2
                                     key={this.state.breakfast.thisMeal._id}
                                     thisMeal={this.state.breakfast}
-                                    userType={this.state.userType}
+                                    defaultUserType={this.state.defaultUserType}
+                                    defaultFormState={
+                                      this.state.defaultFormState
+                                    }
                                     onSubmitMealFormChange={
                                       this.handleSubmitMealFormChange
                                     }
@@ -1045,6 +1073,10 @@ class DayDetail extends Component {
                                     }
                                     allWeightTypes={this.props.allWeightTypes}
                                     allBrands={this.props.allBrands}
+                                    onEditDayOrLower={
+                                      this.props.handleChangeSubordinateObject
+                                    }
+                                    onCancel={this.props.onCancel}
                                   />
                                 )}
                                 {this.state.lunch.thisMeal._id === "missing" ? (
@@ -1060,7 +1092,10 @@ class DayDetail extends Component {
                                   <MealDetail2
                                     key={this.state.lunch.thisMeal._id}
                                     thisMeal={this.state.lunch}
-                                    userType={this.state.userType}
+                                    defaultUserType={this.state.defaultUserType}
+                                    defaultFormState={
+                                      this.state.defaultFormState
+                                    }
                                     onSubmitMealFormChange={
                                       this.handleSubmitMealFormChange
                                     }
@@ -1118,6 +1153,7 @@ class DayDetail extends Component {
                                     }
                                     allWeightTypes={this.props.allWeightTypes}
                                     allBrands={this.props.allBrands}
+                                    onCancel={this.props.onCancel}
                                   />
                                 )}
                                 {this.state.snack2.thisMeal._id ===
@@ -1134,7 +1170,10 @@ class DayDetail extends Component {
                                   <MealDetail2
                                     key={this.state.snack2.thisMeal._id}
                                     thisMeal={this.state.snack2}
-                                    userType={this.state.userType}
+                                    defaultUserType={this.state.defaultUserType}
+                                    defaultFormState={
+                                      this.state.defaultFormState
+                                    }
                                     onSubmitMealFormChange={
                                       this.handleSubmitMealFormChange
                                     }
@@ -1192,6 +1231,7 @@ class DayDetail extends Component {
                                     }
                                     allWeightTypes={this.props.allWeightTypes}
                                     allBrands={this.props.allBrands}
+                                    onCancel={this.props.onCancel}
                                   />
                                 )}
                               </div>

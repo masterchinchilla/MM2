@@ -2,63 +2,53 @@ import axios from "axios";
 import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
-import MealIngredientDetail from "./MealIngredientParent";
+import MealIngredientParent from "./MealIngredientParent.component";
 import MacrosTable from "./MacrosTable.component";
 import MacrosTable2 from "./MacrosTable2.component";
 import dayjs from "dayjs";
 
 const MealDetail2 = (props) => {
+  let defaultFormState = props.defaultFormState;
+  let defaultUserType = props.defaultUserType;
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
-  const [mealIngrdntFormState, changeMealIngrdntFormState] =
-    useState("viewing");
-  const [genRecipeIngrdntFormState, changeGenRecipeIngrdntFormState] =
-    useState("viewing");
-  const [ingrdntFormState, changeIngrdntFormState] = useState("viewing");
-  const [mealIngrdntUserType, changeMealIngrdntUserType] = useState(
-    props.userType
-  );
-  const [genRecipeIngrdntUserType, changeGenRecipeIngrdntUserType] = useState(
-    props.userType
-  );
-  const [ingrdntUserType, changeIngrdntUserType] = useState(props.userType);
+  const [mealFormState, changeMealFormState] = useState(defaultFormState);
+  const [genRecipeFormState, changeGenRecipeFormState] =
+    useState(defaultFormState);
+  const [mealUserType, changeMealUserType] = useState(defaultUserType);
+  const [genRecipeUserType, changeGenRecipeUserType] =
+    useState(defaultUserType);
+  const [mealIngrdntFormsState, changeMealIngrdntFormsState] =
+    useState(defaultFormState);
+  const [mealIngrdntFormsUserType, changeMealIngrdntFormsUserType] =
+    useState(defaultUserType);
   let deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   function onChange() {
     console.log("Changed");
   }
-  const onClickEdit = (parentObj, stateObject) => {
-    if (stateObject === "mealIngredient") {
-      changeMealIngrdntFormState("editingOrig");
-      changeMealIngrdntUserType(props.userType);
-      changeGenRecipeIngrdntFormState("viewing");
-      changeGenRecipeIngrdntUserType("viewer");
-      changeIngrdntFormState("viewing");
-      changeIngrdntUserType("viewer");
+  const handleClickEditMealOrRecipe = (parentObj, stateObj) => {
+    if (stateObj === "meal") {
+      props.changeMealFormState("editingOrig");
+      changeMealUserType("author");
+      changeGenRecipeFormState("viewing");
+      changeGenRecipeUserType("viewer");
+      changeMealIngrdntFormsState("viewing");
+      changeMealIngrdntFormsUserType("viewer");
     }
-    if (stateObject === "genRecipeIngredient") {
-      changeMealIngrdntFormState("viewing");
-      changeMealIngrdntUserType("viewer");
-      changeGenRecipeIngrdntFormState("editingOrig");
-      changeGenRecipeIngrdntUserType(props.userType);
-      changeIngrdntFormState("viewing");
-      changeIngrdntUserType("viewer");
+    if (stateObj === "genRecipe") {
+      changeMealFormState("viewing");
+      changeMealUserType("viewer");
+      changeGenRecipeFormState("editingOrig");
+      changeGenRecipeUserType("author");
+      changeMealIngrdntFormsState("viewing");
+      changeMealIngrdntFormsUserType("viewer");
     }
-    if (stateObject === "ingredient") {
-      changeMealIngrdntFormState("viewing");
-      changeMealIngrdntUserType("viewer");
-      changeGenRecipeIngrdntFormState("viewing");
-      changeGenRecipeIngrdntUserType("viewer");
-      changeIngrdntFormState("editingOrig");
-      changeIngrdntUserType(props.userType);
+    if (stateObj === "mealIngredientForms") {
+      changeMealFormState("viewing");
+      changeMealUserType("viewer");
+      changeGenRecipeFormState("viewing");
+      changeGenRecipeUserType("viewer");
     }
-  };
-  const onCancel = () => {
-    changeMealIngrdntFormState("viewing");
-    changeMealIngrdntUserType(props.userType);
-    changeGenRecipeIngrdntFormState("viewing");
-    changeGenRecipeIngrdntUserType(props.userType);
-    changeIngrdntFormState("viewing");
-    changeIngrdntUserType(props.userType);
   };
   function renderMealIngrdnts() {
     if (
@@ -67,7 +57,7 @@ const MealDetail2 = (props) => {
     ) {
       return props.thisMeal.thisMealsIngrdnts.map((mealIngredient, index) => {
         return (
-          <MealIngredientDetail
+          <MealIngredientParent
             key={mealIngredient._id}
             thisMealIngredient={mealIngredient}
             allGRFUsers={props.allGRFUsers}
@@ -83,17 +73,13 @@ const MealDetail2 = (props) => {
             mealIngrdntsArrayIndex={index}
             userType={props.userType}
             onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
-            onClickEdit={onClickEdit}
+            onClickEditMealIngrdntForms={handleClickEditMealOrRecipe}
             recordChanged={props.thisMeal.recordChanged}
-            onCancel={onCancel}
+            onCancel={props.onCancel}
             onDelete={props.onDeleteMeal}
             deleteMsg={deleteMsg}
-            mealIngrdntFormState={mealIngrdntFormState}
-            mealIngrdntUserType={mealIngrdntUserType}
-            genRecipeIngrdntFormState={genRecipeIngrdntFormState}
-            genRecipeIngrdntUserType={genRecipeIngrdntUserType}
-            ingrdntFormState={ingrdntFormState}
-            ingrdntUserType={ingrdntUserType}
+            defaultMealIngrdntFormsState={mealIngrdntFormsState}
+            defaultMealIngrdntsFormsUserType={mealIngrdntFormsUserType}
           />
         );
       });
@@ -210,10 +196,11 @@ const MealDetail2 = (props) => {
                 <EditOptions
                   key={"EOptionsForMeal" + props.thisMeal.thisMeal._id}
                   parentObj={props.thisMeal.thisMeal.mealType.code}
-                  userType={props.userType}
-                  thisFormState={props.thisMeal.thisMealFormState}
+                  stateObj={"meal"}
+                  userType={mealUserType}
+                  thisFormState={mealFormState}
                   onSubmitFormChange={props.onSubmitMealFormChange}
-                  onClickEdit={props.onClickEditOnMeal}
+                  onClickEdit={handleClickEditMealOrRecipe}
                   recordChanged={props.thisMeal.recordChanged}
                   onCancel={props.onCancelMealEdit}
                   onDelete={props.onDeleteMeal}
@@ -322,7 +309,7 @@ const MealDetail2 = (props) => {
                             ? true
                             : false
                         }
-                        //updateProp = (stateObject, mealType, propToUpdate, arrayIndex, e)
+                        //updateProp = (stateObj, mealType, propToUpdate, arrayIndex, e)
                         onChange={(e) =>
                           props.updateProp(
                             "meal",
@@ -399,10 +386,11 @@ const MealDetail2 = (props) => {
                 <h5 className="formSctnTitle">Recipe Details</h5>
                 <EditOptions
                   parentObj={props.thisMeal.thisMeal.mealType.code}
-                  userType={props.userType}
+                  stateObj={"genRecipe"}
+                  userType={genRecipeUserType}
                   onSubmitFormChange={props.handleSubmitRecipeFormChange}
-                  thisFormState={props.thisMeal.thisGenRecipeFormState}
-                  onClickEdit={props.onClickEditOnGenRecipe}
+                  thisFormState={genRecipeFormState}
+                  onClickEdit={handleClickEditMealOrRecipe}
                   recordChanged={props.thisMeal.recordChanged}
                   onCancel={props.onCancelGenRecipeEdit}
                   onDelete={props.onDeleteMeal}

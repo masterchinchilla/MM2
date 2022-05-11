@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
-import MealIngredientParent from "./MealIngredientParent";
+import MealIngredientParent from "./MealIngredientParent.component";
 import MacrosTable from "./MacrosTable.component";
 import MacrosTable2 from "./MacrosTable2.component";
 import dayjs from "dayjs";
