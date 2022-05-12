@@ -12,7 +12,7 @@ const MealIngredientParent = (props) => {
   // props.onCancelEditMealIngrdntForms
 
   const [mealIngrdntFormState, changeMealIngrdntFormState] = useState(
-    defaultMealIngrdntFormsState
+    props.defaultMealIngrdntFormsState
   );
   const [genRecipeIngrdntFormState, changeGenRecipeIngrdntFormState] = useState(
     defaultMealIngrdntFormsState
@@ -59,6 +59,15 @@ const MealIngredientParent = (props) => {
       changeIngrdntUserType(defaultMealIngrdntsFormsUserType);
     }
   };
+  const handleCancel = (parentObj, stateObj) => {
+    props.onCancel(parentObj, stateObj);
+    changeMealIngrdntFormState(defaultMealIngrdntFormsState);
+    changeMealIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    changeGenRecipeIngrdntFormState(defaultMealIngrdntFormsState);
+    changeGenRecipeIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    changeIngrdntFormState(defaultMealIngrdntFormsState);
+    changeIngrdntUserType(defaultMealIngrdntsFormsUserType);
+  };
   return (
     <div className="card mlIngrdntsCard">
       <div className="card-header mlIgrdntCrdTpSctn">
@@ -73,7 +82,7 @@ const MealIngredientParent = (props) => {
           onSubmitFormChange={props.saveMealIngrdntChange}
           onClickEdit={onClickEdit}
           onDelete={props.onDelete}
-          onCancel={props.onCancel}
+          onCancel={handleCancel}
           updateProp={props.updateProp}
         />
         <GenRecipeIngredient
@@ -87,7 +96,7 @@ const MealIngredientParent = (props) => {
           onSubmitFormChange={props.saveMealIngrdntChange}
           onClickEdit={onClickEdit}
           onDelete={props.onDelete}
-          onCancel={props.onCancel}
+          onCancel={handleCancel}
           updateProp={props.updateProp}
         />
       </div>
@@ -109,7 +118,7 @@ const MealIngredientParent = (props) => {
           onSubmitFormChange={props.saveMealIngrdntChange}
           onClickEdit={onClickEdit}
           onDelete={props.onDelete}
-          onCancel={props.onCancel}
+          onCancel={handleCancel}
           updateProp={props.updateProp}
         />
       </div>

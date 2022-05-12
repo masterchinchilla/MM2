@@ -14,11 +14,11 @@ const MealDetail2 = (props) => {
   const [mealFormState, changeMealFormState] = useState(defaultFormState);
   const [genRecipeFormState, changeGenRecipeFormState] =
     useState(defaultFormState);
+  const [mealIngrdntFormsState, changeMealIngrdntFormsState] =
+    useState(defaultFormState);
   const [mealUserType, changeMealUserType] = useState(defaultUserType);
   const [genRecipeUserType, changeGenRecipeUserType] =
     useState(defaultUserType);
-  const [mealIngrdntFormsState, changeMealIngrdntFormsState] =
-    useState(defaultFormState);
   const [mealIngrdntFormsUserType, changeMealIngrdntFormsUserType] =
     useState(defaultUserType);
   let deleteMsg =
@@ -28,27 +28,42 @@ const MealDetail2 = (props) => {
   }
   const handleClickEditMealOrRecipe = (parentObj, stateObj) => {
     if (stateObj === "meal") {
-      props.changeMealFormState("editingOrig");
+      props.onClickEditOnMeal(parentObj, stateObj);
+      changeMealFormState("editingOrig");
       changeMealUserType("author");
       changeGenRecipeFormState("viewing");
       changeGenRecipeUserType("viewer");
       changeMealIngrdntFormsState("viewing");
       changeMealIngrdntFormsUserType("viewer");
-    }
-    if (stateObj === "genRecipe") {
+    } else if (stateObj === "genRecipe") {
+      props.onClickEditOnGenRecipe(parentObj, stateObj);
       changeMealFormState("viewing");
       changeMealUserType("viewer");
       changeGenRecipeFormState("editingOrig");
       changeGenRecipeUserType("author");
       changeMealIngrdntFormsState("viewing");
       changeMealIngrdntFormsUserType("viewer");
-    }
-    if (stateObj === "mealIngredientForms") {
+    } else {
       changeMealFormState("viewing");
       changeMealUserType("viewer");
       changeGenRecipeFormState("viewing");
       changeGenRecipeUserType("viewer");
     }
+  };
+  const handleCancel = (parentObj, stateObj) => {
+    if (stateObj === "meal") {
+      props.onCancelMealEdit(parentObj, stateObj);
+    } else if (stateObj === "genRecipe") {
+      props.onCancelGenRecipeEdit(parentObj, stateObj);
+    } else {
+      props.onCancel(parentObj, stateObj);
+    }
+    changeMealFormState(defaultFormState);
+    changeMealUserType(defaultUserType);
+    changeGenRecipeFormState(defaultFormState);
+    changeGenRecipeUserType(defaultUserType);
+    changeMealIngrdntFormsState(defaultFormState);
+    changeMealIngrdntFormsUserType(defaultUserType);
   };
   function renderMealIngrdnts() {
     if (
@@ -71,11 +86,10 @@ const MealDetail2 = (props) => {
             allBrands={props.allBrands}
             updateProp={props.updateProp}
             mealIngrdntsArrayIndex={index}
-            userType={props.userType}
             onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
             onClickEditMealIngrdntForms={handleClickEditMealOrRecipe}
             recordChanged={props.thisMeal.recordChanged}
-            onCancel={props.onCancel}
+            onCancel={handleCancel}
             onDelete={props.onDeleteMeal}
             deleteMsg={deleteMsg}
             defaultMealIngrdntFormsState={mealIngrdntFormsState}
@@ -195,14 +209,14 @@ const MealDetail2 = (props) => {
                 <h5 className="formSctnTitle">Meal</h5>
                 <EditOptions
                   key={"EOptionsForMeal" + props.thisMeal.thisMeal._id}
-                  parentObj={props.thisMeal.thisMeal.mealType.code}
+                  parentObj={props.thisMeal.thisMeal}
                   stateObj={"meal"}
                   userType={mealUserType}
                   thisFormState={mealFormState}
                   onSubmitFormChange={props.onSubmitMealFormChange}
                   onClickEdit={handleClickEditMealOrRecipe}
                   recordChanged={props.thisMeal.recordChanged}
-                  onCancel={props.onCancelMealEdit}
+                  onCancel={handleCancel}
                   onDelete={props.onDeleteMeal}
                   deleteMsg={deleteMsg}
                 />
@@ -385,14 +399,14 @@ const MealDetail2 = (props) => {
               <div className="mealGenRecipeSctnHdr">
                 <h5 className="formSctnTitle">Recipe Details</h5>
                 <EditOptions
-                  parentObj={props.thisMeal.thisMeal.mealType.code}
+                  parentObj={props.thisMeal.thisMeal}
                   stateObj={"genRecipe"}
                   userType={genRecipeUserType}
                   onSubmitFormChange={props.handleSubmitRecipeFormChange}
                   thisFormState={genRecipeFormState}
                   onClickEdit={handleClickEditMealOrRecipe}
                   recordChanged={props.thisMeal.recordChanged}
-                  onCancel={props.onCancelGenRecipeEdit}
+                  onCancel={handleCancel}
                   onDelete={props.onDeleteMeal}
                   deleteMsg={deleteMsg}
                 />

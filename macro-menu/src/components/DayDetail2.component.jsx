@@ -576,33 +576,39 @@ class DayDetail extends Component {
   handleClickEdit = () => {
     this.setState({ thisFormState: "editingOrig" });
   };
-  handleClickEditOnMeal = (thisMeal) => {
+  handleClickEditOnMeal = (thisMeal, stateObj) => {
+    let thisMealType = thisMeal.mealType.code;
     let state = this.state;
-    let currentMeal = _.cloneDeep(state[thisMeal]);
-    state[`${thisMeal}Old`] = currentMeal;
-    state[thisMeal]["thisMealFormState"] = "editingOrig";
+    let currentMeal = _.cloneDeep(state[thisMealType]);
+    state[`${thisMealType}Old`] = currentMeal;
+    state[thisMealType]["thisMealFormState"] = "editingOrig";
+
     this.setState(state);
   };
-  handleClickEditOnGenRecipe = (thisMeal) => {
+  handleClickEditOnGenRecipe = (thisMeal, stateObj) => {
+    console.log(thisMeal);
+    let thisMealType = thisMeal.mealType.code;
     let state = this.state;
-    let currentMeal = _.cloneDeep(state[thisMeal]);
-    state[`${thisMeal}Old`] = currentMeal;
-    state[thisMeal]["thisGenRecipeFormState"] = "editingOrig";
+    let currentMeal = _.cloneDeep(state[thisMealType]);
+    state[`${thisMealType}Old`] = currentMeal;
+    state[thisMealType]["thisGenRecipeFormState"] = "editingOrig";
     this.setState(state);
   };
   handleCancelMealEdit = (thisMeal) => {
+    let thisMealType = thisMeal.mealType.code;
     let state = this.state;
-    let currentMealRestoredToOld = _.cloneDeep(state[`${thisMeal}Old`]);
-    state[thisMeal] = currentMealRestoredToOld;
-    state[`${thisMeal}Old`] = {};
+    let currentMealRestoredToOld = _.cloneDeep(state[`${thisMealType}Old`]);
+    state[thisMealType] = currentMealRestoredToOld;
+    state[`${thisMealType}Old`] = {};
     this.setState(state);
     this.props.onCancel(currentMealRestoredToOld, "meal");
   };
   handleCancelGenRecipeEdit = (thisMeal) => {
+    let thisMealType = thisMeal.mealType.code;
     let state = this.state;
-    let currentMealRestoredToOld = _.cloneDeep(state[`${thisMeal}Old`]);
-    state[thisMeal] = currentMealRestoredToOld;
-    state[`${thisMeal}Old`] = {};
+    let currentMealRestoredToOld = _.cloneDeep(state[`${thisMealType}Old`]);
+    state[thisMealType] = currentMealRestoredToOld;
+    state[`${thisMealType}Old`] = {};
     this.setState(state);
     this.props.onCancel(currentMealRestoredToOld, "genRecipe");
   };
@@ -753,7 +759,8 @@ class DayDetail extends Component {
         .then((response) => console.log(response));
     }
   };
-  handleDeleteMeal = (thisMealType) => {
+  handleDeleteMeal = (thisMeal, stateObj) => {
+    let thisMealType = thisMeal.mealType.code;
     let mealToDelete = this.state[thisMealType]["thisMeal"];
     let mealIngrdntsToDelete = this.state[thisMealType]["thisMealsIngrdnts"];
     for (let i = 0; i < mealIngrdntsToDelete.length; i++) {
