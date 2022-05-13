@@ -72,7 +72,7 @@ const MealIngredientParent = (props) => {
     <div className="card mlIngrdntsCard">
       <div className="card-header mlIgrdntCrdTpSctn">
         <MealIngredientChild
-          key={props.thisMealIngredient._id}
+          key={props.thisMealIngredient.thisMealIngrdnt._id}
           thisMealIngredient={props.thisMealIngredient}
           thisRecipesIngrdnts={props.thisRecipesIngrdnts}
           allMeals={props.allMeals}
@@ -86,8 +86,10 @@ const MealIngredientParent = (props) => {
           updateProp={props.updateProp}
         />
         <GenRecipeIngredient
-          key={props.thisMealIngredient.genRecipeIngredient._id}
-          thisGenRecipeIngrdnt={props.thisMealIngredient.genRecipeIngredient}
+          key={props.thisMealIngredient.thisMealIngrdnt.genRecipeIngredient._id}
+          thisGenRecipeIngrdnt={
+            props.thisMealIngredient.thisMealIngrdnt.genRecipeIngredient
+          }
           thisMealsTypesRecipes={props.thisMealsTypesRecipes}
           allIngredients={props.allIngredients}
           mealIngrdntsArrayIndex={props.mealIngrdntsArrayIndex}
@@ -102,11 +104,17 @@ const MealIngredientParent = (props) => {
       </div>
       <div className="mlIngrdntCrdBttmSctn">
         <Ingredient
-          key={props.thisMealIngredient.genRecipeIngredient.ingredient._id}
-          thisIngrdnt={props.thisMealIngredient.genRecipeIngredient.ingredient}
+          key={
+            props.thisMealIngredient.thisMealIngrdnt.genRecipeIngredient
+              .ingredient._id
+          }
+          thisIngrdnt={
+            props.thisMealIngredient.thisMealIngrdnt.genRecipeIngredient
+              .ingredient
+          }
           thisMealType={
-            props.thisMealIngredient.genRecipeIngredient.genRecipe
-              .availableMealType.code
+            props.thisMealIngredient.thisMealIngrdnt.genRecipeIngredient
+              .genRecipe.availableMealType.code
           }
           allUnitOfMeasures={props.allUnitOfMeasures}
           allWeightTypes={props.allWeightTypes}

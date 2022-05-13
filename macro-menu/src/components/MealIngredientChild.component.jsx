@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MealIngredientChild = (props) => {
   let thisMealIngredient = props.thisMealIngredient;
-  let thisMealType = thisMealIngredient.meal.mealType.code;
+  let thisMealType = thisMealIngredient.thisMealIngrdnt.meal.mealType.code;
   let thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   let allMeals = props.allMeals;
   let mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
@@ -22,7 +22,7 @@ const MealIngredientChild = (props) => {
           className="mlIngrdntFrmIcns"
           parentObj={thisMealIngredient}
           stateObj={"mealIngredient"}
-          key={thisMealIngredient._id}
+          key={thisMealIngredient.thisMealIngrdnt._id}
           userType={userType}
           thisFormState={thisFormState}
           onSubmitFormChange={props.onSubmitFormChange}
@@ -34,7 +34,7 @@ const MealIngredientChild = (props) => {
         <input
           type={"number"}
           className="form-control mlIngrdntQty"
-          value={thisMealIngredient.qty}
+          value={thisMealIngredient.thisMealIngrdnt.qty}
           onChange={(e) =>
             props.updateProp(
               "mealIngredient",
@@ -50,21 +50,25 @@ const MealIngredientChild = (props) => {
       </div>
       <div
         className="accordion accordion-flush flushElement"
-        id={"mlIngrdntFrmAccrdnFll" + thisMealIngredient._id}
+        id={"mlIngrdntFrmAccrdnFll" + thisMealIngredient.thisMealIngrdnt._id}
       >
         <div className="accordion-item genRecipeAdminMenuBttn flushElement">
           <h2
             className="accordion-header"
-            id={"mlIngrdntFrmAccrdnHdr" + thisMealIngredient._id}
+            id={
+              "mlIngrdntFrmAccrdnHdr" + thisMealIngredient.thisMealIngrdnt._id
+            }
           >
             <button
               className="accordion-button collapsed mealAdminAccrdnBttn"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target={"#mlIngrdntFrmAccrdn" + thisMealIngredient._id}
+              data-bs-target={
+                "#mlIngrdntFrmAccrdn" + thisMealIngredient.thisMealIngrdnt._id
+              }
               aria-expanded="true"
               aria-controls="collapseOne"
-              disabled={userType == "admin" ? false : true}
+              disabled={userType === "admin" ? false : true}
             >
               {userType === "admin" ? (
                 <FontAwesomeIcon icon="fa-solid fa-lock-open" />
@@ -75,10 +79,14 @@ const MealIngredientChild = (props) => {
           </h2>
         </div>
         <div
-          id={"mlIngrdntFrmAccrdn" + thisMealIngredient._id}
+          id={"mlIngrdntFrmAccrdn" + thisMealIngredient.thisMealIngrdnt._id}
           className="accordion-collapse collapse"
-          aria-labelledby={"#mlIngrdntFrmAccrdnHdr" + thisMealIngredient._id}
-          data-bs-parent={"#mlIngrdntFrmAccrdnFll" + thisMealIngredient._id}
+          aria-labelledby={
+            "#mlIngrdntFrmAccrdnHdr" + thisMealIngredient.thisMealIngrdnt._id
+          }
+          data-bs-parent={
+            "#mlIngrdntFrmAccrdnFll" + thisMealIngredient.thisMealIngrdnt._id
+          }
         >
           <div className="accordion-body">
             <div className="form-group mealIngrdntInputs">
@@ -87,7 +95,9 @@ const MealIngredientChild = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisMealIngredient.genRecipeIngredient)}
+                value={JSON.stringify(
+                  thisMealIngredient.thisMealIngrdnt.genRecipeIngredient
+                )}
                 disabled={thisFormState === "viewing" ? true : false}
                 //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                 onChange={(e) => {
@@ -118,7 +128,7 @@ const MealIngredientChild = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisMealIngredient.meal)}
+                value={JSON.stringify(thisMealIngredient.thisMealIngrdnt.meal)}
                 disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
                   this.props.updateProp(
@@ -145,7 +155,7 @@ const MealIngredientChild = (props) => {
               <input
                 type={"text"}
                 className="form-control"
-                value={thisMealIngredient._id}
+                value={thisMealIngredient.thisMealIngrdnt._id}
                 disabled={true}
                 onChange={props.onChange}
               />

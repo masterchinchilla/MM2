@@ -73,7 +73,7 @@ const MealDetail2 = (props) => {
       return props.thisMeal.thisMealsIngrdnts.map((mealIngredient, index) => {
         return (
           <MealIngredientParent
-            key={mealIngredient._id}
+            key={mealIngredient.thisMealIngrdnt._id}
             thisMealIngredient={mealIngredient}
             allGRFUsers={props.allGRFUsers}
             allGenRecipeIngredients={props.allGenRecipeIngredients}
@@ -88,7 +88,7 @@ const MealDetail2 = (props) => {
             mealIngrdntsArrayIndex={index}
             onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
             onClickEditMealIngrdntForms={handleClickEditMealOrRecipe}
-            recordChanged={props.thisMeal.recordChanged}
+            // recordChanged={props.thisMeal.recordChanged}
             onCancel={handleCancel}
             onDelete={props.onDeleteMeal}
             deleteMsg={deleteMsg}

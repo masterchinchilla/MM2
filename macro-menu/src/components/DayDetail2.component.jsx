@@ -277,7 +277,7 @@ class DayDetail extends Component {
       };
       let thisRecipesIngrdnts =
         state.mealDefaults[thisMealTypeCode]["thisRecipesIngrdnts"];
-      thisMealDefaultsIngrdnts[0].meal.day = thisDay;
+      thisMealDefaultsIngrdnts[0].thisMealIngrdnt.meal.day = thisDay;
       state.mealDefaults[thisMealTypeCode]["thisMealsIngrdnts"] =
         thisMealDefaultsIngrdnts;
       state[thisMealTypeCode]["thisMealsIngrdnts"] = thisMealDefaultsIngrdnts;
@@ -321,18 +321,19 @@ class DayDetail extends Component {
         state[mealType]["thisMeal"]["genRecipe"][propToUpdate] = newValue;
         break;
       case "mealIngredient":
-        state[mealType]["thisMealsIngrdnts"][arrayIndex][propToUpdate] =
-          newValue;
-        break;
-      case "genRecipeIngredient":
-        state[mealType]["thisMealsIngrdnts"][arrayIndex]["genRecipeIngredient"][
+        state[mealType]["thisMealsIngrdnts"][arrayIndex]["thisMealIngrdnt"][
           propToUpdate
         ] = newValue;
         break;
-      case "ingredient":
-        state[mealType]["thisMealsIngrdnts"][arrayIndex]["genRecipeIngredient"][
-          "ingredient"
+      case "genRecipeIngredient":
+        state[mealType]["thisMealsIngrdnts"][arrayIndex]["thisMealIngrdnt"][
+          "genRecipeIngredient"
         ][propToUpdate] = newValue;
+        break;
+      case "ingredient":
+        state[mealType]["thisMealsIngrdnts"][arrayIndex]["thisMealIngrdnt"][
+          "genRecipeIngredient"
+        ]["ingredient"][propToUpdate] = newValue;
         break;
     }
     this.setState({ state });
@@ -465,8 +466,15 @@ class DayDetail extends Component {
   };
   assignMealIngredientsToState = (mealMealIngredients, meal) => {
     let thisMealType = meal.mealType.code;
-    let state = this.state;
+    let mealMealIngrdntsWWrapper = [];
     for (let i = 0; i < mealMealIngredients.length; i++) {
+      let thisMealIngredient = {
+        thisMealIngrdntJustCreated: false,
+        recordChanged: false,
+        thisMealIngrdntFormState: "viewing",
+        thisGenRecipeIngrdntFormState: "viewing",
+        thisMealIngrdnt: mealMealIngredients[i],
+      };
       let thisIngredient =
         mealMealIngredients[i].genRecipeIngredient.ingredient;
       if (thisIngredient.weightType === undefined) {
@@ -483,9 +491,12 @@ class DayDetail extends Component {
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
         };
       }
-      mealMealIngredients[i].genRecipeIngredient.ingredient = thisIngredient;
+      thisMealIngredient.thisMealIngrdnt.genRecipeIngredient.ingredient =
+        thisIngredient;
+      mealMealIngrdntsWWrapper.push(thisMealIngredient);
     }
-    state[thisMealType]["thisMealsIngrdnts"] = mealMealIngredients;
+    let state = this.state;
+    state[thisMealType]["thisMealsIngrdnts"] = mealMealIngrdntsWWrapper;
     state["data"] = true;
     this.setState({ state });
     this.fetchRecipesIngrdnts(meal);
@@ -512,12 +523,13 @@ class DayDetail extends Component {
     let thisMeal = this.state[mealType];
     let oldMeal = this.state[`${mealType}Old`];
     let pattern = /tempId/;
-    let thisMeals1stTempIngrdntId = thisMeal.thisMealsIngrdnts[0]._id;
+    let thisMeals1stTempIngrdntId =
+      thisMeal.thisMealsIngrdnts[0].thisMealIngrdnt._id;
     let testResult = pattern.test(thisMeals1stTempIngrdntId);
     if (testResult) {
       let newMealIngrdnts = thisMeal.thisMealsIngrdnts;
       for (let i = 0; i < newMealIngrdnts.length; i++) {
-        let thisNewMealIngrdnt = newMealIngrdnts[i];
+        let thisNewMealIngrdnt = newMealIngrdnts[i].thisMealIngrdnt;
         let newMealIngrdntToSave = {
           qty: thisNewMealIngrdnt.qty,
           genRecipeIngredient: thisNewMealIngrdnt.genRecipeIngredient._id,
@@ -529,7 +541,7 @@ class DayDetail extends Component {
             newMealIngrdntToSave
           )
           .then((response) => {
-            newMealIngrdnts[i]._id = response.data._id;
+            newMealIngrdnts[i].thisMealIngrdnt._id = response.data._id;
           });
       }
       thisMeal.thisMealsIngrdnts = newMealIngrdnts;
@@ -537,7 +549,7 @@ class DayDetail extends Component {
         //this conditional is returning false even when it seems to be true, need to find out why...
         let oldMealIngrdnts = oldMeal.thisMealsIngrdnts;
         for (let i = 0; i < oldMealIngrdnts.length; i++) {
-          let thisOldMealIngrdnt = oldMealIngrdnts[i]._id;
+          let thisOldMealIngrdnt = oldMealIngrdnts[i].thisMealIngrdnt._id;
           axios
             .delete(
               "http://localhost:5000/mealIngredients/" + thisOldMealIngrdnt
@@ -764,7 +776,7 @@ class DayDetail extends Component {
     let mealToDelete = this.state[thisMealType]["thisMeal"];
     let mealIngrdntsToDelete = this.state[thisMealType]["thisMealsIngrdnts"];
     for (let i = 0; i < mealIngrdntsToDelete.length; i++) {
-      let thisMealIngrdnt = mealIngrdntsToDelete[i]._id;
+      let thisMealIngrdnt = mealIngrdntsToDelete[i].thisMealIngrdnt._id;
       axios
         .delete("http://localhost:5000/mealIngredients/" + thisMealIngrdnt)
         .then((response) => console.log(response));
@@ -812,10 +824,16 @@ class DayDetail extends Component {
         for (let i = 0; i < thisGenRecipesGenRecipeIngrdnts.length; i++) {
           let thisGenRecipeIngrdnt = thisGenRecipesGenRecipeIngrdnts[i];
           let newMealIngredient = {
-            _id: "tempId-" + this.props.getRndInteger(10000000, 99999999),
-            qty: thisGenRecipeIngrdnt.defaultQty,
-            genRecipeIngredient: thisGenRecipeIngrdnt,
-            meal: thisMeal,
+            thisMealIngrdntJustCreated: false,
+            recordChanged: false,
+            thisMealIngrdntFormState: "viewing",
+            thisGenRecipeIngrdntFormState: "viewing",
+            thisMealIngrdnt: {
+              _id: "tempId-" + this.props.getRndInteger(10000000, 99999999),
+              qty: thisGenRecipeIngrdnt.defaultQty,
+              genRecipeIngredient: thisGenRecipeIngrdnt,
+              meal: thisMeal,
+            },
           };
           thisMealsNewMealIngrdnts.push(newMealIngredient);
         }
