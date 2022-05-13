@@ -290,9 +290,9 @@ const MealDetail2 = (props) => {
                       }
                       aria-expanded="true"
                       aria-controls="collapseOne"
-                      disabled={props.userType === "admin" ? false : true}
+                      disabled={genRecipeUserType === "admin" ? false : true}
                     >
-                      {props.userType === "admin" ? (
+                      {genRecipeUserType === "admin" ? (
                         <FontAwesomeIcon icon="fa-solid fa-lock-open" />
                       ) : (
                         <FontAwesomeIcon icon="fa-solid fa-lock" />
@@ -534,17 +534,11 @@ const MealDetail2 = (props) => {
                     <div className="form-group mealInputs">
                       <label>Author</label>
                       <select
-                        // ref="userInput"
-                        required
                         className="form-control form-select"
                         value={JSON.stringify(
                           props.thisMeal.thisMeal.genRecipe.GRFUser
                         )}
-                        disabled={
-                          props.thisMeal.thisGenRecipeFormState == "viewing"
-                            ? true
-                            : false
-                        }
+                        disabled
                         onChange={(e) =>
                           props.updateProp(
                             "genRecipe",
@@ -594,9 +588,9 @@ const MealDetail2 = (props) => {
                           }
                           aria-expanded="true"
                           aria-controls="collapseOne"
-                          disabled={props.userType == "admin" ? false : true}
+                          disabled={genRecipeUserType == "admin" ? false : true}
                         >
-                          {props.userType === "admin" ? (
+                          {genRecipeUserType === "admin" ? (
                             <FontAwesomeIcon icon="fa-solid fa-lock-open" />
                           ) : (
                             <FontAwesomeIcon icon="fa-solid fa-lock" />
