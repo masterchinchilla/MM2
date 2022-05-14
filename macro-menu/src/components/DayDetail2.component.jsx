@@ -534,9 +534,11 @@ class DayDetail extends Component {
     let backupMeal = _.cloneDeep(state[thisMealType]);
     let currentMeal = state[thisMealType];
     state[`${thisMealType}Old`] = backupMeal;
+
     currentMeal["thisMealFormState"] = "editingOrig";
     currentMeal["thisGenRecipeFormState"] = "viewing";
     currentMeal["thisGenRecipeUserType"] = "viewer";
+
     let thisMealsIngrdnts = currentMeal.thisMealsIngrdnts;
     for (let i = 0; i < thisMealsIngrdnts.length; i++) {
       thisMealsIngrdnts[i].thisMealIngrdntFormState = "viewing";
