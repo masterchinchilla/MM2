@@ -8,8 +8,8 @@ const MealIngredientChild = (props) => {
   let thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   let allMeals = props.allMeals;
   let mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  let userType = props.userType;
-  let thisFormState = props.thisFormState;
+  let userType = thisMealIngredient.thisMealIngrdntUserType;
+  let thisFormState = thisMealIngredient.thisMealIngrdntFormState;
   let deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (

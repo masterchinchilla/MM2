@@ -25,92 +25,17 @@ class DayDetail extends Component {
       mealDefaults: this.props.mealDefaults,
       thisDay: this.props.thisDay,
       breakfast: {
+        data: false,
         thisMealJustCreated: false,
-        recordChanged: false,
+        mealRecordChanged: false,
+        genRecipeRecordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisMealUserType: "viewer",
         thisGenRecipeFormState: "viewing",
+        thisGenRecipeUserType: "viewer",
         thisMeal: this.props.mealDefaults.breakfast.thisMeal,
-        // thisMeal: {
-        //   _id: "missing",
-        //   day: this.props.thisDay,
-        //   genRecipe: {
-        //     _id: "tempBreakfastRecipe1Id",
-        //     name: "tempBreakfastRecipe1Name",
-        //     availableMealType: {
-        //       _id: "626dd6fc21888432c0fe3e90",
-        //       code: "breakfast",
-        //       name: "Breakfast",
-        //     },
-        //     GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-        //     defaultPrepInstructions: "",
-        //     photoUrl: "",
-        //   },
-        //   prepInstructions: "",
-        //   mealType: {
-        //     _id: "626dd6fc21888432c0fe3e90",
-        //     code: "breakfast",
-        //     name: "Breakfast",
-        //   },
-        // },
         thisMealsIngrdnts: this.props.mealDefaults.breakfast.thisMealsIngrdnts,
-        // thisMealsIngrdnts: [
-        //   {
-        //     _id: "missing",
-        //     qty: 1,
-        //     genRecipeIngredient: {
-        //       defaultQty: 1,
-        //       ingredient: {
-        //         name: "tempBreakfastIngredient1Name",
-        //         calories: 1,
-        //         carbs: 1,
-        //         protein: 1,
-        //         fat: 1,
-        //         fiber: 1,
-        //         unitOfMeasure: { name: "Each" },
-        //         weightType: { name: "" },
-        //         photoURL: "",
-        //         GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-        //         brand: { name: "" },
-        //       },
-        //       genRecipe: {
-        //         _id: "tempBreakfastRecipe1Id",
-        //         name: "tempBreakfastRecipe1Name",
-        //         availableMealType: {
-        //           _id: "626dd6fc21888432c0fe3e90",
-        //           code: "breakfast",
-        //           name: "Breakfast",
-        //         },
-        //         GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-        //         defaultPrepInstructions: "",
-        //         photoUrl: "",
-        //       },
-        //       defaultPrepInstructions: "",
-        //     },
-        //     meal: {
-        //       _id: "missing",
-        //       day: this.props.thisDay,
-        //       genRecipe: {
-        //         _id: "tempBreakfastRecipe1Id",
-        //         name: "tempBreakfastRecipe1Name",
-        //         availableMealType: {
-        //           _id: "626dd6fc21888432c0fe3e90",
-        //           code: "breakfast",
-        //           name: "Breakfast",
-        //         },
-        //         GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-        //         defaultPrepInstructions: "",
-        //         photoUrl: "",
-        //       },
-        //       prepInstructions: "",
-        //       mealType: {
-        //         _id: "626dd6fc21888432c0fe3e90",
-        //         code: "breakfast",
-        //         name: "Breakfast",
-        //       },
-        //     },
-        //   },
-        // ],
         thisRecipesIngrdnts:
           this.props.mealDefaults.breakfast.thisRecipesIngrdnts,
         thisMealsMacrosBudget: {
@@ -120,31 +45,18 @@ class DayDetail extends Component {
           fat: 1,
           fiber: 1,
         },
-        // thisMealsMacrosBudget: {
-        //   cals:
-        //     this.props.macrosBudget.cals *
-        //     (this.props.mealsWeighting.breakfastWeight / 100),
-        //   carbs:
-        //     this.props.macrosBudget.carbs *
-        //     (this.props.mealsWeighting.breakfastWeight / 100),
-        //   protein:
-        //     this.props.macrosBudget.protein *
-        //     (this.props.mealsWeighting.breakfastWeight / 100),
-        //   fat:
-        //     this.props.macrosBudget.fat *
-        //     (this.props.mealsWeighting.breakfastWeight / 100),
-        //   fiber:
-        //     this.props.macrosBudget.fiber *
-        //     (this.props.mealsWeighting.breakfastWeight / 100),
-        // },
       },
       breakfastOld: {},
       snack1: {
+        data: false,
         thisMealJustCreated: false,
-        recordChanged: false,
+        mealRecordChanged: false,
+        genRecipeRecordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisMealUserType: "viewer",
         thisGenRecipeFormState: "viewing",
+        thisGenRecipeUserType: "viewer",
         thisMeal: this.props.mealDefaults.snack1.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.snack1.thisMealsIngrdnts,
         thisRecipesIngrdnts: this.props.mealDefaults.snack1.thisRecipesIngrdnts,
@@ -158,11 +70,15 @@ class DayDetail extends Component {
       },
       snack1Old: {},
       lunch: {
+        data: false,
         thisMealJustCreated: false,
-        recordChanged: false,
+        mealRecordChanged: false,
+        genRecipeRecordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisMealUserType: "viewer",
         thisGenRecipeFormState: "viewing",
+        thisGenRecipeUserType: "viewer",
         thisMeal: this.props.mealDefaults.lunch.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.lunch.thisMealsIngrdnts,
         thisRecipesIngrdnts: this.props.mealDefaults.lunch.thisRecipesIngrdnts,
@@ -176,11 +92,15 @@ class DayDetail extends Component {
       },
       lunchOld: {},
       snack2: {
+        data: false,
         thisMealJustCreated: false,
-        recordChanged: false,
+        mealRecordChanged: false,
+        genRecipeRecordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisMealUserType: "viewer",
         thisGenRecipeFormState: "viewing",
+        thisGenRecipeUserType: "viewer",
         thisMeal: this.props.mealDefaults.snack2.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.snack2.thisMealsIngrdnts,
         thisRecipesIngrdnts: this.props.mealDefaults.snack2.thisRecipesIngrdnts,
@@ -194,11 +114,15 @@ class DayDetail extends Component {
       },
       snack2Old: {},
       dinner: {
+        data: false,
         thisMealJustCreated: false,
-        recordChanged: false,
+        mealRecordChanged: false,
+        genRecipeRecordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisMealUserType: "viewer",
         thisGenRecipeFormState: "viewing",
+        thisGenRecipeUserType: "viewer",
         thisMeal: this.props.mealDefaults.dinner.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.dinner.thisMealsIngrdnts,
         thisRecipesIngrdnts: this.props.mealDefaults.dinner.thisRecipesIngrdnts,
@@ -212,11 +136,15 @@ class DayDetail extends Component {
       },
       dinnerOld: {},
       dessert: {
+        data: false,
         thisMealJustCreated: false,
-        recordChanged: false,
+        mealRecordChanged: false,
+        genRecipeRecordChanged: false,
         userChangedThisMealsRecipe: false,
         thisMealFormState: "viewing",
+        thisMealUserType: "viewer",
         thisGenRecipeFormState: "viewing",
+        thisGenRecipeUserType: "viewer",
         thisMeal: this.props.mealDefaults.dessert.thisMeal,
         thisMealsIngrdnts: this.props.mealDefaults.dessert.thisMealsIngrdnts,
         thisRecipesIngrdnts:
@@ -297,8 +225,15 @@ class DayDetail extends Component {
       let state = this.state;
       for (let i = 0; i < meals.length; i++) {
         state[meals[i].mealType.code]["thisMeal"] = meals[i];
+        state[meals[i].mealType.code]["thisMealFormState"] =
+          this.props.defaultFormState;
+        state[meals[i].mealType.code]["thisMealUserType"] =
+          this.props.defaultUserType;
+        state[meals[i].mealType.code]["thisGenRecipeUserType"] =
+          this.props.defaultUserType;
         this.fetchDayMealsIngrdnts(meals[i]);
       }
+      state["data"] = true;
       this.setState({ state });
     }
   };
@@ -472,7 +407,11 @@ class DayDetail extends Component {
         thisMealIngrdntJustCreated: false,
         recordChanged: false,
         thisMealIngrdntFormState: "viewing",
+        thisMealIngrdntUserType: this.state.defaultUserType,
         thisGenRecipeIngrdntFormState: "viewing",
+        thisGenRecipeIngrdntUserType: this.state.defaultUserType,
+        thisIngrdntFormState: "viewing",
+        thisIngrdntUserType: this.state.defaultUserType,
         thisMealIngrdnt: mealMealIngredients[i],
       };
       let thisIngredient =
@@ -497,7 +436,6 @@ class DayDetail extends Component {
     }
     let state = this.state;
     state[thisMealType]["thisMealsIngrdnts"] = mealMealIngrdntsWWrapper;
-    state["data"] = true;
     this.setState({ state });
     this.fetchRecipesIngrdnts(meal);
   };
@@ -516,6 +454,7 @@ class DayDetail extends Component {
         let state = this.state;
         state[mealType]["thisRecipesIngrdnts"] =
           thisGenRecipesGenRecipeIngrdnts;
+        state[mealType]["data"] = true;
         this.setState({ state });
       });
   };
@@ -573,6 +512,8 @@ class DayDetail extends Component {
         console.log(response);
       });
     thisMeal.thisMealFormState = "viewing";
+    thisMeal.thisGenRecipeFormState = "viewing";
+    thisMeal.thisGenRecipeUserType = this.state.defaultUserType;
     thisMeal.userChangedThisMealsRecipe = false;
     thisMeal.thisMealJustCreated = false;
     thisMeal.recordChanged = false;
@@ -588,26 +529,106 @@ class DayDetail extends Component {
   handleClickEdit = () => {
     this.setState({ thisFormState: "editingOrig" });
   };
-  handleClickEditOnMeal = (thisMeal, stateObj) => {
-    let thisMealType = thisMeal.mealType.code;
+  handleClickEditOnMeal = (thisMealType, stateObj) => {
     let state = this.state;
-    let currentMeal = _.cloneDeep(state[thisMealType]);
-    state[`${thisMealType}Old`] = currentMeal;
-    state[thisMealType]["thisMealFormState"] = "editingOrig";
-
+    let backupMeal = _.cloneDeep(state[thisMealType]);
+    let currentMeal = state[thisMealType];
+    state[`${thisMealType}Old`] = backupMeal;
+    currentMeal["thisMealFormState"] = "editingOrig";
+    currentMeal["thisGenRecipeFormState"] = "viewing";
+    currentMeal["thisGenRecipeUserType"] = "viewer";
+    let thisMealsIngrdnts = currentMeal.thisMealsIngrdnts;
+    for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+      thisMealsIngrdnts[i].thisMealIngrdntFormState = "viewing";
+      thisMealsIngrdnts[i].thisMealIngrdntUserType = "viewer";
+      thisMealsIngrdnts[i].thisGenRecipeIngrdntFormState = "viewing";
+      thisMealsIngrdnts[i].thisGenRecipeIngrdntUserType = "viewer";
+      thisMealsIngrdnts[i].thisIngrdntFormState = "viewing";
+      thisMealsIngrdnts[i].thisIngrdntUserType = "viewer";
+    }
+    state[thisMealType] = currentMeal;
     this.setState(state);
   };
   handleClickEditOnGenRecipe = (thisMeal, stateObj) => {
-    console.log(thisMeal);
-    let thisMealType = thisMeal.mealType.code;
+    let thisMealType = thisMeal.thisMeal.mealType.code;
     let state = this.state;
-    let currentMeal = _.cloneDeep(state[thisMealType]);
-    state[`${thisMealType}Old`] = currentMeal;
-    state[thisMealType]["thisGenRecipeFormState"] = "editingOrig";
+    let backupMeal = _.cloneDeep(state[thisMealType]);
+    let currentMeal = state[thisMealType];
+    state[`${thisMealType}Old`] = backupMeal;
+    currentMeal["thisMealFormState"] = "viewing";
+    currentMeal["thisGenRecipeFormState"] = "editingOrig";
+    currentMeal["thisMealUserType"] = "viewer";
+    let thisMealsIngrdnts = currentMeal.thisMealsIngrdnts;
+    for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+      thisMealsIngrdnts[i].thisMealIngrdntFormState = "viewing";
+      thisMealsIngrdnts[i].thisMealIngrdntUserType = "viewer";
+      thisMealsIngrdnts[i].thisGenRecipeIngrdntFormState = "viewing";
+      thisMealsIngrdnts[i].thisGenRecipeIngrdntUserType = "viewer";
+      thisMealsIngrdnts[i].thisIngrdntFormState = "viewing";
+      thisMealsIngrdnts[i].thisIngrdntUserType = "viewer";
+    }
+    state[thisMealType] = currentMeal;
     this.setState(state);
   };
-  handleCancelMealEdit = (thisMeal) => {
-    let thisMealType = thisMeal.mealType.code;
+  handleClickEditMealIngrdntForms = (
+    thisMealType,
+    mealIngrdntsArrayIndex,
+    stateObj
+  ) => {
+    let state = this.state;
+    let thisMeal = state[thisMealType];
+    thisMeal.thisMealFormState = "viewing";
+    thisMeal.thisMealUserType = "viewer";
+    thisMeal.thisGenRecipeFormState = "viewing";
+    thisMeal.thisGenRecipeUserType = "viewer";
+    let thisMealIngrdnts = thisMeal.thisMealsIngrdnts;
+    let thisMealIngredient = thisMealIngrdnts[mealIngrdntsArrayIndex];
+    if (stateObj === "mealIngredient") {
+      thisMealIngredient.thisMealIngrdntFormState = "editingOrig";
+      thisMealIngredient.thisMealIngrdntUserType = state.defaultUserType;
+      thisMealIngredient.thisGenRecipeIngrdntFormState = "viewing";
+      thisMealIngredient.thisGenRecipeIngrdntUserType = "viewer";
+      thisMealIngredient.thisIngrdntFormState = "viewing";
+      thisMealIngredient.thisIngrdntUserType = "viewer";
+    } else if (stateObj === "genRecipeIngredient") {
+      thisMealIngredient.thisMealIngrdntFormState = "viewing";
+      thisMealIngredient.thisMealIngrdntUserType = "viewer";
+      thisMealIngredient.thisGenRecipeIngrdntFormState = "editingOrig";
+      thisMealIngredient.thisGenRecipeIngrdntUserType = state.defaultUserType;
+      thisMealIngredient.thisIngrdntFormState = "viewing";
+      thisMealIngredient.thisIngrdntUserType = "viewer";
+    } else {
+      thisMealIngredient.thisMealIngrdntFormState = "viewing";
+      thisMealIngredient.thisMealIngrdntUserType = "viewer";
+      thisMealIngredient.thisGenRecipeIngrdntFormState = "viewing";
+      thisMealIngredient.thisGenRecipeIngrdntUserType = "viewer";
+      thisMealIngredient.thisIngrdntFormState = "editingOrig";
+      thisMealIngredient.thisIngrdntUserType = state.defaultUserType;
+    }
+    thisMeal.thisMealsIngrdnts[mealIngrdntsArrayIndex] = thisMealIngredient;
+    state[thisMealType] = thisMeal;
+    this.setState({ state });
+  };
+  handleCancelEditMealIngrdntForms = (thisMealType, mealIngrdntsArrayIndex) => {
+    let state = this.state;
+    let thisMeal = state[thisMealType];
+    thisMeal.thisMealFormState = "viewing";
+    thisMeal.thisMealUserType = state.defaultUserType;
+    thisMeal.thisGenRecipeFormState = "viewing";
+    thisMeal.thisGenRecipeUserType = state.defaultUserType;
+    let thisMealIngrdnts = thisMeal.thisMealsIngrdnts;
+    let thisMealIngredient = thisMealIngrdnts[mealIngrdntsArrayIndex];
+    thisMealIngredient.thisMealIngrdntFormState = "viewing";
+    thisMealIngredient.thisMealIngrdntUserType = state.defaultUserType;
+    thisMealIngredient.thisGenRecipeIngrdntFormState = "viewing";
+    thisMealIngredient.thisGenRecipeIngrdntUserType = state.defaultUserType;
+    thisMealIngredient.thisIngrdntFormState = "viewing";
+    thisMealIngredient.thisIngrdntUserType = state.defaultUserType;
+    thisMeal.thisMealsIngrdnts[mealIngrdntsArrayIndex] = thisMealIngredient;
+    state[thisMealType] = thisMeal;
+    this.setState({ state });
+  };
+  handleCancelMealEdit = (thisMealType, stateObj) => {
     let state = this.state;
     let currentMealRestoredToOld = _.cloneDeep(state[`${thisMealType}Old`]);
     state[thisMealType] = currentMealRestoredToOld;
@@ -615,8 +636,8 @@ class DayDetail extends Component {
     this.setState(state);
     this.props.onCancel(currentMealRestoredToOld, "meal");
   };
-  handleCancelGenRecipeEdit = (thisMeal) => {
-    let thisMealType = thisMeal.mealType.code;
+  handleCancelGenRecipeEdit = (thisMeal, stateObj) => {
+    let thisMealType = thisMeal.thisMeal.mealType.code;
     let state = this.state;
     let currentMealRestoredToOld = _.cloneDeep(state[`${thisMealType}Old`]);
     state[thisMealType] = currentMealRestoredToOld;
@@ -957,20 +978,22 @@ class DayDetail extends Component {
                         />
                       </div>
                       <ul>
-                        <li>Name:&nbsp;{this.props.thisDay.name}</li>
+                        <li key={"dayAttributesLiItem1"}>
+                          Name:&nbsp;{this.props.thisDay.name}
+                        </li>
                         <li>
                           Day of Week:&nbsp;{this.props.thisDay.dayOfWeek}
                         </li>
-                        <li>
+                        <li key={"dayAttributesLiItem2"}>
                           Week Meal Plan:&nbsp;{this.props.weekMealPlanName}
                         </li>
-                        <li>
+                        <li key={"dayAttributesLiItem3"}>
                           Created:&nbsp;
                           {dayjs(this.props.thisDay.createdAt).format(
                             "dddd, MMMM D, YYYY h:mm A"
                           )}
                         </li>
-                        <li>
+                        <li key={"dayAttributesLiItem4"}>
                           Last Updated:&nbsp;
                           {dayjs(this.props.thisDay.updatedAt).format(
                             "dddd, MMMM D, YYYY h:mm A"
@@ -1023,8 +1046,13 @@ class DayDetail extends Component {
                               }
                             >
                               <div className="accordion-body wkDaysAccrdnBdy">
-                                {this.state.breakfast.thisMeal._id ===
-                                "missing" ? (
+                                {this.state.breakfast.data === false ? (
+                                  <div
+                                    className="spinner-border text-primary"
+                                    role="status"
+                                  ></div>
+                                ) : this.state.breakfast.thisMeal._id ===
+                                  "missing" ? (
                                   <CreateMeal2
                                     mealType={
                                       this.state.breakfast.thisMeal.mealType
@@ -1102,9 +1130,22 @@ class DayDetail extends Component {
                                       this.props.handleChangeSubordinateObject
                                     }
                                     onCancel={this.props.onCancel}
+                                    oldThisMealType={"breakfast"}
+                                    onClickEditMealIngrdntForms={
+                                      this.handleClickEditMealIngrdntForms
+                                    }
+                                    onCancelEditMealIngrdntForms={
+                                      this.handleCancelEditMealIngrdntForms
+                                    }
                                   />
                                 )}
-                                {this.state.lunch.thisMeal._id === "missing" ? (
+                                {this.state.lunch.data === false ? (
+                                  <div
+                                    className="spinner-border text-primary"
+                                    role="status"
+                                  ></div>
+                                ) : this.state.lunch.thisMeal._id ===
+                                  "missing" ? (
                                   <CreateMeal2
                                     mealType={
                                       this.state.lunch.thisMeal.mealType
@@ -1179,10 +1220,22 @@ class DayDetail extends Component {
                                     allWeightTypes={this.props.allWeightTypes}
                                     allBrands={this.props.allBrands}
                                     onCancel={this.props.onCancel}
+                                    oldThisMealType={"lunch"}
+                                    onClickEditMealIngrdntForms={
+                                      this.handleClickEditMealIngrdntForms
+                                    }
+                                    onCancelEditMealIngrdntForms={
+                                      this.handleCancelEditMealIngrdntForms
+                                    }
                                   />
                                 )}
-                                {this.state.snack2.thisMeal._id ===
-                                "missing" ? (
+                                {this.state.snack2.data === false ? (
+                                  <div
+                                    className="spinner-border text-primary"
+                                    role="status"
+                                  ></div>
+                                ) : this.state.snack2.thisMeal._id ===
+                                  "missing" ? (
                                   <CreateMeal2
                                     mealType={
                                       this.state.snack2.thisMeal.mealType
@@ -1257,6 +1310,13 @@ class DayDetail extends Component {
                                     allWeightTypes={this.props.allWeightTypes}
                                     allBrands={this.props.allBrands}
                                     onCancel={this.props.onCancel}
+                                    oldThisMealType="snack2"
+                                    onClickEditMealIngrdntForms={
+                                      this.handleClickEditMealIngrdntForms
+                                    }
+                                    onCancelEditMealIngrdntForms={
+                                      this.handleCancelEditMealIngrdntForms
+                                    }
                                   />
                                 )}
                               </div>

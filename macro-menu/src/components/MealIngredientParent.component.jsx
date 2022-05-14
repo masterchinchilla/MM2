@@ -33,40 +33,47 @@ const MealIngredientParent = (props) => {
     console.log("changing value");
   };
   const onClickEdit = (parentObj, stateObj) => {
-    props.onClickEditMealIngrdntForms("mealIngredientForms");
-    if (stateObj === "mealIngredient") {
-      changeMealIngrdntFormState("editingOrig");
-      changeMealIngrdntUserType(defaultMealIngrdntsFormsUserType);
-      changeGenRecipeIngrdntFormState("viewing");
-      changeGenRecipeIngrdntUserType("viewer");
-      changeIngrdntFormState("viewing");
-      changeIngrdntUserType("viewer");
-    }
-    if (stateObj === "genRecipeIngredient") {
-      changeMealIngrdntFormState("viewing");
-      changeMealIngrdntUserType("viewer");
-      changeGenRecipeIngrdntFormState("editingOrig");
-      changeGenRecipeIngrdntUserType(defaultMealIngrdntsFormsUserType);
-      changeIngrdntFormState("viewing");
-      changeIngrdntUserType("viewer");
-    }
-    if (stateObj === "ingredient") {
-      changeMealIngrdntFormState("viewing");
-      changeMealIngrdntUserType("viewer");
-      changeGenRecipeIngrdntFormState("viewing");
-      changeGenRecipeIngrdntUserType("viewer");
-      changeIngrdntFormState("editingOrig");
-      changeIngrdntUserType(defaultMealIngrdntsFormsUserType);
-    }
+    props.onClickEditMealIngrdntForms(
+      props.thisMealIngredient.thisMealIngrdnt.meal.mealType.code,
+      props.mealIngrdntsArrayIndex,
+      stateObj
+    );
+    // if (stateObj === "mealIngredient") {
+    //   changeMealIngrdntFormState("editingOrig");
+    //   changeMealIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    //   changeGenRecipeIngrdntFormState("viewing");
+    //   changeGenRecipeIngrdntUserType("viewer");
+    //   changeIngrdntFormState("viewing");
+    //   changeIngrdntUserType("viewer");
+    // }
+    // if (stateObj === "genRecipeIngredient") {
+    //   changeMealIngrdntFormState("viewing");
+    //   changeMealIngrdntUserType("viewer");
+    //   changeGenRecipeIngrdntFormState("editingOrig");
+    //   changeGenRecipeIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    //   changeIngrdntFormState("viewing");
+    //   changeIngrdntUserType("viewer");
+    // }
+    // if (stateObj === "ingredient") {
+    //   changeMealIngrdntFormState("viewing");
+    //   changeMealIngrdntUserType("viewer");
+    //   changeGenRecipeIngrdntFormState("viewing");
+    //   changeGenRecipeIngrdntUserType("viewer");
+    //   changeIngrdntFormState("editingOrig");
+    //   changeIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    // }
   };
   const handleCancel = (parentObj, stateObj) => {
-    props.onCancel(parentObj, stateObj);
-    changeMealIngrdntFormState(defaultMealIngrdntFormsState);
-    changeMealIngrdntUserType(defaultMealIngrdntsFormsUserType);
-    changeGenRecipeIngrdntFormState(defaultMealIngrdntFormsState);
-    changeGenRecipeIngrdntUserType(defaultMealIngrdntsFormsUserType);
-    changeIngrdntFormState(defaultMealIngrdntFormsState);
-    changeIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    props.onCancel(
+      props.thisMealIngredient.thisMealIngrdnt.meal.mealType.code,
+      props.mealIngrdntsArrayIndex
+    );
+    // changeMealIngrdntFormState(defaultMealIngrdntFormsState);
+    // changeMealIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    // changeGenRecipeIngrdntFormState(defaultMealIngrdntFormsState);
+    // changeGenRecipeIngrdntUserType(defaultMealIngrdntsFormsUserType);
+    // changeIngrdntFormState(defaultMealIngrdntFormsState);
+    // changeIngrdntUserType(defaultMealIngrdntsFormsUserType);
   };
   return (
     <div className="card mlIngrdntsCard">
@@ -93,8 +100,8 @@ const MealIngredientParent = (props) => {
           thisMealsTypesRecipes={props.thisMealsTypesRecipes}
           allIngredients={props.allIngredients}
           mealIngrdntsArrayIndex={props.mealIngrdntsArrayIndex}
-          userType={genRecipeIngrdntUserType}
-          thisFormState={genRecipeIngrdntFormState}
+          userType={props.thisMealIngredient.thisGenRecipeIngrdntUserType}
+          thisFormState={props.thisMealIngredient.thisGenRecipeIngrdntFormState}
           onSubmitFormChange={props.saveMealIngrdntChange}
           onClickEdit={onClickEdit}
           onDelete={props.onDelete}
@@ -121,8 +128,8 @@ const MealIngredientParent = (props) => {
           allBrands={props.allBrands}
           allGRFUsers={props.allGRFUsers}
           mealIngrdntsArrayIndex={props.mealIngrdntsArrayIndex}
-          userType={ingrdntUserType}
-          thisFormState={ingrdntFormState}
+          userType={props.thisMealIngredient.thisIngrdntUserType}
+          thisFormState={props.thisMealIngredient.thisIngrdntFormState}
           onSubmitFormChange={props.saveMealIngrdntChange}
           onClickEdit={onClickEdit}
           onDelete={props.onDelete}

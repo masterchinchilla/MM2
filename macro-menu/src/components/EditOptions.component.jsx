@@ -144,20 +144,33 @@ const EditOptions = (props) => {
             hidden={hideIcon("cancel", userType, thisFormState)}
           />
         </button>
-        <button
-          type="button"
-          onClick={() => {
-            onSubmitFormChange(parentObj, stateObj);
-          }}
-          className="iconBttn"
-        >
-          <FontAwesomeIcon
-            icon="fa-solid fa-floppy-disk"
-            size="xl"
-            className={recordChanged == true ? "changingWarning p-1" : "p-1"}
-            hidden={hideIcon("save", userType, thisFormState)}
-          />
-        </button>
+        {stateObj ===
+        ("meal" || "mealIngredient" || "day" || "weekMealPlan") ? (
+          <button
+            type="button"
+            onClick={() => {
+              onSubmitFormChange(parentObj, stateObj);
+            }}
+            className="iconBttn"
+          >
+            <FontAwesomeIcon
+              icon="fa-solid fa-floppy-disk"
+              size="xl"
+              className={recordChanged == true ? "changingWarning p-1" : "p-1"}
+              hidden={hideIcon("save", userType, thisFormState)}
+            />
+          </button>
+        ) : (
+          <button type="submit" className="iconBttn">
+            <FontAwesomeIcon
+              icon="fa-solid fa-floppy-disk"
+              size="xl"
+              className={recordChanged === true ? "changingWarning p-1" : "p-1"}
+              hidden={hideIcon("save", userType, thisFormState)}
+            />
+          </button>
+        )}
+
         <button
           type="button"
           onClick={() => {

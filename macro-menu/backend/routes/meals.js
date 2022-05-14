@@ -1,6 +1,17 @@
 const router = require('express').Router();
 const { response } = require('express');
-let Meal = require('../models/meal.model');
+let UnitOfMeasure=require('../models/unitOfMeasure.model');
+let WeightType=require('../models/weightType.model');
+let Brand=require('../models/brand.model');
+let GRFUser=require('../models/GRFUser.model');
+let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
+let GenRecipe=require('../models/genRecipe.model');
+let Ingredient=require('../models/ingredient.model');
+let Meal=require('../models/meal.model');
+let Day=require('../models/day.model');
+let WeekMealPlan=require('../models/weekMealPlan.model');
+let MealIngredient=require('../models/mealIngredient.model');
+
 router.route('/').get((req, res)=>{
     Meal.find().populate('day')
         .populate({
@@ -11,11 +22,21 @@ router.route('/').get((req, res)=>{
         .catch(err=>res.status(400).json('Error: '+err));
 });
 router.route('/mealsofthisday/:id').get((req, res)=>{   
-    Meal.find({day: req.params.id}).populate('day')
+    Meal.find({day: req.params.id})
+        .populate('day')
+        .populate({
+            path:'day',
+            populate:{path:'weekMealPlan'}
+        })
+        .populate('mealType')
         .populate({
             path: 'genRecipe',
             populate: { path: 'GRFUser' }
-        }).populate('mealType')
+        })
+        .populate({
+            path: 'genRecipe',
+            populate: { path: 'availableMealType' }
+        })
         .then(meals => res.json(meals))
         .catch(err => res.status(400).json('Error: ' + err));
 });
