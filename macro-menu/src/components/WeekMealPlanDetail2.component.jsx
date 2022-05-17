@@ -2,15 +2,40 @@ import React, { Component } from "react";
 import axios from "axios";
 import DayDetail from "./DayDetail.component";
 import EditOptions from "./EditOptions.component";
-import CreateDay from "./CreateDay.component";
+import CreateDay2 from "./CreateDay2.component";
 import DayDetail2 from "./DayDetail2.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // thisGRFUser={props.thisGRFUser}
+      // allGRFUsers={props.allGRFUsers}
+      // allDays={props.allDays}
+      // allGenRecipes={props.allGenRecipes}
+      // mealTypes={props.mealTypes}
+      // allIngredients={props.allIngredients}
+      // allGenRecipeIngredients={props.allGenRecipeIngredients}
+      // allMeals={props.allMeals}
+      // allUnitOfMeasures={props.allUnitOfMeasures}
+      // allWeightTypes={props.allWeightTypes}
+      // allBrands={props.allBrands}
+      thisGRFUser: {
+        _id: "60cd31910b74083490750ed0",
+        namePrefix: "",
+        givenName: "Jane",
+        middleName: "",
+        familyName: "Doe",
+        nameSuffix: "",
+        email: "janedoe@gmail.com",
+        password: "abcd1234",
+        handle: "jane_fit_1985",
+        certURL: "",
+        certName: "",
+        userGroups: "Admin",
+      },
       thisWeekMealPlan: {
-        dataLoaded:false,
+        dataLoaded: false,
         thisFormState: "viewing",
         userType: "viewer",
         thisWMP: {
@@ -53,98 +78,14 @@ export default class WeekMealPlanDetail extends Component {
           photoUrl: "",
         },
       ],
-      allBreakfastRecipes: [
-        {
-          _id: "tempGenRecipe1Id",
-          name: "tempGenRecipe1Name",
-          availableMealType: {
-            _id: "626dd6fc21888432c0fe3e90",
-            code: "breakfast",
-            name: "Breakfast",
-          },
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          defaultPrepInstructions: "",
-          photoUrl: "",
-        },
-      ],
-      allSnack1Recipes: [
-        {
-          _id: "tempGenRecipe3Id",
-          name: "tempGenRecipe3Name",
-          availableMealType: {
-            _id: "626ddf9e21888432c0fe3e91",
-            code: "snack1",
-            name: "Snack 1",
-          },
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          defaultPrepInstructions: "",
-          photoUrl: "",
-        },
-      ],
-      allLunchRecipes: [
-        {
-          _id: "tempGenRecipe4Id",
-          name: "tempGenRecipe4Name",
-          availableMealType: {
-            _id: "626ddfb721888432c0fe3e92",
-            code: "lunch",
-            name: "Lunch",
-          },
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          defaultPrepInstructions: "",
-          photoUrl: "",
-        },
-      ],
-      allSnack2Recipes: [
-        {
-          _id: "tempGenRecipe5Id",
-          name: "tempGenRecipe5Name",
-          availableMealType: {
-            _id: "626ddfcb21888432c0fe3e93",
-            code: "snack2",
-            name: "Snack 2",
-          },
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          defaultPrepInstructions: "",
-          photoUrl: "",
-        },
-      ],
-      allDinnerRecipes: [
-        {
-          _id: "tempGenRecipe5Id",
-          name: "tempGenRecipe5Name",
-          availableMealType: {
-            _id: "626ddfdc21888432c0fe3e94",
-            code: "dinner",
-            name: "Dinner",
-          },
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          defaultPrepInstructions: "",
-          photoUrl: "",
-        },
-      ],
-      allDessertRecipes: [
-        {
-          _id: "tempGenRecipe2Id",
-          name: "tempGenRecipe2Name",
-          availableMealType: {
-            _id: "626ddfee21888432c0fe3e95",
-            code: "dessert",
-            name: "Dessert",
-          },
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          defaultPrepInstructions: "",
-          photoUrl: "",
-        },
-      ],
-      daysOfWeek:[
-        {name:"Sunday",code:"sunday"},
-        {name:"Monday",code:"monday"},
-        {name:"Tuesday",code:"tuesday"},
-        {name:"Wednesday",code:"wednesday"},
-        {name:"Thursday",code:"thursday"},
-        {name:"Friday",code:"friday"},
-        {name:"Saturday",code:"saturday"}
+      daysOfWeek: [
+        { name: "Sunday", code: "sunday" },
+        { name: "Monday", code: "monday" },
+        { name: "Tuesday", code: "tuesday" },
+        { name: "Wednesday", code: "wednesday" },
+        { name: "Thursday", code: "thursday" },
+        { name: "Friday", code: "friday" },
+        { name: "Saturday", code: "saturday" },
       ],
       mealTypes: [
         {
@@ -281,17 +222,17 @@ export default class WeekMealPlanDetail extends Component {
       ],
       thisWeeksDays: {
         sunday: {
-          dataLoaded:false,
+          dataLoaded: false,
           thisDay: {
-            _id: "missing"+,
+            _id: "missing",
             name: "Temp WMP - Sunday",
             dayOfWeek: "Sunday",
             weekMealPlan: {},
           },
           thisDaysMeals: {
             breakfast: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -441,8 +382,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack1: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -598,8 +539,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             lunch: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -749,8 +690,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack2: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -900,8 +841,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dinner: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -1051,8 +992,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dessert: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -1204,7 +1145,7 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
         monday: {
-          dataLoaded:false,
+          dataLoaded: false,
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Monday",
@@ -1213,8 +1154,8 @@ export default class WeekMealPlanDetail extends Component {
           },
           thisDaysMeals: {
             breakfast: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -1364,8 +1305,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack1: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -1521,8 +1462,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             lunch: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -1672,8 +1613,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack2: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -1823,8 +1764,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dinner: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -1974,8 +1915,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dessert: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -2127,7 +2068,7 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
         tuesday: {
-          dataLoaded:false,
+          dataLoaded: false,
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Tuesday",
@@ -2136,8 +2077,8 @@ export default class WeekMealPlanDetail extends Component {
           },
           thisDaysMeals: {
             breakfast: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -2287,8 +2228,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack1: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -2444,8 +2385,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             lunch: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -2595,8 +2536,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack2: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -2746,8 +2687,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dinner: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -2897,8 +2838,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dessert: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -3050,7 +2991,7 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
         wednesday: {
-          dataLoaded:false,
+          dataLoaded: false,
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Wednesday",
@@ -3059,8 +3000,8 @@ export default class WeekMealPlanDetail extends Component {
           },
           thisDaysMeals: {
             breakfast: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -3210,8 +3151,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack1: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -3367,8 +3308,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             lunch: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -3518,8 +3459,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack2: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -3669,8 +3610,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dinner: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -3820,8 +3761,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dessert: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -3973,7 +3914,7 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
         thursday: {
-          dataLoaded:false,
+          dataLoaded: false,
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Thursday",
@@ -3982,8 +3923,8 @@ export default class WeekMealPlanDetail extends Component {
           },
           thisDaysMeals: {
             breakfast: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -4133,8 +4074,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack1: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -4290,8 +4231,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             lunch: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -4441,8 +4382,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack2: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -4592,8 +4533,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dinner: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -4743,8 +4684,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dessert: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -4896,7 +4837,7 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
         friday: {
-          dataLoaded:false,
+          dataLoaded: false,
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Friday",
@@ -4905,8 +4846,8 @@ export default class WeekMealPlanDetail extends Component {
           },
           thisDaysMeals: {
             breakfast: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -5056,8 +4997,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack1: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -5213,8 +5154,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             lunch: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -5364,8 +5305,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack2: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -5515,8 +5456,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dinner: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -5666,8 +5607,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dessert: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -5819,7 +5760,7 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
         saturday: {
-          dataLoaded:false,
+          dataLoaded: false,
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Saturday",
@@ -5828,8 +5769,8 @@ export default class WeekMealPlanDetail extends Component {
           },
           thisDaysMeals: {
             breakfast: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -5979,8 +5920,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack1: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -6136,8 +6077,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             lunch: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -6287,8 +6228,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             snack2: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -6438,8 +6379,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dinner: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -6589,8 +6530,8 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsMacrosBudget: {},
             },
             dessert: {
-              dataLoaded:false,
-              mealIngrdntsLoaded:false,
+              dataLoaded: false,
+              mealIngrdntsLoaded: false,
               thisMealJustCreated: false,
               mealRecordChanged: false,
               genRecipeRecordChanged: false,
@@ -6745,18 +6686,21 @@ export default class WeekMealPlanDetail extends Component {
     };
   }
   componentDidMount() {
-    let daysOfWeek=this.state.daysOfWeek;
-    let mealTypes=this.state.mealTypes;
-    let thisWeeksDays=this.state.thisWeeksDays;
-    for(let i=0;i<thisWeeksDays.length;i++){
-      let thisDayCode=daysOfWeek[i].code;
-      thisWeeksDays[thisDayCode]["thisDay"]["_id"]="missing"+getRndInteger(10000000,99999999);
-      for(let i=0;i<mealTypes.length;i++){
-        let thisMealTypeCode=mealTypes[i].code;
-        thisWeeksDays[thisDayCode]["thisDaysMeals"][thisMealTypeCode]["thisMeal"]["_id"]="missing"+getRndInteger(10000000,99999999);
-      };
-    };
-    this.setState({thisWeeksDays:thisWeeksDays});
+    let daysOfWeek = this.state.daysOfWeek;
+    let mealTypes = this.state.mealTypes;
+    let thisWeeksDays = this.state.thisWeeksDays;
+    for (let i = 0; i < thisWeeksDays.length; i++) {
+      let thisDayCode = daysOfWeek[i].code;
+      thisWeeksDays[thisDayCode]["thisDay"]["_id"] =
+        "missing" + this.getRndInteger(10000000, 99999999);
+      for (let i = 0; i < mealTypes.length; i++) {
+        let thisMealTypeCode = mealTypes[i].code;
+        thisWeeksDays[thisDayCode]["thisDaysMeals"][thisMealTypeCode][
+          "thisMeal"
+        ]["_id"] = "missing" + this.getRndInteger(10000000, 99999999);
+      }
+    }
+    this.setState({ thisWeeksDays: thisWeeksDays });
     this.loadData();
   }
   loadData() {
@@ -6771,87 +6715,95 @@ export default class WeekMealPlanDetail extends Component {
     this.getAllUnitOfMeasures();
     this.getAllWeightTypes();
     this.getAllBrands();
-  };
+  }
   getThisWeekMealPlan = () => {
     axios
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
         let thisWeekMealPlan = this.state.thisWeekMealPlan;
         thisWeekMealPlan.thisWMP = response.data;
-        thisWeekMealPlan.dataLoaded=true;
-        this.setState({ thisWeekMealPlan:thisWeekMealPlan });
+        thisWeekMealPlan.dataLoaded = true;
+        this.setState({ thisWeekMealPlan: thisWeekMealPlan });
       });
   };
-  getThisWMPsDays=()=>{
+  getThisWMPsDays = () => {
     axios
       .get(
         "http://localhost:5000/days/daysofthiswmp/" + this.props.match.params.id
       )
       .then((response) => {
-        let daysData=response.data;
-        if(daysData.length<1){
+        let daysData = response.data;
+        if (daysData.length < 1) {
           return;
-        }else{
-          let daysOfWeek=this.state.daysOfWeek;
-          let thisWeeksDays=this.state.thisWeeksDays;
-          for(let i=0;i<daysOfWeek.length;i++){
-            let thisDayOfWeek=daysOfWeek[i].name;
-            let thisWeekDayData=daysData.filter((day) => day.dayOfWeek === thisDayOfWeek)[0];
-            let thisDayToUpdate=thisWeeksDays[thisDayOfWeek];
-            thisDayToUpdate.dataLoaded=true;
-            if(thisWeekDayData){
-              thisDayToUpdate.thisDay=thisWeekDayData;
-              this.getDayMeals(thisDayToUpdate, thisDayOfWeek);
-            };
-            thisWeeksDays[thisDayOfWeek]=thisDayToUpdate;
-          };
-          this.setState({thisWeeksDays});
+        } else {
+          let daysOfWeek = this.state.daysOfWeek;
+          let thisWeeksDays = this.state.thisWeeksDays;
+          for (let i = 0; i < daysOfWeek.length; i++) {
+            let thisDayOfWeek = daysOfWeek[i];
+            let thisWeekDayData = daysData.filter(
+              (day) => day.dayOfWeek === thisDayOfWeek.name
+            )[0];
+            let thisDayToUpdate = thisWeeksDays[thisDayOfWeek.code];
+            thisDayToUpdate.dataLoaded = true;
+            if (thisWeekDayData) {
+              thisDayToUpdate.thisDay = thisWeekDayData;
+              this.getDayMeals(thisDayToUpdate, thisDayOfWeek.code);
+            } else {
+            }
+            thisWeeksDays[thisDayOfWeek.code] = thisDayToUpdate;
+          }
+          this.setState({ thisWeeksDays });
         }
       });
   };
-  getDayMeals=(thisDayToUpdate, thisDayOfWeek)=>{
-    let thisDaysId=thisDayToUpdate.thisDay._id;
+  getDayMeals = (thisDayToUpdate, thisDayOfWeek) => {
+    let thisDaysId = thisDayToUpdate.thisDay._id;
     axios
-      .get(
-        "http://localhost:5000/meals/mealsofthisday/" + thisDaysId
-      )
+      .get("http://localhost:5000/meals/mealsofthisday/" + thisDaysId)
       .then((response) => {
-        let mealsData=response.data;
-        if(mealsData.length<1){
+        let mealsData = response.data;
+        if (mealsData.length < 1) {
           return;
-        }else{
-          let mealTypes=this.state.mealTypes;
-          let thisDaysMeals=thisDayToUpdate.thisDaysMeals;
-          for(let i=0;i<mealTypes.length;i++){
-            let thisMealType=mealTypes[i].code;
-            let thisDayMealData=mealsData.filter((meal)=>meal.mealType.code===thisMealType)[0];
-            let thisMealToUpdate=thisDaysMeals[thisMealType];
-            thisMealToUpdate.dataLoaded=true;
-            if(thisDayMealData){
-              thisMealToUpdate.thisMeal=thisDayMealData;
-              this.getMealIngrdnts(thisMealToUpdate,thisDayOfWeek,thisMealType);
-            };
-            let thisWeeksDays=this.state.thisWeeksDays;
-            thisWeeksDays[thisDayOfWeek]["thisDaysMeals"][thisMealType]["thisMeal"]=thisMealToUpdate
-          };
-          this.setState({thisWeeksDays});
+        } else {
+          let mealTypes = this.state.mealTypes;
+          let thisDaysMeals = thisDayToUpdate.thisDaysMeals;
+          let thisWeeksDays = this.state.thisWeeksDays;
+          for (let i = 0; i < mealTypes.length; i++) {
+            let thisMealType = mealTypes[i].code;
+            let thisDayMealData = mealsData.filter(
+              (meal) => meal.mealType.code === thisMealType
+            )[0];
+            if (thisDayMealData !== undefined) {
+              thisDaysMeals[thisMealType]["thisMeal"] = thisDayMealData;
+              thisDaysMeals[thisMealType]["dataLoaded"] = true;
+              this.getMealIngrdnts(
+                thisDaysMeals[thisMealType],
+                thisDayOfWeek,
+                thisMealType
+              );
+            } else {
+            }
+            thisWeeksDays[thisDayOfWeek]["thisDaysMeals"] = thisDaysMeals;
+          }
+          this.setState({ thisWeeksDays: thisWeeksDays });
         }
       });
   };
-  getMealIngrdnts=(thisMealToUpdate,thisDayOfWeek,thisMealType)=>{
-    let thisMealsId=thisMealToUpdate.thisMeal._id;
+  getMealIngrdnts = (thisMealToUpdate, thisDayOfWeek, thisMealType) => {
+    let thisMealsId = thisMealToUpdate.thisMeal._id;
     axios
       .get(
-        "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" + thisMealsId
+        "http://localhost:5000/mealIngredients/thisMealsMealIngredients/" +
+          thisMealsId
       )
       .then((response) => {
-        let mealIngrdntData=response.data;
-        if(mealIngrdntData.length<1){
+        let mealIngrdntData = response.data;
+        if (mealIngrdntData.length < 1) {
           return;
-        }else{
-          let thisMealsIngrdnts=[];
-          for(let i=0;i<mealIngrdntData.length;i++){
-            let thisMealIngrdnt={
+        } else {
+          let thisMealsIngrdnts = [];
+          for (let i = 0; i < mealIngrdntData.length; i++) {
+            let thisMealIngrdnt = {
               thisMealIngrdntJustCreated: false,
               recordChanged: false,
               thisMealIngrdntFormState: "viewing",
@@ -6860,24 +6812,22 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeIngrdntUserType: "viewer",
               thisIngrdntFormState: "viewing",
               thisIngrdntUserType: "viewer",
-              thisMealIngrdnt: mealIngrdntData[i]
+              thisMealIngrdnt: mealIngrdntData[i],
             };
             thisMealsIngrdnts.push(thisMealIngrdnt);
-          };
-          thisMealToUpdate.thisMealsIngrdnts=thisMealsIngrdnts;
-          let thisWeeksDays=this.state.thisWeeksDays;
-          thisWeeksDays[thisDayOfWeek]["thisDaysMeals"][thisMealType]["thisMealsIngrdnts"]=thisMealsIngrdnts;
-          thisWeeksDays[thisDayOfWeek]["thisDaysMeals"][thisMealType]["mealIngrdntsLoaded"]=true;
-          this.setState({thisWeeksDays});
+          }
+          thisMealToUpdate.thisMealsIngrdnts = thisMealsIngrdnts;
+          let thisWeeksDays = this.state.thisWeeksDays;
+          thisWeeksDays[thisDayOfWeek]["thisDaysMeals"][thisMealType][
+            "thisMealsIngrdnts"
+          ] = thisMealsIngrdnts;
+          thisWeeksDays[thisDayOfWeek]["thisDaysMeals"][thisMealType][
+            "mealIngrdntsLoaded"
+          ] = true;
+          this.setState({ thisWeeksDays });
         }
       });
-  }
-  // let pattern = /missing/;
-  //   for(let i=0;i<daysOfWeek.length;i++){
-  //     let thisDaysId=thisWeeksDays[daysOfWeek[i].code]["_id"];
-  //     let testResult=pattern.test(thisDaysId)
-  //     }
-  //   }
+  };
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
@@ -6903,25 +6853,6 @@ export default class WeekMealPlanDetail extends Component {
     axios.get("http://localhost:5000/genRecipes/").then((response) => {
       this.setState({
         allGenRecipes: response.data.map((genRecipe) => genRecipe),
-        //Note how the syntax for this combined setState and filter function must be EXACT or it produces an error - no extra brackets, paretheses, commas, semicolons, spaces, etc. It's fucking ridiculous
-        allBreakfastRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType.code === "breakfast"
-        ),
-        allSnack1Recipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType.code === "snack1"
-        ),
-        allLunchRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType.code === "lunch"
-        ),
-        allSnack2Recipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType.code === "snack2"
-        ),
-        allDinnerRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType.code === "dinner"
-        ),
-        allDessertRecipes: response.data.filter(
-          (genRecipe) => genRecipe.availableMealType.code === "dessert"
-        ),
       });
     });
   };
@@ -6971,144 +6902,179 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  onChangeName = (e) => {
-    this.setState({
-      name: e.target.value,
-    });
+  handleClickEditForm = () => {
+    console.log("Clicked Edit");
   };
-  onChangeGRFUser = (e) => {
-    this.setState({
-      GRFUser: e.target.value,
-    });
+  handleCancelEditForm = () => {
+    console.log("Clicked Cancel");
   };
-  onChangeBreakfastWeight = (e) => {
-    this.setState({
-      breakfastWeight: e.target.value,
-    });
+  handleSaveFormChanges = (parentObj, stateObj) => {
+    let recordToSave = parentObj;
+    let recordId = recordToSave._id;
+    let url = `http://localhost:5000/${stateObj}s/update${recordId}`;
+    axios.post(url, parentObj).then(console.log("updated"));
   };
-  onChangeSnack1Weight = (e) => {
-    this.setState({
-      snack1Weight: e.target.value,
-    });
+  deleteRecord = (recordId, stateObj) => {
+    let url = `http://localhost:5000/${stateObj}s/${recordId}`;
+    axios.delete(url).then(console.log("deleted"));
   };
-  onChangeLunchWeight = (e) => {
-    this.setState({
-      lunchWeight: e.target.value,
-    });
-  };
-  onChangeSnack2Weight = (e) => {
-    this.setState({
-      snack2Weight: e.target.value,
-    });
-  };
-  onChangeDinnerWeight = (e) => {
-    this.setState({
-      dinnerWeight: e.target.value,
-    });
-  };
-  onChangeDessertWeight = (e) => {
-    this.setState({
-      dessertWeight: e.target.value,
-    });
-  };
-  onChangeCalsBudget = (e) => {
-    this.setState({
-      cals: e.target.value,
-    });
-  };
-  onChangeCarbsBudget = (e) => {
-    this.setState({
-      carbs: e.target.value,
-    });
-  };
-  onChangeProteinBudget = (e) => {
-    this.setState({
-      protein: e.target.value,
-    });
-  };
-  onChangeFatBudget = (e) => {
-    this.setState({
-      fat: e.target.value,
-    });
-  };
-  onChangeFiberBudget = (e) => {
-    this.setState({
-      fiber: e.target.value,
-    });
-  };
-  handleSubmitFormChange = () => {
-    const weekMealPlan = {
-      id: this.state.id,
-      name: this.state.name,
-      GRFUser: this.state.GRFUser,
-      breakfastWeight: this.state.breakfastWeight,
-      snack1Weight: this.state.snack1Weight,
-      lunchWeight: this.state.lunchWeight,
-      snack2Weight: this.state.snack2Weight,
-      dinnerWeight: this.state.dinnerWeight,
-      dessertWeight: this.state.dessertWeight,
-      calsBudget: this.state.cals,
-      carbsBudget: this.state.carbs,
-      proteinBudget: this.state.protein,
-      fatBudget: this.state.fat,
-      fiberBudget: this.state.fiber,
-    };
-    axios
-      .post(
-        "http://localhost:5000/weekMealPlans/update/" + weekMealPlan.id,
-        weekMealPlan
-      )
-      .then(console.log("updated"));
-  };
-  handleClickCopy = () => {
-    console.log("Clicked Copy");
-  };
-  handleClickEdit = () => {
-    this.setState({ thisFormState: "editingOrig" });
-  };
-  handleCancel = (parentObj, stateObj) => {
-    this.setState({
-      thisFormState: "viewing",
-      defaultFormState: "viewing",
-      defaultUserType: "admin",
-    });
-  };
-  handleDeleteDay = (idOfRecordToDelete) => {
-    function removeDeletedDays(eachDay) {
-      return eachDay._id != idOfRecordToDelete;
+  handleDeleteRecord = (parentObj, stateObj) => {
+    let mealTypes = this.state.mealTypes;
+    function createRecipeIngrdntStateObj(genRecipe, mealType) {
+      let genRecipeIngredient = {
+        defaultQty: 1,
+        ingredient: {
+          name: `temp${mealType.name}Ingredient1Name`,
+          calories: 1,
+          carbs: 1,
+          protein: 1,
+          fat: 1,
+          fiber: 1,
+          unitOfMeasure: { name: "Each" },
+          weightType: { name: "" },
+          photoURL: "",
+          GRFUser: {
+            _id: "62577a533813f4f21c27e1c7",
+            handle: "Service",
+          },
+          brand: { name: "" },
+        },
+        genRecipe: genRecipe,
+        defaultPrepInstructions: "",
+      };
+      return genRecipeIngredient;
     }
-    axios
-      .delete("http://localhost:5000/days/" + idOfRecordToDelete)
-      .then(
-        this.setState({
-          thisWeeksDays: this.state.thisWeeksDays.filter(removeDeletedDays),
-        })
-      )
-      .then(() => {
-        this.setState({
-          sun: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Sunday"
-          )[0],
-          mon: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Monday"
-          )[0],
-          tues: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Tuesday"
-          )[0],
-          wed: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Wednesday"
-          )[0],
-          thurs: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Thursday"
-          )[0],
-          fri: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Friday"
-          )[0],
-          sat: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Saturday"
-          )[0],
-        });
-      });
+    function createDefaultMealIngrdntStateObj(thisMealChild) {
+      let genRecipe = thisMealChild.genRecipe;
+      let mealType = thisMealChild.mealType;
+      let mealIngredient = {
+        thisMealIngrdntJustCreated: false,
+        recordChanged: false,
+        thisMealIngrdntFormState: "viewing",
+        thisMealIngrdntUserType: "viewer",
+        thisGenRecipeIngrdntFormState: "viewing",
+        thisGenRecipeIngrdntUserType: "viewer",
+        thisIngrdntFormState: "viewing",
+        thisIngrdntUserType: "viewer",
+        thisMealIngrdnt: {
+          _id: "missing",
+          qty: 1,
+          genRecipeIngredient: createRecipeIngrdntStateObj(genRecipe, mealType),
+          meal: thisMealChild,
+        },
+      };
+      return mealIngredient;
+    }
+    function createDefaultMealStateObj(mealType) {
+      let genRecipe = {
+        _id: `temp${mealType.name}Recipe1Id`,
+        name: `temp${mealType.name}Recipe1Name`,
+        availableMealType: mealType,
+        GRFUser: {
+          _id: "62577a533813f4f21c27e1c7",
+          handle: "Service",
+        },
+        defaultPrepInstructions: "",
+        photoUrl: "",
+      };
+      let thisMealChild = {
+        _id: "missing",
+        day: {},
+        genRecipe: genRecipe,
+        prepInstructions: "",
+        mealType: mealType,
+      };
+      let thisMealParent = {
+        dataLoaded: false,
+        mealIngrdntsLoaded: false,
+        thisMealJustCreated: false,
+        mealRecordChanged: false,
+        genRecipeRecordChanged: false,
+        userChangedThisMealsRecipe: false,
+        thisMealFormState: "viewing",
+        thisMealUserType: "viewer",
+        thisGenRecipeFormState: "viewing",
+        thisGenRecipeUserType: "viewer",
+        thisMeal: thisMealChild,
+        thisMealsIngrdnts: [createDefaultMealIngrdntStateObj(thisMealChild)],
+        thisRecipesIngrdnts: [createRecipeIngrdntStateObj(genRecipe, mealType)],
+        thisMealsMacrosBudget: {},
+      };
+      return thisMealParent;
+    }
+    function createDefaultDayMealsStateObj() {
+      let dfltDayMealsStateObj = {
+        breakfast: createDefaultMealStateObj(mealTypes[0]),
+        snack1: createDefaultMealStateObj(mealTypes[1]),
+        lunch: createDefaultMealStateObj(mealTypes[2]),
+        snack2: createDefaultMealStateObj(mealTypes[3]),
+        dinner: createDefaultMealStateObj(mealTypes[4]),
+        dessert: createDefaultMealStateObj(mealTypes[5]),
+      };
+      return dfltDayMealsStateObj;
+    }
+    function createDefaultDayStateObj(dayOfWeek) {
+      let defaultDayStateObj = {
+        dataLoaded: false,
+        thisDay: {
+          _id: "missing",
+          name: `Temp WMP - ${dayOfWeek.name}`,
+          dayOfWeek: dayOfWeek.name,
+          weekMealPlan: {},
+        },
+        thisDaysMeals: createDefaultDayMealsStateObj(dayOfWeek),
+      };
+      return defaultDayStateObj;
+    }
+    let thisWeeksDays = this.state.thisWeeksDays;
+    switch (stateObj) {
+      case "day":
+        let daysDayOfWeek = parentObj.dayOfWeek;
+        let daysDayOfWeekCode = daysDayOfWeek.code;
+        let dfltDayStateObjToSave = createDefaultDayStateObj(daysDayOfWeek);
+        thisWeeksDays[daysDayOfWeekCode] = dfltDayStateObjToSave;
+        this.deleteRecord(parentObj._id, "day");
+        break;
+      case "meal":
+        let mealsDayOfWeek = parentObj.day.dayOfWeek;
+        let mealsDayOfWeekCode = mealsDayOfWeek.code;
+        let mealsMealType = parentObj.mealType;
+        let mealsMealTypeCode = mealsMealType.code;
+        let dfltMealStateObjToSave = createDefaultMealStateObj(mealsMealType);
+        thisWeeksDays[mealsDayOfWeekCode]["thisDaysMeals"][mealsMealTypeCode] =
+          dfltMealStateObjToSave;
+        this.deleteRecord(parentObj._id, "meal");
+        break;
+      case "genRecipe":
+        break;
+      case "mealIngredient":
+        let mealIngrdntsDayOfWeek = parentObj.meal.day.dayOfWeek;
+        let mealIngrdntsDayOfWeekCode = mealIngrdntsDayOfWeek.code;
+        let mealIngrdntsMealType = parentObj.meal.mealType;
+        let mealIngrdntsMealTypeCode = mealIngrdntsMealType.code;
+        let mealIngrdntIdToDelete = parentObj._id;
+        function removeDeletedMealIngrdnt(eachMealIngrdnt) {
+          return eachMealIngrdnt._id !== mealIngrdntIdToDelete;
+        }
+        let mealIngrdntListToFilter =
+          thisWeeksDays[mealsDayOfWeekCode]["thisDaysMeals"][mealsMealTypeCode][
+            "thisMealsIngrdnts"
+          ];
+        mealIngrdntListToFilter.filter(removeDeletedMealIngrdnt);
+        thisWeeksDays[mealsDayOfWeekCode]["thisDaysMeals"][mealsMealTypeCode][
+          "thisMealsIngrdnts"
+        ] = mealIngrdntListToFilter;
+        this.deleteRecord(parentObj._id, "mealIngredient");
+        break;
+      case "genRecipeIngredient":
+        break;
+      case "ingredient":
+        break;
+    }
+    this.setState({ thisWeeksDays });
+  };
+  handleUpdateProp = () => {
+    console.log("Updated Prop");
   };
   updateStateDayOnAdd = (dayData, dayOfWeek) => {
     if (dayOfWeek == "Saturday") {
@@ -7156,69 +7122,76 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   };
-  renderDay = (dayToRender, dayOfWeek, dayOfWeekShort) => {
-    if (dayToRender == undefined) {
-      return (
-        <CreateDay
-          weekMealPlanId={this.state.id}
-          weekMealPlanName={this.state.name}
-          dayOfWeek={dayOfWeek}
-          dayOfWeekShort={dayOfWeekShort}
-          thisFormState="missing"
-          onCreateDay={this.handleCreateDay}
-          wmpUserType={this.state.userType}
-          getRndInteger={this.getRndInteger}
-        />
-      );
-    } else {
-      return (
-        <DayDetail
-          thisDay={dayToRender}
-          mealDefaults={this.state.mealDefaults}
-          weekMealPlanName={this.state.name}
-          onDeleteDay={this.handleDeleteDay}
-          onCancel={this.handleCancel}
-          getRndInteger={this.getRndInteger}
-          key={dayToRender._id}
-          macrosBudget={{
-            cals: this.state.cals,
-            carbs: this.state.carbs,
-            protein: this.state.protein,
-            fat: this.state.fat,
-            fiber: this.state.fiber,
-          }}
-          mealsWeighting={{
-            breakfastWeight: this.state.breakfastWeight,
-            snack1Weight: this.state.snack1Weight,
-            lunchWeight: this.state.lunchWeight,
-            snack2Weight: this.state.snack2Weight,
-            dinnerWeight: this.state.dinnerWeight,
-            dessertWeight: this.state.dessertWeight,
-          }}
-          allGRFUsers={this.state.allGRFUsers}
-          allDays={this.state.allDays}
-          allBreakfastRecipes={this.state.allBreakfastRecipes}
-          allSnack1Recipes={this.state.allSnack1Recipes}
-          allLunchRecipes={this.state.allLunchRecipes}
-          allSnack2Recipes={this.state.allSnack2Recipes}
-          allDinnerRecipes={this.state.allDinnerRecipes}
-          allDessertRecipes={this.state.allDessertRecipes}
-          mealTypes={this.state.mealTypes}
-          allUnitOfMeasures={this.state.unitOfMeasures}
-          allWeightTypes={this.state.weightTypes}
-          allBrands={this.state.brands}
-          defaultFormState={this.state.defaultFormState}
-          defaultUserType={this.state.defaultUserType}
-        />
-      );
+  renderDays = () => {
+    let daysOfWeek = this.state.daysOfWeek;
+    let pattern = /missing/;
+    for (let i = 0; i < daysOfWeek.length; i++) {
+      let thisDayOfWeekCode = daysOfWeek[i].code;
+      let thisDayStateObject = this.state.thisWeeksDays[thisDayOfWeekCode];
+      let thisDay = thisDayStateObject.thisDay;
+      console.log(thisDay);
+      // let thisDaysAuthorId = thisDay.GRFUser._id;
+      // let thisDaysId = thisDay._id;
+      // let testResult = pattern.test(thisDaysId);
+      // let thisGRFUser = this.state.thisGRFUser;
+      // let thisGRFUsersId = thisGRFUser._id;
+      // let thisGRFuserGroups = thisGRFUser.userGroups;
+      // if (testResult) {
+      //   if (
+      //     thisDaysAuthorId === thisGRFUsersId ||
+      //     thisGRFuserGroups === "Admin"
+      //   ) {
+      //     return (
+      //       <CreateDay2
+      //         key={thisDayStateObject.thisDay._id}
+      //         thisDay={thisDayStateObject}
+      //         onCreateDay={this.handleCreateDay}
+      //       />
+      //     );
+      //   } else {
+      //     return (
+      //       <em>No {daysOfWeek[i].name} Meal Plan added to this week...</em>
+      //     );
+      //   }
+      // } else {
+      //   return (
+      //     <h1>Day Detail</h1>
+      // <DayDetail3
+      //   //Specific props
+      //   key={thisDayStateObject.thisDay._id}
+      //   thisDay={thisDayStateObject}
+      //   onChangeMealRecipe={this.handleChangeMealRecipe}
+      //   //Common props
+      //   //Data
+      //   thisGRFUser={this.state.thisGRFUser}
+      //   allGRFUsers={this.state.allGRFUsers}
+      //   allDays={this.state.allDays}
+      //   allGenRecipes={this.state.allGenRecipes}
+      //   mealTypes={this.state.mealTypes}
+      //   allIngredients={this.state.allIngredients}
+      //   allGenRecipeIngredients={this.state.allGenRecipeIngredients}
+      //   allMeals={this.state.allMeals}
+      //   allUnitOfMeasures={this.state.allUnitOfMeasures}
+      //   allWeightTypes={this.state.allWeightTypes}
+      //   allBrands={this.state.allBrands}
+      //   //Methods
+      //   onClickEditForm={this.handleClickEditForm}
+      //   onCancelEditForm={this.handleCancelEditForm}
+      //   onSaveFormChanges={this.handleSaveFormChanges}
+      //   onDeleteRecord={this.handleDeleteRecord}
+      //   onUpdateProp={this.handleUpdateProp}
+      // />
+      // );
+      // }
     }
   };
   render() {
-    if (
-      this.state.wmpDataHasLoaded == true &&
-      this.state.allGRFUsersHasLoaded == true &&
-      this.state.daysOfTheWMPHaveLoaded == true
-    ) {
+    let pattern = /missing/;
+    const thisWeekMealPlan = this.state.thisWeekMealPlan;
+    const thisWMPId = thisWeekMealPlan.thisWMP._id;
+    if (thisWeekMealPlan.dataLoaded === false) {
+      return <div className="spinner-border text-primary" role="status"></div>;
+    } else {
       return (
         <div className="container-fluid pl-4 pr-4">
           <h1>Week Meal Plan Detail</h1>
@@ -7229,35 +7202,54 @@ export default class WeekMealPlanDetail extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  value={this.state.name}
-                  onChange={this.onChangeName}
+                  value={thisWeekMealPlan.thisWMP.name}
+                  onChange={(e) => {
+                    this.handleUpdateProp(
+                      "weekMealPlan",
+                      "",
+                      "name",
+                      0,
+                      "text",
+                      e
+                    );
+                  }}
                   disabled={
-                    this.state.thisFormState == "viewing" ? true : false
+                    thisWeekMealPlan.thisFormState === "viewing" ? true : false
                   }
                 />
                 <EditOptions
-                  parentObj={"WMP"}
-                  userType={this.state.userType}
-                  thisFormState={this.state.thisFormState}
-                  onSubmitFormChange={this.handleSubmitFormChange}
-                  onClickCopy={this.handleClickCopy}
-                  onClickEdit={this.handleClickEdit}
-                  onCancel={this.handleCancel}
+                  parentObj={thisWeekMealPlan}
+                  onClickEditForm={this.handleClickEditForm}
+                  onCancelEditForm={this.handleCancelEditForm}
+                  onSaveFormChanges={this.handleSaveFormChanges}
+                  onDeleteRecord={this.handleDeleteRecord}
                 />
               </div>
             </div>
-            <div hidden={true} className="form-group mt-2">
+            <div className="form-group mt-2">
               <label>Author: </label>
               <select
                 ref="userInput"
                 required
                 className="form-control"
-                value={this.state.GRFUser.handle}
-                onChange={this.onChangeGRFUser}
+                value={thisWeekMealPlan.thisWMP.GRFUser.handle}
+                onChange={(e) => {
+                  this.handleUpdateProp(
+                    "weekMealPlan",
+                    "",
+                    "GRFUser",
+                    0,
+                    "select",
+                    e
+                  );
+                }}
+                disabled={
+                  thisWeekMealPlan.thisFormState === "viewing" ? true : false
+                }
               >
                 {this.state.allGRFUsers.map(function (GRFUser) {
                   return (
-                    <option key={GRFUser._id} value={GRFUser._id}>
+                    <option key={GRFUser._id} value={GRFUser}>
                       {GRFUser.handle}
                     </option>
                   );
@@ -7271,19 +7263,19 @@ export default class WeekMealPlanDetail extends Component {
               <div className="card-body">
                 <div
                   className="accordion accordion-flush"
-                  id={"accordionFull_MealMacroWeighting" + this.state.id}
+                  id={"accordionFull_MealMacroWeighting" + thisWMPId}
                 >
                   <div className="accordion-item">
                     <h2
                       className="accordion-header"
-                      id={"accordionHeader_MealMacroWeighting" + this.state.id}
+                      id={"accordionHeader_MealMacroWeighting" + thisWMPId}
                     >
                       <button
                         className="accordion-button"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target={
-                          "#dayAccrdn_MealMacroWeighting" + this.state.id
+                          "#dayAccrdn_MealMacroWeighting" + thisWMPId
                         }
                         aria-expanded="true"
                         aria-controls="collapseOne"
@@ -7291,13 +7283,13 @@ export default class WeekMealPlanDetail extends Component {
                     </h2>
                   </div>
                   <div
-                    id={"dayAccrdn_MealMacroWeighting" + this.state.id}
+                    id={"dayAccrdn_MealMacroWeighting" + thisWMPId}
                     className="accordion-collapse collapse show"
                     aria-labelledby={
-                      "#accordionHeader_MealMacroWeighting" + this.state.id
+                      "#accordionHeader_MealMacroWeighting" + thisWMPId
                     }
                     data-bs-parent={
-                      "#accordionFull_MealMacroWeighting" + this.state.id
+                      "#accordionFull_MealMacroWeighting" + thisWMPId
                     }
                   >
                     <div className="accordion-body accrdnWeekMealPlanMacroBdy">
@@ -7391,34 +7383,28 @@ export default class WeekMealPlanDetail extends Component {
               <div className="card-body">
                 <div
                   className="accordion accordion-flush"
-                  id={"accordionFull_MacroBudget" + this.state.id}
+                  id={"accordionFull_MacroBudget" + thisWMPId}
                 >
                   <div className="accordion-item">
                     <h2
                       className="accordion-header"
-                      id={"accordionHeader_MacroBudget" + this.state.id}
+                      id={"accordionHeader_MacroBudget" + thisWMPId}
                     >
                       <button
                         className="accordion-button"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target={
-                          "#dayAccrdn_MacroBudget" + this.state.id
-                        }
+                        data-bs-target={"#dayAccrdn_MacroBudget" + thisWMPId}
                         aria-expanded="true"
                         aria-controls="collapseOne"
                       ></button>
                     </h2>
                   </div>
                   <div
-                    id={"dayAccrdn_MacroBudget" + this.state.id}
+                    id={"dayAccrdn_MacroBudget" + thisWMPId}
                     className="accordion-collapse collapse show"
-                    aria-labelledby={
-                      "#accordionHeader_MacroBudget" + this.state.id
-                    }
-                    data-bs-parent={
-                      "#accordionFull_MacroBudget" + this.state.id
-                    }
+                    aria-labelledby={"#accordionHeader_MacroBudget" + thisWMPId}
+                    data-bs-parent={"#accordionFull_MacroBudget" + thisWMPId}
                   >
                     <div className="accordion-body accrdnWeekMealPlanMacroBdy">
                       <div className="badge bg-primary weekMealPlanMacroBadge">
@@ -7499,161 +7485,42 @@ export default class WeekMealPlanDetail extends Component {
             <div className="card-body">
               <div
                 className="accordion accordion-flush"
-                id={"accordionFull" + this.state.id}
+                id={"accordionFull" + thisWMPId}
               >
                 <div className="accordion-item">
                   <h2
                     className="accordion-header"
-                    id={"accordionHeader" + this.state.id}
+                    id={"accordionHeader" + thisWMPId}
                   >
                     <button
                       className="accordion-button"
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target={"#dayAccrdn" + this.state.id}
+                      data-bs-target={"#dayAccrdn" + thisWMPId}
                       aria-expanded="true"
                       aria-controls="collapseOne"
                     ></button>
                   </h2>
                 </div>
                 <div
-                  id={"dayAccrdn" + this.state.id}
+                  id={"dayAccrdn" + thisWMPId}
                   className="accordion-collapse collapse show"
-                  aria-labelledby={"#accordionHeader" + this.state.id}
-                  data-bs-parent={"#accordionFull" + this.state.id}
+                  aria-labelledby={"#accordionHeader" + thisWMPId}
+                  data-bs-parent={"#accordionFull" + thisWMPId}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
-                    {this.state.sun === undefined || this.state.sun === {} ? (
-                      <CreateDay
-                        weekMealPlanId={this.state.id}
-                        weekMealPlanName={this.state.name}
-                        dayOfWeek={"Sunday"}
-                        dayOfWeekShort={"sun"}
-                        thisFormState="missing"
+                    {pattern.test(
+                      this.state.thisWeeksDays.sunday.thisDay._id
+                    ) ? (
+                      <CreateDay2
+                        key={this.state.thisWeeksDays.sunday.thisDay}
+                        thisDay={this.state.thisWeeksDays.sunday}
                         onCreateDay={this.handleCreateDay}
-                        wmpUserType={this.state.userType}
-                        getRndInteger={this.getRndInteger}
                       />
                     ) : (
-                      <DayDetail2
-                        thisDay={this.state.sun}
-                        key={this.state.sun._id}
-                        mealDefaults={this.state.mealDefaults}
-                        allGRFUsers={this.state.allGRFUsers}
-                        allDays={this.state.allDays}
-                        allBreakfastRecipes={this.state.allBreakfastRecipes}
-                        allSnack1Recipes={this.state.allSnack1Recipes}
-                        allLunchRecipes={this.state.allLunchRecipes}
-                        allSnack2Recipes={this.state.allSnack2Recipes}
-                        allDinnerRecipes={this.state.allDinnerRecipes}
-                        allDessertRecipes={this.state.allDessertRecipes}
-                        mealTypes={this.state.mealTypes}
-                        allIngredients={this.state.allIngredients}
-                        defaultFormState={this.state.defaultFormState}
-                        defaultUserType={this.state.defaultUserType}
-                        allMeals={this.state.allMeals}
-                        allUnitOfMeasures={this.state.allUnitOfMeasures}
-                        allWeightTypes={this.state.allWeightTypes}
-                        allBrands={this.state.allBrands}
-                        macrosBudget={{
-                          cals: this.state.cals,
-                          carbs: this.state.carbs,
-                          protein: this.state.protein,
-                          fat: this.state.fat,
-                          fiber: this.state.fiber,
-                        }}
-                        mealsWeighting={{
-                          breakfastWeight: this.state.breakfastWeight,
-                          snack1Weight: this.state.snack1Weight,
-                          lunchWeight: this.state.lunchWeight,
-                          snack2Weight: this.state.snack2Weight,
-                          dinnerWeight: this.state.dinnerWeight,
-                          dessertWeight: this.state.dessertWeight,
-                        }}
-                        getRndInteger={this.getRndInteger}
-                        onCancel={this.handleCancel}
-                      />
+                      <h1>Breakfast Detail</h1>
                     )}
-                    <DayDetail2
-                      thisDay={this.state.mon}
-                      key={this.state.mon._id}
-                      mealDefaults={this.state.mealDefaults}
-                      allGRFUsers={this.state.allGRFUsers}
-                      allDays={this.state.allDays}
-                      allBreakfastRecipes={this.state.allBreakfastRecipes}
-                      allSnack1Recipes={this.state.allSnack1Recipes}
-                      allLunchRecipes={this.state.allLunchRecipes}
-                      allSnack2Recipes={this.state.allSnack2Recipes}
-                      allDinnerRecipes={this.state.allDinnerRecipes}
-                      allDessertRecipes={this.state.allDessertRecipes}
-                      mealTypes={this.state.mealTypes}
-                      allIngredients={this.state.allIngredients}
-                      defaultFormState={this.state.defaultFormState}
-                      defaultUserType={this.state.defaultUserType}
-                      allMeals={this.state.allMeals}
-                      allUnitOfMeasures={this.state.allUnitOfMeasures}
-                      allWeightTypes={this.state.allWeightTypes}
-                      allBrands={this.state.allBrands}
-                      macrosBudget={{
-                        cals: this.state.cals,
-                        carbs: this.state.carbs,
-                        protein: this.state.protein,
-                        fat: this.state.fat,
-                        fiber: this.state.fiber,
-                      }}
-                      mealsWeighting={{
-                        breakfastWeight: this.state.breakfastWeight,
-                        snack1Weight: this.state.snack1Weight,
-                        lunchWeight: this.state.lunchWeight,
-                        snack2Weight: this.state.snack2Weight,
-                        dinnerWeight: this.state.dinnerWeight,
-                        dessertWeight: this.state.dessertWeight,
-                      }}
-                      getRndInteger={this.getRndInteger}
-                      onCancel={this.handleCancel}
-                    />
-                    <DayDetail2
-                      thisDay={this.state.tues}
-                      key={this.state.tues._id}
-                      mealDefaults={this.state.mealDefaults}
-                      allGRFUsers={this.state.allGRFUsers}
-                      allDays={this.state.allDays}
-                      allBreakfastRecipes={this.state.allBreakfastRecipes}
-                      allSnack1Recipes={this.state.allSnack1Recipes}
-                      allLunchRecipes={this.state.allLunchRecipes}
-                      allSnack2Recipes={this.state.allSnack2Recipes}
-                      allDinnerRecipes={this.state.allDinnerRecipes}
-                      allDessertRecipes={this.state.allDessertRecipes}
-                      mealTypes={this.state.mealTypes}
-                      allIngredients={this.state.allIngredients}
-                      defaultFormState={this.state.defaultFormState}
-                      defaultUserType={this.state.defaultUserType}
-                      allMeals={this.state.allMeals}
-                      allUnitOfMeasures={this.state.allUnitOfMeasures}
-                      allWeightTypes={this.state.allWeightTypes}
-                      allBrands={this.state.allBrands}
-                      macrosBudget={{
-                        cals: this.state.cals,
-                        carbs: this.state.carbs,
-                        protein: this.state.protein,
-                        fat: this.state.fat,
-                        fiber: this.state.fiber,
-                      }}
-                      mealsWeighting={{
-                        breakfastWeight: this.state.breakfastWeight,
-                        snack1Weight: this.state.snack1Weight,
-                        lunchWeight: this.state.lunchWeight,
-                        snack2Weight: this.state.snack2Weight,
-                        dinnerWeight: this.state.dinnerWeight,
-                        dessertWeight: this.state.dessertWeight,
-                      }}
-                      getRndInteger={this.getRndInteger}
-                      onCancel={this.handleCancel}
-                    />
-                    {/* {this.renderDay(this.state.wed, "Wednesday", "wed")}
-                    {this.renderDay(this.state.thurs, "Thursday", "thurs")}
-                    {this.renderDay(this.state.fri, "Friday", "fri")}
-                    {this.renderDay(this.state.sat, "Saturday", "sat")} */}
+                    {this.renderDays()}
                   </div>
                 </div>
               </div>
@@ -7661,8 +7528,6 @@ export default class WeekMealPlanDetail extends Component {
           </div>
         </div>
       );
-    } else {
-      return <div className="spinner-border text-primary" role="status"></div>;
     }
   }
 }

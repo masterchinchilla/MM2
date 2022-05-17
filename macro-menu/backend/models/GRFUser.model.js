@@ -13,6 +13,7 @@ const GRFUserSchema = new Schema(
        handle: {type: String, required: true, unique: true, minLength: 3, maxLength: 100},
        certURL: {type: String, maxLength: 1000},
        certName: {type: String, maxLength: 1000},
+       userGroups:{type:String, required:true,enum:['GRFUser','Admin'],default:'GRFUser'},
        verified: {type: Boolean}
     },
     { timestamps: true }
