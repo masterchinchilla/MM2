@@ -220,9 +220,12 @@ export default class WeekMealPlanDetail extends Component {
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
         },
       ],
+      allWMPs: [],
       thisWeeksDays: {
         sunday: {
           dataLoaded: false,
+          thisFormState: "viewing",
+          userType: "viewer",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Sunday",
@@ -1146,6 +1149,8 @@ export default class WeekMealPlanDetail extends Component {
         },
         monday: {
           dataLoaded: false,
+          thisFormState: "viewing",
+          userType: "viewer",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Monday",
@@ -2069,6 +2074,8 @@ export default class WeekMealPlanDetail extends Component {
         },
         tuesday: {
           dataLoaded: false,
+          thisFormState: "viewing",
+          userType: "viewer",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Tuesday",
@@ -2992,6 +2999,8 @@ export default class WeekMealPlanDetail extends Component {
         },
         wednesday: {
           dataLoaded: false,
+          thisFormState: "viewing",
+          userType: "viewer",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Wednesday",
@@ -3915,6 +3924,8 @@ export default class WeekMealPlanDetail extends Component {
         },
         thursday: {
           dataLoaded: false,
+          thisFormState: "viewing",
+          userType: "viewer",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Thursday",
@@ -4838,6 +4849,8 @@ export default class WeekMealPlanDetail extends Component {
         },
         friday: {
           dataLoaded: false,
+          thisFormState: "viewing",
+          userType: "viewer",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Friday",
@@ -5761,6 +5774,8 @@ export default class WeekMealPlanDetail extends Component {
         },
         saturday: {
           dataLoaded: false,
+          thisFormState: "viewing",
+          userType: "viewer",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Saturday",
@@ -6715,6 +6730,7 @@ export default class WeekMealPlanDetail extends Component {
     this.getAllUnitOfMeasures();
     this.getAllWeightTypes();
     this.getAllBrands();
+    this.getAllWMPs();
   }
   getThisWeekMealPlan = () => {
     axios
@@ -6899,6 +6915,13 @@ export default class WeekMealPlanDetail extends Component {
     axios.get("http://localhost:5000/brands/").then((response) => {
       this.setState({
         allBrands: response.data.map((brand) => brand),
+      });
+    });
+  };
+  getAllWMPs = () => {
+    axios.get("http://localhost:5000/weekMealPlans/").then((response) => {
+      this.setState({
+        allWMPs: response.data.map((WMP) => WMP),
       });
     });
   };
@@ -7124,14 +7147,15 @@ export default class WeekMealPlanDetail extends Component {
   };
   renderDay = (dayOfWeek) => {
     let pattern = /missing/;
-    let thisWMP=this.state.thisWeekMealPlan.thisWMP;
+    let thisWMP = this.state.thisWeekMealPlan.thisWMP;
     let thisStateObject = this.state.thisWeeksDays[dayOfWeek.code];
+    console.log(thisStateObject);
     let dayLoadStatus = thisStateObject.dataLoaded;
     if (dayLoadStatus === false) {
       return;
     } else {
       let thisObject = thisStateObject.thisDay;
-      let thisObjectsAuthorsId =thisWMP.GRFUser._id;
+      let thisObjectsAuthorsId = thisWMP.GRFUser._id;
       let thisObjectsId = thisObject._id;
       let testResult = pattern.test(thisObjectsId);
       let thisUser = this.state.thisGRFUser;
@@ -7166,7 +7190,7 @@ export default class WeekMealPlanDetail extends Component {
             thisDayObj={thisStateObject}
             thisDay={thisObject}
             onChangeMealRecipe={this.handleChangeMealRecipe}
-            thisWMP = {thisWMP}
+            thisWMP={thisWMP}
             //Common props
             //Data
             thisGRFUser={this.state.thisGRFUser}
@@ -7180,6 +7204,8 @@ export default class WeekMealPlanDetail extends Component {
             allUnitOfMeasures={this.state.allUnitOfMeasures}
             allWeightTypes={this.state.allWeightTypes}
             allBrands={this.state.allBrands}
+            daysOfWeek={this.state.daysOfWeek}
+            allWMPs={this.state.allWMPs}
             //Methods
             onClickEditForm={this.handleClickEditForm}
             onCancelEditForm={this.handleCancelEditForm}
@@ -7194,6 +7220,7 @@ export default class WeekMealPlanDetail extends Component {
   render() {
     const daysOfWeek = this.state.daysOfWeek;
     const thisWeekMealPlan = this.state.thisWeekMealPlan;
+    const thisWMP = thisWeekMealPlan.thisWMP;
     const thisWMPId = thisWeekMealPlan.thisWMP._id;
     if (thisWeekMealPlan.dataLoaded === false) {
       return <div className="spinner-border text-primary" role="status"></div>;
@@ -7224,7 +7251,10 @@ export default class WeekMealPlanDetail extends Component {
                   }
                 />
                 <EditOptions
-                  parentObj={thisWeekMealPlan}
+                  parentObj={thisWMP}
+                  stateObj="weekMealPlan"
+                  thisFormState={thisWeekMealPlan.thisFormState}
+                  userType={thisWeekMealPlan.userType}
                   onClickEditForm={this.handleClickEditForm}
                   onCancelEditForm={this.handleCancelEditForm}
                   onSaveFormChanges={this.handleSaveFormChanges}

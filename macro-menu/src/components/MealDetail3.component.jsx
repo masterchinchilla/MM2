@@ -1,120 +1,59 @@
-import axios from "axios";
 import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import GenRecipe from "./GenRecipe.component";
 import MealIngredientParent from "./MealIngredientParent.component";
-import MacrosTable from "./MacrosTable.component";
 import MacrosTable2 from "./MacrosTable2.component";
-import dayjs from "dayjs";
 
 const MealDetail2 = (props) => {
-  let thisMeal = props.thisMeal;
-  let mealFormState = props.thisMeal.thisMealFormState;
-  let genRecipeFormState = props.thisMeal.thisGenRecipeFormState;
-  let mealUserType = props.thisMeal.thisMealUserType;
-  let genRecipeUserType = props.thisMeal.thisGenRecipeUserType;
-  let defaultFormState = props.defaultFormState;
-  let defaultUserType = props.defaultUserType;
-  const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
-  // const [mealFormState, changeMealFormState] = useState(defaultFormState);
-  // const [genRecipeFormState, changeGenRecipeFormState] =
-  //   useState(defaultFormState);
-  // const [mealIngrdntFormsState, changeMealIngrdntFormsState] =
-  //   useState(defaultFormState);
-  // const [mealUserType, changeMealUserType] = useState(defaultUserType);
-  // const [genRecipeUserType, changeGenRecipeUserType] =
-  //   useState(defaultUserType);
-  // const [mealIngrdntFormsUserType, changeMealIngrdntFormsUserType] =
-  //   useState(defaultUserType);
-  let deleteMsg =
+  const thisMeal = props.thisMeal;
+  const mealsIngrdnts = thisMeal.thisMealsIngrdnts;
+  const mealFormState = thisMeal.thisMealFormState;
+  const genRecipeFormState = thisMeal.thisGenRecipeFormState;
+  const mealUserType = thisMeal.thisMealUserType;
+  const genRecipeUserType = thisMeal.thisGenRecipeUserType;
+  const deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
-  function onChange() {
-    console.log("Changed");
-  }
-  const handleClickEditMealOrRecipe = (parentObj, stateObj) => {
-    if (stateObj === "meal") {
-      props.onClickEditOnMeal(parentObj, stateObj);
-      // changeMealFormState("editingOrig");
-      // changeMealUserType("author");
-      // changeGenRecipeFormState("viewing");
-      // changeGenRecipeUserType("viewer");
-      // changeMealIngrdntFormsState("viewing");
-      // changeMealIngrdntFormsUserType("viewer");
-    } else if (stateObj === "genRecipe") {
-      props.onClickEditOnGenRecipe(parentObj, stateObj);
-      // changeMealFormState("viewing");
-      // changeMealUserType("viewer");
-      // changeGenRecipeFormState("editingOrig");
-      // changeGenRecipeUserType("author");
-      // changeMealIngrdntFormsState("viewing");
-      // changeMealIngrdntFormsUserType("viewer");
-    }
-    // else {
-    //   changeMealFormState("viewing");
-    //   changeMealUserType("viewer");
-    //   changeGenRecipeFormState("viewing");
-    //   changeGenRecipeUserType("viewer");
-    // }
-  };
-  const handleCancel = (parentObj, stateObj) => {
-    if (stateObj === "meal") {
-      props.onCancelMealEdit(parentObj, stateObj);
-    } else if (stateObj === "genRecipe") {
-      props.onCancelGenRecipeEdit(parentObj, stateObj);
-    } else {
-      props.onCancel(parentObj, stateObj);
-    }
-    // changeMealFormState(defaultFormState);
-    // changeMealUserType(defaultUserType);
-    // changeGenRecipeFormState(defaultFormState);
-    // changeGenRecipeUserType(defaultUserType);
-    // changeMealIngrdntFormsState(defaultFormState);
-    // changeMealIngrdntFormsUserType(defaultUserType);
-  };
   function renderMealIngrdnts() {
-    if (
-      props.thisMeal.thisMealsIngrdnts.length > 0 &&
-      props.thisMeal.thisMealJustCreated !== true
-    ) {
-      return props.thisMeal.thisMealsIngrdnts.map((mealIngredient, index) => {
+    if (mealsIngrdnts.length > 0 && thisMeal.thisMealJustCreated !== true) {
+      return mealsIngrdnts.map((mealIngredient, index) => {
         return (
-          <MealIngredientParent
-            key={mealIngredient.thisMealIngrdnt._id}
-            thisMealIngredient={mealIngredient}
-            allGRFUsers={props.allGRFUsers}
-            allGenRecipeIngredients={props.allGenRecipeIngredients}
-            thisRecipesIngrdnts={props.thisRecipesIngrdnts}
-            allMeals={props.allMeals}
-            allIngredients={props.allIngredients}
-            thisMealsTypesRecipes={props.thisMealsTypesRecipes}
-            allUnitOfMeasures={props.allUnitOfMeasures}
-            allWeightTypes={props.allWeightTypes}
-            allBrands={props.allBrands}
-            updateProp={props.updateProp}
-            mealIngrdntsArrayIndex={index}
-            onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
-            onClickEditMealIngrdntForms={props.onClickEditMealIngrdntForms}
-            // recordChanged={props.thisMeal.recordChanged}
-            onCancel={props.onCancelEditMealIngrdntForms}
-            onDelete={props.onDeleteMeal}
-            deleteMsg={deleteMsg}
-            defaultMealIngrdntFormsState={defaultFormState}
-            defaultMealIngrdntsFormsUserType={defaultUserType}
-          />
+          // <MealIngredientParent
+          //   key={mealIngredient.thisMealIngrdnt._id}
+          //   thisMealIngredient={mealIngredient}
+          //   allGRFUsers={props.allGRFUsers}
+          //   allGenRecipeIngredients={props.allGenRecipeIngredients}
+          //   thisRecipesIngrdnts={props.thisRecipesIngrdnts}
+          //   allMeals={props.allMeals}
+          //   allIngredients={props.allIngredients}
+          //   thisMealsTypesRecipes={props.thisMealsTypesRecipes}
+          //   allUnitOfMeasures={props.allUnitOfMeasures}
+          //   allWeightTypes={props.allWeightTypes}
+          //   allBrands={props.allBrands}
+          //   updateProp={props.updateProp}
+          //   mealIngrdntsArrayIndex={index}
+          //   onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
+          //   onClickEditMealIngrdntForms={props.onClickEditMealIngrdntForms}
+          //   onCancel={props.onCancelEditMealIngrdntForms}
+          //   onDelete={props.onDeleteMeal}
+          //   deleteMsg={deleteMsg}
+          //   defaultMealIngrdntFormsState={defaultFormState}
+          //   defaultMealIngrdntsFormsUserType={defaultUserType}
+          // />
+          <h1>Content</h1>
         );
       });
     } else {
-      if (props.userType === "viewer") {
+      if (mealUserType === "viewer") {
         return <em>This meal does not have any ingredients...</em>;
       } else {
         if (
-          props.thisMeal.thisRecipesIngrdnts.length < 1 ||
-          props.thisMeal.thisMealJustCreated === true
+          thisMeal.thisRecipesIngrdnts.length < 1 ||
+          thisMeal.thisMealJustCreated === true
         ) {
           return <em>This recipe does not have any ingredients...</em>;
         } else {
-          if (props.thisMeal.thisMealJustCreated === true) {
+          if (thisMeal.thisMealJustCreated === true) {
             return;
           } else {
             return (
@@ -138,7 +77,7 @@ const MealDetail2 = (props) => {
       }
     }
   }
-  return props.thisMeal.data === false ? (
+  return thisMeal.data === false ? (
     <div className="spinner-border text-primary" role="status"></div>
   ) : (
     <div
@@ -175,7 +114,7 @@ const MealDetail2 = (props) => {
         data-bs-parent={"#mealOuterAccordionFull" + props.thisMeal.thisMeal._id}
       >
         <div className="macroTblCntnr">
-          {/* <MacrosTable2
+          <MacrosTable2
             key={"MTbleForMeal" + props.thisMeal.thisMeal._id}
             tableType={"Meal Macros"}
             macrosBudget={props.thisMeal.thisMealsMacrosBudget}
@@ -209,7 +148,7 @@ const MealDetail2 = (props) => {
                 ? props.thisMeal.thisMealsIngrdnts
                 : []
             }
-          /> */}
+          />
         </div>
         <div className="accordion-body wkDaysAccrdnBdy">
           <form className="card mt-3 mb-3">

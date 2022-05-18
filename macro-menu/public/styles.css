@@ -149,6 +149,20 @@ button.accordion-button {
   height: 1rem;
   margin-bottom: -1px;
   background-color: rgba(0, 0, 0, 0.03) !important;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(0, 0, 0, .125) !important;
+}
+.dayAdminAccrdnBttn{
+  height: 1rem;
+  margin-bottom: -1px;
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  justify-content: flex-end;
+}
+.dayAdminAccrdnBttn::after {
+  margin: 0.25rem !important;
+}
+.dayAdminAccrdnBttn svg {
+  height: 10px;
 }
 .mealAdminAccrdnBttn svg {
   height: 10px;
@@ -169,7 +183,17 @@ button.accordion-button {
   grid-template-rows: 1fr 1fr;
   column-gap: 1rem;
 }
+.dayInnerAccordion {
+  padding-top: 0.25rem !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  column-gap: 1rem;
+}
 .mealInnerAccordion label {
+  padding: 0.25rem 0 0.5rem 0;
+}
+.dayInnerAccordion label {
   padding: 0.25rem 0 0.5rem 0;
 }
 .mealCardBody {
@@ -370,10 +394,6 @@ div.mlIngrdntFrmHdr,
 div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   padding: 0.5rem !important;
 }
-.mealAdminAccrdnBttn{
-  justify-content: flex-end;
-  border-top: 1px solid rgba(0, 0, 0, .125) !important;
-}
 .mealAdminAccrdnBttn::after {
   margin: 0.25rem !important;
 }
@@ -446,4 +466,13 @@ h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
 }
 .alert-secondary em span{
   font-weight: bolder;
+}
+.dayCardAccrdnBttn{
+
+}
+.dayCardAccrdnBttnLbls{
+  font-size: 0.8rem;
+}
+.dayAdminAccrdnBdy{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }

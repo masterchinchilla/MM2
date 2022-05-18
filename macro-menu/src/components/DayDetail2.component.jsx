@@ -966,7 +966,7 @@ class DayDetail extends Component {
                   >
                     <div className="accordion-body">
                       <div className="macroTblCntnr">
-                        <MacrosTable2
+                        {/* <MacrosTable2
                           tableType="Day Macros"
                           macrosBudget={this.props.macrosBudget}
                           breakfastIngrdnts={
@@ -977,7 +977,7 @@ class DayDetail extends Component {
                           snack2Ingrdnts={this.state.snack2.thisMealsIngrdnts}
                           dinnerIngrdnts={this.state.dinner.thisMealsIngrdnts}
                           dessertIngrdnts={this.state.dessert.thisMealsIngrdnts}
-                        />
+                        /> */}
                       </div>
                       <ul>
                         <li key={"dayAttributesLiItem1"}>

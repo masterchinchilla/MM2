@@ -22,6 +22,7 @@ export default class WeekMealPlanDetail extends Component {
     ];
 
     this.state = {
+      thisWeekMealPlan: {},
       data: false,
       id: "",
       name: "",
@@ -7489,6 +7490,7 @@ export default class WeekMealPlanDetail extends Component {
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
         this.setState({
+          thisWeekMealPlan: response.data,
           id: response.data._id,
           name: response.data.name,
           GRFUser: response.data.GRFUser,
@@ -7899,6 +7901,7 @@ export default class WeekMealPlanDetail extends Component {
                 />
                 <EditOptions
                   parentObj={"WMP"}
+                  stateObj={"weekMealPlan"}
                   userType={this.state.userType}
                   thisFormState={this.state.thisFormState}
                   onSubmitFormChange={this.handleSubmitFormChange}
