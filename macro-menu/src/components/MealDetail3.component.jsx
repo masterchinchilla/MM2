@@ -9,7 +9,7 @@ const MealDetail3 = (props) => {
   const thisStateObj = props.thisStateObj;
   const thisMealJustCreated = thisStateObj.thisMealJustCreated;
   const thisObj = thisStateObj.thisMeal;
-  const thisMealType = thisObj.mealType.code;
+  const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
   const thisMealWeight = props.thisMealWeight;
@@ -22,35 +22,38 @@ const MealDetail3 = (props) => {
   const deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   let thisMealTypesGenRecipes = props.allGenRecipes.filter(
-    (genRecipe) => genRecipe.availableMealType.code === thisMealType
+    (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
   );
   function renderMealIngrdnts() {
     if (mealsIngrdnts.length > 0 && thisStateObj.thisMealJustCreated !== true) {
       return mealsIngrdnts.map((mealIngredient, index) => {
         return (
-          // <MealIngredientParent
-          //   key={mealIngredient.thisMealIngrdnt._id}
-          //   thisMealIngredient={mealIngredient}
-          //   allGRFUsers={props.allGRFUsers}
-          //   allGenRecipeIngredients={props.allGenRecipeIngredients}
-          //   thisRecipesIngrdnts={props.thisRecipesIngrdnts}
-          //   allMeals={props.allMeals}
-          //   allIngredients={props.allIngredients}
-          //   thisMealsTypesRecipes={props.thisMealsTypesRecipes}
-          //   allUnitOfMeasures={props.allUnitOfMeasures}
-          //   allWeightTypes={props.allWeightTypes}
-          //   allBrands={props.allBrands}
-          //   updateProp={props.updateProp}
-          //   mealIngrdntsArrayIndex={index}
-          //   onSubmitFormChange={props.handleSubmitMealIngredientFormChange}
-          //   onClickEditMealIngrdntForms={props.onClickEditMealIngrdntForms}
-          //   onCancel={props.onCancelEditMealIngrdntForms}
-          //   onDelete={props.onDeleteMeal}
-          //   deleteMsg={deleteMsg}
-          //   defaultMealIngrdntFormsState={defaultFormState}
-          //   defaultMealIngrdntsFormsUserType={defaultUserType}
-          // />
-          <h1>Content</h1>
+          <MealIngredientParent
+            //Specific Props
+            //Data
+            key={"mealIngrdntParent" + thisObjId}
+            thisMealsTypesRecipes={props.thisMealsTypesRecipes}
+            //Methods
+
+            //Common Props
+            //Data
+            thisStateObj={thisStateObj}
+            mealIngrdntsArrayIndex={index}
+            allGRFUsers={props.allGRFUsers}
+            allGenRecipeIngredients={props.allGenRecipeIngredients}
+            thisRecipesIngrdnts={props.thisRecipesIngrdnts}
+            thisMealTypesMeals={props.thisMealTypesMeals}
+            allIngredients={props.allIngredients}
+            allUnitOfMeasures={props.allUnitOfMeasures}
+            allWeightTypes={props.allWeightTypes}
+            allBrands={props.allBrands}
+            //Methods
+            onClickEditForm={props.onClickEditForm}
+            onCancelEditForm={props.onCancelEditForm}
+            onSaveFormChanges={props.onSaveFormChanges}
+            onDeleteRecord={props.onDeleteRecord}
+            onUpdateProp={props.onUpdateProp}
+          />
         );
       });
     } else {
@@ -168,7 +171,9 @@ const MealDetail3 = (props) => {
                   value={thisObj.genRecipe._id}
                   disabled={mealFormState === "viewing" ? true : false}
                   //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
-                  onChange={(e) => props.onChangeMealRecipe(thisMealType, e)}
+                  onChange={(e) =>
+                    props.onChangeMealRecipe(thisMealTypeCode, e)
+                  }
                 >
                   {thisMealTypesGenRecipes.map((genRecipe) => {
                     return (
@@ -238,7 +243,7 @@ const MealDetail3 = (props) => {
                         onChange={(e) =>
                           props.updateProp(
                             "meal",
-                            thisMealType,
+                            thisMealTypeCode,
                             "day",
                             0,
                             "select",
@@ -266,7 +271,7 @@ const MealDetail3 = (props) => {
                         onChange={(e) =>
                           props.updateProp(
                             "meal",
-                            thisMealType,
+                            thisMealTypeCode,
                             "mealType",
                             0,
                             "select",

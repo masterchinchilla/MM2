@@ -40,9 +40,10 @@ const DayDetail3 = (props) => {
     fat: thisWMP.fatBudget,
     fiber: thisWMP.fiberBudget,
   };
-  const renderMeal = (mealTypeIndex, mealType) => {
+  const renderMeal = (mealType) => {
     let pattern = /missing/;
-    let thisStateObj = thisDaysMeals[mealType.code];
+    let thisMealTypeCode = mealType.code;
+    let thisStateObj = thisDaysMeals[thisMealTypeCode];
     let mealLoadStatus = thisStateObj.dataLoaded;
     if (mealLoadStatus === false) {
       return;
@@ -76,7 +77,11 @@ const DayDetail3 = (props) => {
           );
         }
       } else {
+        let thisMealTypesMeals = props.allMeals.filter(
+          (meal) => meal.mealType.code === thisMealTypeCode
+        );
         let thisMealWeight = thisWMP[`${mealType.code}Weight`];
+        let thisRecipesIngrdnts = thisStateObj.thisRecipesIngrdnts;
         return (
           <MealDetail3
             //Specific Props
@@ -97,7 +102,7 @@ const DayDetail3 = (props) => {
             mealTypes={props.mealTypes}
             allIngredients={props.allIngredients}
             allGenRecipeIngredients={props.allGenRecipeIngredients}
-            allMeals={props.allMeals}
+            thisMealTypesMeals={thisMealTypesMeals}
             allUnitOfMeasures={props.allUnitOfMeasures}
             allWeightTypes={props.allWeightTypes}
             allBrands={props.allBrands}
@@ -311,12 +316,12 @@ const DayDetail3 = (props) => {
                         data-bs-parent={"#daysMealsAccordionFull" + thisDayId}
                       >
                         <div className="accordion-body wkDaysAccrdnBdy">
-                          {renderMeal(0, mealTypes[0])}
-                          {renderMeal(1, mealTypes[1])}
-                          {renderMeal(2, mealTypes[2])}
-                          {renderMeal(3, mealTypes[3])}
-                          {renderMeal(4, mealTypes[4])}
-                          {renderMeal(5, mealTypes[5])}
+                          {renderMeal(mealTypes[0])}
+                          {renderMeal(mealTypes[1])}
+                          {renderMeal(mealTypes[2])}
+                          {renderMeal(mealTypes[3])}
+                          {renderMeal(mealTypes[4])}
+                          {renderMeal(mealTypes[5])}
                         </div>
                       </div>
                     </div>

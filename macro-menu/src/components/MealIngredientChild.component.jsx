@@ -3,13 +3,14 @@ import EditOptions from "./EditOptions.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MealIngredientChild = (props) => {
-  let thisMealIngredient = props.thisMealIngredient;
-  let thisMealType = thisMealIngredient.thisMealIngrdnt.meal.mealType.code;
-  let thisRecipesIngrdnts = props.thisRecipesIngrdnts;
-  let allMeals = props.allMeals;
-  let mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  let userType = thisMealIngredient.thisMealIngrdntUserType;
-  let thisFormState = thisMealIngredient.thisMealIngrdntFormState;
+  const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
+  const thisObj = props.thisObj;
+  const thisObjId = thisObj._id;
+  const thisMealTypeCode = thisObj.meal.mealType.code;
+  const userType = props.thisMealIngrdntUserType;
+  const thisFormState = props.thisMealIngrdntFormState;
+  const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
+  const thisMealTypesMeals = props.thisMealTypesMeals;
   let deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (
@@ -20,25 +21,26 @@ const MealIngredientChild = (props) => {
         </label>
         <EditOptions
           className="mlIngrdntFrmIcns"
-          parentObj={thisMealIngredient}
+          parentObj={thisObj}
           stateObj={"mealIngredient"}
-          key={thisMealIngredient.thisMealIngrdnt._id}
+          key={thisObjId}
           userType={userType}
           thisFormState={thisFormState}
-          onSubmitFormChange={props.onSubmitFormChange}
-          onClickEdit={props.onClickEdit}
-          onDelete={props.onDelete}
-          onCancel={props.onCancel}
+          onClickEditForm={props.onClickEditForm}
+          onCancelEditForm={props.onCancelEditForm}
+          onSaveFormChanges={props.onSaveFormChanges}
+          onDeleteRecord={props.onDeleteRecord}
+          onUpdateProp={props.onUpdateProp}
           deleteMsg={deleteMsg}
         />
         <input
           type={"number"}
           className="form-control mlIngrdntQty"
-          value={thisMealIngredient.thisMealIngrdnt.qty}
+          value={thisObj.qty}
           onChange={(e) =>
-            props.updateProp(
+            props.onUpdateProp(
               "mealIngredient",
-              thisMealType,
+              thisMealTypeCode,
               "qty",
               mealIngrdntsArrayIndex,
               "number",
@@ -50,22 +52,18 @@ const MealIngredientChild = (props) => {
       </div>
       <div
         className="accordion accordion-flush flushElement"
-        id={"mlIngrdntFrmAccrdnFll" + thisMealIngredient.thisMealIngrdnt._id}
+        id={"mlIngrdntFrmAccrdnFll" + thisObjId}
       >
         <div className="accordion-item genRecipeAdminMenuBttn flushElement">
           <h2
             className="accordion-header"
-            id={
-              "mlIngrdntFrmAccrdnHdr" + thisMealIngredient.thisMealIngrdnt._id
-            }
+            id={"mlIngrdntFrmAccrdnHdr" + thisObjId}
           >
             <button
               className="accordion-button collapsed mealAdminAccrdnBttn"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target={
-                "#mlIngrdntFrmAccrdn" + thisMealIngredient.thisMealIngrdnt._id
-              }
+              data-bs-target={"#mlIngrdntFrmAccrdn" + thisObjId}
               aria-expanded="true"
               aria-controls="collapseOne"
               disabled={userType === "admin" ? false : true}
@@ -79,14 +77,10 @@ const MealIngredientChild = (props) => {
           </h2>
         </div>
         <div
-          id={"mlIngrdntFrmAccrdn" + thisMealIngredient.thisMealIngrdnt._id}
+          id={"mlIngrdntFrmAccrdn" + thisObjId}
           className="accordion-collapse collapse"
-          aria-labelledby={
-            "#mlIngrdntFrmAccrdnHdr" + thisMealIngredient.thisMealIngrdnt._id
-          }
-          data-bs-parent={
-            "#mlIngrdntFrmAccrdnFll" + thisMealIngredient.thisMealIngrdnt._id
-          }
+          aria-labelledby={"#mlIngrdntFrmAccrdnHdr" + thisObjId}
+          data-bs-parent={"#mlIngrdntFrmAccrdnFll" + thisObjId}
         >
           <div className="accordion-body">
             <div className="form-group mealIngrdntInputs">
@@ -95,15 +89,13 @@ const MealIngredientChild = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(
-                  thisMealIngredient.thisMealIngrdnt.genRecipeIngredient
-                )}
+                value={JSON.stringify(thisObj.genRecipeIngredient)}
                 disabled={thisFormState === "viewing" ? true : false}
                 //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                 onChange={(e) => {
-                  props.updateProp(
+                  props.onUpdateProp(
                     "mealIngredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "genRecipeIngredient",
                     mealIngrdntsArrayIndex,
                     "select",
@@ -128,12 +120,12 @@ const MealIngredientChild = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisMealIngredient.thisMealIngrdnt.meal)}
+                value={JSON.stringify(thisObj.meal)}
                 disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
-                  this.props.updateProp(
+                  this.props.onUpdateProp(
                     "mealIngredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "meal",
                     mealIngrdntsArrayIndex,
                     "select",
@@ -141,7 +133,7 @@ const MealIngredientChild = (props) => {
                   )
                 }
               >
-                {allMeals.map(function (meal) {
+                {thisMealTypesMeals.map(function (meal) {
                   return (
                     <option key={meal._id} value={JSON.stringify(meal)}>
                       {meal.day.name + " - " + meal.mealType.name}
@@ -155,9 +147,9 @@ const MealIngredientChild = (props) => {
               <input
                 type={"text"}
                 className="form-control"
-                value={thisMealIngredient.thisMealIngrdnt._id}
+                value={thisObjId}
                 disabled={true}
-                onChange={props.onChange}
+                onChange={() => {}}
               />
             </div>
           </div>
