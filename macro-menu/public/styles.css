@@ -441,3 +441,9 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
   margin: 0.5rem auto 1rem auto !important;
 }
+.alert-secondary{
+  margin-top: 1.5rem !important;
+}
+.alert-secondary em span{
+  font-weight: bolder;
+}

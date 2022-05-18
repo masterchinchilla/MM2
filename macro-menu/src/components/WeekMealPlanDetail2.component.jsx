@@ -3,7 +3,7 @@ import axios from "axios";
 import DayDetail from "./DayDetail.component";
 import EditOptions from "./EditOptions.component";
 import CreateDay2 from "./CreateDay2.component";
-import DayDetail2 from "./DayDetail2.component";
+import DayDetail3 from "./DayDetail3.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ export default class WeekMealPlanDetail extends Component {
         handle: "jane_fit_1985",
         certURL: "",
         certName: "",
-        userGroups: "Admin",
+        userGroups: "GRFUser",
       },
       thisWeekMealPlan: {
         dataLoaded: false,
@@ -7122,71 +7122,77 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   };
-  renderDays = () => {
-    let daysOfWeek = this.state.daysOfWeek;
+  renderDay = (dayOfWeek) => {
     let pattern = /missing/;
-    for (let i = 0; i < daysOfWeek.length; i++) {
-      let thisDayOfWeekCode = daysOfWeek[i].code;
-      let thisDayStateObject = this.state.thisWeeksDays[thisDayOfWeekCode];
-      let thisDay = thisDayStateObject.thisDay;
-      console.log(thisDay);
-      // let thisDaysAuthorId = thisDay.GRFUser._id;
-      // let thisDaysId = thisDay._id;
-      // let testResult = pattern.test(thisDaysId);
-      // let thisGRFUser = this.state.thisGRFUser;
-      // let thisGRFUsersId = thisGRFUser._id;
-      // let thisGRFuserGroups = thisGRFUser.userGroups;
-      // if (testResult) {
-      //   if (
-      //     thisDaysAuthorId === thisGRFUsersId ||
-      //     thisGRFuserGroups === "Admin"
-      //   ) {
-      //     return (
-      //       <CreateDay2
-      //         key={thisDayStateObject.thisDay._id}
-      //         thisDay={thisDayStateObject}
-      //         onCreateDay={this.handleCreateDay}
-      //       />
-      //     );
-      //   } else {
-      //     return (
-      //       <em>No {daysOfWeek[i].name} Meal Plan added to this week...</em>
-      //     );
-      //   }
-      // } else {
-      //   return (
-      //     <h1>Day Detail</h1>
-      // <DayDetail3
-      //   //Specific props
-      //   key={thisDayStateObject.thisDay._id}
-      //   thisDay={thisDayStateObject}
-      //   onChangeMealRecipe={this.handleChangeMealRecipe}
-      //   //Common props
-      //   //Data
-      //   thisGRFUser={this.state.thisGRFUser}
-      //   allGRFUsers={this.state.allGRFUsers}
-      //   allDays={this.state.allDays}
-      //   allGenRecipes={this.state.allGenRecipes}
-      //   mealTypes={this.state.mealTypes}
-      //   allIngredients={this.state.allIngredients}
-      //   allGenRecipeIngredients={this.state.allGenRecipeIngredients}
-      //   allMeals={this.state.allMeals}
-      //   allUnitOfMeasures={this.state.allUnitOfMeasures}
-      //   allWeightTypes={this.state.allWeightTypes}
-      //   allBrands={this.state.allBrands}
-      //   //Methods
-      //   onClickEditForm={this.handleClickEditForm}
-      //   onCancelEditForm={this.handleCancelEditForm}
-      //   onSaveFormChanges={this.handleSaveFormChanges}
-      //   onDeleteRecord={this.handleDeleteRecord}
-      //   onUpdateProp={this.handleUpdateProp}
-      // />
-      // );
-      // }
+    let thisWMP=this.state.thisWeekMealPlan.thisWMP;
+    let thisStateObject = this.state.thisWeeksDays[dayOfWeek.code];
+    let dayLoadStatus = thisStateObject.dataLoaded;
+    if (dayLoadStatus === false) {
+      return;
+    } else {
+      let thisObject = thisStateObject.thisDay;
+      let thisObjectsAuthorsId =thisWMP.GRFUser._id;
+      let thisObjectsId = thisObject._id;
+      let testResult = pattern.test(thisObjectsId);
+      let thisUser = this.state.thisGRFUser;
+      let thisUsersId = thisUser._id;
+      let thisUsersUserGroups = thisUser.userGroups;
+      if (testResult === true) {
+        if (
+          thisObjectsAuthorsId === thisUsersId ||
+          thisUsersUserGroups === "Admin"
+        ) {
+          return (
+            <CreateDay2
+              key={thisObjectsId}
+              thisDay={thisStateObject}
+              onCreateDay={this.handleCreateDay}
+            />
+          );
+        } else {
+          return (
+            <div class="alert alert-secondary" role="alert">
+              <em>
+                <span>No {dayOfWeek.name}</span> Meal Plan added to this week...
+              </em>
+            </div>
+          );
+        }
+      } else {
+        return (
+          <DayDetail3
+            //Specific props
+            key={thisObject._id}
+            thisDayObj={thisStateObject}
+            thisDay={thisObject}
+            onChangeMealRecipe={this.handleChangeMealRecipe}
+            thisWMP = {thisWMP}
+            //Common props
+            //Data
+            thisGRFUser={this.state.thisGRFUser}
+            allGRFUsers={this.state.allGRFUsers}
+            allDays={this.state.allDays}
+            allGenRecipes={this.state.allGenRecipes}
+            mealTypes={this.state.mealTypes}
+            allIngredients={this.state.allIngredients}
+            allGenRecipeIngredients={this.state.allGenRecipeIngredients}
+            allMeals={this.state.allMeals}
+            allUnitOfMeasures={this.state.allUnitOfMeasures}
+            allWeightTypes={this.state.allWeightTypes}
+            allBrands={this.state.allBrands}
+            //Methods
+            onClickEditForm={this.handleClickEditForm}
+            onCancelEditForm={this.handleCancelEditForm}
+            onSaveFormChanges={this.handleSaveFormChanges}
+            onDeleteRecord={this.handleDeleteRecord}
+            onUpdateProp={this.handleUpdateProp}
+          />
+        );
+      }
     }
   };
   render() {
-    let pattern = /missing/;
+    const daysOfWeek = this.state.daysOfWeek;
     const thisWeekMealPlan = this.state.thisWeekMealPlan;
     const thisWMPId = thisWeekMealPlan.thisWMP._id;
     if (thisWeekMealPlan.dataLoaded === false) {
@@ -7509,7 +7515,14 @@ export default class WeekMealPlanDetail extends Component {
                   data-bs-parent={"#accordionFull" + thisWMPId}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
-                    {pattern.test(
+                    {this.renderDay(daysOfWeek[0])}
+                    {this.renderDay(daysOfWeek[1])}
+                    {this.renderDay(daysOfWeek[2])}
+                    {this.renderDay(daysOfWeek[3])}
+                    {this.renderDay(daysOfWeek[4])}
+                    {this.renderDay(daysOfWeek[5])}
+                    {this.renderDay(daysOfWeek[6])}
+                    {/* {pattern.test(
                       this.state.thisWeeksDays.sunday.thisDay._id
                     ) ? (
                       <CreateDay2
@@ -7520,7 +7533,7 @@ export default class WeekMealPlanDetail extends Component {
                     ) : (
                       <h1>Breakfast Detail</h1>
                     )}
-                    {this.renderDays()}
+                    {this.renderDays()} */}
                   </div>
                 </div>
               </div>

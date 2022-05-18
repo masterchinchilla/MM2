@@ -5,19 +5,12 @@ const MacrosTable = (props) => {
   const proteinBudget = props.macrosBudget.protein;
   const fatBudget = props.macrosBudget.fat;
   const fiberBudget = props.macrosBudget.fiber;
+  const thisDaysMealsIngrdnts = props.thisDaysMealsIngrdnts;
   let calsCurrent = 0;
   let carbsCurrent = 0;
   let proteinCurrent = 0;
   let fatCurrent = 0;
   let fiberCurrent = 0;
-  const thisDaysMealsIngrdnts = [
-    props.breakfastIngrdnts ? props.breakfastIngrdnts : [],
-    props.snack1Ingrdnts ? props.snack1Ingrdnts : [],
-    props.lunchIngrdnts ? props.lunchIngrdnts : [],
-    props.snack2Ingrdnts ? props.snack2Ingrdnts : [],
-    props.dinnerIngrdnts ? props.dinnerIngrdnts : [],
-    props.dessertIngrdnts ? props.dessertIngrdnts : [],
-  ];
   for (let i = 0; i < thisDaysMealsIngrdnts.length; i++) {
     let thisMealTypesIngrdnts = thisDaysMealsIngrdnts[i];
     for (let i = 0; i < thisMealTypesIngrdnts.length; i++) {

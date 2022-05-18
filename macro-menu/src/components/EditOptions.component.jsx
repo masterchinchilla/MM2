@@ -9,7 +9,7 @@ const EditOptions = (props) => {
   const stateObj = props.stateObj;
   const userType = props.userType;
   const thisFormState = props.thisFormState;
-  const thisId = props.thisId;
+  const hasChildern = props.hasChildern;
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
   const onClickEdit = props.onClickEdit;
@@ -188,51 +188,69 @@ const EditOptions = (props) => {
           />
         </button>
       </div>
-      <div
-        // className="modal fade deleteWarning"
-        className="deleteWarning"
-        // id="delete_meal_Warn"
-        // data-bs-backdrop="static"
-        // data-bs-keyboard="false"
-        // tabindex="-1"
-        // aria-labelledby="deleteMealWarnLabel"
-        hidden={hideDeleteWarning}
-      >
+      <div className="deleteWarning" hidden={hideDeleteWarning}>
         <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="deleteMealWarnLabel">
-                Delete Record?
-              </h5>
-            </div>
-            <div className="modal-body">
-              <div className="alert alert-danger" role="alert">
-                CAUTION: {deleteMsg}
+          {stateObj === "day" && hasChildern === true ? (
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="deleteMealWarnLabel">
+                  Cannot Delete Day with Meal Records
+                </h5>
+              </div>
+              <div className="modal-body">
+                <div className="alert alert-warning" role="alert">
+                  Delete all day meals before attempting to delete the day
+                  record
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    toggleHideDeleteWarning(true);
+                  }}
+                >
+                  Close
+                </button>
               </div>
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => {
-                  onCancel(parentObj, stateObj);
-                  toggleHideDeleteWarning(true);
-                }}
-              >
-                Go Back
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={() => {
-                  onDelete(parentObj, stateObj);
-                  toggleHideDeleteWarning(true);
-                }}
-              >
-                Delete
-              </button>
+          ) : (
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="deleteMealWarnLabel">
+                  Delete Record?
+                </h5>
+              </div>
+              <div className="modal-body">
+                <div className="alert alert-danger" role="alert">
+                  CAUTION: {deleteMsg}
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    onCancel(parentObj, stateObj);
+                    toggleHideDeleteWarning(true);
+                  }}
+                >
+                  Go Back
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => {
+                    onDelete(parentObj, stateObj);
+                    toggleHideDeleteWarning(true);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </React.Fragment>
