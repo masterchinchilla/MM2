@@ -2,12 +2,17 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import MacrosTable from "./MacrosTable2.component";
+import CreateMeal2 from "./CreateMeal2.component";
+import MealDetail3 from "./MealDetail3.component";
 const DayDetail3 = (props) => {
+  const thisGRFUser = props.thisGRFUser;
   const thisWMP = props.thisWMP;
   const thisDayObj = props.thisDayObj;
   const daysOfWeek = props.daysOfWeek;
+  const mealTypes = props.mealTypes;
   const allWMPs = props.allWMPs;
   const thisDay = thisDayObj.thisDay;
+  const thisDaysMeals = thisDayObj.thisDaysMeals;
   const thisDayId = thisDay._id;
   const thisDayOfWeek = thisDay.dayOfWeek;
   const thisFormState = thisDayObj.thisFormState;
@@ -34,6 +39,79 @@ const DayDetail3 = (props) => {
     protein: thisWMP.proteinBudget,
     fat: thisWMP.fatBudget,
     fiber: thisWMP.fiberBudget,
+  };
+  const renderMeal = (mealTypeIndex, mealType) => {
+    let pattern = /missing/;
+    let thisStateObj = thisDaysMeals[mealType.code];
+    let mealLoadStatus = thisStateObj.dataLoaded;
+    if (mealLoadStatus === false) {
+      return;
+    } else {
+      let thisObject = thisStateObj.thisMeal;
+      let thisObjectsAuthorsId = thisWMP.GRFUser._id;
+      let thisObjectsId = thisObject._id;
+      let testResult = pattern.test(thisObjectsId);
+      let thisUser = thisGRFUser;
+      let thisUsersId = thisUser._id;
+      let thisUsersUserGroups = thisUser.userGroups;
+      if (testResult === true) {
+        if (
+          thisObjectsAuthorsId === thisUsersId ||
+          thisUsersUserGroups === "Admin"
+        ) {
+          return (
+            <CreateMeal2
+              key={thisObjectsId}
+              thisDay={thisStateObj}
+              onCreateDay={this.handleCreateDay}
+            />
+          );
+        } else {
+          return (
+            <div class="alert alert-secondary" role="alert">
+              <em>
+                <span>No {mealType.name}</span> Meal Plan added to this day...
+              </em>
+            </div>
+          );
+        }
+      } else {
+        let thisMealWeight = thisWMP[`${mealType.code}Weight`];
+        return (
+          <MealDetail3
+            //Specific Props
+            //Data
+            key={thisObjectsId}
+            macrosBudget={macrosBudget}
+            thisMealWeight={thisMealWeight}
+            //Methods
+            populateNewMealIngredients={props.populateNewMealIngredients}
+            onChangeMealRecipe={props.onChangeMealRecipe}
+            //Common Props
+            //Data
+            thisStateObj={thisStateObj}
+            thisGRFUser={props.thisGRFUser}
+            allGRFUsers={props.allGRFUsers}
+            allDays={props.allDays}
+            allGenRecipes={props.allGenRecipes}
+            mealTypes={props.mealTypes}
+            allIngredients={props.allIngredients}
+            allGenRecipeIngredients={props.allGenRecipeIngredients}
+            allMeals={props.allMeals}
+            allUnitOfMeasures={props.allUnitOfMeasures}
+            allWeightTypes={props.allWeightTypes}
+            allBrands={props.allBrands}
+            daysOfWeek={props.daysOfWeek}
+            //Methods
+            onClickEditForm={props.onClickEditForm}
+            onCancelEditForm={props.onCancelEditForm}
+            onSaveFormChanges={props.onSaveFormChanges}
+            onDeleteRecord={props.onDeleteRecord}
+            onUpdateProp={props.onUpdateProp}
+          />
+        );
+      }
+    }
   };
   return (
     <div className="card mt-3 mb-3">
@@ -197,7 +275,7 @@ const DayDetail3 = (props) => {
                     tableType="Day Macros"
                     thisWMP={thisWMP}
                     macrosBudget={macrosBudget}
-                    thisDaysMealsIngrdnts={thisDaysMealsIngrdnts}
+                    theseIngrdnts={thisDaysMealsIngrdnts}
                   />
                 </div>
                 <div className="card mt-3 mb-3">
@@ -233,7 +311,12 @@ const DayDetail3 = (props) => {
                         data-bs-parent={"#daysMealsAccordionFull" + thisDayId}
                       >
                         <div className="accordion-body wkDaysAccrdnBdy">
-                          Day Meals
+                          {renderMeal(0, mealTypes[0])}
+                          {renderMeal(1, mealTypes[1])}
+                          {renderMeal(2, mealTypes[2])}
+                          {renderMeal(3, mealTypes[3])}
+                          {renderMeal(4, mealTypes[4])}
+                          {renderMeal(5, mealTypes[5])}
                         </div>
                       </div>
                     </div>

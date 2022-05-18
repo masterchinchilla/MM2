@@ -6698,6 +6698,15 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
       },
+      thisWeeksDaysOld: {
+        sunday: {},
+        monday: {},
+        tuesday: {},
+        wednesday: {},
+        thursday: {},
+        friday: {},
+        saturday: {},
+      },
     };
   }
   componentDidMount() {
@@ -7145,15 +7154,18 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   };
+  populateNewMealIngredients = () => {
+    console.log("populating new meal ingredients");
+  };
   renderDay = (dayOfWeek) => {
     let pattern = /missing/;
     let thisWMP = this.state.thisWeekMealPlan.thisWMP;
     let thisStateObject = this.state.thisWeeksDays[dayOfWeek.code];
-    console.log(thisStateObject);
     let dayLoadStatus = thisStateObject.dataLoaded;
     if (dayLoadStatus === false) {
       return;
     } else {
+      let thisStateObjectOld = this.state.thisWeeksDaysOld[dayOfWeek.code];
       let thisObject = thisStateObject.thisDay;
       let thisObjectsAuthorsId = thisWMP.GRFUser._id;
       let thisObjectsId = thisObject._id;
@@ -7175,7 +7187,7 @@ export default class WeekMealPlanDetail extends Component {
           );
         } else {
           return (
-            <div class="alert alert-secondary" role="alert">
+            <div className="alert alert-secondary" role="alert">
               <em>
                 <span>No {dayOfWeek.name}</span> Meal Plan added to this week...
               </em>
@@ -7188,7 +7200,7 @@ export default class WeekMealPlanDetail extends Component {
             //Specific props
             key={thisObject._id}
             thisDayObj={thisStateObject}
-            thisDay={thisObject}
+            thisStateObjectOld={thisStateObjectOld}
             onChangeMealRecipe={this.handleChangeMealRecipe}
             thisWMP={thisWMP}
             //Common props
@@ -7212,6 +7224,7 @@ export default class WeekMealPlanDetail extends Component {
             onSaveFormChanges={this.handleSaveFormChanges}
             onDeleteRecord={this.handleDeleteRecord}
             onUpdateProp={this.handleUpdateProp}
+            populateNewMealIngredients={this.populateNewMealIngredients}
           />
         );
       }

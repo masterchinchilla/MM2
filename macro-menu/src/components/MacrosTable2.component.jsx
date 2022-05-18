@@ -1,18 +1,27 @@
 const MacrosTable = (props) => {
   const tableType = props.tableType;
-  const calsBudget = props.macrosBudget.cals;
-  const carbsBudget = props.macrosBudget.carbs;
-  const proteinBudget = props.macrosBudget.protein;
-  const fatBudget = props.macrosBudget.fat;
-  const fiberBudget = props.macrosBudget.fiber;
-  const thisDaysMealsIngrdnts = props.thisDaysMealsIngrdnts;
+  let mealWeightPercent;
+  (function () {
+    if (tableType === "Day Macros") {
+      mealWeightPercent = 1;
+    } else {
+      const thisMealWeight = props.thisMealWeight;
+      mealWeightPercent = thisMealWeight / 100;
+    }
+  })();
+  const calsBudget = props.macrosBudget.cals * mealWeightPercent;
+  const carbsBudget = props.macrosBudget.carbs * mealWeightPercent;
+  const proteinBudget = props.macrosBudget.protein * mealWeightPercent;
+  const fatBudget = props.macrosBudget.fat * mealWeightPercent;
+  const fiberBudget = props.macrosBudget.fiber * mealWeightPercent;
+  const theseIngrdnts = props.theseIngrdnts;
   let calsCurrent = 0;
   let carbsCurrent = 0;
   let proteinCurrent = 0;
   let fatCurrent = 0;
   let fiberCurrent = 0;
-  for (let i = 0; i < thisDaysMealsIngrdnts.length; i++) {
-    let thisMealTypesIngrdnts = thisDaysMealsIngrdnts[i];
+  for (let i = 0; i < theseIngrdnts.length; i++) {
+    let thisMealTypesIngrdnts = theseIngrdnts[i];
     for (let i = 0; i < thisMealTypesIngrdnts.length; i++) {
       let thisIngrdnt = thisMealTypesIngrdnts[i].thisMealIngrdnt;
       calsCurrent +=

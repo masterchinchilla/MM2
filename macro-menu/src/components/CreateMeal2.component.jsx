@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { Component } from "react";
 const CreateMeal2 = (props) => {
+  const mealType = props.mealType;
+
   const defaultRecipeIds = {
     breakfastId: "62577f516682e3955e98b1d0",
     snack1Id: "62577a7d93011a9b47306e6f",
@@ -9,18 +11,18 @@ const CreateMeal2 = (props) => {
     dinnerId: "62577f8b6682e3955e98b1d3",
     dessertId: "62577f9c6682e3955e98b1d4",
   };
-  const thisDefaultRecipeId = defaultRecipeIds[`${props.mealType.code}Id`];
+  const thisDefaultRecipeId = defaultRecipeIds[`${mealType.code}Id`];
   const thisDefaultGenRecipe = {
     _id: thisDefaultRecipeId,
     name: " ",
-    availableMealType: props.mealType,
+    availableMealType: mealType,
     GRFUser: "62577a533813f4f21c27e1c7",
     defaultPrepInstructions: "",
     photoURL: "",
   };
   const newMeal = {
     day: props.thisDay,
-    mealType: props.mealType,
+    mealType: mealType,
     genRecipe: thisDefaultGenRecipe,
   };
   const idForBSElements = props.getRndInteger(10000000, 99999999);
@@ -45,24 +47,20 @@ const CreateMeal2 = (props) => {
             <h5>{props.thisDay.dayOfWeek + " " + props.mealType.name}</h5>
           </button>
         </h2>
-        {props.dayUserType === "viewer" ? (
-          <div className="emptyAndNotAuthor">No Meal Added...</div>
-        ) : (
-          <form>
-            <div className="form-group mt-4 mb-4">
-              <button
-                type="button"
-                value="Create Meal"
-                className="btn btn-primary"
-                onClick={() => {
-                  props.onCreateMeal(newMeal);
-                }}
-              >
-                Create Meal
-              </button>
-            </div>
-          </form>
-        )}
+        <form>
+          <div className="form-group mt-4 mb-4">
+            <button
+              type="button"
+              value="Create Meal"
+              className="btn btn-primary"
+              onClick={() => {
+                props.onCreateMeal(newMeal);
+              }}
+            >
+              Create Meal
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
