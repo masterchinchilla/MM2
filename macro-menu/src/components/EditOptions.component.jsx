@@ -34,7 +34,7 @@ const EditOptions = (props) => {
           iconHidden = true;
           break;
         case "copy":
-          if (thisFormState == "viewing") {
+          if (thisFormState === "viewing") {
             iconHidden = false;
           } else {
             iconHidden = true;
@@ -42,8 +42,8 @@ const EditOptions = (props) => {
           break;
         case "edit":
           if (
-            (userType == "author" || userType == "admin") &&
-            thisFormState == "viewing"
+            (userType === "author" || userType == "admin") &&
+            thisFormState === "viewing"
           ) {
             iconHidden = false;
           } else {
@@ -51,21 +51,21 @@ const EditOptions = (props) => {
           }
           break;
         case "cancel":
-          if (thisFormState == "viewing") {
+          if (thisFormState === "viewing") {
             iconHidden = true;
           } else {
             iconHidden = false;
           }
           break;
         case "save":
-          if (thisFormState == "viewing") {
+          if (props.thisFormState === "viewing") {
             iconHidden = true;
           } else {
             iconHidden = false;
           }
           break;
         case "delete":
-          if (thisFormState == "editingOrig") {
+          if (thisFormState === "editingOrig") {
             iconHidden = false;
           } else {
             iconHidden = true;
@@ -73,7 +73,7 @@ const EditOptions = (props) => {
       }
       return iconHidden;
     } else {
-      if (icon == "create") {
+      if (icon === "create") {
         iconHidden = false;
       } else {
         iconHidden = true;

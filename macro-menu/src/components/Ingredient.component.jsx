@@ -9,6 +9,7 @@ const Ingredient = (props) => {
   // const thisFormState = "editingOrig";
   const thisMealTypeCode = props.thisMealTypeCode;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
+  const thisStateObj = props.thisStateObj;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const allGRFUsers = props.allGRFUsers;
@@ -24,7 +25,7 @@ const Ingredient = (props) => {
         <EditOptions
           key={"ingrdntEditOptns" + thisObjId}
           className="ingrdntFrmIcns"
-          parentObj={thisObj}
+          parentObj={thisStateObj}
           ObjType={"ingredient"}
           userType={userType}
           thisFormState={thisFormState}

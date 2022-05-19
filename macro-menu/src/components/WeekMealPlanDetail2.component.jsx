@@ -6480,6 +6480,7 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
       },
+      thisWeekMealPlanOld: {},
       thisWeeksDaysOld: {
         sunday: {},
         monday: {},
@@ -6524,7 +6525,6 @@ export default class WeekMealPlanDetail extends Component {
     this.getAllWMPs();
   }
   setUserType = (initialUserType, thisUsersId, thisObjAuthorId) => {
-    console.log(initialUserType, thisUsersId, thisObjAuthorId);
     if (initialUserType === "admin") {
       return "admin";
     } else {
@@ -6762,17 +6762,96 @@ export default class WeekMealPlanDetail extends Component {
     });
   };
   handleClickEditForm = (parentObj, objType) => {
-    console.log(objType);
     let state = this.state;
     let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlan);
-    console.log(thisWMPBackup);
     let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
     state.thisWeekMealPlan.userType = "viewer";
     state.thisWeekMealPlan.thisFormState = "viewing";
+    let initialUserType;
+    let thisDayOfWeekCode;
+    let thisMealTypeCode;
+    let mealIngrdntsArrayIndex;
+    switch (objType) {
+      case "weekMealPlan":
+        initialUserType = thisWMPBackup.userType;
+        break;
+      case "day":
+        let thisDayOfWeekObj = parentObj.thisObj.dayOfWeek;
+        thisDayOfWeekObj.code === undefined
+          ? (thisDayOfWeekCode = thisDayOfWeekObj)
+          : (thisDayOfWeekCode = thisDayOfWeekObj.code);
+        initialUserType = thisWeeksDaysBackup[thisDayOfWeekCode]["userType"];
+        break;
+      case "meal":
+        let thisMealsDayOfWeekObj = parentObj.thisObj.day.dayOfWeek;
+        thisMealsDayOfWeekObj.code === undefined
+          ? (thisDayOfWeekCode = thisMealsDayOfWeekObj)
+          : (thisDayOfWeekCode = thisMealsDayOfWeekObj.code);
+        thisMealTypeCode = parentObj.thisObj.mealType.code;
+        initialUserType =
+          thisWeeksDaysBackup[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["mealUserType"];
+        break;
+      case "genRecipe":
+        let thisRecipesDayOfWeekObj = parentObj.thisMeal.day.dayOfWeek;
+        thisRecipesDayOfWeekObj.code === undefined
+          ? (thisDayOfWeekCode = thisRecipesDayOfWeekObj)
+          : (thisDayOfWeekCode = thisRecipesDayOfWeekObj.code);
+        thisMealTypeCode = parentObj.thisMeal.mealType.code;
+        initialUserType =
+          thisWeeksDaysBackup[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisGenRecipeUserType"];
+        break;
+      case "mealIngredient":
+        let thisMealIngrdntsDayOfWeekObj =
+          parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
+        thisMealIngrdntsDayOfWeekObj.code === undefined
+          ? (thisDayOfWeekCode = thisMealIngrdntsDayOfWeekObj)
+          : (thisDayOfWeekCode = thisMealIngrdntsDayOfWeekObj.code);
+        thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
+        mealIngrdntsArrayIndex = parentObj.mealIngrdntsArrayIndex;
+        initialUserType =
+          thisWeeksDaysBackup[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex][
+            "thisMealIngrdntUserType"
+          ];
+        break;
+      case "genRecipeIngredient":
+        let thisRecipeIngrdntsDayOfWeekObj =
+          parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
+        thisRecipeIngrdntsDayOfWeekObj.code === undefined
+          ? (thisDayOfWeekCode = thisRecipeIngrdntsDayOfWeekObj)
+          : (thisDayOfWeekCode = thisRecipeIngrdntsDayOfWeekObj.code);
+        thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
+        mealIngrdntsArrayIndex = parentObj.mealIngrdntsArrayIndex;
+        initialUserType =
+          thisWeeksDaysBackup[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex][
+            "thisGenRecipeIngrdntUserType"
+          ];
+        break;
+      case "ingredient":
+        let thisIngrdntsDayOfWeekObj =
+          parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
+        thisIngrdntsDayOfWeekObj.code === undefined
+          ? (thisDayOfWeekCode = thisIngrdntsDayOfWeekObj)
+          : (thisDayOfWeekCode = thisIngrdntsDayOfWeekObj.code);
+        thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
+        mealIngrdntsArrayIndex = parentObj.mealIngrdntsArrayIndex;
+        initialUserType =
+          thisWeeksDaysBackup[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex]["thisIngrdntUserType"];
+        break;
+    }
     for (let i = 0; i < state.daysOfWeek.length; i++) {
       let dayOfWeekCode = state.daysOfWeek[i].code;
       state.thisWeeksDays[dayOfWeekCode]["userType"] = "viewer";
-      state.thisWeeksDays[dayOfWeekCode]["thisFormState"] = "viewer";
+      state.thisWeeksDays[dayOfWeekCode]["thisFormState"] = "viewing";
       for (let i = 0; i < state.mealTypes.length; i++) {
         let mealTypeCode = state.mealTypes[i].code;
         let thisDayMeal =
@@ -6795,28 +6874,66 @@ export default class WeekMealPlanDetail extends Component {
     }
     switch (objType) {
       case "weekMealPlan":
-        let initialUserType = thisWMPBackup.userType;
-        console.log(initialUserType);
         state.thisWeekMealPlan.userType = initialUserType;
         state.thisWeekMealPlan.thisFormState = "editingOrig";
-        console.log(state);
         break;
       case "day":
-        console.log("clicked edit day");
+        state.thisWeeksDays[thisDayOfWeekCode]["userType"] = initialUserType;
+        state.thisWeeksDays[thisDayOfWeekCode]["thisFormState"] = "editingOrig";
         break;
       case "meal":
-        console.log("clicked edit meal");
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealUserType"] = initialUserType;
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealFormState"] = "editingOrig";
+        break;
+      case "genRecipe":
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisGenRecipeUserType"] = initialUserType;
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisGenRecipeFormState"] = "editingOrig";
         break;
       case "mealIngredient":
-        console.log("clicked edit mealIngredient");
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex][
+          "thisMealIngrdntUserType"
+        ] = initialUserType;
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex][
+          "thisMealIngrdntFormState"
+        ] = "editingOrig";
         break;
       case "genRecipeIngredient":
-        console.log("clicked edit genRecipeIngredient");
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex][
+          "genRecipeIngrdntUserType"
+        ] = initialUserType;
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex][
+          "thisGenRecipeIngrdntFormState"
+        ] = "editingOrig";
         break;
       case "ingredient":
-        console.log("clicked edit ingredient");
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex]["thisIngrdntUserType"] =
+          initialUserType;
+        state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+          thisMealTypeCode
+        ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex]["thisIngrdntFormState"] =
+          "editingOrig";
         break;
     }
+    state.thisWeekMealPlanOld = thisWMPBackup;
+    state.thisWeeksDaysOld = thisWeeksDaysBackup;
     this.setState(state);
   };
   handleCancelEditForm = () => {
@@ -7149,7 +7266,7 @@ export default class WeekMealPlanDetail extends Component {
                   }
                 />
                 <EditOptions
-                  parentObj={thisWMP}
+                  parentObj={thisWeekMealPlan}
                   objType="weekMealPlan"
                   thisFormState={thisWeekMealPlan.thisFormState}
                   userType={thisWeekMealPlan.userType}

@@ -3,6 +3,7 @@ import EditOptions from "./EditOptions.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GenRecipeIngredient = (props) => {
+  const thisStateObj = props.thisStateObj;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const thisMealType = thisObj.genRecipe.availableMealType.code;
@@ -23,7 +24,7 @@ const GenRecipeIngredient = (props) => {
         </label>
         <EditOptions
           className="gnRcpIngrdntFrmIcns"
-          parentObj={"genRecipeIngrdntEditOptns" + thisObj}
+          parentObj={thisStateObj}
           ObjType={"genRecipeIngredient"}
           key={"genRecipeIngrdntEditOptns" + thisObjId}
           userType={userType}

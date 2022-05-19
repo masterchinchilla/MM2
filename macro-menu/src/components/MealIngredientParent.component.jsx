@@ -13,12 +13,12 @@ const MealIngredientParent = (props) => {
   const thisIngredient = thisGenRecipeIngrdnt.ingredient;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   //Form States
-  const mealIngrdntFormState = thisStateObj.mealIngrdntFormState;
+  const thisMealIngrdntFormState = thisStateObj.thisMealIngrdntFormState;
   const thisGenRecipeIngrdntFormState =
     thisStateObj.thisGenRecipeIngrdntFormState;
   const thisIngrdntFormState = thisStateObj.thisIngrdntFormState;
   //User Types
-  const mealIngrdntUserType = thisStateObj.mealIngrdntUserType;
+  const thisMealIngrdntUserType = thisStateObj.thisMealIngrdntUserType;
   const thisGenRecipeIngrdntUserType =
     thisStateObj.thisGenRecipeIngrdntUserType;
   const thisIngrdntUserType = thisStateObj.thisIngrdntUserType;
@@ -30,12 +30,13 @@ const MealIngredientParent = (props) => {
           //Specific Props
           //Data
           key={"mealIngrdntChild" + thisObjId}
-          userType={mealIngrdntUserType}
-          thisFormState={mealIngrdntFormState}
+          userType={thisMealIngrdntUserType}
+          thisFormState={thisMealIngrdntFormState}
           //Methods
           //Common Props
           //Data
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
+          thisStateObj={thisStateObj}
           thisObj={thisObj}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
           thisMealTypesMeals={props.thisMealTypesMeals}
@@ -58,6 +59,7 @@ const MealIngredientParent = (props) => {
           //Common Props
           //Data
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
+          thisStateObj={thisStateObj}
           thisObj={thisGenRecipeIngrdnt}
           allIngredients={props.allIngredients}
           //Methods
@@ -80,6 +82,7 @@ const MealIngredientParent = (props) => {
           //Common Props
           //Data
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
+          thisStateObj={thisStateObj}
           thisObj={thisIngredient}
           allGRFUsers={props.allGRFUsers}
           allUnitOfMeasures={props.allUnitOfMeasures}

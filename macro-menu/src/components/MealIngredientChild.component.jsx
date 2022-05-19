@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MealIngredientChild = (props) => {
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
+  const thisStateObj = props.thisStateObj;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
-  const userType = props.thisMealIngrdntUserType;
+  const userType = props.userType;
   // const userType = "admin";
-  const thisFormState = props.thisMealIngrdntFormState;
+  const thisFormState = props.thisFormState;
   // const thisFormState = "editingOrig";
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisMealTypesMeals = props.thisMealTypesMeals;
@@ -23,7 +24,7 @@ const MealIngredientChild = (props) => {
         </label>
         <EditOptions
           className="mlIngrdntFrmIcns"
-          parentObj={thisObj}
+          parentObj={thisStateObj}
           ObjType={"mealIngredient"}
           key={"mealIngrdntEditOptns" + thisObjId}
           userType={userType}

@@ -25,6 +25,7 @@ const MealDetail3 = (props) => {
   function renderMealIngrdnts() {
     if (mealsIngrdnts.length > 0 && thisStateObj.thisMealJustCreated !== true) {
       return mealsIngrdnts.map((mealIngredient, index) => {
+        mealIngredient.mealIngrdntsArrayIndex = index;
         return (
           <MealIngredientParent
             //Specific Props
@@ -142,7 +143,7 @@ const MealDetail3 = (props) => {
                 <h5 className="formSctnTitle">Meal</h5>
                 <EditOptions
                   key={"EOptionsForMeal" + thisObjId}
-                  parentObj={thisObj}
+                  parentObj={thisStateObj}
                   ObjType={"meal"}
                   userType={mealUserType}
                   thisFormState={mealFormState}

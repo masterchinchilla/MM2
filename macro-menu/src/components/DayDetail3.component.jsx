@@ -133,7 +133,7 @@ const DayDetail3 = (props) => {
       <div className="card-header">
         <h3 className="card-title">{thisDayOfWeek}</h3>
         <EditOptions
-          parentObj={thisDay}
+          parentObj={thisDayObj}
           ObjType={"Day"}
           thisFormState={thisFormState}
           userType={userType}
