@@ -3,14 +3,17 @@ import EditOptions from "./EditOptions.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GenRecipeIngredient = (props) => {
-  let thisGenRecipeIngrdnt = props.thisGenRecipeIngrdnt;
-  let thisMealType = thisGenRecipeIngrdnt.genRecipe.availableMealType.code;
-  let mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  let allIngredients = props.allIngredients;
-  let thisMealsTypesRecipes = props.thisMealsTypesRecipes;
-  let userType = props.userType;
-  let thisFormState = props.thisFormState;
-  let deleteMsg =
+  const thisObj = props.thisObj;
+  const thisObjId = thisObj._id;
+  const thisMealType = thisObj.genRecipe.availableMealType.code;
+  const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
+  const allIngredients = props.allIngredients;
+  const thisMealTypesRecipes = props.thisMealTypesRecipes;
+  const userType = props.userType;
+  // const userType = "admin";
+  const thisFormState = props.thisFormState;
+  // const thisFormState = "editingOrig";
+  const deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (
     <form className="gnRcpIngrdntFrm">
@@ -20,23 +23,23 @@ const GenRecipeIngredient = (props) => {
         </label>
         <EditOptions
           className="gnRcpIngrdntFrmIcns"
-          parentObj={thisGenRecipeIngrdnt}
-          stateObj={"genRecipeIngredient"}
-          key={thisGenRecipeIngrdnt._id}
+          parentObj={"genRecipeIngrdntEditOptns" + thisObj}
+          ObjType={"genRecipeIngredient"}
+          key={"genRecipeIngrdntEditOptns" + thisObjId}
           userType={userType}
           thisFormState={thisFormState}
-          onSubmitFormChange={props.onSubmitFormChange}
-          onClickEdit={props.onClickEdit}
-          onDelete={props.onDelete}
-          onCancel={props.onCancel}
+          onClickEditForm={props.onClickEditForm}
+          onCancelEditForm={props.onCancelEditForm}
+          onSaveFormChanges={props.onSaveFormChanges}
+          onDeleteRecord={props.onDeleteRecord}
           deleteMsg={deleteMsg}
         />
         <input
           type={"number"}
           className="form-control gnRcpIngrdntQty"
-          value={thisGenRecipeIngrdnt.defaultQty}
+          value={thisObj.defaultQty}
           onChange={(e) =>
-            props.updateProp(
+            props.onUpdateProp(
               "genRecipeIngredient",
               thisMealType,
               "defaultQty",
@@ -50,34 +53,28 @@ const GenRecipeIngredient = (props) => {
       </div>
       <div
         className="accordion accordion-flush flushElement"
-        id={"gnRcpIngrdntFrmAccrdnFll" + thisGenRecipeIngrdnt._id}
+        id={"gnRcpIngrdntFrmAccrdnFll" + thisObjId}
       >
         <div className="accordion-item genRecipeAdminMenuBttn flushElement">
           <h2
             className="accordion-header"
-            id={"gnRcpIngrdntFrmAccrdnHdr" + thisGenRecipeIngrdnt._id}
+            id={"gnRcpIngrdntFrmAccrdnHdr" + thisObjId}
           >
             <button
               className="accordion-button collapsed mealAdminAccrdnBttn"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target={
-                "#gnRcpIngrdntFrmAccrdn" + thisGenRecipeIngrdnt._id
-              }
+              data-bs-target={"#gnRcpIngrdntFrmAccrdn" + thisObjId}
               aria-expanded="true"
               aria-controls="collapseOne"
             ></button>
           </h2>
         </div>
         <div
-          id={"gnRcpIngrdntFrmAccrdn" + thisGenRecipeIngrdnt._id}
+          id={"gnRcpIngrdntFrmAccrdn" + thisObjId}
           className="accordion-collapse collapse"
-          aria-labelledby={
-            "#gnRcpIngrdntFrmAccrdnHdr" + thisGenRecipeIngrdnt._id
-          }
-          data-bs-parent={
-            "#gnRcpIngrdntFrmAccrdnFll" + thisGenRecipeIngrdnt._id
-          }
+          aria-labelledby={"#gnRcpIngrdntFrmAccrdnHdr" + thisObjId}
+          data-bs-parent={"#gnRcpIngrdntFrmAccrdnFll" + thisObjId}
         >
           <div className="accordion-body">
             <div className="form-group mealIngrdntInputs">
@@ -86,10 +83,10 @@ const GenRecipeIngredient = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisGenRecipeIngrdnt.ingredient)}
+                value={JSON.stringify(thisObj.ingredient)}
                 disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "genRecipeIngredient",
                     thisMealType,
                     "ingredient",
@@ -116,10 +113,10 @@ const GenRecipeIngredient = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisGenRecipeIngrdnt.genRecipe)}
+                value={JSON.stringify(thisObj.genRecipe)}
                 disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "genRecipeIngredient",
                     thisMealType,
                     "genRecipe",
@@ -129,7 +126,7 @@ const GenRecipeIngredient = (props) => {
                   )
                 }
               >
-                {thisMealsTypesRecipes.map(function (genRecipe) {
+                {thisMealTypesRecipes.map(function (genRecipe) {
                   return (
                     <option
                       key={genRecipe._id}
@@ -146,9 +143,9 @@ const GenRecipeIngredient = (props) => {
               <input
                 type={"text"}
                 className="form-control"
-                value={thisGenRecipeIngrdnt._id}
+                value={thisObjId}
                 disabled={true}
-                onChange={props.onChange}
+                onChange={() => {}}
               />
             </div>
           </div>

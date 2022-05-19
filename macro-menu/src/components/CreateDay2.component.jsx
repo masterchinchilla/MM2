@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 const CreateDay2 = (props) => {
-  const dayOfWeek = props.dayOfWeek.name;
+  const dayOfWeek = props.dayOfWeekName;
   const weekMealPlan = props.weekMealPlan;
   const userType = props.weekMealPlan.thisWMP.userType;
   const weekMealPlanId = weekMealPlan.thisWMP._id;

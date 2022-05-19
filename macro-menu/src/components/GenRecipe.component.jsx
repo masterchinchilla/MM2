@@ -9,15 +9,16 @@ const GenRecipe = (props) => {
   const mealStateObj = props.mealStateObj;
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
+  const thisObjId = thisObj._id;
   const thisRecipesIngrdnts = mealStateObj.thisRecipesIngrdnts;
-  // const thisFormState = mealStateObj.thisGenRecipeFormState;
-  const thisFormState = "editingOrig";
-  // const userType = mealStateObj.thisGenRecipeUserType;
-  const userType = "admin";
+  const thisFormState = mealStateObj.thisGenRecipeFormState;
+  // const thisFormState = "editingOrig";
+  const userType = mealStateObj.thisGenRecipeUserType;
+  // const userType = "admin";
   const handleSubmitFormChange = (e) => {
     e.preventDefault();
     axios
-      .put("http://localhost:5000/genRecipes/update/" + thisObj._id, thisObj)
+      .put("http://localhost:5000/genRecipes/update/" + thisObjId, thisObj)
       .then(
         // console.log("/weekMealPlans/" + thisMeal.thisMeal.day.weekMealPlan._id)
         (window.location = "/edit/" + thisMeal.day.weekMealPlan._id)
@@ -69,6 +70,7 @@ const GenRecipe = (props) => {
           <div className="mealGenRecipeSctnHdr">
             <h5 className="formSctnTitle">Recipe Details</h5>
             <EditOptions
+              key={"genRecipeEditOptns" + thisObjId}
               parentObj={thisObj}
               stateObj={"genRecipe"}
               thisFormState={thisFormState}
@@ -115,28 +117,28 @@ const GenRecipe = (props) => {
           </div>
           <div
             className="accordion accordion-flush"
-            id={"mealInnerAccordionFull" + thisObj._id}
+            id={"mealInnerAccordionFull" + thisObjId}
           >
             <div className="accordion-item">
               <h2
                 className="accordion-header"
-                id={"mealInnerAccordionHeader" + thisObj._id}
+                id={"mealInnerAccordionHeader" + thisObjId}
               >
                 <button
                   className="accordion-button collapsed mealInnerAccrdnBttn"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target={"#mealInnerAccrdn" + thisObj._id}
+                  data-bs-target={"#mealInnerAccrdn" + thisObjId}
                   aria-expanded="true"
                   aria-controls="collapseOne"
                 ></button>
               </h2>
             </div>
             <div
-              id={"mealInnerAccrdn" + thisObj._id}
+              id={"mealInnerAccrdn" + thisObjId}
               className="accordion-collapse collapse"
-              aria-labelledby={"#mealInnerAccordionHeader" + thisObj._id}
-              data-bs-parent={"#mealInnerAccordionFull" + thisObj._id}
+              aria-labelledby={"#mealInnerAccordionHeader" + thisObjId}
+              data-bs-parent={"#mealInnerAccordionFull" + thisObjId}
             >
               <div className="accordion-body mealInnerAccordion">
                 <div className="form-group mealInputs">
@@ -196,18 +198,18 @@ const GenRecipe = (props) => {
               </div>
               <div
                 className="accordion accordion-flush"
-                id={"genRecipeAdminAccordionFull" + thisObj._id}
+                id={"genRecipeAdminAccordionFull" + thisObjId}
               >
                 <div className="accordion-item genRecipeAdminMenuBttn">
                   <h2
                     className="accordion-header"
-                    id={"genRecipeAdminAccordionHeader" + thisObj._id}
+                    id={"genRecipeAdminAccordionHeader" + thisObjId}
                   >
                     <button
                       className="accordion-button collapsed mealAdminAccrdnBttn"
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target={"#genRecipeAdminAccrdn" + thisObj._id}
+                      data-bs-target={"#genRecipeAdminAccrdn" + thisObjId}
                       aria-expanded="true"
                       aria-controls="collapseOne"
                       disabled={userType == "admin" ? false : true}
@@ -221,12 +223,10 @@ const GenRecipe = (props) => {
                   </h2>
                 </div>
                 <div
-                  id={"genRecipeAdminAccrdn" + thisObj._id}
+                  id={"genRecipeAdminAccrdn" + thisObjId}
                   className="accordion-collapse collapse"
-                  aria-labelledby={
-                    "#genRecipeAdminAccordionHeader" + thisObj._id
-                  }
-                  data-bs-parent={"#genRecipeAdminAccordionFull" + thisObj._id}
+                  aria-labelledby={"#genRecipeAdminAccordionHeader" + thisObjId}
+                  data-bs-parent={"#genRecipeAdminAccordionFull" + thisObjId}
                 >
                   <div className="accordion-body mealInnerAccordion">
                     <div className="form-group mealInputs">
@@ -294,7 +294,7 @@ const GenRecipe = (props) => {
                       <input
                         className="form-control"
                         type="text"
-                        value={thisObj._id}
+                        value={thisObjId}
                         disabled={true}
                         onChange={() => {
                           console.log("This just displays the ID in a field.");

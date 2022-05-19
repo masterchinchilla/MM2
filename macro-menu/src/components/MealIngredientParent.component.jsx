@@ -9,6 +9,7 @@ const MealIngredientParent = (props) => {
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
   const thisGenRecipeIngrdnt = thisObj.genRecipeIngredient;
+  const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisIngredient = thisGenRecipeIngrdnt.ingredient;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   //Form States
@@ -36,7 +37,7 @@ const MealIngredientParent = (props) => {
           //Data
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisObj={thisObj}
-          thisRecipesIngrdnts={props.thisRecipesIngrdnts}
+          thisRecipesIngrdnts={thisRecipesIngrdnts}
           thisMealTypesMeals={props.thisMealTypesMeals}
           //Methods
           onClickEditForm={props.onClickEditForm}
@@ -51,7 +52,7 @@ const MealIngredientParent = (props) => {
           key={thisGenRecipeIngrdnt._id}
           userType={thisGenRecipeIngrdntUserType}
           thisFormState={thisGenRecipeIngrdntFormState}
-          thisMealsTypesRecipes={props.thisMealsTypesRecipes}
+          thisMealTypesRecipes={props.thisMealTypesRecipes}
           thisMealTypeCode={thisMealTypeCode}
           //Methods
           //Common Props

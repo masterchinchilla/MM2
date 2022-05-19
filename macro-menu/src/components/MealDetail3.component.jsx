@@ -12,18 +12,16 @@ const MealDetail3 = (props) => {
   const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
+  const nestedMealIngrdntArray = [mealsIngrdnts];
+  const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
+  const thisMealTypesRecipes = props.thisMealTypesRecipes;
   const thisMealWeight = props.thisMealWeight;
-  // const mealFormState = thisStateObj.thisMealFormState;
-  const mealFormState = "editingOrig";
-  const genRecipeFormState = thisStateObj.thisGenRecipeFormState;
-  // const mealUserType = thisStateObj.thisMealUserType;
-  const mealUserType = "admin";
-  const genRecipeUserType = thisStateObj.thisGenRecipeUserType;
+  const mealFormState = thisStateObj.thisMealFormState;
+  // const mealFormState = "editingOrig";
+  const mealUserType = thisStateObj.thisMealUserType;
+  // const mealUserType = "admin";
   const deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
-  let thisMealTypesGenRecipes = props.allGenRecipes.filter(
-    (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
-  );
   function renderMealIngrdnts() {
     if (mealsIngrdnts.length > 0 && thisStateObj.thisMealJustCreated !== true) {
       return mealsIngrdnts.map((mealIngredient, index) => {
@@ -31,17 +29,17 @@ const MealDetail3 = (props) => {
           <MealIngredientParent
             //Specific Props
             //Data
-            key={"mealIngrdntParent" + thisObjId}
-            thisMealsTypesRecipes={props.thisMealsTypesRecipes}
+            key={"mealIngrdntParent" + mealIngredient.thisMealIngrdnt._id}
+            thisMealTypesRecipes={props.thisMealTypesRecipes}
             //Methods
 
             //Common Props
             //Data
-            thisStateObj={thisStateObj}
+            thisStateObj={mealIngredient}
             mealIngrdntsArrayIndex={index}
             allGRFUsers={props.allGRFUsers}
             allGenRecipeIngredients={props.allGenRecipeIngredients}
-            thisRecipesIngrdnts={props.thisRecipesIngrdnts}
+            thisRecipesIngrdnts={thisRecipesIngrdnts}
             thisMealTypesMeals={props.thisMealTypesMeals}
             allIngredients={props.allIngredients}
             allUnitOfMeasures={props.allUnitOfMeasures}
@@ -134,7 +132,7 @@ const MealDetail3 = (props) => {
             thisMealWeight={thisMealWeight}
             tableType={"Meal Macros"}
             macrosBudget={props.macrosBudget}
-            theseIngrdnts={mealsIngrdnts}
+            theseIngrdnts={nestedMealIngrdntArray}
           />
         </div>
         <div className="accordion-body wkDaysAccrdnBdy">
@@ -145,7 +143,7 @@ const MealDetail3 = (props) => {
                 <EditOptions
                   key={"EOptionsForMeal" + thisObjId}
                   parentObj={thisObj}
-                  stateObj={"meal"}
+                  ObjType={"meal"}
                   userType={mealUserType}
                   thisFormState={mealFormState}
                   onSaveFormChanges={props.onSaveFormChanges}
@@ -175,7 +173,7 @@ const MealDetail3 = (props) => {
                     props.onChangeMealRecipe(thisMealTypeCode, e)
                   }
                 >
-                  {thisMealTypesGenRecipes.map((genRecipe) => {
+                  {thisMealTypesRecipes.map((genRecipe) => {
                     return (
                       <option key={genRecipe._id} value={genRecipe._id}>
                         {genRecipe.name}
@@ -310,7 +308,7 @@ const MealDetail3 = (props) => {
             //Specific props
             key={thisObj.genRecipe._id}
             mealStateObj={thisStateObj}
-            thisMealTypesGenRecipes={thisMealTypesGenRecipes}
+            thisMealTypesRecipes={thisMealTypesRecipes}
             //Common Props
             //Data
             allGRFUsers={props.allGRFUsers}

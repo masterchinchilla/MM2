@@ -8,7 +8,9 @@ const MealIngredientChild = (props) => {
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
   const userType = props.thisMealIngrdntUserType;
+  // const userType = "admin";
   const thisFormState = props.thisMealIngrdntFormState;
+  // const thisFormState = "editingOrig";
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisMealTypesMeals = props.thisMealTypesMeals;
   let deleteMsg =
@@ -22,8 +24,8 @@ const MealIngredientChild = (props) => {
         <EditOptions
           className="mlIngrdntFrmIcns"
           parentObj={thisObj}
-          stateObj={"mealIngredient"}
-          key={thisObjId}
+          ObjType={"mealIngredient"}
+          key={"mealIngrdntEditOptns" + thisObjId}
           userType={userType}
           thisFormState={thisFormState}
           onClickEditForm={props.onClickEditForm}

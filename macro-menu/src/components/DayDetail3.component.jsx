@@ -4,6 +4,7 @@ import EditOptions from "./EditOptions.component";
 import MacrosTable from "./MacrosTable2.component";
 import CreateMeal2 from "./CreateMeal2.component";
 import MealDetail3 from "./MealDetail3.component";
+import GenRecipeIngredient from "./GenRecipeIngredient.component";
 const DayDetail3 = (props) => {
   const thisGRFUser = props.thisGRFUser;
   const thisWMP = props.thisWMP;
@@ -11,13 +12,14 @@ const DayDetail3 = (props) => {
   const daysOfWeek = props.daysOfWeek;
   const mealTypes = props.mealTypes;
   const allWMPs = props.allWMPs;
+  const allGenRecipeIngredients = props.thisRecipesIngrdnts;
   const thisDay = thisDayObj.thisDay;
   const thisDaysMeals = thisDayObj.thisDaysMeals;
   const thisDayId = thisDay._id;
   const thisDayOfWeek = thisDay.dayOfWeek;
   const thisFormState = thisDayObj.thisFormState;
-  //   const userType = thisDayObj.userType;
-  const userType = "admin";
+  const userType = thisDayObj.userType;
+  // const userType = "admin";
   const deleteMsg = "Are you sure you want to delete this Day Meal Plan?";
   let breakfastIngrdnts = thisDayObj.thisDaysMeals.breakfast.thisMealsIngrdnts;
   let snack1Ingrdnts = thisDayObj.thisDaysMeals.snack1.thisMealsIngrdnts;
@@ -80,8 +82,15 @@ const DayDetail3 = (props) => {
         let thisMealTypesMeals = props.allMeals.filter(
           (meal) => meal.mealType.code === thisMealTypeCode
         );
+        let thisMealTypesRecipes = props.allGenRecipes.filter(
+          (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
+        );
+        let thisRecipesIngrdnts = props.allGenRecipeIngredients.filter(
+          (genRecipeIngredient) =>
+            genRecipeIngredient.genRecipe.availableMealType.code ===
+            thisMealTypeCode
+        );
         let thisMealWeight = thisWMP[`${mealType.code}Weight`];
-        let thisRecipesIngrdnts = thisStateObj.thisRecipesIngrdnts;
         return (
           <MealDetail3
             //Specific Props
@@ -98,10 +107,11 @@ const DayDetail3 = (props) => {
             thisGRFUser={props.thisGRFUser}
             allGRFUsers={props.allGRFUsers}
             allDays={props.allDays}
-            allGenRecipes={props.allGenRecipes}
+            thisMealTypesRecipes={thisMealTypesRecipes}
             mealTypes={props.mealTypes}
             allIngredients={props.allIngredients}
-            allGenRecipeIngredients={props.allGenRecipeIngredients}
+            // allGenRecipeIngredients={props.allGenRecipeIngredients}
+            thisRecipesIngrdnts={thisRecipesIngrdnts}
             thisMealTypesMeals={thisMealTypesMeals}
             allUnitOfMeasures={props.allUnitOfMeasures}
             allWeightTypes={props.allWeightTypes}
@@ -124,7 +134,7 @@ const DayDetail3 = (props) => {
         <h3 className="card-title">{thisDayOfWeek}</h3>
         <EditOptions
           parentObj={thisDay}
-          stateObj={"Day"}
+          ObjType={"Day"}
           thisFormState={thisFormState}
           userType={userType}
           onSaveFormChanges={props.onSaveFormChanges}

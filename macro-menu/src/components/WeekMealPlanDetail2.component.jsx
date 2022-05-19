@@ -4,6 +4,7 @@ import DayDetail from "./DayDetail.component";
 import EditOptions from "./EditOptions.component";
 import CreateDay2 from "./CreateDay2.component";
 import DayDetail3 from "./DayDetail3.component";
+import _ from "lodash";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -20,20 +21,29 @@ export default class WeekMealPlanDetail extends Component {
       // allUnitOfMeasures={props.allUnitOfMeasures}
       // allWeightTypes={props.allWeightTypes}
       // allBrands={props.allBrands}
+      thisUserType: "viewer",
       thisGRFUser: {
-        _id: "60cd31910b74083490750ed0",
-        namePrefix: "",
-        givenName: "Jane",
-        middleName: "",
+        _id: "609f3e444ee536749c75c729",
+        givenName: "John",
         familyName: "Doe",
-        nameSuffix: "",
-        email: "janedoe@gmail.com",
-        password: "abcd1234",
-        handle: "jane_fit_1985",
-        certURL: "",
-        certName: "",
-        userGroups: "GRFUser",
+        email: "johndoe@gmail.com",
+        password: "abc123",
+        handle: "johnnyFood",
       },
+      // thisGRFUser: {
+      //   _id: "60cd31910b74083490750ed0",
+      //   namePrefix: "",
+      //   givenName: "Jane",
+      //   middleName: "",
+      //   familyName: "Doe",
+      //   nameSuffix: "",
+      //   email: "janedoe@gmail.com",
+      //   password: "abcd1234",
+      //   handle: "jane_fit_1985",
+      //   certURL: "",
+      //   certName: "",
+      //   userGroups: "GRFUser",
+      // },
       thisWeekMealPlan: {
         dataLoaded: false,
         thisFormState: "viewing",
@@ -345,43 +355,6 @@ export default class WeekMealPlanDetail extends Component {
                   },
                 },
               ],
-              thisRecipesIngrdnts: [
-                {
-                  defaultQty: 1,
-                  ingredient: {
-                    name: "tempBreakfastIngredient1Name",
-                    calories: 1,
-                    carbs: 1,
-                    protein: 1,
-                    fat: 1,
-                    fiber: 1,
-                    unitOfMeasure: { name: "Each" },
-                    weightType: { name: "" },
-                    photoURL: "",
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    brand: { name: "" },
-                  },
-                  genRecipe: {
-                    _id: "tempBreakfastRecipe1Id",
-                    name: "tempBreakfastRecipe1Name",
-                    availableMealType: {
-                      _id: "626dd6fc21888432c0fe3e90",
-                      code: "breakfast",
-                      name: "Breakfast",
-                    },
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    defaultPrepInstructions: "",
-                    photoUrl: "",
-                  },
-                  defaultPrepInstructions: "",
-                },
-              ],
               thisMealsMacrosBudget: {},
             },
             snack1: {
@@ -493,49 +466,6 @@ export default class WeekMealPlanDetail extends Component {
                         name: "Snack 1",
                       },
                     },
-                  },
-                },
-              ],
-              thisRecipesIngrdnts: [
-                {
-                  thisMealIngrdntJustCreated: false,
-                  recordChanged: false,
-                  thisMealIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntFormState: "viewing",
-                  thisMealIngrdnt: {
-                    defaultQty: 1,
-                    ingredient: {
-                      name: "tempSnack1Ingredient1Name",
-                      calories: 1,
-                      carbs: 1,
-                      protein: 1,
-                      fat: 1,
-                      fiber: 1,
-                      unitOfMeasure: { name: "Each" },
-                      weightType: { name: "" },
-                      photoURL: "",
-                      GRFUser: {
-                        _id: "62577a533813f4f21c27e1c7",
-                        handle: "Service",
-                      },
-                      brand: { name: "" },
-                    },
-                    genRecipe: {
-                      _id: "tempSnack1Recipe1Id",
-                      name: "tempSnack1Recipe1Name",
-                      availableMealType: {
-                        _id: "626ddf9e21888432c0fe3e91",
-                        code: "snack1",
-                        name: "Snack 1",
-                      },
-                      GRFUser: {
-                        _id: "62577a533813f4f21c27e1c7",
-                        handle: "Service",
-                      },
-                      defaultPrepInstructions: "",
-                      photoUrl: "",
-                    },
-                    defaultPrepInstructions: "",
                   },
                 },
               ],
@@ -653,43 +583,6 @@ export default class WeekMealPlanDetail extends Component {
                   },
                 },
               ],
-              thisRecipesIngrdnts: [
-                {
-                  defaultQty: 1,
-                  ingredient: {
-                    name: "tempLunchIngredient1Name",
-                    calories: 1,
-                    carbs: 1,
-                    protein: 1,
-                    fat: 1,
-                    fiber: 1,
-                    unitOfMeasure: { name: "Each" },
-                    weightType: { name: "" },
-                    photoURL: "",
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    brand: { name: "" },
-                  },
-                  genRecipe: {
-                    _id: "tempLunchRecipe1Id",
-                    name: "tempLunchRecipe1Name",
-                    availableMealType: {
-                      _id: "626ddfb721888432c0fe3e92",
-                      code: "lunch",
-                      name: "Lunch",
-                    },
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    defaultPrepInstructions: "",
-                    photoUrl: "",
-                  },
-                  defaultPrepInstructions: "",
-                },
-              ],
               thisMealsMacrosBudget: {},
             },
             snack2: {
@@ -802,43 +695,6 @@ export default class WeekMealPlanDetail extends Component {
                       },
                     },
                   },
-                },
-              ],
-              thisRecipesIngrdnts: [
-                {
-                  defaultQty: 1,
-                  ingredient: {
-                    name: "tempSnack2Ingredient1Name",
-                    calories: 1,
-                    carbs: 1,
-                    protein: 1,
-                    fat: 1,
-                    fiber: 1,
-                    unitOfMeasure: { name: "Each" },
-                    weightType: { name: "" },
-                    photoURL: "",
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    brand: { name: "" },
-                  },
-                  genRecipe: {
-                    _id: "tempSnack2Recipe1Id",
-                    name: "tempSnack2Recipe1Name",
-                    availableMealType: {
-                      _id: "626ddfcb21888432c0fe3e93",
-                      code: "snack2",
-                      name: "Snack 2",
-                    },
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    defaultPrepInstructions: "",
-                    photoUrl: "",
-                  },
-                  defaultPrepInstructions: "",
                 },
               ],
               thisMealsMacrosBudget: {},
@@ -955,43 +811,6 @@ export default class WeekMealPlanDetail extends Component {
                   },
                 },
               ],
-              thisRecipesIngrdnts: [
-                {
-                  defaultQty: 1,
-                  ingredient: {
-                    name: "tempDinnerIngredient1Name",
-                    calories: 1,
-                    carbs: 1,
-                    protein: 1,
-                    fat: 1,
-                    fiber: 1,
-                    unitOfMeasure: { name: "Each" },
-                    weightType: { name: "" },
-                    photoURL: "",
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    brand: { name: "" },
-                  },
-                  genRecipe: {
-                    _id: "tempDinnerRecipe1Id",
-                    name: "tempDinnerRecipe1Name",
-                    availableMealType: {
-                      _id: "626ddfdc21888432c0fe3e94",
-                      code: "dinner",
-                      name: "Dinner",
-                    },
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    defaultPrepInstructions: "",
-                    photoUrl: "",
-                  },
-                  defaultPrepInstructions: "",
-                },
-              ],
               thisMealsMacrosBudget: {},
             },
             dessert: {
@@ -1104,43 +923,6 @@ export default class WeekMealPlanDetail extends Component {
                       },
                     },
                   },
-                },
-              ],
-              thisRecipesIngrdnts: [
-                {
-                  defaultQty: 1,
-                  ingredient: {
-                    name: "tempDessertIngredient1Name",
-                    calories: 1,
-                    carbs: 1,
-                    protein: 1,
-                    fat: 1,
-                    fiber: 1,
-                    unitOfMeasure: { name: "Each" },
-                    weightType: { name: "" },
-                    photoURL: "",
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    brand: { name: "" },
-                  },
-                  genRecipe: {
-                    _id: "tempDessertRecipe1Id",
-                    name: "tempDessertRecipe1Name",
-                    availableMealType: {
-                      _id: "626ddfee21888432c0fe3e95",
-                      code: "dessert",
-                      name: "Dessert",
-                    },
-                    GRFUser: {
-                      _id: "62577a533813f4f21c27e1c7",
-                      handle: "Service",
-                    },
-                    defaultPrepInstructions: "",
-                    photoUrl: "",
-                  },
-                  defaultPrepInstructions: "",
                 },
               ],
               thisMealsMacrosBudget: {},
@@ -6741,12 +6523,30 @@ export default class WeekMealPlanDetail extends Component {
     this.getAllBrands();
     this.getAllWMPs();
   }
+  setUserType = (initialUserType, thisUsersId, thisObjAuthorId) => {
+    console.log(initialUserType, thisUsersId, thisObjAuthorId);
+    if (initialUserType === "admin") {
+      return "admin";
+    } else {
+      if (thisObjAuthorId === thisUsersId) {
+        return "author";
+      } else {
+        return "viewer";
+      }
+    }
+  };
   getThisWeekMealPlan = () => {
     axios
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
         let thisWeekMealPlan = this.state.thisWeekMealPlan;
         thisWeekMealPlan.thisWMP = response.data;
+        let userType = this.setUserType(
+          this.state.thisUserType,
+          this.state.thisGRFUser._id,
+          thisWeekMealPlan.thisWMP.GRFUser._id
+        );
+        thisWeekMealPlan.userType = userType;
         thisWeekMealPlan.dataLoaded = true;
         this.setState({ thisWeekMealPlan: thisWeekMealPlan });
       });
@@ -6772,6 +6572,12 @@ export default class WeekMealPlanDetail extends Component {
             thisDayToUpdate.dataLoaded = true;
             if (thisWeekDayData) {
               thisDayToUpdate.thisDay = thisWeekDayData;
+              let userType = this.setUserType(
+                this.state.thisUserType,
+                this.state.thisGRFUser._id,
+                thisWeekDayData.weekMealPlan.GRFUser._id
+              );
+              thisDayToUpdate.userType = userType;
               this.getDayMeals(thisDayToUpdate, thisDayOfWeek.code);
             } else {
             }
@@ -6800,6 +6606,12 @@ export default class WeekMealPlanDetail extends Component {
             )[0];
             if (thisDayMealData !== undefined) {
               thisDaysMeals[thisMealType]["thisMeal"] = thisDayMealData;
+              let userType = this.setUserType(
+                this.state.thisUserType,
+                this.state.thisGRFUser._id,
+                thisDayMealData.day.weekMealPlan.GRFUser._id
+              );
+              thisDaysMeals[thisMealType].userType = userType;
               thisDaysMeals[thisMealType]["dataLoaded"] = true;
               this.getMealIngrdnts(
                 thisDaysMeals[thisMealType],
@@ -6828,15 +6640,30 @@ export default class WeekMealPlanDetail extends Component {
         } else {
           let thisMealsIngrdnts = [];
           for (let i = 0; i < mealIngrdntData.length; i++) {
+            let thisMealIngrdntUserType = this.setUserType(
+              this.state.thisUserType,
+              this.state.thisGRFUser._id,
+              mealIngrdntData[i].meal.day.weekMealPlan.GRFUser._id
+            );
+            let thisGenRecipeIngrdntUserType = this.setUserType(
+              this.state.thisUserType,
+              this.state.thisGRFUser._id,
+              mealIngrdntData[i].genRecipeIngredient.genRecipe.GRFUser._id
+            );
+            let thisIngrdntUserType = this.setUserType(
+              this.state.thisUserType,
+              this.state.thisGRFUser._id,
+              mealIngrdntData[i].genRecipeIngredient.ingredient.GRFUser._id
+            );
             let thisMealIngrdnt = {
               thisMealIngrdntJustCreated: false,
               recordChanged: false,
               thisMealIngrdntFormState: "viewing",
-              thisMealIngrdntUserType: "viewer",
+              thisMealIngrdntUserType: thisMealIngrdntUserType,
               thisGenRecipeIngrdntFormState: "viewing",
-              thisGenRecipeIngrdntUserType: "viewer",
+              thisGenRecipeIngrdntUserType: thisGenRecipeIngrdntUserType,
               thisIngrdntFormState: "viewing",
-              thisIngrdntUserType: "viewer",
+              thisIngrdntUserType: thisIngrdntUserType,
               thisMealIngrdnt: mealIngrdntData[i],
             };
             thisMealsIngrdnts.push(thisMealIngrdnt);
@@ -6934,8 +6761,63 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  handleClickEditForm = () => {
-    console.log("Clicked Edit");
+  handleClickEditForm = (parentObj, objType) => {
+    console.log(objType);
+    let state = this.state;
+    let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlan);
+    console.log(thisWMPBackup);
+    let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
+    state.thisWeekMealPlan.userType = "viewer";
+    state.thisWeekMealPlan.thisFormState = "viewing";
+    for (let i = 0; i < state.daysOfWeek.length; i++) {
+      let dayOfWeekCode = state.daysOfWeek[i].code;
+      state.thisWeeksDays[dayOfWeekCode]["userType"] = "viewer";
+      state.thisWeeksDays[dayOfWeekCode]["thisFormState"] = "viewer";
+      for (let i = 0; i < state.mealTypes.length; i++) {
+        let mealTypeCode = state.mealTypes[i].code;
+        let thisDayMeal =
+          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode];
+        thisDayMeal.userType = "viewer";
+        thisDayMeal.thisFormState = "viewing";
+        for (let i = 0; i < thisDayMeal.thisMealsIngrdnts.length; i++) {
+          let thisMealIngrdnt = thisDayMeal.thisMealsIngrdnts[i];
+          thisMealIngrdnt.thisMealIngrdntFormState = "viewing";
+          thisMealIngrdnt.thisMealIngrdntUserType = "viewer";
+          thisMealIngrdnt.thisGenRecipeIngrdntFormState = "viewing";
+          thisMealIngrdnt.thisGenRecipeIngrdntUserType = "viewer";
+          thisMealIngrdnt.thisIngrdntFormState = "viewing";
+          thisMealIngrdnt.thisIngrdntUserType = "viewer";
+          thisDayMeal.thisMealsIngrdnts[i] = thisMealIngrdnt;
+        }
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode] =
+          thisDayMeal;
+      }
+    }
+    switch (objType) {
+      case "weekMealPlan":
+        let initialUserType = thisWMPBackup.userType;
+        console.log(initialUserType);
+        state.thisWeekMealPlan.userType = initialUserType;
+        state.thisWeekMealPlan.thisFormState = "editingOrig";
+        console.log(state);
+        break;
+      case "day":
+        console.log("clicked edit day");
+        break;
+      case "meal":
+        console.log("clicked edit meal");
+        break;
+      case "mealIngredient":
+        console.log("clicked edit mealIngredient");
+        break;
+      case "genRecipeIngredient":
+        console.log("clicked edit genRecipeIngredient");
+        break;
+      case "ingredient":
+        console.log("clicked edit ingredient");
+        break;
+    }
+    this.setState(state);
   };
   handleCancelEditForm = () => {
     console.log("Clicked Cancel");
@@ -7029,7 +6911,6 @@ export default class WeekMealPlanDetail extends Component {
         thisGenRecipeUserType: "viewer",
         thisMeal: thisMealChild,
         thisMealsIngrdnts: [createDefaultMealIngrdntStateObj(thisMealChild)],
-        thisRecipesIngrdnts: [createRecipeIngrdntStateObj(genRecipe, mealType)],
         thisMealsMacrosBudget: {},
       };
       return thisMealParent;
@@ -7159,7 +7040,8 @@ export default class WeekMealPlanDetail extends Component {
   };
   renderDay = (dayOfWeek) => {
     let pattern = /missing/;
-    let thisWMP = this.state.thisWeekMealPlan.thisWMP;
+    let weekMealPlan = this.state.thisWeekMealPlan;
+    let thisWMP = weekMealPlan.thisWMP;
     let thisStateObject = this.state.thisWeeksDays[dayOfWeek.code];
     let dayLoadStatus = thisStateObject.dataLoaded;
     if (dayLoadStatus === false) {
@@ -7167,6 +7049,7 @@ export default class WeekMealPlanDetail extends Component {
     } else {
       let thisStateObjectOld = this.state.thisWeeksDaysOld[dayOfWeek.code];
       let thisObject = thisStateObject.thisDay;
+      let dayOfWeekName = thisObject.dayOfWeek;
       let thisObjectsAuthorsId = thisWMP.GRFUser._id;
       let thisObjectsId = thisObject._id;
       let testResult = pattern.test(thisObjectsId);
@@ -7181,6 +7064,8 @@ export default class WeekMealPlanDetail extends Component {
           return (
             <CreateDay2
               key={thisObjectsId}
+              dayOfWeekName={dayOfWeekName}
+              weekMealPlan={weekMealPlan}
               thisDay={thisStateObject}
               onCreateDay={this.handleCreateDay}
             />
@@ -7265,7 +7150,7 @@ export default class WeekMealPlanDetail extends Component {
                 />
                 <EditOptions
                   parentObj={thisWMP}
-                  stateObj="weekMealPlan"
+                  objType="weekMealPlan"
                   thisFormState={thisWeekMealPlan.thisFormState}
                   userType={thisWeekMealPlan.userType}
                   onClickEditForm={this.handleClickEditForm}

@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EditOptions = (props) => {
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   const parentObj = props.parentObj;
-  const stateObj = props.stateObj;
+  const objType = props.objType;
   const userType = props.userType;
   const thisFormState = props.thisFormState;
   const hasChildern = props.hasChildern;
   const onSubmitFormChange = props.onSubmitFormChange;
   const onClickCopy = props.onClickCopy;
-  const onClickEdit = props.onClickEdit;
+  const onClickEditForm = props.onClickEditForm;
   const onDelete = props.onDelete;
   const deleteMsg = props.deleteMsg;
   const onCancel = props.onCancel;
@@ -81,7 +81,7 @@ const EditOptions = (props) => {
     }
     return iconHidden;
   };
-  function handleDelete(parentObj, stateObj) {
+  function handleDelete(parentObj, objType) {
     toggleHideDeleteWarning(false);
     console.log("clicked handle delete");
   }
@@ -105,7 +105,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onClickCopy(parentObj, stateObj);
+            onClickCopy(parentObj, objType);
           }}
           className="iconBttn"
         >
@@ -119,7 +119,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onClickEdit(parentObj, stateObj);
+            onClickEditForm(parentObj, objType);
           }}
           className="iconBttn"
         >
@@ -133,7 +133,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onCancel(parentObj, stateObj);
+            onCancel(parentObj, objType);
           }}
           className="iconBttn"
         >
@@ -144,12 +144,11 @@ const EditOptions = (props) => {
             hidden={hideIcon("cancel", userType, thisFormState)}
           />
         </button>
-        {stateObj ===
-        ("meal" || "mealIngredient" || "day" || "weekMealPlan") ? (
+        {objType === ("meal" || "mealIngredient" || "day" || "weekMealPlan") ? (
           <button
             type="button"
             onClick={() => {
-              onSubmitFormChange(parentObj, stateObj);
+              onSubmitFormChange(parentObj, objType);
             }}
             className="iconBttn"
           >
@@ -174,7 +173,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            handleDelete(parentObj, stateObj);
+            handleDelete(parentObj, objType);
           }}
           className="iconBttn"
           // data-bs-toggle="modal"
@@ -190,7 +189,7 @@ const EditOptions = (props) => {
       </div>
       <div className="deleteWarning" hidden={hideDeleteWarning}>
         <div className="modal-dialog">
-          {stateObj === "day" && hasChildern === true ? (
+          {objType === "day" && hasChildern === true ? (
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="deleteMealWarnLabel">
@@ -232,7 +231,7 @@ const EditOptions = (props) => {
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => {
-                    onCancel(parentObj, stateObj);
+                    onCancel(parentObj, objType);
                     toggleHideDeleteWarning(true);
                   }}
                 >
@@ -242,7 +241,7 @@ const EditOptions = (props) => {
                   type="button"
                   className="btn btn-danger"
                   onClick={() => {
-                    onDelete(parentObj, stateObj);
+                    onDelete(parentObj, objType);
                     toggleHideDeleteWarning(true);
                   }}
                 >

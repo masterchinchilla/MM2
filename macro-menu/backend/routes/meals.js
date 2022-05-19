@@ -28,6 +28,13 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
             path:'day',
             populate:{path:'weekMealPlan'}
         })
+        .populate({
+            path:'day',
+            populate:{
+                path:'weekMealPlan',
+                populate:'GRFUser'
+            }
+        })
         .populate('mealType')
         .populate({
             path: 'genRecipe',

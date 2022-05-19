@@ -3,31 +3,35 @@ import EditOptions from "./EditOptions.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Ingredient = (props) => {
-  let thisIngrdnt = props.thisIngrdnt;
-  let thisMealType = props.thisMealType;
-  let mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  let allUnitOfMeasures = props.allUnitOfMeasures;
-  let allWeightTypes = props.allWeightTypes;
-  let allBrands = props.allBrands;
-  let allGRFUsers = props.allGRFUsers;
-  let userType = props.userType;
-  let thisFormState = props.thisFormState;
-  let deleteMsg =
+  const userType = props.userType;
+  // const userType = "admin";
+  const thisFormState = props.thisFormState;
+  // const thisFormState = "editingOrig";
+  const thisMealTypeCode = props.thisMealTypeCode;
+  const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
+  const thisObj = props.thisObj;
+  const thisObjId = thisObj._id;
+  const allGRFUsers = props.allGRFUsers;
+  const allUnitOfMeasures = props.allUnitOfMeasures;
+  const allWeightTypes = props.allWeightTypes;
+  const allBrands = props.allBrands;
+  const deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (
     <form className="ingrdntFrm">
       <div className="ingrdntFrmHdr">
         <h6 className="ingrdntHdr">Base Ingredient</h6>
         <EditOptions
+          key={"ingrdntEditOptns" + thisObjId}
           className="ingrdntFrmIcns"
-          parentObj={thisIngrdnt}
-          stateObj={"ingredient"}
+          parentObj={thisObj}
+          ObjType={"ingredient"}
           userType={userType}
           thisFormState={thisFormState}
-          onSubmitFormChange={props.onSubmitFormChange}
-          onClickEdit={props.onClickEdit}
-          onDelete={props.onDelete}
-          onCancel={props.onCancel}
+          onClickEditForm={props.onClickEditForm}
+          onCancelEditForm={props.onCancelEditForm}
+          onSaveFormChanges={props.onSaveFormChanges}
+          onDeleteRecord={props.onDeleteRecord}
           deleteMsg={deleteMsg}
         />
         <div className="form-group mealIngrdntInputs ingrdntUOM">
@@ -36,19 +40,19 @@ const Ingredient = (props) => {
             required
             className="form-control form-select"
             value={
-              thisIngrdnt.unitOfMeasure === undefined
+              thisObj.unitOfMeasure === undefined
                 ? {
                     _id: "627691779fa56aa1fe318390",
                     name: "",
                     GRFUser: "62577a533813f4f21c27e1c7",
                   }
-                : JSON.stringify(thisIngrdnt.unitOfMeasure)
+                : JSON.stringify(thisObj.unitOfMeasure)
             }
             disabled={thisFormState === "viewing" ? true : false}
             onChange={(e) =>
-              props.updateProp(
+              props.onUpdateProp(
                 "ingredient",
-                thisMealType,
+                thisMealTypeCode,
                 "unitOfMeasure",
                 mealIngrdntsArrayIndex,
                 "select",
@@ -74,19 +78,19 @@ const Ingredient = (props) => {
             required
             className="form-control form-select"
             value={
-              thisIngrdnt.weightType === undefined
+              thisObj.weightType === undefined
                 ? {
                     _id: "627695899fa56aa1fe318396",
                     name: "",
                     GRFUser: "62577a533813f4f21c27e1c7",
                   }
-                : JSON.stringify(thisIngrdnt.weightType)
+                : JSON.stringify(thisObj.weightType)
             }
             disabled={thisFormState === "viewing" ? true : false}
             onChange={(e) =>
-              props.updateProp(
+              props.onUpdateProp(
                 "ingredient",
-                thisMealType,
+                thisMealTypeCode,
                 "weightType",
                 mealIngrdntsArrayIndex,
                 "select",
@@ -106,12 +110,12 @@ const Ingredient = (props) => {
         <div
           className="ingrdntPicDiv"
           style={
-            thisIngrdnt.photoURL === undefined
+            thisObj.photoURL === undefined
               ? {
                   backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
                 }
               : {
-                  backgroundImage: `url(${thisIngrdnt.photoURL})`,
+                  backgroundImage: `url(${thisObj.photoURL})`,
                 }
           }
         ></div>
@@ -121,19 +125,19 @@ const Ingredient = (props) => {
             required
             className="form-control form-select"
             value={
-              thisIngrdnt.brand === undefined
+              thisObj.brand === undefined
                 ? {
                     _id: "627691b69fa56aa1fe318393",
                     name: "",
                     GRFUser: "62577a533813f4f21c27e1c7",
                   }
-                : JSON.stringify(thisIngrdnt.brand)
+                : JSON.stringify(thisObj.brand)
             }
             disabled={thisFormState === "viewing" ? true : false}
             onChange={(e) =>
-              props.updateProp(
+              props.onUpdateProp(
                 "ingredient",
-                thisMealType,
+                thisMealTypeCode,
                 "brand",
                 mealIngrdntsArrayIndex,
                 "select",
@@ -155,11 +159,11 @@ const Ingredient = (props) => {
           <input
             type={"text"}
             className="form-control"
-            value={thisIngrdnt.name}
+            value={thisObj.name}
             onChange={(e) =>
-              props.updateProp(
+              props.onUpdateProp(
                 "ingredient",
-                thisMealType,
+                thisMealTypeCode,
                 "name",
                 mealIngrdntsArrayIndex,
                 "text",
@@ -172,26 +176,23 @@ const Ingredient = (props) => {
       </div>
       <div
         className="accordion accordion-flush"
-        id={"ingrdntAccrdnFull" + thisIngrdnt._id}
+        id={"ingrdntAccrdnFull" + thisObjId}
       >
         <div className="accordion-item">
-          <h2
-            className="accordion-header"
-            id={"ingrdntAccrdnHdr" + thisIngrdnt._id}
-          >
+          <h2 className="accordion-header" id={"ingrdntAccrdnHdr" + thisObjId}>
             <button
               className="accordion-button mealInnerAccrdnBttn collapsed"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target={"#ingrdntAccrdnBdy" + thisIngrdnt._id}
+              data-bs-target={"#ingrdntAccrdnBdy" + thisObjId}
             ></button>
           </h2>
         </div>
         <div
-          id={"ingrdntAccrdnBdy" + thisIngrdnt._id}
+          id={"ingrdntAccrdnBdy" + thisObjId}
           className="accordion-collapse collapse"
-          aria-labelledby={"#ingrdntAccrdnHdr" + thisIngrdnt._id}
-          data-bs-parent={"#ingrdntAccrdnFull" + thisIngrdnt._id}
+          aria-labelledby={"#ingrdntAccrdnHdr" + thisObjId}
+          data-bs-parent={"#ingrdntAccrdnFull" + thisObjId}
         >
           <div className="accordion-body ingrdntInnrAccrdn">
             <div className="form-group mealIngrdntInputs">
@@ -199,11 +200,11 @@ const Ingredient = (props) => {
               <input
                 type={"number"}
                 className="form-control"
-                value={JSON.stringify(thisIngrdnt.calories)}
+                value={JSON.stringify(thisObj.calories)}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "ingredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "calories",
                     mealIngrdntsArrayIndex,
                     "number",
@@ -218,11 +219,11 @@ const Ingredient = (props) => {
               <input
                 type={"number"}
                 className="form-control"
-                value={thisIngrdnt.carbs}
+                value={thisObj.carbs}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "ingredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "carbs",
                     mealIngrdntsArrayIndex,
                     "number",
@@ -237,11 +238,11 @@ const Ingredient = (props) => {
               <input
                 type={"number"}
                 className="form-control"
-                value={thisIngrdnt.protein}
+                value={thisObj.protein}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "ingredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "protein",
                     mealIngrdntsArrayIndex,
                     "number",
@@ -256,11 +257,11 @@ const Ingredient = (props) => {
               <input
                 type={"number"}
                 className="form-control"
-                value={thisIngrdnt.fat}
+                value={thisObj.fat}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "ingredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "fat",
                     mealIngrdntsArrayIndex,
                     "number",
@@ -275,11 +276,11 @@ const Ingredient = (props) => {
               <input
                 type={"number"}
                 className="form-control"
-                value={thisIngrdnt.fiber}
+                value={thisObj.fiber}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "ingredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "fiber",
                     mealIngrdntsArrayIndex,
                     "number",
@@ -294,11 +295,11 @@ const Ingredient = (props) => {
               <input
                 type={"text"}
                 className="form-control"
-                value={thisIngrdnt.photoURL}
+                value={thisObj.photoURL}
                 onChange={(e) =>
-                  props.updateProp(
+                  props.onUpdateProp(
                     "ingredient",
-                    thisMealType,
+                    thisMealTypeCode,
                     "photoURL",
                     mealIngrdntsArrayIndex,
                     "text",
@@ -311,20 +312,18 @@ const Ingredient = (props) => {
           </div>
           <div
             className="accordion accordion-flush ingrdntAdminMenu"
-            id={"ingrdntAdminMenuAccrdnFull" + thisIngrdnt._id}
+            id={"ingrdntAdminMenuAccrdnFull" + thisObjId}
           >
             <div className="accordion-item genRecipeAdminMenuBttn">
               <h2
                 className="accordion-header"
-                id={"ingrdntAdminMenuAccrdnHdr" + thisIngrdnt._id}
+                id={"ingrdntAdminMenuAccrdnHdr" + thisObjId}
               >
                 <button
                   className="accordion-button collapsed mealAdminAccrdnBttn"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target={
-                    "#ingrdntAdminMenuAccrdnBdy" + thisIngrdnt._id
-                  }
+                  data-bs-target={"#ingrdntAdminMenuAccrdnBdy" + thisObjId}
                   aria-expanded="true"
                   aria-controls="collapseOne"
                   disabled={userType === "admin" ? false : true}
@@ -338,10 +337,10 @@ const Ingredient = (props) => {
               </h2>
             </div>
             <div
-              id={"ingrdntAdminMenuAccrdnBdy" + thisIngrdnt._id}
+              id={"ingrdntAdminMenuAccrdnBdy" + thisObjId}
               className="accordion-collapse collapse"
-              aria-labelledby={"#ingrdntAdminMenuAccrdnHdr" + thisIngrdnt._id}
-              data-bs-parent={"#ingrdntAdminMenuAccrdnFull" + thisIngrdnt._id}
+              aria-labelledby={"#ingrdntAdminMenuAccrdnHdr" + thisObjId}
+              data-bs-parent={"#ingrdntAdminMenuAccrdnFull" + thisObjId}
             >
               <div className="accordion-body ingrdntInnerAccrdn">
                 <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
@@ -349,12 +348,12 @@ const Ingredient = (props) => {
                   <select
                     required
                     className="form-control form-select"
-                    value={JSON.stringify(thisIngrdnt.GRFUser)}
+                    value={JSON.stringify(thisObj.GRFUser)}
                     disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
-                      props.updateProp(
+                      props.onUpdateProp(
                         "ingredient",
-                        thisMealType,
+                        thisMealTypeCode,
                         "GRFUser",
                         mealIngrdntsArrayIndex,
                         "select",
@@ -379,9 +378,9 @@ const Ingredient = (props) => {
                   <input
                     type={"text"}
                     className="form-control"
-                    value={thisIngrdnt._id}
+                    value={thisObjId}
                     disabled={true}
-                    onChange={props.onChange}
+                    onChange={() => {}}
                   />
                 </div>
               </div>

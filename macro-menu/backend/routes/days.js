@@ -5,12 +5,24 @@ let WeekMealPlan = require('../models/weekMealPlan.model');
 
 router.route('/').get((req, res) => {
     Day.find().populate("weekMealPlan")
+        .populate({
+            path:'weekMealPlan',
+            populate:{
+                path:'GRFUser',
+            }
+        })
         .then(days => res.json(days))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/daysofthiswmp/:id').get((req, res) => {
-    Day.find({weekMealPlan: req.params.id}).populate("weekMealPlan")
+    Day.find({weekMealPlan: req.params.id})
+        .populate("weekMealPlan").populate({
+            path:'weekMealPlan',
+            populate:{
+                path:'GRFUser',
+            }
+        })
         .then(days => res.json(days))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -28,7 +40,12 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 })
 router.route('/:id').get((req, res) => {
-    Day.findById(req.params.id).populate("weekMealPlan")
+    Day.findById(req.params.id).populate("weekMealPlan").populate({
+            path:'weekMealPlan',
+            populate:{
+                path:'GRFUser',
+            }
+        })
         .then(day => res.json(day))
         .catch(err => res.status(400).json('Error: ' + err));
 });

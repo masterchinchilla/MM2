@@ -69,6 +69,13 @@ router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
         .populate({
             path: 'genRecipeIngredient',
             populate:{
+                path: 'genRecipe',
+                populate:{path:'GRFUser'}
+            }
+        })
+        .populate({
+            path: 'genRecipeIngredient',
+            populate:{
                 path: 'ingredient',
                 populate:{path: 'unitOfMeasure'}
             }
@@ -99,6 +106,16 @@ router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
             populate:{
                 path: 'day',
                 populate:{path:'weekMealPlan'}
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
+                path: 'day',
+                populate:{
+                    path:'weekMealPlan',
+                    populate:'GRFUser'
+                }
             }
         })
         .populate({
