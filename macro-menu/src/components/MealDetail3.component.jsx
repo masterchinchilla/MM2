@@ -144,7 +144,7 @@ const MealDetail3 = (props) => {
                 <EditOptions
                   key={"EOptionsForMeal" + thisObjId}
                   parentObj={thisStateObj}
-                  ObjType={"meal"}
+                  objType={"meal"}
                   userType={mealUserType}
                   thisFormState={mealFormState}
                   onSaveFormChanges={props.onSaveFormChanges}

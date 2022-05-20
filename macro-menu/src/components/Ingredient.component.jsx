@@ -26,7 +26,7 @@ const Ingredient = (props) => {
           key={"ingrdntEditOptns" + thisObjId}
           className="ingrdntFrmIcns"
           parentObj={thisStateObj}
-          ObjType={"ingredient"}
+          objType={"ingredient"}
           userType={userType}
           thisFormState={thisFormState}
           onClickEditForm={props.onClickEditForm}

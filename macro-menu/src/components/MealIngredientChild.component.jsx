@@ -25,7 +25,7 @@ const MealIngredientChild = (props) => {
         <EditOptions
           className="mlIngrdntFrmIcns"
           parentObj={thisStateObj}
-          ObjType={"mealIngredient"}
+          objType={"mealIngredient"}
           key={"mealIngrdntEditOptns" + thisObjId}
           userType={userType}
           thisFormState={thisFormState}

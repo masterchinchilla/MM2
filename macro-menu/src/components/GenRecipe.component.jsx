@@ -71,11 +71,8 @@ const GenRecipe = (props) => {
             <h5 className="formSctnTitle">Recipe Details</h5>
             <EditOptions
               key={"genRecipeEditOptns" + thisObjId}
-              parentObj={{
-                thisMeal: thisMeal,
-                thisObj: thisObj,
-              }}
-              stateObj={"genRecipe"}
+              parentObj={mealStateObj}
+              objType={"genRecipe"}
               thisFormState={thisFormState}
               userType={userType}
               onClickEditForm={props.onClickEditForm}

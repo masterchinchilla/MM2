@@ -25,7 +25,7 @@ const GenRecipeIngredient = (props) => {
         <EditOptions
           className="gnRcpIngrdntFrmIcns"
           parentObj={thisStateObj}
-          ObjType={"genRecipeIngredient"}
+          objType={"genRecipeIngredient"}
           key={"genRecipeIngrdntEditOptns" + thisObjId}
           userType={userType}
           thisFormState={thisFormState}

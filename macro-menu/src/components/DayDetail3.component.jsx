@@ -134,7 +134,7 @@ const DayDetail3 = (props) => {
         <h3 className="card-title">{thisDayOfWeek}</h3>
         <EditOptions
           parentObj={thisDayObj}
-          ObjType={"Day"}
+          objType="day"
           thisFormState={thisFormState}
           userType={userType}
           onSaveFormChanges={props.onSaveFormChanges}
