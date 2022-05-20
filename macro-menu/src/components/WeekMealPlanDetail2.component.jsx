@@ -6769,8 +6769,6 @@ export default class WeekMealPlanDetail extends Component {
     });
   };
   handleClickEditForm = (parentObj, objType) => {
-    console.log(parentObj);
-    console.log(objType);
     let state = this.state;
     let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlan);
     let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
@@ -6789,7 +6787,6 @@ export default class WeekMealPlanDetail extends Component {
         thisDayOfWeekObj.code === undefined
           ? (thisDayOfWeekCode = thisDayOfWeekObj.toLowerCase())
           : (thisDayOfWeekCode = thisDayOfWeekObj.code);
-        console.log(thisDayOfWeekCode);
         initialUserType = thisWeeksDaysBackup[thisDayOfWeekCode]["userType"];
         break;
       case "meal":
@@ -6806,7 +6803,6 @@ export default class WeekMealPlanDetail extends Component {
         break;
       case "genRecipe":
         let thisRecipesDayOfWeekObj = parentObj.thisMeal.day.dayOfWeek;
-        console.log(thisRecipesDayOfWeekObj);
         thisRecipesDayOfWeekObj.code === undefined
           ? (thisDayOfWeekCode = thisRecipesDayOfWeekObj.toLowerCase())
           : (thisDayOfWeekCode = thisRecipesDayOfWeekObj.code);
@@ -6951,11 +6947,25 @@ export default class WeekMealPlanDetail extends Component {
     }
     state.thisWeekMealPlanOld = thisWMPBackup;
     state.thisWeeksDaysOld = thisWeeksDaysBackup;
-    console.log(state);
     this.setState(state);
   };
   handleCancelEditForm = () => {
-    console.log("Clicked Cancel");
+    let state = this.state;
+    let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlanOld);
+    let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDaysOld);
+    state.thisWeekMealPlan = thisWMPBackup;
+    state.thisWeeksDays = thisWeeksDaysBackup;
+    state.thisWeekMealPlanOld = {};
+    state.thisWeeksDaysOld = {
+      sunday: {},
+      monday: {},
+      tuesday: {},
+      wednesday: {},
+      thursday: {},
+      friday: {},
+      saturday: {},
+    };
+    this.setState(state);
   };
   handleSaveFormChanges = (parentObj, stateObj) => {
     let recordToSave = parentObj;

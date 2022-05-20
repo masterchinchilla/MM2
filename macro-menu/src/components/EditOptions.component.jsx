@@ -10,12 +10,12 @@ const EditOptions = (props) => {
   const userType = props.userType;
   const thisFormState = props.thisFormState;
   const hasChildern = props.hasChildern;
-  const onSubmitFormChange = props.onSubmitFormChange;
+  const onSaveFormChanges = props.onSaveFormChanges;
   const onClickCopy = props.onClickCopy;
   const onClickEditForm = props.onClickEditForm;
-  const onDelete = props.onDelete;
+  const onDeleteRecord = props.onDeleteRecord;
   const deleteMsg = props.deleteMsg;
-  const onCancel = props.onCancel;
+  const onCancelEditForm = props.onCancelEditForm;
   const onCreate = props.onCreate;
   const recordChanged = props.recordChanged;
   const recordToCreate = props.recordToCreate;
@@ -133,7 +133,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onCancel(parentObj, objType);
+            onCancelEditForm(parentObj, objType);
           }}
           className="iconBttn"
         >
@@ -148,7 +148,7 @@ const EditOptions = (props) => {
           <button
             type="button"
             onClick={() => {
-              onSubmitFormChange(parentObj, objType);
+              onSaveFormChanges(parentObj, objType);
             }}
             className="iconBttn"
           >
@@ -231,7 +231,7 @@ const EditOptions = (props) => {
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => {
-                    onCancel(parentObj, objType);
+                    onCancelEditForm(parentObj, objType);
                     toggleHideDeleteWarning(true);
                   }}
                 >
@@ -241,7 +241,7 @@ const EditOptions = (props) => {
                   type="button"
                   className="btn btn-danger"
                   onClick={() => {
-                    onDelete(parentObj, objType);
+                    onDeleteRecord(parentObj, objType);
                     toggleHideDeleteWarning(true);
                   }}
                 >
