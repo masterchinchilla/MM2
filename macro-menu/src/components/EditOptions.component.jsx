@@ -81,9 +81,8 @@ const EditOptions = (props) => {
     }
     return iconHidden;
   };
-  function handleDelete(parentObj, objType) {
+  function handleClickDelete() {
     toggleHideDeleteWarning(false);
-    console.log("clicked handle delete");
   }
   return (
     <React.Fragment>
@@ -173,7 +172,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            handleDelete(parentObj, objType);
+            handleClickDelete();
           }}
           className="iconBttn"
           // data-bs-toggle="modal"

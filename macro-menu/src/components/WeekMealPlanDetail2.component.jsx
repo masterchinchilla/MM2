@@ -7087,26 +7087,27 @@ export default class WeekMealPlanDetail extends Component {
     let thisWeeksDays = this.state.thisWeeksDays;
     switch (stateObj) {
       case "day":
-        let daysDayOfWeek = parentObj.dayOfWeek;
+        let daysDayOfWeek = parentObj.thisDay.dayOfWeek;
         let daysDayOfWeekCode = daysDayOfWeek.code;
         let dfltDayStateObjToSave = createDefaultDayStateObj(daysDayOfWeek);
         thisWeeksDays[daysDayOfWeekCode] = dfltDayStateObjToSave;
-        this.deleteRecord(parentObj._id, "day");
+        this.deleteRecord(parentObj.thisDay._id, "day");
         break;
       case "meal":
-        let mealsDayOfWeek = parentObj.day.dayOfWeek;
+        let mealsDayOfWeek = parentObj.thisMeal.day.dayOfWeek;
         let mealsDayOfWeekCode = mealsDayOfWeek.code;
-        let mealsMealType = parentObj.mealType;
+        let mealsMealType = parentObj.thisMeal.mealType;
         let mealsMealTypeCode = mealsMealType.code;
         let dfltMealStateObjToSave = createDefaultMealStateObj(mealsMealType);
         thisWeeksDays[mealsDayOfWeekCode]["thisDaysMeals"][mealsMealTypeCode] =
           dfltMealStateObjToSave;
-        this.deleteRecord(parentObj._id, "meal");
+        this.deleteRecord(parentObj.thisMeal._id, "meal");
         break;
       case "genRecipe":
         break;
       case "mealIngredient":
-        let mealIngrdntsDayOfWeek = parentObj.meal.day.dayOfWeek;
+        let mealIngrdntsDayOfWeek =
+          parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
         let mealIngrdntsDayOfWeekCode = mealIngrdntsDayOfWeek.code;
         let mealIngrdntsMealType = parentObj.meal.mealType;
         let mealIngrdntsMealTypeCode = mealIngrdntsMealType.code;
@@ -7115,13 +7116,13 @@ export default class WeekMealPlanDetail extends Component {
           return eachMealIngrdnt._id !== mealIngrdntIdToDelete;
         }
         let mealIngrdntListToFilter =
-          thisWeeksDays[mealsDayOfWeekCode]["thisDaysMeals"][mealsMealTypeCode][
-            "thisMealsIngrdnts"
-          ];
+          thisWeeksDays[mealIngrdntsDayOfWeekCode]["thisDaysMeals"][
+            mealsMealTypeCode
+          ]["thisMealsIngrdnts"];
         mealIngrdntListToFilter.filter(removeDeletedMealIngrdnt);
-        thisWeeksDays[mealsDayOfWeekCode]["thisDaysMeals"][mealsMealTypeCode][
-          "thisMealsIngrdnts"
-        ] = mealIngrdntListToFilter;
+        thisWeeksDays[mealIngrdntsDayOfWeekCode]["thisDaysMeals"][
+          mealsMealTypeCode
+        ]["thisMealsIngrdnts"] = mealIngrdntListToFilter;
         this.deleteRecord(parentObj._id, "mealIngredient");
         break;
       case "genRecipeIngredient":
