@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditOptions from "./EditOptions.component";
 import MacrosTable from "./MacrosTable2.component";
@@ -8,25 +8,27 @@ import GenRecipeIngredient from "./GenRecipeIngredient.component";
 const DayDetail3 = (props) => {
   const thisGRFUser = props.thisGRFUser;
   const thisWMP = props.thisWMP;
-  const thisDayObj = props.thisDayObj;
+  const thisStateObj = props.thisStateObj;
   const daysOfWeek = props.daysOfWeek;
   const mealTypes = props.mealTypes;
   const allWMPs = props.allWMPs;
   const allGenRecipeIngredients = props.thisRecipesIngrdnts;
-  const thisDay = thisDayObj.thisDay;
-  const thisDaysMeals = thisDayObj.thisDaysMeals;
-  const thisDayId = thisDay._id;
-  const thisDayOfWeek = thisDay.dayOfWeek;
-  const thisFormState = thisDayObj.thisFormState;
-  const userType = thisDayObj.userType;
+  const thisObj = thisStateObj.thisDay;
+  const thisDaysMeals = thisStateObj.thisDaysMeals;
+  const thisObjId = thisObj._id;
+  const thisDayOfWeek = thisObj.dayOfWeek;
+  const thisFormState = thisStateObj.thisFormState;
+  const userType = thisStateObj.userType;
+  const recordChanged = thisStateObj.recordChanged;
   // const userType = "admin";
   const deleteMsg = "Are you sure you want to delete this Day Meal Plan?";
-  let breakfastIngrdnts = thisDayObj.thisDaysMeals.breakfast.thisMealsIngrdnts;
-  let snack1Ingrdnts = thisDayObj.thisDaysMeals.snack1.thisMealsIngrdnts;
-  let lunchIngrdnts = thisDayObj.thisDaysMeals.lunch.thisMealsIngrdnts;
-  let snack2Ingrdnts = thisDayObj.thisDaysMeals.snack2.thisMealsIngrdnts;
-  let dinnerIngrdnts = thisDayObj.thisDaysMeals.dinner.thisMealsIngrdnts;
-  let dessertIngrdnts = thisDayObj.thisDaysMeals.dessert.thisMealsIngrdnts;
+  let breakfastIngrdnts =
+    thisStateObj.thisDaysMeals.breakfast.thisMealsIngrdnts;
+  let snack1Ingrdnts = thisStateObj.thisDaysMeals.snack1.thisMealsIngrdnts;
+  let lunchIngrdnts = thisStateObj.thisDaysMeals.lunch.thisMealsIngrdnts;
+  let snack2Ingrdnts = thisStateObj.thisDaysMeals.snack2.thisMealsIngrdnts;
+  let dinnerIngrdnts = thisStateObj.thisDaysMeals.dinner.thisMealsIngrdnts;
+  let dessertIngrdnts = thisStateObj.thisDaysMeals.dessert.thisMealsIngrdnts;
   const thisDaysMealsIngrdnts = [
     breakfastIngrdnts ? breakfastIngrdnts : [],
     snack1Ingrdnts ? snack1Ingrdnts : [],
@@ -56,17 +58,13 @@ const DayDetail3 = (props) => {
       let testResult = pattern.test(thisObjectsId);
       let thisUser = thisGRFUser;
       let thisUsersId = thisUser._id;
-      let thisUsersUserGroups = thisUser.userGroups;
       if (testResult === true) {
-        if (
-          thisObjectsAuthorsId === thisUsersId ||
-          thisUsersUserGroups === "Admin"
-        ) {
+        if (userType === "admin") {
           return (
             <CreateMeal2
               key={thisObjectsId}
-              thisDay={thisStateObj}
-              onCreateDay={this.handleCreateDay}
+              thisObj={thisStateObj}
+              onCreateMeal={props.onCreateMeal}
             />
           );
         } else {
@@ -133,10 +131,11 @@ const DayDetail3 = (props) => {
       <div className="card-header">
         <h3 className="card-title">{thisDayOfWeek.name}</h3>
         <EditOptions
-          parentObj={thisDayObj}
+          parentObj={thisStateObj}
           objType="day"
           thisFormState={thisFormState}
           userType={userType}
+          recordChanged={recordChanged}
           onSaveFormChanges={props.onSaveFormChanges}
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
@@ -146,23 +145,23 @@ const DayDetail3 = (props) => {
       </div>
       <div
         className="accordion accordion-flush"
-        id={"dayInnerAccordionFull" + thisDayId}
+        id={"dayInnerAccordionFull" + thisObjId}
       >
         <div className="accordion-item">
           <div
             className="accordion accordion-flush"
-            id={"dayAdminAccordionFull" + thisDayId}
+            id={"dayAdminAccordionFull" + thisObjId}
           >
             <div className="accordion-item">
               <h2
                 className="accordion-header"
-                id={"dayAdminAccordionHeader" + thisDayId}
+                id={"dayAdminAccordionHeader" + thisObjId}
               >
                 <button
                   className="accordion-button collapsed dayAdminAccrdnBttn"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target={"#dayAdminAccrdn" + thisDayId}
+                  data-bs-target={"#dayAdminAccrdn" + thisObjId}
                   aria-expanded="true"
                   aria-controls="collapseOne"
                   disabled={userType == "admin" ? false : true}
@@ -176,10 +175,10 @@ const DayDetail3 = (props) => {
               </h2>
             </div>
             <div
-              id={"dayAdminAccrdn" + thisDayId}
+              id={"dayAdminAccrdn" + thisObjId}
               className="accordion-collapse collapse"
-              aria-labelledby={"#dayAdminAccordionHeader" + thisDayId}
-              data-bs-parent={"#dayAdminAccordionFull" + thisDayId}
+              aria-labelledby={"#dayAdminAccordionHeader" + thisObjId}
+              data-bs-parent={"#dayAdminAccordionFull" + thisObjId}
             >
               <div className="accordion-body dayAdminAccrdnBdy dayInnerAccordion">
                 <div className="form-group">
@@ -188,9 +187,9 @@ const DayDetail3 = (props) => {
                     className="form-control"
                     type="text"
                     disabled={thisFormState === "viewing" ? true : false}
-                    value={thisDay.name}
+                    value={thisObj.name}
                     onChange={(e) =>
-                      props.updateProp(
+                      props.onUpdateProp(
                         "day",
                         thisDayOfWeek.code,
                         "",
@@ -208,9 +207,9 @@ const DayDetail3 = (props) => {
                     required
                     className="form-control form-select"
                     value={JSON.stringify(thisDayOfWeek)}
-                    disabled={thisFormState == "viewing" ? true : false}
+                    disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
-                      props.updateProp(
+                      props.onUpdateProp(
                         "day",
                         thisDayOfWeek.code,
                         "",
@@ -239,9 +238,9 @@ const DayDetail3 = (props) => {
                     required
                     className="form-control form-select"
                     value={JSON.stringify(thisWMP)}
-                    disabled={thisFormState == "viewing" ? true : false}
+                    disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
-                      props.updateProp(
+                      props.onUpdateProp(
                         "day",
                         thisDayOfWeek.code,
                         "",
@@ -270,7 +269,7 @@ const DayDetail3 = (props) => {
                     className="form-control"
                     type="text"
                     disabled={true}
-                    value={thisDay._id}
+                    value={thisObj._id}
                     onChange={() => {}}
                   />
                 </div>
@@ -282,24 +281,24 @@ const DayDetail3 = (props) => {
       <div className="card-body">
         <div
           className="accordion accordion-flush"
-          id={"accordionFull" + thisDayId}
+          id={"accordionFull" + thisObjId}
         >
           <div className="accordion-item">
-            <h2 className="accordion-header" id={"accordionHeader" + thisDayId}>
+            <h2 className="accordion-header" id={"accordionHeader" + thisObjId}>
               <button
                 className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={"#dayAccrdn" + thisDayId}
+                data-bs-target={"#dayAccrdn" + thisObjId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               ></button>
             </h2>
             <div
-              id={"dayAccrdn" + thisDayId}
+              id={"dayAccrdn" + thisObjId}
               className="accordion-collapse collapse show"
-              aria-labelledby={"#accordionHeader" + thisDayId}
-              data-bs-parent={"#accordionFull" + thisDayId}
+              aria-labelledby={"#accordionHeader" + thisObjId}
+              data-bs-parent={"#accordionFull" + thisObjId}
             >
               <div className="accordion-body">
                 <div className="macroTblCntnr">
@@ -319,30 +318,30 @@ const DayDetail3 = (props) => {
                   <div className="card-body">
                     <div
                       className="accordion accordion-flush"
-                      id={"daysMealsAccordionFull" + thisDayId}
+                      id={"daysMealsAccordionFull" + thisObjId}
                     >
                       <div className="accordion-item">
                         <h2
                           className="accordion-header"
-                          id={"daysMealsAccordionHeader" + thisDayId}
+                          id={"daysMealsAccordionHeader" + thisObjId}
                         >
                           <button
                             className="accordion-button"
                             type="button"
                             data-bs-toggle="collapse"
-                            data-bs-target={"#mealsAccrdn" + thisDayId}
+                            data-bs-target={"#mealsAccrdn" + thisObjId}
                             aria-expanded="true"
                             aria-controls="collapseOne"
                           ></button>
                         </h2>
                       </div>
                       <div
-                        id={"mealsAccrdn" + thisDayId}
+                        id={"mealsAccrdn" + thisObjId}
                         className="accordion-collapse collapse show"
                         aria-labelledby={
-                          "#daysMealsAccordionHeader" + thisDayId
+                          "#daysMealsAccordionHeader" + thisObjId
                         }
-                        data-bs-parent={"#daysMealsAccordionFull" + thisDayId}
+                        data-bs-parent={"#daysMealsAccordionFull" + thisObjId}
                       >
                         <div className="accordion-body wkDaysAccrdnBdy">
                           {renderMeal(mealTypes[0])}

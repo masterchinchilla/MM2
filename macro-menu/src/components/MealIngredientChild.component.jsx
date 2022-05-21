@@ -14,6 +14,7 @@ const MealIngredientChild = (props) => {
   // const userType = "admin";
   const thisFormState = props.thisFormState;
   // const thisFormState = "editingOrig";
+  const recordChanged = thisMealIngrdntObj.mealIngrdntRecordChanged;
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisMealTypesMeals = props.thisMealTypesMeals;
   let deleteMsg =
@@ -31,6 +32,7 @@ const MealIngredientChild = (props) => {
           key={"mealIngrdntEditOptns" + thisObjId}
           userType={userType}
           thisFormState={thisFormState}
+          recordChanged={recordChanged}
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
           onSaveFormChanges={props.onSaveFormChanges}
@@ -130,7 +132,7 @@ const MealIngredientChild = (props) => {
                 value={JSON.stringify(thisObj.meal)}
                 disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
-                  this.props.onUpdateProp(
+                  props.onUpdateProp(
                     "mealIngredient",
                     thisDayOfWeekCode,
                     thisMealTypeCode,

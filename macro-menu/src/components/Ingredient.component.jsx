@@ -12,6 +12,7 @@ const Ingredient = (props) => {
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
+  const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const allGRFUsers = props.allGRFUsers;
@@ -31,6 +32,7 @@ const Ingredient = (props) => {
           objType={"ingredient"}
           userType={userType}
           thisFormState={thisFormState}
+          recordChanged={recordChanged}
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
           onSaveFormChanges={props.onSaveFormChanges}

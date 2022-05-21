@@ -154,7 +154,7 @@ const EditOptions = (props) => {
             <FontAwesomeIcon
               icon="fa-solid fa-floppy-disk"
               size="xl"
-              className={recordChanged == true ? "changingWarning p-1" : "p-1"}
+              className={recordChanged === true ? "changingWarning p-1" : "p-1"}
               hidden={hideIcon("save", userType, thisFormState)}
             />
           </button>

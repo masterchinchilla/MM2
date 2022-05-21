@@ -21,7 +21,7 @@ export default class WeekMealPlanDetail extends Component {
       // allUnitOfMeasures={props.allUnitOfMeasures}
       // allWeightTypes={props.allWeightTypes}
       // allBrands={props.allBrands}
-      thisUserType: "viewer",
+      thisUserType: "admin",
       thisGRFUser: {
         _id: "609f3e444ee536749c75c729",
         givenName: "John",
@@ -47,7 +47,8 @@ export default class WeekMealPlanDetail extends Component {
       thisWeekMealPlan: {
         dataLoaded: false,
         thisFormState: "viewing",
-        userType: "viewer",
+        userType: "admin",
+        recordChanged: false,
         thisWMP: {
           id: this.props.match.params.id,
           name: "Temp WMP",
@@ -247,7 +248,8 @@ export default class WeekMealPlanDetail extends Component {
         sunday: {
           dataLoaded: false,
           thisFormState: "viewing",
-          userType: "viewer",
+          userType: "admin",
+          recordChanged: false,
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Sunday",
@@ -267,9 +269,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -307,13 +309,15 @@ export default class WeekMealPlanDetail extends Component {
               thisMealsIngrdnts: [
                 {
                   thisMealIngrdntJustCreated: false,
-                  recordChanged: false,
+                  mealIngrdntRecordChanged: false,
+                  genRecipeIngrdntRecordChanged: false,
+                  ingredientRecordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -389,6 +393,43 @@ export default class WeekMealPlanDetail extends Component {
                   },
                 },
               ],
+              thisRecipesIngrdnts: [
+                // {
+                //   defaultQty: 1,
+                //   ingredient: {
+                //     name: "tempBreakfastIngredient1Name",
+                //     calories: 1,
+                //     carbs: 1,
+                //     protein: 1,
+                //     fat: 1,
+                //     fiber: 1,
+                //     unitOfMeasure: { name: "Each" },
+                //     weightType: { name: "" },
+                //     photoURL: "",
+                //     GRFUser: {
+                //       _id: "62577a533813f4f21c27e1c7",
+                //       handle: "Service",
+                //     },
+                //     brand: { name: "" },
+                //   },
+                //   genRecipe: {
+                //     _id: "tempBreakfastRecipe1Id",
+                //     name: "tempBreakfastRecipe1Name",
+                //     availableMealType: {
+                //       _id: "626dd6fc21888432c0fe3e90",
+                //       code: "breakfast",
+                //       name: "Breakfast",
+                //     },
+                //     GRFUser: {
+                //       _id: "62577a533813f4f21c27e1c7",
+                //       handle: "Service",
+                //     },
+                //     defaultPrepInstructions: "",
+                //     photoUrl: "",
+                //   },
+                //   defaultPrepInstructions: "",
+                // },
+              ],
               thisMealsMacrosBudget: {},
             },
             snack1: {
@@ -399,9 +440,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -441,11 +482,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -531,9 +572,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -573,11 +614,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -663,9 +704,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -705,11 +746,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -795,9 +836,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -837,11 +878,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -927,9 +968,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -969,11 +1010,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1056,7 +1097,7 @@ export default class WeekMealPlanDetail extends Component {
         monday: {
           dataLoaded: false,
           thisFormState: "viewing",
-          userType: "viewer",
+          userType: "admin",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Monday",
@@ -1076,9 +1117,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -1118,11 +1159,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1245,9 +1286,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -1287,11 +1328,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1420,9 +1461,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -1462,11 +1503,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1589,9 +1630,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -1631,11 +1672,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1758,9 +1799,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -1800,11 +1841,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1927,9 +1968,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -1969,11 +2010,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2093,7 +2134,7 @@ export default class WeekMealPlanDetail extends Component {
         tuesday: {
           dataLoaded: false,
           thisFormState: "viewing",
-          userType: "viewer",
+          userType: "admin",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Tuesday",
@@ -2113,9 +2154,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -2155,11 +2196,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2282,9 +2323,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -2324,11 +2365,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2457,9 +2498,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -2499,11 +2540,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2626,9 +2667,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -2668,11 +2709,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2795,9 +2836,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -2837,11 +2878,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2964,9 +3005,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -3006,11 +3047,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3130,7 +3171,7 @@ export default class WeekMealPlanDetail extends Component {
         wednesday: {
           dataLoaded: false,
           thisFormState: "viewing",
-          userType: "viewer",
+          userType: "admin",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Wednesday",
@@ -3150,9 +3191,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -3192,11 +3233,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3319,9 +3360,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -3361,11 +3402,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3494,9 +3535,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -3536,11 +3577,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3663,9 +3704,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -3705,11 +3746,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3832,9 +3873,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -3874,11 +3915,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4001,9 +4042,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -4043,11 +4084,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4167,7 +4208,7 @@ export default class WeekMealPlanDetail extends Component {
         thursday: {
           dataLoaded: false,
           thisFormState: "viewing",
-          userType: "viewer",
+          userType: "admin",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Thursday",
@@ -4187,9 +4228,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -4229,11 +4270,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4356,9 +4397,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -4398,11 +4439,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4531,9 +4572,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -4573,11 +4614,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4700,9 +4741,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -4742,11 +4783,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4869,9 +4910,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -4911,11 +4952,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5038,9 +5079,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -5080,11 +5121,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5204,7 +5245,7 @@ export default class WeekMealPlanDetail extends Component {
         friday: {
           dataLoaded: false,
           thisFormState: "viewing",
-          userType: "viewer",
+          userType: "admin",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Friday",
@@ -5224,9 +5265,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -5266,11 +5307,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5393,9 +5434,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -5435,11 +5476,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5568,9 +5609,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -5610,11 +5651,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5737,9 +5778,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -5779,11 +5820,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5906,9 +5947,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -5948,11 +5989,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6075,9 +6116,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -6117,11 +6158,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6241,7 +6282,7 @@ export default class WeekMealPlanDetail extends Component {
         saturday: {
           dataLoaded: false,
           thisFormState: "viewing",
-          userType: "viewer",
+          userType: "admin",
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Saturday",
@@ -6261,9 +6302,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -6303,11 +6344,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6430,9 +6471,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -6472,11 +6513,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6605,9 +6646,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -6647,11 +6688,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6774,9 +6815,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -6816,11 +6857,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6943,9 +6984,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -6985,11 +7026,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -7112,9 +7153,9 @@ export default class WeekMealPlanDetail extends Component {
               genRecipeRecordChanged: false,
               userChangedThisMealsRecipe: false,
               thisMealFormState: "viewing",
-              thisMealUserType: "viewer",
+              thisMealUserType: "admin",
               thisGenRecipeFormState: "viewing",
-              thisGenRecipeUserType: "viewer",
+              thisGenRecipeUserType: "admin",
               thisMeal: {
                 _id: "missing",
                 day: {
@@ -7154,11 +7195,11 @@ export default class WeekMealPlanDetail extends Component {
                   thisMealIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
-                  thisMealIngrdntUserType: "viewer",
+                  thisMealIngrdntUserType: "admin",
                   thisGenRecipeIngrdntFormState: "viewing",
-                  thisGenRecipeIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
-                  thisIngrdntUserType: "viewer",
+                  thisIngrdntUserType: "admin",
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -7390,37 +7431,38 @@ export default class WeekMealPlanDetail extends Component {
       .get("http://localhost:5000/meals/mealsofthisday/" + thisDaysId)
       .then((response) => {
         let mealsData = response.data;
+        let mealTypes = this.state.mealTypes;
+        let thisDaysMeals = thisDayToUpdate.thisDaysMeals;
+        let thisWeeksDays = this.state.thisWeeksDays;
         if (mealsData.length < 1) {
           return;
         } else {
-          let mealTypes = this.state.mealTypes;
-          let thisDaysMeals = thisDayToUpdate.thisDaysMeals;
-          let thisWeeksDays = this.state.thisWeeksDays;
           for (let i = 0; i < mealTypes.length; i++) {
-            let thisMealType = mealTypes[i].code;
+            let thisMealTypeCode = mealTypes[i].code;
             let thisDayMealData = mealsData.filter(
-              (meal) => meal.mealType.code === thisMealType
+              (meal) => meal.mealType.code === thisMealTypeCode
             )[0];
             if (thisDayMealData !== undefined) {
-              thisDaysMeals[thisMealType]["thisMeal"] = thisDayMealData;
+              thisDaysMeals[thisMealTypeCode]["thisMeal"] = thisDayMealData;
               let mealUserType = this.setUserType(
                 this.state.thisUserType,
                 this.state.thisGRFUser._id,
                 thisDayMealData.day.weekMealPlan.GRFUser._id
               );
-              thisDaysMeals[thisMealType]["thisMealUserType"] = mealUserType;
+              thisDaysMeals[thisMealTypeCode]["thisMealUserType"] =
+                mealUserType;
               let genRecipeUserType = this.setUserType(
                 this.state.thisUserType,
                 this.state.thisGRFUser._id,
                 thisDayMealData.genRecipe.GRFUser._id
               );
-              thisDaysMeals[thisMealType]["thisGenRecipeUserType"] =
+              thisDaysMeals[thisMealTypeCode]["thisGenRecipeUserType"] =
                 genRecipeUserType;
-              thisDaysMeals[thisMealType]["dataLoaded"] = true;
+              thisDaysMeals[thisMealTypeCode]["dataLoaded"] = true;
               this.getMealIngrdnts(
-                thisDaysMeals[thisMealType],
+                thisDaysMeals[thisMealTypeCode],
                 thisDayOfWeekCode,
-                thisMealType
+                thisMealTypeCode
               );
             } else {
             }
@@ -7430,7 +7472,21 @@ export default class WeekMealPlanDetail extends Component {
         }
       });
   };
-  getMealIngrdnts = (thisMealToUpdate, thisDayOfWeekCode, thisMealType) => {
+  getMealIngrdnts = (thisMealToUpdate, thisDayOfWeekCode, thisMealTypeCode) => {
+    let thisGenRecipesId = thisMealToUpdate.thisMeal.genRecipe._id;
+    axios
+      .get(
+        "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
+          thisGenRecipesId
+      )
+      .then((response) => {
+        let recipesIngrdntsData = response.data;
+        let thisWeeksDays = this.state.thisWeeksDays;
+        thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealTypeCode][
+          "thisRecipesIngrdnts"
+        ] = recipesIngrdntsData;
+        this.setState({ thisWeeksDays: thisWeeksDays });
+      });
     let thisMealsId = thisMealToUpdate.thisMeal._id;
     axios
       .get(
@@ -7439,49 +7495,45 @@ export default class WeekMealPlanDetail extends Component {
       )
       .then((response) => {
         let mealIngrdntData = response.data;
-        if (mealIngrdntData.length < 1) {
-          return;
-        } else {
-          let thisMealsIngrdnts = [];
-          for (let i = 0; i < mealIngrdntData.length; i++) {
-            let thisMealIngrdntUserType = this.setUserType(
-              this.state.thisUserType,
-              this.state.thisGRFUser._id,
-              mealIngrdntData[i].meal.day.weekMealPlan.GRFUser._id
-            );
-            let thisGenRecipeIngrdntUserType = this.setUserType(
-              this.state.thisUserType,
-              this.state.thisGRFUser._id,
-              mealIngrdntData[i].genRecipeIngredient.genRecipe.GRFUser._id
-            );
-            let thisIngrdntUserType = this.setUserType(
-              this.state.thisUserType,
-              this.state.thisGRFUser._id,
-              mealIngrdntData[i].genRecipeIngredient.ingredient.GRFUser._id
-            );
-            let thisMealIngrdnt = {
-              thisMealIngrdntJustCreated: false,
-              recordChanged: false,
-              thisMealIngrdntFormState: "viewing",
-              thisMealIngrdntUserType: thisMealIngrdntUserType,
-              thisGenRecipeIngrdntFormState: "viewing",
-              thisGenRecipeIngrdntUserType: thisGenRecipeIngrdntUserType,
-              thisIngrdntFormState: "viewing",
-              thisIngrdntUserType: thisIngrdntUserType,
-              thisMealIngrdnt: mealIngrdntData[i],
-            };
-            thisMealsIngrdnts.push(thisMealIngrdnt);
-          }
-          thisMealToUpdate.thisMealsIngrdnts = thisMealsIngrdnts;
-          let thisWeeksDays = this.state.thisWeeksDays;
-          thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealType][
-            "thisMealsIngrdnts"
-          ] = thisMealsIngrdnts;
-          thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealType][
-            "mealIngrdntsLoaded"
-          ] = true;
-          this.setState({ thisWeeksDays });
+        let thisMealsIngrdnts = [];
+        for (let i = 0; i < mealIngrdntData.length; i++) {
+          let thisMealIngrdntUserType = this.setUserType(
+            this.state.thisUserType,
+            this.state.thisGRFUser._id,
+            mealIngrdntData[i].meal.day.weekMealPlan.GRFUser._id
+          );
+          let thisGenRecipeIngrdntUserType = this.setUserType(
+            this.state.thisUserType,
+            this.state.thisGRFUser._id,
+            mealIngrdntData[i].genRecipeIngredient.genRecipe.GRFUser._id
+          );
+          let thisIngrdntUserType = this.setUserType(
+            this.state.thisUserType,
+            this.state.thisGRFUser._id,
+            mealIngrdntData[i].genRecipeIngredient.ingredient.GRFUser._id
+          );
+          let thisMealIngrdnt = {
+            thisMealIngrdntJustCreated: false,
+            recordChanged: false,
+            thisMealIngrdntFormState: "viewing",
+            thisMealIngrdntUserType: thisMealIngrdntUserType,
+            thisGenRecipeIngrdntFormState: "viewing",
+            thisGenRecipeIngrdntUserType: thisGenRecipeIngrdntUserType,
+            thisIngrdntFormState: "viewing",
+            thisIngrdntUserType: thisIngrdntUserType,
+            thisMealIngrdnt: mealIngrdntData[i],
+          };
+          thisMealsIngrdnts.push(thisMealIngrdnt);
         }
+        thisMealToUpdate.thisMealsIngrdnts = thisMealsIngrdnts;
+        let thisWeeksDays = this.state.thisWeeksDays;
+        thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealTypeCode][
+          "thisMealsIngrdnts"
+        ] = thisMealsIngrdnts;
+        thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealTypeCode][
+          "mealIngrdntsLoaded"
+        ] = true;
+        this.setState({ thisWeeksDays });
       });
   };
   getRndInteger = (min, max) => {
@@ -7748,11 +7800,11 @@ export default class WeekMealPlanDetail extends Component {
     let url = `http://localhost:5000/${stateObj}s/update${recordId}`;
     axios.post(url, parentObj).then(console.log("updated"));
   };
-  deleteRecord = (recordId, stateObj) => {
-    let url = `http://localhost:5000/${stateObj}s/${recordId}`;
+  deleteRecord = (recordId, ObjType) => {
+    let url = `http://localhost:5000/${ObjType}s/${recordId}`;
     axios.delete(url).then(console.log("deleted"));
   };
-  handleDeleteRecord = (parentObj, stateObj) => {
+  handleDeleteRecord = (parentObj, ObjType) => {
     let mealTypes = this.state.mealTypes;
     function createRecipeIngrdntStateObj(genRecipe, mealType) {
       let genRecipeIngredient = {
@@ -7799,7 +7851,7 @@ export default class WeekMealPlanDetail extends Component {
       };
       return mealIngredient;
     }
-    function createDefaultMealStateObj(mealType) {
+    function createDefaultMealStateObj(mealType, dayOfWeek) {
       let genRecipe = {
         _id: `temp${mealType.name}Recipe1Id`,
         name: `temp${mealType.name}Recipe1Name`,
@@ -7813,7 +7865,7 @@ export default class WeekMealPlanDetail extends Component {
       };
       let thisMealChild = {
         _id: "missing",
-        day: {},
+        day: createInnerDfltDayObj(dayOfWeek),
         genRecipe: genRecipe,
         prepInstructions: "",
         mealType: mealType,
@@ -7835,32 +7887,36 @@ export default class WeekMealPlanDetail extends Component {
       };
       return thisMealParent;
     }
-    function createDefaultDayMealsStateObj() {
+    function createDefaultDayMealsStateObj(dayOfWeek) {
       let dfltDayMealsStateObj = {
-        breakfast: createDefaultMealStateObj(mealTypes[0]),
-        snack1: createDefaultMealStateObj(mealTypes[1]),
-        lunch: createDefaultMealStateObj(mealTypes[2]),
-        snack2: createDefaultMealStateObj(mealTypes[3]),
-        dinner: createDefaultMealStateObj(mealTypes[4]),
-        dessert: createDefaultMealStateObj(mealTypes[5]),
+        breakfast: createDefaultMealStateObj(mealTypes[0], dayOfWeek),
+        snack1: createDefaultMealStateObj(mealTypes[1], dayOfWeek),
+        lunch: createDefaultMealStateObj(mealTypes[2], dayOfWeek),
+        snack2: createDefaultMealStateObj(mealTypes[3], dayOfWeek),
+        dinner: createDefaultMealStateObj(mealTypes[4], dayOfWeek),
+        dessert: createDefaultMealStateObj(mealTypes[5], dayOfWeek),
       };
       return dfltDayMealsStateObj;
     }
     function createDefaultDayStateObj(dayOfWeek) {
       let defaultDayStateObj = {
         dataLoaded: false,
-        thisDay: {
-          _id: "missing",
-          name: `Temp WMP - ${dayOfWeek.name}`,
-          dayOfWeek: dayOfWeek,
-          weekMealPlan: {},
-        },
-        thisDaysMeals: createDefaultDayMealsStateObj(),
+        thisDay: createInnerDfltDayObj(dayOfWeek),
+        thisDaysMeals: createDefaultDayMealsStateObj(dayOfWeek),
       };
       return defaultDayStateObj;
     }
+    function createInnerDfltDayObj(dayOfWeek) {
+      let innerDfltDayObj = {
+        _id: "missing",
+        name: `Temp WMP - ${dayOfWeek.name}`,
+        dayOfWeek: dayOfWeek,
+        weekMealPlan: {},
+      };
+      return innerDfltDayObj;
+    }
     let thisWeeksDays = this.state.thisWeeksDays;
-    switch (stateObj) {
+    switch (ObjType) {
       case "day":
         let daysDayOfWeek = parentObj.thisDay.dayOfWeek;
         let daysDayOfWeekCode = daysDayOfWeek.code;
@@ -7884,21 +7940,24 @@ export default class WeekMealPlanDetail extends Component {
         let mealIngrdntsDayOfWeek =
           parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
         let mealIngrdntsDayOfWeekCode = mealIngrdntsDayOfWeek.code;
-        let mealIngrdntsMealType = parentObj.meal.mealType;
+        let mealIngrdntsMealType = parentObj.thisMealIngrdnt.meal.mealType;
         let mealIngrdntsMealTypeCode = mealIngrdntsMealType.code;
-        let mealIngrdntIdToDelete = parentObj._id;
+        let mealIngrdntIdToDelete = parentObj.thisMealIngrdnt._id;
         function removeDeletedMealIngrdnt(eachMealIngrdnt) {
-          return eachMealIngrdnt._id !== mealIngrdntIdToDelete;
+          return eachMealIngrdnt.thisMealIngrdnt._id !== mealIngrdntIdToDelete;
         }
         let mealIngrdntListToFilter =
           thisWeeksDays[mealIngrdntsDayOfWeekCode]["thisDaysMeals"][
             mealIngrdntsMealTypeCode
           ]["thisMealsIngrdnts"];
-        mealIngrdntListToFilter.filter(removeDeletedMealIngrdnt);
+        let filteredMealIngrndtList = mealIngrdntListToFilter.filter(
+          removeDeletedMealIngrdnt
+        );
         thisWeeksDays[mealIngrdntsDayOfWeekCode]["thisDaysMeals"][
           mealIngrdntsMealTypeCode
-        ]["thisMealsIngrdnts"] = mealIngrdntListToFilter;
-        this.deleteRecord(parentObj._id, "mealIngredient");
+        ]["thisMealsIngrdnts"] = filteredMealIngrndtList;
+        console.log(thisWeeksDays);
+        this.deleteRecord(parentObj.thisMealIngrdnt._id, "mealIngredient");
         break;
       case "genRecipeIngredient":
         break;
@@ -7926,30 +7985,44 @@ export default class WeekMealPlanDetail extends Component {
     switch (ObjType) {
       case "weekMealPlan":
         state.thisWeekMealPlan.thisWMP[propToUpdate] = newValue;
+        state.thisWeekMealPlan.recordChanged = true;
         break;
       case "day":
         state.thisWeeksDays[dayOfWeekCode]["thisDay"][propToUpdate] = newValue;
+        state.thisWeeksDays[dayOfWeekCode]["recordChanged"] = true;
         break;
       case "meal":
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
           "thisMeal"
         ][propToUpdate] = newValue;
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "mealRecordChanged"
+        ] = true;
         break;
       case "genRecipe":
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
           "thisMeal"
         ]["genRecipe"][propToUpdate] = newValue;
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "genRecipeRecordChanged"
+        ] = true;
         break;
       case "mealIngredient":
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
           "thisMealsIngrdnts"
         ][arrayIndex]["thisMealIngrdnt"][propToUpdate] = newValue;
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["mealIngrdntRecordChanged"] = true;
         break;
       case "genRecipeIngredient":
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
           "thisMealsIngrdnts"
         ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"][propToUpdate] =
           newValue;
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["genRecipeIngrdntRecordChanged"] = true;
         break;
       case "ingredient":
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
@@ -7957,6 +8030,9 @@ export default class WeekMealPlanDetail extends Component {
         ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"]["ingredient"][
           propToUpdate
         ] = newValue;
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["ingrdntRecordChanged"] = true;
         break;
     }
     this.setState({ state });
@@ -8014,13 +8090,13 @@ export default class WeekMealPlanDetail extends Component {
     let pattern = /missing/;
     let weekMealPlan = this.state.thisWeekMealPlan;
     let thisWMP = weekMealPlan.thisWMP;
-    let thisStateObject = this.state.thisWeeksDays[dayOfWeek.code];
-    let dayLoadStatus = thisStateObject.dataLoaded;
+    let thisStateObj = this.state.thisWeeksDays[dayOfWeek.code];
+    let dayLoadStatus = thisStateObj.dataLoaded;
     if (dayLoadStatus === false) {
       return;
     } else {
-      let thisStateObjectOld = this.state.thisWeeksDaysOld[dayOfWeek.code];
-      let thisObject = thisStateObject.thisDay;
+      let thisStateObjOld = this.state.thisWeeksDaysOld[dayOfWeek.code];
+      let thisObject = thisStateObj.thisDay;
       let dayOfWeekName = thisObject.dayOfWeek.name;
       let thisObjectsAuthorsId = thisWMP.GRFUser._id;
       let thisObjectsId = thisObject._id;
@@ -8038,7 +8114,7 @@ export default class WeekMealPlanDetail extends Component {
               key={thisObjectsId}
               dayOfWeekName={dayOfWeekName}
               weekMealPlan={weekMealPlan}
-              thisDay={thisStateObject}
+              thisDay={thisStateObj}
               onCreateDay={this.handleCreateDay}
             />
           );
@@ -8056,8 +8132,8 @@ export default class WeekMealPlanDetail extends Component {
           <DayDetail3
             //Specific props
             key={thisObject._id}
-            thisDayObj={thisStateObject}
-            thisStateObjectOld={thisStateObjectOld}
+            thisStateObj={thisStateObj}
+            thisStateObjOld={thisStateObjOld}
             onChangeMealRecipe={this.handleChangeMealRecipe}
             thisWMP={thisWMP}
             //Common props
@@ -8089,10 +8165,9 @@ export default class WeekMealPlanDetail extends Component {
   };
   render() {
     const daysOfWeek = this.state.daysOfWeek;
-    const thisWeekMealPlan = this.state.thisWeekMealPlan;
-    const thisWMP = thisWeekMealPlan.thisWMP;
-    const thisWMPId = thisWeekMealPlan.thisWMP._id;
-    if (thisWeekMealPlan.dataLoaded === false) {
+    const thisWMP = this.state.thisWeekMealPlan.thisWMP;
+    const thisWMPId = this.state.thisWeekMealPlan.thisWMP._id;
+    if (this.state.thisWeekMealPlan.dataLoaded === false) {
       return <div className="spinner-border text-primary" role="status"></div>;
     } else {
       return (
@@ -8105,7 +8180,7 @@ export default class WeekMealPlanDetail extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  value={thisWeekMealPlan.thisWMP.name}
+                  value={this.state.thisWeekMealPlan.thisWMP.name}
                   onChange={(e) => {
                     this.handleUpdateProp(
                       "weekMealPlan",
@@ -8118,14 +8193,17 @@ export default class WeekMealPlanDetail extends Component {
                     );
                   }}
                   disabled={
-                    thisWeekMealPlan.thisFormState === "viewing" ? true : false
+                    this.state.thisWeekMealPlan.thisFormState === "viewing"
+                      ? true
+                      : false
                   }
                 />
                 <EditOptions
-                  parentObj={thisWeekMealPlan}
+                  parentObj={this.state.thisWeekMealPlan}
                   objType="weekMealPlan"
-                  thisFormState={thisWeekMealPlan.thisFormState}
-                  userType={thisWeekMealPlan.userType}
+                  thisFormState={this.state.thisWeekMealPlan.thisFormState}
+                  userType={this.state.thisWeekMealPlan.userType}
+                  recordChanged={this.state.thisWeekMealPlan.recordChanged}
                   onClickEditForm={this.handleClickEditForm}
                   onCancelEditForm={this.handleCancelEditForm}
                   onSaveFormChanges={this.handleSaveFormChanges}
@@ -8138,8 +8216,8 @@ export default class WeekMealPlanDetail extends Component {
               <select
                 ref="userInput"
                 required
-                className="form-control"
-                value={thisWeekMealPlan.thisWMP.GRFUser.handle}
+                className="form-control form-select"
+                value={this.state.thisWeekMealPlan.thisWMP.GRFUser.handle}
                 onChange={(e) => {
                   this.handleUpdateProp(
                     "weekMealPlan",
@@ -8152,7 +8230,9 @@ export default class WeekMealPlanDetail extends Component {
                   );
                 }}
                 disabled={
-                  thisWeekMealPlan.thisFormState === "viewing" ? true : false
+                  this.state.thisWeekMealPlan.thisFormState === "viewing"
+                    ? true
+                    : false
                 }
               >
                 {this.state.allGRFUsers.map(function (GRFUser) {
@@ -8207,10 +8287,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="35"
-                          value={this.state.breakfastWeight}
-                          onChange={this.onChangeBreakfastWeight}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.breakfastWeight
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "breakfastWeight",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8220,10 +8315,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="5"
-                          value={this.state.snack1Weight}
-                          onChange={this.onChangeSnack1Weight}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.snack1Weight
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "snack1Weight",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8233,10 +8343,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="30"
-                          value={this.state.lunchWeight}
-                          onChange={this.onChangeLunchWeight}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.lunchWeight
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "lunchWeight",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8246,10 +8371,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="5"
-                          value={this.state.snack2Weight}
-                          onChange={this.onChangeSnack2Weight}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.snack2Weight
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "snack2Weight",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8259,10 +8399,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="20"
-                          value={this.state.dinnerWeight}
-                          onChange={this.onChangeDinnerWeight}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.dinnerWeight
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "dinnerWeight",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8272,10 +8427,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="5"
-                          value={this.state.dessertWeight}
-                          onChange={this.onChangeDessertWeight}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.dessertWeight
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "dessertWeight",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8321,10 +8491,23 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="2000.00"
-                          value={this.state.cals}
-                          onChange={this.onChangeCalsBudget}
+                          value={this.state.thisWeekMealPlan.thisWMP.calsBudget}
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "calsBudget",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ==
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8334,10 +8517,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="400.00"
-                          value={this.state.carbs}
-                          onChange={this.onChangeCarbsBudget}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.carbsBudget
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "carbsBudget",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8347,10 +8545,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="300"
-                          value={this.state.protein}
-                          onChange={this.onChangeProteinBudget}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.proteinBudget
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "proteinBudget",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8360,10 +8573,23 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="100"
-                          value={this.state.fat}
-                          onChange={this.onChangeFatBudget}
+                          value={this.state.thisWeekMealPlan.thisWMP.fatBudget}
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "fatBudget",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>
@@ -8373,10 +8599,25 @@ export default class WeekMealPlanDetail extends Component {
                           type="number"
                           className="form-control weekMealPlanMacroInput"
                           placeholder="40"
-                          value={this.state.fiber}
-                          onChange={this.onChangeFiberBudget}
+                          value={
+                            this.state.thisWeekMealPlan.thisWMP.fiberBudget
+                          }
+                          onChange={(e) => {
+                            this.handleUpdateProp(
+                              "weekMealPlan",
+                              "",
+                              "",
+                              "fiberBudget",
+                              0,
+                              "number",
+                              e
+                            );
+                          }}
                           disabled={
-                            this.state.thisFormState == "viewing" ? true : false
+                            this.state.thisWeekMealPlan.thisFormState ===
+                            "viewing"
+                              ? true
+                              : false
                           }
                         ></input>
                       </div>

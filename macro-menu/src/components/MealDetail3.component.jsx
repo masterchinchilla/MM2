@@ -120,7 +120,7 @@ const MealDetail3 = (props) => {
             aria-expanded="true"
             aria-controls="collapseOne"
           >
-            <h5>{thisObj.day.name + " " + thisObj.mealType.name}</h5>
+            <h5>{thisObj.day.dayOfWeek.name + " " + thisObj.mealType.name}</h5>
           </button>
         </h2>
       </div>
@@ -241,9 +241,9 @@ const MealDetail3 = (props) => {
                         className="form-control form-select"
                         value={JSON.stringify(thisObj.thisDay)}
                         disabled={mealFormState === "viewing" ? true : false}
-                        //updateProp = (stateObj, dayOfWeekCode, mealTypeCode, propToUpdate, arrayIndex, e)
+                        //onUpdateProp = (stateObj, dayOfWeekCode, mealTypeCode, propToUpdate, arrayIndex, e)
                         onChange={(e) =>
-                          props.updateProp(
+                          props.onUpdateProp(
                             "meal",
                             dayOfWeek.code,
                             thisMealTypeCode,
@@ -272,7 +272,7 @@ const MealDetail3 = (props) => {
                         value={JSON.stringify(thisObj.mealType)}
                         disabled={mealFormState == "viewing" ? true : false}
                         onChange={(e) =>
-                          props.updateProp(
+                          props.onUpdateProp(
                             "meal",
                             dayOfWeek.code,
                             thisMealTypeCode,

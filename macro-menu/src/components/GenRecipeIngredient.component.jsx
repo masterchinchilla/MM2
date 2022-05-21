@@ -16,6 +16,7 @@ const GenRecipeIngredient = (props) => {
   // const userType = "admin";
   const thisFormState = props.thisFormState;
   // const thisFormState = "editingOrig";
+  const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
   const deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (
@@ -31,6 +32,7 @@ const GenRecipeIngredient = (props) => {
           key={"genRecipeIngrdntEditOptns" + thisObjId}
           userType={userType}
           thisFormState={thisFormState}
+          recordChanged={recordChanged}
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
           onSaveFormChanges={props.onSaveFormChanges}

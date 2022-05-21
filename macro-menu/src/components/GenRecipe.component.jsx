@@ -7,8 +7,11 @@ const GenRecipe = (props) => {
   const [hideDeleteBarrier, toggleHideDeleteBarrier] = useState(true);
   const [recordChanged, toggleRecordChanged] = useState(false);
   const mealStateObj = props.mealStateObj;
+
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
+  const thisDayOfWeekCode = mealStateObj.thisMeal.day.dayOfWeek.code;
+  const thisMealTypeCode = mealStateObj.thisMeal.mealType.code;
   const thisObjId = thisObj._id;
   const thisRecipesIngrdnts = mealStateObj.thisRecipesIngrdnts;
   const thisFormState = mealStateObj.thisGenRecipeFormState;
@@ -103,9 +106,10 @@ const GenRecipe = (props) => {
               className="form-control mealTextArea"
               disabled={thisFormState === "viewing" ? true : false}
               onChange={(e) =>
-                props.updateProp(
+                props.onUpdateProp(
                   "genRecipe",
-                  thisMeal.mealType.code,
+                  thisDayOfWeekCode,
+                  thisMealTypeCode,
                   "defaultPrepInstructions",
                   0,
                   "textArea",
@@ -149,9 +153,10 @@ const GenRecipe = (props) => {
                     disabled={thisFormState === "viewing" ? true : false}
                     value={thisObj.name}
                     onChange={(e) =>
-                      props.updateProp(
+                      props.onUpdateProp(
                         "genRecipe",
-                        thisMeal.mealType.code,
+                        thisDayOfWeekCode,
+                        thisMealTypeCode,
                         "name",
                         0,
                         "text",
@@ -167,9 +172,10 @@ const GenRecipe = (props) => {
                     type="text"
                     disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
-                      props.updateProp(
+                      props.onUpdateProp(
                         "genRecipe",
-                        thisMeal.mealType.code,
+                        thisDayOfWeekCode,
+                        thisMealTypeCode,
                         "photoURL",
                         0,
                         "text",
@@ -237,9 +243,10 @@ const GenRecipe = (props) => {
                         value={JSON.stringify(thisObj.availableMealType)}
                         disabled={thisFormState == "viewing" ? true : false}
                         onChange={(e) =>
-                          props.updateProp(
+                          props.onUpdateProp(
                             "genRecipe",
-                            thisMeal.mealType.code,
+                            thisDayOfWeekCode,
+                            thisMealTypeCode,
                             "availableMealType",
                             0,
                             "select",
@@ -267,9 +274,10 @@ const GenRecipe = (props) => {
                         value={JSON.stringify(thisObj.GRFUser)}
                         disabled={thisFormState == "viewing" ? true : false}
                         onChange={(e) =>
-                          props.updateProp(
+                          props.onUpdateProp(
                             "genRecipe",
-                            thisMeal.mealType.code,
+                            thisDayOfWeekCode,
+                            thisMealTypeCode,
                             "GRFUser",
                             0,
                             "select",
