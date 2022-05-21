@@ -121,7 +121,7 @@ const GenRecipeIngredient = (props) => {
                 required
                 className="form-control form-select"
                 value={JSON.stringify(thisObj.genRecipe)}
-                disabled={thisFormState === "viewing" ? true : false}
+                disabled={userType !== "admin" ? true : false}
                 onChange={(e) =>
                   props.onUpdateProp(
                     "genRecipeIngredient",

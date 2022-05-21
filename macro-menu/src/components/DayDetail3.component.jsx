@@ -20,6 +20,9 @@ const DayDetail3 = (props) => {
   const thisFormState = thisStateObj.thisFormState;
   const userType = thisStateObj.userType;
   const recordChanged = thisStateObj.recordChanged;
+  const hasChildren = props.hasChildren;
+  const deleteChildrenWarning =
+    "This Day has Meals connected to it which must be deleted before you can delete the Day.";
   // const userType = "admin";
   const deleteMsg = "Are you sure you want to delete this Day Meal Plan?";
   let breakfastIngrdnts =
@@ -44,7 +47,7 @@ const DayDetail3 = (props) => {
     fat: thisWMP.fatBudget,
     fiber: thisWMP.fiberBudget,
   };
-  const renderMeal = (mealType) => {
+  const renderMeal = (mealType, arrayIndex) => {
     let pattern = /missing/;
     let thisMealTypeCode = mealType.code;
     let thisStateObj = thisDaysMeals[thisMealTypeCode];
@@ -52,17 +55,18 @@ const DayDetail3 = (props) => {
     if (mealLoadStatus === false) {
       return;
     } else {
-      let thisObject = thisStateObj.thisMeal;
-      let thisObjectsAuthorsId = thisWMP.GRFUser._id;
-      let thisObjectsId = thisObject._id;
-      let testResult = pattern.test(thisObjectsId);
+      let thisObj = thisStateObj.thisMeal;
+      let thisObjsAuthorsId = thisWMP.GRFUser._id;
+      let thisObjsId = thisObj._id;
+      console.log(thisObj);
+      let testResult = pattern.test(thisObjsId);
       let thisUser = thisGRFUser;
       let thisUsersId = thisUser._id;
       if (testResult === true) {
-        if (userType === "admin") {
+        if (userType === "admin" || thisUsersId === thisObjsAuthorsId) {
           return (
             <CreateMeal2
-              key={thisObjectsId}
+              key={thisObjsId}
               thisObj={thisStateObj}
               onCreateMeal={props.onCreateMeal}
             />
@@ -89,11 +93,16 @@ const DayDetail3 = (props) => {
             thisMealTypeCode
         );
         let thisMealWeight = thisWMP[`${mealType.code}Weight`];
+        let thisMealsMealIngredients = thisDaysMealsIngrdnts[arrayIndex];
+        let mealHasChildren = false;
+        thisMealsMealIngredients.length > 0
+          ? (mealHasChildren = true)
+          : (mealHasChildren = false);
         return (
           <MealDetail3
             //Specific Props
             //Data
-            key={thisObjectsId}
+            key={thisObjsId}
             macrosBudget={macrosBudget}
             thisMealWeight={thisMealWeight}
             //Methods
@@ -102,6 +111,7 @@ const DayDetail3 = (props) => {
             //Common Props
             //Data
             thisStateObj={thisStateObj}
+            hasChildren={mealHasChildren}
             thisGRFUser={props.thisGRFUser}
             allGRFUsers={props.allGRFUsers}
             allDays={props.allDays}
@@ -136,6 +146,8 @@ const DayDetail3 = (props) => {
           thisFormState={thisFormState}
           userType={userType}
           recordChanged={recordChanged}
+          hasChildren={hasChildren}
+          deleteChildrenWarning={deleteChildrenWarning}
           onSaveFormChanges={props.onSaveFormChanges}
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
@@ -344,12 +356,12 @@ const DayDetail3 = (props) => {
                         data-bs-parent={"#daysMealsAccordionFull" + thisObjId}
                       >
                         <div className="accordion-body wkDaysAccrdnBdy">
-                          {renderMeal(mealTypes[0])}
-                          {renderMeal(mealTypes[1])}
-                          {renderMeal(mealTypes[2])}
-                          {renderMeal(mealTypes[3])}
-                          {renderMeal(mealTypes[4])}
-                          {renderMeal(mealTypes[5])}
+                          {renderMeal(mealTypes[0], 0)}
+                          {renderMeal(mealTypes[1], 1)}
+                          {renderMeal(mealTypes[2], 2)}
+                          {renderMeal(mealTypes[3], 3)}
+                          {renderMeal(mealTypes[4], 4)}
+                          {renderMeal(mealTypes[5], 5)}
                         </div>
                       </div>
                     </div>

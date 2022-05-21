@@ -21,7 +21,7 @@ export default class WeekMealPlanDetail extends Component {
       // allUnitOfMeasures={props.allUnitOfMeasures}
       // allWeightTypes={props.allWeightTypes}
       // allBrands={props.allBrands}
-      thisUserType: "admin",
+      thisUserType: "author",
       thisGRFUser: {
         _id: "609f3e444ee536749c75c729",
         givenName: "John",
@@ -49,6 +49,9 @@ export default class WeekMealPlanDetail extends Component {
         thisFormState: "viewing",
         userType: "admin",
         recordChanged: false,
+        hasChildren: true,
+        deleteChildrenWarning:
+          "This Week Meal Plan has Days connected to it which must be deleted before you can delete the Week Meal Plan.",
         thisWMP: {
           id: this.props.match.params.id,
           name: "Temp WMP",
@@ -7333,7 +7336,7 @@ export default class WeekMealPlanDetail extends Component {
     let daysOfWeek = this.state.daysOfWeek;
     let mealTypes = this.state.mealTypes;
     let thisWeeksDays = this.state.thisWeeksDays;
-    for (let i = 0; i < thisWeeksDays.length; i++) {
+    for (let i = 0; i < daysOfWeek.length; i++) {
       let thisDayCode = daysOfWeek[i].code;
       thisWeeksDays[thisDayCode]["thisDay"]["_id"] =
         "missing" + this.getRndInteger(10000000, 99999999);
@@ -8051,6 +8054,17 @@ export default class WeekMealPlanDetail extends Component {
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
           "thisMealsIngrdnts"
         ][arrayIndex]["genRecipeIngrdntRecordChanged"] = true;
+        if (propToUpdate === "ingredient") {
+          let thisObjAuthorId = newValue._id;
+          let newIngrdntUserType = this.setUserType(
+            initialUserType,
+            thisUsersId,
+            thisObjAuthorId
+          );
+          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            "thisMealsIngrdnts"
+          ][arrayIndex]["ingrdntUserType"] = newIngrdntUserType;
+        }
         break;
       case "ingredient":
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
@@ -8220,6 +8234,7 @@ export default class WeekMealPlanDetail extends Component {
             //Common props
             //Data
             thisGRFUser={this.state.thisGRFUser}
+            // hasChildren={dayHasChildren}
             allGRFUsers={this.state.allGRFUsers}
             allDays={this.state.allDays}
             allGenRecipes={this.state.allGenRecipes}
@@ -8746,18 +8761,6 @@ export default class WeekMealPlanDetail extends Component {
                     {this.renderDay(daysOfWeek[4])}
                     {this.renderDay(daysOfWeek[5])}
                     {this.renderDay(daysOfWeek[6])}
-                    {/* {pattern.test(
-                      this.state.thisWeeksDays.sunday.thisDay._id
-                    ) ? (
-                      <CreateDay2
-                        key={this.state.thisWeeksDays.sunday.thisDay}
-                        thisDay={this.state.thisWeeksDays.sunday}
-                        onCreateDay={this.handleCreateDay}
-                      />
-                    ) : (
-                      <h1>Breakfast Detail</h1>
-                    )}
-                    {this.renderDays()} */}
                   </div>
                 </div>
               </div>

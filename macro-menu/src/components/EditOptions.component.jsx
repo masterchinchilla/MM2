@@ -5,11 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditOptions = (props) => {
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
+  const [hideCancelWarning, toggleHideCancelWarning] = useState(true);
   const parentObj = props.parentObj;
   const objType = props.objType;
   const userType = props.userType;
   const thisFormState = props.thisFormState;
   const hasChildern = props.hasChildern;
+  const deleteChildrenWarning = props.deleteChildrenWarning;
   const onSaveFormChanges = props.onSaveFormChanges;
   const onClickCopy = props.onClickCopy;
   const onClickEditForm = props.onClickEditForm;
@@ -26,7 +28,7 @@ const EditOptions = (props) => {
     "creating",
     "missing",
   ];
-  const hideIcon = (icon, userType, thisFormState) => {
+  const hideIcon = (icon) => {
     let iconHidden = false;
     if (thisFormState !== "missing") {
       switch (icon) {
@@ -42,7 +44,7 @@ const EditOptions = (props) => {
           break;
         case "edit":
           if (
-            (userType === "author" || userType == "admin") &&
+            (userType === "author" || userType === "admin") &&
             thisFormState === "viewing"
           ) {
             iconHidden = false;
@@ -58,17 +60,23 @@ const EditOptions = (props) => {
           }
           break;
         case "save":
-          if (props.thisFormState === "viewing") {
+          if (thisFormState === "viewing") {
             iconHidden = true;
           } else {
             iconHidden = false;
           }
           break;
         case "delete":
-          if (thisFormState === "editingOrig") {
-            iconHidden = false;
-          } else {
+          if (
+            thisFormState === "viewing" ||
+            thisFormState === "editingCopy" ||
+            objType === "genRecipe" ||
+            objType === "genRecipeIngredient" ||
+            objType === "ingredient"
+          ) {
             iconHidden = true;
+          } else {
+            iconHidden = false;
           }
       }
       return iconHidden;
@@ -84,6 +92,11 @@ const EditOptions = (props) => {
   function handleClickDelete() {
     toggleHideDeleteWarning(false);
   }
+  function handleClickCancel() {
+    recordChanged === true
+      ? toggleHideCancelWarning(false)
+      : onCancelEditForm(parentObj, objType);
+  }
   return (
     <React.Fragment>
       <div className="iconGroup m-1">
@@ -93,7 +106,7 @@ const EditOptions = (props) => {
             onCreate(recordToCreate);
           }}
           className="iconBttn"
-          hidden={hideIcon("create", userType, thisFormState)}
+          hidden={hideIcon("create")}
         >
           <FontAwesomeIcon
             icon="fa-solid fa-circle-plus"
@@ -112,7 +125,7 @@ const EditOptions = (props) => {
             icon="fa-solid fa-copy"
             size="xl"
             className="p-1"
-            hidden={hideIcon("copy", userType, thisFormState)}
+            hidden={hideIcon("copy")}
           />
         </button>
         <button
@@ -126,13 +139,13 @@ const EditOptions = (props) => {
             icon="fa-solid fa-pen-to-square"
             size="xl"
             className="p-1"
-            hidden={hideIcon("edit", userType, thisFormState)}
+            hidden={hideIcon("edit")}
           />
         </button>
         <button
           type="button"
           onClick={() => {
-            onCancelEditForm(parentObj, objType);
+            handleClickCancel();
           }}
           className="iconBttn"
         >
@@ -140,7 +153,7 @@ const EditOptions = (props) => {
             icon="fa-solid fa-circle-xmark"
             size="xl"
             className="p-1"
-            hidden={hideIcon("cancel", userType, thisFormState)}
+            hidden={hideIcon("cancel")}
           />
         </button>
         {objType === ("meal" || "mealIngredient" || "day" || "weekMealPlan") ? (
@@ -155,7 +168,7 @@ const EditOptions = (props) => {
               icon="fa-solid fa-floppy-disk"
               size="xl"
               className={recordChanged === true ? "changingWarning p-1" : "p-1"}
-              hidden={hideIcon("save", userType, thisFormState)}
+              hidden={hideIcon("save")}
             />
           </button>
         ) : (
@@ -164,7 +177,7 @@ const EditOptions = (props) => {
               icon="fa-solid fa-floppy-disk"
               size="xl"
               className={recordChanged === true ? "changingWarning p-1" : "p-1"}
-              hidden={hideIcon("save", userType, thisFormState)}
+              hidden={hideIcon("save")}
             />
           </button>
         )}
@@ -182,7 +195,7 @@ const EditOptions = (props) => {
             icon="fa-solid fa-trash-can"
             size="xl"
             className="p-1"
-            hidden={hideIcon("delete", userType, thisFormState)}
+            hidden={hideIcon("delete")}
           />
         </button>
       </div>
@@ -192,13 +205,12 @@ const EditOptions = (props) => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="deleteMealWarnLabel">
-                  Cannot Delete Day with Meal Records
+                  Cannot Delete Object with Subordinate Records
                 </h5>
               </div>
               <div className="modal-body">
                 <div className="alert alert-warning" role="alert">
-                  Delete all day meals before attempting to delete the day
-                  record
+                  {deleteChildrenWarning}
                 </div>
               </div>
               <div className="modal-footer">
@@ -240,7 +252,8 @@ const EditOptions = (props) => {
                   type="button"
                   className="btn btn-danger"
                   onClick={() => {
-                    onDeleteRecord(parentObj, objType);
+                    // onDeleteRecord(parentObj, objType);
+                    console.log("confirmed delete");
                     toggleHideDeleteWarning(true);
                   }}
                 >
@@ -249,6 +262,43 @@ const EditOptions = (props) => {
               </div>
             </div>
           )}
+        </div>
+      </div>
+      <div className="deleteWarning" hidden={hideCancelWarning}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="cancelWarnLabel">
+                Cancel Edit?
+              </h5>
+            </div>
+            <div className="modal-body">
+              <div className="alert alert-warning" role="alert">
+                CAUTION: All unsaved changes will be lost.
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  toggleHideCancelWarning(true);
+                }}
+              >
+                Go Back
+              </button>
+              <button
+                type="button"
+                className="btn btn-warning"
+                onClick={() => {
+                  onCancelEditForm(parentObj, objType);
+                  toggleHideCancelWarning(true);
+                }}
+              >
+                Confirm Cancel
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </React.Fragment>

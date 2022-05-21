@@ -5,9 +5,8 @@ import EditOptions from "./EditOptions.component";
 
 const GenRecipe = (props) => {
   const [hideDeleteBarrier, toggleHideDeleteBarrier] = useState(true);
-  const [recordChanged, toggleRecordChanged] = useState(false);
   const mealStateObj = props.mealStateObj;
-
+  const recordChanged = mealStateObj.genRecipeRecordChanged;
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
   const thisDayOfWeekCode = mealStateObj.thisMeal.day.dayOfWeek.code;
@@ -78,6 +77,7 @@ const GenRecipe = (props) => {
               objType={"genRecipe"}
               thisFormState={thisFormState}
               userType={userType}
+              recordChanged={recordChanged}
               onClickEditForm={props.onClickEditForm}
               onCancelEditForm={props.onCancelEditForm}
               onSaveFormChanges={props.onSaveFormChanges}

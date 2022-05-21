@@ -7,7 +7,7 @@ import MacrosTable2 from "./MacrosTable2.component";
 
 const MealDetail3 = (props) => {
   const thisStateObj = props.thisStateObj;
-
+  const recordChanged = thisStateObj.mealRecordChanged;
   const thisMealJustCreated = thisStateObj.thisMealJustCreated;
   const thisObj = thisStateObj.thisMeal;
   const dayOfWeek = thisObj.day.dayOfWeek;
@@ -154,7 +154,7 @@ const MealDetail3 = (props) => {
                   onClickEditForm={props.onClickEditForm}
                   onCancelEditForm={props.onCancelEditForm}
                   onDeleteRecord={props.onDeleteRecord}
-                  recordChanged={thisStateObj.recordChanged}
+                  recordChanged={recordChanged}
                   deleteMsg={deleteMsg}
                 />
               </div>

@@ -12,7 +12,7 @@ const Ingredient = (props) => {
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
-  const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
+  const recordChanged = thisMealIngrdntObj.ingrdntRecordChanged;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const allGRFUsers = props.allGRFUsers;
