@@ -3,10 +3,12 @@ import EditOptions from "./EditOptions.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GenRecipeIngredient = (props) => {
-  const thisStateObj = props.thisStateObj;
+  const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const thisMealType = thisObj.genRecipe.availableMealType.code;
+  const thisDayOfWeekCode =
+    thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   const allIngredients = props.allIngredients;
   const thisMealTypesRecipes = props.thisMealTypesRecipes;
@@ -24,7 +26,7 @@ const GenRecipeIngredient = (props) => {
         </label>
         <EditOptions
           className="gnRcpIngrdntFrmIcns"
-          parentObj={thisStateObj}
+          parentObj={thisMealIngrdntObj}
           objType={"genRecipeIngredient"}
           key={"genRecipeIngrdntEditOptns" + thisObjId}
           userType={userType}
@@ -42,6 +44,7 @@ const GenRecipeIngredient = (props) => {
           onChange={(e) =>
             props.onUpdateProp(
               "genRecipeIngredient",
+              thisDayOfWeekCode,
               thisMealType,
               "defaultQty",
               mealIngrdntsArrayIndex,
@@ -89,6 +92,7 @@ const GenRecipeIngredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "genRecipeIngredient",
+                    thisDayOfWeekCode,
                     thisMealType,
                     "ingredient",
                     mealIngrdntsArrayIndex,
@@ -119,6 +123,7 @@ const GenRecipeIngredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "genRecipeIngredient",
+                    thisDayOfWeekCode,
                     thisMealType,
                     "genRecipe",
                     mealIngrdntsArrayIndex,

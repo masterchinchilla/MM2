@@ -2,9 +2,11 @@ const router = require('express').Router();
 const { response } = require('express');
 let Day = require('../models/day.model');
 let WeekMealPlan = require('../models/weekMealPlan.model');
-
+let DayOfWeek=require('../models/dayOfWeek.model')
 router.route('/').get((req, res) => {
-    Day.find().populate("weekMealPlan")
+    Day.find()
+        .populate("dayOfWeek")
+        .populate("weekMealPlan")
         .populate({
             path:'weekMealPlan',
             populate:{
@@ -17,7 +19,9 @@ router.route('/').get((req, res) => {
 
 router.route('/daysofthiswmp/:id').get((req, res) => {
     Day.find({weekMealPlan: req.params.id})
-        .populate("weekMealPlan").populate({
+        .populate("dayOfWeek")
+        .populate("weekMealPlan")
+        .populate({
             path:'weekMealPlan',
             populate:{
                 path:'GRFUser',
@@ -27,7 +31,7 @@ router.route('/daysofthiswmp/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 router.route('/add').post((req, res) => {
-    const dayOfWeek = req.body.dayOfWeek;
+    const dayOfWeek = req.body.dayOfWeek._id;
     const name = req.body.name;
     const weekMealPlan = req.body.weekMealPlan;
     const newDay = new Day({
@@ -40,7 +44,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 })
 router.route('/:id').get((req, res) => {
-    Day.findById(req.params.id).populate("weekMealPlan").populate({
+    Day.findById(req.params.id).populate("weekMealPlan").populate("dayOfWeek").populate({
             path:'weekMealPlan',
             populate:{
                 path:'GRFUser',

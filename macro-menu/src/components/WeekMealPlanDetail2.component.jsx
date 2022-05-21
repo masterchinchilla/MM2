@@ -65,12 +65,29 @@ export default class WeekMealPlanDetail extends Component {
           fiberBudget: 1,
         },
       },
+      daysOfWeek: [
+        { _id: "6287cfcbb01c53cff0db5cd8", code: "sunday", name: "Sunday" },
+        { _id: "6287d032b01c53cff0db5cd9", code: "monday", name: "Monday" },
+        { _id: "6287d045b01c53cff0db5cda", code: "tuesday", name: "Tuesday" },
+        {
+          _id: "6287d058b01c53cff0db5cdb",
+          code: "wednesday",
+          name: "Wednesday",
+        },
+        { _id: "6287d06db01c53cff0db5cdc", code: "thursday", name: "Thursday" },
+        { _id: "6287d07eb01c53cff0db5cdd", code: "friday", name: "Friday" },
+        { _id: "6287d08cb01c53cff0db5cde", code: "saturday", name: "Saturday" },
+      ],
       allGRFUsers: [{ _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" }],
       allDays: [
         {
           _id: "tempDay1Id",
           name: "tempDayName1",
-          dayOfWeek: "Sunday",
+          dayOfWeek: {
+            _id: "6287cfcbb01c53cff0db5cd8",
+            code: "sunday",
+            name: "Sunday",
+          },
           weekMealPlan: "625b7e5a4451249a38449792",
         },
       ],
@@ -87,15 +104,6 @@ export default class WeekMealPlanDetail extends Component {
           defaultPrepInstructions: "",
           photoUrl: "",
         },
-      ],
-      daysOfWeek: [
-        { name: "Sunday", code: "sunday" },
-        { name: "Monday", code: "monday" },
-        { name: "Tuesday", code: "tuesday" },
-        { name: "Wednesday", code: "wednesday" },
-        { name: "Thursday", code: "thursday" },
-        { name: "Friday", code: "friday" },
-        { name: "Saturday", code: "saturday" },
       ],
       mealTypes: [
         {
@@ -187,7 +195,11 @@ export default class WeekMealPlanDetail extends Component {
           day: {
             _id: "tempDay1Id",
             name: "tempDayName1",
-            dayOfWeek: "Sunday",
+            dayOfWeek: {
+              _id: "6287cfcbb01c53cff0db5cd8",
+              code: "sunday",
+              name: "Sunday",
+            },
             weekMealPlan: "625b7e5a4451249a38449792",
           },
           genRecipe: {
@@ -239,7 +251,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Sunday",
-            dayOfWeek: "Sunday",
+            dayOfWeek: {
+              _id: "6287cfcbb01c53cff0db5cd8",
+              code: "sunday",
+              name: "Sunday",
+            },
             weekMealPlan: {},
           },
           thisDaysMeals: {
@@ -256,7 +272,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "Temp WMP - Sunday",
+                  dayOfWeek: {
+                    _id: "6287cfcbb01c53cff0db5cd8",
+                    code: "sunday",
+                    name: "Sunday",
+                  },
+                  weekMealPlan: {},
+                },
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -329,7 +354,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "Temp WMP - Sunday",
+                        dayOfWeek: {
+                          _id: "6287cfcbb01c53cff0db5cd8",
+                          code: "sunday",
+                          name: "Sunday",
+                        },
+                        weekMealPlan: {},
+                      },
                       genRecipe: {
                         _id: "tempBreakfastRecipe1Id",
                         name: "tempBreakfastRecipe1Name",
@@ -370,7 +404,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "Temp WMP - Sunday",
+                  dayOfWeek: {
+                    _id: "6287cfcbb01c53cff0db5cd8",
+                    code: "sunday",
+                    name: "Sunday",
+                  },
+                  weekMealPlan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -443,7 +486,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "Temp WMP - Sunday",
+                        dayOfWeek: {
+                          _id: "6287cfcbb01c53cff0db5cd8",
+                          code: "sunday",
+                          name: "Sunday",
+                        },
+                        weekMealPlan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack1Recipe1Id",
                         name: "tempSnack1Recipe1Name",
@@ -484,7 +536,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "Temp WMP - Sunday",
+                  dayOfWeek: {
+                    _id: "6287cfcbb01c53cff0db5cd8",
+                    code: "sunday",
+                    name: "Sunday",
+                  },
+                  weekMealPlan: {},
+                },
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -557,7 +618,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "Temp WMP - Sunday",
+                        dayOfWeek: {
+                          _id: "6287cfcbb01c53cff0db5cd8",
+                          code: "sunday",
+                          name: "Sunday",
+                        },
+                        weekMealPlan: {},
+                      },
                       genRecipe: {
                         _id: "tempLunchRecipe1Id",
                         name: "tempLunchRecipe1Name",
@@ -598,7 +668,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "Temp WMP - Sunday",
+                  dayOfWeek: {
+                    _id: "6287cfcbb01c53cff0db5cd8",
+                    code: "sunday",
+                    name: "Sunday",
+                  },
+                  weekMealPlan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -671,7 +750,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "Temp WMP - Sunday",
+                        dayOfWeek: {
+                          _id: "6287cfcbb01c53cff0db5cd8",
+                          code: "sunday",
+                          name: "Sunday",
+                        },
+                        weekMealPlan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack2Recipe1Id",
                         name: "tempSnack2Recipe1Name",
@@ -712,7 +800,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "Temp WMP - Sunday",
+                  dayOfWeek: {
+                    _id: "6287cfcbb01c53cff0db5cd8",
+                    code: "sunday",
+                    name: "Sunday",
+                  },
+                  weekMealPlan: {},
+                },
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -785,7 +882,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "Temp WMP - Sunday",
+                        dayOfWeek: {
+                          _id: "6287cfcbb01c53cff0db5cd8",
+                          code: "sunday",
+                          name: "Sunday",
+                        },
+                        weekMealPlan: {},
+                      },
                       genRecipe: {
                         _id: "tempDinnerRecipe1Id",
                         name: "tempDinnerRecipe1Name",
@@ -826,7 +932,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "Temp WMP - Sunday",
+                  dayOfWeek: {
+                    _id: "6287cfcbb01c53cff0db5cd8",
+                    code: "sunday",
+                    name: "Sunday",
+                  },
+                  weekMealPlan: {},
+                },
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
@@ -899,7 +1014,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "Temp WMP - Sunday",
+                        dayOfWeek: {
+                          _id: "6287cfcbb01c53cff0db5cd8",
+                          code: "sunday",
+                          name: "Sunday",
+                        },
+                        weekMealPlan: {},
+                      },
                       genRecipe: {
                         _id: "tempDessertRecipe1Id",
                         name: "tempDessertRecipe1Name",
@@ -936,7 +1060,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Monday",
-            dayOfWeek: "Monday",
+            dayOfWeek: {
+              _id: "6287d032b01c53cff0db5cd9",
+              code: "monday",
+              name: "Monday",
+            },
             weekMealPlan: {},
           },
           thisDaysMeals: {
@@ -953,7 +1081,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - monday",
+                  dayOfWeek: {
+                    _id: "6287d032b01c53cff0db5cd9",
+                    code: "monday",
+                    name: "monday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -1026,7 +1163,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - monday",
+                        dayOfWeek: {
+                          _id: "6287d032b01c53cff0db5cd9",
+                          code: "monday",
+                          name: "monday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempBreakfastRecipe1Id",
                         name: "tempBreakfastRecipe1Name",
@@ -1104,7 +1250,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - monday",
+                  dayOfWeek: {
+                    _id: "6287d032b01c53cff0db5cd9",
+                    code: "monday",
+                    name: "monday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -1177,7 +1332,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - monday",
+                        dayOfWeek: {
+                          _id: "6287d032b01c53cff0db5cd9",
+                          code: "monday",
+                          name: "monday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack1Recipe1Id",
                         name: "tempSnack1Recipe1Name",
@@ -1261,7 +1425,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - monday",
+                  dayOfWeek: {
+                    _id: "6287d032b01c53cff0db5cd9",
+                    code: "monday",
+                    name: "monday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -1334,7 +1507,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - monday",
+                        dayOfWeek: {
+                          _id: "6287d032b01c53cff0db5cd9",
+                          code: "monday",
+                          name: "monday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempLunchRecipe1Id",
                         name: "tempLunchRecipe1Name",
@@ -1412,7 +1594,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - monday",
+                  dayOfWeek: {
+                    _id: "6287d032b01c53cff0db5cd9",
+                    code: "monday",
+                    name: "monday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -1485,7 +1676,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - monday",
+                        dayOfWeek: {
+                          _id: "6287d032b01c53cff0db5cd9",
+                          code: "monday",
+                          name: "monday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack2Recipe1Id",
                         name: "tempSnack2Recipe1Name",
@@ -1563,7 +1763,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - monday",
+                  dayOfWeek: {
+                    _id: "6287d032b01c53cff0db5cd9",
+                    code: "monday",
+                    name: "monday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -1636,7 +1845,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - monday",
+                        dayOfWeek: {
+                          _id: "6287d032b01c53cff0db5cd9",
+                          code: "monday",
+                          name: "monday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDinnerRecipe1Id",
                         name: "tempDinnerRecipe1Name",
@@ -1714,7 +1932,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - monday",
+                  dayOfWeek: {
+                    _id: "6287d032b01c53cff0db5cd9",
+                    code: "monday",
+                    name: "monday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
@@ -1787,7 +2014,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - monday",
+                        dayOfWeek: {
+                          _id: "6287d032b01c53cff0db5cd9",
+                          code: "monday",
+                          name: "monday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDessertRecipe1Id",
                         name: "tempDessertRecipe1Name",
@@ -1861,7 +2097,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Tuesday",
-            dayOfWeek: "Tuesday",
+            dayOfWeek: {
+              _id: "6287d045b01c53cff0db5cda",
+              code: "tuesday",
+              name: "Tuesday",
+            },
             weekMealPlan: {},
           },
           thisDaysMeals: {
@@ -1878,7 +2118,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - tuesday",
+                  dayOfWeek: {
+                    _id: "6287d045b01c53cff0db5cda",
+                    code: "tuesday",
+                    name: "tuesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -1951,7 +2200,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - tuesday",
+                        dayOfWeek: {
+                          _id: "6287d045b01c53cff0db5cda",
+                          code: "tuesday",
+                          name: "tuesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempBreakfastRecipe1Id",
                         name: "tempBreakfastRecipe1Name",
@@ -2029,7 +2287,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - tuesday",
+                  dayOfWeek: {
+                    _id: "6287d045b01c53cff0db5cda",
+                    code: "tuesday",
+                    name: "tuesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -2102,7 +2369,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - tuesday",
+                        dayOfWeek: {
+                          _id: "6287d045b01c53cff0db5cda",
+                          code: "tuesday",
+                          name: "tuesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack1Recipe1Id",
                         name: "tempSnack1Recipe1Name",
@@ -2186,7 +2462,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - tuesday",
+                  dayOfWeek: {
+                    _id: "6287d045b01c53cff0db5cda",
+                    code: "tuesday",
+                    name: "tuesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -2259,7 +2544,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - tuesday",
+                        dayOfWeek: {
+                          _id: "6287d045b01c53cff0db5cda",
+                          code: "tuesday",
+                          name: "tuesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempLunchRecipe1Id",
                         name: "tempLunchRecipe1Name",
@@ -2337,7 +2631,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - tuesday",
+                  dayOfWeek: {
+                    _id: "6287d045b01c53cff0db5cda",
+                    code: "tuesday",
+                    name: "tuesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -2410,7 +2713,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - tuesday",
+                        dayOfWeek: {
+                          _id: "6287d045b01c53cff0db5cda",
+                          code: "tuesday",
+                          name: "tuesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack2Recipe1Id",
                         name: "tempSnack2Recipe1Name",
@@ -2488,7 +2800,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - tuesday",
+                  dayOfWeek: {
+                    _id: "6287d045b01c53cff0db5cda",
+                    code: "tuesday",
+                    name: "tuesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -2561,7 +2882,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - tuesday",
+                        dayOfWeek: {
+                          _id: "6287d045b01c53cff0db5cda",
+                          code: "tuesday",
+                          name: "tuesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDinnerRecipe1Id",
                         name: "tempDinnerRecipe1Name",
@@ -2639,7 +2969,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - tuesday",
+                  dayOfWeek: {
+                    _id: "6287d045b01c53cff0db5cda",
+                    code: "tuesday",
+                    name: "tuesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
@@ -2712,7 +3051,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - tuesday",
+                        dayOfWeek: {
+                          _id: "6287d045b01c53cff0db5cda",
+                          code: "tuesday",
+                          name: "tuesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDessertRecipe1Id",
                         name: "tempDessertRecipe1Name",
@@ -2786,7 +3134,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Wednesday",
-            dayOfWeek: "Wednesday",
+            dayOfWeek: {
+              _id: "6287d058b01c53cff0db5cdb",
+              code: "wednesday",
+              name: "Wednesday",
+            },
             weekMealPlan: {},
           },
           thisDaysMeals: {
@@ -2803,7 +3155,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - wednesday",
+                  dayOfWeek: {
+                    _id: "6287d058b01c53cff0db5cdb",
+                    code: "wednesday",
+                    name: "wednesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -2876,7 +3237,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - wednesday",
+                        dayOfWeek: {
+                          _id: "6287d058b01c53cff0db5cdb",
+                          code: "wednesday",
+                          name: "wednesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempBreakfastRecipe1Id",
                         name: "tempBreakfastRecipe1Name",
@@ -2954,7 +3324,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - wednesday",
+                  dayOfWeek: {
+                    _id: "6287d058b01c53cff0db5cdb",
+                    code: "wednesday",
+                    name: "wednesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -3027,7 +3406,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - wednesday",
+                        dayOfWeek: {
+                          _id: "6287d058b01c53cff0db5cdb",
+                          code: "wednesday",
+                          name: "wednesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack1Recipe1Id",
                         name: "tempSnack1Recipe1Name",
@@ -3111,7 +3499,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - wednesday",
+                  dayOfWeek: {
+                    _id: "6287d058b01c53cff0db5cdb",
+                    code: "wednesday",
+                    name: "wednesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -3184,7 +3581,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - wednesday",
+                        dayOfWeek: {
+                          _id: "6287d058b01c53cff0db5cdb",
+                          code: "wednesday",
+                          name: "wednesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempLunchRecipe1Id",
                         name: "tempLunchRecipe1Name",
@@ -3262,7 +3668,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - wednesday",
+                  dayOfWeek: {
+                    _id: "6287d058b01c53cff0db5cdb",
+                    code: "wednesday",
+                    name: "wednesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -3335,7 +3750,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - wednesday",
+                        dayOfWeek: {
+                          _id: "6287d058b01c53cff0db5cdb",
+                          code: "wednesday",
+                          name: "wednesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack2Recipe1Id",
                         name: "tempSnack2Recipe1Name",
@@ -3413,7 +3837,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - wednesday",
+                  dayOfWeek: {
+                    _id: "6287d058b01c53cff0db5cdb",
+                    code: "wednesday",
+                    name: "wednesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -3486,7 +3919,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - wednesday",
+                        dayOfWeek: {
+                          _id: "6287d058b01c53cff0db5cdb",
+                          code: "wednesday",
+                          name: "wednesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDinnerRecipe1Id",
                         name: "tempDinnerRecipe1Name",
@@ -3564,7 +4006,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - wednesday",
+                  dayOfWeek: {
+                    _id: "6287d058b01c53cff0db5cdb",
+                    code: "wednesday",
+                    name: "wednesday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
@@ -3637,7 +4088,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - wednesday",
+                        dayOfWeek: {
+                          _id: "6287d058b01c53cff0db5cdb",
+                          code: "wednesday",
+                          name: "wednesday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDessertRecipe1Id",
                         name: "tempDessertRecipe1Name",
@@ -3711,7 +4171,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Thursday",
-            dayOfWeek: "Thursday",
+            dayOfWeek: {
+              _id: "6287d06db01c53cff0db5cdc",
+              code: "thursday",
+              name: "Thursday",
+            },
             weekMealPlan: {},
           },
           thisDaysMeals: {
@@ -3728,7 +4192,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - thursday",
+                  dayOfWeek: {
+                    _id: "6287d06db01c53cff0db5cdc",
+                    code: "thursday",
+                    name: "thursday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -3801,7 +4274,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - thursday",
+                        dayOfWeek: {
+                          _id: "6287d06db01c53cff0db5cdc",
+                          code: "thursday",
+                          name: "thursday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempBreakfastRecipe1Id",
                         name: "tempBreakfastRecipe1Name",
@@ -3879,7 +4361,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - thursday",
+                  dayOfWeek: {
+                    _id: "6287d06db01c53cff0db5cdc",
+                    code: "thursday",
+                    name: "thursday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -3952,7 +4443,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - thursday",
+                        dayOfWeek: {
+                          _id: "6287d06db01c53cff0db5cdc",
+                          code: "thursday",
+                          name: "thursday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack1Recipe1Id",
                         name: "tempSnack1Recipe1Name",
@@ -4036,7 +4536,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - thursday",
+                  dayOfWeek: {
+                    _id: "6287d06db01c53cff0db5cdc",
+                    code: "thursday",
+                    name: "thursday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -4109,7 +4618,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - thursday",
+                        dayOfWeek: {
+                          _id: "6287d06db01c53cff0db5cdc",
+                          code: "thursday",
+                          name: "thursday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempLunchRecipe1Id",
                         name: "tempLunchRecipe1Name",
@@ -4187,7 +4705,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - thursday",
+                  dayOfWeek: {
+                    _id: "6287d06db01c53cff0db5cdc",
+                    code: "thursday",
+                    name: "thursday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -4260,7 +4787,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - thursday",
+                        dayOfWeek: {
+                          _id: "6287d06db01c53cff0db5cdc",
+                          code: "thursday",
+                          name: "thursday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack2Recipe1Id",
                         name: "tempSnack2Recipe1Name",
@@ -4338,7 +4874,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - thursday",
+                  dayOfWeek: {
+                    _id: "6287d06db01c53cff0db5cdc",
+                    code: "thursday",
+                    name: "thursday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -4411,7 +4956,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - thursday",
+                        dayOfWeek: {
+                          _id: "6287d06db01c53cff0db5cdc",
+                          code: "thursday",
+                          name: "thursday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDinnerRecipe1Id",
                         name: "tempDinnerRecipe1Name",
@@ -4489,7 +5043,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - thursday",
+                  dayOfWeek: {
+                    _id: "6287d06db01c53cff0db5cdc",
+                    code: "thursday",
+                    name: "thursday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
@@ -4562,7 +5125,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - thursday",
+                        dayOfWeek: {
+                          _id: "6287d06db01c53cff0db5cdc",
+                          code: "thursday",
+                          name: "thursday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDessertRecipe1Id",
                         name: "tempDessertRecipe1Name",
@@ -4636,7 +5208,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Friday",
-            dayOfWeek: "Friday",
+            dayOfWeek: {
+              _id: "6287d07eb01c53cff0db5cdd",
+              code: "friday",
+              name: "Friday",
+            },
             weekMealPlan: {},
           },
           thisDaysMeals: {
@@ -4653,7 +5229,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - friday",
+                  dayOfWeek: {
+                    _id: "6287d07eb01c53cff0db5cdd",
+                    code: "friday",
+                    name: "friday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -4726,7 +5311,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - friday",
+                        dayOfWeek: {
+                          _id: "6287d07eb01c53cff0db5cdd",
+                          code: "friday",
+                          name: "friday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempBreakfastRecipe1Id",
                         name: "tempBreakfastRecipe1Name",
@@ -4804,7 +5398,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - friday",
+                  dayOfWeek: {
+                    _id: "6287d07eb01c53cff0db5cdd",
+                    code: "friday",
+                    name: "friday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -4877,7 +5480,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - friday",
+                        dayOfWeek: {
+                          _id: "6287d07eb01c53cff0db5cdd",
+                          code: "friday",
+                          name: "friday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack1Recipe1Id",
                         name: "tempSnack1Recipe1Name",
@@ -4961,7 +5573,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - friday",
+                  dayOfWeek: {
+                    _id: "6287d07eb01c53cff0db5cdd",
+                    code: "friday",
+                    name: "friday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -5034,7 +5655,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - friday",
+                        dayOfWeek: {
+                          _id: "6287d07eb01c53cff0db5cdd",
+                          code: "friday",
+                          name: "friday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempLunchRecipe1Id",
                         name: "tempLunchRecipe1Name",
@@ -5112,7 +5742,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - friday",
+                  dayOfWeek: {
+                    _id: "6287d07eb01c53cff0db5cdd",
+                    code: "friday",
+                    name: "friday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -5185,7 +5824,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - friday",
+                        dayOfWeek: {
+                          _id: "6287d07eb01c53cff0db5cdd",
+                          code: "friday",
+                          name: "friday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack2Recipe1Id",
                         name: "tempSnack2Recipe1Name",
@@ -5263,7 +5911,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - friday",
+                  dayOfWeek: {
+                    _id: "6287d07eb01c53cff0db5cdd",
+                    code: "friday",
+                    name: "friday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -5336,7 +5993,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - friday",
+                        dayOfWeek: {
+                          _id: "6287d07eb01c53cff0db5cdd",
+                          code: "friday",
+                          name: "friday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDinnerRecipe1Id",
                         name: "tempDinnerRecipe1Name",
@@ -5414,7 +6080,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - friday",
+                  dayOfWeek: {
+                    _id: "6287d07eb01c53cff0db5cdd",
+                    code: "friday",
+                    name: "friday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
@@ -5487,7 +6162,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - friday",
+                        dayOfWeek: {
+                          _id: "6287d07eb01c53cff0db5cdd",
+                          code: "friday",
+                          name: "friday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDessertRecipe1Id",
                         name: "tempDessertRecipe1Name",
@@ -5561,7 +6245,11 @@ export default class WeekMealPlanDetail extends Component {
           thisDay: {
             _id: "missing",
             name: "Temp WMP - Saturday",
-            dayOfWeek: "Saturday",
+            dayOfWeek: {
+              _id: "6287d08cb01c53cff0db5cde",
+              code: "saturday",
+              name: "Saturday",
+            },
             weekMealPlan: {},
           },
           thisDaysMeals: {
@@ -5578,7 +6266,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - saturday",
+                  dayOfWeek: {
+                    _id: "6287d08cb01c53cff0db5cde",
+                    code: "saturday",
+                    name: "saturday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempBreakfastRecipe1Id",
                   name: "tempBreakfastRecipe1Name",
@@ -5651,7 +6348,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - saturday",
+                        dayOfWeek: {
+                          _id: "6287d08cb01c53cff0db5cde",
+                          code: "saturday",
+                          name: "saturday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempBreakfastRecipe1Id",
                         name: "tempBreakfastRecipe1Name",
@@ -5729,7 +6435,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - saturday",
+                  dayOfWeek: {
+                    _id: "6287d08cb01c53cff0db5cde",
+                    code: "saturday",
+                    name: "saturday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack1Recipe1Id",
                   name: "tempSnack1Recipe1Name",
@@ -5802,7 +6517,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - saturday",
+                        dayOfWeek: {
+                          _id: "6287d08cb01c53cff0db5cde",
+                          code: "saturday",
+                          name: "saturday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack1Recipe1Id",
                         name: "tempSnack1Recipe1Name",
@@ -5886,7 +6610,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - saturday",
+                  dayOfWeek: {
+                    _id: "6287d08cb01c53cff0db5cde",
+                    code: "saturday",
+                    name: "saturday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempLunchRecipe1Id",
                   name: "tempLunchRecipe1Name",
@@ -5959,7 +6692,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - saturday",
+                        dayOfWeek: {
+                          _id: "6287d08cb01c53cff0db5cde",
+                          code: "saturday",
+                          name: "saturday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempLunchRecipe1Id",
                         name: "tempLunchRecipe1Name",
@@ -6037,7 +6779,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - saturday",
+                  dayOfWeek: {
+                    _id: "6287d08cb01c53cff0db5cde",
+                    code: "saturday",
+                    name: "saturday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempSnack2Recipe1Id",
                   name: "tempSnack2Recipe1Name",
@@ -6110,7 +6861,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - saturday",
+                        dayOfWeek: {
+                          _id: "6287d08cb01c53cff0db5cde",
+                          code: "saturday",
+                          name: "saturday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempSnack2Recipe1Id",
                         name: "tempSnack2Recipe1Name",
@@ -6188,7 +6948,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - saturday",
+                  dayOfWeek: {
+                    _id: "6287d08cb01c53cff0db5cde",
+                    code: "saturday",
+                    name: "saturday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDinnerRecipe1Id",
                   name: "tempDinnerRecipe1Name",
@@ -6261,7 +7030,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - saturday",
+                        dayOfWeek: {
+                          _id: "6287d08cb01c53cff0db5cde",
+                          code: "saturday",
+                          name: "saturday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDinnerRecipe1Id",
                         name: "tempDinnerRecipe1Name",
@@ -6339,7 +7117,16 @@ export default class WeekMealPlanDetail extends Component {
               thisGenRecipeUserType: "viewer",
               thisMeal: {
                 _id: "missing",
-                day: {},
+                day: {
+                  _id: "missing",
+                  name: "temp wmp - saturday",
+                  dayOfWeek: {
+                    _id: "6287d08cb01c53cff0db5cde",
+                    code: "saturday",
+                    name: "saturday",
+                  },
+                  weekmealplan: {},
+                },
                 genRecipe: {
                   _id: "tempDessertRecipe1Id",
                   name: "tempDessertRecipe1Name",
@@ -6412,7 +7199,16 @@ export default class WeekMealPlanDetail extends Component {
                     },
                     meal: {
                       _id: "missing",
-                      day: {},
+                      day: {
+                        _id: "missing",
+                        name: "temp wmp - saturday",
+                        dayOfWeek: {
+                          _id: "6287d08cb01c53cff0db5cde",
+                          code: "saturday",
+                          name: "saturday",
+                        },
+                        weekmealplan: {},
+                      },
                       genRecipe: {
                         _id: "tempDessertRecipe1Id",
                         name: "tempDessertRecipe1Name",
@@ -6562,11 +7358,12 @@ export default class WeekMealPlanDetail extends Component {
           return;
         } else {
           let daysOfWeek = this.state.daysOfWeek;
+
           let thisWeeksDays = this.state.thisWeeksDays;
           for (let i = 0; i < daysOfWeek.length; i++) {
             let thisDayOfWeek = daysOfWeek[i];
             let thisWeekDayData = daysData.filter(
-              (day) => day.dayOfWeek === thisDayOfWeek.name
+              (day) => day.dayOfWeek._id === thisDayOfWeek._id
             )[0];
             let thisDayToUpdate = thisWeeksDays[thisDayOfWeek.code];
             thisDayToUpdate.dataLoaded = true;
@@ -6587,7 +7384,7 @@ export default class WeekMealPlanDetail extends Component {
         }
       });
   };
-  getDayMeals = (thisDayToUpdate, thisDayOfWeek) => {
+  getDayMeals = (thisDayToUpdate, thisDayOfWeekCode) => {
     let thisDaysId = thisDayToUpdate.thisDay._id;
     axios
       .get("http://localhost:5000/meals/mealsofthisday/" + thisDaysId)
@@ -6622,18 +7419,18 @@ export default class WeekMealPlanDetail extends Component {
               thisDaysMeals[thisMealType]["dataLoaded"] = true;
               this.getMealIngrdnts(
                 thisDaysMeals[thisMealType],
-                thisDayOfWeek,
+                thisDayOfWeekCode,
                 thisMealType
               );
             } else {
             }
-            thisWeeksDays[thisDayOfWeek]["thisDaysMeals"] = thisDaysMeals;
+            thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"] = thisDaysMeals;
           }
           this.setState({ thisWeeksDays: thisWeeksDays });
         }
       });
   };
-  getMealIngrdnts = (thisMealToUpdate, thisDayOfWeek, thisMealType) => {
+  getMealIngrdnts = (thisMealToUpdate, thisDayOfWeekCode, thisMealType) => {
     let thisMealsId = thisMealToUpdate.thisMeal._id;
     axios
       .get(
@@ -6677,10 +7474,10 @@ export default class WeekMealPlanDetail extends Component {
           }
           thisMealToUpdate.thisMealsIngrdnts = thisMealsIngrdnts;
           let thisWeeksDays = this.state.thisWeeksDays;
-          thisWeeksDays[thisDayOfWeek]["thisDaysMeals"][thisMealType][
+          thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealType][
             "thisMealsIngrdnts"
           ] = thisMealsIngrdnts;
-          thisWeeksDays[thisDayOfWeek]["thisDaysMeals"][thisMealType][
+          thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealType][
             "mealIngrdntsLoaded"
           ] = true;
           this.setState({ thisWeeksDays });
@@ -6783,18 +7580,11 @@ export default class WeekMealPlanDetail extends Component {
         initialUserType = thisWMPBackup.userType;
         break;
       case "day":
-        let thisDayOfWeekObj = parentObj.thisDay.dayOfWeek;
-        thisDayOfWeekObj.code === undefined
-          ? (thisDayOfWeekCode = thisDayOfWeekObj.toLowerCase())
-          : (thisDayOfWeekCode = thisDayOfWeekObj.code);
+        thisDayOfWeekCode = parentObj.thisDay.dayOfWeek.code;
         initialUserType = thisWeeksDaysBackup[thisDayOfWeekCode]["userType"];
         break;
       case "meal":
-        let thisMealsDayOfWeekObj = parentObj.thisMeal.day.dayOfWeek;
-
-        thisMealsDayOfWeekObj.code === undefined
-          ? (thisDayOfWeekCode = thisMealsDayOfWeekObj.toLowerCase())
-          : (thisDayOfWeekCode = thisMealsDayOfWeekObj.code);
+        thisDayOfWeekCode = parentObj.thisMeal.day.dayOfWeek.code;
         thisMealTypeCode = parentObj.thisMeal.mealType.code;
         initialUserType =
           thisWeeksDaysBackup[thisDayOfWeekCode]["thisDaysMeals"][
@@ -6802,10 +7592,7 @@ export default class WeekMealPlanDetail extends Component {
           ]["thisMealUserType"];
         break;
       case "genRecipe":
-        let thisRecipesDayOfWeekObj = parentObj.thisMeal.day.dayOfWeek;
-        thisRecipesDayOfWeekObj.code === undefined
-          ? (thisDayOfWeekCode = thisRecipesDayOfWeekObj.toLowerCase())
-          : (thisDayOfWeekCode = thisRecipesDayOfWeekObj.code);
+        thisDayOfWeekCode = parentObj.thisMeal.day.dayOfWeek.code;
         thisMealTypeCode = parentObj.thisMeal.mealType.code;
         initialUserType =
           thisWeeksDaysBackup[thisDayOfWeekCode]["thisDaysMeals"][
@@ -6813,11 +7600,7 @@ export default class WeekMealPlanDetail extends Component {
           ]["thisGenRecipeUserType"];
         break;
       case "mealIngredient":
-        let thisMealIngrdntsDayOfWeekObj =
-          parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
-        thisMealIngrdntsDayOfWeekObj.code === undefined
-          ? (thisDayOfWeekCode = thisMealIngrdntsDayOfWeekObj.toLowerCase())
-          : (thisDayOfWeekCode = thisMealIngrdntsDayOfWeekObj.code);
+        thisDayOfWeekCode = parentObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
         thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
         mealIngrdntsArrayIndex = parentObj.mealIngrdntsArrayIndex;
         initialUserType =
@@ -6828,11 +7611,7 @@ export default class WeekMealPlanDetail extends Component {
           ];
         break;
       case "genRecipeIngredient":
-        let thisRecipeIngrdntsDayOfWeekObj =
-          parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
-        thisRecipeIngrdntsDayOfWeekObj.code === undefined
-          ? (thisDayOfWeekCode = thisRecipeIngrdntsDayOfWeekObj.toLowerCase())
-          : (thisDayOfWeekCode = thisRecipeIngrdntsDayOfWeekObj.code);
+        thisDayOfWeekCode = parentObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
         thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
         mealIngrdntsArrayIndex = parentObj.mealIngrdntsArrayIndex;
         initialUserType =
@@ -6843,11 +7622,7 @@ export default class WeekMealPlanDetail extends Component {
           ];
         break;
       case "ingredient":
-        let thisIngrdntsDayOfWeekObj =
-          parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
-        thisIngrdntsDayOfWeekObj.code === undefined
-          ? (thisDayOfWeekCode = thisIngrdntsDayOfWeekObj.toLowerCase())
-          : (thisDayOfWeekCode = thisIngrdntsDayOfWeekObj.code);
+        thisDayOfWeekCode = parentObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
         thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
         mealIngrdntsArrayIndex = parentObj.mealIngrdntsArrayIndex;
         initialUserType =
@@ -7077,10 +7852,10 @@ export default class WeekMealPlanDetail extends Component {
         thisDay: {
           _id: "missing",
           name: `Temp WMP - ${dayOfWeek.name}`,
-          dayOfWeek: dayOfWeek.name,
+          dayOfWeek: dayOfWeek,
           weekMealPlan: {},
         },
-        thisDaysMeals: createDefaultDayMealsStateObj(dayOfWeek),
+        thisDaysMeals: createDefaultDayMealsStateObj(),
       };
       return defaultDayStateObj;
     }
@@ -7117,11 +7892,11 @@ export default class WeekMealPlanDetail extends Component {
         }
         let mealIngrdntListToFilter =
           thisWeeksDays[mealIngrdntsDayOfWeekCode]["thisDaysMeals"][
-            mealsMealTypeCode
+            mealIngrdntsMealTypeCode
           ]["thisMealsIngrdnts"];
         mealIngrdntListToFilter.filter(removeDeletedMealIngrdnt);
         thisWeeksDays[mealIngrdntsDayOfWeekCode]["thisDaysMeals"][
-          mealsMealTypeCode
+          mealIngrdntsMealTypeCode
         ]["thisMealsIngrdnts"] = mealIngrdntListToFilter;
         this.deleteRecord(parentObj._id, "mealIngredient");
         break;
@@ -7132,8 +7907,59 @@ export default class WeekMealPlanDetail extends Component {
     }
     this.setState({ thisWeeksDays });
   };
-  handleUpdateProp = () => {
-    console.log("Updated Prop");
+  handleUpdateProp = (
+    ObjType,
+    dayOfWeekCode,
+    mealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    inputType,
+    e
+  ) => {
+    let newValue;
+    if (inputType === "select" || inputType === "number") {
+      newValue = JSON.parse(e.target.value);
+    } else {
+      newValue = e.target.value;
+    }
+    let state = this.state;
+    switch (ObjType) {
+      case "weekMealPlan":
+        state.thisWeekMealPlan.thisWMP[propToUpdate] = newValue;
+        break;
+      case "day":
+        state.thisWeeksDays[dayOfWeekCode]["thisDay"][propToUpdate] = newValue;
+        break;
+      case "meal":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMeal"
+        ][propToUpdate] = newValue;
+        break;
+      case "genRecipe":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMeal"
+        ]["genRecipe"][propToUpdate] = newValue;
+        break;
+      case "mealIngredient":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["thisMealIngrdnt"][propToUpdate] = newValue;
+        break;
+      case "genRecipeIngredient":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"][propToUpdate] =
+          newValue;
+        break;
+      case "ingredient":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"]["ingredient"][
+          propToUpdate
+        ] = newValue;
+        break;
+    }
+    this.setState({ state });
   };
   updateStateDayOnAdd = (dayData, dayOfWeek) => {
     if (dayOfWeek == "Saturday") {
@@ -7144,9 +7970,9 @@ export default class WeekMealPlanDetail extends Component {
   };
   handleCreateDay = (dayOfWeek) => {
     const day = {
-      dayOfWeek: dayOfWeek,
+      dayOfWeek: dayOfWeek.code,
       weekMealPlan: this.state.id,
-      name: this.state.name + " - " + dayOfWeek,
+      name: this.state.name + " - " + dayOfWeek.name,
     };
     axios
       .post("http://localhost:5000/days/add", day)
@@ -7158,25 +7984,25 @@ export default class WeekMealPlanDetail extends Component {
       .then(() => {
         this.setState({
           sun: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Sunday"
+            (day) => day.dayOfWeek.code === "sunday"
           )[0],
           mon: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Monday"
+            (day) => day.dayOfWeek.code === "monday"
           )[0],
           tues: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Tuesday"
+            (day) => day.dayOfWeek.code === "tuesday"
           )[0],
           wed: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Wednesday"
+            (day) => day.dayOfWeek.code === "wednesday"
           )[0],
           thurs: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Thursday"
+            (day) => day.dayOfWeek.code === "thursday"
           )[0],
           fri: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Friday"
+            (day) => day.dayOfWeek.code === "friday"
           )[0],
           sat: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek == "Saturday"
+            (day) => day.dayOfWeek.code === "saturday"
           )[0],
         });
       });
@@ -7195,7 +8021,7 @@ export default class WeekMealPlanDetail extends Component {
     } else {
       let thisStateObjectOld = this.state.thisWeeksDaysOld[dayOfWeek.code];
       let thisObject = thisStateObject.thisDay;
-      let dayOfWeekName = thisObject.dayOfWeek;
+      let dayOfWeekName = thisObject.dayOfWeek.name;
       let thisObjectsAuthorsId = thisWMP.GRFUser._id;
       let thisObjectsId = thisObject._id;
       let testResult = pattern.test(thisObjectsId);
@@ -7284,6 +8110,7 @@ export default class WeekMealPlanDetail extends Component {
                     this.handleUpdateProp(
                       "weekMealPlan",
                       "",
+                      "",
                       "name",
                       0,
                       "text",
@@ -7316,6 +8143,7 @@ export default class WeekMealPlanDetail extends Component {
                 onChange={(e) => {
                   this.handleUpdateProp(
                     "weekMealPlan",
+                    "",
                     "",
                     "GRFUser",
                     0,

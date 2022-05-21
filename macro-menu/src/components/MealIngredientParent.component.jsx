@@ -4,8 +4,9 @@ import GenRecipeIngredient from "./GenRecipeIngredient.component";
 import Ingredient from "./Ingredient.component";
 
 const MealIngredientParent = (props) => {
-  const thisStateObj = props.thisStateObj;
-  const thisObj = thisStateObj.thisMealIngrdnt;
+  const thisMealIngrdntObj = props.thisMealIngrdntObj;
+  const thisObj = thisMealIngrdntObj.thisMealIngrdnt;
+
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
   const thisGenRecipeIngrdnt = thisObj.genRecipeIngredient;
@@ -13,15 +14,15 @@ const MealIngredientParent = (props) => {
   const thisIngredient = thisGenRecipeIngrdnt.ingredient;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   //Form States
-  const thisMealIngrdntFormState = thisStateObj.thisMealIngrdntFormState;
+  const thisMealIngrdntFormState = thisMealIngrdntObj.thisMealIngrdntFormState;
   const thisGenRecipeIngrdntFormState =
-    thisStateObj.thisGenRecipeIngrdntFormState;
-  const thisIngrdntFormState = thisStateObj.thisIngrdntFormState;
+    thisMealIngrdntObj.thisGenRecipeIngrdntFormState;
+  const thisIngrdntFormState = thisMealIngrdntObj.thisIngrdntFormState;
   //User Types
-  const thisMealIngrdntUserType = thisStateObj.thisMealIngrdntUserType;
+  const thisMealIngrdntUserType = thisMealIngrdntObj.thisMealIngrdntUserType;
   const thisGenRecipeIngrdntUserType =
-    thisStateObj.thisGenRecipeIngrdntUserType;
-  const thisIngrdntUserType = thisStateObj.thisIngrdntUserType;
+    thisMealIngrdntObj.thisGenRecipeIngrdntUserType;
+  const thisIngrdntUserType = thisMealIngrdntObj.thisIngrdntUserType;
 
   return (
     <div className="card mlIngrdntsCard">
@@ -36,7 +37,7 @@ const MealIngredientParent = (props) => {
           //Common Props
           //Data
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
-          thisStateObj={thisStateObj}
+          thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisObj}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
           thisMealTypesMeals={props.thisMealTypesMeals}
@@ -59,7 +60,7 @@ const MealIngredientParent = (props) => {
           //Common Props
           //Data
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
-          thisStateObj={thisStateObj}
+          thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisGenRecipeIngrdnt}
           allIngredients={props.allIngredients}
           //Methods
@@ -82,7 +83,7 @@ const MealIngredientParent = (props) => {
           //Common Props
           //Data
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
-          thisStateObj={thisStateObj}
+          thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisIngredient}
           allGRFUsers={props.allGRFUsers}
           allUnitOfMeasures={props.allUnitOfMeasures}

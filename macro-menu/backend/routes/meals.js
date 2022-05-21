@@ -11,13 +11,17 @@ let Meal=require('../models/meal.model');
 let Day=require('../models/day.model');
 let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
-
+let DayOfWeek=require('../models/dayOfWeek.model')
 router.route('/').get((req, res)=>{
     Meal.find().populate('day')
         .populate({
             path: 'genRecipe',
             populate: { path: 'GRFUser' }
         }).populate('mealType')
+        .populate({
+            path: 'day',
+            populate: { path: 'dayOfWeek' }
+        })
         .then(meals=>res.json(meals))
         .catch(err=>res.status(400).json('Error: '+err));
 });
@@ -43,6 +47,10 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
         .populate({
             path: 'genRecipe',
             populate: { path: 'availableMealType' }
+        })
+        .populate({
+            path: 'day',
+            populate: { path: 'dayOfWeek' }
         })
         .then(meals => res.json(meals))
         .catch(err => res.status(400).json('Error: ' + err));

@@ -237,7 +237,15 @@ class DayDetail extends Component {
       this.setState({ state });
     }
   };
-  updateProp = (stateObj, mealType, propToUpdate, arrayIndex, inputType, e) => {
+  updateProp = (
+    ObjType,
+    dayOfWeekCode,
+    mealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    inputType,
+    e
+  ) => {
     let newValue;
     if (inputType === "select" || inputType === "number") {
       newValue = JSON.parse(e.target.value);
@@ -245,30 +253,40 @@ class DayDetail extends Component {
       newValue = e.target.value;
     }
     let state = this.state;
-    switch (stateObj) {
+    switch (ObjType) {
+      case "weekMealPlan":
+        state.thisWeekMealPlan.thisWMP[propToUpdate] = newValue;
+        break;
       case "day":
-        state.thisDay[propToUpdate] = newValue;
+        state.thisWeeksDays[dayOfWeekCode]["thisDay"][propToUpdate] = newValue;
         break;
       case "meal":
-        state[mealType]["thisMeal"][propToUpdate] = newValue;
-        break;
-      case "genRecipe":
-        state[mealType]["thisMeal"]["genRecipe"][propToUpdate] = newValue;
-        break;
-      case "mealIngredient":
-        state[mealType]["thisMealsIngrdnts"][arrayIndex]["thisMealIngrdnt"][
-          propToUpdate
-        ] = newValue;
-        break;
-      case "genRecipeIngredient":
-        state[mealType]["thisMealsIngrdnts"][arrayIndex]["thisMealIngrdnt"][
-          "genRecipeIngredient"
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMeal"
         ][propToUpdate] = newValue;
         break;
+      case "genRecipe":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMeal"
+        ]["genRecipe"][propToUpdate] = newValue;
+        break;
+      case "mealIngredient":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["thisMealIngrdnt"][propToUpdate] = newValue;
+        break;
+      case "genRecipeIngredient":
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"][propToUpdate] =
+          newValue;
+        break;
       case "ingredient":
-        state[mealType]["thisMealsIngrdnts"][arrayIndex]["thisMealIngrdnt"][
-          "genRecipeIngredient"
-        ]["ingredient"][propToUpdate] = newValue;
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"]["ingredient"][
+          propToUpdate
+        ] = newValue;
         break;
     }
     this.setState({ state });

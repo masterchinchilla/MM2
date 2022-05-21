@@ -131,7 +131,7 @@ const DayDetail3 = (props) => {
   return (
     <div className="card mt-3 mb-3">
       <div className="card-header">
-        <h3 className="card-title">{thisDayOfWeek}</h3>
+        <h3 className="card-title">{thisDayOfWeek.name}</h3>
         <EditOptions
           parentObj={thisDayObj}
           objType="day"
@@ -190,7 +190,15 @@ const DayDetail3 = (props) => {
                     disabled={thisFormState === "viewing" ? true : false}
                     value={thisDay.name}
                     onChange={(e) =>
-                      props.updateProp("day", "", "name", 0, "text", e)
+                      props.updateProp(
+                        "day",
+                        thisDayOfWeek.code,
+                        "",
+                        "name",
+                        0,
+                        "text",
+                        e
+                      )
                     }
                   />
                 </div>
@@ -199,17 +207,25 @@ const DayDetail3 = (props) => {
                   <select
                     required
                     className="form-control form-select"
-                    value={thisDayOfWeek}
+                    value={JSON.stringify(thisDayOfWeek)}
                     disabled={thisFormState == "viewing" ? true : false}
                     onChange={(e) =>
-                      props.updateProp("day", "", "dayOfWeek", 0, "select", e)
+                      props.updateProp(
+                        "day",
+                        thisDayOfWeek.code,
+                        "",
+                        "dayOfWeek",
+                        0,
+                        "select",
+                        e
+                      )
                     }
                   >
                     {daysOfWeek.map(function (dayOfWeek) {
                       return (
                         <option
                           key={"daysOfWeekListItem" + dayOfWeek.name}
-                          value={dayOfWeek.name}
+                          value={JSON.stringify(dayOfWeek)}
                         >
                           {dayOfWeek.name}
                         </option>
@@ -227,6 +243,7 @@ const DayDetail3 = (props) => {
                     onChange={(e) =>
                       props.updateProp(
                         "day",
+                        thisDayOfWeek.code,
                         "",
                         "weekMealPlan",
                         0,
@@ -295,7 +312,9 @@ const DayDetail3 = (props) => {
                 </div>
                 <div className="card mt-3 mb-3">
                   <div className="card-header">
-                    <h4 className="card-title">{thisDayOfWeek + " Meals"}</h4>
+                    <h4 className="card-title">
+                      {thisDayOfWeek.name + " Meals"}
+                    </h4>
                   </div>
                   <div className="card-body">
                     <div

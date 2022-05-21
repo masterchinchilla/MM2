@@ -9,7 +9,9 @@ const Ingredient = (props) => {
   // const thisFormState = "editingOrig";
   const thisMealTypeCode = props.thisMealTypeCode;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  const thisStateObj = props.thisStateObj;
+  const thisMealIngrdntObj = props.thisMealIngrdntObj;
+  const thisDayOfWeekCode =
+    thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const allGRFUsers = props.allGRFUsers;
@@ -25,7 +27,7 @@ const Ingredient = (props) => {
         <EditOptions
           key={"ingrdntEditOptns" + thisObjId}
           className="ingrdntFrmIcns"
-          parentObj={thisStateObj}
+          parentObj={thisMealIngrdntObj}
           objType={"ingredient"}
           userType={userType}
           thisFormState={thisFormState}
@@ -53,6 +55,7 @@ const Ingredient = (props) => {
             onChange={(e) =>
               props.onUpdateProp(
                 "ingredient",
+                thisDayOfWeekCode,
                 thisMealTypeCode,
                 "unitOfMeasure",
                 mealIngrdntsArrayIndex,
@@ -91,6 +94,7 @@ const Ingredient = (props) => {
             onChange={(e) =>
               props.onUpdateProp(
                 "ingredient",
+                thisDayOfWeekCode,
                 thisMealTypeCode,
                 "weightType",
                 mealIngrdntsArrayIndex,
@@ -138,6 +142,7 @@ const Ingredient = (props) => {
             onChange={(e) =>
               props.onUpdateProp(
                 "ingredient",
+                thisDayOfWeekCode,
                 thisMealTypeCode,
                 "brand",
                 mealIngrdntsArrayIndex,
@@ -164,6 +169,7 @@ const Ingredient = (props) => {
             onChange={(e) =>
               props.onUpdateProp(
                 "ingredient",
+                thisDayOfWeekCode,
                 thisMealTypeCode,
                 "name",
                 mealIngrdntsArrayIndex,
@@ -205,6 +211,7 @@ const Ingredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "ingredient",
+                    thisDayOfWeekCode,
                     thisMealTypeCode,
                     "calories",
                     mealIngrdntsArrayIndex,
@@ -224,6 +231,7 @@ const Ingredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "ingredient",
+                    thisDayOfWeekCode,
                     thisMealTypeCode,
                     "carbs",
                     mealIngrdntsArrayIndex,
@@ -243,6 +251,7 @@ const Ingredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "ingredient",
+                    thisDayOfWeekCode,
                     thisMealTypeCode,
                     "protein",
                     mealIngrdntsArrayIndex,
@@ -262,6 +271,7 @@ const Ingredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "ingredient",
+                    thisDayOfWeekCode,
                     thisMealTypeCode,
                     "fat",
                     mealIngrdntsArrayIndex,
@@ -281,6 +291,7 @@ const Ingredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "ingredient",
+                    thisDayOfWeekCode,
                     thisMealTypeCode,
                     "fiber",
                     mealIngrdntsArrayIndex,
@@ -300,6 +311,7 @@ const Ingredient = (props) => {
                 onChange={(e) =>
                   props.onUpdateProp(
                     "ingredient",
+                    thisDayOfWeekCode,
                     thisMealTypeCode,
                     "photoURL",
                     mealIngrdntsArrayIndex,
@@ -354,6 +366,7 @@ const Ingredient = (props) => {
                     onChange={(e) =>
                       props.onUpdateProp(
                         "ingredient",
+                        thisDayOfWeekCode,
                         thisMealTypeCode,
                         "GRFUser",
                         mealIngrdntsArrayIndex,

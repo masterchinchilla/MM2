@@ -7,8 +7,10 @@ import MacrosTable2 from "./MacrosTable2.component";
 
 const MealDetail3 = (props) => {
   const thisStateObj = props.thisStateObj;
+
   const thisMealJustCreated = thisStateObj.thisMealJustCreated;
   const thisObj = thisStateObj.thisMeal;
+  const dayOfWeek = thisObj.day.dayOfWeek;
   const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
@@ -26,6 +28,7 @@ const MealDetail3 = (props) => {
     if (mealsIngrdnts.length > 0 && thisStateObj.thisMealJustCreated !== true) {
       return mealsIngrdnts.map((mealIngredient, index) => {
         mealIngredient.mealIngrdntsArrayIndex = index;
+
         return (
           <MealIngredientParent
             //Specific Props
@@ -36,7 +39,7 @@ const MealDetail3 = (props) => {
 
             //Common Props
             //Data
-            thisStateObj={mealIngredient}
+            thisMealIngrdntObj={mealIngredient}
             mealIngrdntsArrayIndex={index}
             allGRFUsers={props.allGRFUsers}
             allGenRecipeIngredients={props.allGenRecipeIngredients}
@@ -117,7 +120,7 @@ const MealDetail3 = (props) => {
             aria-expanded="true"
             aria-controls="collapseOne"
           >
-            <h5>{thisObj.day.dayOfWeek + " " + thisObj.mealType.name}</h5>
+            <h5>{thisObj.day.name + " " + thisObj.mealType.name}</h5>
           </button>
         </h2>
       </div>
@@ -238,10 +241,11 @@ const MealDetail3 = (props) => {
                         className="form-control form-select"
                         value={JSON.stringify(thisObj.thisDay)}
                         disabled={mealFormState === "viewing" ? true : false}
-                        //updateProp = (stateObj, mealType, propToUpdate, arrayIndex, e)
+                        //updateProp = (stateObj, dayOfWeekCode, mealTypeCode, propToUpdate, arrayIndex, e)
                         onChange={(e) =>
                           props.updateProp(
                             "meal",
+                            dayOfWeek.code,
                             thisMealTypeCode,
                             "day",
                             0,
@@ -270,6 +274,7 @@ const MealDetail3 = (props) => {
                         onChange={(e) =>
                           props.updateProp(
                             "meal",
+                            dayOfWeek.code,
                             thisMealTypeCode,
                             "mealType",
                             0,

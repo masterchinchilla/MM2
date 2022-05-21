@@ -10,6 +10,7 @@ let Meal=require('../models/meal.model');
 let Day=require('../models/day.model');
 let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
+let DayOfWeek=require('../models/dayOfWeek.model')
 router.route('/:id').get((req, res)=>{
     MealIngredient.findById(req.params.id)
         .populate({
@@ -52,6 +53,13 @@ router.route('/:id').get((req, res)=>{
             populate:{
                 path: 'day',
                 populate:{path:'weekMealPlan'}
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
+                path: 'day',
+                populate:{path:'dayOfWeek'}
             }
         })
             .then(mealIngredient=>res.json(mealIngredient))
@@ -122,6 +130,13 @@ router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
             path: 'meal',
             populate:{
                 path: 'mealType',
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
+                path: 'day',
+                populate:{path:'dayOfWeek'}
             }
         })
             .then(mealIngredients=>res.json(mealIngredients))

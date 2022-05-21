@@ -12,7 +12,7 @@ let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
 
 router.route('/').get((req, res)=>{
-    Brand.find()
+    Brand.find().populate('GRFUser')
         .then(brands=>res.json(brands))
         .catch(err=>res.status(400).json('Error: '+err));
 });
