@@ -7982,6 +7982,8 @@ export default class WeekMealPlanDetail extends Component {
       newValue = e.target.value;
     }
     let state = this.state;
+    let initialUserType = state.thisUserType;
+    let thisUsersId = state.thisGRFUser._id;
     switch (ObjType) {
       case "weekMealPlan":
         state.thisWeekMealPlan.thisWMP[propToUpdate] = newValue;
@@ -7998,6 +8000,32 @@ export default class WeekMealPlanDetail extends Component {
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
           "mealRecordChanged"
         ] = true;
+
+        if (propToUpdate === "genRecipe") {
+          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            "userChangedThisMealsRecipe"
+          ] = true;
+          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            "thisMealJustCreated"
+          ] = false;
+          let thisGenRecipeUserType = this.setUserType(
+            initialUserType,
+            thisUsersId,
+            newValue.GRFUser._id
+          );
+          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            "thisGenRecipeUserType"
+          ] = thisGenRecipeUserType;
+
+          this.populateNewMealIngredients(
+            initialUserType,
+            thisUsersId,
+            thisGenRecipeUserType,
+            dayOfWeekCode,
+            mealTypeCode,
+            newValue
+          );
+        }
         break;
       case "genRecipe":
         state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
@@ -8083,9 +8111,62 @@ export default class WeekMealPlanDetail extends Component {
         });
       });
   };
-  populateNewMealIngredients = () => {
-    console.log("populating new meal ingredients");
+  populateNewMealIngredients = (
+    initialUserType,
+    thisUsersId,
+    thisGenRecipeUserType,
+    dayOfWeekCode,
+    mealTypeCode,
+    thisRecipe
+  ) => {
+    const thisRecipeId = thisRecipe._id;
+    const thisMealObj =
+      this.state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+        "thisMeal"
+      ];
+    const mealUserType = this.state.thisWeekMealPlan.userType;
+    axios
+      .get(
+        "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
+          thisRecipeId
+      )
+      .then((response) => {
+        const thisGenRecipesGenRecipeIngrdnts = response.data.map(
+          (genRecipeIngredient) => genRecipeIngredient
+        );
+        let thisMealsNewMealIngrdnts = [];
+        for (let i = 0; i < thisGenRecipesGenRecipeIngrdnts.length; i++) {
+          let thisGenRecipeIngrdnt = thisGenRecipesGenRecipeIngrdnts[i];
+          let newMealIngredient = {
+            thisMealIngrdntJustCreated: false,
+            recordChanged: false,
+            thisMealIngrdntFormState: "viewing",
+            thisMealIngrdntUserType: mealUserType,
+            thisGenRecipeIngrdntFormState: "viewing",
+            thisGenRecipeIngrdntUserType: thisGenRecipeUserType,
+            thisIngrdntFormState: "viewing",
+            thisIngrdntUserType: this.setUserType(
+              initialUserType,
+              thisUsersId,
+              thisGenRecipeIngrdnt.ingredient.GRFUser._id
+            ),
+            thisMealIngrdnt: {
+              _id: "tempId-" + this.getRndInteger(10000000, 99999999),
+              qty: thisGenRecipeIngrdnt.defaultQty,
+              genRecipeIngredient: thisGenRecipeIngrdnt,
+              meal: thisMealObj,
+            },
+          };
+          thisMealsNewMealIngrdnts.push(newMealIngredient);
+        }
+        let thisWeeksDays = this.state.thisWeeksDays;
+        thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealsIngrdnts"
+        ] = thisMealsNewMealIngrdnts;
+        this.setState({ thisWeeksDays: thisWeeksDays });
+      });
   };
+
   renderDay = (dayOfWeek) => {
     let pattern = /missing/;
     let weekMealPlan = this.state.thisWeekMealPlan;
