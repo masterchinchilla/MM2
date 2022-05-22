@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { Component } from "react";
 const CreateMeal2 = (props) => {
-  const mealType = props.mealType;
+  const thisStateObj = props.thisStateObj;
+  const thisObj = thisStateObj.thisMeal;
+  const thisMealType = thisObj.mealType;
+  const thisMealTypeCode = thisMealType.code;
+  const thisDay = thisObj.day;
 
   const defaultRecipeIds = {
     breakfastId: "62577f516682e3955e98b1d0",
@@ -11,18 +15,18 @@ const CreateMeal2 = (props) => {
     dinnerId: "62577f8b6682e3955e98b1d3",
     dessertId: "62577f9c6682e3955e98b1d4",
   };
-  const thisDefaultRecipeId = defaultRecipeIds[`${mealType.code}Id`];
+  const thisDefaultRecipeId = defaultRecipeIds[`${thisMealTypeCode}Id`];
   const thisDefaultGenRecipe = {
     _id: thisDefaultRecipeId,
     name: " ",
-    availableMealType: mealType,
-    GRFUser: "62577a533813f4f21c27e1c7",
+    availableMealType: thisMealType,
+    GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
     defaultPrepInstructions: "",
     photoURL: "",
   };
   const newMeal = {
-    day: props.thisDay,
-    mealType: mealType,
+    day: thisDay,
+    mealType: thisMealType,
     genRecipe: thisDefaultGenRecipe,
   };
   const idForBSElements = props.getRndInteger(10000000, 99999999);
@@ -44,7 +48,7 @@ const CreateMeal2 = (props) => {
             aria-expanded="true"
             aria-controls="collapseOne"
           >
-            <h5>{props.thisDay.dayOfWeek + " " + props.mealType.name}</h5>
+            <h5>{thisDay.dayOfWeek.name + " " + thisMealType.name}</h5>
           </button>
         </h2>
         <form>
@@ -54,7 +58,7 @@ const CreateMeal2 = (props) => {
               value="Create Meal"
               className="btn btn-primary"
               onClick={() => {
-                props.onCreateMeal(newMeal);
+                props.onCreateRecord(newMeal);
               }}
             >
               Create Meal

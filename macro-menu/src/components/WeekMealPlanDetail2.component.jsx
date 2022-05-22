@@ -1131,7 +1131,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d032b01c53cff0db5cd9",
                     code: "monday",
-                    name: "monday",
+                    name: "Monday",
                   },
                   weekmealplan: {},
                 },
@@ -1213,7 +1213,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d032b01c53cff0db5cd9",
                           code: "monday",
-                          name: "monday",
+                          name: "Monday",
                         },
                         weekmealplan: {},
                       },
@@ -1300,7 +1300,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d032b01c53cff0db5cd9",
                     code: "monday",
-                    name: "monday",
+                    name: "Monday",
                   },
                   weekmealplan: {},
                 },
@@ -1382,7 +1382,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d032b01c53cff0db5cd9",
                           code: "monday",
-                          name: "monday",
+                          name: "Monday",
                         },
                         weekmealplan: {},
                       },
@@ -1475,7 +1475,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d032b01c53cff0db5cd9",
                     code: "monday",
-                    name: "monday",
+                    name: "Monday",
                   },
                   weekmealplan: {},
                 },
@@ -1557,7 +1557,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d032b01c53cff0db5cd9",
                           code: "monday",
-                          name: "monday",
+                          name: "Monday",
                         },
                         weekmealplan: {},
                       },
@@ -1644,7 +1644,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d032b01c53cff0db5cd9",
                     code: "monday",
-                    name: "monday",
+                    name: "Monday",
                   },
                   weekmealplan: {},
                 },
@@ -1726,7 +1726,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d032b01c53cff0db5cd9",
                           code: "monday",
-                          name: "monday",
+                          name: "Monday",
                         },
                         weekmealplan: {},
                       },
@@ -1813,7 +1813,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d032b01c53cff0db5cd9",
                     code: "monday",
-                    name: "monday",
+                    name: "Monday",
                   },
                   weekmealplan: {},
                 },
@@ -1895,7 +1895,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d032b01c53cff0db5cd9",
                           code: "monday",
-                          name: "monday",
+                          name: "Monday",
                         },
                         weekmealplan: {},
                       },
@@ -1982,7 +1982,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d032b01c53cff0db5cd9",
                     code: "monday",
-                    name: "monday",
+                    name: "Monday",
                   },
                   weekmealplan: {},
                 },
@@ -2064,7 +2064,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d032b01c53cff0db5cd9",
                           code: "monday",
-                          name: "monday",
+                          name: "Monday",
                         },
                         weekmealplan: {},
                       },
@@ -2168,7 +2168,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d045b01c53cff0db5cda",
                     code: "tuesday",
-                    name: "tuesday",
+                    name: "Tuesday",
                   },
                   weekmealplan: {},
                 },
@@ -2250,7 +2250,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d045b01c53cff0db5cda",
                           code: "tuesday",
-                          name: "tuesday",
+                          name: "Tuesday",
                         },
                         weekmealplan: {},
                       },
@@ -2337,7 +2337,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d045b01c53cff0db5cda",
                     code: "tuesday",
-                    name: "tuesday",
+                    name: "Tuesday",
                   },
                   weekmealplan: {},
                 },
@@ -2419,7 +2419,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d045b01c53cff0db5cda",
                           code: "tuesday",
-                          name: "tuesday",
+                          name: "Tuesday",
                         },
                         weekmealplan: {},
                       },
@@ -2512,7 +2512,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d045b01c53cff0db5cda",
                     code: "tuesday",
-                    name: "tuesday",
+                    name: "Tuesday",
                   },
                   weekmealplan: {},
                 },
@@ -2594,7 +2594,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d045b01c53cff0db5cda",
                           code: "tuesday",
-                          name: "tuesday",
+                          name: "Tuesday",
                         },
                         weekmealplan: {},
                       },
@@ -2681,7 +2681,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d045b01c53cff0db5cda",
                     code: "tuesday",
-                    name: "tuesday",
+                    name: "Tuesday",
                   },
                   weekmealplan: {},
                 },
@@ -2763,7 +2763,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d045b01c53cff0db5cda",
                           code: "tuesday",
-                          name: "tuesday",
+                          name: "Tuesday",
                         },
                         weekmealplan: {},
                       },
@@ -2850,7 +2850,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d045b01c53cff0db5cda",
                     code: "tuesday",
-                    name: "tuesday",
+                    name: "Tuesday",
                   },
                   weekmealplan: {},
                 },
@@ -2932,7 +2932,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d045b01c53cff0db5cda",
                           code: "tuesday",
-                          name: "tuesday",
+                          name: "Tuesday",
                         },
                         weekmealplan: {},
                       },
@@ -3019,7 +3019,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d045b01c53cff0db5cda",
                     code: "tuesday",
-                    name: "tuesday",
+                    name: "Tuesday",
                   },
                   weekmealplan: {},
                 },
@@ -3101,7 +3101,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d045b01c53cff0db5cda",
                           code: "tuesday",
-                          name: "tuesday",
+                          name: "Tuesday",
                         },
                         weekmealplan: {},
                       },
@@ -3205,7 +3205,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d058b01c53cff0db5cdb",
                     code: "wednesday",
-                    name: "wednesday",
+                    name: "Wednesday",
                   },
                   weekmealplan: {},
                 },
@@ -3287,7 +3287,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d058b01c53cff0db5cdb",
                           code: "wednesday",
-                          name: "wednesday",
+                          name: "Wednesday",
                         },
                         weekmealplan: {},
                       },
@@ -3374,7 +3374,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d058b01c53cff0db5cdb",
                     code: "wednesday",
-                    name: "wednesday",
+                    name: "Wednesday",
                   },
                   weekmealplan: {},
                 },
@@ -3456,7 +3456,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d058b01c53cff0db5cdb",
                           code: "wednesday",
-                          name: "wednesday",
+                          name: "Wednesday",
                         },
                         weekmealplan: {},
                       },
@@ -3549,7 +3549,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d058b01c53cff0db5cdb",
                     code: "wednesday",
-                    name: "wednesday",
+                    name: "Wednesday",
                   },
                   weekmealplan: {},
                 },
@@ -3631,7 +3631,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d058b01c53cff0db5cdb",
                           code: "wednesday",
-                          name: "wednesday",
+                          name: "Wednesday",
                         },
                         weekmealplan: {},
                       },
@@ -3718,7 +3718,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d058b01c53cff0db5cdb",
                     code: "wednesday",
-                    name: "wednesday",
+                    name: "Wednesday",
                   },
                   weekmealplan: {},
                 },
@@ -3800,7 +3800,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d058b01c53cff0db5cdb",
                           code: "wednesday",
-                          name: "wednesday",
+                          name: "Wednesday",
                         },
                         weekmealplan: {},
                       },
@@ -3887,7 +3887,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d058b01c53cff0db5cdb",
                     code: "wednesday",
-                    name: "wednesday",
+                    name: "Wednesday",
                   },
                   weekmealplan: {},
                 },
@@ -3969,7 +3969,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d058b01c53cff0db5cdb",
                           code: "wednesday",
-                          name: "wednesday",
+                          name: "Wednesday",
                         },
                         weekmealplan: {},
                       },
@@ -4056,7 +4056,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d058b01c53cff0db5cdb",
                     code: "wednesday",
-                    name: "wednesday",
+                    name: "Wednesday",
                   },
                   weekmealplan: {},
                 },
@@ -4138,7 +4138,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d058b01c53cff0db5cdb",
                           code: "wednesday",
-                          name: "wednesday",
+                          name: "Wednesday",
                         },
                         weekmealplan: {},
                       },
@@ -4242,7 +4242,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d06db01c53cff0db5cdc",
                     code: "thursday",
-                    name: "thursday",
+                    name: "Thursday",
                   },
                   weekmealplan: {},
                 },
@@ -4324,7 +4324,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d06db01c53cff0db5cdc",
                           code: "thursday",
-                          name: "thursday",
+                          name: "Thursday",
                         },
                         weekmealplan: {},
                       },
@@ -4411,7 +4411,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d06db01c53cff0db5cdc",
                     code: "thursday",
-                    name: "thursday",
+                    name: "Thursday",
                   },
                   weekmealplan: {},
                 },
@@ -4493,7 +4493,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d06db01c53cff0db5cdc",
                           code: "thursday",
-                          name: "thursday",
+                          name: "Thursday",
                         },
                         weekmealplan: {},
                       },
@@ -4586,7 +4586,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d06db01c53cff0db5cdc",
                     code: "thursday",
-                    name: "thursday",
+                    name: "Thursday",
                   },
                   weekmealplan: {},
                 },
@@ -4668,7 +4668,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d06db01c53cff0db5cdc",
                           code: "thursday",
-                          name: "thursday",
+                          name: "Thursday",
                         },
                         weekmealplan: {},
                       },
@@ -4755,7 +4755,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d06db01c53cff0db5cdc",
                     code: "thursday",
-                    name: "thursday",
+                    name: "Thursday",
                   },
                   weekmealplan: {},
                 },
@@ -4837,7 +4837,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d06db01c53cff0db5cdc",
                           code: "thursday",
-                          name: "thursday",
+                          name: "Thursday",
                         },
                         weekmealplan: {},
                       },
@@ -4924,7 +4924,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d06db01c53cff0db5cdc",
                     code: "thursday",
-                    name: "thursday",
+                    name: "Thursday",
                   },
                   weekmealplan: {},
                 },
@@ -5006,7 +5006,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d06db01c53cff0db5cdc",
                           code: "thursday",
-                          name: "thursday",
+                          name: "Thursday",
                         },
                         weekmealplan: {},
                       },
@@ -5093,7 +5093,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d06db01c53cff0db5cdc",
                     code: "thursday",
-                    name: "thursday",
+                    name: "Thursday",
                   },
                   weekmealplan: {},
                 },
@@ -5175,7 +5175,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d06db01c53cff0db5cdc",
                           code: "thursday",
-                          name: "thursday",
+                          name: "Thursday",
                         },
                         weekmealplan: {},
                       },
@@ -5279,7 +5279,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d07eb01c53cff0db5cdd",
                     code: "friday",
-                    name: "friday",
+                    name: "Friday",
                   },
                   weekmealplan: {},
                 },
@@ -5361,7 +5361,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d07eb01c53cff0db5cdd",
                           code: "friday",
-                          name: "friday",
+                          name: "Friday",
                         },
                         weekmealplan: {},
                       },
@@ -5448,7 +5448,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d07eb01c53cff0db5cdd",
                     code: "friday",
-                    name: "friday",
+                    name: "Friday",
                   },
                   weekmealplan: {},
                 },
@@ -5530,7 +5530,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d07eb01c53cff0db5cdd",
                           code: "friday",
-                          name: "friday",
+                          name: "Friday",
                         },
                         weekmealplan: {},
                       },
@@ -5623,7 +5623,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d07eb01c53cff0db5cdd",
                     code: "friday",
-                    name: "friday",
+                    name: "Friday",
                   },
                   weekmealplan: {},
                 },
@@ -5705,7 +5705,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d07eb01c53cff0db5cdd",
                           code: "friday",
-                          name: "friday",
+                          name: "Friday",
                         },
                         weekmealplan: {},
                       },
@@ -5792,7 +5792,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d07eb01c53cff0db5cdd",
                     code: "friday",
-                    name: "friday",
+                    name: "Friday",
                   },
                   weekmealplan: {},
                 },
@@ -5874,7 +5874,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d07eb01c53cff0db5cdd",
                           code: "friday",
-                          name: "friday",
+                          name: "Friday",
                         },
                         weekmealplan: {},
                       },
@@ -5961,7 +5961,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d07eb01c53cff0db5cdd",
                     code: "friday",
-                    name: "friday",
+                    name: "Friday",
                   },
                   weekmealplan: {},
                 },
@@ -6043,7 +6043,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d07eb01c53cff0db5cdd",
                           code: "friday",
-                          name: "friday",
+                          name: "Friday",
                         },
                         weekmealplan: {},
                       },
@@ -6130,7 +6130,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d07eb01c53cff0db5cdd",
                     code: "friday",
-                    name: "friday",
+                    name: "Friday",
                   },
                   weekmealplan: {},
                 },
@@ -6212,7 +6212,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d07eb01c53cff0db5cdd",
                           code: "friday",
-                          name: "friday",
+                          name: "Friday",
                         },
                         weekmealplan: {},
                       },
@@ -6316,7 +6316,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d08cb01c53cff0db5cde",
                     code: "saturday",
-                    name: "saturday",
+                    name: "Saturday",
                   },
                   weekmealplan: {},
                 },
@@ -6398,7 +6398,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d08cb01c53cff0db5cde",
                           code: "saturday",
-                          name: "saturday",
+                          name: "Saturday",
                         },
                         weekmealplan: {},
                       },
@@ -6485,7 +6485,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d08cb01c53cff0db5cde",
                     code: "saturday",
-                    name: "saturday",
+                    name: "Saturday",
                   },
                   weekmealplan: {},
                 },
@@ -6567,7 +6567,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d08cb01c53cff0db5cde",
                           code: "saturday",
-                          name: "saturday",
+                          name: "Saturday",
                         },
                         weekmealplan: {},
                       },
@@ -6660,7 +6660,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d08cb01c53cff0db5cde",
                     code: "saturday",
-                    name: "saturday",
+                    name: "Saturday",
                   },
                   weekmealplan: {},
                 },
@@ -6742,7 +6742,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d08cb01c53cff0db5cde",
                           code: "saturday",
-                          name: "saturday",
+                          name: "Saturday",
                         },
                         weekmealplan: {},
                       },
@@ -6829,7 +6829,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d08cb01c53cff0db5cde",
                     code: "saturday",
-                    name: "saturday",
+                    name: "Saturday",
                   },
                   weekmealplan: {},
                 },
@@ -6911,7 +6911,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d08cb01c53cff0db5cde",
                           code: "saturday",
-                          name: "saturday",
+                          name: "Saturday",
                         },
                         weekmealplan: {},
                       },
@@ -6998,7 +6998,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d08cb01c53cff0db5cde",
                     code: "saturday",
-                    name: "saturday",
+                    name: "Saturday",
                   },
                   weekmealplan: {},
                 },
@@ -7080,7 +7080,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d08cb01c53cff0db5cde",
                           code: "saturday",
-                          name: "saturday",
+                          name: "Saturday",
                         },
                         weekmealplan: {},
                       },
@@ -7167,7 +7167,7 @@ export default class WeekMealPlanDetail extends Component {
                   dayOfWeek: {
                     _id: "6287d08cb01c53cff0db5cde",
                     code: "saturday",
-                    name: "saturday",
+                    name: "Saturday",
                   },
                   weekmealplan: {},
                 },
@@ -7249,7 +7249,7 @@ export default class WeekMealPlanDetail extends Component {
                         dayOfWeek: {
                           _id: "6287d08cb01c53cff0db5cde",
                           code: "saturday",
-                          name: "saturday",
+                          name: "Saturday",
                         },
                         weekmealplan: {},
                       },
@@ -7436,6 +7436,7 @@ export default class WeekMealPlanDetail extends Component {
         let mealsData = response.data;
         let mealTypes = this.state.mealTypes;
         let thisDaysMeals = thisDayToUpdate.thisDaysMeals;
+        console.log(thisDaysMeals);
         let thisWeeksDays = this.state.thisWeeksDays;
         if (mealsData.length < 1) {
           return;
@@ -7468,7 +7469,9 @@ export default class WeekMealPlanDetail extends Component {
                 thisMealTypeCode
               );
             } else {
+              return;
             }
+            console.log(thisDaysMeals);
             thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"] = thisDaysMeals;
           }
           this.setState({ thisWeeksDays: thisWeeksDays });
@@ -8086,6 +8089,9 @@ export default class WeekMealPlanDetail extends Component {
       });
     }
   };
+  handleCreateRecord = (ObjToCreate) => {
+    console.log("created record");
+  };
   handleCreateDay = (dayOfWeek) => {
     const day = {
       dayOfWeek: dayOfWeek.code,
@@ -8254,6 +8260,8 @@ export default class WeekMealPlanDetail extends Component {
             onDeleteRecord={this.handleDeleteRecord}
             onUpdateProp={this.handleUpdateProp}
             populateNewMealIngredients={this.populateNewMealIngredients}
+            onCreateRecord={this.handleCreateRecord}
+            getRndInteger={this.getRndInteger}
           />
         );
       }

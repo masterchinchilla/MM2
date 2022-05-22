@@ -50,91 +50,91 @@ const DayDetail3 = (props) => {
   const renderMeal = (mealType, arrayIndex) => {
     let pattern = /missing/;
     let thisMealTypeCode = mealType.code;
-    let thisStateObj = thisDaysMeals[thisMealTypeCode];
-    let mealLoadStatus = thisStateObj.dataLoaded;
-    if (mealLoadStatus === false) {
-      return;
-    } else {
-      let thisObj = thisStateObj.thisMeal;
-      let thisObjsAuthorsId = thisWMP.GRFUser._id;
-      let thisObjsId = thisObj._id;
-      console.log(thisObj);
-      let testResult = pattern.test(thisObjsId);
-      let thisUser = thisGRFUser;
-      let thisUsersId = thisUser._id;
-      if (testResult === true) {
-        if (userType === "admin" || thisUsersId === thisObjsAuthorsId) {
-          return (
-            <CreateMeal2
-              key={thisObjsId}
-              thisObj={thisStateObj}
-              onCreateMeal={props.onCreateMeal}
-            />
-          );
-        } else {
-          return (
-            <div class="alert alert-secondary" role="alert">
-              <em>
-                <span>No {mealType.name}</span> Meal Plan added to this day...
-              </em>
-            </div>
-          );
-        }
-      } else {
-        let thisMealTypesMeals = props.allMeals.filter(
-          (meal) => meal.mealType.code === thisMealTypeCode
-        );
-        let thisMealTypesRecipes = props.allGenRecipes.filter(
-          (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
-        );
-        let thisRecipesIngrdnts = props.allGenRecipeIngredients.filter(
-          (genRecipeIngredient) =>
-            genRecipeIngredient.genRecipe.availableMealType.code ===
-            thisMealTypeCode
-        );
-        let thisMealWeight = thisWMP[`${mealType.code}Weight`];
-        let thisMealsMealIngredients = thisDaysMealsIngrdnts[arrayIndex];
-        let mealHasChildren = false;
-        thisMealsMealIngredients.length > 0
-          ? (mealHasChildren = true)
-          : (mealHasChildren = false);
+    let thisMealStateObj = thisDaysMeals[thisMealTypeCode];
+    // let mealLoadStatus = thisMealStateObj.dataLoaded;
+    // if (mealLoadStatus === false) {
+    //   return;
+    // } else {
+    let thisMealObj = thisMealStateObj.thisMeal;
+    let thisMealObjsAuthorsId = thisWMP.GRFUser._id;
+    let thisMealObjsId = thisMealObj._id;
+    let testResult = pattern.test(thisMealObjsId);
+    let thisUser = thisGRFUser;
+    let thisUsersId = thisUser._id;
+    if (testResult) {
+      if (userType === "admin" || thisUsersId === thisMealObjsAuthorsId) {
         return (
-          <MealDetail3
-            //Specific Props
-            //Data
-            key={thisObjsId}
-            macrosBudget={macrosBudget}
-            thisMealWeight={thisMealWeight}
-            //Methods
-            populateNewMealIngredients={props.populateNewMealIngredients}
-            onChangeMealRecipe={props.onChangeMealRecipe}
-            //Common Props
-            //Data
-            thisStateObj={thisStateObj}
-            hasChildren={mealHasChildren}
-            thisGRFUser={props.thisGRFUser}
-            allGRFUsers={props.allGRFUsers}
-            allDays={props.allDays}
-            thisMealTypesRecipes={thisMealTypesRecipes}
-            mealTypes={props.mealTypes}
-            allIngredients={props.allIngredients}
-            // allGenRecipeIngredients={props.allGenRecipeIngredients}
-            thisRecipesIngrdnts={thisRecipesIngrdnts}
-            thisMealTypesMeals={thisMealTypesMeals}
-            allUnitOfMeasures={props.allUnitOfMeasures}
-            allWeightTypes={props.allWeightTypes}
-            allBrands={props.allBrands}
-            daysOfWeek={props.daysOfWeek}
-            //Methods
-            onClickEditForm={props.onClickEditForm}
-            onCancelEditForm={props.onCancelEditForm}
-            onSaveFormChanges={props.onSaveFormChanges}
-            onDeleteRecord={props.onDeleteRecord}
-            onUpdateProp={props.onUpdateProp}
+          <CreateMeal2
+            key={thisMealObjsId}
+            thisStateObj={thisMealStateObj}
+            onCreateMeal={props.onCreateMeal}
+            getRndInteger={props.getRndInteger}
           />
         );
+      } else {
+        return (
+          <div className="alert alert-secondary" role="alert">
+            <em>
+              <span>No {mealType.name}</span> Meal Plan added to this day...
+            </em>
+          </div>
+        );
       }
+    } else {
+      let thisMealTypesMeals = props.allMeals.filter(
+        (meal) => meal.mealType.code === thisMealTypeCode
+      );
+      let thisMealTypesRecipes = props.allGenRecipes.filter(
+        (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
+      );
+      let thisRecipesIngrdnts = props.allGenRecipeIngredients.filter(
+        (genRecipeIngredient) =>
+          genRecipeIngredient.genRecipe.availableMealType.code ===
+          thisMealTypeCode
+      );
+      let thisMealWeight = thisWMP[`${mealType.code}Weight`];
+      let thisMealsMealIngredients = thisDaysMealsIngrdnts[arrayIndex];
+      let mealHasChildren = false;
+      thisMealsMealIngredients.length > 0
+        ? (mealHasChildren = true)
+        : (mealHasChildren = false);
+      return (
+        <MealDetail3
+          //Specific Props
+          //Data
+          key={thisMealObjsId}
+          macrosBudget={macrosBudget}
+          thisMealWeight={thisMealWeight}
+          //Methods
+          populateNewMealIngredients={props.populateNewMealIngredients}
+          onChangeMealRecipe={props.onChangeMealRecipe}
+          //Common Props
+          //Data
+          thisStateObj={thisMealStateObj}
+          hasChildren={mealHasChildren}
+          thisGRFUser={props.thisGRFUser}
+          allGRFUsers={props.allGRFUsers}
+          allDays={props.allDays}
+          thisMealTypesRecipes={thisMealTypesRecipes}
+          mealTypes={props.mealTypes}
+          allIngredients={props.allIngredients}
+          // allGenRecipeIngredients={props.allGenRecipeIngredients}
+          thisRecipesIngrdnts={thisRecipesIngrdnts}
+          thisMealTypesMeals={thisMealTypesMeals}
+          allUnitOfMeasures={props.allUnitOfMeasures}
+          allWeightTypes={props.allWeightTypes}
+          allBrands={props.allBrands}
+          daysOfWeek={props.daysOfWeek}
+          //Methods
+          onClickEditForm={props.onClickEditForm}
+          onCancelEditForm={props.onCancelEditForm}
+          onSaveFormChanges={props.onSaveFormChanges}
+          onDeleteRecord={props.onDeleteRecord}
+          onUpdateProp={props.onUpdateProp}
+        />
+      );
     }
+    // }
   };
   return (
     <div className="card mt-3 mb-3">
