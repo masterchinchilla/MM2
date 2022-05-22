@@ -7800,11 +7800,141 @@ export default class WeekMealPlanDetail extends Component {
     };
     this.setState(state);
   };
-  handleSaveFormChanges = (parentObj, stateObj) => {
-    let recordToSave = parentObj;
+  handleSaveFormChanges = (parentObj, objType) => {
+    let recordToSave;
+
+    switch (objType) {
+      case "weekMealPlan":
+        recordToSave = parentObj.thisWMP;
+        break;
+      case "day":
+        recordToSave = parentObj.day;
+        break;
+      case "meal":
+        recordToSave = parentObj.thisMeal;
+        break;
+      case "genRecipe":
+        recordToSave = parentObj.thisMeal.genRecipe;
+        break;
+      case "mealIngredient":
+        recordToSave = parentObj.thisMealIngrdnt;
+        break;
+      case "genRecipeIngredient":
+        recordToSave = parentObj.thisMealIngrdnt.genRecipeIngredient;
+        break;
+      case "ingredient":
+        recordToSave = parentObj.thisMealIngrdnt.genRecipeIngredient.ingredient;
+        break;
+    }
+    console.log(parentObj);
     let recordId = recordToSave._id;
-    let url = `http://localhost:5000/${stateObj}s/update${recordId}`;
-    axios.post(url, parentObj).then(console.log("updated"));
+    let url = `http://localhost:5000/${objType}s/update/${recordId}`;
+    axios.put(url, recordToSave).then(console.log("updated"));
+    if (objType === "meal" && parentObj.userChangedThisMealsRecipe === true) {
+      let dayOfWeekCode = recordToSave.day.dayOfWeek.code;
+      let mealTypeCode = recordToSave.mealType.code;
+      this.handleSaveMealRecipeChange(dayOfWeekCode, mealTypeCode);
+    }
+  };
+  handleSaveMealRecipeChange = (dayOfWeekCode, mealTypeCode) => {
+    let state = this.state;
+    let thisWeeksDays = state.thisWeeksDays;
+    let thisWeeksDaysOld = state.thisWeeksDaysOld;
+    let theseMealIngrdntsToDelete =
+      thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+        "thisMealsIngrdnts"
+      ];
+    let theseMealIngrdntsToSave =
+      thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+        "thisMealsIngrdnts"
+      ];
+    for (let i = 0; i < theseMealIngrdntsToSave; i++) {
+      let thisMealIngrdntStateObj = theseMealIngrdntsToSave[i];
+      let thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+      axios
+        .post("http://localhost:5000/mealIngredients/add", thisMealIngrdntObj)
+        .then((response) => {
+          thisMealIngrdntObj._id = response.data._id;
+          console.log(thisMealIngrdntObj);
+        });
+    }
+    for (let i = 0; i < theseMealIngrdntsToDelete; i++) {
+      let thisMealIngrdntStateObj = theseMealIngrdntsToDelete[i];
+      let thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+      let thisMealIngrdntId = thisMealIngrdntObj._id;
+      axios
+        .delete("http://localhost:5000/mealIngredients/" + thisMealIngrdntId)
+        .then(console.log("meal ingredient deleted"));
+    }
+    let initialWMPUserType = state.thisUserType;
+    state.thisWeekMealPlan.userType = initialWMPUserType;
+    thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+      "recordChanged"
+    ] = false;
+    thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+      "userChangedThisMealsRecipe"
+    ] = false;
+    let daysOfWeek = state.daysOfWeek;
+    let mealTypes = state.mealTypes;
+    for (let i = 0; i < daysOfWeek.length; i++) {
+      let dayOfWeekCode = daysOfWeek[i].code;
+      let initialDayUserType = thisWeeksDaysOld[dayOfWeekCode]["userType"];
+      thisWeeksDays[dayOfWeekCode]["userType"] = initialDayUserType;
+      thisWeeksDays[dayOfWeekCode]["thisFormState"] = "viewing";
+      for (let i = 0; i < mealTypes.length; i++) {
+        let mealTypeCode = mealTypes[i].code;
+        let thisDayMeal =
+          thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode];
+        let initialMealUserType =
+          thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            "thisMealUserType"
+          ];
+        let initialGenRecipeUserType =
+          thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            "thisGenRecipeUserType"
+          ];
+        thisDayMeal["thisMealUserType"] = initialMealUserType;
+        thisDayMeal["thisGenRecipeUserType"] = initialGenRecipeUserType;
+        thisDayMeal["thisMealFormState"] = "viewing";
+        thisDayMeal["thisGenRecipeFormState"] = "viewing";
+        for (let i = 0; i < thisDayMeal.thisMealsIngrdnts.length; i++) {
+          let thisMealIngrdnt = thisDayMeal.thisMealsIngrdnts[i];
+          let initialMealIngrdntUserType =
+            thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+              "thisMealsIngrdnts"
+            ][i]["thisMealIngrdntUserType"];
+          let initialGenRecipeIngrdntUserType =
+            thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+              "thisMealsIngrdnts"
+            ][i]["thisGenRecipeIngrdntUserType"];
+          let initialIngrdntUserType =
+            thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+              "thisMealsIngrdnts"
+            ][i]["thisIngrdntUserType"];
+          thisMealIngrdnt.thisMealIngrdntFormState = "viewing";
+          thisMealIngrdnt.thisMealIngrdntUserType = initialMealIngrdntUserType;
+          thisMealIngrdnt.thisGenRecipeIngrdntFormState = "viewing";
+          thisMealIngrdnt.thisGenRecipeIngrdntUserType =
+            initialGenRecipeIngrdntUserType;
+          thisMealIngrdnt.thisIngrdntFormState = "viewing";
+          thisMealIngrdnt.thisIngrdntUserType = initialIngrdntUserType;
+          thisDayMeal.thisMealsIngrdnts[i] = thisMealIngrdnt;
+        }
+        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode] =
+          thisDayMeal;
+      }
+    }
+    state.thisWeeksDays = thisWeeksDays;
+    state.thisWeeksDaysOld = {
+      sunday: {},
+      monday: {},
+      tuesday: {},
+      wednesday: {},
+      thursday: {},
+      friday: {},
+      saturday: {},
+    };
+    this.setState(state);
   };
   deleteRecord = (recordId, ObjType) => {
     let url = `http://localhost:5000/${ObjType}s/${recordId}`;
@@ -8132,18 +8262,17 @@ export default class WeekMealPlanDetail extends Component {
       });
   };
   populateNewMealIngredients = (
-    initialUserType,
-    thisUsersId,
     thisGenRecipeUserType,
     dayOfWeekCode,
     mealTypeCode,
     thisRecipe
   ) => {
+    const initialUserType = this.state.userType;
+    const thisUsersId = this.state.thisGRFUser._id;
     const thisRecipeId = thisRecipe._id;
-    const thisMealObj =
-      this.state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-        "thisMeal"
-      ];
+    const thisMealStateObj =
+      this.state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode];
+    const thisMealObj = thisMealStateObj.thisMeal;
     const mealUserType = this.state.thisWeekMealPlan.userType;
     axios
       .get(
@@ -8183,6 +8312,16 @@ export default class WeekMealPlanDetail extends Component {
         thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
           "thisMealsIngrdnts"
         ] = thisMealsNewMealIngrdnts;
+        thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "mealRecordChanged"
+        ] = true;
+        thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "userChangedThisMealsRecipe"
+        ] = true;
+        thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+          "thisMealFormState"
+        ] = "editingOrig";
+        this.handleClickEditForm(thisMealStateObj, "meal");
         this.setState({ thisWeeksDays: thisWeeksDays });
       });
   };

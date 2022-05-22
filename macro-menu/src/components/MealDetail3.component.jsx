@@ -86,8 +86,10 @@ const MealDetail3 = (props) => {
                   className="btn btn-primary"
                   onClick={() => {
                     props.populateNewMealIngredients(
-                      thisObj.mealType.code,
-                      thisObj.genRecipe._id
+                      thisObj.thisGenRecipeUserType,
+                      dayOfWeek.code,
+                      thisMealTypeCode,
+                      thisObj.genRecipe
                     );
                   }}
                 >
