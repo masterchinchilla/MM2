@@ -8103,7 +8103,7 @@ export default class WeekMealPlanDetail extends Component {
     this.setState({ thisWeeksDays });
   };
   handleUpdateProp = (
-    ObjType,
+    objType,
     dayOfWeekCode,
     mealTypeCode,
     propToUpdate,
@@ -8120,42 +8120,63 @@ export default class WeekMealPlanDetail extends Component {
     let state = this.state;
     let initialUserType = state.thisUserType;
     let thisUsersId = state.thisGRFUser._id;
-    switch (ObjType) {
+    let thisWMPStateObj = state.thisWeekMealPlan;
+    let thisWMPObj = thisWMPStateObj.thisWMP;
+    let thisWeeksDays = state.thisWeeksDays;
+    let thisDayStateObj;
+    let thisDayObj;
+    let thisDaysMeals;
+    let thisMealStateObj;
+    let thisGenRecipeObj;
+    let thisMealObj;
+    let thisMealsIngrdnts;
+    let thisMealIngrdntStateObj;
+    let thisMealIngrdntObj;
+    let thisGenRecipeIngrdntObj;
+    let thisIngrdntObj;
+    if (objType !== "weekMealPlan") {
+      thisDayStateObj = thisWeeksDays[dayOfWeekCode];
+      thisDayObj = thisDayStateObj.thisDay;
+      thisDaysMeals = thisDayStateObj.thisDaysMeals;
+    }
+    if (objType !== ("day" || "weekMealPlan")) {
+      thisMealStateObj = thisDaysMeals[mealTypeCode];
+      thisMealObj = thisMealStateObj.thisMeal;
+      thisGenRecipeObj = thisMealObj.genRecipe;
+      thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+    }
+    if (objType !== ("meal" || "day" || "weekMealPlan")) {
+      thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
+      thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+      thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
+      thisIngrdntObj = thisMealIngrdntObj.ingredient;
+    }
+    switch (objType) {
       case "weekMealPlan":
-        state.thisWeekMealPlan.thisWMP[propToUpdate] = newValue;
-        state.thisWeekMealPlan.recordChanged = true;
+        thisWMPObj[propToUpdate] = newValue;
+        thisWMPStateObj.recordChanged = true;
+        state.thisWeekMealPlan = thisWMPStateObj;
         break;
       case "day":
-        state.thisWeeksDays[dayOfWeekCode]["thisDay"][propToUpdate] = newValue;
-        state.thisWeeksDays[dayOfWeekCode]["recordChanged"] = true;
+        thisDayObj[propToUpdate] = newValue;
+        thisDayStateObj.thisDay = thisDayObj;
+        thisDayStateObj.recordChanged = true;
         break;
       case "meal":
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMeal"
-        ][propToUpdate] = newValue;
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "mealRecordChanged"
-        ] = true;
-
+        thisMealObj[propToUpdate] = newValue;
+        thisMealStateObj.mealRecordChanged = true;
         if (propToUpdate === "genRecipe") {
-          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            "userChangedThisMealsRecipe"
-          ] = true;
-          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            "thisMealJustCreated"
-          ] = false;
+          thisMealStateObj.userChangedThisMealsRecipe = true;
+          thisMealStateObj.thisMealJustCreated = false;
           let thisGenRecipeUserType = this.setUserType(
             initialUserType,
             thisUsersId,
             newValue.GRFUser._id
           );
-          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            "thisGenRecipeUserType"
-          ] = thisGenRecipeUserType;
-
+          thisMealStateObj.thisGenRecipeUserType = thisGenRecipeUserType;
           this.populateNewMealIngredients(
-            initialUserType,
-            thisUsersId,
+            // initialUserType,
+            // thisUsersId,
             thisGenRecipeUserType,
             dayOfWeekCode,
             mealTypeCode,
@@ -8164,51 +8185,48 @@ export default class WeekMealPlanDetail extends Component {
         }
         break;
       case "genRecipe":
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMeal"
-        ]["genRecipe"][propToUpdate] = newValue;
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "genRecipeRecordChanged"
-        ] = true;
+        thisGenRecipeObj[propToUpdate] = newValue;
+        thisMealObj.genRecipe = thisGenRecipeObj;
+        thisMealStateObj["genRecipeRecordChanged"] = true;
         break;
       case "mealIngredient":
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMealsIngrdnts"
-        ][arrayIndex]["thisMealIngrdnt"][propToUpdate] = newValue;
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMealsIngrdnts"
-        ][arrayIndex]["mealIngrdntRecordChanged"] = true;
+        thisMealIngrdntObj[propToUpdate] = newValue;
+        thisMealIngrdntStateObj["mealIngrdntRecordChanged"] = true;
         break;
       case "genRecipeIngredient":
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMealsIngrdnts"
-        ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"][propToUpdate] =
-          newValue;
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMealsIngrdnts"
-        ][arrayIndex]["genRecipeIngrdntRecordChanged"] = true;
+        thisGenRecipeIngrdntObj[propToUpdate] = newValue;
+        thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
+        thisMealIngrdntStateObj["genRecipeIngrdntRecordChanged"] = true;
         if (propToUpdate === "ingredient") {
-          let thisObjAuthorId = newValue._id;
           let newIngrdntUserType = this.setUserType(
             initialUserType,
             thisUsersId,
-            thisObjAuthorId
+            newValue.GRFUser._id
           );
-          state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            "thisMealsIngrdnts"
-          ][arrayIndex]["ingrdntUserType"] = newIngrdntUserType;
+          thisMealIngrdntStateObj["ingrdntUserType"] = newIngrdntUserType;
         }
         break;
       case "ingredient":
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMealsIngrdnts"
-        ][arrayIndex]["thisMealIngrdnt"]["genRecipeIngredient"]["ingredient"][
-          propToUpdate
-        ] = newValue;
-        state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-          "thisMealsIngrdnts"
-        ][arrayIndex]["ingrdntRecordChanged"] = true;
+        thisIngrdntObj[propToUpdate] = newValue;
+        thisMealIngrdntObj.ingredient = thisIngrdntObj;
+        thisMealIngrdntStateObj["ingrdntRecordChanged"] = true;
         break;
+    }
+    if (objType !== ("meal" || "day" || "weekMealPlan")) {
+      thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
+      thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+      thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+    }
+    if (objType === ("meal" || "genRecipe")) {
+      thisMealStateObj.thisMeal = thisMealObj;
+    }
+    if (objType !== ("day" || "weekMealPlan")) {
+      thisDaysMeals[mealTypeCode] = thisMealStateObj;
+      thisDayStateObj.thisDaysMeals = thisDaysMeals;
+    }
+    if (objType !== "weekMealPlan") {
+      thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+      state.thisWeeksDays = thisWeeksDays;
     }
     this.setState({ state });
   };
@@ -8262,6 +8280,8 @@ export default class WeekMealPlanDetail extends Component {
       });
   };
   populateNewMealIngredients = (
+    // initialUserType,
+    // thisUsersId,
     thisGenRecipeUserType,
     dayOfWeekCode,
     mealTypeCode,
