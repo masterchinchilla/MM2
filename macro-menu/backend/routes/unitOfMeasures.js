@@ -12,7 +12,7 @@ let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
 
 router.route('/').get((req, res)=>{
-    UnitOfMeasure.find()
+    UnitOfMeasure.find().populate("GRFUser")
         .then(unitOfMeasure=>res.json(unitOfMeasure))
         .catch(err=>res.status(400).json('Error: '+err));
 });

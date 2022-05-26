@@ -156,22 +156,22 @@ const EditOptions = (props) => {
             hidden={hideIcon("cancel")}
           />
         </button>
-        {objType === ("meal" || "mealIngredient" || "day" || "weekMealPlan") ? (
-          <button
-            type="button"
-            onClick={() => {
-              onSaveFormChanges(parentObj, objType);
-            }}
-            className="iconBttn"
-          >
-            <FontAwesomeIcon
-              icon="fa-solid fa-floppy-disk"
-              size="xl"
-              className={recordChanged === true ? "changingWarning p-1" : "p-1"}
-              hidden={hideIcon("save")}
-            />
-          </button>
-        ) : (
+        {/* {objType === ("meal" || "mealIngredient" || "day" || "weekMealPlan") ? ( */}
+        <button
+          type="button"
+          onClick={() => {
+            onSaveFormChanges(parentObj, objType);
+          }}
+          className="iconBttn"
+        >
+          <FontAwesomeIcon
+            icon="fa-solid fa-floppy-disk"
+            size="xl"
+            className={recordChanged === true ? "changingWarning p-1" : "p-1"}
+            hidden={hideIcon("save")}
+          />
+        </button>
+        {/* ) : (
           <button type="submit" className="iconBttn">
             <FontAwesomeIcon
               icon="fa-solid fa-floppy-disk"
@@ -180,7 +180,7 @@ const EditOptions = (props) => {
               hidden={hideIcon("save")}
             />
           </button>
-        )}
+        )} */}
 
         <button
           type="button"
@@ -252,9 +252,9 @@ const EditOptions = (props) => {
                   type="button"
                   className="btn btn-danger"
                   onClick={() => {
-                    // onDeleteRecord(parentObj, objType);
-                    console.log("confirmed delete");
+                    // console.log("confirmed delete");
                     toggleHideDeleteWarning(true);
+                    onDeleteRecord(parentObj, objType);
                   }}
                 >
                   Delete

@@ -31,7 +31,7 @@ router.route('/daysofthiswmp/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 router.route('/add').post((req, res) => {
-    const dayOfWeek = req.body.dayOfWeek._id;
+    const dayOfWeek = req.body.dayOfWeek;
     const name = req.body.name;
     const weekMealPlan = req.body.weekMealPlan;
     const newDay = new Day({

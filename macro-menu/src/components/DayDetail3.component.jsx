@@ -67,7 +67,7 @@ const DayDetail3 = (props) => {
           <CreateMeal2
             key={thisMealObjsId}
             thisStateObj={thisMealStateObj}
-            onCreateMeal={props.onCreateMeal}
+            onCreateRecord={props.onCreateRecord}
             getRndInteger={props.getRndInteger}
           />
         );

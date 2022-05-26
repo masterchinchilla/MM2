@@ -5,8 +5,10 @@ const CreateMeal2 = (props) => {
   const thisObj = thisStateObj.thisMeal;
   const thisMealType = thisObj.mealType;
   const thisMealTypeCode = thisMealType.code;
-  const thisDay = thisObj.day;
 
+  const thisDay = thisObj.day;
+  const thisDayOfWeek = thisDay.dayOfWeek;
+  const thisDayOfWeekCode = thisDayOfWeek.code;
   const defaultRecipeIds = {
     breakfastId: "62577f516682e3955e98b1d0",
     snack1Id: "62577a7d93011a9b47306e6f",
@@ -28,6 +30,11 @@ const CreateMeal2 = (props) => {
     day: thisDay,
     mealType: thisMealType,
     genRecipe: thisDefaultGenRecipe,
+  };
+  const newMealToSave = {
+    day: thisDay._id,
+    mealType: thisMealType._id,
+    genRecipe: thisDefaultGenRecipe._id,
   };
   const idForBSElements = props.getRndInteger(10000000, 99999999);
   return (
@@ -58,7 +65,14 @@ const CreateMeal2 = (props) => {
               value="Create Meal"
               className="btn btn-primary"
               onClick={() => {
-                props.onCreateRecord(newMeal);
+                props.onCreateRecord(
+                  "meal",
+                  thisDayOfWeekCode,
+                  thisMealTypeCode,
+                  0,
+                  newMeal,
+                  newMealToSave
+                );
               }}
             >
               Create Meal

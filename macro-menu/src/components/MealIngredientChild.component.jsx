@@ -17,6 +17,7 @@ const MealIngredientChild = (props) => {
   const recordChanged = thisMealIngrdntObj.mealIngrdntRecordChanged;
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisMealTypesMeals = props.thisMealTypesMeals;
+  // console.log(thisMealTypesMeals);
   let deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (
@@ -147,6 +148,7 @@ const MealIngredientChild = (props) => {
                   return (
                     <option key={meal._id} value={JSON.stringify(meal)}>
                       {meal.day.name + " - " + meal.mealType.name}
+                      {/* Option */}
                     </option>
                   );
                 })}
