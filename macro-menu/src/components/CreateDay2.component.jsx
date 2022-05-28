@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 const CreateDay2 = (props) => {
-  console.log(props);
   const dayOfWeek = props.dayOfWeek;
   const dayOfWeekName = dayOfWeek.name;
   const weekMealPlan = props.weekMealPlan;
@@ -10,7 +9,7 @@ const CreateDay2 = (props) => {
   const newRecordForState = {
     name: dayName,
     dayOfWeek: dayOfWeek,
-    weekMealPlan: weekMealPlan,
+    weekMealPlan: weekMealPlan.thisWMP,
   };
   const newRecordToSave = {
     name: dayName,

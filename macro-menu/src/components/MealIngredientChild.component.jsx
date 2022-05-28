@@ -148,10 +148,10 @@ const MealIngredientChild = (props) => {
                   return (
                     <option key={meal._id} value={JSON.stringify(meal)}>
                       {meal.day.name + " - " + meal.mealType.name}
-                      {/* Option */}
                     </option>
                   );
                 })}
+                {/* <option>Some Option</option> */}
               </select>
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">

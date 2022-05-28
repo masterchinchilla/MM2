@@ -5,7 +5,6 @@ const CreateMeal2 = (props) => {
   const thisObj = thisStateObj.thisMeal;
   const thisMealType = thisObj.mealType;
   const thisMealTypeCode = thisMealType.code;
-
   const thisDay = thisObj.day;
   const thisDayOfWeek = thisDay.dayOfWeek;
   const thisDayOfWeekCode = thisDayOfWeek.code;
@@ -31,6 +30,7 @@ const CreateMeal2 = (props) => {
     mealType: thisMealType,
     genRecipe: thisDefaultGenRecipe,
   };
+
   const newMealToSave = {
     day: thisDay._id,
     mealType: thisMealType._id,

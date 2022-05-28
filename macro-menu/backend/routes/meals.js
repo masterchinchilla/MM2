@@ -53,7 +53,7 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
             populate: { path: 'dayOfWeek' }
         })
         .then(meals => res.json(meals))
-        .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(400).json('Error: '+err));
 });
 router.route('/add').post((req, res)=>{
     const meal=new Meal(req.body);
