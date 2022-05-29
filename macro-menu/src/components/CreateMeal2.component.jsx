@@ -30,7 +30,6 @@ const CreateMeal2 = (props) => {
     mealType: thisMealType,
     genRecipe: thisDefaultGenRecipe,
   };
-
   const newMealToSave = {
     day: thisDay._id,
     mealType: thisMealType._id,

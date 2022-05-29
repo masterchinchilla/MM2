@@ -113,7 +113,8 @@ const GenRecipe = (props) => {
                   "defaultPrepInstructions",
                   0,
                   "textArea",
-                  e
+                  e,
+                  []
                 )
               }
               value={thisObj.defaultPrepInstructions}
@@ -160,7 +161,8 @@ const GenRecipe = (props) => {
                         "name",
                         0,
                         "text",
-                        e
+                        e,
+                        []
                       )
                     }
                   />
@@ -240,7 +242,7 @@ const GenRecipe = (props) => {
                       <select
                         required
                         className="form-control form-select"
-                        value={JSON.stringify(thisObj.availableMealType)}
+                        value={thisObj.availableMealType._id}
                         disabled={thisFormState == "viewing" ? true : false}
                         onChange={(e) =>
                           props.onUpdateProp(
@@ -250,7 +252,8 @@ const GenRecipe = (props) => {
                             "availableMealType",
                             0,
                             "select",
-                            e
+                            e,
+                            props.mealTypes
                           )
                         }
                       >
@@ -258,7 +261,7 @@ const GenRecipe = (props) => {
                           return (
                             <option
                               key={"allMealTypesListItem" + mealType._id}
-                              value={JSON.stringify(mealType)}
+                              value={mealType._id}
                             >
                               {mealType.name}
                             </option>
@@ -271,7 +274,7 @@ const GenRecipe = (props) => {
                       <select
                         required
                         className="form-control form-select"
-                        value={JSON.stringify(thisObj.GRFUser)}
+                        value={thisObj.GRFUser._id}
                         disabled={thisFormState == "viewing" ? true : false}
                         onChange={(e) =>
                           props.onUpdateProp(
@@ -281,7 +284,8 @@ const GenRecipe = (props) => {
                             "GRFUser",
                             0,
                             "select",
-                            e
+                            e,
+                            props.allGRFUsers
                           )
                         }
                       >
@@ -289,7 +293,7 @@ const GenRecipe = (props) => {
                           return (
                             <option
                               key={"allGRFUsersListItem" + GRFUser._id}
-                              value={JSON.stringify(GRFUser)}
+                              value={GRFUser._id}
                             >
                               {GRFUser.handle}
                             </option>

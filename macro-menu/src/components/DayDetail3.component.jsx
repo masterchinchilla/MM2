@@ -208,7 +208,8 @@ const DayDetail3 = (props) => {
                         "name",
                         0,
                         "text",
-                        e
+                        e,
+                        []
                       )
                     }
                   />
@@ -218,7 +219,7 @@ const DayDetail3 = (props) => {
                   <select
                     required
                     className="form-control form-select"
-                    value={JSON.stringify(thisDayOfWeek)}
+                    value={thisDayOfWeek._id}
                     disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
                       props.onUpdateProp(
@@ -228,7 +229,8 @@ const DayDetail3 = (props) => {
                         "dayOfWeek",
                         0,
                         "select",
-                        e
+                        e,
+                        daysOfWeek
                       )
                     }
                   >
@@ -236,7 +238,7 @@ const DayDetail3 = (props) => {
                       return (
                         <option
                           key={"daysOfWeekListItem" + dayOfWeek.name}
-                          value={JSON.stringify(dayOfWeek)}
+                          value={dayOfWeek._id}
                         >
                           {dayOfWeek.name}
                         </option>
@@ -249,7 +251,7 @@ const DayDetail3 = (props) => {
                   <select
                     required
                     className="form-control form-select"
-                    value={JSON.stringify(thisWMP)}
+                    value={thisWMP._id}
                     disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
                       props.onUpdateProp(
@@ -259,7 +261,8 @@ const DayDetail3 = (props) => {
                         "weekMealPlan",
                         0,
                         "select",
-                        e
+                        e,
+                        allWMPs
                       )
                     }
                   >
@@ -267,7 +270,7 @@ const DayDetail3 = (props) => {
                       return (
                         <option
                           key={"daysOfWeekListItem" + WMP.name}
-                          value={JSON.stringify(WMP)}
+                          value={WMP._id}
                         >
                           {WMP.name}
                         </option>

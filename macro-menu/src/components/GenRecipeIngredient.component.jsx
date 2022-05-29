@@ -51,7 +51,8 @@ const GenRecipeIngredient = (props) => {
               "defaultQty",
               mealIngrdntsArrayIndex,
               "number",
-              e
+              e,
+              []
             )
           }
           disabled={thisFormState === "viewing" ? true : false}
@@ -89,7 +90,7 @@ const GenRecipeIngredient = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisObj.ingredient)}
+                value={thisObj.ingredient._id}
                 disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
                   props.onUpdateProp(
@@ -99,16 +100,14 @@ const GenRecipeIngredient = (props) => {
                     "ingredient",
                     mealIngrdntsArrayIndex,
                     "select",
-                    e
+                    e,
+                    allIngredients
                   )
                 }
               >
                 {allIngredients.map(function (ingredient) {
                   return (
-                    <option
-                      key={ingredient._id}
-                      value={JSON.stringify(ingredient)}
-                    >
+                    <option key={ingredient._id} value={ingredient._id}>
                       {ingredient.name}
                     </option>
                   );
@@ -120,8 +119,8 @@ const GenRecipeIngredient = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisObj.genRecipe)}
-                disabled={userType !== "admin" ? true : false}
+                value={thisObj.genRecipe._id}
+                disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
                   props.onUpdateProp(
                     "genRecipeIngredient",
@@ -130,16 +129,14 @@ const GenRecipeIngredient = (props) => {
                     "genRecipe",
                     mealIngrdntsArrayIndex,
                     "select",
-                    e
+                    e,
+                    thisMealTypesRecipes
                   )
                 }
               >
                 {thisMealTypesRecipes.map(function (genRecipe) {
                   return (
-                    <option
-                      key={genRecipe._id}
-                      value={JSON.stringify(genRecipe)}
-                    >
+                    <option key={genRecipe._id} value={genRecipe._id}>
                       {genRecipe.name}
                     </option>
                   );

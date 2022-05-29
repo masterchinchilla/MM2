@@ -53,7 +53,8 @@ const MealIngredientChild = (props) => {
               "qty",
               mealIngrdntsArrayIndex,
               "number",
-              e
+              e,
+              []
             )
           }
           disabled={thisFormState === "viewing" ? true : false}
@@ -98,7 +99,7 @@ const MealIngredientChild = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisObj.genRecipeIngredient)}
+                value={thisObj.genRecipeIngredient._id}
                 disabled={thisFormState === "viewing" ? true : false}
                 //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                 onChange={(e) => {
@@ -109,7 +110,8 @@ const MealIngredientChild = (props) => {
                     "genRecipeIngredient",
                     mealIngrdntsArrayIndex,
                     "select",
-                    e
+                    e,
+                    thisRecipesIngrdnts
                   );
                 }}
               >
@@ -117,7 +119,7 @@ const MealIngredientChild = (props) => {
                   return (
                     <option
                       key={genRecipeIngredient._id}
-                      value={JSON.stringify(genRecipeIngredient)}
+                      value={genRecipeIngredient._id}
                     >
                       {genRecipeIngredient.ingredient.name}
                     </option>
@@ -130,7 +132,7 @@ const MealIngredientChild = (props) => {
               <select
                 required
                 className="form-control form-select"
-                value={JSON.stringify(thisObj.meal)}
+                value={thisObj.meal._id}
                 disabled={thisFormState === "viewing" ? true : false}
                 onChange={(e) =>
                   props.onUpdateProp(
@@ -140,13 +142,14 @@ const MealIngredientChild = (props) => {
                     "meal",
                     mealIngrdntsArrayIndex,
                     "select",
-                    e
+                    e,
+                    thisMealTypesMeals
                   )
                 }
               >
                 {thisMealTypesMeals.map(function (meal) {
                   return (
-                    <option key={meal._id} value={JSON.stringify(meal)}>
+                    <option key={meal._id} value={meal._id}>
                       {meal.day.name + " - " + meal.mealType.name}
                     </option>
                   );

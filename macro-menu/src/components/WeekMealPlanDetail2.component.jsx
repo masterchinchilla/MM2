@@ -7433,7 +7433,6 @@ export default class WeekMealPlanDetail extends Component {
     axios.get("http://localhost:5000/meals/mealsofthisday/" + thisDaysId).then(
       (response) => {
         let mealsData = response.data;
-        console.log(mealsData);
         let mealTypes = this.state.mealTypes;
         let thisDaysMeals = thisDayToUpdate.thisDaysMeals;
         let thisWeeksDays = this.state.thisWeeksDays;
@@ -7937,7 +7936,6 @@ export default class WeekMealPlanDetail extends Component {
     }
   };
   handleSaveMealRecipeChange = (dayOfWeekCode, mealTypeCode) => {
-    console.log("save meal recipe change triggered");
     let state = this.state;
     let thisWeeksDays = state.thisWeeksDays;
     let thisWeeksDaysOld = state.thisWeeksDaysOld;
@@ -7945,18 +7943,13 @@ export default class WeekMealPlanDetail extends Component {
       thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
         "thisMealsIngrdnts"
       ];
-    console.log(theseMealIngrdntsToDelete);
-
     let theseMealIngrdntsToSave =
       thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
         "thisMealsIngrdnts"
       ];
-    console.log(theseMealIngrdntsToSave);
     for (let i = 0; i < theseMealIngrdntsToSave.length; i++) {
       let thisMealIngrdntStateObj = theseMealIngrdntsToSave[i];
-      console.log(thisMealIngrdntStateObj);
       let thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
-      console.log(thisMealIngrdntObj);
       let thisMealIngrdntToSave = {
         qty: thisMealIngrdntObj.qty,
         genRecipeIngredient: thisMealIngrdntObj.genRecipeIngredient._id,
@@ -8247,14 +8240,18 @@ export default class WeekMealPlanDetail extends Component {
     propToUpdate,
     arrayIndex,
     inputType,
-    e
+    e,
+    selectedFrom
   ) => {
     let newValue;
-    if (inputType === "select" || inputType === "number") {
-      newValue = JSON.parse(e.target.value);
-    } else {
-      newValue = e.target.value;
-    }
+    // if (inputType === "select" || inputType === "number") {
+    //   newValue = JSON.parse(e.target.value);
+    // } else {
+    newValue = e.target.value;
+    // }
+    newValue = selectedFrom.filter(
+      (option) => option._id === e.target.value
+    )[0];
     let state = this.state;
     let initialUserType = state.thisUserType;
     let thisUsersId = state.thisGRFUser._id;
@@ -8470,6 +8467,7 @@ export default class WeekMealPlanDetail extends Component {
           //   thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
           // }
           thisMealStateObj.thisMealsIngrdnts = [];
+          thisMealStateObj.thisRecipesIngrdnts = [];
           thisMealStateObj.mealIngrdntsLoaded = true;
           thisMealStateObj.thisMealJustCreated = true;
           thisMealStateObj.mealRecordChanged = true;
@@ -8729,7 +8727,8 @@ export default class WeekMealPlanDetail extends Component {
                       "name",
                       0,
                       "text",
-                      e
+                      e,
+                      []
                     );
                   }}
                   disabled={
@@ -8757,9 +8756,10 @@ export default class WeekMealPlanDetail extends Component {
                 ref="userInput"
                 required
                 className="form-control form-select"
-                value={JSON.stringify(
-                  this.state.thisWeekMealPlan.thisWMP.GRFUser
-                )}
+                // value={JSON.stringify(
+                //   this.state.thisWeekMealPlan.thisWMP.GRFUser
+                // )}
+                value={this.state.thisWeekMealPlan.thisWMP.GRFUser._id}
                 onChange={(e) => {
                   this.handleUpdateProp(
                     "weekMealPlan",
@@ -8768,7 +8768,8 @@ export default class WeekMealPlanDetail extends Component {
                     "GRFUser",
                     0,
                     "select",
-                    e
+                    e,
+                    this.state.allGRFUsers
                   );
                 }}
                 disabled={
@@ -8779,7 +8780,7 @@ export default class WeekMealPlanDetail extends Component {
               >
                 {this.state.allGRFUsers.map(function (GRFUser) {
                   return (
-                    <option key={GRFUser._id} value={JSON.stringify(GRFUser)}>
+                    <option key={GRFUser._id} value={GRFUser._id}>
                       {GRFUser.handle}
                     </option>
                   );
@@ -8840,7 +8841,8 @@ export default class WeekMealPlanDetail extends Component {
                               "breakfastWeight",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -8868,7 +8870,8 @@ export default class WeekMealPlanDetail extends Component {
                               "snack1Weight",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -8896,7 +8899,8 @@ export default class WeekMealPlanDetail extends Component {
                               "lunchWeight",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -8924,7 +8928,8 @@ export default class WeekMealPlanDetail extends Component {
                               "snack2Weight",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -8952,7 +8957,8 @@ export default class WeekMealPlanDetail extends Component {
                               "dinnerWeight",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -8980,7 +8986,8 @@ export default class WeekMealPlanDetail extends Component {
                               "dessertWeight",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -9042,7 +9049,8 @@ export default class WeekMealPlanDetail extends Component {
                               "calsBudget",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -9070,7 +9078,8 @@ export default class WeekMealPlanDetail extends Component {
                               "carbsBudget",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -9098,7 +9107,8 @@ export default class WeekMealPlanDetail extends Component {
                               "proteinBudget",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -9124,7 +9134,8 @@ export default class WeekMealPlanDetail extends Component {
                               "fatBudget",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={
@@ -9152,7 +9163,8 @@ export default class WeekMealPlanDetail extends Component {
                               "fiberBudget",
                               0,
                               "number",
-                              e
+                              e,
+                              []
                             );
                           }}
                           disabled={

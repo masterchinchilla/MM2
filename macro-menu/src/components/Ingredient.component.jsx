@@ -46,12 +46,8 @@ const Ingredient = (props) => {
             className="form-control form-select"
             value={
               thisObj.unitOfMeasure === undefined
-                ? {
-                    _id: "627691779fa56aa1fe318390",
-                    name: "",
-                    GRFUser: "62577a533813f4f21c27e1c7",
-                  }
-                : JSON.stringify(thisObj.unitOfMeasure)
+                ? "627691779fa56aa1fe318390"
+                : thisObj.unitOfMeasure._id
             }
             disabled={thisFormState === "viewing" ? true : false}
             onChange={(e) =>
@@ -62,16 +58,14 @@ const Ingredient = (props) => {
                 "unitOfMeasure",
                 mealIngrdntsArrayIndex,
                 "select",
-                e
+                e,
+                allUnitOfMeasures
               )
             }
           >
             {allUnitOfMeasures.map(function (unitOfMeasure) {
               return (
-                <option
-                  key={unitOfMeasure._id}
-                  value={JSON.stringify(unitOfMeasure)}
-                >
+                <option key={unitOfMeasure._id} value={unitOfMeasure._id}>
                   {unitOfMeasure.name}
                 </option>
               );
@@ -85,12 +79,8 @@ const Ingredient = (props) => {
             className="form-control form-select"
             value={
               thisObj.weightType === undefined
-                ? {
-                    _id: "627695899fa56aa1fe318396",
-                    name: "",
-                    GRFUser: "62577a533813f4f21c27e1c7",
-                  }
-                : JSON.stringify(thisObj.weightType)
+                ? "627695899fa56aa1fe318396"
+                : thisObj.weightType._id
             }
             disabled={thisFormState === "viewing" ? true : false}
             onChange={(e) =>
@@ -101,13 +91,14 @@ const Ingredient = (props) => {
                 "weightType",
                 mealIngrdntsArrayIndex,
                 "select",
-                e
+                e,
+                allWeightTypes
               )
             }
           >
             {allWeightTypes.map(function (weightType) {
               return (
-                <option key={weightType._id} value={JSON.stringify(weightType)}>
+                <option key={weightType._id} value={weightType._id}>
                   {weightType.name}
                 </option>
               );
@@ -133,12 +124,8 @@ const Ingredient = (props) => {
             className="form-control form-select"
             value={
               thisObj.brand === undefined
-                ? {
-                    _id: "627691b69fa56aa1fe318393",
-                    name: "",
-                    GRFUser: "62577a533813f4f21c27e1c7",
-                  }
-                : JSON.stringify(thisObj.brand)
+                ? "627691b69fa56aa1fe318393"
+                : thisObj.brand._id
             }
             disabled={thisFormState === "viewing" ? true : false}
             onChange={(e) =>
@@ -149,13 +136,14 @@ const Ingredient = (props) => {
                 "brand",
                 mealIngrdntsArrayIndex,
                 "select",
-                e
+                e,
+                allBrands
               )
             }
           >
             {allBrands.map(function (brand) {
               return (
-                <option key={brand._id} value={JSON.stringify(brand)}>
+                <option key={brand._id} value={brand._id}>
                   {brand.name}
                 </option>
               );
@@ -176,7 +164,8 @@ const Ingredient = (props) => {
                 "name",
                 mealIngrdntsArrayIndex,
                 "text",
-                e
+                e,
+                []
               )
             }
             disabled={thisFormState === "viewing" ? true : false}
@@ -209,7 +198,7 @@ const Ingredient = (props) => {
               <input
                 type={"number"}
                 className="form-control"
-                value={JSON.stringify(thisObj.calories)}
+                value={thisObj.calories}
                 onChange={(e) =>
                   props.onUpdateProp(
                     "ingredient",
@@ -218,7 +207,8 @@ const Ingredient = (props) => {
                     "calories",
                     mealIngrdntsArrayIndex,
                     "number",
-                    e
+                    e,
+                    []
                   )
                 }
                 disabled={thisFormState === "viewing" ? true : false}
@@ -238,7 +228,8 @@ const Ingredient = (props) => {
                     "carbs",
                     mealIngrdntsArrayIndex,
                     "number",
-                    e
+                    e,
+                    []
                   )
                 }
                 disabled={thisFormState === "viewing" ? true : false}
@@ -258,7 +249,8 @@ const Ingredient = (props) => {
                     "protein",
                     mealIngrdntsArrayIndex,
                     "number",
-                    e
+                    e,
+                    []
                   )
                 }
                 disabled={thisFormState === "viewing" ? true : false}
@@ -278,7 +270,7 @@ const Ingredient = (props) => {
                     "fat",
                     mealIngrdntsArrayIndex,
                     "number",
-                    e
+                    []
                   )
                 }
                 disabled={thisFormState === "viewing" ? true : false}
@@ -298,7 +290,8 @@ const Ingredient = (props) => {
                     "fiber",
                     mealIngrdntsArrayIndex,
                     "number",
-                    e
+                    e,
+                    []
                   )
                 }
                 disabled={thisFormState === "viewing" ? true : false}
@@ -318,7 +311,8 @@ const Ingredient = (props) => {
                     "photoURL",
                     mealIngrdntsArrayIndex,
                     "text",
-                    e
+                    e,
+                    []
                   )
                 }
                 disabled={thisFormState === "viewing" ? true : false}
@@ -363,7 +357,7 @@ const Ingredient = (props) => {
                   <select
                     required
                     className="form-control form-select"
-                    value={JSON.stringify(thisObj.GRFUser)}
+                    value={thisObj.GRFUser._id}
                     disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
                       props.onUpdateProp(
@@ -373,16 +367,14 @@ const Ingredient = (props) => {
                         "GRFUser",
                         mealIngrdntsArrayIndex,
                         "select",
-                        e
+                        e,
+                        allGRFUsers
                       )
                     }
                   >
                     {allGRFUsers.map(function (GRFUser) {
                       return (
-                        <option
-                          key={GRFUser._id}
-                          value={JSON.stringify(GRFUser)}
-                        >
+                        <option key={GRFUser._id} value={GRFUser._id}>
                           {GRFUser.handle}
                         </option>
                       );

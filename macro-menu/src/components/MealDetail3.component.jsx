@@ -16,6 +16,9 @@ const MealDetail3 = (props) => {
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
   const nestedMealIngrdntArray = [mealsIngrdnts];
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
+  // const thisMealTypesRecipes = props.thisMealTypesRecipes.filter(
+  //   (recipe) => recipe._id !== thisObj.genRecipe._id
+  // );
   const thisMealTypesRecipes = props.thisMealTypesRecipes;
   const thisMealWeight = props.thisMealWeight;
   const mealFormState = thisStateObj.thisMealFormState;
@@ -172,7 +175,8 @@ const MealDetail3 = (props) => {
                   // ref="userInput": React prevents this, but I don't know what it does anyway...
                   required
                   className="form-control form-select recipeSelect"
-                  value={JSON.stringify(thisObj.genRecipe)}
+                  // value={JSON.stringify(thisObj.genRecipe)}
+                  value={thisObj.genRecipe._id}
                   disabled={mealFormState === "viewing" ? true : false}
                   //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
                   //onUpdateProp = (stateObj, dayOfWeekCode, mealTypeCode, propToUpdate, arrayIndex, e)
@@ -184,7 +188,8 @@ const MealDetail3 = (props) => {
                       "genRecipe",
                       0,
                       "select",
-                      e
+                      e,
+                      thisMealTypesRecipes
                     )
                   }
                 >
@@ -192,7 +197,8 @@ const MealDetail3 = (props) => {
                     return (
                       <option
                         key={genRecipe._id}
-                        value={JSON.stringify(genRecipe)}
+                        // value={JSON.stringify(genRecipe)}
+                        value={genRecipe._id}
                       >
                         {genRecipe.name}
                       </option>
@@ -253,7 +259,7 @@ const MealDetail3 = (props) => {
                         // ref="userInput"
                         required
                         className="form-control form-select"
-                        value={JSON.stringify(thisObj.thisDay)}
+                        value={thisObj.day._id}
                         disabled={mealFormState === "viewing" ? true : false}
                         //onUpdateProp = (stateObj, dayOfWeekCode, mealTypeCode, propToUpdate, arrayIndex, e)
                         onChange={(e) =>
@@ -264,13 +270,14 @@ const MealDetail3 = (props) => {
                             "day",
                             0,
                             "select",
-                            e
+                            e,
+                            props.allDays
                           )
                         }
                       >
                         {props.allDays.map(function (day) {
                           return (
-                            <option key={day._id} value={JSON.stringify(day)}>
+                            <option key={day._id} value={day._id}>
                               {day.name}
                             </option>
                           );
@@ -283,7 +290,7 @@ const MealDetail3 = (props) => {
                         // ref="userInput"
                         required
                         className="form-control form-select"
-                        value={JSON.stringify(thisObj.mealType)}
+                        value={thisObj.mealType._id}
                         disabled={mealFormState == "viewing" ? true : false}
                         onChange={(e) =>
                           props.onUpdateProp(
@@ -293,7 +300,8 @@ const MealDetail3 = (props) => {
                             "mealType",
                             0,
                             "select",
-                            e
+                            e,
+                            props.mealTypes
                           )
                         }
                       >
@@ -301,7 +309,7 @@ const MealDetail3 = (props) => {
                           return (
                             <option
                               key={"allMealTypesListItem" + mealType.code}
-                              value={JSON.stringify(mealType)}
+                              value={mealType._id}
                             >
                               {mealType.name}
                             </option>
