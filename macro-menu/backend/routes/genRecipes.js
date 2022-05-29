@@ -21,12 +21,12 @@ router.route('/update/:id').put((req, res)=>{
     GenRecipe.findById(req.params.id)
         .then(genRecipe=>{
             genRecipe.name = req.body.name;
-            genRecipe.availableMealType = req.body.availableMealType;
-            genRecipe.GRFUser = req.body.GRFUser;
+            genRecipe.availableMealType = req.body.availableMealType._id;
+            genRecipe.GRFUser = req.body.GRFUser._id;
             genRecipe.defaultPrepInstructions = req.body.defaultPrepInstructions;
             genRecipe.photoURL = req.body.photoURL;
             genRecipe.save()
-                .then(()=>res.json("General Recipe Updated!"))
+                .then(()=>res.json(genRecipe))
                 .catch(err=>res.status(400).json('Error: '+err));
         })
         .catch(err=>res.status(400).json('Error: '+err));

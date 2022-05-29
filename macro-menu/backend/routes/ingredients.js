@@ -35,4 +35,24 @@ router.route('/').get((req, res)=>{
         .then(ingredients=>res.json(ingredients))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/update/:id').put((req, res)=>{
+    Ingredient.findById(req.params.id)
+        .then(ingredient=>{
+            ingredient.name=req.body.name;
+            ingredient.calories=req.body.calories;
+            ingredient.carbs=req.body.carbs;
+            ingredient.protein=req.body.protein;
+            ingredient.fat=req.body.fat;
+            ingredient.fiber=req.body.fiber;
+            ingredient.unitOfMeasure=req.body.unitOfMeasure._id;
+            ingredient.weightType=req.body.weightType._id;
+            ingredient.photoURL=req.body.photoURL;
+            ingredient.GRFUser=req.body.GRFUser._id;
+            ingredient.brand=req.body.brand._id;
+            ingredient.save()
+                .then(()=>res.json(ingredient))
+                .catch(err=>res.status(400).json('Error: '+err));
+        })
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 module.exports=router;

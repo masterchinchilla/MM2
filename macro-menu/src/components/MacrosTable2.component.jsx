@@ -24,8 +24,10 @@ const MacrosTable = (props) => {
     let thisMealTypesIngrdnts = theseIngrdnts[i];
     for (let i = 0; i < thisMealTypesIngrdnts.length; i++) {
       let thisIngrdnt = thisMealTypesIngrdnts[i].thisMealIngrdnt;
-      calsCurrent =
-        calsCurrent +
+
+      calsCurrent +=
+        thisIngrdnt.qty * thisIngrdnt.genRecipeIngredient.ingredient.calories;
+      carbsCurrent +=
         thisIngrdnt.qty * thisIngrdnt.genRecipeIngredient.ingredient.carbs;
       proteinCurrent +=
         thisIngrdnt.qty * thisIngrdnt.genRecipeIngredient.ingredient.protein;

@@ -66,7 +66,7 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').put((req, res) => {
     WeekMealPlan.findById(req.params.id)
         .then(weekMealPlan => {
             weekMealPlan.name = req.body.name;
@@ -83,7 +83,7 @@ router.route('/update/:id').post((req, res) => {
             weekMealPlan.fatBudget=req.body.fatBudget;
             weekMealPlan.fiberBudget=req.body.fiberBudget;
             weekMealPlan.save()
-                .then(() => res.json('Week Meal Plan updated!'))
+                .then(() => res.json(weekMealPlan))
                 .catch(err => res.status(400).json('Error: ' + err));
         })
         .catch(err => res.status(400).json('Error: ' + err));

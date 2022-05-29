@@ -7807,7 +7807,7 @@ export default class WeekMealPlanDetail extends Component {
     let thisUsersId = state.thisGRFUser._id;
     let thisWeekMealPlan = state.thisWeekMealPlan;
     let thisWeeksDays = state.thisWeeksDays;
-    let thisWeeksDaysOld = state.thisWeeksDaysOld;
+    let thisWeeksDaysOld = _.cloneDeep(state.thisWeeksDaysOld);
     thisWeekMealPlan.userType = state.thisUserType;
     thisWeekMealPlan.thisFormState = "viewing";
     let daysOfWeek = state.daysOfWeek;
@@ -7815,6 +7815,7 @@ export default class WeekMealPlanDetail extends Component {
     for (let i = 0; i < daysOfWeek.length; i++) {
       let dayOfWeekCode = daysOfWeek[i].code;
       let initialDayUserType = thisWeeksDaysOld[dayOfWeekCode]["userType"];
+      console.log(initialDayUserType);
       if (scenario === "newMealOrIngrdnt") {
         thisWeeksDays[dayOfWeekCode]["userType"] = "viewer";
       } else {
@@ -7829,10 +7830,12 @@ export default class WeekMealPlanDetail extends Component {
           thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
             "thisMealUserType"
           ];
+        console.log(initialMealUserType);
         let initialGenRecipeUserType =
           thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
             "thisGenRecipeUserType"
           ];
+        console.log(initialGenRecipeUserType);
         if (scenario === "newMealOrIngrdnt") {
           thisDayMeal["thisMealUserType"] = "viewer";
           thisDayMeal["thisGenRecipeUserType"] = "viewer";
@@ -7853,10 +7856,12 @@ export default class WeekMealPlanDetail extends Component {
               thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
                 "thisMealUserType"
               ];
+            console.log(initialMealIngrdntUserType);
             let initialGenRecipeIngrdntUserType =
               thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
                 "thisGenRecipeUserType"
               ];
+            console.log(initialGenRecipeIngrdntUserType);
             let thisIngrdntUserId =
               thisMealIngrdnt.thisMealIngrdnt.genRecipeIngredient.ingredient
                 .GRFUser._id;
@@ -7865,6 +7870,7 @@ export default class WeekMealPlanDetail extends Component {
               thisUsersId,
               thisIngrdntUserId
             );
+            console.log(initialIngrdntUserType);
             if (scenario === "newMealOrIngrdnt") {
               thisMealIngrdnt.thisMealIngrdntUserType = "viewer";
               thisMealIngrdnt.thisGenRecipeIngrdntUserType = "viewer";
@@ -8244,14 +8250,15 @@ export default class WeekMealPlanDetail extends Component {
     selectedFrom
   ) => {
     let newValue;
-    // if (inputType === "select" || inputType === "number") {
-    //   newValue = JSON.parse(e.target.value);
-    // } else {
-    newValue = e.target.value;
-    // }
-    newValue = selectedFrom.filter(
-      (option) => option._id === e.target.value
-    )[0];
+    if (inputType === "select") {
+      newValue = selectedFrom.filter(
+        (option) => option._id === e.target.value
+      )[0];
+    } else if (inputType === "number") {
+      newValue = JSON.parse(e.target.value);
+    } else {
+      newValue = e.target.value;
+    }
     let state = this.state;
     let initialUserType = state.thisUserType;
     let thisUsersId = state.thisGRFUser._id;

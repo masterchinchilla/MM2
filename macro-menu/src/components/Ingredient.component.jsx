@@ -270,6 +270,7 @@ const Ingredient = (props) => {
                     "fat",
                     mealIngrdntsArrayIndex,
                     "number",
+                    e,
                     []
                   )
                 }

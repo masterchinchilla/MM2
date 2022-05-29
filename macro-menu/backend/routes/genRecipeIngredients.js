@@ -98,5 +98,18 @@ router.route('/thisGenRecipesGenRecipeIngredients/:id').get((req, res)=>{
         })
         .then(genRecipeIngredients=>res.json(genRecipeIngredients))
         .catch(err=>res.status(400).json('Error: '+err));
+});
+router.route('/update/:id').put((req, res)=>{
+    GenRecipeIngredient.findById(req.params.id)
+        .then(genRecipeIngredient=>{
+            genRecipeIngredient.defaultQty=req.body.defaultQty;
+            genRecipeIngredient.ingredient=req.body.ingredient._id;
+            genRecipeIngredient.genRecipe=req.body.genRecipe._id;
+            genRecipeIngredient.defaultPrepInstructions="";
+            genRecipeIngredient.save()
+                .then(()=>res.json(genRecipeIngredient))
+                .catch(err=>res.status(400).json('Error: '+err));
+        })
+        .catch(err=>res.status(400).json('Error: '+err));
 })
 module.exports=router;
