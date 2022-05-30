@@ -247,7 +247,7 @@ const DayDetail3 = (props) => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Author</label>
+                  <label>Week Meal Plan</label>
                   <select
                     required
                     className="form-control form-select"
