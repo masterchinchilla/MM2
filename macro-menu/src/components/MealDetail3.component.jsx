@@ -7,9 +7,11 @@ import MacrosTable2 from "./MacrosTable2.component";
 
 const MealDetail3 = (props) => {
   const thisStateObj = props.thisStateObj;
+  const thisGRFUser = props.thisGRFUser;
   const recordChanged = thisStateObj.mealRecordChanged;
   const thisMealJustCreated = thisStateObj.thisMealJustCreated;
   const thisObj = thisStateObj.thisMeal;
+  const thisGenRecipeObj = thisObj.genRecipe;
   const dayOfWeek = thisObj.day.dayOfWeek;
   const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
@@ -25,42 +27,85 @@ const MealDetail3 = (props) => {
   // const mealFormState = "editingOrig";
   const mealUserType = thisStateObj.thisMealUserType;
   // const mealUserType = "admin";
+  const defaultIngredient = {
+    _id: "627b329721ff100fa01edcaf",
+    name: "",
+    calories: 0.0,
+    carbs: 0.0,
+    protein: 0.0,
+    fat: 0.0,
+    fiber: 0.0,
+    unitOfMeasure: "627691779fa56aa1fe318390",
+    GRFUser: "62577a533813f4f21c27e1c7",
+  };
   const deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   function renderMealIngrdnts() {
     if (mealsIngrdnts.length > 0 && thisStateObj.thisMealJustCreated !== true) {
-      return mealsIngrdnts.map((mealIngredient, index) => {
-        mealIngredient.mealIngrdntsArrayIndex = index;
-
-        return (
-          <MealIngredientParent
-            //Specific Props
-            //Data
-            key={"mealIngrdntParent" + mealIngredient.thisMealIngrdnt._id}
-            thisMealTypesRecipes={props.thisMealTypesRecipes}
-            //Methods
-
-            //Common Props
-            //Data
-            thisMealIngrdntObj={mealIngredient}
-            mealIngrdntsArrayIndex={index}
-            allGRFUsers={props.allGRFUsers}
-            allGenRecipeIngredients={props.allGenRecipeIngredients}
-            thisRecipesIngrdnts={thisRecipesIngrdnts}
-            thisMealTypesMeals={props.thisMealTypesMeals}
-            allIngredients={props.allIngredients}
-            allUnitOfMeasures={props.allUnitOfMeasures}
-            allWeightTypes={props.allWeightTypes}
-            allBrands={props.allBrands}
-            //Methods
-            onClickEditForm={props.onClickEditForm}
-            onCancelEditForm={props.onCancelEditForm}
-            onSaveFormChanges={props.onSaveFormChanges}
-            onDeleteRecord={props.onDeleteRecord}
-            onUpdateProp={props.onUpdateProp}
-          />
-        );
-      });
+      return (
+        <React.Fragment>
+          {mealsIngrdnts.map((mealIngredient, index) => {
+            mealIngredient.mealIngrdntsArrayIndex = index;
+            return (
+              <MealIngredientParent
+                //Specific Props
+                //Data
+                key={"mealIngrdntParent" + mealIngredient.thisMealIngrdnt._id}
+                thisMealTypesRecipes={props.thisMealTypesRecipes}
+                //Methods
+                //Common Props
+                //Data
+                thisMealIngrdntObj={mealIngredient}
+                mealIngrdntsArrayIndex={index}
+                allGRFUsers={props.allGRFUsers}
+                allGenRecipeIngredients={props.allGenRecipeIngredients}
+                thisRecipesIngrdnts={thisRecipesIngrdnts}
+                thisMealTypesMeals={props.thisMealTypesMeals}
+                allIngredients={props.allIngredients}
+                allUnitOfMeasures={props.allUnitOfMeasures}
+                allWeightTypes={props.allWeightTypes}
+                allBrands={props.allBrands}
+                //Methods
+                onClickEditForm={props.onClickEditForm}
+                onCancelEditForm={props.onCancelEditForm}
+                onSaveFormChanges={props.onSaveFormChanges}
+                onDeleteRecord={props.onDeleteRecord}
+                onUpdateProp={props.onUpdateProp}
+              />
+            );
+          })}
+          {thisStateObj.thisGenRecipeUserType === "admin" ||
+          thisStateObj.thisGenRecipeUserType === "author" ? (
+            <div className="form-group mt-4 mb-4">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={() => {
+                  props.onCreateRecord(
+                    "genRecipeIngredient",
+                    dayOfWeek.code,
+                    thisMealTypeCode,
+                    0,
+                    {
+                      _id: "",
+                      defaultQty: 1,
+                      ingredient: defaultIngredient,
+                      genRecipe: thisGenRecipeObj,
+                    },
+                    {
+                      defaultQty: 1,
+                      ingredient: defaultIngredient._id,
+                      genRecipe: thisGenRecipeObj._id,
+                    }
+                  );
+                }}
+              >
+                Add Ingredient to Your Recipe
+              </button>
+            </div>
+          ) : null}
+        </React.Fragment>
+      );
     } else {
       if (mealUserType === "viewer") {
         return (

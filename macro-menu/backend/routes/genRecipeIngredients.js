@@ -112,4 +112,17 @@ router.route('/update/:id').put((req, res)=>{
         })
         .catch(err=>res.status(400).json('Error: '+err));
 })
+router.route('/add').post((req,res)=>{
+    const defaultQty=req.body.defaultQty;
+    const ingredient=req.body.ingredient;
+    const genRecipe=req.body.genRecipe;
+    const newGenRecipeIngredient=new GenRecipeIngredient({
+        defaultQty,
+        ingredient,
+        genRecipe
+    });
+    newGenRecipeIngredient.save()
+        .then(()=>res.json(newGenRecipeIngredient))
+        .catch(err=>res.status(400).json('Error: '+err));
+});
 module.exports=router;

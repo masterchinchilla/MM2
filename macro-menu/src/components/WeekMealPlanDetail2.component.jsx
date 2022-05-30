@@ -8437,9 +8437,7 @@ export default class WeekMealPlanDetail extends Component {
     axios.post(url, newRecordToSave).then((response) => {
       let savedRecord = response.data;
       savedRecordId = savedRecord._id;
-      console.log(savedRecordId);
       newRecordForState._id = savedRecordId;
-      console.log(newRecordForState);
       switch (objType) {
         case "day":
           // thisDayStateObj.userType = newRecordUserType;
@@ -8504,6 +8502,49 @@ export default class WeekMealPlanDetail extends Component {
           thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
           thisMealStateObj.dataLoaded = true;
           parentObj = thisMealStateObj;
+          break;
+        case "genRecipeIngredient":
+          parentObj = thisMealIngrdntObj;
+          thisMealObj = thisMealStateObj.thisMeal;
+          thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+          thisGenRecipeIngrdntObj = newRecordForState;
+          state.allGenRecipeIngredients.push(thisGenRecipeIngrdntObj);
+          thisMealIngrdntObj = {
+            _id: "",
+            qty: 1,
+            genRecipeIngredient: thisGenRecipeIngrdntObj,
+            meal: thisMealObj,
+          };
+          let newInnerMealIngrdntToSave = {
+            qty: 1,
+            genRecipeIngredient: thisGenRecipeIngrdntObj._id,
+            meal: thisMealObj._id,
+          };
+          axios
+            .post(
+              "http://localhost:5000/mealIngredients/add",
+              newInnerMealIngrdntToSave
+            )
+            .then((response) => {
+              let newSavedMealIngrdnt = response.data;
+              let newMealIngrdntId = newSavedMealIngrdnt._id;
+              thisMealIngrdntObj._id = newMealIngrdntId;
+              let newOuterMealIngrdnt = {
+                thisMealIngrdntJustCreated: false,
+                mealIngrdntRecordChanged: false,
+                genRecipeIngrdntRecordChanged: true,
+                ingredientRecordChanged: false,
+                thisMealIngrdntFormState: "viewing",
+                thisMealIngrdntUserType: "viewer",
+                thisGenRecipeIngrdntFormState: "editingOrig",
+                thisGenRecipeIngrdntUserType: thisUserType,
+                thisIngrdntFormState: "viewing",
+                thisIngrdntUserType: "viewer",
+                thisMealIngrdnt: thisMealIngrdntObj,
+              };
+              thisMealIngrdntStateObj = newOuterMealIngrdnt;
+              thisMealsIngrdnts.push(newOuterMealIngrdnt);
+            });
           break;
       }
       if (objType !== "day") {

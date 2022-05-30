@@ -135,6 +135,7 @@ const DayDetail3 = (props) => {
           //Methods
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
+          onCreateRecord={props.onCreateRecord}
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           onUpdateProp={props.onUpdateProp}
