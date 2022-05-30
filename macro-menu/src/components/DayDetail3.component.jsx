@@ -6,6 +6,7 @@ import CreateMeal2 from "./CreateMeal2.component";
 import MealDetail3 from "./MealDetail3.component";
 import GenRecipeIngredient from "./GenRecipeIngredient.component";
 const DayDetail3 = (props) => {
+  const hasChildren = props.hasChildren;
   const thisGRFUser = props.thisGRFUser;
   const thisWMP = props.thisWMP;
   const thisStateObj = props.thisStateObj;
@@ -20,11 +21,11 @@ const DayDetail3 = (props) => {
   const thisFormState = thisStateObj.thisFormState;
   const userType = thisStateObj.userType;
   const recordChanged = thisStateObj.recordChanged;
-  const hasChildren = props.hasChildren;
   const deleteChildrenWarning =
     "This Day has Meals connected to it which must be deleted before you can delete the Day.";
   // const userType = "admin";
   const deleteMsg = "Are you sure you want to delete this Day Meal Plan?";
+  const pattern = /missing/;
   let breakfastIngrdnts =
     thisStateObj.thisDaysMeals.breakfast.thisMealsIngrdnts;
   let snack1Ingrdnts = thisStateObj.thisDaysMeals.snack1.thisMealsIngrdnts;
@@ -47,8 +48,14 @@ const DayDetail3 = (props) => {
     fat: thisWMP.fatBudget,
     fiber: thisWMP.fiberBudget,
   };
+  // for (let i = 0; i < mealTypes.length; i++) {
+  //   let mealToTest = thisDaysMeals[mealTypes[i].code];
+  //   let testResult = pattern.test(mealToTest.thisMeal._id);
+  //   if (!testResult) {
+  //     setDayHasChildren(true);
+  //   }
+  // }
   const renderMeal = (mealType, arrayIndex) => {
-    let pattern = /missing/;
     let thisMealTypeCode = mealType.code;
     let thisMealStateObj = thisDaysMeals[thisMealTypeCode];
     // let mealLoadStatus = thisMealStateObj.dataLoaded;

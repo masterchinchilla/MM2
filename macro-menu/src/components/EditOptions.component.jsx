@@ -6,11 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EditOptions = (props) => {
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   const [hideCancelWarning, toggleHideCancelWarning] = useState(true);
+  const [hideDeleteBlock, toggleHideDeleteBlock] = useState(true);
   const parentObj = props.parentObj;
   const objType = props.objType;
   const userType = props.userType;
   const thisFormState = props.thisFormState;
-  const hasChildern = props.hasChildern;
+  const hasChildren = props.hasChildren;
   const deleteChildrenWarning = props.deleteChildrenWarning;
   const onSaveFormChanges = props.onSaveFormChanges;
   const onClickCopy = props.onClickCopy;
@@ -90,7 +91,11 @@ const EditOptions = (props) => {
     return iconHidden;
   };
   function handleClickDelete() {
-    toggleHideDeleteWarning(false);
+    if (hasChildren) {
+      toggleHideDeleteBlock(false);
+    } else {
+      toggleHideDeleteWarning(false);
+    }
   }
   function handleClickCancel() {
     recordChanged === true
@@ -199,69 +204,71 @@ const EditOptions = (props) => {
           />
         </button>
       </div>
+      <div className="deleteWarning" hidden={hideDeleteBlock}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="deleteBlockedLabel">
+                Cannot Delete Object with Subordinate Records
+              </h5>
+            </div>
+            <div className="modal-body">
+              <div className="alert alert-warning" role="alert">
+                {deleteChildrenWarning}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  onCancelEditForm(parentObj, objType);
+                  toggleHideDeleteBlock(true);
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="deleteWarning" hidden={hideDeleteWarning}>
         <div className="modal-dialog">
-          {objType === "day" && hasChildern === true ? (
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="deleteMealWarnLabel">
-                  Cannot Delete Object with Subordinate Records
-                </h5>
-              </div>
-              <div className="modal-body">
-                <div className="alert alert-warning" role="alert">
-                  {deleteChildrenWarning}
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    toggleHideDeleteWarning(true);
-                  }}
-                >
-                  Close
-                </button>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="deleteMealWarnLabel">
+                Delete Record?
+              </h5>
+            </div>
+            <div className="modal-body">
+              <div className="alert alert-danger" role="alert">
+                CAUTION: {deleteMsg}
               </div>
             </div>
-          ) : (
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="deleteMealWarnLabel">
-                  Delete Record?
-                </h5>
-              </div>
-              <div className="modal-body">
-                <div className="alert alert-danger" role="alert">
-                  CAUTION: {deleteMsg}
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    onCancelEditForm(parentObj, objType);
-                    toggleHideDeleteWarning(true);
-                  }}
-                >
-                  Go Back
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => {
-                    // console.log("confirmed delete");
-                    toggleHideDeleteWarning(true);
-                    onDeleteRecord(parentObj, objType);
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  onCancelEditForm(parentObj, objType);
+                  toggleHideDeleteWarning(true);
+                }}
+              >
+                Go Back
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => {
+                  // console.log("confirmed delete");
+                  toggleHideDeleteWarning(true);
+                  onDeleteRecord(parentObj, objType);
+                }}
+              >
+                Delete
+              </button>
             </div>
-          )}
+          </div>
         </div>
       </div>
       <div className="deleteWarning" hidden={hideCancelWarning}>

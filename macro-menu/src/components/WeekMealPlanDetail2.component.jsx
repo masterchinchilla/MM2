@@ -7840,6 +7840,8 @@ export default class WeekMealPlanDetail extends Component {
         } else {
           thisDayMeal["thisMealUserType"] = initialMealUserType;
           thisDayMeal["thisGenRecipeUserType"] = initialGenRecipeUserType;
+          thisDayMeal["mealRecordChanged"] = false;
+          thisDayMeal["genRecipeRecordChanged"] = false;
         }
         // console.log(thisDayMeal["thisMealUserType"]);
         // console.log(thisDayMeal["thisGenRecipeUserType"]);
@@ -7886,6 +7888,9 @@ export default class WeekMealPlanDetail extends Component {
             thisMealIngrdnt.thisMealIngrdntFormState = "viewing";
             thisMealIngrdnt.thisGenRecipeIngrdntFormState = "viewing";
             thisMealIngrdnt.thisIngrdntFormState = "viewing";
+            thisMealIngrdnt.mealIngrdntRecordChanged = false;
+            thisMealIngrdnt.genRecipeIngrdntRecordChanged = false;
+            thisMealIngrdnt.ingrdntRecordChanged = false;
             thisDayMeal.thisMealsIngrdnts[i] = thisMealIngrdnt;
           }
         }
@@ -7988,7 +7993,7 @@ export default class WeekMealPlanDetail extends Component {
     let initialWMPUserType = state.thisUserType;
     state.thisWeekMealPlan.userType = initialWMPUserType;
     thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-      "recordChanged"
+      "mealRecordChanged"
     ] = false;
     thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
       "userChangedThisMealsRecipe"
@@ -8049,7 +8054,7 @@ export default class WeekMealPlanDetail extends Component {
   };
   deleteRecord = (recordId, objType) => {
     let url = `http://localhost:5000/${objType}s/${recordId}`;
-    axios.delete(url).then(console.log("deleted"));
+    axios.delete(url).then(console.log(recordId + " deleted"));
   };
   handleDeleteRecord = (parentObj, objType) => {
     let getRndInteger = this.getRndInteger;
@@ -8622,6 +8627,16 @@ export default class WeekMealPlanDetail extends Component {
     let thisWMP = weekMealPlan.thisWMP;
     let thisDayOfWeek = thisDayStateObj.thisDay.dayOfWeek;
     let dayLoadStatus = thisDayStateObj.dataLoaded;
+    let mealTypes = this.state.mealTypes;
+    let thisDaysMeals = thisDayStateObj.thisDaysMeals;
+    let dayHasChildren = false;
+    for (let i = 0; i < mealTypes.length; i++) {
+      let thisMealToTest = thisDaysMeals[mealTypes[i].code];
+      let testResult = pattern.test(thisMealToTest.thisMeal._id);
+      if (!testResult) {
+        dayHasChildren = true;
+      }
+    }
     if (dayLoadStatus === false) {
       return;
     } else {
@@ -8669,7 +8684,7 @@ export default class WeekMealPlanDetail extends Component {
             //Common props
             //Data
             thisGRFUser={this.state.thisGRFUser}
-            // hasChildren={dayHasChildren}
+            hasChildren={dayHasChildren}
             allGRFUsers={this.state.allGRFUsers}
             allDays={this.state.allDays}
             allGenRecipes={this.state.allGenRecipes}
