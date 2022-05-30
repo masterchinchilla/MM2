@@ -8053,6 +8053,7 @@ export default class WeekMealPlanDetail extends Component {
     axios.delete(url).then(console.log("deleted"));
   };
   handleDeleteRecord = (parentObj, objType) => {
+    let getRndInteger = this.getRndInteger;
     let mealTypes = this.state.mealTypes;
     function createRecipeIngrdntStateObj(genRecipe, mealType) {
       let genRecipeIngredient = {
@@ -8150,7 +8151,7 @@ export default class WeekMealPlanDetail extends Component {
     }
     function createDefaultDayStateObj(dayOfWeek) {
       let defaultDayStateObj = {
-        dataLoaded: false,
+        dataLoaded: true,
         thisDay: createInnerDfltDayObj(dayOfWeek),
         thisDaysMeals: createDefaultDayMealsStateObj(dayOfWeek),
       };
@@ -8161,20 +8162,20 @@ export default class WeekMealPlanDetail extends Component {
     let thisWeeksDaysOld = state.thisWeeksDaysOld;
     function createInnerDfltDayObj(dayOfWeek) {
       let thisDayStateObjAsInStateNow =
-        thisWeeksDays[dayOfWeek.code]["thisDay"];
+        thisWeeksDaysOld[dayOfWeek.code]["thisDay"];
       let thisDayStateObjAsInStateNowId = thisDayStateObjAsInStateNow._id;
       let pattern = /missing/;
       let testResult = pattern.test(thisDayStateObjAsInStateNowId);
       let innerDfltDayObj;
-      if (testResult === true) {
+      if (testResult === false) {
         innerDfltDayObj = {
-          _id: "missing" + this.getRndInteger(10000000, 99999999),
+          _id: "missing" + getRndInteger(10000000, 99999999),
           name: `Temp WMP - ${dayOfWeek.name}`,
           dayOfWeek: dayOfWeek,
           weekMealPlan: {},
         };
       } else {
-        innerDfltDayObj = thisDayStateObjAsInStateNow;
+        innerDfltDayObj = _.cloneDeep(thisDayStateObjAsInStateNow);
       }
       return innerDfltDayObj;
     }
@@ -8385,13 +8386,6 @@ export default class WeekMealPlanDetail extends Component {
     }
     this.setState({ state });
   };
-  updateStateDayOnAdd = (dayData, dayOfWeek) => {
-    if (dayOfWeek == "Saturday") {
-      this.setState({
-        sat: dayData,
-      });
-    }
-  };
   createRecord = (newRecordToSave, objType) => {
     let url = `http://localhost:5000/${objType}s/add`;
     axios.post(url, newRecordToSave).then((response) => {
@@ -8501,49 +8495,11 @@ export default class WeekMealPlanDetail extends Component {
       state.thisWeeksDays = thisWeeksDays;
       if (objType === "day") {
         this.hndleSetVwrTypsAndFrmStates("newDay", state);
+      } else {
+        this.handleClickEditForm(parentObj, objType);
       }
-      this.handleClickEditForm(parentObj, objType);
       this.setState(state);
     });
-  };
-  handleCreateDay = (dayOfWeek) => {
-    const day = {
-      dayOfWeek: dayOfWeek.code,
-      weekMealPlan: this.state.id,
-      name: this.state.name + " - " + dayOfWeek.name,
-    };
-    axios
-      .post("http://localhost:5000/days/add", day)
-      .then((response) => {
-        this.setState({
-          thisWeeksDays: this.state.thisWeeksDays.push(response.data),
-        });
-      })
-      .then(() => {
-        this.setState({
-          sun: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek.code === "sunday"
-          )[0],
-          mon: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek.code === "monday"
-          )[0],
-          tues: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek.code === "tuesday"
-          )[0],
-          wed: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek.code === "wednesday"
-          )[0],
-          thurs: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek.code === "thursday"
-          )[0],
-          fri: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek.code === "friday"
-          )[0],
-          sat: this.state.thisWeeksDays.filter(
-            (day) => day.dayOfWeek.code === "saturday"
-          )[0],
-        });
-      });
   };
   populateNewMealIngredients = (
     // initialUserType,
@@ -9256,72 +9212,7 @@ export default class WeekMealPlanDetail extends Component {
                     {this.renderDay(this.state.thisWeeksDays.wednesday)}
                     {this.renderDay(this.state.thisWeeksDays.thursday)}
                     {this.renderDay(this.state.thisWeeksDays.friday)}
-                    {/* {this.renderDay(this.state.thisWeeksDays.saturday)} */}
-                    {testResults.saturday === true ? (
-                      thisWMP.GRFUser._id === thisUsersId ||
-                      thisUsersUserGroups === "Admin" ? (
-                        <CreateDay2
-                          key={this.state.thisWeeksDays.saturday.thisDay._id}
-                          dayOfWeek={
-                            this.state.thisWeeksDays.saturday.thisDay.dayOfWeek
-                          }
-                          weekMealPlan={this.state.thisWeekMealPlan}
-                          thisDay={this.state.thisWeeksDays.saturday}
-                          onCreateRecord={this.handleCreateRecord}
-                        />
-                      ) : (
-                        <div className="alert alert-secondary" role="alert">
-                          <em>
-                            <span>
-                              No{" "}
-                              {
-                                this.state.thisWeeksDays.saturday.thisDay
-                                  .dayOfWeek.name
-                              }
-                            </span>{" "}
-                            Meal Plan added to this week...
-                          </em>
-                        </div>
-                      )
-                    ) : (
-                      <DayDetail3
-                        //Specific props
-                        key={this.state.thisWeeksDays.saturday.thisDay._id}
-                        thisStateObj={this.state.thisWeeksDays.saturday}
-                        thisStateObjOld={this.state.thisWeeksDaysOld.saturday}
-                        onChangeMealRecipe={this.handleChangeMealRecipe}
-                        thisWMP={thisWMP}
-                        //Common props
-                        //Data
-                        thisGRFUser={this.state.thisGRFUser}
-                        // hasChildren={dayHasChildren}
-                        allGRFUsers={this.state.allGRFUsers}
-                        allDays={this.state.allDays}
-                        allGenRecipes={this.state.allGenRecipes}
-                        mealTypes={this.state.mealTypes}
-                        allIngredients={this.state.allIngredients}
-                        allGenRecipeIngredients={
-                          this.state.allGenRecipeIngredients
-                        }
-                        allMeals={this.state.allMeals}
-                        allUnitOfMeasures={this.state.allUnitOfMeasures}
-                        allWeightTypes={this.state.allWeightTypes}
-                        allBrands={this.state.allBrands}
-                        daysOfWeek={this.state.daysOfWeek}
-                        allWMPs={this.state.allWMPs}
-                        //Methods
-                        onClickEditForm={this.handleClickEditForm}
-                        onCancelEditForm={this.handleCancelEditForm}
-                        onSaveFormChanges={this.handleSaveFormChanges}
-                        onDeleteRecord={this.handleDeleteRecord}
-                        onUpdateProp={this.handleUpdateProp}
-                        populateNewMealIngredients={
-                          this.populateNewMealIngredients
-                        }
-                        onCreateRecord={this.handleCreateRecord}
-                        getRndInteger={this.getRndInteger}
-                      />
-                    )}
+                    {this.renderDay(this.state.thisWeeksDays.saturday)}
                   </div>
                 </div>
               </div>
