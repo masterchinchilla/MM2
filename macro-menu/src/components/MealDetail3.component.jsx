@@ -41,111 +41,70 @@ const MealDetail3 = (props) => {
   const deleteMsg =
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   function renderMealIngrdnts() {
-    if (mealsIngrdnts.length > 0 && thisStateObj.thisMealJustCreated !== true) {
-      return (
-        <React.Fragment>
-          {mealsIngrdnts.map((mealIngredient, index) => {
-            mealIngredient.mealIngrdntsArrayIndex = index;
-            return (
-              <MealIngredientParent
-                //Specific Props
-                //Data
-                key={"mealIngrdntParent" + mealIngredient.thisMealIngrdnt._id}
-                thisMealTypesRecipes={props.thisMealTypesRecipes}
-                //Methods
-                //Common Props
-                //Data
-                thisMealIngrdntObj={mealIngredient}
-                mealIngrdntsArrayIndex={index}
-                allGRFUsers={props.allGRFUsers}
-                allGenRecipeIngredients={props.allGenRecipeIngredients}
-                thisRecipesIngrdnts={thisRecipesIngrdnts}
-                thisMealTypesMeals={props.thisMealTypesMeals}
-                allIngredients={props.allIngredients}
-                allUnitOfMeasures={props.allUnitOfMeasures}
-                allWeightTypes={props.allWeightTypes}
-                allBrands={props.allBrands}
-                //Methods
-                onClickEditForm={props.onClickEditForm}
-                onCancelEditForm={props.onCancelEditForm}
-                onSaveFormChanges={props.onSaveFormChanges}
-                onDeleteRecord={props.onDeleteRecord}
-                onUpdateProp={props.onUpdateProp}
-              />
-            );
-          })}
-          {thisStateObj.thisGenRecipeUserType === "admin" ||
-          thisStateObj.thisGenRecipeUserType === "author" ? (
-            <div className="form-group mt-4 mb-4">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={() => {
-                  props.onCreateRecord(
-                    "genRecipeIngredient",
-                    dayOfWeek.code,
-                    thisMealTypeCode,
-                    0,
-                    {
-                      _id: "",
-                      defaultQty: 1,
-                      ingredient: defaultIngredient,
-                      genRecipe: thisGenRecipeObj,
-                    },
-                    {
-                      defaultQty: 1,
-                      ingredient: defaultIngredient._id,
-                      genRecipe: thisGenRecipeObj._id,
-                    }
-                  );
-                }}
-              >
-                Add Ingredient to Your Recipe
-              </button>
-            </div>
-          ) : null}
-        </React.Fragment>
-      );
+    if (mealsIngrdnts.length > 0) {
+      return mealsIngrdnts.map((mealIngredient, index) => {
+        mealIngredient.mealIngrdntsArrayIndex = index;
+        return (
+          <MealIngredientParent
+            //Specific Props
+            //Data
+            key={"mealIngrdntParent" + mealIngredient.thisMealIngrdnt._id}
+            thisMealTypesRecipes={props.thisMealTypesRecipes}
+            //Methods
+            //Common Props
+            //Data
+            thisMealIngrdntObj={mealIngredient}
+            mealIngrdntsArrayIndex={index}
+            allGRFUsers={props.allGRFUsers}
+            allGenRecipeIngredients={props.allGenRecipeIngredients}
+            thisRecipesIngrdnts={thisRecipesIngrdnts}
+            thisMealTypesMeals={props.thisMealTypesMeals}
+            allIngredients={props.allIngredients}
+            allUnitOfMeasures={props.allUnitOfMeasures}
+            allWeightTypes={props.allWeightTypes}
+            allBrands={props.allBrands}
+            //Methods
+            onClickEditForm={props.onClickEditForm}
+            onCancelEditForm={props.onCancelEditForm}
+            onSaveFormChanges={props.onSaveFormChanges}
+            onDeleteRecord={props.onDeleteRecord}
+            onUpdateProp={props.onUpdateProp}
+          />
+        );
+      });
     } else {
-      if (mealUserType === "viewer") {
+      if (thisStateObj.mealUserType === "viewer") {
         return (
           <div className="alert alert-secondary" role="alert">
             This meal does not have any ingredients...
           </div>
         );
       } else {
-        if (
-          thisStateObj.thisRecipesIngrdnts.length < 1 ||
-          thisMealJustCreated === true
-        ) {
+        if (thisRecipesIngrdnts.length > 0) {
+          return (
+            <div className="form-group mt-4 mb-4">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={() => {
+                  props.populateNewMealIngredients(
+                    thisStateObj.thisGenRecipeUserType,
+                    dayOfWeek.code,
+                    thisMealTypeCode,
+                    thisObj.genRecipe
+                  );
+                }}
+              >
+                Populate Ingredients
+              </button>
+            </div>
+          );
+        } else {
           return (
             <div className="alert alert-secondary" role="alert">
               This Recipe does not have any ingredients...
             </div>
           );
-        } else {
-          if (thisMealJustCreated === true) {
-            return;
-          } else {
-            return (
-              <div className="form-group mt-4 mb-4">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={() => {
-                    props.populateNewMealIngredients(
-                      thisStateObj.thisGenRecipeUserType,
-                      dayOfWeek.code,
-                      thisMealTypeCode,
-                      thisObj.genRecipe
-                    );
-                  }}
-                >
-                  Populate Ingredients
-                </button>
-              </div>
-            );
-          }
         }
       }
     }
@@ -395,6 +354,36 @@ const MealDetail3 = (props) => {
           />
           <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
           <div className="mlIngrdntsCntnr">{renderMealIngrdnts()}</div>
+          {thisStateObj.thisGenRecipeUserType === "admin" ||
+          thisStateObj.thisGenRecipeUserType === "author" ? (
+            <div className="form-group mt-4 mb-4">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={() => {
+                  props.onCreateRecord(
+                    "genRecipeIngredient",
+                    dayOfWeek.code,
+                    thisMealTypeCode,
+                    0,
+                    {
+                      _id: "",
+                      defaultQty: 1,
+                      ingredient: defaultIngredient,
+                      genRecipe: thisGenRecipeObj,
+                    },
+                    {
+                      defaultQty: 1,
+                      ingredient: defaultIngredient._id,
+                      genRecipe: thisGenRecipeObj._id,
+                    }
+                  );
+                }}
+              >
+                Add Ingredient to Your Recipe
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

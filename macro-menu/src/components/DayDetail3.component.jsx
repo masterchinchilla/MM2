@@ -96,8 +96,7 @@ const DayDetail3 = (props) => {
       );
       let thisRecipesIngrdnts = props.allGenRecipeIngredients.filter(
         (genRecipeIngredient) =>
-          genRecipeIngredient.genRecipe.availableMealType.code ===
-          thisMealTypeCode
+          genRecipeIngredient.genRecipe._id === thisMealObj.genRecipe._id
       );
       let thisMealWeight = thisWMP[`${mealType.code}Weight`];
       let thisMealsMealIngredients = thisDaysMealsIngrdnts[arrayIndex];

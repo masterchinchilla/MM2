@@ -8057,8 +8057,6 @@ export default class WeekMealPlanDetail extends Component {
     axios.delete(url).then(console.log(recordId + " deleted"));
   };
   handleDeleteRecord = (parentObj, objType) => {
-    console.log(parentObj);
-    console.log(objType);
     let getRndInteger = this.getRndInteger;
     let defaultDayNewId = "missing" + getRndInteger(10000000, 99999999);
     let mealTypes = this.state.mealTypes;
@@ -8224,6 +8222,7 @@ export default class WeekMealPlanDetail extends Component {
       case "mealIngredient":
         let mealIngrdntsDayOfWeek =
           parentObj.thisMealIngrdnt.meal.day.dayOfWeek;
+
         let mealIngrdntsDayOfWeekCode = mealIngrdntsDayOfWeek.code;
         let mealIngrdntsMealType = parentObj.thisMealIngrdnt.meal.mealType;
         let mealIngrdntsMealTypeCode = mealIngrdntsMealType.code;
@@ -8246,18 +8245,22 @@ export default class WeekMealPlanDetail extends Component {
       case "genRecipeIngredient":
         let thisGenRecipeIngrdnt =
           parentObj.thisMealIngrdnt.genRecipeIngredient;
+
         let thisGenRecipe = thisGenRecipeIngrdnt.genRecipe;
         let recordId = thisGenRecipeIngrdnt._id;
         for (let i = 0; i < daysOfWeek.length; i++) {
           let thisDayOfWeek = daysOfWeek[i];
           let thisDayStateObj = thisWeeksDays[thisDayOfWeek.code];
           let thisDaysMeals = thisDayStateObj.thisDaysMeals;
+
           for (let i = 0; i < mealTypes.length; i++) {
             let thisMealType = mealTypes[i];
             let thisMealStateObj = thisDaysMeals[thisMealType.code];
             let thisMealsGenRecipe = thisMealStateObj.thisMeal.genRecipe;
+
             if (thisMealsGenRecipe._id === thisGenRecipe._id) {
               let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+              console.log(thisMealsIngrdnts);
               for (let i = 0; i < thisMealsIngrdnts.length; i++) {
                 let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
                 let thisMealIngrdntObj =
@@ -8265,6 +8268,7 @@ export default class WeekMealPlanDetail extends Component {
                 let thisMealIngrdntsId = thisMealIngrdntObj._id;
                 let thisMealIngrdntsGenRecipeIngrdnt =
                   thisMealIngrdntObj.genRecipeIngredient;
+
                 if (thisMealIngrdntsGenRecipeIngrdnt._id === recordId) {
                   let newThisMealsIngrdnts = thisMealsIngrdnts.filter(
                     (mealIngrdnt) =>
@@ -8273,12 +8277,8 @@ export default class WeekMealPlanDetail extends Component {
                   );
                   thisMealStateObj.thisMealsIngrdnts = newThisMealsIngrdnts;
                   this.deleteRecord(thisMealIngrdntsId, "mealIngredient");
-                } else {
-                  return;
                 }
               }
-            } else {
-              return;
             }
             thisDaysMeals[thisMealType.code] = thisMealStateObj;
           }

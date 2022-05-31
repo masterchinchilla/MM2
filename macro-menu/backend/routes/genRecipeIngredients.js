@@ -125,4 +125,9 @@ router.route('/add').post((req,res)=>{
         .then(()=>res.json(newGenRecipeIngredient))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/:id').delete((req, res)=>{
+    GenRecipeIngredient.findByIdAndDelete(req.params.id)
+        .then(()=>{res.json("GenRecipeIngredient successfully deleted")})
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 module.exports=router;
