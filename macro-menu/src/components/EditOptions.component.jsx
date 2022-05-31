@@ -72,7 +72,7 @@ const EditOptions = (props) => {
             thisFormState === "viewing" ||
             thisFormState === "editingCopy" ||
             objType === "genRecipe" ||
-            objType === "genRecipeIngredient" ||
+            // objType === "genRecipeIngredient" ||
             objType === "ingredient"
           ) {
             iconHidden = true;

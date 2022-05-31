@@ -18,7 +18,7 @@ const GenRecipeIngredient = (props) => {
   // const thisFormState = "editingOrig";
   const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
   const deleteMsg =
-    "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
+    "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
   return (
     <form className="gnRcpIngrdntFrm">
       <div className="gnRcpIngrdntFrmHdr">

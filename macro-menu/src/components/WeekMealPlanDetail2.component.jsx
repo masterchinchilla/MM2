@@ -8057,9 +8057,12 @@ export default class WeekMealPlanDetail extends Component {
     axios.delete(url).then(console.log(recordId + " deleted"));
   };
   handleDeleteRecord = (parentObj, objType) => {
+    console.log(parentObj);
+    console.log(objType);
     let getRndInteger = this.getRndInteger;
     let defaultDayNewId = "missing" + getRndInteger(10000000, 99999999);
     let mealTypes = this.state.mealTypes;
+    let daysOfWeek = this.state.daysOfWeek;
     function createRecipeIngrdntStateObj(genRecipe, mealType) {
       let genRecipeIngredient = {
         defaultQty: 1,
@@ -8241,6 +8244,53 @@ export default class WeekMealPlanDetail extends Component {
         this.deleteRecord(parentObj.thisMealIngrdnt._id, "mealIngredient");
         break;
       case "genRecipeIngredient":
+        let thisGenRecipeIngrdnt =
+          parentObj.thisMealIngrdnt.genRecipeIngredient;
+        let thisGenRecipe = thisGenRecipeIngrdnt.genRecipe;
+        let recordId = thisGenRecipeIngrdnt._id;
+        for (let i = 0; i < daysOfWeek.length; i++) {
+          let thisDayOfWeek = daysOfWeek[i];
+          let thisDayStateObj = thisWeeksDays[thisDayOfWeek.code];
+          let thisDaysMeals = thisDayStateObj.thisDaysMeals;
+          for (let i = 0; i < mealTypes.length; i++) {
+            let thisMealType = mealTypes[i];
+            let thisMealStateObj = thisDaysMeals[thisMealType.code];
+            let thisMealsGenRecipe = thisMealStateObj.thisMeal.genRecipe;
+            if (thisMealsGenRecipe._id === thisGenRecipe._id) {
+              let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+              for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+                let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+                let thisMealIngrdntObj =
+                  thisMealIngrdntStateObj.thisMealIngrdnt;
+                let thisMealIngrdntsId = thisMealIngrdntObj._id;
+                let thisMealIngrdntsGenRecipeIngrdnt =
+                  thisMealIngrdntObj.genRecipeIngredient;
+                if (thisMealIngrdntsGenRecipeIngrdnt._id === recordId) {
+                  let newThisMealsIngrdnts = thisMealsIngrdnts.filter(
+                    (mealIngrdnt) =>
+                      mealIngrdnt.thisMealIngrdnt.genRecipeIngredient._id !==
+                      recordId
+                  );
+                  thisMealStateObj.thisMealsIngrdnts = newThisMealsIngrdnts;
+                  this.deleteRecord(thisMealIngrdntsId, "mealIngredient");
+                } else {
+                  return;
+                }
+              }
+            } else {
+              return;
+            }
+            thisDaysMeals[thisMealType.code] = thisMealStateObj;
+          }
+          thisDayStateObj.thisDaysMeals = thisDaysMeals;
+          thisWeeksDays[thisDayOfWeek.code] = thisDayStateObj;
+        }
+        let allGenRecipeIngrdnts = state.allGenRecipeIngredients;
+        let newAllGenRecipeIngrdnts = allGenRecipeIngrdnts.filter(
+          (genRecipeIngrdnt) => genRecipeIngrdnt._id !== recordId
+        );
+        state.allGenRecipeIngredients = newAllGenRecipeIngrdnts;
+        this.deleteRecord(recordId, "genRecipeIngredient");
         break;
       case "ingredient":
         break;
