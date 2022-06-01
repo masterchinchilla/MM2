@@ -8,6 +8,11 @@ import MacrosTable2 from "./MacrosTable2.component";
 const MealDetail3 = (props) => {
   const thisStateObj = props.thisStateObj;
   const thisGRFUser = props.thisGRFUser;
+  const userCanEditRecipe =
+    thisStateObj.thisGenRecipeUserType === "author" ||
+    thisStateObj.thisGenRecipeUserType === "admin"
+      ? true
+      : false;
   const recordChanged = thisStateObj.mealRecordChanged;
   const thisMealJustCreated = thisStateObj.thisMealJustCreated;
   const thisObj = thisStateObj.thisMeal;
@@ -16,6 +21,8 @@ const MealDetail3 = (props) => {
   const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
+  let allowPopulateIngrdnts =
+    mealsIngrdnts.length < 1 && userCanEditRecipe ? true : false;
   const nestedMealIngrdntArray = [mealsIngrdnts];
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   // const thisMealTypesRecipes = props.thisMealTypesRecipes.filter(
@@ -170,8 +177,8 @@ const MealDetail3 = (props) => {
               <div
                 className={
                   thisStateObj.thisMealJustCreated === true
-                    ? "mealHeader mealHdrFcsd"
-                    : "mealHeader"
+                    ? "subCardHeader cardHeaderFocused"
+                    : "subCardHeader"
                 }
               >
                 <h5 className="recipeSelectHeader">Recipe:</h5>
@@ -354,8 +361,7 @@ const MealDetail3 = (props) => {
           />
           <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
           <div className="mlIngrdntsCntnr">{renderMealIngrdnts()}</div>
-          {thisStateObj.thisGenRecipeUserType === "admin" ||
-          thisStateObj.thisGenRecipeUserType === "author" ? (
+          {userCanEditRecipe === true && allowPopulateIngrdnts === false ? (
             <div className="form-group mt-4 mb-4">
               <button
                 type="submit"

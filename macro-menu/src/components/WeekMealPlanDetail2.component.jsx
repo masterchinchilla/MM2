@@ -311,7 +311,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   mealIngrdntRecordChanged: false,
                   genRecipeIngrdntRecordChanged: false,
                   ingredientRecordChanged: false,
@@ -482,7 +482,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -614,7 +614,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -746,7 +746,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -878,7 +878,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -1010,7 +1010,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -1159,7 +1159,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -1328,7 +1328,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -1413,7 +1413,7 @@ export default class WeekMealPlanDetail extends Component {
               ],
               thisRecipesIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisGenRecipeIngrdntFormState: "viewing",
@@ -1503,7 +1503,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -1672,7 +1672,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -1841,7 +1841,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -2010,7 +2010,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -2196,7 +2196,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -2365,7 +2365,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -2450,7 +2450,7 @@ export default class WeekMealPlanDetail extends Component {
               ],
               thisRecipesIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisGenRecipeIngrdntFormState: "viewing",
@@ -2540,7 +2540,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -2709,7 +2709,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -2878,7 +2878,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -3047,7 +3047,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -3233,7 +3233,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -3402,7 +3402,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -3487,7 +3487,7 @@ export default class WeekMealPlanDetail extends Component {
               ],
               thisRecipesIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisGenRecipeIngrdntFormState: "viewing",
@@ -3577,7 +3577,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -3746,7 +3746,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -3915,7 +3915,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -4084,7 +4084,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -4270,7 +4270,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -4439,7 +4439,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -4524,7 +4524,7 @@ export default class WeekMealPlanDetail extends Component {
               ],
               thisRecipesIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisGenRecipeIngrdntFormState: "viewing",
@@ -4614,7 +4614,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -4783,7 +4783,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -4952,7 +4952,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -5121,7 +5121,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -5307,7 +5307,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -5476,7 +5476,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -5561,7 +5561,7 @@ export default class WeekMealPlanDetail extends Component {
               ],
               thisRecipesIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisGenRecipeIngrdntFormState: "viewing",
@@ -5651,7 +5651,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -5820,7 +5820,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -5989,7 +5989,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -6158,7 +6158,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -6344,7 +6344,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -6513,7 +6513,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -6598,7 +6598,7 @@ export default class WeekMealPlanDetail extends Component {
               ],
               thisRecipesIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisGenRecipeIngrdntFormState: "viewing",
@@ -6688,7 +6688,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -6857,7 +6857,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -7026,7 +7026,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -7195,7 +7195,7 @@ export default class WeekMealPlanDetail extends Component {
               },
               thisMealsIngrdnts: [
                 {
-                  thisMealIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: false,
                   recordChanged: false,
                   thisMealIngrdntFormState: "viewing",
                   thisMealIngrdntUserType: "admin",
@@ -7517,7 +7517,7 @@ export default class WeekMealPlanDetail extends Component {
             mealIngrdntData[i].genRecipeIngredient.ingredient.GRFUser._id
           );
           let thisMealIngrdnt = {
-            thisMealIngrdntJustCreated: false,
+            thisGenRecipeIngrdntJustCreated: false,
             recordChanged: false,
             thisMealIngrdntFormState: "viewing",
             thisMealIngrdntUserType: thisMealIngrdntUserType,
@@ -8089,7 +8089,7 @@ export default class WeekMealPlanDetail extends Component {
       let genRecipe = thisMealChild.genRecipe;
       let mealType = thisMealChild.mealType;
       let mealIngredient = {
-        thisMealIngrdntJustCreated: false,
+        thisGenRecipeIngrdntJustCreated: false,
         recordChanged: false,
         thisMealIngrdntFormState: "viewing",
         thisMealIngrdntUserType: "viewer",
@@ -8260,7 +8260,6 @@ export default class WeekMealPlanDetail extends Component {
 
             if (thisMealsGenRecipe._id === thisGenRecipe._id) {
               let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-              console.log(thisMealsIngrdnts);
               for (let i = 0; i < thisMealsIngrdnts.length; i++) {
                 let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
                 let thisMealIngrdntObj =
@@ -8484,6 +8483,18 @@ export default class WeekMealPlanDetail extends Component {
     }
     let savedRecordId;
     let url = `http://localhost:5000/${objType}s/add`;
+    const assembleAndAssignState = () => {
+      if (objType !== "day") {
+        thisMealStateObj.thisMeal = thisMealObj;
+        thisDaysMeals[mealTypeCode] = thisMealStateObj;
+      }
+      thisDayStateObj.thisDaysMeals = thisDaysMeals;
+      thisDayStateObj.thisDay = thisDayObj;
+      thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+      state.thisWeeksDays = thisWeeksDays;
+      this.setState(state);
+      this.handleClickEditForm(parentObj, objType);
+    };
     axios.post(url, newRecordToSave).then((response) => {
       let savedRecord = response.data;
       savedRecordId = savedRecord._id;
@@ -8525,6 +8536,11 @@ export default class WeekMealPlanDetail extends Component {
           }
           thisDayStateObj.dataLoaded = true;
           parentObj = thisDayStateObj;
+          thisDayStateObj.thisDaysMeals = thisDaysMeals;
+          thisDayStateObj.thisDay = thisDayObj;
+          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+          state.thisWeeksDays = thisWeeksDays;
+          this.hndleSetVwrTypsAndFrmStates("newDay", state);
           break;
         case "meal":
           // thisMealObj = thisMealStateObj.thisMeal;
@@ -8546,15 +8562,29 @@ export default class WeekMealPlanDetail extends Component {
           // thisMealStateObj.thisMealFormState="editingOrig";
           thisMealStateObj.dataLoaded = true;
           parentObj = thisMealStateObj;
+          thisMealStateObj.thisMeal = thisMealObj;
+          thisDaysMeals[mealTypeCode] = thisMealStateObj;
+          thisDayStateObj.thisDaysMeals = thisDaysMeals;
+          thisDayStateObj.thisDay = thisDayObj;
+          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+          state.thisWeeksDays = thisWeeksDays;
+          this.setState(state);
+          this.handleClickEditForm(parentObj, objType);
           break;
         case "mealIngredient":
           thisMealsIngrdnts.push(newRecordForState);
           thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
           thisMealStateObj.dataLoaded = true;
           parentObj = thisMealStateObj;
+          thisDaysMeals[mealTypeCode] = thisMealStateObj;
+          thisDayStateObj.thisDaysMeals = thisDaysMeals;
+          thisDayStateObj.thisDay = thisDayObj;
+          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+          state.thisWeeksDays = thisWeeksDays;
+          this.setState(state);
+          this.handleClickEditForm(parentObj, objType);
           break;
         case "genRecipeIngredient":
-          parentObj = thisMealIngrdntObj;
           thisMealObj = thisMealStateObj.thisMeal;
           thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
           thisGenRecipeIngrdntObj = newRecordForState;
@@ -8565,6 +8595,7 @@ export default class WeekMealPlanDetail extends Component {
             genRecipeIngredient: thisGenRecipeIngrdntObj,
             meal: thisMealObj,
           };
+
           let newInnerMealIngrdntToSave = {
             qty: 1,
             genRecipeIngredient: thisGenRecipeIngrdntObj._id,
@@ -8580,7 +8611,7 @@ export default class WeekMealPlanDetail extends Component {
               let newMealIngrdntId = newSavedMealIngrdnt._id;
               thisMealIngrdntObj._id = newMealIngrdntId;
               let newOuterMealIngrdnt = {
-                thisMealIngrdntJustCreated: false,
+                thisGenRecipeIngrdntJustCreated: true,
                 mealIngrdntRecordChanged: false,
                 genRecipeIngrdntRecordChanged: true,
                 ingredientRecordChanged: false,
@@ -8593,24 +8624,34 @@ export default class WeekMealPlanDetail extends Component {
                 thisMealIngrdnt: thisMealIngrdntObj,
               };
               thisMealIngrdntStateObj = newOuterMealIngrdnt;
+              parentObj = thisMealIngrdntStateObj;
+              // assembleAndAssignState();
               thisMealsIngrdnts.push(newOuterMealIngrdnt);
+              thisMealStateObj.thisMeal = thisMealObj;
+              thisDaysMeals[mealTypeCode] = thisMealStateObj;
+              thisDayStateObj.thisDaysMeals = thisDaysMeals;
+              thisDayStateObj.thisDay = thisDayObj;
+              thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+              state.thisWeeksDays = thisWeeksDays;
+              this.setState(state);
+              this.handleClickEditForm(parentObj, objType);
             });
           break;
       }
-      if (objType !== "day") {
-        thisMealStateObj.thisMeal = thisMealObj;
-        thisDaysMeals[mealTypeCode] = thisMealStateObj;
-      }
-      thisDayStateObj.thisDaysMeals = thisDaysMeals;
-      thisDayStateObj.thisDay = thisDayObj;
-      thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-      state.thisWeeksDays = thisWeeksDays;
-      this.setState(state);
-      if (objType !== "day") {
-        //   this.hndleSetVwrTypsAndFrmStates("newDay", state);
-        // } else {
-        this.handleClickEditForm(parentObj, objType);
-      }
+      // if (objType !== "day") {
+      //   thisMealStateObj.thisMeal = thisMealObj;
+      //   thisDaysMeals[mealTypeCode] = thisMealStateObj;
+      // }
+      // thisDayStateObj.thisDaysMeals = thisDaysMeals;
+      // thisDayStateObj.thisDay = thisDayObj;
+      // thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+      // state.thisWeeksDays = thisWeeksDays;
+      // this.setState(state);
+      // if (objType !== "day") {
+      //   //   this.hndleSetVwrTypsAndFrmStates("newDay", state);
+      //   // } else {
+      //   this.handleClickEditForm(parentObj, objType);
+      // }
     });
   };
   populateNewMealIngredients = (
@@ -8675,7 +8716,7 @@ export default class WeekMealPlanDetail extends Component {
         for (let i = 0; i < thisGenRecipesGenRecipeIngrdnts.length; i++) {
           let thisGenRecipeIngrdnt = thisGenRecipesGenRecipeIngrdnts[i];
           let newMealIngredient = {
-            thisMealIngrdntJustCreated: false,
+            thisGenRecipeIngrdntJustCreated: false,
             recordChanged: false,
             thisMealIngrdntUserType: thisMealInitialUserType,
             thisGenRecipeIngrdntUserType: thisGenRecipeUserType,

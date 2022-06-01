@@ -17,6 +17,8 @@ const GenRecipeIngredient = (props) => {
   const thisFormState = props.thisFormState;
   // const thisFormState = "editingOrig";
   const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
+  const thisGenRecipeIngrdntJustCreated =
+    thisMealIngrdntObj.thisGenRecipeIngrdntJustCreated;
   const deleteMsg =
     "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
   return (
@@ -79,12 +81,23 @@ const GenRecipeIngredient = (props) => {
         </div>
         <div
           id={"gnRcpIngrdntFrmAccrdn" + thisObjId}
-          className="accordion-collapse collapse"
+          className={
+            thisGenRecipeIngrdntJustCreated === true
+              ? "accordion-collapse open"
+              : "accordion-collapse collapse"
+          }
           aria-labelledby={"#gnRcpIngrdntFrmAccrdnHdr" + thisObjId}
           data-bs-parent={"#gnRcpIngrdntFrmAccrdnFll" + thisObjId}
         >
           <div className="accordion-body">
-            <div className="form-group mealIngrdntInputs">
+            <div
+              className={
+                thisGenRecipeIngrdntJustCreated === true
+                  ? "form-group mealIngrdntInputs subCardHeaderFocused"
+                  : "form-group mealIngrdntInputs"
+              }
+              // className="form-group mealIngrdntInputs"
+            >
               <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
               <label>Base Ingredient</label>
               <select
@@ -120,7 +133,11 @@ const GenRecipeIngredient = (props) => {
                 required
                 className="form-control form-select"
                 value={thisObj.genRecipe._id}
-                disabled={thisFormState === "viewing" ? true : false}
+                disabled={
+                  thisFormState === "viewing" && userType === "admin"
+                    ? true
+                    : false
+                }
                 onChange={(e) =>
                   props.onUpdateProp(
                     "genRecipeIngredient",

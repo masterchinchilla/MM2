@@ -35,7 +35,7 @@ button.iconBttn {
 hr {
   margin: 0 !important;
 }
-.mealHeader {
+.subCardHeader {
   display: grid;
   grid-template-columns: min-content auto;
   grid-template-rows: auto auto;
@@ -446,7 +446,11 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   background-color: #fff;
   border-radius: 0.25rem;
 }
-.mealHdrFcsd{
+.cardHeaderFocused{
+  background-color: #ffc107;
+}
+.subCardHeaderFocused{
+  padding:0.5rem !important;
   background-color: #ffc107;
 }
 .modal-title{
