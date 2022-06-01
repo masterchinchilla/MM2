@@ -7891,6 +7891,7 @@ export default class WeekMealPlanDetail extends Component {
             thisMealIngrdnt.mealIngrdntRecordChanged = false;
             thisMealIngrdnt.genRecipeIngrdntRecordChanged = false;
             thisMealIngrdnt.ingrdntRecordChanged = false;
+            thisMealIngrdnt.thisGenRecipeIngrdntJustCreated = false;
             thisDayMeal.thisMealsIngrdnts[i] = thisMealIngrdnt;
           }
         }
