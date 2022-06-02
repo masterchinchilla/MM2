@@ -1,5 +1,6 @@
 import React, { useState, Component } from "react";
 import EditOptions from "./EditOptions.component";
+import AsyncSelectList from "./AsyncSelectList.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GenRecipeIngredient = (props) => {
@@ -10,7 +11,7 @@ const GenRecipeIngredient = (props) => {
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  const allIngredients = props.allIngredients;
+  // const allIngredients = props.allIngredients;
   const thisMealTypesRecipes = props.thisMealTypesRecipes;
   const userType = props.userType;
   // const userType = "admin";
@@ -100,7 +101,20 @@ const GenRecipeIngredient = (props) => {
             >
               <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
               <label>Base Ingredient</label>
-              <select
+              <AsyncSelectList
+                objToSelect={thisObj.ingredient}
+                dayOfWeekCode={thisDayOfWeekCode}
+                mealTypeCode={thisMealType}
+                arrayIndex={mealIngrdntsArrayIndex}
+                onUpdateProp={props.onUpdateProp}
+                thisFormState={thisFormState}
+                className="form-control form-select"
+                objType="genRecipeIngredient"
+                objTypeToChange="ingredient"
+                styleClasses=""
+                url="http://localhost:5000/ingredients/ingredientsByName/"
+              />
+              {/* <select
                 required
                 className="form-control form-select"
                 value={thisObj.ingredient._id}
@@ -125,7 +139,7 @@ const GenRecipeIngredient = (props) => {
                     </option>
                   );
                 })}
-              </select>
+              </select> */}
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Recipe</label>

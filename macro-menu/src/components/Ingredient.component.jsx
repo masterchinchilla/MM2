@@ -1,7 +1,6 @@
 import React, { useState, Component } from "react";
-import EditOptions from "./EditOptions.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import EditOptions from "./EditOptions.component";
 const Ingredient = (props) => {
   const userType = props.userType;
   // const userType = "admin";

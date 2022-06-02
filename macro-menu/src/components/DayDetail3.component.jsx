@@ -123,7 +123,7 @@ const DayDetail3 = (props) => {
           allDays={props.allDays}
           thisMealTypesRecipes={thisMealTypesRecipes}
           mealTypes={props.mealTypes}
-          allIngredients={props.allIngredients}
+          // allIngredients={props.allIngredients}
           // allGenRecipeIngredients={props.allGenRecipeIngredients}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
           thisMealTypesMeals={thisMealTypesMeals}

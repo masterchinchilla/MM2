@@ -4,6 +4,7 @@ import EditOptions from "./EditOptions.component";
 import GenRecipe from "./GenRecipe.component";
 import MealIngredientParent from "./MealIngredientParent.component";
 import MacrosTable2 from "./MacrosTable2.component";
+import AsyncSelectList from "./AsyncSelectList.component";
 
 const MealDetail3 = (props) => {
   const thisStateObj = props.thisStateObj;
@@ -66,7 +67,7 @@ const MealDetail3 = (props) => {
             allGenRecipeIngredients={props.allGenRecipeIngredients}
             thisRecipesIngrdnts={thisRecipesIngrdnts}
             thisMealTypesMeals={props.thisMealTypesMeals}
-            allIngredients={props.allIngredients}
+            // allIngredients={props.allIngredients}
             allUnitOfMeasures={props.allUnitOfMeasures}
             allWeightTypes={props.allWeightTypes}
             allBrands={props.allBrands}
@@ -182,6 +183,22 @@ const MealDetail3 = (props) => {
                 }
               >
                 <h5 className="recipeSelectHeader">Recipe:</h5>
+                {/* <AsyncSelectList
+                  objToSelect={thisGenRecipeObj}
+                  dayOfWeekCode={dayOfWeek.code}
+                  mealTypeCode={thisMealTypeCode}
+                  arrayIndex={0}
+                  onUpdateProp={props.onUpdateProp}
+                  thisFormState={mealFormState}
+                  styleClasses="recipeSelect"
+                  objType="meal"
+                  objTypeToChange="genRecipe"
+                  url={
+                    "http://localhost:5000/genRecipes/genRecipesByMealTypeAndName/"
+                    // +
+                    // thisObj.mealType._id
+                  }
+                /> */}
                 <select
                   // ref="userInput": React prevents this, but I don't know what it does anyway...
                   required

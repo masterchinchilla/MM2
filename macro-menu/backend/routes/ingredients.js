@@ -35,6 +35,30 @@ router.route('/').get((req, res)=>{
         .then(ingredients=>res.json(ingredients))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/ingredientsByName/:name').get((req, res)=>{
+    Ingredient.find({name:new RegExp(req.params.name,"i")})
+        .populate('GRFUser')
+        .populate({
+            path:'unitOfMeasure',
+            populate:{
+                path:'GRFUser',
+            }
+        })
+        .populate({
+            path:'weightType',
+            populate:{
+                path:'GRFUser',
+            }
+        })
+        .populate({
+            path:'brand',
+            populate:{
+                path:'GRFUser',
+            }
+        })
+        .then(ingredients=>res.json(ingredients))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 router.route('/update/:id').put((req, res)=>{
     Ingredient.findById(req.params.id)
         .then(ingredient=>{

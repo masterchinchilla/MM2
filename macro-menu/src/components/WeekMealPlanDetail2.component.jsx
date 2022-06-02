@@ -141,25 +141,25 @@ export default class WeekMealPlanDetail extends Component {
           name: "Dessert",
         },
       ],
-      allIngredients: [
-        {
-          _id: "tempIngredientId1",
-          name: "Temp Ingredient 1 Name",
-          calories: 1,
-          carbs: 1,
-          protein: 1,
-          fat: 1,
-          fiber: 1,
-          unitOfMeasure: {
-            name: "Each",
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          },
-          weightType: {},
-          photoURL: "",
-          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          brand: {},
-        },
-      ],
+      // allIngredients: [
+      //   {
+      //     _id: "tempIngredientId1",
+      //     name: "Temp Ingredient 1 Name",
+      //     calories: 1,
+      //     carbs: 1,
+      //     protein: 1,
+      //     fat: 1,
+      //     fiber: 1,
+      //     unitOfMeasure: {
+      //       name: "Each",
+      //       GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+      //     },
+      //     weightType: {},
+      //     photoURL: "",
+      //     GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+      //     brand: {},
+      //   },
+      // ],
       allGenRecipeIngredients: [
         {
           _id: "tempGenRecipeIngredientId1",
@@ -7356,7 +7356,7 @@ export default class WeekMealPlanDetail extends Component {
     this.getAllGRFUsers();
     this.getAllDays();
     this.getAllRecipes();
-    this.getAllIngredients();
+    // this.getAllIngredients();
     this.getAllMeals();
     this.getAllGenRecipeIngredients();
     this.getAllUnitOfMeasures();
@@ -7568,13 +7568,13 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  getAllIngredients = () => {
-    axios.get("http://localhost:5000/ingredients/").then((response) => {
-      this.setState({
-        allIngredients: response.data.map((ingredient) => ingredient),
-      });
-    });
-  };
+  // getAllIngredients = () => {
+  //   axios.get("http://localhost:5000/ingredients/").then((response) => {
+  //     this.setState({
+  //       allIngredients: response.data.map((ingredient) => ingredient),
+  //     });
+  //   });
+  // };
   getAllMeals = () => {
     axios.get("http://localhost:5000/meals/").then((response) => {
       this.setState({
@@ -7806,6 +7806,7 @@ export default class WeekMealPlanDetail extends Component {
     let initialUserType = state.thisUserType;
     let thisUsersId = state.thisGRFUser._id;
     let thisWeekMealPlan = state.thisWeekMealPlan;
+    let thisWMP = thisWeekMealPlan.thisWMP;
     let thisWeeksDays = state.thisWeeksDays;
     let thisWeeksDaysOld = _.cloneDeep(state.thisWeeksDaysOld);
     thisWeekMealPlan.userType = state.thisUserType;
@@ -7814,7 +7815,13 @@ export default class WeekMealPlanDetail extends Component {
     let mealTypes = state.mealTypes;
     for (let i = 0; i < daysOfWeek.length; i++) {
       let dayOfWeekCode = daysOfWeek[i].code;
-      let initialDayUserType = thisWeeksDaysOld[dayOfWeekCode]["userType"];
+      let dayUserId = thisWMP.GRFUser._id;
+      let initialDayUserType = this.setUserType(
+        initialUserType,
+        thisUsersId,
+        dayUserId
+      );
+      // thisWeeksDaysOld[dayOfWeekCode]["userType"];
       if (scenario === "newMealOrIngrdnt") {
         thisWeeksDays[dayOfWeekCode]["userType"] = "viewer";
       } else {
@@ -7826,14 +7833,23 @@ export default class WeekMealPlanDetail extends Component {
         let mealTypeCode = mealTypes[i].code;
         let thisDayMeal =
           thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode];
-        let initialMealUserType =
-          thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            "thisMealUserType"
-          ];
-        let initialGenRecipeUserType =
-          thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            "thisGenRecipeUserType"
-          ];
+        let initialMealUserType = initialDayUserType;
+        // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+        //   "thisMealUserType"
+        // ];
+
+        let thisGenRecipeUserId =
+          thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            "thisMeal"
+          ]["genRecipe"]["GRFUser"]["_id"];
+        let initialGenRecipeUserType = this.setUserType(
+          initialUserType,
+          thisUsersId,
+          thisGenRecipeUserId
+        );
+        // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+        //   "thisGenRecipeUserType"
+        // ];
         if (scenario === "newMealOrIngrdnt") {
           thisDayMeal["thisMealUserType"] = "viewer";
           thisDayMeal["thisGenRecipeUserType"] = "viewer";
@@ -7854,14 +7870,14 @@ export default class WeekMealPlanDetail extends Component {
         if (thisDayMeal.thisMealsIngrdnts.length > 0) {
           for (let i = 0; i < thisDayMeal.thisMealsIngrdnts.length; i++) {
             let thisMealIngrdnt = thisDayMeal.thisMealsIngrdnts[i];
-            let initialMealIngrdntUserType =
-              thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-                "thisMealUserType"
-              ];
-            let initialGenRecipeIngrdntUserType =
-              thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-                "thisGenRecipeUserType"
-              ];
+            let initialMealIngrdntUserType = initialMealUserType;
+            // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            //   "thisMealUserType"
+            // ];
+            let initialGenRecipeIngrdntUserType = initialGenRecipeUserType;
+            // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
+            //   "thisGenRecipeUserType"
+            // ];
             let thisIngrdntUserId =
               thisMealIngrdnt.thisMealIngrdnt.genRecipeIngredient.ingredient
                 .GRFUser._id;
@@ -8000,7 +8016,7 @@ export default class WeekMealPlanDetail extends Component {
       "userChangedThisMealsRecipe"
     ] = false;
     state.thisWeeksDays = thisWeeksDays;
-    this.setState(state);
+    // this.setState(state);
     this.hndleSetVwrTypsAndFrmStates("changingMealRecipe", state);
     // let daysOfWeek = state.daysOfWeek;
     // let mealTypes = state.mealTypes;
@@ -8315,6 +8331,8 @@ export default class WeekMealPlanDetail extends Component {
       )[0];
     } else if (inputType === "number") {
       newValue = JSON.parse(e.target.value);
+    } else if (inputType === "reactSelect") {
+      newValue = JSON.parse(e);
     } else {
       newValue = e.target.value;
     }
@@ -8541,7 +8559,8 @@ export default class WeekMealPlanDetail extends Component {
           thisDayStateObj.thisDay = thisDayObj;
           thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
           state.thisWeeksDays = thisWeeksDays;
-          this.hndleSetVwrTypsAndFrmStates("newDay", state);
+          this.setState(state);
+          // this.hndleSetVwrTypsAndFrmStates("newDay", state);
           break;
         case "meal":
           // thisMealObj = thisMealStateObj.thisMeal;
@@ -8561,6 +8580,7 @@ export default class WeekMealPlanDetail extends Component {
           thisMealStateObj.thisMealJustCreated = true;
           thisMealStateObj.mealRecordChanged = true;
           // thisMealStateObj.thisMealFormState="editingOrig";
+          // thisMealStateObj.thisGenRecipeFormState="viewing";
           thisMealStateObj.dataLoaded = true;
           parentObj = thisMealStateObj;
           thisMealStateObj.thisMeal = thisMealObj;
@@ -8822,7 +8842,7 @@ export default class WeekMealPlanDetail extends Component {
             allDays={this.state.allDays}
             allGenRecipes={this.state.allGenRecipes}
             mealTypes={this.state.mealTypes}
-            allIngredients={this.state.allIngredients}
+            // allIngredients={this.state.allIngredients}
             allGenRecipeIngredients={this.state.allGenRecipeIngredients}
             allMeals={this.state.allMeals}
             allUnitOfMeasures={this.state.allUnitOfMeasures}

@@ -62,7 +62,7 @@ const MealIngredientParent = (props) => {
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisGenRecipeIngrdnt}
-          allIngredients={props.allIngredients}
+          // allIngredients={props.allIngredients}
           //Methods
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
