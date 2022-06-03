@@ -21,7 +21,7 @@ export default class WeekMealPlanDetail extends Component {
       // allUnitOfMeasures={props.allUnitOfMeasures}
       // allWeightTypes={props.allWeightTypes}
       // allBrands={props.allBrands}
-      thisUserType: "admin",
+      thisUserType: "author",
       thisGRFUser: {
         _id: "609f3e444ee536749c75c729",
         givenName: "John",

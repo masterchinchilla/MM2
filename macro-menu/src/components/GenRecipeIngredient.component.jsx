@@ -20,8 +20,11 @@ const GenRecipeIngredient = (props) => {
   const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
   const thisGenRecipeIngrdntJustCreated =
     thisMealIngrdntObj.thisGenRecipeIngrdntJustCreated;
+  const thisGRFUser = props.thisGRFUser;
   const deleteMsg =
     "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
+  const saveMsg =
+    "Changes made to this Recipe Ingredient will be applied everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
   return (
     <form className="gnRcpIngrdntFrm">
       <div className="gnRcpIngrdntFrmHdr">
@@ -41,6 +44,7 @@ const GenRecipeIngredient = (props) => {
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           deleteMsg={deleteMsg}
+          saveMsg={saveMsg}
         />
         <input
           type={"number"}
@@ -71,7 +75,12 @@ const GenRecipeIngredient = (props) => {
             id={"gnRcpIngrdntFrmAccrdnHdr" + thisObjId}
           >
             <button
-              className="accordion-button collapsed mealAdminAccrdnBttn"
+              className={
+                thisGenRecipeIngrdntJustCreated === true
+                  ? "accordion-button open mealAdminAccrdnBttn"
+                  : "accordion-button collapsed mealAdminAccrdnBttn"
+              }
+              // className="accordion-button collapsed mealAdminAccrdnBttn"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#gnRcpIngrdntFrmAccrdn" + thisObjId}
@@ -114,6 +123,7 @@ const GenRecipeIngredient = (props) => {
                 objTypeToChange="ingredient"
                 styleClasses=""
                 url="http://localhost:5000/ingredients/ingredientsByName/"
+                thisGRFUser={thisGRFUser}
               />
               {/* <select
                 required

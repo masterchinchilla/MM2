@@ -79,4 +79,33 @@ router.route('/update/:id').put((req, res)=>{
         })
         .catch(err=>res.status(400).json('Error: '+err));
 })
+router.route('/add').post((req, res)=>{
+    const name=req.body.name;
+    const calories=req.body.calories;
+    const carbs=req.body.carbs;
+    const protein=req.body.protein;
+    const fat=req.body.fat;
+    const fiber=req.body.fiber;
+    const unitOfMeasure=req.body.unitOfMeasure;
+    const weightType=req.body.weightType;
+    const photoURL=req.body.photoURL;
+    const GRFUser=req.body.GRFUser;
+    const brand=req.body.brand;
+    const newIngredient=new Ingredient({
+        name,
+        calories,
+        carbs,
+        protein,
+        fat,
+        fiber,
+        unitOfMeasure,
+        weightType,
+        photoURL,
+        GRFUser,
+        brand
+    });
+    newIngredient.save()
+        .then(()=>res.json(newIngredient))
+        .catch(err=>res.status(400).json('Error: '+err));
+});
 module.exports=router;

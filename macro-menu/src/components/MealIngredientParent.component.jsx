@@ -6,7 +6,7 @@ import Ingredient from "./Ingredient.component";
 const MealIngredientParent = (props) => {
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisObj = thisMealIngrdntObj.thisMealIngrdnt;
-
+  const thisGRFUser = props.thisGRFUser;
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
   const thisGenRecipeIngrdnt = thisObj.genRecipeIngredient;
@@ -59,6 +59,7 @@ const MealIngredientParent = (props) => {
           //Methods
           //Common Props
           //Data
+          thisGRFUser={thisGRFUser}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisGenRecipeIngrdnt}
@@ -83,6 +84,7 @@ const MealIngredientParent = (props) => {
           //Methods
           //Common Props
           //Data
+
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisIngredient}

@@ -456,7 +456,7 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 .modal-title{
   text-transform: capitalize;
 }
-.deleteWarning{
+.changeWarning{
   z-index: 999;
   width:50%;
   position: fixed;

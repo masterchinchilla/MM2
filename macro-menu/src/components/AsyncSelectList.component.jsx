@@ -43,12 +43,13 @@ class AsyncSelectList extends Component {
                 //   });
                 // }
               });
-            } else {
-              tempArray.push({
-                label: `${data.body}`,
-                value: JSON.stringify(data),
-              });
             }
+            // else {
+            //   tempArray.push({
+            //     label: "No Match...",
+            //     value: {},
+            //   });
+            // }
           }
           callback(tempArray);
         })
@@ -75,7 +76,7 @@ class AsyncSelectList extends Component {
     let newIngrdntName = e;
     let newRecordForState = {
       label: newIngrdntName,
-      value: JSON.stringify({
+      value: {
         _id: "tempIngredientId1",
         name: newIngrdntName,
         calories: 1,
@@ -94,13 +95,13 @@ class AsyncSelectList extends Component {
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
         },
         photoURL: "",
-        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        GRFUser: this.props.thisGRFUser,
         brand: {
           _id: "627691b69fa56aa1fe318393",
           name: "",
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
         },
-      }),
+      },
     };
     let newRecordToSave = {
       name: newIngrdntName,
@@ -112,7 +113,7 @@ class AsyncSelectList extends Component {
       unitOfMeasure: "627691779fa56aa1fe318390",
       weightType: "627695899fa56aa1fe318396",
       photoURL: "",
-      GRFUser: "62577a533813f4f21c27e1c7",
+      GRFUser: this.props.thisGRFUser._id,
       brand: "627691b69fa56aa1fe318393",
     };
     this.props.onCreateRecord(

@@ -11,15 +11,18 @@ const Ingredient = (props) => {
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
-  const recordChanged = thisMealIngrdntObj.ingrdntRecordChanged;
+  const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
   const allGRFUsers = props.allGRFUsers;
   const allUnitOfMeasures = props.allUnitOfMeasures;
   const allWeightTypes = props.allWeightTypes;
   const allBrands = props.allBrands;
+  const thisIngrdntJustCreated = thisMealIngrdntObj.thisIngrdntJustCreated;
   const deleteMsg =
-    "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
+    "If you delete this Base Ingredient it will be deleted everywhere, including in other Recipes. Do you want to proceed?";
+  const saveMsg =
+    "Changes made to this Base Ingredient will be applied everywhere it is used, including in other Recipes. Do you want to proceed?";
   return (
     <form
       className={
@@ -43,6 +46,7 @@ const Ingredient = (props) => {
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           deleteMsg={deleteMsg}
+          saveMsg={saveMsg}
         />
         <div className="form-group mealIngrdntInputs ingrdntUOM">
           <label>UOM</label>
@@ -184,7 +188,12 @@ const Ingredient = (props) => {
         <div className="accordion-item">
           <h2 className="accordion-header" id={"ingrdntAccrdnHdr" + thisObjId}>
             <button
-              className="accordion-button mealInnerAccrdnBttn collapsed"
+              // className="accordion-button mealInnerAccrdnBttn collapsed"
+              className={
+                thisIngrdntJustCreated === true
+                  ? "accordion-button mealInnerAccrdnBttn open"
+                  : "accordion-button mealInnerAccrdnBttn collapsed"
+              }
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#ingrdntAccrdnBdy" + thisObjId}
@@ -193,7 +202,12 @@ const Ingredient = (props) => {
         </div>
         <div
           id={"ingrdntAccrdnBdy" + thisObjId}
-          className="accordion-collapse collapse"
+          // className="accordion-collapse collapse"
+          className={
+            thisIngrdntJustCreated === true
+              ? "accordion-collapse open"
+              : "accordion-collapse collapse"
+          }
           aria-labelledby={"#ingrdntAccrdnHdr" + thisObjId}
           data-bs-parent={"#ingrdntAccrdnFull" + thisObjId}
         >

@@ -61,6 +61,7 @@ const MealDetail3 = (props) => {
             //Methods
             //Common Props
             //Data
+            thisGRFUser={thisGRFUser}
             thisMealIngrdntObj={mealIngredient}
             mealIngrdntsArrayIndex={index}
             allGRFUsers={props.allGRFUsers}

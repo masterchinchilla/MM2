@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EditOptions = (props) => {
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   const [hideCancelWarning, toggleHideCancelWarning] = useState(true);
+  const [hideSaveWarning, toggleHideSaveWarning] = useState(true);
   const [hideDeleteBlock, toggleHideDeleteBlock] = useState(true);
   const parentObj = props.parentObj;
   const objType = props.objType;
@@ -22,6 +23,7 @@ const EditOptions = (props) => {
   const onCreate = props.onCreate;
   const recordChanged = props.recordChanged;
   const recordToCreate = props.recordToCreate;
+  const saveMsg = props.saveMsg;
   const lifeCycleStages = [
     "viewing",
     "editingOrig",
@@ -68,13 +70,11 @@ const EditOptions = (props) => {
           }
           break;
         case "delete":
-          if (
-            thisFormState === "viewing" ||
-            thisFormState === "editingCopy" ||
-            objType === "genRecipe" ||
-            // objType === "genRecipeIngredient" ||
-            objType === "ingredient"
-          ) {
+          if (thisFormState === "viewing" || thisFormState === "editingCopy") {
+            iconHidden = true;
+          } else if (userType === "admin") {
+            iconHidden = false;
+          } else if (objType === "genRecipe" || objType === "ingredient") {
             iconHidden = true;
           } else {
             iconHidden = false;
@@ -101,6 +101,11 @@ const EditOptions = (props) => {
     recordChanged === true
       ? toggleHideCancelWarning(false)
       : onCancelEditForm(parentObj, objType);
+  }
+  function handleClickSave() {
+    saveMsg === undefined
+      ? onSaveFormChanges(parentObj, objType)
+      : toggleHideSaveWarning(false);
   }
   return (
     <React.Fragment>
@@ -165,7 +170,7 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onSaveFormChanges(parentObj, objType);
+            handleClickSave();
           }}
           className="iconBttn"
         >
@@ -232,7 +237,7 @@ const EditOptions = (props) => {
           </div>
         </div>
       </div>
-      <div className="deleteWarning" hidden={hideDeleteWarning}>
+      <div className="changeWarning" hidden={hideDeleteWarning}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -271,7 +276,7 @@ const EditOptions = (props) => {
           </div>
         </div>
       </div>
-      <div className="deleteWarning" hidden={hideCancelWarning}>
+      <div className="changeWarning" hidden={hideCancelWarning}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -303,6 +308,44 @@ const EditOptions = (props) => {
                 }}
               >
                 Confirm Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="changeWarning" hidden={hideSaveWarning}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="saveWarnLabel">
+                Save Changes?
+              </h5>
+            </div>
+            <div className="modal-body">
+              <div className="alert alert-warning" role="alert">
+                CAUTION: {saveMsg}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  onCancelEditForm(parentObj, objType);
+                  toggleHideSaveWarning(true);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-warning"
+                onClick={() => {
+                  onSaveFormChanges(parentObj, objType);
+                  toggleHideSaveWarning(true);
+                }}
+              >
+                Continue Saving
               </button>
             </div>
           </div>
