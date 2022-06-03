@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-const CreateMeal2 = (props) => {
+const CreateMeal = (props) => {
   const thisStateObj = props.thisStateObj;
   const thisObj = thisStateObj.thisMeal;
   const thisMealType = thisObj.mealType;
@@ -82,4 +82,4 @@ const CreateMeal2 = (props) => {
     </div>
   );
 };
-export default CreateMeal2;
+export default CreateMeal;

@@ -35,6 +35,15 @@ const WeekMealPlan = (props) => {
             edit
           </button>
         </Link>
+        <Link
+          to={{
+            pathname: "/weekmealplan/admin/" + thisWeekMealPlan._id,
+          }}
+        >
+          <button type="button" className="btn btn-primary" href="#">
+            edit admin
+          </button>
+        </Link>
       </td>
       <td>
         <button

@@ -1,12 +1,12 @@
 import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import EditOptions from "./EditOptions.component";
-import GenRecipe from "./GenRecipe.component";
-import MealIngredientParent from "./MealIngredientParent.component";
-import MacrosTable2 from "./MacrosTable2.component";
-import AsyncSelectList from "./AsyncSelectList.component";
+import EditOptionsAdmin from "./EditOptions.Admin.component";
+import GenRecipeAdmin from "./GenRecipe.Admin.component";
+import MealIngredientParentAdmin from "./MealIngredientParent.Admin.component";
+import MacrosTable from "../MacrosTable.component";
+import AsyncSelectList from "../AsyncSelectList.component";
 
-const MealDetail3 = (props) => {
+const MealDetailAdmin = (props) => {
   const thisStateObj = props.thisStateObj;
   const thisGRFUser = props.thisGRFUser;
   const userCanEditRecipe =
@@ -53,7 +53,7 @@ const MealDetail3 = (props) => {
       return mealsIngrdnts.map((mealIngredient, index) => {
         mealIngredient.mealIngrdntsArrayIndex = index;
         return (
-          <MealIngredientParent
+          <MealIngredientParentAdmin
             //Specific Props
             //Data
             key={"mealIngrdntParent" + mealIngredient.thisMealIngrdnt._id}
@@ -150,7 +150,7 @@ const MealDetail3 = (props) => {
         data-bs-parent={"#mealOuterAccordionFull" + thisObjId}
       >
         <div className="macroTblCntnr">
-          <MacrosTable2
+          <MacrosTable
             key={"MTbleForMeal" + thisObjId}
             thisMealWeight={thisMealWeight}
             tableType={"Meal Macros"}
@@ -163,7 +163,7 @@ const MealDetail3 = (props) => {
             <div className="card-header mealCardHeader">
               <div className="mealGenRecipeSctnHdr">
                 <h5 className="formSctnTitle">Meal</h5>
-                <EditOptions
+                <EditOptionsAdmin
                   key={"EOptionsForMeal" + thisObjId}
                   parentObj={thisStateObj}
                   objType={"meal"}
@@ -362,7 +362,7 @@ const MealDetail3 = (props) => {
               </div>
             </div>
           </form>
-          <GenRecipe
+          <GenRecipeAdmin
             //Specific props
             key={thisObj.genRecipe._id}
             mealStateObj={thisStateObj}
@@ -414,4 +414,4 @@ const MealDetail3 = (props) => {
     </div>
   );
 };
-export default MealDetail3;
+export default MealDetailAdmin;

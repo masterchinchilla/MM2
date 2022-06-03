@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import EditOptions from "./EditOptions.component";
-import CreateDay2 from "./CreateDay2.component";
-import DayDetail3 from "./DayDetail3.component";
+import CreateDay from "./CreateDay.component";
+import DayDetail from "./DayDetail.component";
 import _ from "lodash";
 
 export default class WeekMealPlanDetail extends Component {
@@ -8733,7 +8733,7 @@ export default class WeekMealPlanDetail extends Component {
           thisUsersUserGroups === "Admin"
         ) {
           return (
-            <CreateDay2
+            <CreateDay
               key={thisObjsId}
               dayOfWeek={thisDayOfWeek}
               weekMealPlan={weekMealPlan}
@@ -8753,7 +8753,7 @@ export default class WeekMealPlanDetail extends Component {
         }
       } else {
         return (
-          <DayDetail3
+          <DayDetail
             //Specific props
             key={thisObj._id}
             thisStateObj={thisDayStateObj}

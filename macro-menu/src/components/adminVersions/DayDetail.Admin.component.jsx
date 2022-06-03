@@ -1,11 +1,10 @@
 import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import EditOptions from "./EditOptions.component";
-import MacrosTable from "./MacrosTable2.component";
-import CreateMeal2 from "./CreateMeal2.component";
-import MealDetail3 from "./MealDetail3.component";
-import GenRecipeIngredient from "./GenRecipeIngredient.component";
-const DayDetail3 = (props) => {
+import EditOptionsAdmin from "./EditOptions.Admin.component";
+import MacrosTable from "../MacrosTable.component";
+import CreateMeal from "../CreateMeal.component";
+import MealDetailAdmin from "./MealDetail.Admin.component";
+const DayDetailAdmin = (props) => {
   const hasChildren = props.hasChildren;
   const thisGRFUser = props.thisGRFUser;
   const thisWMP = props.thisWMP;
@@ -71,7 +70,7 @@ const DayDetail3 = (props) => {
     if (testResult) {
       if (userType === "admin" || thisUsersId === thisMealObjsAuthorsId) {
         return (
-          <CreateMeal2
+          <CreateMeal
             key={thisMealObjsId}
             thisStateObj={thisMealStateObj}
             onCreateRecord={props.onCreateRecord}
@@ -105,7 +104,7 @@ const DayDetail3 = (props) => {
         ? (mealHasChildren = true)
         : (mealHasChildren = false);
       return (
-        <MealDetail3
+        <MealDetailAdmin
           //Specific Props
           //Data
           key={thisMealObjsId}
@@ -147,7 +146,7 @@ const DayDetail3 = (props) => {
     <div className="card mt-3 mb-3">
       <div className="card-header">
         <h3 className="card-title">{thisDayOfWeek.name}</h3>
-        <EditOptions
+        <EditOptionsAdmin
           parentObj={thisStateObj}
           objType="day"
           thisFormState={thisFormState}
@@ -386,4 +385,4 @@ const DayDetail3 = (props) => {
   );
 };
 
-export default DayDetail3;
+export default DayDetailAdmin;
