@@ -23,24 +23,6 @@ export default class WeekMealPlansList extends Component {
         console.log(error);
       });
   }
-  // handleChangeName = (e) => {
-  //   setName({
-  //     name: e.target.value,
-  //   });
-  // };
-  // handleChangeGRFUser = (e) => {
-  //   setGRFUser({
-  //     GRFUser: e.target.value,
-  //   });
-  // };
-  // handleSubmitWMPChange = (e) => {
-  //   e.preventDefault();
-  //   const weekMealPlan = {
-  //     id: this.state.id,
-  //     name: this.state.name,
-  //     GRFUser: this.state.GRFUser,
-  //   };
-  // };
   handleDeleteWeekMealPlan(id) {
     if (
       id === "609f3e444ee536749c75c729" ||
@@ -63,9 +45,6 @@ export default class WeekMealPlansList extends Component {
           thisWeekMealPlan={e}
           onDeleteWeekMealPlan={this.handleDeleteWeekMealPlan}
           key={e._id}
-          // onChangeName={this.handleChangeName}
-          // onChangeGRFUser={this.handleChangeGRFUser}
-          // onSubmitWMPChange={this.handleSubmitWMPChange}
         />
       );
     });

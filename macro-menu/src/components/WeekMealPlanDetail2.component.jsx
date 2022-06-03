@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import DayDetail from "./DayDetail.component";
 import EditOptions from "./EditOptions.component";
 import CreateDay2 from "./CreateDay2.component";
 import DayDetail3 from "./DayDetail3.component";
@@ -10,17 +9,6 @@ export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // thisGRFUser={props.thisGRFUser}
-      // allGRFUsers={props.allGRFUsers}
-      // allDays={props.allDays}
-      // allGenRecipes={props.allGenRecipes}
-      // mealTypes={props.mealTypes}
-      // allIngredients={props.allIngredients}
-      // allGenRecipeIngredients={props.allGenRecipeIngredients}
-      // allMeals={props.allMeals}
-      // allUnitOfMeasures={props.allUnitOfMeasures}
-      // allWeightTypes={props.allWeightTypes}
-      // allBrands={props.allBrands}
       thisUserType: "author",
       thisGRFUser: {
         _id: "609f3e444ee536749c75c729",
@@ -30,20 +18,6 @@ export default class WeekMealPlanDetail extends Component {
         password: "abc123",
         handle: "johnnyFood",
       },
-      // thisGRFUser: {
-      //   _id: "60cd31910b74083490750ed0",
-      //   namePrefix: "",
-      //   givenName: "Jane",
-      //   middleName: "",
-      //   familyName: "Doe",
-      //   nameSuffix: "",
-      //   email: "janedoe@gmail.com",
-      //   password: "abcd1234",
-      //   handle: "jane_fit_1985",
-      //   certURL: "",
-      //   certName: "",
-      //   userGroups: "GRFUser",
-      // },
       thisWeekMealPlan: {
         dataLoaded: false,
         thisFormState: "viewing",
@@ -141,25 +115,6 @@ export default class WeekMealPlanDetail extends Component {
           name: "Dessert",
         },
       ],
-      // allIngredients: [
-      //   {
-      //     _id: "tempIngredientId1",
-      //     name: "Temp Ingredient 1 Name",
-      //     calories: 1,
-      //     carbs: 1,
-      //     protein: 1,
-      //     fat: 1,
-      //     fiber: 1,
-      //     unitOfMeasure: {
-      //       name: "Each",
-      //       GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-      //     },
-      //     weightType: {},
-      //     photoURL: "",
-      //     GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-      //     brand: {},
-      //   },
-      // ],
       allGenRecipeIngredients: [
         {
           _id: "tempGenRecipeIngredientId1",
@@ -397,43 +352,7 @@ export default class WeekMealPlanDetail extends Component {
                   },
                 },
               ],
-              thisRecipesIngrdnts: [
-                // {
-                //   defaultQty: 1,
-                //   ingredient: {
-                //     name: "tempBreakfastIngredient1Name",
-                //     calories: 1,
-                //     carbs: 1,
-                //     protein: 1,
-                //     fat: 1,
-                //     fiber: 1,
-                //     unitOfMeasure: { name: "Each" },
-                //     weightType: { name: "" },
-                //     photoURL: "",
-                //     GRFUser: {
-                //       _id: "62577a533813f4f21c27e1c7",
-                //       handle: "Service",
-                //     },
-                //     brand: { name: "" },
-                //   },
-                //   genRecipe: {
-                //     _id: "tempBreakfastRecipe1Id",
-                //     name: "tempBreakfastRecipe1Name",
-                //     availableMealType: {
-                //       _id: "626dd6fc21888432c0fe3e90",
-                //       code: "breakfast",
-                //       name: "Breakfast",
-                //     },
-                //     GRFUser: {
-                //       _id: "62577a533813f4f21c27e1c7",
-                //       handle: "Service",
-                //     },
-                //     defaultPrepInstructions: "",
-                //     photoUrl: "",
-                //   },
-                //   defaultPrepInstructions: "",
-                // },
-              ],
+              thisRecipesIngrdnts: [],
               thisMealsMacrosBudget: {},
             },
             snack1: {
@@ -7480,7 +7399,6 @@ export default class WeekMealPlanDetail extends Component {
     this.getAllGRFUsers();
     this.getAllDays();
     this.getAllRecipes();
-    // this.getAllIngredients();
     this.getAllMeals();
     this.getAllGenRecipeIngredients();
     this.getAllUnitOfMeasures();
@@ -7560,9 +7478,6 @@ export default class WeekMealPlanDetail extends Component {
         let mealTypes = this.state.mealTypes;
         let thisDaysMeals = thisDayToUpdate.thisDaysMeals;
         let thisWeeksDays = this.state.thisWeeksDays;
-        // if (mealsData.length < 1) {
-        //   return;
-        // } else {
         for (let i = 0; i < mealTypes.length; i++) {
           let thisMealTypeCode = mealTypes[i].code;
           let thisDayMealData = mealsData.filter(
@@ -7695,13 +7610,6 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  // getAllIngredients = () => {
-  //   axios.get("http://localhost:5000/ingredients/").then((response) => {
-  //     this.setState({
-  //       allIngredients: response.data.map((ingredient) => ingredient),
-  //     });
-  //   });
-  // };
   getAllMeals = () => {
     axios.get("http://localhost:5000/meals/").then((response) => {
       this.setState({
@@ -7935,7 +7843,6 @@ export default class WeekMealPlanDetail extends Component {
     let thisWeekMealPlan = state.thisWeekMealPlan;
     let thisWMP = thisWeekMealPlan.thisWMP;
     let thisWeeksDays = state.thisWeeksDays;
-    let thisWeeksDaysOld = _.cloneDeep(state.thisWeeksDaysOld);
     thisWeekMealPlan.userType = state.thisUserType;
     thisWeekMealPlan.thisFormState = "viewing";
     let daysOfWeek = state.daysOfWeek;
@@ -7948,23 +7855,17 @@ export default class WeekMealPlanDetail extends Component {
         thisUsersId,
         dayUserId
       );
-      // thisWeeksDaysOld[dayOfWeekCode]["userType"];
       if (scenario === "newMealOrIngrdnt") {
         thisWeeksDays[dayOfWeekCode]["userType"] = "viewer";
       } else {
         thisWeeksDays[dayOfWeekCode]["userType"] = initialDayUserType;
       }
-      // console.log(thisWeeksDays[dayOfWeekCode]["userType"]);
       thisWeeksDays[dayOfWeekCode]["thisFormState"] = "viewing";
       for (let i = 0; i < mealTypes.length; i++) {
         let mealTypeCode = mealTypes[i].code;
         let thisDayMeal =
           thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode];
         let initialMealUserType = initialDayUserType;
-        // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-        //   "thisMealUserType"
-        // ];
-
         let thisGenRecipeUserId =
           thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
             "thisMeal"
@@ -7974,9 +7875,6 @@ export default class WeekMealPlanDetail extends Component {
           thisUsersId,
           thisGenRecipeUserId
         );
-        // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-        //   "thisGenRecipeUserType"
-        // ];
         if (scenario === "newMealOrIngrdnt") {
           thisDayMeal["thisMealUserType"] = "viewer";
           thisDayMeal["thisGenRecipeUserType"] = "viewer";
@@ -7986,25 +7884,13 @@ export default class WeekMealPlanDetail extends Component {
           thisDayMeal["mealRecordChanged"] = false;
           thisDayMeal["genRecipeRecordChanged"] = false;
         }
-        // console.log(thisDayMeal["thisMealUserType"]);
-        // console.log(thisDayMeal["thisGenRecipeUserType"]);
         thisDayMeal["thisMealFormState"] = "viewing";
         thisDayMeal["thisGenRecipeFormState"] = "viewing";
-        // let thisMealsOldIngrdnts =
-        //   thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-        //     "thisMealsIngrdnts"
-        //   ];
         if (thisDayMeal.thisMealsIngrdnts.length > 0) {
           for (let i = 0; i < thisDayMeal.thisMealsIngrdnts.length; i++) {
             let thisMealIngrdnt = thisDayMeal.thisMealsIngrdnts[i];
             let initialMealIngrdntUserType = initialMealUserType;
-            // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            //   "thisMealUserType"
-            // ];
             let initialGenRecipeIngrdntUserType = initialGenRecipeUserType;
-            // thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-            //   "thisGenRecipeUserType"
-            // ];
             let thisIngrdntUserId =
               thisMealIngrdnt.thisMealIngrdnt.genRecipeIngredient.ingredient
                 .GRFUser._id;
@@ -8018,16 +7904,12 @@ export default class WeekMealPlanDetail extends Component {
               thisMealIngrdnt.thisGenRecipeIngrdntUserType = "viewer";
               thisMealIngrdnt.thisIngrdntUserType = "viewer";
             } else {
-              // console.log(thisMealIngrdnt.thisMealIngrdntUserType);
               thisMealIngrdnt.thisMealIngrdntUserType =
                 initialMealIngrdntUserType;
-              // console.log(thisMealIngrdnt.thisMealIngrdntUserType);
               thisMealIngrdnt.thisGenRecipeIngrdntUserType =
                 initialGenRecipeIngrdntUserType;
               thisMealIngrdnt.thisIngrdntUserType = initialIngrdntUserType;
             }
-            // console.log(thisMealIngrdnt.thisGenRecipeIngrdntUserType);
-            // console.log(thisMealIngrdnt.thisIngrdntUserType);
             thisMealIngrdnt.thisMealIngrdntFormState = "viewing";
             thisMealIngrdnt.thisGenRecipeIngrdntFormState = "viewing";
             thisMealIngrdnt.thisIngrdntFormState = "viewing";
@@ -8045,15 +7927,6 @@ export default class WeekMealPlanDetail extends Component {
     }
     state.thisWeekMealPlan = thisWeekMealPlan;
     state.thisWeeksDays = thisWeeksDays;
-    // state.thisWeeksDaysOld = {
-    //   sunday: {},
-    //   monday: {},
-    //   tuesday: {},
-    //   wednesday: {},
-    //   thursday: {},
-    //   friday: {},
-    //   saturday: {},
-    // };
     this.setState(state);
   };
   handleSaveFormChanges = (parentObj, objType) => {
@@ -8144,58 +8017,7 @@ export default class WeekMealPlanDetail extends Component {
       "userChangedThisMealsRecipe"
     ] = false;
     state.thisWeeksDays = thisWeeksDays;
-    // this.setState(state);
     this.hndleSetVwrTypsAndFrmStates("changingMealRecipe", state);
-    // let daysOfWeek = state.daysOfWeek;
-    // let mealTypes = state.mealTypes;
-    // for (let i = 0; i < daysOfWeek.length; i++) {
-    //   let dayOfWeekCode = daysOfWeek[i].code;
-    //   let initialDayUserType = thisWeeksDaysOld[dayOfWeekCode]["userType"];
-    //   thisWeeksDays[dayOfWeekCode]["userType"] = initialDayUserType;
-    //   thisWeeksDays[dayOfWeekCode]["thisFormState"] = "viewing";
-    //   for (let i = 0; i < mealTypes.length; i++) {
-    //     let mealTypeCode = mealTypes[i].code;
-    //     let thisDayMeal =
-    //       thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode];
-    //     let initialMealUserType =
-    //       thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-    //         "thisMealUserType"
-    //       ];
-    //     let initialGenRecipeUserType =
-    //       thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-    //         "thisGenRecipeUserType"
-    //       ];
-    //     thisDayMeal["thisMealUserType"] = initialMealUserType;
-    //     thisDayMeal["thisGenRecipeUserType"] = initialGenRecipeUserType;
-    //     thisDayMeal["thisMealFormState"] = "viewing";
-    //     thisDayMeal["thisGenRecipeFormState"] = "viewing";
-    //     for (let i = 0; i < thisDayMeal.thisMealsIngrdnts.length; i++) {
-    //       let thisMealIngrdnt = thisDayMeal.thisMealsIngrdnts[i];
-    //       let initialMealIngrdntUserType =
-    //         thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-    //           "thisMealsIngrdnts"
-    //         ][i]["thisMealIngrdntUserType"];
-    //       let initialGenRecipeIngrdntUserType =
-    //         thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-    //           "thisMealsIngrdnts"
-    //         ][i]["thisGenRecipeIngrdntUserType"];
-    //       let initialIngrdntUserType =
-    //         thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
-    //           "thisMealsIngrdnts"
-    //         ][i]["thisIngrdntUserType"];
-    //       thisMealIngrdnt.thisMealIngrdntFormState = "viewing";
-    //       thisMealIngrdnt.thisMealIngrdntUserType = initialMealIngrdntUserType;
-    //       thisMealIngrdnt.thisGenRecipeIngrdntFormState = "viewing";
-    //       thisMealIngrdnt.thisGenRecipeIngrdntUserType =
-    //         initialGenRecipeIngrdntUserType;
-    //       thisMealIngrdnt.thisIngrdntFormState = "viewing";
-    //       thisMealIngrdnt.thisIngrdntUserType = initialIngrdntUserType;
-    //       thisDayMeal.thisMealsIngrdnts[i] = thisMealIngrdnt;
-    //     }
-    //     state.thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode] =
-    //       thisDayMeal;
-    //   }
-    // }
   };
   deleteRecord = (recordId, objType) => {
     let url = `http://localhost:5000/${objType}s/${recordId}`;
@@ -8530,8 +8352,6 @@ export default class WeekMealPlanDetail extends Component {
           );
           thisMealStateObj.thisGenRecipeUserType = thisGenRecipeUserType;
           this.populateNewMealIngredients(
-            // initialUserType,
-            // thisUsersId,
             thisGenRecipeUserType,
             dayOfWeekCode,
             mealTypeCode,
@@ -8628,30 +8448,16 @@ export default class WeekMealPlanDetail extends Component {
       thisMealStateObj = thisDaysMeals[mealTypeCode];
     }
     if (objType !== "day" && objType !== "meal" && objType !== "genRecipe") {
-      // thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
       thisMealsIngrdnts = [];
     }
     let savedRecordId;
     let url = `http://localhost:5000/${objType}s/add`;
-    const assembleAndAssignState = () => {
-      if (objType !== "day") {
-        thisMealStateObj.thisMeal = thisMealObj;
-        thisDaysMeals[mealTypeCode] = thisMealStateObj;
-      }
-      thisDayStateObj.thisDaysMeals = thisDaysMeals;
-      thisDayStateObj.thisDay = thisDayObj;
-      thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-      state.thisWeeksDays = thisWeeksDays;
-      this.setState(state);
-      this.handleClickEditForm(parentObj, objType);
-    };
     axios.post(url, newRecordToSave).then((response) => {
       let savedRecord = response.data;
       savedRecordId = savedRecord._id;
       newRecordForState._id = savedRecordId;
       switch (objType) {
         case "day":
-          // thisDayStateObj.userType = newRecordUserType;
           thisDayObj = newRecordForState;
           state.allDays.push(newRecordForState);
           for (let i = 0; i < mealTypes.length; i++) {
@@ -8691,27 +8497,15 @@ export default class WeekMealPlanDetail extends Component {
           thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
           state.thisWeeksDays = thisWeeksDays;
           this.setState(state);
-          // this.hndleSetVwrTypsAndFrmStates("newDay", state);
           break;
         case "meal":
-          // thisMealObj = thisMealStateObj.thisMeal;
           thisMealObj = newRecordForState;
           state.allMeals.push(newRecordForState);
-          // thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-          // for (let i = 0; i < thisMealsIngrdnts.length; i++) {
-          //   let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
-          //   let thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
-          //   thisMealIngrdntObj.meal = newRecordForState;
-          //   thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
-          //   thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
-          // }
           thisMealStateObj.thisMealsIngrdnts = [];
           thisMealStateObj.thisRecipesIngrdnts = [];
           thisMealStateObj.mealIngrdntsLoaded = true;
           thisMealStateObj.thisMealJustCreated = true;
           thisMealStateObj.mealRecordChanged = true;
-          // thisMealStateObj.thisMealFormState="editingOrig";
-          // thisMealStateObj.thisGenRecipeFormState="viewing";
           thisMealStateObj.dataLoaded = true;
           parentObj = thisMealStateObj;
           thisMealStateObj.thisMeal = thisMealObj;
@@ -8747,7 +8541,6 @@ export default class WeekMealPlanDetail extends Component {
             genRecipeIngredient: thisGenRecipeIngrdntObj,
             meal: thisMealObj,
           };
-
           let newInnerMealIngrdntToSave = {
             qty: 1,
             genRecipeIngredient: thisGenRecipeIngrdntObj._id,
@@ -8778,7 +8571,6 @@ export default class WeekMealPlanDetail extends Component {
               };
               thisMealIngrdntStateObj = newOuterMealIngrdnt;
               parentObj = thisMealIngrdntStateObj;
-              // assembleAndAssignState();
               thisMealsIngrdnts.push(newOuterMealIngrdnt);
               thisMealStateObj.thisMeal = thisMealObj;
               thisDaysMeals[mealTypeCode] = thisMealStateObj;
@@ -8811,25 +8603,9 @@ export default class WeekMealPlanDetail extends Component {
           this.handleClickEditForm(parentObj, objType);
           break;
       }
-      // if (objType !== "day") {
-      //   thisMealStateObj.thisMeal = thisMealObj;
-      //   thisDaysMeals[mealTypeCode] = thisMealStateObj;
-      // }
-      // thisDayStateObj.thisDaysMeals = thisDaysMeals;
-      // thisDayStateObj.thisDay = thisDayObj;
-      // thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-      // state.thisWeeksDays = thisWeeksDays;
-      // this.setState(state);
-      // if (objType !== "day") {
-      //   //   this.hndleSetVwrTypsAndFrmStates("newDay", state);
-      //   // } else {
-      //   this.handleClickEditForm(parentObj, objType);
-      // }
     });
   };
   populateNewMealIngredients = (
-    // initialUserType,
-    // thisUsersId,
     thisGenRecipeUserType,
     dayOfWeekCode,
     mealTypeCode,
@@ -8843,7 +8619,6 @@ export default class WeekMealPlanDetail extends Component {
     const initialUserType = state.userType;
     const thisUsersId = state.thisGRFUser._id;
     const thisRecipeId = thisRecipe._id;
-
     const thisWeeksDays = state.thisWeeksDays;
     let thisMealStateObjToUpdate =
       thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode];
@@ -8875,7 +8650,6 @@ export default class WeekMealPlanDetail extends Component {
       }
       thisWeeksDays[daysOfWeek[i].code] = thisDayStateObj;
     }
-    // this.hndleSetVwrTypsAndFrmStates("newMealOrIngrdnt",thisMealStateObj);
     axios
       .get(
         "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +

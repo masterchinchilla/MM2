@@ -209,7 +209,7 @@ const EditOptions = (props) => {
           />
         </button>
       </div>
-      <div className="deleteWarning" hidden={hideDeleteBlock}>
+      <div className="changeWarning" hidden={hideDeleteBlock}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">

@@ -28,33 +28,8 @@ export default class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav mr-auto mb-2 mb-lg-0" id="navbarNav">
               <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  Week Meal Plans List
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link to="/grfusers" className="nav-link">
                   GRF Users List
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/days" className="nav-link">
-                  Days List
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/create" className="nav-link">
-                  Create New Week Meal Plan
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/grfuser/create" className="nav-link">
-                  Create GRFUser
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/day/create" className="nav-link">
-                  Create Day
                 </Link>
               </li>
             </ul>
