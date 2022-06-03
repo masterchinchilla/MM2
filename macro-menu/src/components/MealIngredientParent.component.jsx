@@ -69,6 +69,7 @@ const MealIngredientParent = (props) => {
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           onUpdateProp={props.onUpdateProp}
+          onCreateRecord={props.onCreateRecord}
         />
       </div>
       <div className="mlIngrdntCrdBttmSctn">

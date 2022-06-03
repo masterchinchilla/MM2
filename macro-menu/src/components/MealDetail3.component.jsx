@@ -77,6 +77,7 @@ const MealDetail3 = (props) => {
             onSaveFormChanges={props.onSaveFormChanges}
             onDeleteRecord={props.onDeleteRecord}
             onUpdateProp={props.onUpdateProp}
+            onCreateRecord={props.onCreateRecord}
           />
         );
       });

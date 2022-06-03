@@ -107,6 +107,7 @@ const GenRecipeIngredient = (props) => {
                 mealTypeCode={thisMealType}
                 arrayIndex={mealIngrdntsArrayIndex}
                 onUpdateProp={props.onUpdateProp}
+                onCreateRecord={props.onCreateRecord}
                 thisFormState={thisFormState}
                 className="form-control form-select"
                 objType="genRecipeIngredient"

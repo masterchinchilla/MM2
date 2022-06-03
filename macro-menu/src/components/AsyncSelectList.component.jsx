@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import AsyncSelect from "react-select/async";
+// import AsyncSelect from "react-select/async";
+// import { ActionMeta, OnChangeValue } from "react-select";
+import AsyncCreatableSelect from "react-select/async-creatable";
 
 class AsyncSelectList extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      newItem: {},
+    };
   }
 
   fetchData = (inputValue, callback) => {
@@ -31,6 +35,13 @@ class AsyncSelectList extends Component {
                   label: `${element.name}`,
                   value: JSON.stringify(element),
                 });
+                // if (this.state.newItem !== {}) {
+                //   let newItem = this.state.newItem;
+                //   tempArray.push({
+                //     label: `${newItem.name}`,
+                //     value: JSON.stringify(newItem),
+                //   });
+                // }
               });
             } else {
               tempArray.push({
@@ -60,10 +71,63 @@ class AsyncSelectList extends Component {
       );
     }
   };
+  handleCreate = (e) => {
+    let newIngrdntName = e;
+    let newRecordForState = {
+      label: newIngrdntName,
+      value: JSON.stringify({
+        _id: "tempIngredientId1",
+        name: newIngrdntName,
+        calories: 1,
+        carbs: 1,
+        protein: 1,
+        fat: 1,
+        fiber: 1,
+        unitOfMeasure: {
+          _id: "627691779fa56aa1fe318390",
+          name: "",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        },
+        weightType: {
+          _id: "627695899fa56aa1fe318396",
+          name: "",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        },
+        photoURL: "",
+        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        brand: {
+          _id: "627691b69fa56aa1fe318393",
+          name: "",
+          GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+        },
+      }),
+    };
+    let newRecordToSave = {
+      name: newIngrdntName,
+      calories: 1,
+      carbs: 1,
+      protein: 1,
+      fat: 1,
+      fiber: 1,
+      unitOfMeasure: "627691779fa56aa1fe318390",
+      weightType: "627695899fa56aa1fe318396",
+      photoURL: "",
+      GRFUser: "62577a533813f4f21c27e1c7",
+      brand: "627691b69fa56aa1fe318393",
+    };
+    this.props.onCreateRecord(
+      this.props.objTypeToChange,
+      this.props.dayOfWeekCode,
+      this.props.mealTypeCode,
+      this.props.arrayIndex,
+      newRecordForState.value,
+      newRecordToSave
+    );
+  };
   render() {
     return (
       <div>
-        <AsyncSelect
+        <AsyncCreatableSelect
           value={{
             label: this.props.objToSelect.name,
             value: JSON.stringify(this.props.objToSelect),
@@ -72,12 +136,12 @@ class AsyncSelectList extends Component {
           placeholder={this.props.objType}
           onSearchChange
           onChange={(e) => {
-            console.log(e);
             this.onSearchChange(e);
           }}
           defaultOptions={true}
           isDisabled={this.props.thisFormState === "viewing" ? true : false}
           className={this.props.styleClasses}
+          onCreateOption={(e) => this.handleCreate(e)}
         />
       </div>
     );

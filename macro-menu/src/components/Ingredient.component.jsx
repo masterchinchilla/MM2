@@ -21,7 +21,13 @@ const Ingredient = (props) => {
   const deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (
-    <form className="ingrdntFrm">
+    <form
+      className={
+        thisMealIngrdntObj.thisIngrdntJustCreated === true
+          ? "ingrdntFrm subCardHeaderFocused"
+          : "ingrdntFrm"
+      }
+    >
       <div className="ingrdntFrmHdr">
         <h6 className="ingrdntHdr">Base Ingredient</h6>
         <EditOptions
