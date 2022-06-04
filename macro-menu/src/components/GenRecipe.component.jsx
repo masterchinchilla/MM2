@@ -1,6 +1,7 @@
 import React, { useState, Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 
 const GenRecipe = (props) => {
@@ -122,28 +123,28 @@ const GenRecipe = (props) => {
           </div>
           <div
             className="accordion accordion-flush"
-            id={"mealInnerAccordionFull" + thisObjId}
+            id={"genRecipeInnerAccordionFull" + thisObjId}
           >
             <div className="accordion-item">
               <h2
                 className="accordion-header"
-                id={"mealInnerAccordionHeader" + thisObjId}
+                id={"genRecipeInnerAccordionHeader" + thisObjId}
               >
                 <button
                   className="accordion-button collapsed mealInnerAccrdnBttn"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target={"#mealInnerAccrdn" + thisObjId}
+                  data-bs-target={"#genRecipeInnerAccrdn" + thisObjId}
                   aria-expanded="true"
                   aria-controls="collapseOne"
                 ></button>
               </h2>
             </div>
             <div
-              id={"mealInnerAccrdn" + thisObjId}
+              id={"genRecipeInnerAccrdn" + thisObjId}
               className="accordion-collapse collapse"
-              aria-labelledby={"#mealInnerAccordionHeader" + thisObjId}
-              data-bs-parent={"#mealInnerAccordionFull" + thisObjId}
+              aria-labelledby={"#genRecipeInnerAccordionHeader" + thisObjId}
+              data-bs-parent={"#genRecipeInnerAccordionFull" + thisObjId}
             >
               <div className="accordion-body mealInnerAccordion">
                 <div className="form-group mealInputs">
@@ -204,7 +205,82 @@ const GenRecipe = (props) => {
                   />
                 </div>
               </div>
-              <div
+              <div className="card-body mealCardBody">
+                <div
+                  className="accordion accordion-flush"
+                  id={"mealHiddenAccordionFull" + thisObjId}
+                >
+                  <div className="accordion-item">
+                    <h2
+                      className="accordion-header"
+                      id={"mealHiddenAccordionHeader" + thisObjId}
+                    >
+                      <button
+                        className="accordion-button collapsed mealAdminAccrdnBttn"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={"#mealHiddenAccrdn" + thisObjId}
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      ></button>
+                    </h2>
+                  </div>
+                  <div
+                    id={"mealHiddenAccrdn" + thisObjId}
+                    className="accordion-collapse collapse"
+                    aria-labelledby={"#mealHiddenAccordionHeader" + thisObjId}
+                    data-bs-parent={"#mealHiddenAccordionFull" + thisObjId}
+                  >
+                    <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
+                      <div className="form-group">
+                        <label>Available Meal Type</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled={true}
+                          value={mealStateObj.thisMeal.mealType.name}
+                          onChange={() => {}}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Record Id</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled={true}
+                          value={thisObjId}
+                          onChange={() => {}}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Created</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled={true}
+                          value={dayjs(thisObj.createdAt).format(
+                            "dddd, MMMM D, YYYY h:mm A"
+                          )}
+                          onChange={() => {}}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Last Update</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled={true}
+                          value={dayjs(thisObj.updatedAt).format(
+                            "dddd, MMMM D, YYYY h:mm A"
+                          )}
+                          onChange={() => {}}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <div
                 className="accordion accordion-flush"
                 id={"genRecipeAdminAccordionFull" + thisObjId}
               >
@@ -315,7 +391,7 @@ const GenRecipe = (props) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

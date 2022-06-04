@@ -2,6 +2,7 @@ import React, { useState, Component } from "react";
 import EditOptions from "./EditOptions.component";
 import AsyncSelectList from "./AsyncSelectList.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import dayjs from "dayjs";
 
 const GenRecipeIngredient = (props) => {
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
@@ -154,7 +155,14 @@ const GenRecipeIngredient = (props) => {
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Recipe</label>
-              <select
+              <input
+                type={"text"}
+                className="form-control"
+                value={thisObj.genRecipe.name}
+                disabled={true}
+                onChange={() => {}}
+              />
+              {/* <select
                 required
                 className="form-control form-select"
                 value={thisObj.genRecipe._id}
@@ -183,7 +191,31 @@ const GenRecipeIngredient = (props) => {
                     </option>
                   );
                 })}
-              </select>
+              </select> */}
+            </div>
+            <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+              <label>Created</label>
+              <input
+                className="form-control"
+                type="text"
+                disabled={true}
+                value={dayjs(thisObj.createdAt).format(
+                  "dddd, MMMM D, YYYY h:mm A"
+                )}
+                onChange={() => {}}
+              />
+            </div>
+            <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+              <label>Last Update</label>
+              <input
+                className="form-control"
+                type="text"
+                disabled={true}
+                value={dayjs(thisObj.updatedAt).format(
+                  "dddd, MMMM D, YYYY h:mm A"
+                )}
+                onChange={() => {}}
+              />
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Record ID</label>

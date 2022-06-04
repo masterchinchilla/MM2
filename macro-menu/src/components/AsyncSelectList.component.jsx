@@ -12,7 +12,6 @@ class AsyncSelectList extends Component {
   }
 
   fetchData = (inputValue, callback) => {
-    console.log(this.props.url);
     if (!inputValue) {
       callback([]);
     } else {

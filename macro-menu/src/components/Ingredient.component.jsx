@@ -1,5 +1,6 @@
 import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 const Ingredient = (props) => {
   const userType = props.userType;
@@ -355,13 +356,13 @@ const Ingredient = (props) => {
                   data-bs-target={"#ingrdntAdminMenuAccrdnBdy" + thisObjId}
                   aria-expanded="true"
                   aria-controls="collapseOne"
-                  disabled={userType === "admin" ? false : true}
+                  // disabled={userType === "admin" ? false : true}
                 >
-                  {userType === "admin" ? (
+                  {/* {userType === "admin" ? (
                     <FontAwesomeIcon icon="fa-solid fa-lock-open" />
                   ) : (
                     <FontAwesomeIcon icon="fa-solid fa-lock" />
-                  )}
+                  )} */}
                 </button>
               </h2>
             </div>
@@ -374,7 +375,14 @@ const Ingredient = (props) => {
               <div className="accordion-body ingrdntInnerAccrdn">
                 <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                   <label>Author</label>
-                  <select
+                  <input
+                    type={"text"}
+                    className="form-control"
+                    value={thisObj.GRFUser.handle}
+                    disabled={true}
+                    onChange={() => {}}
+                  />
+                  {/* <select
                     required
                     className="form-control form-select"
                     value={thisObj.GRFUser._id}
@@ -399,7 +407,31 @@ const Ingredient = (props) => {
                         </option>
                       );
                     })}
-                  </select>
+                  </select> */}
+                </div>
+                <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+                  <label>Created</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled={true}
+                    value={dayjs(thisObj.createdAt).format(
+                      "dddd, MMMM D, YYYY h:mm A"
+                    )}
+                    onChange={() => {}}
+                  />
+                </div>
+                <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+                  <label>Last Update</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled={true}
+                    value={dayjs(thisObj.updatedAt).format(
+                      "dddd, MMMM D, YYYY h:mm A"
+                    )}
+                    onChange={() => {}}
+                  />
                 </div>
                 <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                   <label>Record ID</label>

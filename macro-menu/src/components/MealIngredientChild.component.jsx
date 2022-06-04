@@ -1,5 +1,6 @@
 import React, { useState, Component } from "react";
 import EditOptions from "./EditOptions.component";
+import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MealIngredientChild = (props) => {
@@ -76,13 +77,13 @@ const MealIngredientChild = (props) => {
               data-bs-target={"#mlIngrdntFrmAccrdn" + thisObjId}
               aria-expanded="true"
               aria-controls="collapseOne"
-              disabled={userType === "admin" ? false : true}
+              // disabled={userType === "admin" ? false : true}
             >
-              {userType === "admin" ? (
+              {/* {userType === "admin" ? (
                 <FontAwesomeIcon icon="fa-solid fa-lock-open" />
               ) : (
                 <FontAwesomeIcon icon="fa-solid fa-lock" />
-              )}
+              )} */}
             </button>
           </h2>
         </div>
@@ -96,7 +97,14 @@ const MealIngredientChild = (props) => {
             <div className="form-group mealIngrdntInputs">
               <h6 className="mealIngrdntHdr">Custom Ingredient</h6>
               <label>Recipe Ingredient</label>
-              <select
+              <input
+                className="form-control"
+                type="text"
+                disabled={true}
+                onChange={() => {}}
+                value={thisObj.genRecipeIngredient.ingredient.name}
+              />
+              {/* <select
                 required
                 className="form-control form-select"
                 value={thisObj.genRecipeIngredient._id}
@@ -125,11 +133,18 @@ const MealIngredientChild = (props) => {
                     </option>
                   );
                 })}
-              </select>
+              </select> */}
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Meal</label>
-              <select
+              <input
+                className="form-control"
+                type="text"
+                disabled={true}
+                onChange={() => {}}
+                value={thisObj.meal.day.name + " " + thisObj.meal.mealType.name}
+              />
+              {/* <select
                 required
                 className="form-control form-select"
                 value={thisObj.meal._id}
@@ -154,8 +169,31 @@ const MealIngredientChild = (props) => {
                     </option>
                   );
                 })}
-                {/* <option>Some Option</option> */}
-              </select>
+              </select> */}
+            </div>
+            <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+              <label>Created</label>
+              <input
+                className="form-control"
+                type="text"
+                disabled={true}
+                value={dayjs(thisObj.createdAt).format(
+                  "dddd, MMMM D, YYYY h:mm A"
+                )}
+                onChange={() => {}}
+              />
+            </div>
+            <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
+              <label>Last Update</label>
+              <input
+                className="form-control"
+                type="text"
+                disabled={true}
+                value={dayjs(thisObj.updatedAt).format(
+                  "dddd, MMMM D, YYYY h:mm A"
+                )}
+                onChange={() => {}}
+              />
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Record ID</label>

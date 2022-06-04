@@ -1,5 +1,6 @@
 .inputRowWRightIcons {
   display: flex;
+  margin:0.5rem 0.25rem auto auto;
   justify-content: space-between;
 }
 .iconGroup {
@@ -164,6 +165,13 @@ button.accordion-button {
 }
 .dayAdminAccrdnBttn svg {
   height: 10px;
+}
+.wmpAdminAccrdnBttn {
+  height: 1rem;
+  margin-bottom: -1px;
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  justify-content: flex-end;
+  /* border-top: 1px solid rgba(0, 0, 0, .125) !important; */
 }
 .mealAdminAccrdnBttn svg {
   height: 10px;
@@ -480,4 +488,19 @@ h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
 }
 .dayAdminAccrdnBdy{
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.wmpCardBody{
+}
+.wmpCardHeader{
+  display: unset;
+}
+.weekMealPlanFormCards{
+  margin:1rem !important;
+}
+.wmpNameInput{
+  margin-right:0.5rem;
+}
+.wmpInnerAccordion{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding:0 0.5rem 0.5rem;
 }

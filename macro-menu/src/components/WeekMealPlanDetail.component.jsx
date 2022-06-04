@@ -4,12 +4,13 @@ import EditOptions from "./EditOptions.component";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import _ from "lodash";
+import dayjs from "dayjs";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      thisUserType: "author",
+      thisUserType: "admin",
       thisGRFUser: {
         _id: "609f3e444ee536749c75c729",
         givenName: "John",
@@ -8813,7 +8814,605 @@ export default class WeekMealPlanDetail extends Component {
     } else {
       return (
         <div className="container-fluid pl-4 pr-4">
-          <h1>Week Meal Plan Detail</h1>
+          <div className="card">
+            <div className="card-header">
+              <h1 className="card-title">Week Meal Plan Detail</h1>
+            </div>
+            <div className="card-body">
+              <div
+                className="accordion accordion-flush"
+                id={"accordionFull_WMPDetails" + thisWMPId}
+              >
+                <div className="accordion-item">
+                  <h2
+                    className="accordion-header"
+                    id={"accordionHeader_WMPDetails" + thisWMPId}
+                  >
+                    <button
+                      className="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={"#dayAccrdn_WMPDetails" + thisWMPId}
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    ></button>
+                  </h2>
+                </div>
+                <div
+                  id={"dayAccrdn_WMPDetails" + thisWMPId}
+                  className="accordion-collapse collapse show"
+                  aria-labelledby={"#accordionHeader_WMPDetails" + thisWMPId}
+                  data-bs-parent={"#accordionFull_WMPDetails" + thisWMPId}
+                >
+                  <div className="accordion-body accrdnWMPDetailsBdy">
+                    <form className="card">
+                      <div className="card-header wmpCardHeader">
+                        {/* <div className="mealGenRecipeSctnHdr"> */}
+                        <div className="form-group">
+                          <label>Plan Name</label>
+                          <div className="inputRowWRightIcons">
+                            <input
+                              type="text"
+                              className="form-control wmpNameInput"
+                              value={this.state.thisWeekMealPlan.thisWMP.name}
+                              onChange={(e) => {
+                                this.handleUpdateProp(
+                                  "weekMealPlan",
+                                  "",
+                                  "",
+                                  "name",
+                                  0,
+                                  "text",
+                                  e,
+                                  []
+                                );
+                              }}
+                              disabled={
+                                this.state.thisWeekMealPlan.thisFormState ===
+                                "viewing"
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <EditOptions
+                              parentObj={this.state.thisWeekMealPlan}
+                              objType="weekMealPlan"
+                              thisFormState={
+                                this.state.thisWeekMealPlan.thisFormState
+                              }
+                              userType={this.state.thisWeekMealPlan.userType}
+                              recordChanged={
+                                this.state.thisWeekMealPlan.recordChanged
+                              }
+                              onClickEditForm={this.handleClickEditForm}
+                              onCancelEditForm={this.handleCancelEditForm}
+                              onSaveFormChanges={this.handleSaveFormChanges}
+                              onDeleteRecord={this.handleDeleteRecord}
+                            />
+                          </div>
+                        </div>
+                        {/* </div> */}
+                      </div>
+                      <div className="card-body wmpCardBody">
+                        <div
+                          className="accordion accordion-flush"
+                          id={"wmpHiddenAccordionFull" + thisWMPId}
+                        >
+                          <div className="accordion-item">
+                            <h2
+                              className="accordion-header"
+                              id={"wmpHiddenAccordionHeader" + thisWMPId}
+                            >
+                              <button
+                                className="accordion-button collapsed wmpAdminAccrdnBttn"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={"#wmpHiddenAccrdn" + thisWMPId}
+                                aria-expanded="true"
+                                aria-controls="collapseOne"
+                                // disabled={
+                                //   mealUserType === "admin" ? false : true
+                                // }
+                              >
+                                {/* {mealUserType === "admin" ? (
+                                  <FontAwesomeIcon icon="fa-solid fa-lock-open" />
+                                ) : (
+                                  <FontAwesomeIcon icon="fa-solid fa-lock" />
+                                )} */}
+                              </button>
+                            </h2>
+                          </div>
+                          <div
+                            id={"wmpHiddenAccrdn" + thisWMPId}
+                            className="accordion-collapse collapse"
+                            aria-labelledby={
+                              "#wmpHiddenAccordionHeader" + thisWMPId
+                            }
+                            data-bs-parent={
+                              "#wmpHiddenAccordionFull" + thisWMPId
+                            }
+                          >
+                            <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
+                              <div className="form-group">
+                                <label>Author </label>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  disabled={true}
+                                  value={
+                                    this.state.thisWeekMealPlan.thisWMP.GRFUser
+                                      .handle
+                                  }
+                                  onChange={() => {}}
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label>Record Id</label>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  disabled={true}
+                                  value={
+                                    this.state.thisWeekMealPlan.thisWMP._id
+                                  }
+                                  onChange={() => {}}
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label>Created</label>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  disabled={true}
+                                  value={dayjs(
+                                    this.state.thisWeekMealPlan.thisWMP
+                                      .createdAt
+                                  ).format("dddd, MMMM D, YYYY h:mm A")}
+                                  onChange={() => {}}
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label>Last Update</label>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  disabled={true}
+                                  value={dayjs(
+                                    this.state.thisWeekMealPlan.thisWMP
+                                      .updatedAt
+                                  ).format("dddd, MMMM D, YYYY h:mm A")}
+                                  onChange={() => {}}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="card weekMealPlanFormCards mt-3 mb-3">
+                        <div className="card-header">
+                          <h2 className="card-title">Meal Macro Weighting</h2>
+                        </div>
+                        <div className="card-body">
+                          <div
+                            className="accordion accordion-flush"
+                            id={"accordionFull_MealMacroWeighting" + thisWMPId}
+                          >
+                            <div className="accordion-item">
+                              <h2
+                                className="accordion-header"
+                                id={
+                                  "accordionHeader_MealMacroWeighting" +
+                                  thisWMPId
+                                }
+                              >
+                                <button
+                                  className="accordion-button"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={
+                                    "#dayAccrdn_MealMacroWeighting" + thisWMPId
+                                  }
+                                  aria-expanded="true"
+                                  aria-controls="collapseOne"
+                                ></button>
+                              </h2>
+                            </div>
+                            <div
+                              id={"dayAccrdn_MealMacroWeighting" + thisWMPId}
+                              className="accordion-collapse collapse show"
+                              aria-labelledby={
+                                "#accordionHeader_MealMacroWeighting" +
+                                thisWMPId
+                              }
+                              data-bs-parent={
+                                "#accordionFull_MealMacroWeighting" + thisWMPId
+                              }
+                            >
+                              <div className="accordion-body accrdnWeekMealPlanMacroBdy">
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Breakfast %</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="35"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .breakfastWeight
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "breakfastWeight",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Snack 1 %</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="5"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .snack1Weight
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "snack1Weight",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Lunch %</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="30"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .lunchWeight
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "lunchWeight",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Snack 2 %</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="5"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .snack2Weight
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "snack2Weight",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Dinner %</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="20"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .dinnerWeight
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "dinnerWeight",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Dessert %</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="5"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .dessertWeight
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "dessertWeight",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="card weekMealPlanFormCards mt-3 mb-3">
+                        <div className="card-header">
+                          <h2 className="card-title">Macro Daily Budget</h2>
+                        </div>
+                        <div className="card-body">
+                          <div
+                            className="accordion accordion-flush"
+                            id={"accordionFull_MacroBudget" + thisWMPId}
+                          >
+                            <div className="accordion-item">
+                              <h2
+                                className="accordion-header"
+                                id={"accordionHeader_MacroBudget" + thisWMPId}
+                              >
+                                <button
+                                  className="accordion-button"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={
+                                    "#dayAccrdn_MacroBudget" + thisWMPId
+                                  }
+                                  aria-expanded="true"
+                                  aria-controls="collapseOne"
+                                ></button>
+                              </h2>
+                            </div>
+                            <div
+                              id={"dayAccrdn_MacroBudget" + thisWMPId}
+                              className="accordion-collapse collapse show"
+                              aria-labelledby={
+                                "#accordionHeader_MacroBudget" + thisWMPId
+                              }
+                              data-bs-parent={
+                                "#accordionFull_MacroBudget" + thisWMPId
+                              }
+                            >
+                              <div className="accordion-body accrdnWeekMealPlanMacroBdy">
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Calories (g)</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="2000.00"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .calsBudget
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "calsBudget",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState == "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Carbs (g)</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="400.00"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .carbsBudget
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "carbsBudget",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Protein (g)</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="300"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .proteinBudget
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "proteinBudget",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Fat (g)</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="100"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .fatBudget
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "fatBudget",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                  <h6>Fiber (g)</h6>
+                                  <input
+                                    type="number"
+                                    className="form-control weekMealPlanMacroInput"
+                                    placeholder="40"
+                                    value={
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .fiberBudget
+                                    }
+                                    onChange={(e) => {
+                                      this.handleUpdateProp(
+                                        "weekMealPlan",
+                                        "",
+                                        "",
+                                        "fiberBudget",
+                                        0,
+                                        "number",
+                                        e,
+                                        []
+                                      );
+                                    }}
+                                    disabled={
+                                      this.state.thisWeekMealPlan
+                                        .thisFormState === "viewing"
+                                        ? true
+                                        : false
+                                    }
+                                  ></input>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <h1>Week Meal Plan Detail</h1>
           <form>
             <div className="form-group">
               <label>Plan Name</label>
@@ -8859,35 +9458,13 @@ export default class WeekMealPlanDetail extends Component {
                 ref="userInput"
                 required
                 className="form-control form-select"
-                // value={JSON.stringify(
-                //   this.state.thisWeekMealPlan.thisWMP.GRFUser
-                // )}
                 value={this.state.thisWeekMealPlan.thisWMP.GRFUser._id}
-                onChange={(e) => {
-                  this.handleUpdateProp(
-                    "weekMealPlan",
-                    "",
-                    "",
-                    "GRFUser",
-                    0,
-                    "select",
-                    e,
-                    this.state.allGRFUsers
-                  );
-                }}
-                disabled={
-                  this.state.thisWeekMealPlan.thisFormState === "viewing"
-                    ? true
-                    : false
-                }
+                onChange={() => {}}
+                disabled={true}
               >
-                {this.state.allGRFUsers.map(function (GRFUser) {
-                  return (
-                    <option key={GRFUser._id} value={GRFUser._id}>
-                      {GRFUser.handle}
-                    </option>
-                  );
-                })}
+                <option key={this.state.thisWeekMealPlan.thisWMP.GRFUser._id}>
+                  {this.state.thisWeekMealPlan.thisWMP.GRFUser.handle}
+                </option>
               </select>
             </div>
             <div className="card weekMealPlanFormCards mt-3 mb-3">
@@ -9283,7 +9860,7 @@ export default class WeekMealPlanDetail extends Component {
                 </div>
               </div>
             </div>
-          </form>
+          </form> */}
           <div className="card mt-3 mb-3">
             <div className="card-header">
               <h2 className="card-title">Day Meal Plans</h2>

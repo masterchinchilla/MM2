@@ -1,5 +1,6 @@
 import React, { useState, Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import GenRecipe from "./GenRecipe.component";
 import MealIngredientParent from "./MealIngredientParent.component";
@@ -252,6 +253,71 @@ const MealDetail = (props) => {
             <div className="card-body mealCardBody">
               <div
                 className="accordion accordion-flush"
+                id={"mealHiddenAccordionFull" + thisObjId}
+              >
+                <div className="accordion-item">
+                  <h2
+                    className="accordion-header"
+                    id={"mealHiddenAccordionHeader" + thisObjId}
+                  >
+                    <button
+                      className="accordion-button collapsed mealAdminAccrdnBttn"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={"#mealHiddenAccrdn" + thisObjId}
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    ></button>
+                  </h2>
+                </div>
+                <div
+                  id={"mealHiddenAccrdn" + thisObjId}
+                  className="accordion-collapse collapse"
+                  aria-labelledby={"#mealHiddenAccordionHeader" + thisObjId}
+                  data-bs-parent={"#mealHiddenAccordionFull" + thisObjId}
+                >
+                  <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
+                    <div className="form-group">
+                      <label>Created</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled={true}
+                        value={dayjs(thisObj.createdAt).format(
+                          "dddd, MMMM D, YYYY h:mm A"
+                        )}
+                        onChange={() => {}}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Last Update</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled={true}
+                        value={dayjs(thisObj.updatedAt).format(
+                          "dddd, MMMM D, YYYY h:mm A"
+                        )}
+                        onChange={() => {}}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Record Id</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled={true}
+                        value={thisObjId}
+                        onChange={() => {}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <div className="card-body mealCardBody">
+              <div
+                className="accordion accordion-flush"
                 id={"mealAdminAccordionFull" + thisObjId}
               >
                 <div className="accordion-item">
@@ -360,7 +426,7 @@ const MealDetail = (props) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </form>
           <GenRecipe
             //Specific props
