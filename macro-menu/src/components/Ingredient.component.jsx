@@ -1,12 +1,9 @@
-import React, { useState, Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from "react";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 const Ingredient = (props) => {
   const userType = props.userType;
-  // const userType = "admin";
   const thisFormState = props.thisFormState;
-  // const thisFormState = "editingOrig";
   const thisMealTypeCode = props.thisMealTypeCode;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
@@ -15,7 +12,6 @@ const Ingredient = (props) => {
   const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
-  const allGRFUsers = props.allGRFUsers;
   const allUnitOfMeasures = props.allUnitOfMeasures;
   const allWeightTypes = props.allWeightTypes;
   const allBrands = props.allBrands;
@@ -189,7 +185,6 @@ const Ingredient = (props) => {
         <div className="accordion-item">
           <h2 className="accordion-header" id={"ingrdntAccrdnHdr" + thisObjId}>
             <button
-              // className="accordion-button mealInnerAccrdnBttn collapsed"
               className={
                 thisIngrdntJustCreated === true
                   ? "accordion-button mealInnerAccrdnBttn open"
@@ -203,7 +198,6 @@ const Ingredient = (props) => {
         </div>
         <div
           id={"ingrdntAccrdnBdy" + thisObjId}
-          // className="accordion-collapse collapse"
           className={
             thisIngrdntJustCreated === true
               ? "accordion-collapse open"
@@ -356,14 +350,7 @@ const Ingredient = (props) => {
                   data-bs-target={"#ingrdntAdminMenuAccrdnBdy" + thisObjId}
                   aria-expanded="true"
                   aria-controls="collapseOne"
-                  // disabled={userType === "admin" ? false : true}
-                >
-                  {/* {userType === "admin" ? (
-                    <FontAwesomeIcon icon="fa-solid fa-lock-open" />
-                  ) : (
-                    <FontAwesomeIcon icon="fa-solid fa-lock" />
-                  )} */}
-                </button>
+                ></button>
               </h2>
             </div>
             <div
@@ -382,32 +369,6 @@ const Ingredient = (props) => {
                     disabled={true}
                     onChange={() => {}}
                   />
-                  {/* <select
-                    required
-                    className="form-control form-select"
-                    value={thisObj.GRFUser._id}
-                    disabled={thisFormState === "viewing" ? true : false}
-                    onChange={(e) =>
-                      props.onUpdateProp(
-                        "ingredient",
-                        thisDayOfWeekCode,
-                        thisMealTypeCode,
-                        "GRFUser",
-                        mealIngrdntsArrayIndex,
-                        "select",
-                        e,
-                        allGRFUsers
-                      )
-                    }
-                  >
-                    {allGRFUsers.map(function (GRFUser) {
-                      return (
-                        <option key={GRFUser._id} value={GRFUser._id}>
-                          {GRFUser.handle}
-                        </option>
-                      );
-                    })}
-                  </select> */}
                 </div>
                 <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
                   <label>Created</label>

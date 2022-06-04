@@ -1,6 +1,5 @@
 import React, { useState, Component } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 
@@ -15,17 +14,12 @@ const GenRecipe = (props) => {
   const thisObjId = thisObj._id;
   const thisRecipesIngrdnts = mealStateObj.thisRecipesIngrdnts;
   const thisFormState = mealStateObj.thisGenRecipeFormState;
-  // const thisFormState = "editingOrig";
   const userType = mealStateObj.thisGenRecipeUserType;
-  // const userType = "admin";
   const handleSubmitFormChange = (e) => {
     e.preventDefault();
     axios
       .put("http://localhost:5000/genRecipes/update/" + thisObjId, thisObj)
-      .then(
-        // console.log("/weekMealPlans/" + thisMeal.thisMeal.day.weekMealPlan._id)
-        (window.location = "/edit/" + thisMeal.day.weekMealPlan._id)
-      );
+      .then((window.location = "/edit/" + thisMeal.day.weekMealPlan._id));
   };
   const handleClickDelete = (thisObj, stateObj) => {
     if (thisRecipesIngrdnts.length === 0) {
@@ -82,7 +76,6 @@ const GenRecipe = (props) => {
               onClickEditForm={props.onClickEditForm}
               onCancelEditForm={props.onCancelEditForm}
               onSaveFormChanges={props.onSaveFormChanges}
-              // onDeleteRecord={props.onDeleteRecord}
               onDelete={handleClickDelete}
               deleteMsg={deleteMsg}
             />
@@ -280,118 +273,6 @@ const GenRecipe = (props) => {
                   </div>
                 </div>
               </div>
-              {/* <div
-                className="accordion accordion-flush"
-                id={"genRecipeAdminAccordionFull" + thisObjId}
-              >
-                <div className="accordion-item genRecipeAdminMenuBttn">
-                  <h2
-                    className="accordion-header"
-                    id={"genRecipeAdminAccordionHeader" + thisObjId}
-                  >
-                    <button
-                      className="accordion-button collapsed mealAdminAccrdnBttn"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={"#genRecipeAdminAccrdn" + thisObjId}
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                      disabled={userType == "admin" ? false : true}
-                    >
-                      {userType === "admin" ? (
-                        <FontAwesomeIcon icon="fa-solid fa-lock-open" />
-                      ) : (
-                        <FontAwesomeIcon icon="fa-solid fa-lock" />
-                      )}{" "}
-                    </button>
-                  </h2>
-                </div>
-                <div
-                  id={"genRecipeAdminAccrdn" + thisObjId}
-                  className="accordion-collapse collapse"
-                  aria-labelledby={"#genRecipeAdminAccordionHeader" + thisObjId}
-                  data-bs-parent={"#genRecipeAdminAccordionFull" + thisObjId}
-                >
-                  <div className="accordion-body mealInnerAccordion">
-                    <div className="form-group mealInputs">
-                      <label>Meal Type</label>
-                      <select
-                        required
-                        className="form-control form-select"
-                        value={thisObj.availableMealType._id}
-                        disabled={thisFormState == "viewing" ? true : false}
-                        onChange={(e) =>
-                          props.onUpdateProp(
-                            "genRecipe",
-                            thisDayOfWeekCode,
-                            thisMealTypeCode,
-                            "availableMealType",
-                            0,
-                            "select",
-                            e,
-                            props.mealTypes
-                          )
-                        }
-                      >
-                        {props.mealTypes.map(function (mealType) {
-                          return (
-                            <option
-                              key={"allMealTypesListItem" + mealType._id}
-                              value={mealType._id}
-                            >
-                              {mealType.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="form-group mealInputs">
-                      <label>Author</label>
-                      <select
-                        required
-                        className="form-control form-select"
-                        value={thisObj.GRFUser._id}
-                        disabled={thisFormState == "viewing" ? true : false}
-                        onChange={(e) =>
-                          props.onUpdateProp(
-                            "genRecipe",
-                            thisDayOfWeekCode,
-                            thisMealTypeCode,
-                            "GRFUser",
-                            0,
-                            "select",
-                            e,
-                            props.allGRFUsers
-                          )
-                        }
-                      >
-                        {props.allGRFUsers.map(function (GRFUser) {
-                          return (
-                            <option
-                              key={"allGRFUsersListItem" + GRFUser._id}
-                              value={GRFUser._id}
-                            >
-                              {GRFUser.handle}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="form-group mealInputs">
-                      <label>Record ID</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        value={thisObjId}
-                        disabled={true}
-                        onChange={() => {
-                          console.log("This just displays the ID in a field.");
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

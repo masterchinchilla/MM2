@@ -1,5 +1,4 @@
-import React, { useState, Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from "react";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import GenRecipe from "./GenRecipe.component";
@@ -27,15 +26,10 @@ const MealDetail = (props) => {
     mealsIngrdnts.length < 1 && userCanEditRecipe ? true : false;
   const nestedMealIngrdntArray = [mealsIngrdnts];
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
-  // const thisMealTypesRecipes = props.thisMealTypesRecipes.filter(
-  //   (recipe) => recipe._id !== thisObj.genRecipe._id
-  // );
   const thisMealTypesRecipes = props.thisMealTypesRecipes;
   const thisMealWeight = props.thisMealWeight;
   const mealFormState = thisStateObj.thisMealFormState;
-  // const mealFormState = "editingOrig";
   const mealUserType = thisStateObj.thisMealUserType;
-  // const mealUserType = "admin";
   const defaultIngredient = {
     _id: "627b329721ff100fa01edcaf",
     name: "",
@@ -206,7 +200,6 @@ const MealDetail = (props) => {
                   // ref="userInput": React prevents this, but I don't know what it does anyway...
                   required
                   className="form-control form-select recipeSelect"
-                  // value={JSON.stringify(thisObj.genRecipe)}
                   value={thisObj.genRecipe._id}
                   disabled={mealFormState === "viewing" ? true : false}
                   //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
@@ -226,11 +219,7 @@ const MealDetail = (props) => {
                 >
                   {thisMealTypesRecipes.map((genRecipe) => {
                     return (
-                      <option
-                        key={genRecipe._id}
-                        // value={JSON.stringify(genRecipe)}
-                        value={genRecipe._id}
-                      >
+                      <option key={genRecipe._id} value={genRecipe._id}>
                         {genRecipe.name}
                       </option>
                     );
@@ -315,118 +304,6 @@ const MealDetail = (props) => {
                 </div>
               </div>
             </div>
-            {/* <div className="card-body mealCardBody">
-              <div
-                className="accordion accordion-flush"
-                id={"mealAdminAccordionFull" + thisObjId}
-              >
-                <div className="accordion-item">
-                  <h2
-                    className="accordion-header"
-                    id={"mealAdminAccordionHeader" + thisObjId}
-                  >
-                    <button
-                      className="accordion-button collapsed mealAdminAccrdnBttn"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={"#mealAdminAccrdn" + thisObjId}
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                      disabled={mealUserType === "admin" ? false : true}
-                    >
-                      {mealUserType === "admin" ? (
-                        <FontAwesomeIcon icon="fa-solid fa-lock-open" />
-                      ) : (
-                        <FontAwesomeIcon icon="fa-solid fa-lock" />
-                      )}
-                    </button>
-                  </h2>
-                </div>
-                <div
-                  id={"mealAdminAccrdn" + thisObjId}
-                  className="accordion-collapse collapse"
-                  aria-labelledby={"#mealAdminAccordionHeader" + thisObjId}
-                  data-bs-parent={"#mealAdminAccordionFull" + thisObjId}
-                >
-                  <div className="accordion-body mealInnerAccordion">
-                    <div className="form-group mealImputs">
-                      <label>Day</label>
-                      <select
-                        // ref="userInput"
-                        required
-                        className="form-control form-select"
-                        value={thisObj.day._id}
-                        disabled={mealFormState === "viewing" ? true : false}
-                        //onUpdateProp = (stateObj, dayOfWeekCode, mealTypeCode, propToUpdate, arrayIndex, e)
-                        onChange={(e) =>
-                          props.onUpdateProp(
-                            "meal",
-                            dayOfWeek.code,
-                            thisMealTypeCode,
-                            "day",
-                            0,
-                            "select",
-                            e,
-                            props.allDays
-                          )
-                        }
-                      >
-                        {props.allDays.map(function (day) {
-                          return (
-                            <option key={day._id} value={day._id}>
-                              {day.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="form-group mealImputs">
-                      <label>Meal Type</label>
-                      <select
-                        // ref="userInput"
-                        required
-                        className="form-control form-select"
-                        value={thisObj.mealType._id}
-                        disabled={mealFormState == "viewing" ? true : false}
-                        onChange={(e) =>
-                          props.onUpdateProp(
-                            "meal",
-                            dayOfWeek.code,
-                            thisMealTypeCode,
-                            "mealType",
-                            0,
-                            "select",
-                            e,
-                            props.mealTypes
-                          )
-                        }
-                      >
-                        {props.mealTypes.map(function (mealType) {
-                          return (
-                            <option
-                              key={"allMealTypesListItem" + mealType.code}
-                              value={mealType._id}
-                            >
-                              {mealType.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="form-group mealImputs">
-                      <label>Record ID</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        value={thisObjId}
-                        disabled={true}
-                        onChange={() => {}}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </form>
           <GenRecipe
             //Specific props

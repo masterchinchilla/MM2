@@ -1,7 +1,6 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import EditOptions from "./EditOptions.component";
 import AsyncSelectList from "./AsyncSelectList.component";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 
 const GenRecipeIngredient = (props) => {
@@ -12,12 +11,8 @@ const GenRecipeIngredient = (props) => {
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  // const allIngredients = props.allIngredients;
-  const thisMealTypesRecipes = props.thisMealTypesRecipes;
   const userType = props.userType;
-  // const userType = "admin";
   const thisFormState = props.thisFormState;
-  // const thisFormState = "editingOrig";
   const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
   const thisGenRecipeIngrdntJustCreated =
     thisMealIngrdntObj.thisGenRecipeIngrdntJustCreated;
@@ -81,7 +76,6 @@ const GenRecipeIngredient = (props) => {
                   ? "accordion-button open mealAdminAccrdnBttn"
                   : "accordion-button collapsed mealAdminAccrdnBttn"
               }
-              // className="accordion-button collapsed mealAdminAccrdnBttn"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={"#gnRcpIngrdntFrmAccrdn" + thisObjId}
@@ -107,7 +101,6 @@ const GenRecipeIngredient = (props) => {
                   ? "form-group mealIngrdntInputs subCardHeaderFocused"
                   : "form-group mealIngrdntInputs"
               }
-              // className="form-group mealIngrdntInputs"
             >
               <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
               <label>Base Ingredient</label>
@@ -126,32 +119,6 @@ const GenRecipeIngredient = (props) => {
                 url="http://localhost:5000/ingredients/ingredientsByName/"
                 thisGRFUser={thisGRFUser}
               />
-              {/* <select
-                required
-                className="form-control form-select"
-                value={thisObj.ingredient._id}
-                disabled={thisFormState === "viewing" ? true : false}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "genRecipeIngredient",
-                    thisDayOfWeekCode,
-                    thisMealType,
-                    "ingredient",
-                    mealIngrdntsArrayIndex,
-                    "select",
-                    e,
-                    allIngredients
-                  )
-                }
-              >
-                {allIngredients.map(function (ingredient) {
-                  return (
-                    <option key={ingredient._id} value={ingredient._id}>
-                      {ingredient.name}
-                    </option>
-                  );
-                })}
-              </select> */}
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Recipe</label>
@@ -162,36 +129,6 @@ const GenRecipeIngredient = (props) => {
                 disabled={true}
                 onChange={() => {}}
               />
-              {/* <select
-                required
-                className="form-control form-select"
-                value={thisObj.genRecipe._id}
-                disabled={
-                  thisFormState === "viewing" && userType === "admin"
-                    ? true
-                    : false
-                }
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "genRecipeIngredient",
-                    thisDayOfWeekCode,
-                    thisMealType,
-                    "genRecipe",
-                    mealIngrdntsArrayIndex,
-                    "select",
-                    e,
-                    thisMealTypesRecipes
-                  )
-                }
-              >
-                {thisMealTypesRecipes.map(function (genRecipe) {
-                  return (
-                    <option key={genRecipe._id} value={genRecipe._id}>
-                      {genRecipe.name}
-                    </option>
-                  );
-                })}
-              </select> */}
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Created</label>

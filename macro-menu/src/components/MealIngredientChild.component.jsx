@@ -1,24 +1,17 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import EditOptions from "./EditOptions.component";
 import dayjs from "dayjs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MealIngredientChild = (props) => {
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisObj = props.thisObj;
-
   const thisDayOfWeekCode = thisObj.meal.day.dayOfWeek.code;
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
   const userType = props.userType;
-  // const userType = "admin";
   const thisFormState = props.thisFormState;
-  // const thisFormState = "editingOrig";
   const recordChanged = thisMealIngrdntObj.mealIngrdntRecordChanged;
-  const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
-  const thisMealTypesMeals = props.thisMealTypesMeals;
-  // console.log(thisMealTypesMeals);
   let deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   return (
@@ -77,14 +70,7 @@ const MealIngredientChild = (props) => {
               data-bs-target={"#mlIngrdntFrmAccrdn" + thisObjId}
               aria-expanded="true"
               aria-controls="collapseOne"
-              // disabled={userType === "admin" ? false : true}
-            >
-              {/* {userType === "admin" ? (
-                <FontAwesomeIcon icon="fa-solid fa-lock-open" />
-              ) : (
-                <FontAwesomeIcon icon="fa-solid fa-lock" />
-              )} */}
-            </button>
+            ></button>
           </h2>
         </div>
         <div
@@ -104,36 +90,6 @@ const MealIngredientChild = (props) => {
                 onChange={() => {}}
                 value={thisObj.genRecipeIngredient.ingredient.name}
               />
-              {/* <select
-                required
-                className="form-control form-select"
-                value={thisObj.genRecipeIngredient._id}
-                disabled={thisFormState === "viewing" ? true : false}
-                //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
-                onChange={(e) => {
-                  props.onUpdateProp(
-                    "mealIngredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "genRecipeIngredient",
-                    mealIngrdntsArrayIndex,
-                    "select",
-                    e,
-                    thisRecipesIngrdnts
-                  );
-                }}
-              >
-                {thisRecipesIngrdnts.map(function (genRecipeIngredient) {
-                  return (
-                    <option
-                      key={genRecipeIngredient._id}
-                      value={genRecipeIngredient._id}
-                    >
-                      {genRecipeIngredient.ingredient.name}
-                    </option>
-                  );
-                })}
-              </select> */}
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Meal</label>
@@ -144,32 +100,6 @@ const MealIngredientChild = (props) => {
                 onChange={() => {}}
                 value={thisObj.meal.day.name + " " + thisObj.meal.mealType.name}
               />
-              {/* <select
-                required
-                className="form-control form-select"
-                value={thisObj.meal._id}
-                disabled={thisFormState === "viewing" ? true : false}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "mealIngredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "meal",
-                    mealIngrdntsArrayIndex,
-                    "select",
-                    e,
-                    thisMealTypesMeals
-                  )
-                }
-              >
-                {thisMealTypesMeals.map(function (meal) {
-                  return (
-                    <option key={meal._id} value={meal._id}>
-                      {meal.day.name + " - " + meal.mealType.name}
-                    </option>
-                  );
-                })}
-              </select> */}
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
               <label>Created</label>
