@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import EditOptions from "./EditOptions.component";
-import AsyncSelectList from "./AsyncSelectList.component";
+import AsyncSearchSelectListWCreate from "./AsyncSearchSelectListWCreate.component";
 import dayjs from "dayjs";
 
 const GenRecipeIngredient = (props) => {
@@ -104,7 +104,7 @@ const GenRecipeIngredient = (props) => {
             >
               <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
               <label>Base Ingredient</label>
-              <AsyncSelectList
+              <AsyncSearchSelectListWCreate
                 objToSelect={thisObj.ingredient}
                 dayOfWeekCode={thisDayOfWeekCode}
                 mealTypeCode={thisMealType}

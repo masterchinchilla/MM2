@@ -1,6 +1,6 @@
 import React, { useState, Component } from "react";
 import EditOptionsAdmin from "./EditOptions.Admin.component";
-import AsyncSelectList from "../AsyncSelectList.component";
+import AsyncSearchSelectListWCreate from "../AsyncSearchSelectListWCreate.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GenRecipeIngredientAdmin = (props) => {
@@ -110,7 +110,7 @@ const GenRecipeIngredientAdmin = (props) => {
             >
               <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
               <label>Base Ingredient</label>
-              <AsyncSelectList
+              <AsyncSearchSelectListWCreate
                 objToSelect={thisObj.ingredient}
                 dayOfWeekCode={thisDayOfWeekCode}
                 mealTypeCode={thisMealType}

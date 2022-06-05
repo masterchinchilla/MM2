@@ -4,7 +4,7 @@ import EditOptions from "./EditOptions.component";
 import GenRecipe from "./GenRecipe.component";
 import MealIngredientParent from "./MealIngredientParent.component";
 import MacrosTable from "./MacrosTable.component";
-import AsyncSelectList from "./AsyncSelectList.component";
+import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
 
 const MealDetail = (props) => {
   const thisStateObj = props.thisStateObj;
@@ -22,10 +22,11 @@ const MealDetail = (props) => {
   const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
-  let allowPopulateIngrdnts =
-    mealsIngrdnts.length < 1 && userCanEditRecipe ? true : false;
+
   const nestedMealIngrdntArray = [mealsIngrdnts];
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
+  let allowPopulateIngrdnts =
+    mealsIngrdnts.length < 1 && thisRecipesIngrdnts > 0 ? true : false;
   const thisMealTypesRecipes = props.thisMealTypesRecipes;
   const thisMealWeight = props.thisMealWeight;
   const mealFormState = thisStateObj.thisMealFormState;
@@ -180,23 +181,22 @@ const MealDetail = (props) => {
                 }
               >
                 <h5 className="recipeSelectHeader">Recipe:</h5>
-                {/* <AsyncSelectList
+                <SelectSearchListWCreate
+                  required
                   objToSelect={thisGenRecipeObj}
                   dayOfWeekCode={dayOfWeek.code}
-                  mealTypeCode={thisMealTypeCode}
+                  mealType={thisObj.mealType}
                   arrayIndex={0}
                   onUpdateProp={props.onUpdateProp}
                   thisFormState={mealFormState}
-                  styleClasses="recipeSelect"
                   objType="meal"
                   objTypeToChange="genRecipe"
-                  url={
-                    "http://localhost:5000/genRecipes/genRecipesByMealTypeAndName/"
-                    // +
-                    // thisObj.mealType._id
-                  }
-                /> */}
-                <select
+                  options={thisMealTypesRecipes}
+                  thisGRFUser={thisGRFUser}
+                  onCreateRecord={props.onCreateRecord}
+                  styleClasses="recipeSelect"
+                />
+                {/* <select
                   // ref="userInput": React prevents this, but I don't know what it does anyway...
                   required
                   className="form-control form-select recipeSelect"
@@ -224,7 +224,7 @@ const MealDetail = (props) => {
                       </option>
                     );
                   })}
-                </select>
+                </select> */}
                 {thisStateObj.userChangedThisMealsRecipe === true &&
                 thisMealJustCreated === false ? (
                   <div

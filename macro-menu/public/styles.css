@@ -100,10 +100,11 @@ button.accordion-button {
   margin-left: 1rem;
 }
 .recipeSelect {
-  margin: 0.5rem;
+  /* margin: 0.5rem;
   margin-left: -0.25rem;
   grid-area: recipeSelect;
-  width: 98% !important;
+  width: 98% !important; */
+  margin:0.5rem 0.5rem 0.35em 0.5rem;
 }
 .mealImgNTblRow {
   display: grid;

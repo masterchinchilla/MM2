@@ -14,7 +14,7 @@ router.route('/:id').get((req, res)=>{
         .catch(err=>res.status(400).json('Error: '+err));
 })
 router.route('/thisMealTypesGenRecipes/:mealType').get((req, res)=>{
-    GenRecipe.find({availableMealType:req.params.mealType}).populate('GRFUser').populate('availableMealType')
+    GenRecipe.find({availableMealType:req.params.mealType._id}).populate('GRFUser').populate('availableMealType')
         .then(mealTypesRecipes=>res.json(mealTypesRecipes))
         .catch(err=>res.status(400).json('Error: '+err));
 })
@@ -40,4 +40,21 @@ router.route('/update/:id').put((req, res)=>{
         })
         .catch(err=>res.status(400).json('Error: '+err));
 })
+router.route('/add').post((req, res)=>{
+    const name=req.body.name;
+    const availableMealType=req.body.availableMealType;
+    const GRFUser=req.body.GRFUser;
+    const defaultPrepInstructions=req.body.defaultPrepInstructions;
+    const photoURL=req.body.photoURL;
+    const newGenRecipe=new GenRecipe({
+        name,
+        availableMealType,
+        GRFUser,
+        defaultPrepInstructions,
+        photoURL
+    });
+    newGenRecipe.save()
+        .then(()=>res.json(newGenRecipe))
+        .catch(err=>res.status(400).json('Error: '+err));
+});
 module.exports=router; 

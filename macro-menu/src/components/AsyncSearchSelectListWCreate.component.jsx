@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import { ActionMeta, OnChangeValue } from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
 
-class AsyncSelectList extends Component {
+class AsyncSearchSelectListWCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,7 +65,7 @@ class AsyncSelectList extends Component {
         this.props.mealTypeCode,
         this.props.objTypeToChange,
         this.props.arrayIndex,
-        "reactSelect",
+        "asyncReactSelect",
         e.value,
         []
       );
@@ -147,4 +147,4 @@ class AsyncSelectList extends Component {
     );
   }
 }
-export default AsyncSelectList;
+export default AsyncSearchSelectListWCreate;

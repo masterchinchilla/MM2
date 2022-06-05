@@ -4,7 +4,6 @@ import EditOptionsAdmin from "./EditOptions.Admin.component";
 import GenRecipeAdmin from "./GenRecipe.Admin.component";
 import MealIngredientParentAdmin from "./MealIngredientParent.Admin.component";
 import MacrosTable from "../MacrosTable.component";
-import AsyncSelectList from "../AsyncSelectList.component";
 
 const MealDetailAdmin = (props) => {
   const thisStateObj = props.thisStateObj;
