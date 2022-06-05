@@ -28,7 +28,7 @@ const WeekMealPlan = (props) => {
       <td>
         <Link
           to={{
-            pathname: "/edit/" + thisWeekMealPlan._id,
+            pathname: "/weekMealPlans/edit/" + thisWeekMealPlan._id,
           }}
         >
           <button type="button" className="btn btn-primary" href="#">

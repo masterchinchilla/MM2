@@ -7,12 +7,20 @@ import CreateWeekMealPlan from "./CreateWeekMealPlan.component";
 import GRFUsersList from "./GRFUsersList.component";
 
 export default class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      thisGRFUser: this.props.thisGRFUser,
+    };
+    console.log(props);
+  }
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid pl-3 pr-3">
           <Link to="/" className="navbar-brand">
-            Macro Menu
+            GRF Macro Menu
           </Link>
           <button
             className="navbar-toggler"
@@ -30,6 +38,17 @@ export default class Navbar extends Component {
               <li className="nav-item">
                 <Link to="/grfusers" className="nav-link">
                   GRF Users List
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to={{
+                    pathname:
+                      "/weekMealPlans/usersWMPs/" + this.state.thisGRFUser._id,
+                  }}
+                >
+                  My Week Meal Plans
                 </Link>
               </li>
             </ul>

@@ -20,6 +20,7 @@ export default class WeekMealPlanDetail extends Component {
         handle: "johnnyFood",
       },
       thisWeekMealPlan: {
+        thisWMPJustCreated: true,
         dataLoaded: false,
         thisFormState: "viewing",
         userType: "admin",
@@ -7395,17 +7396,17 @@ export default class WeekMealPlanDetail extends Component {
     this.loadData();
   }
   loadData() {
-    this.getThisWMPsDays();
+    // this.getThisWMPsDays();
     this.getThisWeekMealPlan();
-    this.getAllGRFUsers();
-    this.getAllDays();
+    // this.getAllGRFUsers();
+    // this.getAllDays();
     this.getAllRecipes();
-    this.getAllMeals();
-    this.getAllGenRecipeIngredients();
+    // this.getAllMeals();
+    // this.getAllGenRecipeIngredients();
     this.getAllUnitOfMeasures();
     this.getAllWeightTypes();
     this.getAllBrands();
-    this.getAllWMPs();
+    // this.getAllWMPs();
   }
   setUserType = (initialUserType, thisUsersId, thisObjAuthorId) => {
     if (initialUserType === "admin") {
@@ -7419,10 +7420,18 @@ export default class WeekMealPlanDetail extends Component {
     }
   };
   getThisWeekMealPlan = () => {
+    let wmpIsNew = this.props.match.params.isNewWMP;
+    let thisWMPJustCreated;
+    if (wmpIsNew === undefined) {
+      thisWMPJustCreated = false;
+    } else {
+      thisWMPJustCreated = true;
+    }
     axios
       .get("http://localhost:5000/weekMealPlans/" + this.props.match.params.id)
       .then((response) => {
-        let thisWeekMealPlan = this.state.thisWeekMealPlan;
+        let state = this.state;
+        let thisWeekMealPlan = state.thisWeekMealPlan;
         thisWeekMealPlan.thisWMP = response.data;
         let userType = this.setUserType(
           this.state.thisUserType,
@@ -7430,45 +7439,55 @@ export default class WeekMealPlanDetail extends Component {
           thisWeekMealPlan.thisWMP.GRFUser._id
         );
         thisWeekMealPlan.userType = userType;
+        thisWeekMealPlan.thisWMPJustCreated = thisWMPJustCreated;
         thisWeekMealPlan.dataLoaded = true;
-        this.setState({ thisWeekMealPlan: thisWeekMealPlan });
+        // this.setState({ thisWeekMealPlan: thisWeekMealPlan });
+        this.getThisWMPsDays(state);
       });
   };
-  getThisWMPsDays = () => {
+  getThisWMPsDays = (state) => {
+    let currentState = state;
+    console.log(currentState);
     axios
       .get(
         "http://localhost:5000/days/daysofthiswmp/" + this.props.match.params.id
       )
       .then((response) => {
         let daysData = response.data;
-        if (daysData.length < 1) {
-          return;
-        } else {
-          let daysOfWeek = this.state.daysOfWeek;
+        // if (daysData.length < 1) {
+        //   return;
+        // } else {
+        let daysOfWeek = currentState.daysOfWeek;
 
-          let thisWeeksDays = this.state.thisWeeksDays;
-          for (let i = 0; i < daysOfWeek.length; i++) {
-            let thisDayOfWeek = daysOfWeek[i];
-            let thisWeekDayData = daysData.filter(
-              (day) => day.dayOfWeek._id === thisDayOfWeek._id
-            )[0];
-            let thisDayToUpdate = thisWeeksDays[thisDayOfWeek.code];
-            thisDayToUpdate.dataLoaded = true;
-            if (thisWeekDayData) {
-              thisDayToUpdate.thisDay = thisWeekDayData;
-              let userType = this.setUserType(
-                this.state.thisUserType,
-                this.state.thisGRFUser._id,
-                thisWeekDayData.weekMealPlan.GRFUser._id
-              );
-              thisDayToUpdate.userType = userType;
-              this.getDayMeals(thisDayToUpdate, thisDayOfWeek.code);
-            } else {
-            }
-            thisWeeksDays[thisDayOfWeek.code] = thisDayToUpdate;
+        let thisWeeksDays = currentState.thisWeeksDays;
+        for (let i = 0; i < daysOfWeek.length; i++) {
+          let thisDayOfWeek = daysOfWeek[i];
+          let thisWeekDayData = daysData.filter(
+            (day) => day.dayOfWeek._id === thisDayOfWeek._id
+          )[0];
+          let thisDayToUpdate = thisWeeksDays[thisDayOfWeek.code];
+          thisDayToUpdate.dataLoaded = true;
+          if (thisWeekDayData) {
+            thisDayToUpdate.thisDay = thisWeekDayData;
+            let userType = this.setUserType(
+              currentState.thisUserType,
+              currentState.thisGRFUser._id,
+              thisWeekDayData.weekMealPlan.GRFUser._id
+            );
+            thisDayToUpdate.userType = userType;
+            this.getDayMeals(thisDayToUpdate, thisDayOfWeek.code);
+          } else {
           }
-          this.setState({ thisWeeksDays });
+          thisWeeksDays[thisDayOfWeek.code] = thisDayToUpdate;
         }
+        currentState.thisWeeksDays = thisWeeksDays;
+        // }
+        let thisWMPStateObj = currentState.thisWeekMealPlan;
+        if (thisWMPStateObj.thisWMPJustCreated === true) {
+          this.handleClickEditForm(thisWMPStateObj, "weekMealPlan");
+        }
+        currentState.thisWeekMealPlan = thisWMPStateObj;
+        this.setState({ currentState });
       });
   };
   getDayMeals = (thisDayToUpdate, thisDayOfWeekCode) => {
@@ -7823,6 +7842,7 @@ export default class WeekMealPlanDetail extends Component {
     let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlanOld);
     let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDaysOld);
     state.thisWeekMealPlan = thisWMPBackup;
+    state.thisWeekMealPlan.thisWMPJustCreated = false;
     state.thisWeeksDays = thisWeeksDaysBackup;
     state.thisWeekMealPlanOld = {};
     state.thisWeeksDaysOld = {
@@ -7841,6 +7861,7 @@ export default class WeekMealPlanDetail extends Component {
     let initialUserType = state.thisUserType;
     let thisUsersId = state.thisGRFUser._id;
     let thisWeekMealPlan = state.thisWeekMealPlan;
+    thisWeekMealPlan.thisWMPJustCreated = false;
     let thisWMP = thisWeekMealPlan.thisWMP;
     let thisWeeksDays = state.thisWeeksDays;
     thisWeekMealPlan.userType = state.thisUserType;
@@ -8156,6 +8177,15 @@ export default class WeekMealPlanDetail extends Component {
     let thisWeeksDaysOld = state.thisWeeksDaysOld;
 
     switch (objType) {
+      case "weekMealPlan":
+        let thisGRFUsersId = state.thisGRFUser._id;
+        let url = `http://localhost:5000/${objType}s/${parentObj.thisWMP._id}`;
+        axios
+          .delete(url)
+          .then(
+            (window.location = "/weekMealPlans/usersWMPs/" + thisGRFUsersId)
+          );
+        break;
       case "day":
         let daysDayOfWeek = parentObj.thisDay.dayOfWeek;
         let daysDayOfWeekCode = daysDayOfWeek.code;
@@ -8841,13 +8871,21 @@ export default class WeekMealPlanDetail extends Component {
                 >
                   <div className="accordion-body accrdnWMPDetailsBdy">
                     <form className="card">
-                      <div className="card-header wmpCardHeader">
-                        <div className="form-group">
+                      <div
+                        // className="card-header wmpCardHeader"
+                        className={
+                          this.state.thisWeekMealPlan.thisWMPJustCreated ===
+                          true
+                            ? "card-header wmpCardHeader cardHeaderFocused"
+                            : "card-header wmpCardHeader"
+                        }
+                      >
+                        <div className={"form-group"}>
                           <label>Plan Name</label>
                           <div className="inputRowWRightIcons">
                             <input
                               type="text"
-                              className="form-control wmpNameInput"
+                              className={"form-control wmpNameInput"}
                               value={this.state.thisWeekMealPlan.thisWMP.name}
                               onChange={(e) => {
                                 this.handleUpdateProp(

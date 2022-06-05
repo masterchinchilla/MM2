@@ -455,7 +455,7 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   border-radius: 0.25rem;
 }
 .cardHeaderFocused{
-  background-color: #ffc107;
+  background-color: #ffc107 !important;
 }
 .subCardHeaderFocused{
   padding:0.5rem !important;

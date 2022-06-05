@@ -17,17 +17,16 @@ router.route('/add').post((req, res) => {
     const name = req.body.name;
     const GRFUser = req.body.GRFUser;
     const breakfastWeight=req.body.breakfastWeight;
-        const snack1Weight=req.body.snack1Weight;
-        const lunchWeight=req.body.lunchWeight;
-        const snack2Weight=req.body.snack2Weight;
-        const dinnerWeight=req.body.dinnerWeight;
-        const dessertWeight=req.body.dessertWeight;
-        const calsBudget=req.body.calsBudget;
-        const carbsBudget=req.body.carbsBudget;
-        const proteinBudget=req.body.proteinBudget;
-        const fatBudget=req.body.fatBudget;
-        const fiberBudget=req.body.fiberBudget;
-
+    const snack1Weight=req.body.snack1Weight;
+    const lunchWeight=req.body.lunchWeight;
+    const snack2Weight=req.body.snack2Weight;
+    const dinnerWeight=req.body.dinnerWeight;
+    const dessertWeight=req.body.dessertWeight;
+    const calsBudget=req.body.calsBudget;
+    const carbsBudget=req.body.carbsBudget;
+    const proteinBudget=req.body.proteinBudget;
+    const fatBudget=req.body.fatBudget;
+    const fiberBudget=req.body.fiberBudget; 
     const newWeekMealPlan = new WeekMealPlan({
         name,
         GRFUser,
@@ -45,7 +44,7 @@ router.route('/add').post((req, res) => {
     });
 
     newWeekMealPlan.save()
-        .then(() => res.json('Week Meal Plan added!'))
+        .then(() => res.json(newWeekMealPlan))
         .catch(err => res.status(400).json('Error: ' + err));
 })
 router.route('/:id').get((req, res) => {
@@ -60,7 +59,6 @@ router.route('/update/:id').get((req, res) => {
 });
 
 router.route('/:id').delete((req, res) => {
-    console.log(req.params);
     WeekMealPlan.findByIdAndDelete(req.params.id)
         .then(() => res.json('Week Meal Plan deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
