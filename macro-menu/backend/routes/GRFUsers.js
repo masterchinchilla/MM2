@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const _ =require('lodash');
+const bcrypt=require('bcrypt');
 let GRFUserModel = require('../models/GRFUser.model')
 
 router.route('/').get((req, res) => {
@@ -7,36 +9,47 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/add').post((req, res) => {
-    const namePrefix = req.body.namePrefix;
-    const givenName = req.body.givenName;
-    const middleName = req.body.middleName;
-    const familyName = req.body.familyName;
-    const nameSuffix = req.body.nameSuffix;
+router.post('/add', async (req, res) => {
     const email = req.body.email;
-    const password = req.body.password;
-    const handle = req.body.handle;
-    const certURL = req.body.certURL;
-    const certName = req.body.certName;
-    const verified = req.body.verified;
-
-    const newGRFUserModel = new GRFUserModel({
-        namePrefix,
-        givenName,
-        middleName,
-        familyName,
-        nameSuffix,
-        email,
-        password,
-        handle,
-        certURL,
-        certName,
-        verified
-    });
-
-    newGRFUserModel.save()
-        .then(() => res.json('GRF User added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+    let existingUser=await GRFUserModel.findOne({email:email});
+    if(existingUser){
+        return res.status(400).send('User already registered.');
+    }else{
+        
+        const newGRFUser = new GRFUserModel(_.pick(req.body,[
+            'namePrefix',
+            'givenName',
+            'middleName',
+            'familyName',
+            'nameSuffix',
+            'email',
+            'password',
+            'handle',
+            'certURL',
+            'certName',
+            'verified'
+        ]));
+        const salt = await bcrypt.genSalt(10);
+        newGRFUser.password=await bcrypt.hash(newGRFUser.password,salt)
+        // const namePrefix = req.body.namePrefix;
+        // const givenName = req.body.givenName;
+        // const middleName = req.body.middleName;
+        // const familyName = req.body.familyName;
+        // const nameSuffix = req.body.nameSuffix;
+        // const password = req.body.password;
+        // const handle = req.body.handle;
+        // const certURL = req.body.certURL;
+        // const certName = req.body.certName;
+        // const verified = req.body.verified;
+        // let savedNewGRFUser;
+        // savedNewGRFUser = 
+        await newGRFUser.save();
+        res.json(_.pick(newGRFUser,['_id']));
+        // newGRFUser.save()
+        //     .then(() => res.json(newGRFUser))
+        //     .catch(err => res.status(400).json('Error: ' + err));
+    }
+    
 })
 router.route('/:id').delete((req, res) => {
     GRFUserModel.findByIdAndDelete(req.params.id)
