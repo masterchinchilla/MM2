@@ -50,7 +50,16 @@ router.post('/add', async (req, res) => {
         res
             .header('x-auth-token',token)
             .header('access-control-expose-headers','x-auth-token')
-            .send(_.pick(newGRFUser,['_id']));
+            .send(_.pick(newGRFUser,['_id','namePrefix',
+            'givenName',
+            'middleName',
+            'familyName',
+            'nameSuffix',
+            'email',
+            'handle',
+            'certURL',
+            'certName',
+            'verified']));
         // newGRFUser.save()
         //     .then(() => res.json(newGRFUser))
         //     .catch(err => res.status(400).json('Error: ' + err));

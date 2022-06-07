@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 //test user credentials:
 //email:johnQPublic@gmail.com
 //password:johnQPublic@GRF2022
 
 class Login extends Component {
-  state = {
-    email: "",
-    password: "",
-    errors: {},
-    showPassword: false,
-    currentGRFUser: this.props.currentGRFUser,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      errors: {},
+      showPassword: false,
+      currentGRFUser: this.props.currentGRFUser,
+    };
+  }
   handleUpdateEmail = (e) => {
     this.setState({
       email: e.target.value,
@@ -36,11 +40,15 @@ class Login extends Component {
       password: this.state.password,
     };
     response = await axios.post("http://localhost:5000/auth", user);
-    const validUserId = response.data;
+    const validUserId = response.data._id;
     localStorage.setItem("token", response.headers["x-auth-token"]);
-    this.props.getCurrentUser();
-    window.location =
-      "/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id;
+    // const jwt = localStorage.getItem("token");
+    // const decodedToken = jwtDecode(response.headers["x-auth-token"]);
+    // const thisUsersId=decodedToken.currentGRFUser._id;
+    window.location = "/weekMealPlans/usersWMPs/"+validUserId;
+    // this.props.getCurrentUser();
+   
+    // this.props.history.push("/weekMealPlans/usersWMPs/");
     // } catch (error) {
     //   console.log(response);
     // }

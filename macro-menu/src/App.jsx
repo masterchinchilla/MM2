@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  useHistory,
+  BrowserRouter,
+} from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import Bootstrap from "bootstrap";
 import Popper from "popper.js";
@@ -20,19 +27,31 @@ import WeekMealPlanDetailAdmin from "./components/adminVersions/WeekMealPlanDeta
 import Login from "./components/Login.component";
 library.add(fas);
 class App extends Component {
-  state = {
-    currentGRFUser: {
-      _id: "",
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentGRFUser: {
+        _id: "",
+      },
+    };
+  }
+
+  // componentDidMount() {
+  //   const jwt = localStorage.getItem("token");
+  //   const decodedToken = jwtDecode(jwt);
+  //   this.setState({ currentGRFUser: decodedToken.currentGRFUser });
+  // }
   getCurrentUser = () => {
     const jwt = localStorage.getItem("token");
     const decodedToken = jwtDecode(jwt);
     this.setState({ currentGRFUser: decodedToken.currentGRFUser });
+    this.props.history.push("/weekMealPlans/usersWMPs/");
+    // return <Redirect to="/weekMealPlans/usersWMPs/" />;
   };
   render() {
+    const getCurrentUser = this.getCurrentUser;
     return (
-      <Router>
+      <BrowserRouter>
         <Navbar thisGRFUser={this.state.currentGRFUser} />
         {/* <Navbar /> */}
         <br />
@@ -57,20 +76,24 @@ class App extends Component {
           <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} />
           <Route
             exact
-            // path={"/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id}
             path="/weekMealPlans/usersWMPs/:id"
+            component={WeekMealPlansList2}
+          />
+          <Route
+            exact
+            path={"/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id}
           >
-            <WeekMealPlansList2 currentGRFUser={this.state.currentGRFUser} />
+            <WeekMealPlansList2 getCurrentUser={getCurrentUser} />
           </Route>
           <Route exact path="/grfuser/create" component={CreateGRFUser} />
           <Route exact path="/">
             <Login
-              getCurrentUser={this.getCurrentUser}
-              currentGRFUser={this.state.currentGRFUser}
+            // getCurrentUser={this.getCurrentUser}
+            // currentGRFUser={this.state.currentGRFUser}
             />
           </Route>
         </Switch>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
