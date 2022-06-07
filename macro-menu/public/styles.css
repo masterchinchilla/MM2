@@ -49,6 +49,7 @@ hr {
 .card-body {
   padding: 0 !important;
 }
+
 .wkDaysAccrdnBdy {
   padding: 0 1rem !important;
 }
@@ -504,4 +505,46 @@ h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
 .wmpInnerAccordion{
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   padding:0 0.5rem 0.5rem;
+}
+.requiredFldLbl{
+  color:red;
+}
+.registerCard{
+  max-width:70rem;
+}
+.registerFormRow1 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+form fieldset{
+  min-width: 20rem;
+  max-width:50rem;
+  padding: 1rem;
+  margin: 1rem 1rem 0 1rem;
+  border: 1px solid rgba(0, 0, 0, .125);
+  border-radius: 3px;
+}
+.form-check{
+  margin:0.5rem !important;
+}
+/* .registerForm{
+  display:grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "registerBox1 registerBox2"
+    "registerSubmit registerSubmit";
+  gap:1rem;
+} */
+/* .registerBox1{
+  grid-area: registerBox1;
+}
+.registerBox2{
+  grid-area:registerBox2;
+} */
+.registerSubmit{
+  /* grid-area:registerSubmit; */
+  margin:1rem 1.25rem;
+  width:15rem;
 }

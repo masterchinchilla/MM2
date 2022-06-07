@@ -1,3 +1,5 @@
+const jwt =require('jsonwebtoken');
+const config=require('config');
 const router = require('express').Router();
 const _ =require('lodash');
 const bcrypt=require('bcrypt');
@@ -13,7 +15,7 @@ router.post('/add', async (req, res) => {
     const email = req.body.email;
     let existingUser=await GRFUserModel.findOne({email:email});
     if(existingUser){
-        return res.status(400).send('User already registered.');
+        return res.status(400).json('User already registered.');
     }else{
         
         const newGRFUser = new GRFUserModel(_.pick(req.body,[
@@ -44,7 +46,11 @@ router.post('/add', async (req, res) => {
         // let savedNewGRFUser;
         // savedNewGRFUser = 
         await newGRFUser.save();
-        res.json(_.pick(newGRFUser,['_id']));
+        const token=jwt.sign({_id:newGRFUser._id},config.get('jwtPrivateKey'));
+        res
+            .header('x-auth-token',token)
+            .header('access-control-expose-headers','x-auth-token')
+            .send(_.pick(newGRFUser,['_id']));
         // newGRFUser.save()
         //     .then(() => res.json(newGRFUser))
         //     .catch(err => res.status(400).json('Error: ' + err));

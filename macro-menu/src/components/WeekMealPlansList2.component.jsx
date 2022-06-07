@@ -7,19 +7,19 @@ class WMPListForUser extends Component {
     super(props);
     this.state = {
       dataLoaded: false,
-      thisGRFUser: {},
+      thisGRFUser: this.props.currentGRFUser,
       weekMealPlans: [],
       thisUsersWMPs: [],
       allOtherWMPs: [],
     };
   }
   componentDidMount() {
-    const thisGRFUserId = this.props.match.params.id;
-    axios
-      .get("http://localhost:5000/grfusers/" + thisGRFUserId)
-      .then((response) => {
-        this.setState({ thisGRFUser: response.data });
-      });
+    // const thisGRFUserId = this.props.match.params.id;
+    // axios
+    //   .get("http://localhost:5000/grfusers/" + thisGRFUserId)
+    //   .then((response) => {
+    //     this.setState({ thisGRFUser: response.data });
+    //   });
     axios
       .get("http://localhost:5000/weekMealPlans")
       .then((response) => {

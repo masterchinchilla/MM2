@@ -1,10 +1,13 @@
+const config=require('config');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
 require('dotenv').config();
-
 const app = express();
+if(!config.get('jwtPrivateKey')){
+    console.log('FATAL ERROR: jwtPrivateKey is not defined');
+    process.exit(1);
+}
 const port = process.env.PORT || 5000;
 
 app.use(cors());

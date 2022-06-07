@@ -10,7 +10,10 @@ export default class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      thisGRFUser: this.props.thisGRFUser,
+      // thisGRFUser: this.props.thisGRFUser,
+      thisGRFUser: {
+        _id: "609f3e444ee536749c75c729",
+      },
     };
     console.log(props);
   }
@@ -49,6 +52,16 @@ export default class Navbar extends Component {
                   }}
                 >
                   My Week Meal Plans
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to={{
+                    pathname: "/",
+                  }}
+                >
+                  Login
                 </Link>
               </li>
             </ul>
