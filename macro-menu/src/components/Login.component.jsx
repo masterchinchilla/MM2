@@ -30,18 +30,20 @@ class Login extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     let response;
-    try {
-      let user = {
-        email: this.state.email,
-        password: this.state.password,
-      };
-      response = await axios.post("http://localhost:5000/auth", user);
-      const validUserId = response.data;
-      localStorage.setItem("token", response.headers["x-auth-token"]);
-      this.props.getCurrentUser();
-    } catch (error) {
-      console.log(response);
-    }
+    // try {
+    let user = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    response = await axios.post("http://localhost:5000/auth", user);
+    const validUserId = response.data;
+    localStorage.setItem("token", response.headers["x-auth-token"]);
+    this.props.getCurrentUser();
+    window.location =
+      "/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id;
+    // } catch (error) {
+    //   console.log(response);
+    // }
     // .then((response) => console.log(response));
   };
   render() {

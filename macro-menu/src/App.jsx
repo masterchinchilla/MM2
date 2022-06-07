@@ -36,35 +36,40 @@ class App extends Component {
         <Navbar thisGRFUser={this.state.currentGRFUser} />
         {/* <Navbar /> */}
         <br />
-
-        <Route
-          exact
-          path="/weekmealplan/admin/:id"
-          component={WeekMealPlanDetailAdmin}
-        />
-        <Route exact path="/grfusers" component={GRFUsersList} />
-        <Route exact path="/create" component={CreateWeekMealPlan} />
-        <Route exact path="/weekMealPlansList" component={WeekMealPlansList} />
-        <Route
-          exact
-          path="/weekMealPlans/edit/:id/:isNewWMP?"
-          component={WeekMealPlanDetail}
-        />
-        <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} />
-        {/* <Route
-          exact
-          // path={"/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id}
-          path="/weekMealPlans/usersWMPs/:id"
-        >
-          <WeekMealPlansList2 currentGRFUser={this.state.currentGRFUser} />
-        </Route> */}
-        <Route exact path="/grfuser/create" component={CreateGRFUser} />
-        <Route exact path="/">
-          <Login
-            getCurrentUser={this.getCurrentUser}
-            currentGRFUser={this.state.currentGRFUser}
+        <Switch>
+          <Route
+            exact
+            path="/weekmealplan/admin/:id"
+            component={WeekMealPlanDetailAdmin}
           />
-        </Route>
+          <Route exact path="/grfusers" component={GRFUsersList} />
+          <Route exact path="/create" component={CreateWeekMealPlan} />
+          <Route
+            exact
+            path="/weekMealPlansList"
+            component={WeekMealPlansList}
+          />
+          <Route
+            exact
+            path="/weekMealPlans/edit/:id/:isNewWMP?"
+            component={WeekMealPlanDetail}
+          />
+          <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} />
+          <Route
+            exact
+            // path={"/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id}
+            path="/weekMealPlans/usersWMPs/:id"
+          >
+            <WeekMealPlansList2 currentGRFUser={this.state.currentGRFUser} />
+          </Route>
+          <Route exact path="/grfuser/create" component={CreateGRFUser} />
+          <Route exact path="/">
+            <Login
+              getCurrentUser={this.getCurrentUser}
+              currentGRFUser={this.state.currentGRFUser}
+            />
+          </Route>
+        </Switch>
       </Router>
     );
   }
