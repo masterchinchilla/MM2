@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 class CreateGRFUser extends Component {
@@ -100,17 +101,18 @@ class CreateGRFUser extends Component {
       certName: this.state.certName,
       verified: this.state.verified,
     };
-    axios
-      .post("http://localhost:5000/GRFUsers/add", GRFUser)
-      .then((response) => {
-        console.log(response);
-        if (response.status === 400) {
-          this.setState({ submitError: response });
-        } else {
-          localStorage.setItem("token", response.headers["x-auth-token"]);
-          window.location = "/grfusers/";
-        }
-      });
+    this.props.createNewUser(GRFUser);
+    // axios
+    //   .post("http://localhost:5000/GRFUsers/add", GRFUser)
+    //   .then((response) => {
+    //     if (response.status === 400) {
+    //       this.setState({ submitError: response });
+    //     } else {
+
+    //       localStorage.setItem("token", response.headers["x-auth-token"]);
+    //       window.location = "/grfusers/";
+    //     }
+    //   });
   };
 
   render() {
@@ -255,12 +257,16 @@ class CreateGRFUser extends Component {
                 </div>
               </fieldset>
             </div>
-            <div className="form-group">
+            <div className="form-group registerFrmGrp">
               <input
                 type="submit"
                 value="Create GRF User"
                 className="btn-lg btn-primary registerSubmit"
               />
+              <p className="alreadyRegistered">
+                Already registered?&nbsp;
+                <Link to="/">Login</Link>
+              </p>
             </div>
             {this.state.submitError === "" ? (
               ""

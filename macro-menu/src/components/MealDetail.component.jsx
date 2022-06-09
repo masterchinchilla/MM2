@@ -60,10 +60,10 @@ const MealDetail = (props) => {
             thisGRFUser={thisGRFUser}
             thisMealIngrdntObj={mealIngredient}
             mealIngrdntsArrayIndex={index}
-            allGRFUsers={props.allGRFUsers}
+            // allGRFUsers={props.allGRFUsers}
             allGenRecipeIngredients={props.allGenRecipeIngredients}
             thisRecipesIngrdnts={thisRecipesIngrdnts}
-            thisMealTypesMeals={props.thisMealTypesMeals}
+            // thisMealTypesMeals={props.thisMealTypesMeals}
             // allIngredients={props.allIngredients}
             allUnitOfMeasures={props.allUnitOfMeasures}
             allWeightTypes={props.allWeightTypes}
@@ -312,7 +312,7 @@ const MealDetail = (props) => {
             thisMealTypesRecipes={thisMealTypesRecipes}
             //Common Props
             //Data
-            allGRFUsers={props.allGRFUsers}
+            // allGRFUsers={props.allGRFUsers}
             mealTypes={props.mealTypes}
             //Methods
             onClickEditForm={props.onClickEditForm}

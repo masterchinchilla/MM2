@@ -40,7 +40,7 @@ const MealIngredientParent = (props) => {
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisObj}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
-          thisMealTypesMeals={props.thisMealTypesMeals}
+          // thisMealTypesMeals={props.thisMealTypesMeals}
           //Methods
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
@@ -88,7 +88,7 @@ const MealIngredientParent = (props) => {
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisIngredient}
-          allGRFUsers={props.allGRFUsers}
+          // allGRFUsers={props.allGRFUsers}
           allUnitOfMeasures={props.allUnitOfMeasures}
           allWeightTypes={props.allWeightTypes}
           allBrands={props.allBrands}

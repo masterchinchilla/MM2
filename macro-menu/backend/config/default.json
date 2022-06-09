@@ -1,1 +1,4 @@
-{ "jwtPrivateKey": "macroMenu_jwtPrivateKey" }
+{
+  "jwtPrivateKey": "macroMenu_jwtPrivateKey",
+  "requiresAuth": true
+}

@@ -45,21 +45,13 @@ router.post('/add', async (req, res) => {
         // const verified = req.body.verified;
         // let savedNewGRFUser;
         // savedNewGRFUser = 
-        await newGRFUser.save();
-        const token=jwt.sign({_id:newGRFUser._id},config.get('jwtPrivateKey'));
+        const savedNewUser = await newGRFUser.save();
+        const currentGRFUser=_.pick(savedNewUser,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","certURL","certName","userGroups","verified","createdAt","updatedAt"]);
+        const token=jwt.sign({currentGRFUser},config.get('jwtPrivateKey'));
         res
             .header('x-auth-token',token)
             .header('access-control-expose-headers','x-auth-token')
-            .send(_.pick(newGRFUser,['_id','namePrefix',
-            'givenName',
-            'middleName',
-            'familyName',
-            'nameSuffix',
-            'email',
-            'handle',
-            'certURL',
-            'certName',
-            'verified']));
+            .send(currentGRFUser);
         // newGRFUser.save()
         //     .then(() => res.json(newGRFUser))
         //     .catch(err => res.status(400).json('Error: ' + err));

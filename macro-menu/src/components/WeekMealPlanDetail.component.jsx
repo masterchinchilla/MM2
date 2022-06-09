@@ -5,11 +5,13 @@ import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import _ from "lodash";
 import dayjs from "dayjs";
+import jwtDecode from "jwt-decode";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      axiosCallConfig: {},
       thisUserType: "admin",
       thisGRFUser: {
         _id: "609f3e444ee536749c75c729",
@@ -58,19 +60,19 @@ export default class WeekMealPlanDetail extends Component {
         { _id: "6287d07eb01c53cff0db5cdd", code: "friday", name: "Friday" },
         { _id: "6287d08cb01c53cff0db5cde", code: "saturday", name: "Saturday" },
       ],
-      allGRFUsers: [{ _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" }],
-      allDays: [
-        {
-          _id: "tempDay1Id",
-          name: "tempDayName1",
-          dayOfWeek: {
-            _id: "6287cfcbb01c53cff0db5cd8",
-            code: "sunday",
-            name: "Sunday",
-          },
-          weekMealPlan: "625b7e5a4451249a38449792",
-        },
-      ],
+      // allGRFUsers: [{ _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" }],
+      // allDays: [
+      //   {
+      //     _id: "tempDay1Id",
+      //     name: "tempDayName1",
+      //     dayOfWeek: {
+      //       _id: "6287cfcbb01c53cff0db5cd8",
+      //       code: "sunday",
+      //       name: "Sunday",
+      //     },
+      //     weekMealPlan: "625b7e5a4451249a38449792",
+      //   },
+      // ],
       allGenRecipes: [
         {
           _id: "tempGenRecipe1Id",
@@ -150,38 +152,38 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
       ],
-      allMeals: [
-        {
-          _id: "tempMealId1",
-          day: {
-            _id: "tempDay1Id",
-            name: "tempDayName1",
-            dayOfWeek: {
-              _id: "6287cfcbb01c53cff0db5cd8",
-              code: "sunday",
-              name: "Sunday",
-            },
-            weekMealPlan: "625b7e5a4451249a38449792",
-          },
-          genRecipe: {
-            _id: "tempGenRecipe1Id",
-            name: "tempGenRecipe1Name",
-            availableMealType: {
-              _id: "626dd6fc21888432c0fe3e90",
-              code: "breakfast",
-              name: "Breakfast",
-            },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-          mealType: {
-            _id: "626dd6fc21888432c0fe3e90",
-            code: "breakfast",
-            name: "Breakfast",
-          },
-        },
-      ],
+      // allMeals: [
+      //   {
+      //     _id: "tempMealId1",
+      //     day: {
+      //       _id: "tempDay1Id",
+      //       name: "tempDayName1",
+      //       dayOfWeek: {
+      //         _id: "6287cfcbb01c53cff0db5cd8",
+      //         code: "sunday",
+      //         name: "Sunday",
+      //       },
+      //       weekMealPlan: "625b7e5a4451249a38449792",
+      //     },
+      //     genRecipe: {
+      //       _id: "tempGenRecipe1Id",
+      //       name: "tempGenRecipe1Name",
+      //       availableMealType: {
+      //         _id: "626dd6fc21888432c0fe3e90",
+      //         code: "breakfast",
+      //         name: "Breakfast",
+      //       },
+      //       GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+      //       defaultPrepInstructions: "",
+      //       photoUrl: "",
+      //     },
+      //     mealType: {
+      //       _id: "626dd6fc21888432c0fe3e90",
+      //       code: "breakfast",
+      //       name: "Breakfast",
+      //     },
+      //   },
+      // ],
       allUnitOfMeasures: [
         {
           _id: "tempUnitOfMeasureId1",
@@ -203,7 +205,7 @@ export default class WeekMealPlanDetail extends Component {
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
         },
       ],
-      allWMPs: [],
+      // allWMPs: [],
       thisWeeksDays: {
         sunday: {
           dataLoaded: false,
@@ -7378,6 +7380,12 @@ export default class WeekMealPlanDetail extends Component {
     };
   }
   componentDidMount() {
+    const jwt = localStorage.getItem("token");
+    const decodedToken = jwtDecode(jwt);
+    this.setState({
+      axiosCallConfig: { "x-auth-token": jwt },
+      thisGRFUser: decodedToken.currentGRFUser,
+    });
     let daysOfWeek = this.state.daysOfWeek;
     let mealTypes = this.state.mealTypes;
     let thisWeeksDays = this.state.thisWeeksDays;
@@ -7408,15 +7416,11 @@ export default class WeekMealPlanDetail extends Component {
     this.getAllBrands();
     // this.getAllWMPs();
   }
-  setUserType = (initialUserType, thisUsersId, thisObjAuthorId) => {
-    if (initialUserType === "admin") {
-      return "admin";
+  setUserType = (thisUsersId, thisObjAuthorId) => {
+    if (thisObjAuthorId === thisUsersId) {
+      return "author";
     } else {
-      if (thisObjAuthorId === thisUsersId) {
-        return "author";
-      } else {
-        return "viewer";
-      }
+      return "viewer";
     }
   };
   getThisWeekMealPlan = () => {
@@ -7434,7 +7438,6 @@ export default class WeekMealPlanDetail extends Component {
         let thisWeekMealPlan = state.thisWeekMealPlan;
         thisWeekMealPlan.thisWMP = response.data;
         let userType = this.setUserType(
-          this.state.thisUserType,
           this.state.thisGRFUser._id,
           thisWeekMealPlan.thisWMP.GRFUser._id
         );
@@ -7470,7 +7473,6 @@ export default class WeekMealPlanDetail extends Component {
           if (thisWeekDayData) {
             thisDayToUpdate.thisDay = thisWeekDayData;
             let userType = this.setUserType(
-              currentState.thisUserType,
               currentState.thisGRFUser._id,
               thisWeekDayData.weekMealPlan.GRFUser._id
             );
@@ -7507,13 +7509,11 @@ export default class WeekMealPlanDetail extends Component {
           if (thisDayMealData !== undefined) {
             thisDaysMeals[thisMealTypeCode]["thisMeal"] = thisDayMealData;
             let mealUserType = this.setUserType(
-              this.state.thisUserType,
               this.state.thisGRFUser._id,
               thisDayMealData.day.weekMealPlan.GRFUser._id
             );
             thisDaysMeals[thisMealTypeCode]["thisMealUserType"] = mealUserType;
             let genRecipeUserType = this.setUserType(
-              this.state.thisUserType,
               this.state.thisGRFUser._id,
               thisDayMealData.genRecipe.GRFUser._id
             );
@@ -7560,17 +7560,14 @@ export default class WeekMealPlanDetail extends Component {
         let thisMealsIngrdnts = [];
         for (let i = 0; i < mealIngrdntData.length; i++) {
           let thisMealIngrdntUserType = this.setUserType(
-            this.state.thisUserType,
             this.state.thisGRFUser._id,
             mealIngrdntData[i].meal.day.weekMealPlan.GRFUser._id
           );
           let thisGenRecipeIngrdntUserType = this.setUserType(
-            this.state.thisUserType,
             this.state.thisGRFUser._id,
             mealIngrdntData[i].genRecipeIngredient.genRecipe.GRFUser._id
           );
           let thisIngrdntUserType = this.setUserType(
-            this.state.thisUserType,
             this.state.thisGRFUser._id,
             mealIngrdntData[i].genRecipeIngredient.ingredient.GRFUser._id
           );
@@ -7604,24 +7601,24 @@ export default class WeekMealPlanDetail extends Component {
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-  getAllGRFUsers = () => {
-    axios.get("http://localhost:5000/GRFUsers/").then((response) => {
-      if (response.data.length > 0) {
-        this.setState({
-          allGRFUsers: response.data.map((GRFUser) => GRFUser),
-          allGRFUsersHasLoaded: true,
-        });
-      }
-    });
-  };
-  getAllDays = () => {
-    axios.get("http://localhost:5000/days/").then((response) => {
-      this.setState({
-        allDays: response.data.map((day) => day),
-        allDaysLoaded: true,
-      });
-    });
-  };
+  // getAllGRFUsers = () => {
+  //   axios.get("http://localhost:5000/GRFUsers/").then((response) => {
+  //     if (response.data.length > 0) {
+  //       this.setState({
+  //         allGRFUsers: response.data.map((GRFUser) => GRFUser),
+  //         allGRFUsersHasLoaded: true,
+  //       });
+  //     }
+  //   });
+  // };
+  // getAllDays = () => {
+  //   axios.get("http://localhost:5000/days/").then((response) => {
+  //     this.setState({
+  //       allDays: response.data.map((day) => day),
+  //       allDaysLoaded: true,
+  //     });
+  //   });
+  // };
   getAllRecipes = () => {
     axios.get("http://localhost:5000/genRecipes/").then((response) => {
       this.setState({
@@ -7629,13 +7626,13 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  getAllMeals = () => {
-    axios.get("http://localhost:5000/meals/").then((response) => {
-      this.setState({
-        allMeals: response.data.map((meal) => meal),
-      });
-    });
-  };
+  // getAllMeals = () => {
+  //   axios.get("http://localhost:5000/meals/").then((response) => {
+  //     this.setState({
+  //       allMeals: response.data.map((meal) => meal),
+  //     });
+  //   });
+  // };
   getAllGenRecipeIngredients = () => {
     axios
       .get("http://localhost:5000/genRecipeIngredients/")
@@ -7668,13 +7665,13 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  getAllWMPs = () => {
-    axios.get("http://localhost:5000/weekMealPlans/").then((response) => {
-      this.setState({
-        allWMPs: response.data.map((WMP) => WMP),
-      });
-    });
-  };
+  // getAllWMPs = () => {
+  //   axios.get("http://localhost:5000/weekMealPlans/").then((response) => {
+  //     this.setState({
+  //       allWMPs: response.data.map((WMP) => WMP),
+  //     });
+  //   });
+  // };
   handleClickEditForm = (parentObj, objType) => {
     let state = this.state;
     let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlan);
@@ -7858,24 +7855,22 @@ export default class WeekMealPlanDetail extends Component {
   };
   hndleSetVwrTypsAndFrmStates = (scenario, stateObj) => {
     let state = stateObj;
-    let initialUserType = state.thisUserType;
     let thisUsersId = state.thisGRFUser._id;
     let thisWeekMealPlan = state.thisWeekMealPlan;
     thisWeekMealPlan.thisWMPJustCreated = false;
     let thisWMP = thisWeekMealPlan.thisWMP;
     let thisWeeksDays = state.thisWeeksDays;
-    thisWeekMealPlan.userType = state.thisUserType;
+    thisWeekMealPlan.userType = this.setUserType(
+      thisUsersId,
+      thisWMP.GRFUser._id
+    );
     thisWeekMealPlan.thisFormState = "viewing";
     let daysOfWeek = state.daysOfWeek;
     let mealTypes = state.mealTypes;
     for (let i = 0; i < daysOfWeek.length; i++) {
       let dayOfWeekCode = daysOfWeek[i].code;
       let dayUserId = thisWMP.GRFUser._id;
-      let initialDayUserType = this.setUserType(
-        initialUserType,
-        thisUsersId,
-        dayUserId
-      );
+      let initialDayUserType = this.setUserType(thisUsersId, dayUserId);
       if (scenario === "newMealOrIngrdnt") {
         thisWeeksDays[dayOfWeekCode]["userType"] = "viewer";
       } else {
@@ -7892,7 +7887,6 @@ export default class WeekMealPlanDetail extends Component {
             "thisMeal"
           ]["genRecipe"]["GRFUser"]["_id"];
         let initialGenRecipeUserType = this.setUserType(
-          initialUserType,
           thisUsersId,
           thisGenRecipeUserId
         );
@@ -7916,7 +7910,6 @@ export default class WeekMealPlanDetail extends Component {
               thisMealIngrdnt.thisMealIngrdnt.genRecipeIngredient.ingredient
                 .GRFUser._id;
             let initialIngrdntUserType = this.setUserType(
-              initialUserType,
               thisUsersId,
               thisIngrdntUserId
             );
@@ -7977,7 +7970,9 @@ export default class WeekMealPlanDetail extends Component {
     }
     let recordId = recordToSave._id;
     let url = `http://localhost:5000/${objType}s/update/${recordId}`;
-    axios.put(url, recordToSave).then(console.log("updated"));
+    axios
+      .put(url, recordToSave, this.state.axiosCallConfig)
+      .then(console.log("updated"));
     if (objType === "meal" && parentObj.userChangedThisMealsRecipe === true) {
       let dayOfWeekCode = recordToSave.day.dayOfWeek.code;
       let mealTypeCode = recordToSave.mealType.code;
@@ -7988,6 +7983,8 @@ export default class WeekMealPlanDetail extends Component {
   };
   handleSaveMealRecipeChange = (dayOfWeekCode, mealTypeCode) => {
     let state = this.state;
+    let thisGRFUser = state.thisGRFUser;
+    let thisGRFUserId = thisGRFUser._id;
     let thisWeeksDays = state.thisWeeksDays;
     let thisWeeksDaysOld = state.thisWeeksDaysOld;
     let theseMealIngrdntsToDelete =
@@ -8029,8 +8026,11 @@ export default class WeekMealPlanDetail extends Component {
         .delete("http://localhost:5000/mealIngredients/" + thisMealIngrdntId)
         .then(console.log("meal ingredient deleted"));
     }
-    let initialWMPUserType = state.thisUserType;
-    state.thisWeekMealPlan.userType = initialWMPUserType;
+    let wmpUserId = state.thisWeekMealPlan.thisWMP.GRFUser._id;
+    state.thisWeekMealPlan.userType = this.setUserType(
+      thisGRFUserId,
+      wmpUserId
+    );
     thisWeeksDays[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
       "mealRecordChanged"
     ] = false;
@@ -8321,7 +8321,6 @@ export default class WeekMealPlanDetail extends Component {
       newValue = e.target.value;
     }
     let state = this.state;
-    let initialUserType = state.thisUserType;
     let thisUsersId = state.thisGRFUser._id;
     let thisWMPStateObj = state.thisWeekMealPlan;
     let thisWMPObj = thisWMPStateObj.thisWMP;
@@ -8377,7 +8376,6 @@ export default class WeekMealPlanDetail extends Component {
           thisMealStateObj.userChangedThisMealsRecipe = true;
           thisMealStateObj.thisMealJustCreated = false;
           let thisGenRecipeUserType = this.setUserType(
-            initialUserType,
             thisUsersId,
             newValue.GRFUser._id
           );
@@ -8405,7 +8403,6 @@ export default class WeekMealPlanDetail extends Component {
         thisMealIngrdntStateObj["genRecipeIngrdntRecordChanged"] = true;
         if (propToUpdate === "ingredient") {
           let newIngrdntUserType = this.setUserType(
-            initialUserType,
             thisUsersId,
             newValue.GRFUser._id
           );
@@ -8489,7 +8486,7 @@ export default class WeekMealPlanDetail extends Component {
       switch (objType) {
         case "day":
           thisDayObj = newRecordForState;
-          state.allDays.push(newRecordForState);
+          // state.allDays.push(newRecordForState);
           for (let i = 0; i < mealTypes.length; i++) {
             let thisDayMealStateObj = thisDaysMeals[mealTypes[i].code];
             thisDayMealStateObj.thisMealFormState = "viewing";
@@ -8690,7 +8687,6 @@ export default class WeekMealPlanDetail extends Component {
     state.thisWeekMealPlan.userType = "viewer";
     const daysOfWeek = state.daysOfWeek;
     const mealTypes = state.mealTypes;
-    const initialUserType = state.userType;
     const thisUsersId = state.thisGRFUser._id;
     const thisRecipeId = thisRecipe._id;
     const thisWeeksDays = state.thisWeeksDays;
@@ -8742,7 +8738,6 @@ export default class WeekMealPlanDetail extends Component {
             thisMealIngrdntUserType: thisMealInitialUserType,
             thisGenRecipeIngrdntUserType: thisGenRecipeUserType,
             thisIngrdntUserType: this.setUserType(
-              initialUserType,
               thisUsersId,
               thisGenRecipeIngrdnt.ingredient.GRFUser._id
             ),
@@ -8838,17 +8833,17 @@ export default class WeekMealPlanDetail extends Component {
             //Data
             thisGRFUser={this.state.thisGRFUser}
             hasChildren={dayHasChildren}
-            allGRFUsers={this.state.allGRFUsers}
-            allDays={this.state.allDays}
+            // allGRFUsers={this.state.allGRFUsers}
+            // allDays={this.state.allDays}
             allGenRecipes={this.state.allGenRecipes}
             mealTypes={this.state.mealTypes}
             allGenRecipeIngredients={this.state.allGenRecipeIngredients}
-            allMeals={this.state.allMeals}
+            // allMeals={this.state.allMeals}
             allUnitOfMeasures={this.state.allUnitOfMeasures}
             allWeightTypes={this.state.allWeightTypes}
             allBrands={this.state.allBrands}
             daysOfWeek={this.state.daysOfWeek}
-            allWMPs={this.state.allWMPs}
+            // allWMPs={this.state.allWMPs}
             //Methods
             onClickEditForm={this.handleClickEditForm}
             onCancelEditForm={this.handleCancelEditForm}
@@ -8918,7 +8913,6 @@ export default class WeekMealPlanDetail extends Component {
                   <div className="accordion-body accrdnWMPDetailsBdy">
                     <form className="card">
                       <div
-                        // className="card-header wmpCardHeader"
                         className={
                           this.state.thisWeekMealPlan.thisWMPJustCreated ===
                           true
@@ -8926,49 +8920,47 @@ export default class WeekMealPlanDetail extends Component {
                             : "card-header wmpCardHeader"
                         }
                       >
-                        <div className={"form-group"}>
-                          <label>Plan Name</label>
-                          <div className="inputRowWRightIcons">
-                            <input
-                              type="text"
-                              className={"form-control wmpNameInput"}
-                              value={this.state.thisWeekMealPlan.thisWMP.name}
-                              onChange={(e) => {
-                                this.handleUpdateProp(
-                                  "weekMealPlan",
-                                  "",
-                                  "",
-                                  "name",
-                                  0,
-                                  "text",
-                                  e,
-                                  []
-                                );
-                              }}
-                              disabled={
-                                this.state.thisWeekMealPlan.thisFormState ===
-                                "viewing"
-                                  ? true
-                                  : false
-                              }
-                            />
-                            <EditOptions
-                              parentObj={this.state.thisWeekMealPlan}
-                              objType="weekMealPlan"
-                              thisFormState={
-                                this.state.thisWeekMealPlan.thisFormState
-                              }
-                              userType={this.state.thisWeekMealPlan.userType}
-                              recordChanged={
-                                this.state.thisWeekMealPlan.recordChanged
-                              }
-                              onClickEditForm={this.handleClickEditForm}
-                              onCancelEditForm={this.handleCancelEditForm}
-                              onSaveFormChanges={this.handleSaveFormChanges}
-                              onDeleteRecord={this.handleDeleteRecord}
-                            />
-                          </div>
+                        <div className="form-group wmpNameFrmGroup">
+                          <label className="wmpNameLbl">Plan Name</label>
+                          <input
+                            type="text"
+                            className={"form-control wmpNameInput"}
+                            value={this.state.thisWeekMealPlan.thisWMP.name}
+                            onChange={(e) => {
+                              this.handleUpdateProp(
+                                "weekMealPlan",
+                                "",
+                                "",
+                                "name",
+                                0,
+                                "text",
+                                e,
+                                []
+                              );
+                            }}
+                            disabled={
+                              this.state.thisWeekMealPlan.thisFormState ===
+                              "viewing"
+                                ? true
+                                : false
+                            }
+                          />
                         </div>
+                        <EditOptions
+                          parentObj={this.state.thisWeekMealPlan}
+                          objType="weekMealPlan"
+                          thisFormState={
+                            this.state.thisWeekMealPlan.thisFormState
+                          }
+                          userType={this.state.thisWeekMealPlan.userType}
+                          recordChanged={
+                            this.state.thisWeekMealPlan.recordChanged
+                          }
+                          onClickEditForm={this.handleClickEditForm}
+                          onCancelEditForm={this.handleCancelEditForm}
+                          onSaveFormChanges={this.handleSaveFormChanges}
+                          onDeleteRecord={this.handleDeleteRecord}
+                        />
                       </div>
                       <div className="card-body wmpCardBody">
                         <div

@@ -91,108 +91,133 @@ class WMPListForUser extends Component {
           </Link> */}
           <div>
             <h1>My Week Meal Plans</h1>
-            <table className="table table-bordered">
-              <thead className="thead">
-                <tr>
-                  <th scope="col" rowSpan={2}>
+            <table className="table table-bordered" key="myWMPsTbl">
+              <thead className="thead" key="myWMPsTHead">
+                <tr key="myWMPsThRow1">
+                  <th scope="col" rowSpan={2} key="myWMPsNameTh">
                     Name
                   </th>
-                  <th scope="col" rowSpan={2}>
+                  <th scope="col" rowSpan={2} key="myWMPsAuthorTh">
                     Author
                   </th>
-                  <th scope="col" colSpan={5}>
+                  <th scope="col" colSpan={5} key="myWMPsMBdgtTh">
                     Daily Macros Budget
                   </th>
-                  <th scope="col" colSpan={6}>
+                  <th scope="col" colSpan={6} key="myWMPsMlWghtngTh">
                     Meal Weighting &#40;&#37;&#41;
                   </th>
                 </tr>
                 <tr>
-                  <th scope="col">Cals</th>
-                  <th scope="col">Carbs</th>
-                  <th scope="col">Protein</th>
-                  <th scope="col">Fat</th>
-                  <th scope="col">Fiber</th>
-                  <th scope="col">Breakfast</th>
-                  <th scope="col">Snack 1</th>
-                  <th scope="col">Lunch</th>
-                  <th scope="col">Snack 2</th>
-                  <th scope="col">Dinner</th>
-                  <th scope="col">Dessert</th>
+                  <th scope="col" key="myWMPsCalsTh">
+                    Cals
+                  </th>
+                  <th scope="col" key="myWMPsCarbsTh">
+                    Carbs
+                  </th>
+                  <th scope="col" key="myWMPsProteinTh">
+                    Protein
+                  </th>
+                  <th scope="col" key="myWMPsFatTh">
+                    Fat
+                  </th>
+                  <th scope="col" key="myWMPsFiberTh">
+                    Fiber
+                  </th>
+                  <th scope="col" key="myWMPsBreakfastTh">
+                    Breakfast
+                  </th>
+                  <th scope="col" key="myWMPsSnack1Th">
+                    Snack 1
+                  </th>
+                  <th scope="col" key="myWMPsLunchTh">
+                    Lunch
+                  </th>
+                  <th scope="col" key="myWMPsSnack2Th">
+                    Snack 2
+                  </th>
+                  <th scope="col" key="myWMPsDinnerTh">
+                    Dinner
+                  </th>
+                  <th scope="col" key="myWMPsDessertTh">
+                    Dessert
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody key="myWMPsTbody">
                 {this.state.thisUsersWMPs.length < 1 ? (
-                  <tr>
-                    <td colSpan={13}>No Week Meal Plans...</td>
+                  <tr key="myWMPsTbodyNoWMPsTr">
+                    <td colSpan={13} key="myWMPsTbodyNoWMPsTd">
+                      No Week Meal Plans...
+                    </td>
                   </tr>
                 ) : (
                   this.state.thisUsersWMPs.map((wmp) => (
-                    <tr>
-                      <td>
+                    <tr key={"myWMPsTr" + wmp._id}>
+                      <td key={"myWMPsNameTd" + wmp._id}>
                         <Link
                           className="nav-link"
                           to={{ pathname: "/weekMealPlans/edit/" + wmp._id }}
+                          key={"myWMPLink" + wmp._id}
                         >
                           {wmp.name}
                         </Link>
                       </td>
-                      <td>
+                      <td key={"myWMPsAuthorTd" + wmp._id}>
                         {wmp.GRFUser === undefined
                           ? "Unknown User"
                           : wmp.GRFUser.handle}
                       </td>
-                      <td>
+                      <td key={"myWMPsCalsTd" + wmp._id}>
                         {wmp.calsBudget === undefined
                           ? 0
                           : wmp.calsBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsCarbsTd" + wmp._id}>
                         {wmp.carbsBudget === undefined
                           ? 0
                           : wmp.carbsBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsProteinTd" + wmp._id}>
                         {wmp.proteinBudget === undefined
                           ? 0
                           : wmp.proteinBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsFatTd" + wmp._id}>
                         {wmp.fatBudget === undefined
                           ? 0
                           : wmp.fatBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsFiberTd" + wmp._id}>
                         {wmp.fiberBudget === undefined
                           ? 0
                           : wmp.fiberBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsBreakfastTd" + wmp._id}>
                         {wmp.breakfastWeight === undefined
                           ? 0
                           : wmp.breakfastWeight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsSnack1Td" + wmp._id}>
                         {wmp.snack1Weight === undefined
                           ? 0
                           : wmp.snack1Weight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsLunchTd" + wmp._id}>
                         {wmp.lunchWeight === undefined
                           ? 0
                           : wmp.lunchWeight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsSnack2Td" + wmp._id}>
                         {wmp.snack2Weight === undefined
                           ? 0
                           : wmp.snack2Weight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsDinnerTd" + wmp._id}>
                         {wmp.dinnerWeight === undefined
                           ? 0
                           : wmp.dinnerWeight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"myWMPsDessertTd" + wmp._id}>
                         {wmp.dessertWeight === undefined
                           ? 0
                           : wmp.dessertWeight.toFixed(2)}
@@ -216,104 +241,134 @@ class WMPListForUser extends Component {
           <br />
           <div>
             <h1>Community Week Meal Plans</h1>
-            <table className="table table-bordered">
-              <thead className="thead">
-                <tr>
-                  <th scope="col" rowSpan={2}>
+
+            <table className="table table-bordered" key="cmmntyWMPsTbl">
+              <thead className="thead" key="cmmntyWMPsTHead">
+                <tr key="cmmntyWMPsThRow1">
+                  <th scope="col" rowSpan={2} key="cmmntyWMPsNameTh">
                     Name
                   </th>
-                  <th scope="col" rowSpan={2}>
+                  <th scope="col" rowSpan={2} key="cmmntyWMPsAuthorTh">
                     Author
                   </th>
-                  <th scope="col" colSpan={5}>
+                  <th scope="col" colSpan={5} key="cmmntyWMPsMBdgtTh">
                     Daily Macros Budget
                   </th>
-                  <th scope="col" colSpan={6}>
+                  <th scope="col" colSpan={6} key="cmmntyWMPsMlWghtngTh">
                     Meal Weighting &#40;&#37;&#41;
                   </th>
                 </tr>
                 <tr>
-                  <th scope="col">Cals</th>
-                  <th scope="col">Carbs</th>
-                  <th scope="col">Protein</th>
-                  <th scope="col">Fat</th>
-                  <th scope="col">Fiber</th>
-                  <th scope="col">Breakfast</th>
-                  <th scope="col">Snack 1</th>
-                  <th scope="col">Lunch</th>
-                  <th scope="col">Snack 2</th>
-                  <th scope="col">Dinner</th>
-                  <th scope="col">Dessert</th>
+                  <th scope="col" key="cmmntyWMPsCalsTh">
+                    Cals
+                  </th>
+                  <th scope="col" key="cmmntyWMPsCarbsTh">
+                    Carbs
+                  </th>
+                  <th scope="col" key="cmmntyWMPsProteinTh">
+                    Protein
+                  </th>
+                  <th scope="col" key="cmmntyWMPsFatTh">
+                    Fat
+                  </th>
+                  <th scope="col" key="cmmntyWMPsFiberTh">
+                    Fiber
+                  </th>
+                  <th scope="col" key="cmmntyWMPsBreakfastTh">
+                    Breakfast
+                  </th>
+                  <th scope="col" key="cmmntyWMPsSnack1Th">
+                    Snack 1
+                  </th>
+                  <th scope="col" key="cmmntyWMPsLunchTh">
+                    Lunch
+                  </th>
+                  <th scope="col" key="cmmntyWMPsSnack2Th">
+                    Snack 2
+                  </th>
+                  <th scope="col" key="cmmntyWMPsDinnerTh">
+                    Dinner
+                  </th>
+                  <th scope="col" key="cmmntyWMPsDessertTh">
+                    Dessert
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody key="cmmntyWMPsTbody">
                 {this.state.allOtherWMPs.length < 1 ? (
-                  <tr>
-                    <td colSpan={13}>No Week Meal Plans...</td>
+                  <tr key="cmmntyWMPsTbodyNoWMPsTr">
+                    <td colSpan={13} key="cmmntyWMPsTbodyNoWMPsTd">
+                      No Week Meal Plans...
+                    </td>
                   </tr>
                 ) : (
                   this.state.allOtherWMPs.map((wmp) => (
-                    <tr>
-                      <td>
+                    <tr key={"cmmntyWMPsTr" + wmp._id}>
+                      <td key={"cmmntyWMPsNameTd" + wmp._id}>
                         <Link
                           className="nav-link"
                           to={{ pathname: "/weekMealPlans/edit/" + wmp._id }}
+                          key={"myWMPLink" + wmp._id}
                         >
                           {wmp.name}
                         </Link>
                       </td>
-                      <td>{wmp.GRFUser.handle}</td>
-                      <td>
+                      <td key={"cmmntyWMPsAuthorTd" + wmp._id}>
+                        {wmp.GRFUser === undefined
+                          ? "Unknown User"
+                          : wmp.GRFUser.handle}
+                      </td>
+                      <td key={"cmmntyWMPsCalsTd" + wmp._id}>
                         {wmp.calsBudget === undefined
                           ? 0
                           : wmp.calsBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsCarbsTd" + wmp._id}>
                         {wmp.carbsBudget === undefined
                           ? 0
                           : wmp.carbsBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsProteinTd" + wmp._id}>
                         {wmp.proteinBudget === undefined
                           ? 0
                           : wmp.proteinBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsFatTd" + wmp._id}>
                         {wmp.fatBudget === undefined
                           ? 0
                           : wmp.fatBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsFiberTd" + wmp._id}>
                         {wmp.fiberBudget === undefined
                           ? 0
                           : wmp.fiberBudget.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsBreakfastTd" + wmp._id}>
                         {wmp.breakfastWeight === undefined
                           ? 0
                           : wmp.breakfastWeight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsSnack1Td" + wmp._id}>
                         {wmp.snack1Weight === undefined
                           ? 0
                           : wmp.snack1Weight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsLunchTd" + wmp._id}>
                         {wmp.lunchWeight === undefined
                           ? 0
                           : wmp.lunchWeight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsSnack2Td" + wmp._id}>
                         {wmp.snack2Weight === undefined
                           ? 0
                           : wmp.snack2Weight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsDinnerTd" + wmp._id}>
                         {wmp.dinnerWeight === undefined
                           ? 0
                           : wmp.dinnerWeight.toFixed(2)}
                       </td>
-                      <td>
+                      <td key={"cmmntyWMPsDessertTd" + wmp._id}>
                         {wmp.dessertWeight === undefined
                           ? 0
                           : wmp.dessertWeight.toFixed(2)}

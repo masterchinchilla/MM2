@@ -31,23 +31,28 @@ class Login extends Component {
   toggleShowPassword = (e) => {
     this.setState({ showPassword: e.target.checked });
   };
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    let response;
-    // try {
-    let user = {
+    let userCreds = {
       email: this.state.email,
       password: this.state.password,
     };
-    response = await axios.post("http://localhost:5000/auth", user);
-    const validUserId = response.data._id;
-    localStorage.setItem("token", response.headers["x-auth-token"]);
+    this.props.getCurrentUser(userCreds);
+    // let response;
+    // try {
+    // let userCreds = {
+    //   email: this.state.email,
+    //   password: this.state.password,
+    // };
+    // response = await axios.post("http://localhost:5000/auth", userCreds);
+    // const validUserId = response.data._id;
+    // localStorage.setItem("token", response.headers["x-auth-token"]);
     // const jwt = localStorage.getItem("token");
     // const decodedToken = jwtDecode(response.headers["x-auth-token"]);
     // const thisUsersId=decodedToken.currentGRFUser._id;
-    window.location = "/weekMealPlans/usersWMPs/"+validUserId;
+    // window.location = "/weekMealPlans/usersWMPs/" + validUserId;
     // this.props.getCurrentUser();
-   
+
     // this.props.history.push("/weekMealPlans/usersWMPs/");
     // } catch (error) {
     //   console.log(response);

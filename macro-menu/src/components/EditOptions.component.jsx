@@ -18,9 +18,7 @@ const EditOptions = (props) => {
   const onDeleteRecord = props.onDeleteRecord;
   const deleteMsg = props.deleteMsg;
   const onCancelEditForm = props.onCancelEditForm;
-  const onCreate = props.onCreate;
   const recordChanged = props.recordChanged;
-  const recordToCreate = props.recordToCreate;
   const saveMsg = props.saveMsg;
   const lifeCycleStages = [
     "viewing",
@@ -33,11 +31,8 @@ const EditOptions = (props) => {
     let iconHidden = false;
     if (thisFormState !== "missing") {
       switch (icon) {
-        case "create":
-          iconHidden = true;
-          break;
         case "copy":
-          if (thisFormState === "viewing") {
+          if (thisFormState === "viewing" && objType === "weekMealPlan") {
             iconHidden = false;
           } else {
             iconHidden = true;
@@ -111,34 +106,6 @@ const EditOptions = (props) => {
         <button
           type="button"
           onClick={() => {
-            onCreate(recordToCreate);
-          }}
-          className="iconBttn"
-          hidden={hideIcon("create")}
-        >
-          <FontAwesomeIcon
-            icon="fa-solid fa-circle-plus"
-            size="xl"
-            className="p-1"
-          />
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            onClickCopy(parentObj, objType);
-          }}
-          className="iconBttn"
-        >
-          <FontAwesomeIcon
-            icon="fa-solid fa-copy"
-            size="xl"
-            className="p-1"
-            hidden={hideIcon("copy")}
-          />
-        </button>
-        <button
-          type="button"
-          onClick={() => {
             onClickEditForm(parentObj, objType);
           }}
           className="iconBttn"
@@ -164,7 +131,6 @@ const EditOptions = (props) => {
             hidden={hideIcon("cancel")}
           />
         </button>
-        {/* {objType === ("meal" || "mealIngredient" || "day" || "weekMealPlan") ? ( */}
         <button
           type="button"
           onClick={() => {
@@ -179,25 +145,12 @@ const EditOptions = (props) => {
             hidden={hideIcon("save")}
           />
         </button>
-        {/* ) : (
-          <button type="submit" className="iconBttn">
-            <FontAwesomeIcon
-              icon="fa-solid fa-floppy-disk"
-              size="xl"
-              className={recordChanged === true ? "changingWarning p-1" : "p-1"}
-              hidden={hideIcon("save")}
-            />
-          </button>
-        )} */}
-
         <button
           type="button"
           onClick={() => {
             handleClickDelete();
           }}
           className="iconBttn"
-          // data-bs-toggle="modal"
-          // data-bs-target={"#delete_" + parentObj + "_Warn"}
         >
           <FontAwesomeIcon
             icon="fa-solid fa-trash-can"
@@ -205,6 +158,23 @@ const EditOptions = (props) => {
             className="p-1"
             hidden={hideIcon("delete")}
           />
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            onClickCopy(parentObj, objType);
+          }}
+          className="btn btn-primary wmpCopyBttn"
+          hidden={hideIcon("copy")}
+        >
+          <div className="copyIconCont">
+            <FontAwesomeIcon
+              icon="fa-solid fa-copy"
+              size="xl"
+              className="p-1"
+            />
+          </div>
+          <div className="copyTxtCont">Edit a Copy of this Week Meal Plan</div>
         </button>
       </div>
       <div className="changeWarning" hidden={hideDeleteBlock}>
@@ -263,7 +233,6 @@ const EditOptions = (props) => {
                 type="button"
                 className="btn btn-danger"
                 onClick={() => {
-                  // console.log("confirmed delete");
                   toggleHideDeleteWarning(true);
                   onDeleteRecord(parentObj, objType);
                 }}

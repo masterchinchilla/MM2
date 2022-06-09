@@ -153,152 +153,260 @@ class GRFUserDetail extends Component {
         thisGRFUser
       )
       .then((response) => console.log(response.data))
-      .then((window.location = "/grfusers/"));
+      .then(
+        (window.location =
+          "/weekMealPlans/usersWMPs/" + this.props.match.params.id)
+      );
   }
 
   render() {
     return (
-      <div className="container-fluid pl-4 pr-4">
-        <h1>GRF User Detail</h1>
-        <h2>My Week Meal Plans</h2>
-        <table className="table table-light table-bordered">
-          <thead className="thead thead-light">
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">Week Meal Plan Name</th>
-              <th scope="col">Author</th>
-              <th scope="col">Created</th>
-              <th scope="col">Last Update</th>
-              <th scope="col">Record ID</th>
-            </tr>
-          </thead>
-          <tbody className="tbody tbody-light">
-            {this.listThisUsersWMPs()}
-          </tbody>
-        </table>
-        <form onSubmit={this.onSubmit}>
-          <fieldset>
-            <legend>Name: </legend>
-            <div className="form-group">
-              <label>Prefix: </label>
+      // <div className="container-fluid pl-4 pr-4">
+      //   <h1>GRF User Detail</h1>
+      //   <form onSubmit={this.onSubmit}>
+      //     <fieldset>
+      //       <legend>Name: </legend>
+      //       <div className="form-group">
+      //         <label>Prefix: </label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={this.state.namePrefix}
+      //           onChange={this.onChangeNamePrefix}
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Given Name: </label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={this.state.givenName}
+      //           onChange={this.onChangeGivenName}
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Middle: </label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={this.state.middleName}
+      //           onChange={this.onChangeMiddleName}
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Family Name: </label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={this.state.familyName}
+      //           onChange={this.onChangeFamilyName}
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Suffix: </label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={this.state.nameSuffix}
+      //           onChange={this.onChangeNameSuffix}
+      //         />
+      //       </div>
+      //     </fieldset>
+      //     <br />
+      //     <br />
+      //     <div className="form-group">
+      //       <label>Email: </label>
+      //       <input
+      //         type="text"
+      //         className="form-control"
+      //         value={this.state.email}
+      //         onChange={this.onChangeEmail}
+      //       />
+      //     </div>
+      //     <div className="form-group">
+      //       <label>Password: </label>
+      //       <input
+      //         type="text"
+      //         className="form-control"
+      //         value={this.state.password}
+      //         onChange={this.onChangePassword}
+      //       />
+      //     </div>
+      //     <div className="form-group">
+      //       <label>Handle: </label>
+      //       <input
+      //         type="text"
+      //         className="form-control"
+      //         value={this.state.handle}
+      //         onChange={this.onChangeHandle}
+      //       />
+      //     </div>
+      //     <div className="form-group">
+      //       <label>Cert URL: </label>
+      //       <input
+      //         type="text"
+      //         className="form-control"
+      //         value={this.state.certURL}
+      //         onChange={this.onChangeCertURL}
+      //       />
+      //     </div>
+      //     <div className="form-group">
+      //       <label>Cert Name: </label>
+      //       <input
+      //         type="text"
+      //         className="form-control"
+      //         value={this.state.certName}
+      //         onChange={this.onChangeCertName}
+      //       />
+      //     </div>
+      //     <div className="form-check mt-4">
+      //       <input
+      //         className="form-check-input"
+      //         type="checkbox"
+      //         value=""
+      //         id="flexCheck"
+      //       />
+      //       <label className="form-check-label">Verified?</label>
+      //     </div>
+      //     <div className="form-group mt-2 mb-4">
+      //       <Link
+      //         to={{
+      //           pathname: "/grfusers/",
+      //         }}
+      //       >
+      //         <button type="button" className="btn btn-primary" href="#">
+      //           &lt;&nbsp;go back
+      //         </button>
+      //       </Link>
+      //       <input
+      //         type="submit"
+      //         value="Update GRF User"
+      //         className="btn btn-warning m-3"
+      //         style={{ color: "white" }}
+      //       />
+      //     </div>
+      //   </form>
+      // </div>
+      <div className="card ms-4 me-4 registerCard">
+        <div className="card-header">
+          <h1>GRF User Profile</h1>
+        </div>
+        <div className="card-body">
+          <form className="registerForm" onSubmit={this.onSubmit}>
+            <div className="registerFormRow1">
+              <fieldset className="registerBox1">
+                <legend>Name</legend>
+                <div className="form-group mb-2">
+                  <label className="form-label">Prefix</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.namePrefix}
+                    onChange={this.onChangeNamePrefix}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">
+                    <span className="requiredFldLbl">* </span>Given Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.givenName}
+                    onChange={this.onChangeGivenName}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">Middle</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.middleName}
+                    onChange={this.onChangeMiddleName}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">
+                    <span className="requiredFldLbl">* </span>Family Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.familyName}
+                    onChange={this.onChangeFamilyName}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">Suffix</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.nameSuffix}
+                    onChange={this.onChangeNameSuffix}
+                  />
+                </div>
+              </fieldset>
+              <fieldset className="registerBox2">
+                <div className="form-group mb-2">
+                  <label className="form-label">
+                    <span className="requiredFldLbl">* </span>Email
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.email}
+                    onChange={this.onChangeEmail}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">
+                    <span className="requiredFldLbl">* </span>Handle
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.handle}
+                    onChange={this.onChangeHandle}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">Cert URL</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.certURL}
+                    onChange={this.onChangeCertURL}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">Cert Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.certName}
+                    onChange={this.onChangeCertName}
+                  />
+                </div>
+                <div className="form-check mt-4">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheck"
+                  />
+                  <label className="form-check-label">Verified?</label>
+                </div>
+              </fieldset>
+            </div>
+            <div className="form-group registerFrmGrp">
               <input
-                type="text"
-                className="form-control"
-                value={this.state.namePrefix}
-                onChange={this.onChangeNamePrefix}
+                type="submit"
+                value="Update"
+                className="btn-lg btn-primary registerSubmit"
               />
             </div>
-            <div className="form-group">
-              <label>Given Name: </label>
-              <input
-                type="text"
-                className="form-control"
-                value={this.state.givenName}
-                onChange={this.onChangeGivenName}
-              />
-            </div>
-            <div className="form-group">
-              <label>Middle: </label>
-              <input
-                type="text"
-                className="form-control"
-                value={this.state.middleName}
-                onChange={this.onChangeMiddleName}
-              />
-            </div>
-            <div className="form-group">
-              <label>Family Name: </label>
-              <input
-                type="text"
-                className="form-control"
-                value={this.state.familyName}
-                onChange={this.onChangeFamilyName}
-              />
-            </div>
-            <div className="form-group">
-              <label>Suffix: </label>
-              <input
-                type="text"
-                className="form-control"
-                value={this.state.nameSuffix}
-                onChange={this.onChangeNameSuffix}
-              />
-            </div>
-          </fieldset>
-          <br />
-          <br />
-          <div className="form-group">
-            <label>Email: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.email}
-              onChange={this.onChangeEmail}
-            />
-          </div>
-          <div className="form-group">
-            <label>Password: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.password}
-              onChange={this.onChangePassword}
-            />
-          </div>
-          <div className="form-group">
-            <label>Handle: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.handle}
-              onChange={this.onChangeHandle}
-            />
-          </div>
-          <div className="form-group">
-            <label>Cert URL: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.certURL}
-              onChange={this.onChangeCertURL}
-            />
-          </div>
-          <div className="form-group">
-            <label>Cert Name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.certName}
-              onChange={this.onChangeCertName}
-            />
-          </div>
-          <div className="form-check mt-4">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheck"
-            />
-            <label className="form-check-label">Verified?</label>
-          </div>
-          <div className="form-group mt-2 mb-4">
-            <Link
-              to={{
-                pathname: "/grfusers/",
-              }}
-            >
-              <button type="button" className="btn btn-primary" href="#">
-                &lt;&nbsp;go back
-              </button>
-            </Link>
-            <input
-              type="submit"
-              value="Update GRF User"
-              className="btn btn-warning m-3"
-              style={{ color: "white" }}
-            />
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     );
   }

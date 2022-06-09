@@ -72,9 +72,9 @@ const DayDetail = (props) => {
         );
       }
     } else {
-      let thisMealTypesMeals = props.allMeals.filter(
-        (meal) => meal.mealType.code === thisMealTypeCode
-      );
+      // let thisMealTypesMeals = props.allMeals.filter(
+      //   (meal) => meal.mealType.code === thisMealTypeCode
+      // );
       let thisMealTypesRecipes = props.allGenRecipes.filter(
         (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
       );
@@ -103,12 +103,12 @@ const DayDetail = (props) => {
           thisStateObj={thisMealStateObj}
           hasChildren={mealHasChildren}
           thisGRFUser={props.thisGRFUser}
-          allGRFUsers={props.allGRFUsers}
-          allDays={props.allDays}
+          // allGRFUsers={props.allGRFUsers}
+          // allDays={props.allDays}
           thisMealTypesRecipes={thisMealTypesRecipes}
           mealTypes={props.mealTypes}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
-          thisMealTypesMeals={thisMealTypesMeals}
+          // thisMealTypesMeals={thisMealTypesMeals}
           allUnitOfMeasures={props.allUnitOfMeasures}
           allWeightTypes={props.allWeightTypes}
           allBrands={props.allBrands}

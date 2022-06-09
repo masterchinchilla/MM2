@@ -1,10 +1,16 @@
 .inputRowWRightIcons {
-  display: flex;
-  margin:0.5rem 0.25rem auto auto;
-  justify-content: space-between;
+}
+.wmpNameFrmGroup{
+  width:100%;
+  margin-left: 0.25rem;
+}
+.wmpNameLbl{
+  grid-area: wmpNameLbl;
+  margin-bottom: 0.5rem;
 }
 .iconGroup {
   white-space: nowrap;
+  display: flex;
 }
 button.iconBttn {
   color: unset;
@@ -494,13 +500,18 @@ h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
 .wmpCardBody{
 }
 .wmpCardHeader{
-  display: unset;
+  display: flex;
+  justify-content: space-between;
+  padding:0.5rem !important;
 }
 .weekMealPlanFormCards{
   margin:1rem !important;
 }
 .wmpNameInput{
   margin-right:0.5rem;
+  width: -webkit-fill-available !important;
+  grid-area: wmpNameInput;
+  height:2.1rem;
 }
 .wmpInnerAccordion{
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
@@ -544,7 +555,63 @@ form fieldset{
   grid-area:registerBox2;
 } */
 .registerSubmit{
-  /* grid-area:registerSubmit; */
-  margin:1rem 1.25rem;
-  width:15rem;
+      /* grid-area: registerSubmit; */
+        margin: 0 1rem 0.5rem 0;
+        width: 15rem;
+}
+.wmpCopyBttn{
+  font-size: 0.75rem !important;
+  white-space: normal;
+  padding: 0.25rem 0.4rem 0.25rem 0.2rem !important;
+  margin:0 0 0 0.25rem !important;
+}
+.copyIconCont{
+  height:3.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width:min-content;
+  padding:0;
+}
+.copyIconCont svg {
+  margin:unset !important;
+}
+.copyTxtCont{
+  width: 4.1rem;
+  margin-left: 0.25rem;
+  text-align: left !important;
+}
+.alreadyRegistered{
+        padding: 0;
+        margin: 0 0 0 0.5rem;
+}
+.registerFrmGrp{
+      display: flex;
+        align-items: center;
+        /* width: 100%; */
+        flex-wrap: wrap;
+        margin: 1rem;
+}
+.fa-circle-user{
+  color:white;
+  height:2rem;
+}
+.navbar-nav{
+  display: flex;
+}
+.navUserLi{
+      display: flex;
+        margin: 0 !important;
+        align-items: center;
+}
+.profileDDBttn{
+  background-color:unset !important;
+  border-style:none !important;
+}
+.profileDDBttn::before{
+  display:none !important;
+}
+.profileDDLi{
+  padding:0 !important;
 }
