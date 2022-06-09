@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class CreateGRFUser extends Component {
   constructor(props) {
@@ -19,6 +20,11 @@ class CreateGRFUser extends Component {
       verified: false,
       submitError: "",
       showPassword: false,
+      pWordHasCapLetter: false,
+      pWordHasLCaseLetter: false,
+      pWordHasNum: false,
+      pWordHasSpChar: false,
+      pWord8Chars: false,
     };
   }
 
@@ -53,8 +59,23 @@ class CreateGRFUser extends Component {
     });
   };
   onChangePassword = (e) => {
+    let typedPWord = e.target.value;
+    let pWordHasCapLetterPattern = /[A-Z]/;
+    let pWordHasLCaseLetterPattern = /[a-z]/;
+    let pWordHasNumPattern = /\d/;
+    let pWordHasSpCharPattern = /[^\w\s]/;
+    let pWordHasCapLetter = pWordHasCapLetterPattern.test(typedPWord);
+    let pWordHasLCaseLetter = pWordHasLCaseLetterPattern.test(typedPWord);
+    let pWordHasNum = pWordHasNumPattern.test(typedPWord);
+    let pWordHasSpChar = pWordHasSpCharPattern.test(typedPWord);
+    let pWord8Chars = typedPWord.length > 7;
     this.setState({
       password: e.target.value,
+      pWordHasCapLetter: pWordHasCapLetter,
+      pWordHasLCaseLetter: pWordHasLCaseLetter,
+      pWordHasNum: pWordHasNum,
+      pWordHasSpChar: pWordHasSpChar,
+      pWord8Chars: pWord8Chars,
     });
   };
   onChangeHandle = (e) => {
@@ -200,25 +221,128 @@ class CreateGRFUser extends Component {
                     value={this.state.password}
                     onChange={this.onChangePassword}
                   />
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value={this.state.showPassword}
-                      id="flexCheckDefault"
-                      onChange={this.toggleShowPassword}
-                      checked={this.state.showPassword}
+                  <div className="rgstrShwPWrdRow">
+                    <div className="form-check rgstrShwPwrdChck">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={this.state.showPassword}
+                        id="flexCheckDefault"
+                        onChange={this.toggleShowPassword}
+                        checked={this.state.showPassword}
+                      />
+                      <label
+                        className="form-check-label"
+                        // htmlFor="flexCheckDefault"
+                      >
+                        Show Password?
+                      </label>
+                    </div>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-check"
+                      className="pWordStrngthChkMrk"
+                      hidden={
+                        !this.state.pWordHasCapLetter ||
+                        !this.state.pWordHasLCaseLetter ||
+                        !this.state.pWordHasNum ||
+                        !this.state.pWordHasSpChar ||
+                        !this.state.pWord8Chars
+                      }
                     />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Show Password?
-                    </label>
+                  </div>
+                  <div className="pWordStrengthChckr form-control">
+                    <h6 className="rgstrStrengthChckrHdr">
+                      Password Requirements:
+                    </h6>
+                    <div className="form-check rgstrFrmChckItm">
+                      <input
+                        className="form-check-input rgstrChckBox"
+                        type="checkbox"
+                        value={this.state.pWordHasCapLetter}
+                        // id="flexCheckDefault"
+                        onChange={() => {}}
+                        checked={this.state.pWordHasCapLetter}
+                        readOnly
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        At least 1 Capital A-Z
+                      </label>
+                    </div>
+                    <div className="form-check rgstrFrmChckItm">
+                      <input
+                        className="form-check-input rgstrChckBox"
+                        type="checkbox"
+                        value={this.state.pWordHasLCaseLetter}
+                        // id="flexCheckDefault"
+                        onChange={() => {}}
+                        checked={this.state.pWordHasLCaseLetter}
+                        readOnly
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        At least 1 lowercase a-z
+                      </label>
+                    </div>
+                    <div className="form-check rgstrFrmChckItm">
+                      <input
+                        className="form-check-input rgstrChckBox"
+                        type="checkbox"
+                        value={this.state.pWordHasNum}
+                        // id="flexCheckDefault"
+                        onChange={() => {}}
+                        checked={this.state.pWordHasNum}
+                        readOnly
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        At least 1 number
+                      </label>
+                    </div>
+                    <div className="form-check rgstrFrmChckItm">
+                      <input
+                        className="form-check-input rgstrChckBox"
+                        type="checkbox"
+                        value={this.state.pWordHasSpChar}
+                        // id="flexCheckDefault"
+                        onChange={() => {}}
+                        checked={this.state.pWordHasSpChar}
+                        readOnly
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        At least 1 special character
+                      </label>
+                    </div>
+                    <div className="form-check rgstrFrmChckItm">
+                      <input
+                        className="form-check-input rgstrChckBox"
+                        type="checkbox"
+                        value={this.state.pWord8Chars}
+                        // id="flexCheckDefault"
+                        onChange={() => {}}
+                        checked={this.state.pWord8Chars}
+                        readOnly
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        At least 8 characters
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div className="form-group mb-2">
-                  <label className="form-label">
+                  <label className="form-label pWordHndlLbl">
                     <span className="requiredFldLbl">* </span>Handle
                   </label>
                   <input

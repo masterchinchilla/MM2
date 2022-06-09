@@ -615,3 +615,37 @@ form fieldset{
 .profileDDLi{
   padding:0 !important;
 }
+.rgstrShwPWrdRow{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pWordStrngthChkMrk{
+  color:green;
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+.pWordStrengthChckr{
+  font-size: 0.75rem !important;
+        width: 12rem !important;
+        float: right;
+        margin-top: 0.5rem;
+}
+.rgstrFrmChckItm{
+  min-height: unset !important;
+  margin: unset !important;
+}
+.rgstrFrmChckItm label{
+  margin-left:0.25rem;
+  
+}
+.rgstrStrengthChckrHdr{
+  font-size: 0.75rem;
+}
+.pWordHndlLbl{
+  width:100%;
+}
+.rgstrChckBox:checked {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+}
