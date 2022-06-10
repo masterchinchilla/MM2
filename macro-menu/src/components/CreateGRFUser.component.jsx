@@ -99,12 +99,6 @@ class CreateGRFUser extends Component {
     });
   };
   toggleShowPassword = (e) => {
-    // if ((this.state.showPassword = false)) {
-    //   this.setState({ showPassword: true });
-    // } else {
-    //   this.setState({ showPassword: false });
-    // }
-    console.log(e);
     this.setState({ showPassword: e.target.checked });
   };
   onSubmit = (e) => {
@@ -123,19 +117,10 @@ class CreateGRFUser extends Component {
       verified: this.state.verified,
     };
     this.props.createNewUser(GRFUser);
-    // axios
-    //   .post("http://localhost:5000/GRFUsers/add", GRFUser)
-    //   .then((response) => {
-    //     if (response.status === 400) {
-    //       this.setState({ submitError: response });
-    //     } else {
-
-    //       localStorage.setItem("token", response.headers["x-auth-token"]);
-    //       window.location = "/grfusers/";
-    //     }
-    //   });
   };
-
+  validate = () => {
+    const errors = {};
+  };
   render() {
     return (
       <div className="card ms-4 me-4 registerCard">
@@ -374,8 +359,9 @@ class CreateGRFUser extends Component {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
+                    value={this.state.verified}
                     id="flexCheck"
+                    disabled
                   />
                   <label className="form-check-label">Verified?</label>
                 </div>

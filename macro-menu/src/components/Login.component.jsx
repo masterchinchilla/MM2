@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
+import { Link } from "react-router-dom";
+import Joi from "joi-browser";
 
 //test user credentials:
 //email:johnQPublic@gmail.com
@@ -11,53 +10,58 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      account: {
+        email: "",
+        password: "",
+      },
+      // email: "",
+      // password: "",
       errors: {},
+      // username:'Username is required.',
+      //   password:'Password is required'
       showPassword: false,
       currentGRFUser: this.props.currentGRFUser,
     };
   }
-  handleUpdateEmail = (e) => {
-    this.setState({
-      email: e.target.value,
+  schema = {
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  };
+  validate = () => {
+    const result = Joi.validate(this.state.account, this.schema, {
+      abortEarly: false,
     });
+    if (!result.error) return null;
+    const errors = {};
+    for (let item of result.error.details) errors[item.path[0]] = item.message;
+    return errors;
+  };
+  handleUpdateEmail = (e) => {
+    let account = { email: "", password: this.state.account.password };
+    account.email = e.target.value;
+    this.setState({ account });
   };
   handleUpdatePassword = (e) => {
-    this.setState({
-      password: e.target.value,
-    });
+    let account = { email: this.state.account.email, password: "" };
+    account.password = e.target.value;
+    this.setState({ account });
   };
   toggleShowPassword = (e) => {
     this.setState({ showPassword: e.target.checked });
   };
   handleSubmit = (e) => {
-    e.preventDefault();
-    let userCreds = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    this.props.getCurrentUser(userCreds);
-    // let response;
-    // try {
-    // let userCreds = {
-    //   email: this.state.email,
-    //   password: this.state.password,
-    // };
-    // response = await axios.post("http://localhost:5000/auth", userCreds);
-    // const validUserId = response.data._id;
-    // localStorage.setItem("token", response.headers["x-auth-token"]);
-    // const jwt = localStorage.getItem("token");
-    // const decodedToken = jwtDecode(response.headers["x-auth-token"]);
-    // const thisUsersId=decodedToken.currentGRFUser._id;
-    // window.location = "/weekMealPlans/usersWMPs/" + validUserId;
-    // this.props.getCurrentUser();
-
-    // this.props.history.push("/weekMealPlans/usersWMPs/");
-    // } catch (error) {
-    //   console.log(response);
-    // }
-    // .then((response) => console.log(response));
+    // e.preventDefault();
+    let account = this.state.account;
+    console.log(account);
+    const errors = this.validate();
+    this.setState({ errors });
+    if (errors) {
+      console.log(errors);
+      return;
+    } else {
+      console.log(account);
+      // this.props.getCurrentUser(account);
+    }
   };
   render() {
     return (
@@ -74,9 +78,14 @@ class Login extends Component {
               <input
                 type={"text"}
                 className="form-control"
-                value={this.state.email}
+                value={this.state.account.email}
                 onChange={this.handleUpdateEmail}
               />
+              {!this.state.errors.email ? (
+                ""
+              ) : (
+                <div className="alert alert-danger">Email is required.</div>
+              )}
             </div>
             <div className="form-group m-2">
               <label className="form-label mb-2">
@@ -85,9 +94,14 @@ class Login extends Component {
               <input
                 type={this.state.showPassword === true ? "text" : "password"}
                 className="form-control"
-                value={this.state.password}
+                value={this.state.account.password}
                 onChange={this.handleUpdatePassword}
               />
+              {!this.state.errors.password ? (
+                ""
+              ) : (
+                <div className="alert alert-danger">Password is required.</div>
+              )}
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -102,15 +116,6 @@ class Login extends Component {
                 </label>
               </div>
             </div>
-            {/* <div className="form-group m-2">
-              <label className="mb-2">Password</label>
-              <input
-                type={"password"}
-                className="form-control"
-                value={this.state.password}
-                onChange={this.handleUpdatePassword}
-              />
-            </div> */}
             <div className="form-group">
               <input
                 type="submit"

@@ -28,7 +28,7 @@ class Navbar extends Component {
     const currentGRFUser = this.state.currentGRFUser;
     const jwt = this.state.jwt;
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark ps-4 pe-2">
+      <nav className="navbar navbar-dark bg-dark ps-4 pe-2">
         <Link
           to={
             !jwt
