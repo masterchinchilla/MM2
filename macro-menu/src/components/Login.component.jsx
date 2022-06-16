@@ -5,6 +5,7 @@ import Joi from "joi-browser";
 //test user credentials:
 //email:johnQPublic@gmail.com
 //password:johnQPublic@GRF2022
+//comment
 
 class Login extends Component {
   constructor(props) {
@@ -16,7 +17,10 @@ class Login extends Component {
       },
       // email: "",
       // password: "",
-      errors: {},
+      errors: {
+        email: "",
+        password: "",
+      },
       // username:'Username is required.',
       //   password:'Password is required'
       showPassword: false,
@@ -24,46 +28,62 @@ class Login extends Component {
     };
   }
   schema = {
-    email: Joi.string().required(),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   };
-  validate = () => {
+  validateForm = () => {
     const result = Joi.validate(this.state.account, this.schema, {
       abortEarly: false,
     });
+    console.log(result);
     if (!result.error) return null;
     const errors = {};
     for (let item of result.error.details) errors[item.path[0]] = item.message;
     return errors;
   };
+  validateProp = (name, value) => {
+    const obj = { [name]: value };
+    const subSchema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(
+      obj,
+      subSchema
+      // ,{abortEarly: false,}
+    );
+    return error ? error.details[0].message : null;
+  };
   handleUpdateEmail = (e) => {
     let account = { email: "", password: this.state.account.password };
     account.email = e.target.value;
-    this.setState({ account });
+    const errors = { email: "", password: this.state.errors.password };
+    errors.email = this.validateProp("email", account.email);
+    this.setState({ account: account, errors: errors });
   };
   handleUpdatePassword = (e) => {
     let account = { email: this.state.account.email, password: "" };
     account.password = e.target.value;
-    this.setState({ account });
+    const errors = { email: this.state.errors.email, password: "" };
+    errors.password = this.validateProp("password", account.password);
+    this.setState({ account: account, errors: errors });
   };
   toggleShowPassword = (e) => {
     this.setState({ showPassword: e.target.checked });
   };
   handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     let account = this.state.account;
     console.log(account);
-    const errors = this.validate();
+    const errors = this.validateForm();
     this.setState({ errors });
     if (errors) {
       console.log(errors);
       return;
     } else {
       console.log(account);
-      // this.props.getCurrentUser(account);
+      this.props.getCurrentUser(account);
     }
   };
   render() {
+    console.log(window.location.pathname);
     return (
       <div className="card m-5">
         <div className="card-header">
@@ -81,11 +101,11 @@ class Login extends Component {
                 value={this.state.account.email}
                 onChange={this.handleUpdateEmail}
               />
-              {!this.state.errors.email ? (
-                ""
-              ) : (
-                <div className="alert alert-danger">Email is required.</div>
-              )}
+              {this.state.errors.email ? (
+                <div className="alert alert-danger">
+                  {this.state.errors.email}
+                </div>
+              ) : null}
             </div>
             <div className="form-group m-2">
               <label className="form-label mb-2">
@@ -97,11 +117,11 @@ class Login extends Component {
                 value={this.state.account.password}
                 onChange={this.handleUpdatePassword}
               />
-              {!this.state.errors.password ? (
-                ""
-              ) : (
-                <div className="alert alert-danger">Password is required.</div>
-              )}
+              {this.state.errors.password ? (
+                <div className="alert alert-danger">
+                  {this.state.errors.password}
+                </div>
+              ) : null}
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -122,6 +142,12 @@ class Login extends Component {
                 value="Submit"
                 className="btn btn-primary mt-4 mb-1"
                 style={{ marginLeft: "0.5rem" }}
+                disabled={
+                  this.state.errors.email === null &&
+                  this.state.errors.password === null
+                    ? false
+                    : true
+                }
               />
             </div>
             <div className="text-center mt-4">

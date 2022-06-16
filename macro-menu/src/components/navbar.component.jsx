@@ -58,6 +58,7 @@ class Navbar extends Component {
             className="btn btn-secondary dropdown-toggle profileDDBttn"
             data-bs-toggle="dropdown"
             aria-expanded="false"
+            disabled={window.location.pathname === "/" ? true : false}
           >
             <FontAwesomeIcon icon="fa-solid fa-circle-user" />
           </button>
