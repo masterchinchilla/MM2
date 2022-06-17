@@ -33,13 +33,18 @@ const App = (props) => {
   async function getCurrentUser(userCreds) {
     let response;
     response = await axios.post("http://localhost:5000/auth", userCreds);
-    const token = response.headers["x-auth-token"];
-    localStorage.setItem("token", token);
-    const decodedToken = jwtDecode(token);
-    currentGRFUser = decodedToken.currentGRFUser;
-    console.log(currentGRFUser);
-    const thisUsersId = decodedToken.currentGRFUser._id;
-    window.location = "/weekMealPlans/usersWMPs/" + thisUsersId;
+    if (response.status === 401) {
+      console.log(response);
+      return response.data.errors;
+    } else {
+      const token = response.headers["x-auth-token"];
+      localStorage.setItem("token", token);
+      const decodedToken = jwtDecode(token);
+      currentGRFUser = decodedToken.currentGRFUser;
+      const thisUsersId = decodedToken.currentGRFUser._id;
+      // window.location = "/weekMealPlans/usersWMPs/" + thisUsersId;
+      return currentGRFUser;
+    }
   }
   async function createNewUser(newUser) {
     let response;
@@ -110,7 +115,7 @@ const App = (props) => {
             <Login
               {...props}
               getCurrentUser={getCurrentUser}
-              thisGRFUser={currentGRFUser}
+              // thisGRFUser={currentGRFUser}
             />
           )}
         />

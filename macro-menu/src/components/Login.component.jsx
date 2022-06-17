@@ -24,21 +24,21 @@ class Login extends Component {
       // username:'Username is required.',
       //   password:'Password is required'
       showPassword: false,
-      currentGRFUser: this.props.currentGRFUser,
+      // currentGRFUser: this.props.currentGRFUser,
     };
   }
   schema = {
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
+    email: Joi.string().required().min(6).max(100).email(),
+    password: Joi.string().required().min(8).max(100),
   };
   validateForm = () => {
     const result = Joi.validate(this.state.account, this.schema, {
       abortEarly: false,
     });
-    console.log(result);
     if (!result.error) return null;
     const errors = {};
     for (let item of result.error.details) errors[item.path[0]] = item.message;
+    console.log(errors);
     return errors;
   };
   validateProp = (name, value) => {
@@ -55,14 +55,14 @@ class Login extends Component {
     let account = { email: "", password: this.state.account.password };
     account.email = e.target.value;
     const errors = { email: "", password: this.state.errors.password };
-    errors.email = this.validateProp("email", account.email);
+    // errors.email = this.validateProp("email", account.email);
     this.setState({ account: account, errors: errors });
   };
   handleUpdatePassword = (e) => {
     let account = { email: this.state.account.email, password: "" };
     account.password = e.target.value;
     const errors = { email: this.state.errors.email, password: "" };
-    errors.password = this.validateProp("password", account.password);
+    // errors.password = this.validateProp("password", account.password);
     this.setState({ account: account, errors: errors });
   };
   toggleShowPassword = (e) => {
@@ -71,19 +71,21 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     let account = this.state.account;
-    console.log(account);
     const errors = this.validateForm();
     this.setState({ errors });
     if (errors) {
       console.log(errors);
       return;
     } else {
-      console.log(account);
-      this.props.getCurrentUser(account);
+      const res = this.props.getCurrentUser(account);
+      if (!res.errors) {
+        return null;
+      } else {
+        this.setState({ errors: res.errors });
+      }
     }
   };
   render() {
-    console.log(window.location.pathname);
     return (
       <div className="card m-5">
         <div className="card-header">
@@ -142,12 +144,12 @@ class Login extends Component {
                 value="Submit"
                 className="btn btn-primary mt-4 mb-1"
                 style={{ marginLeft: "0.5rem" }}
-                disabled={
-                  this.state.errors.email === null &&
-                  this.state.errors.password === null
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   this.state.errors.email === null &&
+                //   this.state.errors.password === null
+                //     ? false
+                //     : true
+                // }
               />
             </div>
             <div className="text-center mt-4">

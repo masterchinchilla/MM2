@@ -20,7 +20,6 @@ class Navbar extends Component {
     } else {
       this.setState({ jwt: jwt });
       const decodedToken = jwtDecode(jwt);
-      console.log(decodedToken);
       this.setState({ currentGRFUser: decodedToken.currentGRFUser });
     }
   }
