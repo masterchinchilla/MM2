@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import _ from "lodash";
+import Joi from "joi-browser";
 import Bootstrap from "bootstrap";
 import Popper from "popper.js";
 import "./App.css";
@@ -28,22 +30,79 @@ import WeekMealPlanDetailAdmin from "./components/adminVersions/WeekMealPlanDeta
 import Login from "./components/Login.component";
 import Logout from "./components/Logout.component";
 library.add(fas);
+
 const App = (props) => {
+  const [account, updateAccount] = useState({ email: "", password: "" });
+  const [authErrors, updateAuthErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const schema = Joi.object({
+    email: Joi.string().required().min(6).max(100).email(),
+    password: Joi.string().required().min(8).max(100),
+  });
+  function updateAccountProp(prop, e) {
+    console.log(prop);
+    console.log(e.target.value);
+    let updatedAcct = _.cloneDeep(account);
+    updatedAcct[prop] = e.target.value;
+
+    updateAccount(updatedAcct);
+    let errors = validateProp(prop, e.target.value);
+    console.log(errors);
+    // updateAuthErrors(errors);
+  }
+  function validateProp(name, value) {
+    const obj = { [name]: value };
+    function findItem(eachItem) {
+      return eachItem.key === name;
+    }
+    let theseSchemaItems = schema._inner.children;
+    let thisSchemaItem = theseSchemaItems.filter(findItem);
+    const subSchema = thisSchemaItem;
+    console.log(subSchema);
+    const { error } = Joi.validate(obj, subSchema, { abortEarly: false });
+    return error ? error.details[0].message : null;
+  }
+  function validateForm() {
+    const result = Joi.validate(account, schema, {
+      abortEarly: false,
+    });
+    if (!result.error) return null;
+    const errors = {};
+    for (let item of result.error.details) errors[item.path[0]] = item.message;
+    return errors;
+  }
   let currentGRFUser = {};
-  async function getCurrentUser(userCreds) {
-    let response;
-    response = await axios.post("http://localhost:5000/auth", userCreds);
-    if (response.status === 401) {
-      console.log(response);
-      return response.data.errors;
+  function getCurrentUser() {
+    const errors = validateForm();
+    if (errors) {
+      updateAuthErrors(errors);
+      return;
     } else {
-      const token = response.headers["x-auth-token"];
-      localStorage.setItem("token", token);
-      const decodedToken = jwtDecode(token);
-      currentGRFUser = decodedToken.currentGRFUser;
-      const thisUsersId = decodedToken.currentGRFUser._id;
-      // window.location = "/weekMealPlans/usersWMPs/" + thisUsersId;
-      return currentGRFUser;
+      axios
+        .post("http://localhost:5000/auth", account)
+        .then((result) => {
+          const token = result.headers["x-auth-token"];
+          localStorage.setItem("token", token);
+          const decodedToken = jwtDecode(token);
+          currentGRFUser = decodedToken.currentGRFUser;
+          const thisUsersId = decodedToken.currentGRFUser._id;
+          // window.location = "/weekMealPlans/usersWMPs/" + thisUsersId;
+        })
+        .catch((error) => {
+          if (error.status === 400) {
+            updateAuthErrors({
+              email: "account failed server-side validation",
+              password: "account failed server-side validation",
+            });
+          } else {
+            updateAuthErrors({
+              email: "invalid email or password",
+              password: "invalid email or password",
+            });
+          }
+        });
     }
   }
   async function createNewUser(newUser) {
@@ -115,7 +174,9 @@ const App = (props) => {
             <Login
               {...props}
               getCurrentUser={getCurrentUser}
-              // thisGRFUser={currentGRFUser}
+              updateAccountProp={updateAccountProp}
+              account={account}
+              authErrors={authErrors}
             />
           )}
         />
