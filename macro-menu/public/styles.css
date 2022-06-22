@@ -649,3 +649,15 @@ form fieldset{
   background-color: #198754 !important;
   border-color: #198754 !important;
 }
+.submitBttnWRightErrs{
+  display: flex;
+  align-items: stretch;
+  margin: 1.5rem 1rem;
+}
+.submitBttnWRightErrs input {
+  margin: 0 1rem 0 0;
+}
+.submitBttnWRightErrs div {
+  padding: 0.5rem 1rem;
+  margin:unset;
+}

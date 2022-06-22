@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Joi from "joi-browser";
-
+import jwtDecode from "jwt-decode";
+import axios from "axios";
 //test user credentials:
 //email:johnQPublic@gmail.com
 //password:johnQPublic@GRF2022
@@ -15,27 +16,31 @@ class Login extends Component {
         email: "",
         password: "",
       },
-      // email: "",
-      // password: "",
       errors: {
-        email: "",
-        password: "",
+        email: null,
+        password: null,
       },
-      // username:'Username is required.',
-      //   password:'Password is required'
+      authErrors: null,
       showPassword: false,
       currentGRFUser: this.props.currentGRFUser,
     };
   }
   schema = {
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
+    email: Joi.string().min(6).required().email(),
+    password: Joi.string().min(8).required(),
   };
+  componentDidMount() {
+    let serverAuthErrors = this.props.serverAuthErrors;
+    if (serverAuthErrors) {
+      this.setState({
+        errors: { email: serverAuthErrors, password: serverAuthErrors },
+      });
+    }
+  }
   validateForm = () => {
     const result = Joi.validate(this.state.account, this.schema, {
       abortEarly: false,
     });
-    console.log(result);
     if (!result.error) return null;
     const errors = {};
     for (let item of result.error.details) errors[item.path[0]] = item.message;
@@ -54,36 +59,41 @@ class Login extends Component {
   handleUpdateEmail = (e) => {
     let account = { email: "", password: this.state.account.password };
     account.email = e.target.value;
-    const errors = { email: "", password: this.state.errors.password };
-    errors.email = this.validateProp("email", account.email);
-    this.setState({ account: account, errors: errors });
+    const valErrors = { email: "", password: this.state.errors.password };
+    valErrors.email = this.validateProp("email", account.email);
+    this.setState({ account: account, errors: valErrors, authErrors: null });
   };
   handleUpdatePassword = (e) => {
     let account = { email: this.state.account.email, password: "" };
     account.password = e.target.value;
-    const errors = { email: this.state.errors.email, password: "" };
-    errors.password = this.validateProp("password", account.password);
-    this.setState({ account: account, errors: errors });
+    const valErrors = { email: this.state.errors.email, password: "" };
+    valErrors.password = this.validateProp("password", account.password);
+    this.setState({ account: account, errors: valErrors, authErrors: null });
   };
   toggleShowPassword = (e) => {
     this.setState({ showPassword: e.target.checked });
   };
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     let account = this.state.account;
-    console.log(account);
-    const errors = this.validateForm();
-    this.setState({ errors });
-    if (errors) {
-      console.log(errors);
+    const valErrors = this.validateForm();
+    if (valErrors) {
+      this.setState({ errors: valErrors });
       return;
     } else {
-      console.log(account);
-      this.props.getCurrentUser(account);
+      let response;
+      try {
+        response = await axios.post("http://localhost:5000/auth", account);
+        const token = response.headers["x-auth-token"];
+        this.props.getCurrentUser(token);
+      } catch (authErrors) {
+        this.setState({
+          authErrors: authErrors.response.data,
+        });
+      }
     }
   };
   render() {
-    console.log(window.location.pathname);
     return (
       <div className="card m-5">
         <div className="card-header">
@@ -136,19 +146,26 @@ class Login extends Component {
                 </label>
               </div>
             </div>
-            <div className="form-group">
+            <div className="form-group submitBttnWRightErrs">
               <input
                 type="submit"
                 value="Submit"
-                className="btn btn-primary mt-4 mb-1"
-                style={{ marginLeft: "0.5rem" }}
+                className="btn btn-primary"
                 disabled={
+                  this.state.account.email !== "" &&
+                  this.state.account.password !== "" &&
                   this.state.errors.email === null &&
-                  this.state.errors.password === null
+                  this.state.errors.password === null &&
+                  this.state.authErrors === null
                     ? false
                     : true
                 }
               />
+              {this.state.authErrors ? (
+                <div className="alert alert-danger">
+                  {this.state.authErrors}
+                </div>
+              ) : null}
             </div>
             <div className="text-center mt-4">
               <p>

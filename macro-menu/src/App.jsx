@@ -30,14 +30,18 @@ import Logout from "./components/Logout.component";
 library.add(fas);
 const App = (props) => {
   let currentGRFUser = {};
-  async function getCurrentUser(userCreds) {
-    let response;
-    response = await axios.post("http://localhost:5000/auth", userCreds);
-    const token = response.headers["x-auth-token"];
-    localStorage.setItem("token", token);
+  let serverAuthErrors = "";
+  async function getCurrentUser(token) {
+    // let response;
+    // response = await axios.post("http://localhost:5000/auth", userCreds);
+    // const errors = response.headers["x-auth-errors"];
+    // if (errors) {
+    //   serverAuthErrors = errors;
+    // } else {
+    //   const token = response.headers["x-auth-token"];
+    //   localStorage.setItem("token", token);
     const decodedToken = jwtDecode(token);
     currentGRFUser = decodedToken.currentGRFUser;
-    console.log(currentGRFUser);
     const thisUsersId = decodedToken.currentGRFUser._id;
     window.location = "/weekMealPlans/usersWMPs/" + thisUsersId;
   }
@@ -47,9 +51,7 @@ const App = (props) => {
     const token = response.headers["x-auth-token"];
     localStorage.setItem("token", token);
     const decodedToken = jwtDecode(token);
-    console.log(decodedToken);
     currentGRFUser = decodedToken.currentGRFUser;
-    console.log(currentGRFUser);
     const thisUsersId = decodedToken.currentGRFUser._id;
     window.location = "/weekMealPlans/usersWMPs/" + thisUsersId;
   }
@@ -91,7 +93,7 @@ const App = (props) => {
         {/* <Route exact path={"/weekMealPlans/usersWMPs/" + currentGRFUser._id}>
           <WeekMealPlansList2 getCurrentUser={getCurrentUser} />
         </Route> */}
-        {/* <Route exact path="/grfuser/create" component={CreateGRFUser} /> */}
+        <Route exact path="/grfuser/create" component={CreateGRFUser} />
         <Route
           exact
           path="/grfuser/create"
@@ -111,6 +113,7 @@ const App = (props) => {
               {...props}
               getCurrentUser={getCurrentUser}
               thisGRFUser={currentGRFUser}
+              serverAuthErrors={serverAuthErrors}
             />
           )}
         />
