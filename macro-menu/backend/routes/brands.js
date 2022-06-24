@@ -16,4 +16,15 @@ router.route('/').get((req, res)=>{
         .then(brands=>res.json(brands))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/add').post((req, res)=>{
+    const name=req.body.name;
+    const GRFUser=req.body.GRFUser;
+    const newBrand=new Brand({
+        name,
+        GRFUser
+    });
+    newBrand.save()
+        .then(()=>res.json(newBrand))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 module.exports=router;

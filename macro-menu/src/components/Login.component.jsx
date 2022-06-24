@@ -49,11 +49,7 @@ class Login extends Component {
   validateProp = (name, value) => {
     const obj = { [name]: value };
     const subSchema = { [name]: this.schema[name] };
-    const { error } = Joi.validate(
-      obj,
-      subSchema
-      // ,{abortEarly: false,}
-    );
+    const { error } = Joi.validate(obj, subSchema);
     return error ? error.details[0].message : null;
   };
   handleUpdateEmail = (e) => {
@@ -85,6 +81,7 @@ class Login extends Component {
       try {
         response = await axios.post("http://localhost:5000/auth", account);
         const token = response.headers["x-auth-token"];
+        localStorage.setItem("token", token);
         this.props.getCurrentUser(token);
       } catch (authErrors) {
         this.setState({

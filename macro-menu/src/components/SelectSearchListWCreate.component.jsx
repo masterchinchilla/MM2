@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Creatable from "react-select/creatable";
+import _ from "lodash";
 
 class SelectSearchListWCreate extends Component {
   constructor(props) {
@@ -33,25 +34,47 @@ class SelectSearchListWCreate extends Component {
     }
   };
   handleCreate = (e) => {
-    let newRecipeName = e;
+    let newRecordName = e;
     let newRecordForState = {
-      label: newRecipeName,
+      label: newRecordName,
       value: {
-        _id: "tempRecipeId1",
-        name: newRecipeName,
-        availableMealType: this.props.mealType,
+        _id: "tempNewObjId1",
+        name: newRecordName,
         GRFUser: this.props.thisGRFUser,
-        defaultPrepInstructions: "",
-        photoURL: "",
+        // defaultPrepInstructions: "",
+        // photoURL: "",
+        // availableMealType: this.props.mealType,
       },
     };
-    let newRecordToSave = {
-      name: newRecipeName,
-      availableMealType: this.props.mealType._id,
-      GRFUser: this.props.thisGRFUser._id,
-      defaultPrepInstructions: "",
-      photoURL: "",
-    };
+    if (this.props.objTypeToChange === "genRecipe") {
+      newRecordForState.value.defaultPrepInstructions = "";
+      newRecordForState.value.photoURL = "";
+      newRecordForState.value.availableMealType = this.props.mealType;
+    }
+    let newRecordToSave;
+    console.log(newRecordToSave);
+    if (this.props.objTypeToChange === "genRecipe") {
+      newRecordToSave = {
+        name: newRecordName,
+        GRFUser: this.props.thisGRFUser._id,
+        defaultPrepInstructions: "",
+        photoURL: "",
+        availableMealType: this.props.mealType._id,
+      };
+    } else {
+      newRecordToSave = {
+        name: newRecordName,
+        GRFUser: this.props.thisGRFUser._id,
+      };
+    }
+    console.log(newRecordToSave);
+    // {
+    //   name: newRecordName,
+    //   GRFUser: this.props.thisGRFUser._id,
+    //   availableMealType: this.props.mealType._id,
+    //   defaultPrepInstructions: "",
+    //   photoURL: "",
+    // };
     this.props.onCreateRecord(
       this.props.objTypeToChange,
       this.props.dayOfWeekCode,
@@ -62,6 +85,9 @@ class SelectSearchListWCreate extends Component {
     );
   };
   render() {
+    const capitalObjType =
+      this.props.objTypeToChange.charAt(0).toUpperCase() +
+      this.props.objTypeToChange.slice(1);
     return (
       <div>
         <Creatable
@@ -70,7 +96,11 @@ class SelectSearchListWCreate extends Component {
             value: this.props.objToSelect._id,
           }}
           options={this.state.options}
-          placeholder="Select Recipe"
+          placeholder={
+            this.props.objTypeToChange === "genRecipe"
+              ? "Select Recipe"
+              : `Select ${capitalObjType}`
+          }
           isSearchable={true}
           onChange={(e) => {
             this.handleChange(e);

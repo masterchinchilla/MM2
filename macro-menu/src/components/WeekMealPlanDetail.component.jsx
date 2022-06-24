@@ -8673,6 +8673,37 @@ export default class WeekMealPlanDetail extends Component {
           this.setState(state);
           this.handleClickEditForm(parentObj, objType);
           break;
+        case "brand":
+          thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+          thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
+          thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+          thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
+          parentObj = thisMealIngrdntStateObj;
+          thisIngrdntObj = thisGenRecipeIngrdntObj.ingredient;
+          let thisBrandObj = thisIngrdntObj.brand;
+          thisBrandObj = newRecordForState;
+          thisIngrdntObj.brand = thisBrandObj;
+          thisGenRecipeIngrdntObj.ingredient = thisIngrdntObj;
+          thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
+          thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
+          if (thisMealIngrdntStateObj.ingredientRecordChanged === true) {
+            let recordToSave = thisIngrdntObj;
+            let recordId = recordToSave._id;
+            let url = `http://localhost:5000/ingredients/update/${recordId}`;
+            axios.put(url, recordToSave).then(console.log("updated"));
+            thisMealIngrdntStateObj.ingredientRecordChanged = false;
+          } else {
+            thisMealIngrdntStateObj.ingredientRecordChanged = true;
+          }
+          thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+          thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+          thisDaysMeals[mealTypeCode] = thisMealStateObj;
+          thisDayStateObj.thisDaysMeals = thisDaysMeals;
+          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+          state.thisWeeksDays = thisWeeksDays;
+          state.allBrands.push(thisBrandObj);
+          this.setState(state);
+          break;
       }
     });
   };

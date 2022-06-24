@@ -40,11 +40,6 @@ const schema=Joi.object({
 router.post('/', (req, res)=>{
     const {error}=schema.validate(req.body);
     if(error){
-        // return res
-        //     .status(400)
-        //     .header('x-auth-errors',error.details[0].message)
-        //     .header('access-control-expose-headers','x-auth-errors')
-        //     .send()
         return res.status(400).json(error.details[0].message)
     }else{
         GRFUserModel.findOne({email:req.body.email})

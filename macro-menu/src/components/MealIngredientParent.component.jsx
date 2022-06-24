@@ -36,6 +36,7 @@ const MealIngredientParent = (props) => {
           //Methods
           //Common Props
           //Data
+          thisGRFUser={thisGRFUser}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisObj}
@@ -84,7 +85,7 @@ const MealIngredientParent = (props) => {
           //Methods
           //Common Props
           //Data
-
+          thisGRFUser={thisGRFUser}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisIngredient}
@@ -98,6 +99,7 @@ const MealIngredientParent = (props) => {
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           onUpdateProp={props.onUpdateProp}
+          onCreateRecord={props.onCreateRecord}
         />
       </div>
     </div>

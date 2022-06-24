@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
+import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
 const Ingredient = (props) => {
   const userType = props.userType;
   const thisFormState = props.thisFormState;
+  const thisGRFUser = props.thisGRFUser;
   const thisMealTypeCode = props.thisMealTypeCode;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
+  const thisMealType = thisMealIngrdntObj.thisMealIngrdnt.meal.mealType;
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
   const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
@@ -16,6 +19,18 @@ const Ingredient = (props) => {
   const allWeightTypes = props.allWeightTypes;
   const allBrands = props.allBrands;
   const thisIngrdntJustCreated = thisMealIngrdntObj.thisIngrdntJustCreated;
+  let thisBrandObj;
+  {
+    thisObj.brand
+      ? (thisBrandObj = thisObj.brand)
+      : (thisBrandObj = {
+          _id: "627691b69fa56aa1fe318393",
+          name: "",
+          GRFUser: "62577a533813f4f21c27e1c7",
+        });
+  }
+  const thisUOMObj = thisObj.unitOfMeasure;
+  const thisWeightTypeObj = thisObj.weightType;
   const deleteMsg =
     "If you delete this Base Ingredient it will be deleted everywhere, including in other Recipes. Do you want to proceed?";
   const saveMsg =
@@ -125,7 +140,22 @@ const Ingredient = (props) => {
         ></div>
         <div className="form-group mealIngrdntInputs ingrdntBrnd">
           <label>Brand</label>
-          <select
+          <SelectSearchListWCreate
+            required
+            objToSelect={thisBrandObj}
+            dayOfWeekCode={thisDayOfWeekCode}
+            mealType={thisMealType}
+            arrayIndex={mealIngrdntsArrayIndex}
+            onUpdateProp={props.onUpdateProp}
+            thisFormState={thisFormState}
+            objType="ingredient"
+            objTypeToChange="brand"
+            options={allBrands}
+            thisGRFUser={thisGRFUser}
+            onCreateRecord={props.onCreateRecord}
+            styleClasses="recipeSelect"
+          />
+          {/* <select
             required
             className="form-control form-select"
             value={
@@ -154,7 +184,7 @@ const Ingredient = (props) => {
                 </option>
               );
             })}
-          </select>
+          </select> */}
         </div>
         <div className="form-group mealIngrdntInputs ingrdntName badge bg-primary">
           <label>Ingredient Name</label>
