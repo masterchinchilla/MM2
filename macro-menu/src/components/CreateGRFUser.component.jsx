@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Joi from "joi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class CreateGRFUser extends Component {
@@ -19,15 +20,99 @@ class CreateGRFUser extends Component {
       certName: "",
       verified: false,
       submitError: "",
+      errors: {
+        namePrefix: null,
+        givenName: null,
+        middleName: null,
+        familyName: null,
+        nameSuffix: null,
+        email: null,
+        password: null,
+        handle: null,
+        certURL: null,
+        certName: null,
+      },
       showPassword: false,
       pWordHasCapLetter: false,
       pWordHasLCaseLetter: false,
       pWordHasNum: false,
       pWordHasSpChar: false,
-      pWord8Chars: false,
+      pWordLengthOk: false,
     };
   }
-
+  schema = Joi.object({
+    namePrefix: Joi.string()
+      .trim()
+      .alphanum()
+      .regex(/^[a-b]+$/i)
+      .max(100)
+      .messages({
+        "string.pattern.base": "Name parts should be letters only",
+      }),
+    givenName: Joi.string()
+      .trim()
+      .alphanum()
+      .regex(/^[a-b]+$/i)
+      .min(1)
+      .max(100)
+      .messages({
+        "string.pattern.base": "Name parts should be letters only",
+      })
+      .required(),
+    middleName: Joi.string()
+      .trim()
+      .alphanum()
+      .regex(/^[a-b]+$/i)
+      .max(100)
+      .messages({
+        "string.pattern.base": "Name parts should be letters only",
+      }),
+    familyName: Joi.string()
+      .trim()
+      .alphanum()
+      .regex(/^[a-b]+$/i)
+      .min(1)
+      .max(100)
+      .messages({
+        "string.pattern.base": "Name parts should be letters only",
+      })
+      .required(),
+    nameSuffix: Joi.string()
+      .trim()
+      .alphanum()
+      .regex(/^[a-b]+$/i)
+      .max(100)
+      .messages({
+        "string.pattern.base": "Name parts should be letters only",
+      }),
+    email: Joi.string()
+      .trim()
+      .min(6)
+      .required()
+      .email({ tlds: { allow: false } }),
+    password: Joi.string().trim().min(8).max(100).required(),
+    handle: Joi.string().trim().min(3).max(100).required(),
+    certURL: Joi.string().trim().min(4).uri(),
+    certName: Joi.string().trim().min(1),
+  });
+  handleUpdateProp = (e, propName) => {
+    const propValue = e.target.value;
+    const objToValidate = { [propName]: propValue };
+    // const validationSubSchema = this.schema.extract(propName); - this is deprecated, no longer needed
+    const { error } = this.schema.validate(objToValidate);
+    const validationResult = error ? error : null;
+    const validationError = error ? validationResult.details[0].message : null;
+    console.log(
+      validationResult.details.map((errDetail) => errDetail.type),
+      validationResult.error
+    );
+    const stateErrors = this.state.errors;
+    stateErrors[propName] = validationError;
+    this.setState({
+      [propName]: propValue,
+      errors: stateErrors,
+    });
+  };
   onChangeNamePrefix = (e) => {
     this.setState({
       namePrefix: e.target.value,
@@ -68,14 +153,14 @@ class CreateGRFUser extends Component {
     let pWordHasLCaseLetter = pWordHasLCaseLetterPattern.test(typedPWord);
     let pWordHasNum = pWordHasNumPattern.test(typedPWord);
     let pWordHasSpChar = pWordHasSpCharPattern.test(typedPWord);
-    let pWord8Chars = typedPWord.length > 7;
+    let pWordLengthOk = typedPWord.length > 7 && typedPWord.length < 101;
     this.setState({
       password: e.target.value,
       pWordHasCapLetter: pWordHasCapLetter,
       pWordHasLCaseLetter: pWordHasLCaseLetter,
       pWordHasNum: pWordHasNum,
       pWordHasSpChar: pWordHasSpChar,
-      pWord8Chars: pWord8Chars,
+      pWordLengthOk: pWordLengthOk,
     });
   };
   onChangeHandle = (e) => {
@@ -138,8 +223,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.namePrefix}
-                    onChange={this.onChangeNamePrefix}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "namePrefix");
+                    }}
                   />
+                  {this.state.errors.namePrefix ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.namePrefix}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-group mb-2">
                   <label className="form-label">
@@ -149,8 +241,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.givenName}
-                    onChange={this.onChangeGivenName}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "givenName");
+                    }}
                   />
+                  {this.state.errors.givenName ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.givenName}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-group mb-2">
                   <label className="form-label">Middle</label>
@@ -231,7 +330,7 @@ class CreateGRFUser extends Component {
                         !this.state.pWordHasLCaseLetter ||
                         !this.state.pWordHasNum ||
                         !this.state.pWordHasSpChar ||
-                        !this.state.pWord8Chars
+                        !this.state.pWordLengthOk
                       }
                     />
                   </div>
@@ -311,17 +410,17 @@ class CreateGRFUser extends Component {
                       <input
                         className="form-check-input rgstrChckBox"
                         type="checkbox"
-                        value={this.state.pWord8Chars}
+                        value={this.state.pWordLengthOk}
                         // id="flexCheckDefault"
                         onChange={() => {}}
-                        checked={this.state.pWord8Chars}
+                        checked={this.state.pWordLengthOk}
                         readOnly
                       />
                       <label
                         className="form-check-label"
                         htmlFor="flexCheckDefault"
                       >
-                        At least 8 characters
+                        8-100 characters
                       </label>
                     </div>
                   </div>

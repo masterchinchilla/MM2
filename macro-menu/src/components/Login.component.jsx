@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Joi from "joi-browser";
+import Joi from "joi";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 //test user credentials:
@@ -26,8 +26,12 @@ class Login extends Component {
     };
   }
   schema = {
-    email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(8).required(),
+    email: Joi.string()
+      .trim()
+      .min(6)
+      .required()
+      .email({ tlds: { allow: false } }),
+    password: Joi.string().trim().min(8).required(),
   };
   componentDidMount() {
     let serverAuthErrors = this.props.serverAuthErrors;
