@@ -7379,6 +7379,56 @@ export default class WeekMealPlanDetail extends Component {
       },
     };
   }
+  handleCopyWMP = () => {
+    const pattern = /missing/;
+    const newWMP = _.pick(this.state.thisWeekMealPlan.thisWMP, [
+      "name",
+      "breakfastWeight",
+      "snack1Weight",
+      "lunchWeight",
+      "snack2Weight",
+      "dinnerWeight",
+      "dessertWeight",
+      "calsBudget",
+      "carbsBudget",
+      "proteinBudget",
+      "fatBudget",
+      "fiberBudget",
+    ]);
+    newWMP.GRFUser = this.state.thisGRFUser;
+    newWMP.name = `${this.state.thisGRFUser.handle}s copy of ${this.state.thisWeekMealPlan.thisWMP.name}`;
+    const newWMPToSave = _.cloneDeep(newWMP);
+    newWMPToSave.GRFUser = newWMP.GRFUser._id;
+    axios
+      // .post("http://localhost:5000/weekMealPlans/add", newWMPToSave)
+      .get(
+        "http://localhost:5000/weekMealPlans/" +
+          this.state.thisWeekMealPlan.thisWMP._id
+      )
+      .then((response) => {
+        // newWMP._id = response.data._id;
+        newWMP._id = this.getRndInteger(10000000, 99999999);
+        for (let i = 0; i < this.state.daysOfWeek.length; i++) {
+          let thisDayOfWeek = this.state.daysOfWeek[i];
+          let thisDay = this.state.thisWeeksDays[thisDayOfWeek.code]["thisDay"];
+          let thisDayId = thisDay._id;
+          let testResult = pattern.test(thisDayId);
+          if (!testResult) {
+            const newDay = {
+              name: newWMP.name + " - " + thisDayOfWeek.name,
+              dayOfWeek: thisDayOfWeek,
+              weekMealPlan: newWMP,
+            };
+            const newDayToSave = {
+              name: newDay.name,
+              dayOfWeek: thisDayOfWeek._id,
+              weekMealPlan: newWMP._id,
+            };
+            console.log(newDay);
+          }
+        }
+      });
+  };
   componentDidMount() {
     const jwt = localStorage.getItem("token");
     const decodedToken = jwtDecode(jwt);
@@ -8889,6 +8939,7 @@ export default class WeekMealPlanDetail extends Component {
       }
     }
   };
+
   render() {
     const daysOfWeek = this.state.daysOfWeek;
     const thisWMP = this.state.thisWeekMealPlan.thisWMP;
@@ -8991,6 +9042,7 @@ export default class WeekMealPlanDetail extends Component {
                           onCancelEditForm={this.handleCancelEditForm}
                           onSaveFormChanges={this.handleSaveFormChanges}
                           onDeleteRecord={this.handleDeleteRecord}
+                          onClickCopy={this.handleCopyWMP}
                         />
                       </div>
                       <div className="card-body wmpCardBody">
