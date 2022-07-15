@@ -93,7 +93,7 @@ const App = (props) => {
         {/* <Route exact path={"/weekMealPlans/usersWMPs/" + currentGRFUser._id}>
           <WeekMealPlansList2 getCurrentUser={getCurrentUser} />
         </Route> */}
-        <Route exact path="/grfuser/create" component={CreateGRFUser} />
+        {/* <Route exact path="/grfuser/create" component={CreateGRFUser} /> */}
         <Route
           exact
           path="/grfuser/create"

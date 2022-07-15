@@ -43,16 +43,15 @@ class CreateGRFUser extends Component {
   schema = Joi.object({
     namePrefix: Joi.string()
       .trim()
-      .alphanum()
-      .regex(/^[a-b]+$/i)
+      .regex(/^[A-Za-z\s]*$/)
+      .min(0)
       .max(100)
       .messages({
         "string.pattern.base": "Name parts should be letters only",
       }),
     givenName: Joi.string()
       .trim()
-      .alphanum()
-      .regex(/^[a-b]+$/i)
+      .regex(/^[A-Za-z\s]*$/)
       .min(1)
       .max(100)
       .messages({
@@ -61,16 +60,15 @@ class CreateGRFUser extends Component {
       .required(),
     middleName: Joi.string()
       .trim()
-      .alphanum()
-      .regex(/^[a-b]+$/i)
+      .regex(/^[A-Za-z\s]*$/)
+      .min(0)
       .max(100)
       .messages({
         "string.pattern.base": "Name parts should be letters only",
       }),
     familyName: Joi.string()
       .trim()
-      .alphanum()
-      .regex(/^[a-b]+$/i)
+      .regex(/^[A-Za-z\s]*$/)
       .min(1)
       .max(100)
       .messages({
@@ -79,8 +77,8 @@ class CreateGRFUser extends Component {
       .required(),
     nameSuffix: Joi.string()
       .trim()
-      .alphanum()
-      .regex(/^[a-b]+$/i)
+      .regex(/^[A-Za-z\s]*$/)
+      .min(0)
       .max(100)
       .messages({
         "string.pattern.base": "Name parts should be letters only",
@@ -91,56 +89,25 @@ class CreateGRFUser extends Component {
       .required()
       .email({ tlds: { allow: false } }),
     password: Joi.string().trim().min(8).max(100).required(),
-    handle: Joi.string().trim().min(3).max(100).required(),
+    handle: Joi.string().trim().regex(/^\S/).min(3).max(100).required(),
     certURL: Joi.string().trim().min(4).uri(),
-    certName: Joi.string().trim().min(1),
+    certName: Joi.string().trim().min(1).max(300),
   });
   handleUpdateProp = (e, propName) => {
+    const rule = this.schema.extract(propName);
+    const subSchema = Joi.object({ [propName]: rule });
     const propValue = e.target.value;
     const objToValidate = { [propName]: propValue };
-    // const validationSubSchema = this.schema.extract(propName); - this is deprecated, no longer needed
-    const { error } = this.schema.validate(objToValidate);
+    const { error } = subSchema.validate(objToValidate);
     const validationResult = error ? error : null;
-    const validationError = error ? validationResult.details[0].message : null;
-    console.log(
-      validationResult.details.map((errDetail) => errDetail.type),
-      validationResult.error
-    );
+    const validationError = validationResult
+      ? validationResult.details[0].message
+      : null;
     const stateErrors = this.state.errors;
     stateErrors[propName] = validationError;
     this.setState({
       [propName]: propValue,
       errors: stateErrors,
-    });
-  };
-  onChangeNamePrefix = (e) => {
-    this.setState({
-      namePrefix: e.target.value,
-    });
-  };
-  onChangeGivenName = (e) => {
-    this.setState({
-      givenName: e.target.value,
-    });
-  };
-  onChangeMiddleName = (e) => {
-    this.setState({
-      middleName: e.target.value,
-    });
-  };
-  onChangeFamilyName = (e) => {
-    this.setState({
-      familyName: e.target.value,
-    });
-  };
-  onChangeNameSuffix = (e) => {
-    this.setState({
-      nameSuffix: e.target.value,
-    });
-  };
-  onChangeEmail = (e) => {
-    this.setState({
-      email: e.target.value,
     });
   };
   onChangePassword = (e) => {
@@ -163,26 +130,6 @@ class CreateGRFUser extends Component {
       pWordLengthOk: pWordLengthOk,
     });
   };
-  onChangeHandle = (e) => {
-    this.setState({
-      handle: e.target.value,
-    });
-  };
-  onChangeCertURL = (e) => {
-    this.setState({
-      certURL: e.target.value,
-    });
-  };
-  onChangeCertName = (e) => {
-    this.setState({
-      certName: e.target.value,
-    });
-  };
-  onChangeVerified = (e) => {
-    this.setState({
-      verified: e.target.value,
-    });
-  };
   toggleShowPassword = (e) => {
     this.setState({ showPassword: e.target.checked });
   };
@@ -202,9 +149,6 @@ class CreateGRFUser extends Component {
       verified: this.state.verified,
     };
     this.props.createNewUser(GRFUser);
-  };
-  validate = () => {
-    const errors = {};
   };
   render() {
     return (
@@ -257,8 +201,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.middleName}
-                    onChange={this.onChangeMiddleName}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "middleName");
+                    }}
                   />
+                  {this.state.errors.middleName ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.middleName}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-group mb-2">
                   <label className="form-label">
@@ -268,8 +219,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.familyName}
-                    onChange={this.onChangeFamilyName}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "familyName");
+                    }}
                   />
+                  {this.state.errors.familyName ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.familyName}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-group mb-2">
                   <label className="form-label">Suffix</label>
@@ -277,8 +235,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.nameSuffix}
-                    onChange={this.onChangeNameSuffix}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "nameSuffix");
+                    }}
                   />
+                  {this.state.errors.nameSuffix ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.nameSuffix}
+                    </div>
+                  ) : null}
                 </div>
               </fieldset>
               <fieldset className="registerBox2">
@@ -290,8 +255,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.email}
-                    onChange={this.onChangeEmail}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "email");
+                    }}
                   />
+                  {this.state.errors.email ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.email}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-group mb-4">
                   <label className="form-label">
@@ -433,8 +405,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.handle}
-                    onChange={this.onChangeHandle}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "handle");
+                    }}
                   />
+                  {this.state.errors.handle ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.handle}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-group mb-2">
                   <label className="form-label">Cert URL</label>
@@ -442,8 +421,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.certURL}
-                    onChange={this.onChangeCertURL}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "certURL");
+                    }}
                   />
+                  {this.state.errors.certURL ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.certURL}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-group mb-2">
                   <label className="form-label">Cert Name</label>
@@ -451,8 +437,15 @@ class CreateGRFUser extends Component {
                     type="text"
                     className="form-control"
                     value={this.state.certName}
-                    onChange={this.onChangeCertName}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "certName");
+                    }}
                   />
+                  {this.state.errors.certName ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.certName}
+                    </div>
+                  ) : null}
                 </div>
                 <div className="form-check mt-4">
                   <input
