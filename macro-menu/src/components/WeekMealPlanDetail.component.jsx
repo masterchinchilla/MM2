@@ -7400,14 +7400,33 @@ export default class WeekMealPlanDetail extends Component {
     const newWMPToSave = _.cloneDeep(newWMP);
     newWMPToSave.GRFUser = newWMP.GRFUser._id;
     axios
-      // .post("http://localhost:5000/weekMealPlans/add", newWMPToSave)
-      .get(
-        "http://localhost:5000/weekMealPlans/" +
-          this.state.thisWeekMealPlan.thisWMP._id
-      )
+      .post("http://localhost:5000/weekMealPlans/add", newWMPToSave)
+      // .get(
+      //   "http://localhost:5000/weekMealPlans/" +
+      //     this.state.thisWeekMealPlan.thisWMP._id
+      // )
       .then((response) => {
-        // newWMP._id = response.data._id;
-        newWMP._id = this.getRndInteger(10000000, 99999999);
+        newWMP._id = response.data._id;
+        // newWMP._id = this.getRndInteger(10000000, 99999999);
+        // const newWMP = {
+        //   _id: "62d4c24348c8de719cf7ca85",
+        //   name: "NMOfficialPTs 3rd copy of JD Hypertrophy Week 1b",
+        //   GRFUser: this.state.thisGRFUser,
+        //   breakfastWeight: 35,
+        //   snack1Weight: 5,
+        //   lunchWeight: 31,
+        //   snack2Weight: 6,
+        //   dinnerWeight: 19,
+        //   dessertWeight: 5,
+        //   calsBudget: 1872.21,
+        //   carbsBudget: 332.33,
+        //   proteinBudget: 285,
+        //   fatBudget: 91.59,
+        //   fiberBudget: 39,
+        //   createdAt: 1657923004319,
+        //   updatedAt: 1657923004319,
+        // };
+        // const newWMPsDays=[];
         for (let i = 0; i < this.state.daysOfWeek.length; i++) {
           let thisDayOfWeek = this.state.daysOfWeek[i];
           let thisDay = this.state.thisWeeksDays[thisDayOfWeek.code]["thisDay"];
@@ -7424,7 +7443,70 @@ export default class WeekMealPlanDetail extends Component {
               dayOfWeek: thisDayOfWeek._id,
               weekMealPlan: newWMP._id,
             };
-            console.log(newDay);
+            axios
+              .post("http://localhost:5000/days/add", newDayToSave)
+              .then((response) => {
+                newDay._id = response.data._id;
+                // newDay._id = this.getRndInteger(10000000, 99999999);
+                for (let i = 0; i < this.state.mealTypes.length; i++) {
+                  let thisMealType = this.state.mealTypes[i];
+                  let thisMealStateObj =
+                    this.state.thisWeeksDays[thisDayOfWeek.code][
+                      "thisDaysMeals"
+                    ][thisMealType.code];
+                  let thisMeal = thisMealStateObj.thisMeal;
+                  let thisMealId = thisMeal._id;
+                  let testResult = pattern.test(thisMealId);
+                  if (!testResult) {
+                    const newMeal = {
+                      day: newDay,
+                      genRecipe: thisMeal.genRecipe,
+                      prepInstructions: "",
+                      mealType: thisMealType,
+                    };
+                    const newMealToSave = {
+                      day: newDay._id,
+                      genRecipe: thisMeal.genRecipe._id,
+                      prepInstructions: "",
+                      mealType: thisMealType._id,
+                    };
+                    axios
+                      .post("http://localhost:5000/meals/add", newMealToSave)
+                      .then((response) => {
+                        newMeal._id = response.data._id;
+                        for (
+                          let i = 0;
+                          i < thisMealStateObj.thisMealsIngrdnts.length;
+                          i++
+                        ) {
+                          let thisMealIngrdnt =
+                            thisMealStateObj.thisMealsIngrdnts[i]
+                              .thisMealIngrdnt;
+                          const newMealIngrdnt = _.pick(thisMealIngrdnt, [
+                            "qty",
+                            "genRecipeIngredient",
+                          ]);
+                          newMealIngrdnt.meal = newMeal;
+                          const newMealIngrdntToSave = {
+                            qty: newMealIngrdnt.qty,
+                            genRecipeIngredient:
+                              newMealIngrdnt.genRecipeIngredient._id,
+                            meal: newMealIngrdnt.meal._id,
+                          };
+                          axios
+                            .post(
+                              "http://localhost:5000/mealIngredients/add",
+                              newMealIngrdntToSave
+                            )
+                            .then((response) => {
+                              newMealIngrdnt._id = response.data._id;
+                              console.log(newMealIngrdnt);
+                            });
+                        }
+                      });
+                  }
+                }
+              });
           }
         }
       });
