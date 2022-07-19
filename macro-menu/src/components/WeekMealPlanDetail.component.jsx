@@ -7382,6 +7382,7 @@ export default class WeekMealPlanDetail extends Component {
   handleCopyWMP = () => {
     const pattern = /missing/;
     const newWMP = _.pick(this.state.thisWeekMealPlan.thisWMP, [
+      // "_id",
       "name",
       "breakfastWeight",
       "snack1Weight",
@@ -7427,6 +7428,9 @@ export default class WeekMealPlanDetail extends Component {
         //   updatedAt: 1657923004319,
         // };
         // const newWMPsDays=[];
+        let numOfDays = 7;
+        let numOfMeals = 42;
+        let numOfMealIngrdnts = 0;
         for (let i = 0; i < this.state.daysOfWeek.length; i++) {
           let thisDayOfWeek = this.state.daysOfWeek[i];
           let thisDay = this.state.thisWeeksDays[thisDayOfWeek.code]["thisDay"];
@@ -7444,8 +7448,14 @@ export default class WeekMealPlanDetail extends Component {
               weekMealPlan: newWMP._id,
             };
             axios
+              // .get(
+              //   "http://localhost:5000/weekMealPlans/" +
+              //     this.state.thisWeekMealPlan.thisWMP._id
+              // )
               .post("http://localhost:5000/days/add", newDayToSave)
               .then((response) => {
+                numOfDays--;
+                console.log(numOfDays);
                 newDay._id = response.data._id;
                 // newDay._id = this.getRndInteger(10000000, 99999999);
                 for (let i = 0; i < this.state.mealTypes.length; i++) {
@@ -7471,42 +7481,95 @@ export default class WeekMealPlanDetail extends Component {
                       mealType: thisMealType._id,
                     };
                     axios
+                      // .get(
+                      //   "http://localhost:5000/weekMealPlans/" +
+                      //     this.state.thisWeekMealPlan.thisWMP._id
+                      // )
                       .post("http://localhost:5000/meals/add", newMealToSave)
                       .then((response) => {
                         newMeal._id = response.data._id;
-                        for (
-                          let i = 0;
-                          i < thisMealStateObj.thisMealsIngrdnts.length;
-                          i++
-                        ) {
-                          let thisMealIngrdnt =
-                            thisMealStateObj.thisMealsIngrdnts[i]
-                              .thisMealIngrdnt;
-                          const newMealIngrdnt = _.pick(thisMealIngrdnt, [
-                            "qty",
-                            "genRecipeIngredient",
-                          ]);
-                          newMealIngrdnt.meal = newMeal;
-                          const newMealIngrdntToSave = {
-                            qty: newMealIngrdnt.qty,
-                            genRecipeIngredient:
-                              newMealIngrdnt.genRecipeIngredient._id,
-                            meal: newMealIngrdnt.meal._id,
-                          };
-                          axios
-                            .post(
-                              "http://localhost:5000/mealIngredients/add",
-                              newMealIngrdntToSave
-                            )
-                            .then((response) => {
-                              newMealIngrdnt._id = response.data._id;
-                              console.log(newMealIngrdnt);
-                            });
+                        let mealIngrdntsLength =
+                          thisMealStateObj.thisMealsIngrdnts.length;
+                        numOfMealIngrdnts += mealIngrdntsLength;
+                        if (numOfMealIngrdnts === 0) {
+                          numOfMeals--;
+                          console.log(numOfMeals);
+                          if (
+                            numOfDays === 0 &&
+                            numOfMeals === 0 &&
+                            numOfMealIngrdnts === 0
+                          ) {
+                            window.location =
+                              "/weekMealPlans/edit/" + newWMP._id;
+                          }
+                        } else {
+                          numOfMeals--;
+                          console.log(numOfMeals);
+                          for (let i = 0; i < mealIngrdntsLength; i++) {
+                            let thisMealIngrdnt =
+                              thisMealStateObj.thisMealsIngrdnts[i]
+                                .thisMealIngrdnt;
+                            const newMealIngrdnt = _.pick(thisMealIngrdnt, [
+                              "qty",
+                              "genRecipeIngredient",
+                            ]);
+                            newMealIngrdnt.meal = newMeal;
+                            const newMealIngrdntToSave = {
+                              qty: newMealIngrdnt.qty,
+                              genRecipeIngredient:
+                                newMealIngrdnt.genRecipeIngredient._id,
+                              meal: newMealIngrdnt.meal._id,
+                            };
+                            axios
+                              // .get(
+                              //   "http://localhost:5000/weekMealPlans/" +
+                              //     this.state.thisWeekMealPlan.thisWMP._id
+                              // )
+                              .post(
+                                "http://localhost:5000/mealIngredients/add",
+                                newMealIngrdntToSave
+                              )
+                              .then((response) => {
+                                newMealIngrdnt._id = response.data._id;
+                                numOfMealIngrdnts--;
+                                console.log(numOfMealIngrdnts);
+                                if (
+                                  numOfDays === 0 &&
+                                  numOfMeals === 0 &&
+                                  numOfMealIngrdnts === 0
+                                ) {
+                                  window.location =
+                                    "/weekMealPlans/edit/" + newWMP._id;
+                                }
+                              });
+                          }
                         }
                       });
+                  } else {
+                    numOfMeals--;
+                    console.log(numOfMeals);
+                    if (
+                      numOfDays === 0 &&
+                      numOfMeals === 0 &&
+                      numOfMealIngrdnts === 0
+                    ) {
+                      window.location = "/weekMealPlans/edit/" + newWMP._id;
+                    }
                   }
                 }
               });
+          } else {
+            numOfMeals -= 6;
+            numOfDays--;
+            console.log(numOfDays);
+            console.log(numOfMeals);
+            if (
+              numOfDays === 0 &&
+              numOfMeals === 0 &&
+              numOfMealIngrdnts === 0
+            ) {
+              window.location = "/weekMealPlans/edit/" + newWMP._id;
+            }
           }
         }
       });

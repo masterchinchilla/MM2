@@ -25,14 +25,14 @@ class Login extends Component {
       currentGRFUser: this.props.currentGRFUser,
     };
   }
-  schema = {
+  schema = Joi.object({
     email: Joi.string()
       .trim()
       .min(6)
       .required()
       .email({ tlds: { allow: false } }),
     password: Joi.string().trim().min(8).required(),
-  };
+  });
   componentDidMount() {
     let serverAuthErrors = this.props.serverAuthErrors;
     if (serverAuthErrors) {
@@ -42,18 +42,20 @@ class Login extends Component {
     }
   }
   validateForm = () => {
-    const result = Joi.validate(this.state.account, this.schema, {
-      abortEarly: false,
-    });
+    // const result = Joi.validate(this.state.account, this.schema, {
+    //   abortEarly: false,
+    // });
+    const result = this.schema.validate(this.state.account);
     if (!result.error) return null;
     const errors = {};
     for (let item of result.error.details) errors[item.path[0]] = item.message;
     return errors;
   };
-  validateProp = (name, value) => {
-    const obj = { [name]: value };
-    const subSchema = { [name]: this.schema[name] };
-    const { error } = Joi.validate(obj, subSchema);
+  validateProp = (propName, value) => {
+    const rule = this.schema.extract(propName);
+    const subSchema = Joi.object({ [propName]: rule });
+    const objToValidate = { [propName]: value };
+    const { error } = subSchema.validate(objToValidate);
     return error ? error.details[0].message : null;
   };
   handleUpdateEmail = (e) => {
