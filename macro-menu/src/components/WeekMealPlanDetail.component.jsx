@@ -8506,8 +8506,8 @@ export default class WeekMealPlanDetail extends Component {
       newValue = selectedFrom.filter(
         (option) => option._id === e.target.value
       )[0];
-    } else if (inputType === "number") {
-      newValue = JSON.parse(e.target.value);
+      // } else if (inputType === "number") {
+      //   newValue = JSON.parse(e.target.value);
     } else if (inputType === "asyncReactSelect") {
       newValue = JSON.parse(e);
     } else if (inputType === "reactSelect") {

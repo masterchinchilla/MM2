@@ -1,25 +1,40 @@
 import React, { useState, Component } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import _ from "lodash";
 import EditOptions from "./EditOptions.component";
 
 const GenRecipe = (props) => {
   const [hideDeleteBarrier, toggleHideDeleteBarrier] = useState(true);
   const mealStateObj = props.mealStateObj;
   const recordChanged = mealStateObj.genRecipeRecordChanged;
+  // const [recordChanged, toggleRecordChanged] = useState(
+  //   mealStateObj.genRecipeRecordChanged
+  // );
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
+  const [prepInstr, updatePrepInstr] = useState(
+    thisObj.defaultPrepInstructions
+  );
   const thisDayOfWeekCode = mealStateObj.thisMeal.day.dayOfWeek.code;
   const thisMealTypeCode = mealStateObj.thisMeal.mealType.code;
   const thisObjId = thisObj._id;
   const thisRecipesIngrdnts = mealStateObj.thisRecipesIngrdnts;
   const thisFormState = mealStateObj.thisGenRecipeFormState;
   const userType = mealStateObj.thisGenRecipeUserType;
-  const handleSubmitFormChange = (e) => {
-    e.preventDefault();
-    axios
-      .put("http://localhost:5000/genRecipes/update/" + thisObjId, thisObj)
-      .then((window.location = "/edit/" + thisMeal.day.weekMealPlan._id));
+  const handleUpdatePrepInst = (e) => {
+    let newPrepInst = e.target.value;
+    updatePrepInstr(newPrepInst);
+    // toggleRecordChanged(true);
+    mealStateObj.genRecipeRecordChanged = true;
+  };
+  const handleSaveRecipeChange = (parentObj, objType) => {
+    const newMealStateObj = _.cloneDeep(mealStateObj);
+    newMealStateObj.thisMeal.genRecipe.defaultPrepInstructions = prepInstr;
+    props.onSaveFormChanges(newMealStateObj, objType);
+    // axios
+    //   .put("http://localhost:5000/genRecipes/update/" + thisObjId, newGenRecipe)
+    //   .then((window.location = "/edit/" + thisMeal.day.weekMealPlan._id));
   };
   const handleClickDelete = (thisObj, stateObj) => {
     if (thisRecipesIngrdnts.length === 0) {
@@ -62,7 +77,8 @@ const GenRecipe = (props) => {
           </div>
         </div>
       </div>
-      <form className="card mt-3 mb-3" onSubmit={handleSubmitFormChange}>
+      <form className="card mt-3 mb-3">
+        {/* onSubmit={handleSubmitFormChange} */}
         <div className="card-header mealCardHeader">
           <div className="mealGenRecipeSctnHdr">
             <h5 className="formSctnTitle">Recipe Details</h5>
@@ -75,7 +91,7 @@ const GenRecipe = (props) => {
               recordChanged={recordChanged}
               onClickEditForm={props.onClickEditForm}
               onCancelEditForm={props.onCancelEditForm}
-              onSaveFormChanges={props.onSaveFormChanges}
+              onSaveFormChanges={handleSaveRecipeChange}
               onDelete={handleClickDelete}
               deleteMsg={deleteMsg}
             />
@@ -99,19 +115,19 @@ const GenRecipe = (props) => {
             <textarea
               className="form-control mealTextArea"
               disabled={thisFormState === "viewing" ? true : false}
-              onChange={(e) =>
-                props.onUpdateProp(
-                  "genRecipe",
-                  thisDayOfWeekCode,
-                  thisMealTypeCode,
-                  "defaultPrepInstructions",
-                  0,
-                  "textArea",
-                  e,
-                  []
-                )
-              }
-              value={thisObj.defaultPrepInstructions}
+              onChange={(e) => handleUpdatePrepInst(e)}
+              //   props.onUpdateProp(
+              //     "genRecipe",
+              //     thisDayOfWeekCode,
+              //     thisMealTypeCode,
+              //     "defaultPrepInstructions",
+              //     0,
+              //     "textArea",
+              //     e,
+              //     []
+              //   )
+              // }
+              value={prepInstr}
             ></textarea>
           </div>
           <div
