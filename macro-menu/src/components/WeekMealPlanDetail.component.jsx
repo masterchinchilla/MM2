@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import EditOptions from "./EditOptions.component";
-import CreateDay from "./CreateDay.component";
-import DayDetail from "./DayDetail.component";
 import _ from "lodash";
 import dayjs from "dayjs";
 import jwtDecode from "jwt-decode";
+import { Slider } from "@mui/material";
+import EditOptions from "./EditOptions.component";
+import CreateDay from "./CreateDay.component";
+import DayDetail from "./DayDetail.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -9084,7 +9085,12 @@ export default class WeekMealPlanDetail extends Component {
       }
     }
   };
-
+  handleChangeMealPrcnt = (e, mealTypeCode) => {
+    let newPrcnt = e.target.value;
+    let thisWeekMealPlan = this.state.thisWeekMealPlan;
+    thisWeekMealPlan.thisWMP[`${mealTypeCode}Weight`] = newPrcnt;
+    this.setState({ thisWeekMealPlan: thisWeekMealPlan });
+  };
   render() {
     const daysOfWeek = this.state.daysOfWeek;
     const thisWMP = this.state.thisWeekMealPlan.thisWMP;
@@ -9317,6 +9323,20 @@ export default class WeekMealPlanDetail extends Component {
                               }
                             >
                               <div className="accordion-body accrdnWeekMealPlanMacroBdy">
+                                <Slider
+                                  aria-label="Always visible"
+                                  defaultValue={80}
+                                  value={
+                                    this.state.thisWeekMealPlan.thisWMP
+                                      .breakfastWeight
+                                  }
+                                  // getAriaValueText={valuetext}
+                                  valueLabelDisplay="on"
+                                  className="mealPrcntSldr"
+                                  onChange={(e) => {
+                                    this.handleChangeMealPrcnt(e, "breakfast");
+                                  }}
+                                />
                                 <div className="badge bg-primary weekMealPlanMacroBadge">
                                   <h6>Breakfast %</h6>
                                   <input

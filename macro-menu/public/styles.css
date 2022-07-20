@@ -661,3 +661,6 @@ form fieldset{
   padding: 0.5rem 1rem;
   margin:unset;
 }
+.mealPrcntSldr{
+  width: 10rem;
+}
