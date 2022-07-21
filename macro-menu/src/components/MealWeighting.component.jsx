@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const MealWeighting = (props) => {
   const thisFormState = props.thisFormState;
   const [subFormUnChanged, changeSubFormState] = useState(true);
+  const [subFormBttnState, changeSubFormBttnState] =
+    useState("subFrmBttnDisabled");
   const [breakfastWeight, breakfastWeightUpdate] = useState(
     props.mealWeights.breakfast
   );
@@ -16,18 +18,24 @@ const MealWeighting = (props) => {
   const [dessertWeight, dessertWeightUpdate] = useState(
     props.mealWeights.dessert
   );
-  function applyChange() {
-    props.onUpdateWeights({
-      breakfast: breakfastWeight,
-      snack1: snack1Weight,
-      lunch: lunchWeight,
-      snack2: snack2Weight,
-      dinner: dinnerWeight,
-      dessert: dessertWeight,
-    });
+  function applyChange(e) {
+    changeSubFormState(true);
+    changeSubFormBttnState("subFrmBttnDisabled");
+    props.onUpdateWeights(
+      {
+        breakfast: breakfastWeight,
+        snack1: snack1Weight,
+        lunch: lunchWeight,
+        snack2: snack2Weight,
+        dinner: dinnerWeight,
+        dessert: dessertWeight,
+      },
+      e
+    );
   }
   function handleUpdateWeights(newPrcnt, mealTypeCode) {
     changeSubFormState(false);
+    changeSubFormBttnState("subFrmBttnEnabled");
     let weightsArray = [
       { name: "breakfast", value: breakfastWeight },
       { name: "snack1", value: snack1Weight },
@@ -87,13 +95,31 @@ const MealWeighting = (props) => {
   }
   return (
     <div className="mlWghtsCont">
-      <button
-        className="btn btn-primary"
-        onClick={applyChange}
+      {/* <button className="applyMlWghtChngBttn"> */}
+      <FontAwesomeIcon
+        icon="fa-solid fa-circle-check"
+        onMouseEnter={() => {
+          if (subFormBttnState === "subFrmBttnEnabled") {
+            changeSubFormBttnState("subFrmBttnHovered");
+          } else {
+            return null;
+          }
+        }}
+        onMouseLeave={() => {
+          if (subFormBttnState === "subFrmBttnHovered") {
+            changeSubFormBttnState("subFrmBttnEnabled");
+          } else {
+            return null;
+          }
+        }}
+        onClick={(e) => {
+          // changeSubFormBttnState("subFrmBttnClicked");
+          applyChange(e);
+        }}
         disabled={subFormUnChanged}
-      >
-        <FontAwesomeIcon icon="fa-solid fa-circle-check" />
-      </button>
+        className={`circleCheck ${subFormBttnState}`}
+      />
+      {/* </button> */}
       <div className="form-group mealPrcntSldr">
         <label>
           Breakfast&nbsp;

@@ -680,3 +680,30 @@ div.mealPrcntSldr:first-child{
   margin:5px !important;
   height:1.5rem;
 }
+.applyMlWghtChngBttn{
+  background-color: transparent;
+  border-style: none;
+  
+}
+.circleCheck{
+  height:3rem;align-self: flex-end;
+  margin:1rem 0.5rem -2rem 1rem;
+}
+
+.subFrmBttnDisabled{
+  color: #0d6dfd81;
+}
+
+.subFrmBttnEnabled{
+  color: #0d6efd;
+}
+.subFrmBttnHovered{
+  height:3.5rem;
+}
+.subFrmBttnClicked{
+  height: 3.25rem;
+}
+.applyMlWghtChngBttn svg {
+  color:#0d6efd;
+  
+}
