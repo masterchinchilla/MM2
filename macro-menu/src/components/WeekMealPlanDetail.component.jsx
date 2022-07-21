@@ -7,11 +7,18 @@ import { Slider } from "@mui/material";
 import EditOptions from "./EditOptions.component";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
+import MealWeighting from "./MealWeighting.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      breakfastWghtTemp: 1,
+      snack1WghtTemp: 1,
+      lunchWghtTemp: 1,
+      snackWghtTemp2: 1,
+      dinnerWghtTemp: 1,
+      dessertWghtTemp: 1,
       axiosCallConfig: {},
       thisUserType: "admin",
       thisGRFUser: {
@@ -7380,6 +7387,19 @@ export default class WeekMealPlanDetail extends Component {
       },
     };
   }
+  handleUpdateWeights = (weightsObj) => {
+    let thisWeekMealPlan = this.state.thisWeekMealPlan;
+    let thisWMP = thisWeekMealPlan.thisWMP;
+    thisWMP.breakfastWeight = weightsObj.breakfast;
+    thisWMP.snack1Weight = weightsObj.snack1;
+    thisWMP.lunchWeight = weightsObj.lunch;
+    thisWMP.snack2Weight = weightsObj.snack2;
+    thisWMP.dinnerWeight = weightsObj.dinner;
+    thisWMP.dessertWeight = weightsObj.dessert;
+    console.log(thisWMP);
+    thisWeekMealPlan.thisWMP = thisWMP;
+    this.setState({ thisWeekMealPlan: thisWeekMealPlan });
+  };
   handleCopyWMP = () => {
     const pattern = /missing/;
     const newWMP = _.pick(this.state.thisWeekMealPlan.thisWMP, [
@@ -9087,9 +9107,9 @@ export default class WeekMealPlanDetail extends Component {
   };
   handleChangeMealPrcnt = (e, mealTypeCode) => {
     let newPrcnt = e.target.value;
-    let thisWeekMealPlan = this.state.thisWeekMealPlan;
-    thisWeekMealPlan.thisWMP[`${mealTypeCode}Weight`] = newPrcnt;
-    this.setState({ thisWeekMealPlan: thisWeekMealPlan });
+    // let thisWeekMealPlan = this.state.thisWeekMealPlan;
+    // thisWeekMealPlan.thisWMP[`${mealTypeCode}Weight`] = newPrcnt;
+    this.setState({ [`${mealTypeCode}WghtTemp`]: newPrcnt });
   };
   render() {
     const daysOfWeek = this.state.daysOfWeek;
@@ -9323,20 +9343,52 @@ export default class WeekMealPlanDetail extends Component {
                               }
                             >
                               <div className="accordion-body accrdnWeekMealPlanMacroBdy">
-                                <Slider
-                                  aria-label="Always visible"
-                                  defaultValue={80}
-                                  value={
-                                    this.state.thisWeekMealPlan.thisWMP
-                                      .breakfastWeight
-                                  }
-                                  // getAriaValueText={valuetext}
-                                  valueLabelDisplay="on"
-                                  className="mealPrcntSldr"
-                                  onChange={(e) => {
-                                    this.handleChangeMealPrcnt(e, "breakfast");
+                                <MealWeighting
+                                  mealWeights={{
+                                    breakfast:
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .breakfastWeight,
+                                    snack1:
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .snack1Weight,
+                                    lunch:
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .lunchWeight,
+                                    snack2:
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .snack2Weight,
+                                    dinner:
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .dinnerWeight,
+                                    dessert:
+                                      this.state.thisWeekMealPlan.thisWMP
+                                        .dessertWeight,
                                   }}
+                                  thisFormState={
+                                    this.state.thisWeekMealPlan.thisFormState
+                                  }
+                                  onUpdateWeights={this.handleUpdateWeights}
                                 />
+                                {/* <div className="form-group">
+                                  <label>
+                                    Breakfast {this.state.breakfastWghtTemp}%
+                                  </label>
+                                  <Slider
+                                    // aria-label="Always visible"
+                                    defaultValue={80}
+                                    value={this.state.breakfastWghtTemp}
+                                    // getAriaValueText={valuetext}
+                                    // valueLabelDisplay="on"
+                                    className="mealPrcntSldr"
+                                    onChange={(e) => {
+                                      this.handleChangeMealPrcnt(
+                                        e,
+                                        "breakfast"
+                                      );
+                                    }}
+                                  />
+                                </div> */}
+
                                 <div className="badge bg-primary weekMealPlanMacroBadge">
                                   <h6>Breakfast %</h6>
                                   <input

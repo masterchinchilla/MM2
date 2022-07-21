@@ -661,6 +661,22 @@ form fieldset{
   padding: 0.5rem 1rem;
   margin:unset;
 }
+.mlWghtsCont{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .mealPrcntSldr{
-  width: 10rem;
+  width:80%;
+}
+div.mealPrcntSldr:first-child{
+  margin-top: 1rem;
+}
+.mealWeightNumField{
+  display:unset !important;
+  width:2.5rem !important;
+  padding:4px 5px 6px 5px !important;
+  margin:5px !important;
+  height:1.5rem;
 }
