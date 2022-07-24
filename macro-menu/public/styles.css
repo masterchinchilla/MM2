@@ -116,7 +116,7 @@ button.accordion-button {
 .mealImgNTblRow {
   display: grid;
   grid-template-columns: 30% 70%;
-  grid-template-rows: 2.5rem minmax(10vw,100px);
+  grid-template-rows: 3rem minmax(10vw,100px);
   grid-template-areas:
     "mealImg mealPrepInst"
     "mealImg mealTextArea";
@@ -361,7 +361,7 @@ button.accordion-button {
 }
 .ingrdntPicDiv{
   grid-area: ingrdntPicDiv;
-  width: 4.5rem;
+  width: 85%;
   height: 4.5rem;
   display: flex;
   flex-direction: column;
@@ -439,9 +439,42 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   padding-bottom:0.5rem !important;
 } 
 @media only screen and (max-width: 529px) {
+  /* *{
+    font-size: 85%;
+  } */
+  input, select {
+    font-size: small !important;
+    padding: 0 0 2px 5px !important;
+  }
+  .ingrdntFrm div.recipeSelect {
+    font-size: small !important;
+      margin:2px !important;
+padding:0 !important;
+  }
+    .recipeSelect * {
+      font-size: small !important;
+      /* margin: 2px !important; */
+      padding: 0 !important;
+    }
+    .css-3iigni-container *{
+      
+    }
   .mlIngrdntsCard *{
     white-space: normal;
     margin-right: 0;
+  }
+  .mealImg{
+    background-size: contain;
+  }
+  .ingrdntPicDiv{
+    background-size: contain;
+    border-radius: 0;
+  }
+  textarea{
+    font-size: 0.85rem !important;
+  }
+  .form-select{
+    background-position: right 2px center !important;
   }
 }
 .mlIngrdntsCntnr{
@@ -509,7 +542,7 @@ h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
 }
 .wmpNameInput{
   margin-right:0.5rem;
-  width: -webkit-fill-available !important;
+  /* width: -webkit-fill-available !important; */
   grid-area: wmpNameInput;
   height:2.1rem;
 }
@@ -675,19 +708,40 @@ div.mealPrcntSldr:first-child{
 }
 .mealWeightNumField{
   display:unset !important;
-  width:2.5rem !important;
+  width:3rem !important;
   padding:4px 5px 6px 5px !important;
   margin:5px !important;
   height:1.5rem;
 }
-.applyMlWghtChngBttn{
-  background-color: transparent;
-  border-style: none;
-  
+.applyMlWghtChngBttnCont{
+      display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: min-content;
+        grid-area: chckBttn;
 }
+.applyMlWghtChngBttnLabel{
+  font-size: 0.6rem;
+        text-align: center;
+        height: min-content !important;
+}
+        
+.applyMlWghtChngBttn{
+      border-radius: 100% !important;
+    width: 3rem !important;
+    height: 3rem !important;
+  margin: 0;
+  z-index: 3;
+}
+.applyMlWghtChngBttn:disabled{
+  background-color: #649ff7 !important;
+  opacity: 1 !important;
+}
+
+.applyMlWghtChngBttn:active {height:3.45rem}
 .circleCheck{
-  height:3rem;align-self: flex-end;
-  margin:1rem 0.5rem -2rem 1rem;
+  
 }
 
 .subFrmBttnDisabled{
@@ -704,6 +758,45 @@ div.mealPrcntSldr:first-child{
   height: 3.25rem;
 }
 .applyMlWghtChngBttn svg {
-  color:#0d6efd;
-  
+  color:#ffffff;
+      margin: 0 !important;
+        height: 2rem !important;
+}
+.mlWghtPcrntChckrDiv {
+  display: grid;
+  grid-template-columns: 85% auto;
+  grid-template-rows: 1.5rem auto;
+  grid-template-areas: "explanation chckBttn"
+    "progBar chckBttn";
+  width: 90%;
+  align-items: center;
+  /* justify-items: stretch; */
+  margin: 1rem -5px auto 0;
+  justify-content: center;
+  /* align-content: center; */
+}
+.progress{
+  margin: 0 -0.5rem 0.5rem 0;
+  z-index: 1;
+  grid-area: progBar;
+  align-self: start;
+}
+.progress-bar{
+  z-index: 2;
+}
+.labelOff{
+  visibility: hidden;
+}
+.mlWghtPrcntChckrExplntn {
+  grid-area: explanation;
+  font-size: 0.8rem;
+  text-align: right;
+  font-style: italic;
+  margin-right: 0.5rem;
+  /* padding: 0 !important; */
+  /* height: min-content !important; */
+}
+.accrdnWMPDetailsBdy div.accordion-flush{
+      margin-right: -0.5px;
+        margin-bottom: -0.5px;
 }

@@ -7399,6 +7399,7 @@ export default class WeekMealPlanDetail extends Component {
     thisWMP.dinnerWeight = weightsObj.dinner;
     thisWMP.dessertWeight = weightsObj.dessert;
     thisWeekMealPlan.thisWMP = thisWMP;
+    thisWeekMealPlan.recordChanged = true;
     state.thisWeekMealPlan = thisWeekMealPlan;
     this.setState(state);
   };
@@ -8081,6 +8082,7 @@ export default class WeekMealPlanDetail extends Component {
       thisWMP.GRFUser._id
     );
     thisWeekMealPlan.thisFormState = "viewing";
+    thisWeekMealPlan.recordChanged = false;
     let daysOfWeek = state.daysOfWeek;
     let mealTypes = state.mealTypes;
     for (let i = 0; i < daysOfWeek.length; i++) {
@@ -9369,27 +9371,7 @@ export default class WeekMealPlanDetail extends Component {
                                   }
                                   onUpdateWeights={this.handleUpdateWeights}
                                 />
-                                {/* <div className="form-group">
-                                  <label>
-                                    Breakfast {this.state.breakfastWghtTemp}%
-                                  </label>
-                                  <Slider
-                                    // aria-label="Always visible"
-                                    defaultValue={80}
-                                    value={this.state.breakfastWghtTemp}
-                                    // getAriaValueText={valuetext}
-                                    // valueLabelDisplay="on"
-                                    className="mealPrcntSldr"
-                                    onChange={(e) => {
-                                      this.handleChangeMealPrcnt(
-                                        e,
-                                        "breakfast"
-                                      );
-                                    }}
-                                  />
-                                </div> */}
-
-                                <div className="badge bg-primary weekMealPlanMacroBadge">
+                                {/* <div className="badge bg-primary weekMealPlanMacroBadge">
                                   <h6>Breakfast %</h6>
                                   <input
                                     type="number"
@@ -9568,7 +9550,7 @@ export default class WeekMealPlanDetail extends Component {
                                         : false
                                     }
                                   ></input>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>

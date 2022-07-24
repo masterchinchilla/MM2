@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MealWeighting = (props) => {
   const thisFormState = props.thisFormState;
-  const [subFormUnChanged, changeSubFormState] = useState(true);
+  const [subFormUnChangedOrInvalid, changeSubFormState] = useState(true);
   const [subFormBttnState, changeSubFormBttnState] =
     useState("subFrmBttnDisabled");
   const [breakfastWeight, breakfastWeightUpdate] = useState(
@@ -17,6 +17,14 @@ const MealWeighting = (props) => {
   const [dinnerWeight, dinnerWeightUpdate] = useState(props.mealWeights.dinner);
   const [dessertWeight, dessertWeightUpdate] = useState(
     props.mealWeights.dessert
+  );
+  const [mlWghtPrctPrgrss, changeMlWghtPrcntProgress] = useState(
+    props.mealWeights.breakfast +
+      props.mealWeights.snack1 +
+      props.mealWeights.lunch +
+      props.mealWeights.snack2 +
+      props.mealWeights.dinner +
+      props.mealWeights.dessert
   );
   function applyChange(e) {
     changeSubFormState(true);
@@ -44,18 +52,15 @@ const MealWeighting = (props) => {
       { name: "dinner", value: dinnerWeight },
       { name: "dessert", value: dessertWeight },
     ];
-    console.log(weightsArray);
     for (let i = 0; i < weightsArray.length; i++) {
       if (weightsArray[i].name === mealTypeCode) {
         weightsArray[i].value = newPrcnt;
       }
-      console.log(weightsArray[i]);
     }
     let consumed = 0;
     for (let i = 0; i < weightsArray.length; i++) {
       consumed = consumed + weightsArray[i].value;
     }
-    console.log(consumed);
     let difference = 100 - consumed;
     if (difference < 0) {
       let remainingDifference = difference - difference - difference;
@@ -92,34 +97,67 @@ const MealWeighting = (props) => {
     snack2WeightUpdate(Math.round(weightsArray[3].value));
     dinnerWeightUpdate(Math.round(weightsArray[4].value));
     dessertWeightUpdate(Math.round(weightsArray[5].value));
+    let newConsumed = 0;
+    for (let i = 0; i < weightsArray.length; i++) {
+      newConsumed += weightsArray[i].value;
+    }
+    changeMlWghtPrcntProgress(Math.round(newConsumed));
+    if (newConsumed < 100) {
+      changeSubFormState(true);
+    } else {
+      changeSubFormState(false);
+    }
   }
   return (
     <div className="mlWghtsCont">
-      {/* <button className="applyMlWghtChngBttn"> */}
-      <FontAwesomeIcon
-        icon="fa-solid fa-circle-check"
-        onMouseEnter={() => {
-          if (subFormBttnState === "subFrmBttnEnabled") {
-            changeSubFormBttnState("subFrmBttnHovered");
-          } else {
-            return null;
-          }
-        }}
-        onMouseLeave={() => {
-          if (subFormBttnState === "subFrmBttnHovered") {
-            changeSubFormBttnState("subFrmBttnEnabled");
-          } else {
-            return null;
-          }
-        }}
-        onClick={(e) => {
-          // changeSubFormBttnState("subFrmBttnClicked");
-          applyChange(e);
-        }}
-        disabled={subFormUnChanged}
-        className={`circleCheck ${subFormBttnState}`}
-      />
-      {/* </button> */}
+      <div className="mlWghtPcrntChckrDiv">
+        <span className="mlWghtPrcntChckrExplntn">
+          Allocate 100% Among Meal Types
+        </span>
+        <div className="progress">
+          <div
+            className={
+              mlWghtPrctPrgrss < 100
+                ? "progress-bar progress-bar-striped bg-warning"
+                : subFormUnChangedOrInvalid
+                ? "progress-bar progress-bar-striped"
+                : "progress-bar progress-bar-striped bg-success"
+            }
+            role="progressbar"
+            aria-label="Default striped example"
+            style={{ width: `${mlWghtPrctPrgrss}%` }}
+            aria-valuenow={mlWghtPrctPrgrss}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            {mlWghtPrctPrgrss}
+          </div>
+        </div>
+        <div className="applyMlWghtChngBttnCont">
+          <button
+            id="mlWghtPrcntPrgrssBar"
+            className="btn btn-primary applyMlWghtChngBttn"
+            onClick={(e) => {
+              // changeSubFormBttnState("subFrmBttnClicked");
+              applyChange(e);
+            }}
+            disabled={subFormUnChangedOrInvalid}
+          >
+            <FontAwesomeIcon icon="fa-solid fa-check" />
+          </button>
+          <label
+            htmlFor="mlWghtPrcntPrgrssBar"
+            className={
+              !subFormUnChangedOrInvalid
+                ? "applyMlWghtChngBttnLabel"
+                : "applyMlWghtChngBttnLabel labelOff"
+            }
+          >
+            Apply
+          </label>
+        </div>
+      </div>
+
       <div className="form-group mealPrcntSldr">
         <label>
           Breakfast&nbsp;
