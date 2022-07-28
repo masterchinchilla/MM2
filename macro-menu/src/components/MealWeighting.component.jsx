@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MealWeighting = (props) => {
   const thisFormState = props.thisFormState;
-  const [subFormUnChangedOrInvalid, changeSubFormState] = useState(true);
+  const [subFormUnChangedOrInvalid, setSubFrmUnChngdOrInvld] = useState(true);
   const [subFormBttnState, changeSubFormBttnState] =
     useState("subFrmBttnDisabled");
   const [breakfastWeight, breakfastWeightUpdate] = useState(
@@ -27,7 +27,7 @@ const MealWeighting = (props) => {
       props.mealWeights.dessert
   );
   function applyChange(e) {
-    changeSubFormState(true);
+    setSubFrmUnChngdOrInvld(true);
     changeSubFormBttnState("subFrmBttnDisabled");
     props.onUpdateWeights(
       {
@@ -41,73 +41,322 @@ const MealWeighting = (props) => {
       e
     );
   }
-  function handleUpdateWeights(newPrcnt, mealTypeCode) {
-    changeSubFormState(false);
-    changeSubFormBttnState("subFrmBttnEnabled");
+  function handleUpdateWeights(e, mealTypeCode) {
+    const newPrcnt = JSON.parse(e.target.value);
+    console.log(`user updated ${mealTypeCode} weight to ${newPrcnt}`);
     let weightsArray = [
-      { name: "breakfast", value: breakfastWeight },
-      { name: "snack1", value: snack1Weight },
-      { name: "lunch", value: lunchWeight },
-      { name: "snack2", value: snack2Weight },
-      { name: "dinner", value: dinnerWeight },
-      { name: "dessert", value: dessertWeight },
+      { name: "breakfast", value: breakfastWeight, amntToReduceByPerChnge: 0 },
+      { name: "snack1", value: snack1Weight, amntToReduceByPerChnge: 0 },
+      { name: "lunch", value: lunchWeight, amntToReduceByPerChnge: 0 },
+      { name: "snack2", value: snack2Weight, amntToReduceByPerChnge: 0 },
+      { name: "dinner", value: dinnerWeight, amntToReduceByPerChnge: 0 },
+      { name: "dessert", value: dessertWeight, amntToReduceByPerChnge: 0 },
     ];
-    for (let i = 0; i < weightsArray.length; i++) {
-      if (weightsArray[i].name === mealTypeCode) {
-        weightsArray[i].value = newPrcnt;
-      }
+    switch (mealTypeCode) {
+      case "breakfast":
+        breakfastWeightUpdate(newPrcnt);
+        weightsArray[0].value = newPrcnt;
+        break;
+      case "snack1":
+        snack1WeightUpdate(newPrcnt);
+        weightsArray[1].value = newPrcnt;
+        break;
+      case "lunch":
+        lunchWeightUpdate(newPrcnt);
+        weightsArray[2].value = newPrcnt;
+        break;
+      case "snack2":
+        snack2WeightUpdate(newPrcnt);
+        weightsArray[3].value = newPrcnt;
+        break;
+      case "dinner":
+        dinnerWeightUpdate(newPrcnt);
+        weightsArray[4].value = newPrcnt;
+        break;
+      case "dessert":
+        dessertWeightUpdate(newPrcnt);
+        weightsArray[5].value = newPrcnt;
+        break;
     }
+    console.log(weightsArray[0]);
+    console.log(weightsArray[1]);
+    console.log(weightsArray[2]);
+    console.log(weightsArray[3]);
+    console.log(weightsArray[4]);
+    console.log(weightsArray[5]);
     let consumed = 0;
     for (let i = 0; i < weightsArray.length; i++) {
       consumed = consumed + weightsArray[i].value;
     }
+    console.log(`total consumed: ${consumed}`);
     let difference = 100 - consumed;
-    if (difference < 0) {
-      let remainingDifference = difference - difference - difference;
-      let overPerMeal;
-      overPerMeal = remainingDifference / 5;
-      let thisMealTypeChecked = false;
-      for (let i = 0; i < weightsArray.length; i++) {
-        if (weightsArray[i].name !== mealTypeCode) {
-          if (weightsArray[i].value >= overPerMeal) {
-            weightsArray[i].value -= overPerMeal;
-            remainingDifference -= overPerMeal;
-          } else {
-            let amountShort = overPerMeal - weightsArray[i].value;
-            remainingDifference -= weightsArray[i].value;
-            weightsArray[i].value = 0;
-            remainingDifference += amountShort;
-            let remainingMealsCount = 5;
-            if (thisMealTypeChecked) {
-              remainingMealsCount -= 1;
-            }
-            remainingMealsCount -= i;
-            //  = i === 0 ? 5 - 1 : 4 - i;
-            overPerMeal = remainingDifference / remainingMealsCount;
-            //number meals left: at array position 0, =5-1, at 1,=4-i,at 2,=4-i,at 3,4-i,at 4
-          }
-        } else {
-          thisMealTypeChecked = true;
-        }
+    console.log(`consumed is ${difference} over/under 100`);
+    changeMlWghtPrcntProgress(consumed);
+    if (difference >= 0) {
+      console.log(`consumed is under or at 100`);
+      if ((difference = 0)) {
+        console.log(`consumed is exactly 100`);
+        setSubFrmUnChngdOrInvld(false);
+        // changeSubFormBttnState("subFormBttnEnabled");
+        return;
+      } else {
+        console.log(`consumed is under 100`);
+        setSubFrmUnChngdOrInvld(true);
+        return;
       }
-    }
-    breakfastWeightUpdate(Math.round(weightsArray[0].value));
-    snack1WeightUpdate(Math.round(weightsArray[1].value));
-    lunchWeightUpdate(Math.round(weightsArray[2].value));
-    snack2WeightUpdate(Math.round(weightsArray[3].value));
-    dinnerWeightUpdate(Math.round(weightsArray[4].value));
-    dessertWeightUpdate(Math.round(weightsArray[5].value));
-    let newConsumed = 0;
-    for (let i = 0; i < weightsArray.length; i++) {
-      newConsumed += weightsArray[i].value;
-    }
-    changeMlWghtPrcntProgress(Math.round(newConsumed));
-    if (newConsumed < 100) {
-      changeSubFormState(true);
     } else {
-      changeSubFormState(false);
+      console.log(`consumed is over 100`);
+      let absDifference = Math.abs(difference);
+      console.log(`absolute amount over is ${absDifference}`);
+      let itemsToReduce = 5;
+      let itemsToDecrementBy1 = 0;
+
+      function updateAmntsToReduceBy() {
+        let diffMinusRemainder = 0;
+        let remainder = 0;
+        let integerQuotient = 0;
+        let roundedRemainder = 0;
+        if (itemsToReduce <= absDifference) {
+          remainder = absDifference % itemsToReduce;
+          console.log(
+            `amount over (${absDifference}), divided by ${itemsToReduce} has a remainder of ${remainder}`
+          );
+          roundedRemainder = Math.round(remainder);
+          diffMinusRemainder = absDifference - roundedRemainder;
+          console.log(`amount over minus remainder is ${diffMinusRemainder}`);
+          integerQuotient = diffMinusRemainder / itemsToReduce;
+
+          console.log(
+            `if split evenly over ${itemsToReduce} meal types, can subtract ${integerQuotient} from ${itemsToReduce} meal weights to end up back at total of 100%`
+          );
+        } else {
+          diffMinusRemainder = absDifference;
+          integerQuotient = 1;
+          console.log(
+            `Can subtract ${integerQuotient} from ${integerQuotient} meal weights to end up back at total of 100%`
+          );
+        }
+
+        if (roundedRemainder === 0) {
+          console.log(
+            `since there was no remainder, the remainder doesn't need to be spread across meal weights`
+          );
+          itemsToDecrementBy1 = 0;
+        } else {
+          itemsToDecrementBy1 = roundedRemainder / 1;
+          console.log(
+            `to apply the remainder we should decrement ${itemsToDecrementBy1} mealType weights by 1`
+          );
+        }
+        for (let i = 0; i < weightsArray.length; i++) {
+          console.log(
+            `checking ${weightsArray[i].name} for amount to reduce by per change`
+          );
+          if (
+            weightsArray[i].value === weightsArray[i].amntToReduceByPerChnge
+          ) {
+            console.log(
+              `we can't reduce ${weightsArray[i].name} since it has no remaining extra`
+            );
+          } else {
+            if (weightsArray[i].name === mealTypeCode) {
+              console.log(
+                `no need to reduce ${weightsArray[i].name} since that was the weight updated`
+              );
+            } else {
+              if (absDifference > 0) {
+                weightsArray[i].amntToReduceByPerChnge += integerQuotient;
+                diffMinusRemainder -= integerQuotient;
+                absDifference -= integerQuotient;
+                console.log(
+                  `difference to be applied is now reduced to ${diffMinusRemainder}`
+                );
+                if (
+                  weightsArray[i].value < weightsArray[i].amntToReduceByPerChnge
+                ) {
+                  let localQuotient = 0;
+                  localQuotient += integerQuotient;
+                  let amntThisWghtShrtQutnt =
+                    weightsArray[i].amntToReduceByPerChnge -
+                    weightsArray[i].value;
+                  localQuotient -= amntThisWghtShrtQutnt;
+                  console.log(
+                    `The ${weightsArray[i].name} value of ${weightsArray[i].value} is ${amntThisWghtShrtQutnt} less than ${weightsArray[i].amntToReduceByPerChnge}, which is the amount each meal weight needed to reduce to bring total back down to 100%.`
+                  );
+                  // weightsArray[i].amntToReduceByPerChnge = 0;
+                  // console.log(weightsArray[i].amntToReduceByPerChnge);
+                  weightsArray[i].amntToReduceByPerChnge = localQuotient;
+                  // console.log(weightsArray[i].amntToReduceByPerChnge);
+                  console.log(weightsArray);
+                  console.log(
+                    `so we're only reducing ${weightsArray[i].name} to ${weightsArray[i].amntToReduceByPerChnge}`
+                  );
+                  diffMinusRemainder += amntThisWghtShrtQutnt;
+                  absDifference += amntThisWghtShrtQutnt;
+                  itemsToReduce--;
+                  console.log(
+                    `and we have to add ${amntThisWghtShrtQutnt} back to the diffMinusRemainder to now equal ${diffMinusRemainder} and re-divide that up among the ${itemsToReduce} other mealTypes`
+                  );
+                }
+                if (
+                  itemsToDecrementBy1 > 0 &&
+                  weightsArray[i].amntToReduceByPerChnge < weightsArray[i].value
+                ) {
+                  weightsArray[i].amntToReduceByPerChnge++;
+                  console.log(
+                    `we still need to apply the remainder to ${itemsToDecrementBy1} mealTypes. ${weightsArray[i].name} has enough remaining value to be decremented by a new total of ${weightsArray[i].amntToReduceByPerChnge}`
+                  );
+                  itemsToDecrementBy1--;
+                  absDifference--;
+                  console.log(
+                    `we still need to apply remainder to ${itemsToDecrementBy1} items`
+                  );
+                  // console.log(
+                  //   `we still need to reduce ${itemsToReduce} items by the integer quotient`
+                  // );
+                }
+              } else {
+                itemsToReduce--;
+              }
+            }
+          }
+        }
+        // console.log(weightsArray);
+        console.log(`absDifference now equals: ${absDifference}`);
+        console.log(`itemsToReduce now equals: ${itemsToReduce}`);
+        console.log(`itemsToDecrementBy1 now equals: ${itemsToDecrementBy1}`);
+        console.log(weightsArray[0]);
+        console.log(weightsArray[1]);
+        console.log(weightsArray[2]);
+        console.log(weightsArray[3]);
+        console.log(weightsArray[4]);
+        console.log(weightsArray[5]);
+      }
+      updateAmntsToReduceBy();
+      let x = 0;
+      while (absDifference > 0) {
+        x++;
+        console.log("loop pass " + x);
+        updateAmntsToReduceBy();
+      }
+      let mlWghtPrcntProgress = 0;
+      for (let i = 0; i < weightsArray.length; i++) {
+        mlWghtPrcntProgress +=
+          weightsArray[i].value - weightsArray[i].amntToReduceByPerChnge;
+      }
+      console.log(`user has allocated ${mlWghtPrcntProgress}`);
+      changeMlWghtPrcntProgress(mlWghtPrcntProgress);
+      console.log(weightsArray[0]);
+      console.log(weightsArray[1]);
+      console.log(weightsArray[2]);
+      console.log(weightsArray[3]);
+      console.log(weightsArray[4]);
+      console.log(weightsArray[5]);
+      console.log(`updating local state meal weight percent progress`);
+      if (mlWghtPrcntProgress < 100) {
+        setSubFrmUnChngdOrInvld(true);
+        console.log(
+          `since user has allocted less than 100%, changes cannot be applied and saved yet`
+        );
+      } else {
+        setSubFrmUnChngdOrInvld(false);
+        console.log(
+          `since user has allocted 100%, changes can be applied and saved`
+        );
+      }
+      console.log(`now updating local state weights`);
+      breakfastWeightUpdate(
+        (weightsArray[0].value -= weightsArray[0].amntToReduceByPerChnge)
+      );
+      snack1WeightUpdate(
+        (weightsArray[1].value -= weightsArray[1].amntToReduceByPerChnge)
+      );
+      lunchWeightUpdate(
+        (weightsArray[2].value -= weightsArray[2].amntToReduceByPerChnge)
+      );
+      snack2WeightUpdate(
+        (weightsArray[3].value -= weightsArray[3].amntToReduceByPerChnge)
+      );
+      dinnerWeightUpdate(
+        (weightsArray[4].value -= weightsArray[4].amntToReduceByPerChnge)
+      );
+      dessertWeightUpdate(
+        (weightsArray[5].value -= weightsArray[5].amntToReduceByPerChnge)
+      );
     }
   }
+  // for (let i = 0; i < weightsArray.length; i++) {
+  //   if (weightsArray[i].name === mealTypeCode) {
+  //     weightsArray[i].value = weightsArray[i].value;
+  //     console.log(`${mealTypeCode} was changed by user`);
+  //   } else {
+  //     console.log(
+  //       `${weightsArray[i].name} value was ${weightsArray[i].value}`
+  //     );
+  //     if (weightsArray[i].value < integerQuotient) {
+  //       let amntThisWghtShortQuotient =
+  //         integerQuotient - weightsArray[i].value;
+  //       let remainingMealWghtsToUpdt = 5;
+  //     } else {
+  //       weightsArray[i].value -= integerQuotient;
+  //     }
+  //     console.log(
+  //       `${weightsArray[i].name} value decreased by ${integerQuotient} to ${weightsArray[i].value}`
+  //     );
+  //     if (itemsToDecrementBy1 === 0) {
+  //       weightsArray[i].value = weightsArray[i].value;
+  //       console.log("no more remainder");
+  //     } else {
+  //       weightsArray[i].value--;
+  //       console.log(
+  //         `${weightsArray[i].name} decremented by 1 to ${weightsArray[i].value}`
+  //       );
+  //       itemsToDecrementBy1--;
+  //       console.log(`items left to decrement: ${itemsToDecrementBy1}`);
+  //     }
+  //     switch (weightsArray[i].name) {
+  //       case "breakfast":
+  //         breakfastWeightUpdate(weightsArray[i].value);
+  //         console.log(
+  //           `local state of ${weightsArray[i].name} updated to ${weightsArray[i].value}`
+  //         );
+  //         break;
+  //       case "snack1":
+  //         snack1WeightUpdate(weightsArray[i].value);
+  //         console.log(
+  //           `local state of ${weightsArray[i].name} updated to ${weightsArray[i].value}`
+  //         );
+  //         break;
+  //       case "lunch":
+  //         lunchWeightUpdate(weightsArray[i].value);
+  //         console.log(
+  //           `local state of ${weightsArray[i].name} updated to ${weightsArray[i].value}`
+  //         );
+  //         break;
+  //       case "snack2":
+  //         snack2WeightUpdate(weightsArray[i].value);
+  //         console.log(
+  //           `local state of ${weightsArray[i].name} updated to ${weightsArray[i].value}`
+  //         );
+  //         break;
+  //       case "dinner":
+  //         dinnerWeightUpdate(weightsArray[i].value);
+  //         console.log(
+  //           `local state of ${weightsArray[i].name} updated to ${weightsArray[i].valuedinnerWeight}`
+  //         );
+  //         break;
+  //       case "dessert":
+  //         dessertWeightUpdate(weightsArray[i].value);
+  //         console.log(
+  //           `local state of ${weightsArray[i].name} updated to ${weightsArray[i].value}`
+  //         );
+  //         break;
+  //     }
+  //   }
+  // }
+  // console.log(
+  //   `total should always = 100, so updated to: ${mlWghtPrctPrgrss}`
+  // );
   return (
     <div className="mlWghtsCont">
       <div className="mlWghtPcrntChckrDiv">
@@ -127,8 +376,8 @@ const MealWeighting = (props) => {
             aria-label="Default striped example"
             style={{ width: `${mlWghtPrctPrgrss}%` }}
             aria-valuenow={mlWghtPrctPrgrss}
-            aria-valuemin="0"
-            aria-valuemax="100"
+            aria-valuemin={0}
+            aria-valuemax={100}
           >
             {mlWghtPrctPrgrss}
           </div>
@@ -166,18 +415,22 @@ const MealWeighting = (props) => {
             type={"number"}
             value={breakfastWeight}
             onChange={(e) => {
-              handleUpdateWeights(e.target.value, "breakfast");
+              handleUpdateWeights(e, "breakfast");
             }}
+            // disabled={true}
             disabled={thisFormState === "viewing" ? true : false}
           />
           %
         </label>
         <Slider
-          defaultValue={80}
+          defaultValue={0}
+          step={1}
+          min={0}
+          max={100}
           value={breakfastWeight}
           className="mealPrcntSldr"
           onChange={(e) => {
-            handleUpdateWeights(e.target.value, "breakfast");
+            handleUpdateWeights(e, "breakfast");
           }}
           disabled={thisFormState === "viewing" ? true : false}
         />
@@ -190,18 +443,22 @@ const MealWeighting = (props) => {
             type={"number"}
             value={snack1Weight}
             onChange={(e) => {
-              handleUpdateWeights(e.target.value, "snack1");
+              handleUpdateWeights(e, "snack1");
             }}
+            // disabled={true}
             disabled={thisFormState === "viewing" ? true : false}
           />
           %
         </label>
         <Slider
-          defaultValue={80}
+          defaultValue={0}
+          step={1}
+          min={0}
+          max={100}
           value={snack1Weight}
           className="mealPrcntSldr"
           onChange={(e) => {
-            handleUpdateWeights(e.target.value, "snack1");
+            handleUpdateWeights(e, "snack1");
           }}
           disabled={thisFormState === "viewing" ? true : false}
         />
@@ -214,18 +471,22 @@ const MealWeighting = (props) => {
             type={"number"}
             value={lunchWeight}
             onChange={(e) => {
-              handleUpdateWeights(e.target.value, "lunch");
+              handleUpdateWeights(e, "lunch");
             }}
+            // disabled={true}
             disabled={thisFormState === "viewing" ? true : false}
           />
           %
         </label>
         <Slider
-          defaultValue={80}
+          defaultValue={0}
+          step={1}
+          min={0}
+          max={100}
           value={lunchWeight}
           className="mealPrcntSldr"
           onChange={(e) => {
-            handleUpdateWeights(e.target.value, "lunch");
+            handleUpdateWeights(e, "lunch");
           }}
           disabled={thisFormState === "viewing" ? true : false}
         />
@@ -238,18 +499,22 @@ const MealWeighting = (props) => {
             type={"number"}
             value={snack2Weight}
             onChange={(e) => {
-              handleUpdateWeights(e.target.value, "snack2");
+              handleUpdateWeights(e, "snack2");
             }}
+            // disabled={true}
             disabled={thisFormState === "viewing" ? true : false}
           />
           %
         </label>
         <Slider
-          defaultValue={80}
+          defaultValue={0}
+          step={1}
+          min={0}
+          max={100}
           value={snack2Weight}
           className="mealPrcntSldr"
           onChange={(e) => {
-            handleUpdateWeights(e.target.value, "snack2");
+            handleUpdateWeights(e, "snack2");
           }}
           disabled={thisFormState === "viewing" ? true : false}
         />
@@ -262,18 +527,22 @@ const MealWeighting = (props) => {
             type={"number"}
             value={dinnerWeight}
             onChange={(e) => {
-              handleUpdateWeights(e.target.value, "dinner");
+              handleUpdateWeights(e, "dinner");
             }}
+            // disabled={true}
             disabled={thisFormState === "viewing" ? true : false}
           />
           %
         </label>
         <Slider
-          defaultValue={80}
+          defaultValue={0}
+          step={1}
+          min={0}
+          max={100}
           value={dinnerWeight}
           className="mealPrcntSldr"
           onChange={(e) => {
-            handleUpdateWeights(e.target.value, "dinner");
+            handleUpdateWeights(e, "dinner");
           }}
           disabled={thisFormState === "viewing" ? true : false}
         />
@@ -286,18 +555,22 @@ const MealWeighting = (props) => {
             type={"number"}
             value={dessertWeight}
             onChange={(e) => {
-              handleUpdateWeights(e.target.value, "dessert");
+              handleUpdateWeights(e, "dessert");
             }}
+            // disabled={true}
             disabled={thisFormState === "viewing" ? true : false}
           />
           %
         </label>
         <Slider
-          defaultValue={80}
+          defaultValue={0}
+          step={1}
+          min={0}
+          max={100}
           value={dessertWeight}
           className="mealPrcntSldr mealPrcntSldr"
           onChange={(e) => {
-            handleUpdateWeights(e.target.value, "dessert");
+            handleUpdateWeights(e, "dessert");
           }}
           disabled={thisFormState === "viewing" ? true : false}
         />

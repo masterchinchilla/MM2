@@ -10,6 +10,7 @@ const EditOptions = (props) => {
   const objType = props.objType;
   const userType = props.userType;
   const thisFormState = props.thisFormState;
+  const saveDisabled = props.saveDisabled;
   const hasChildren = props.hasChildren;
   const deleteChildrenWarning = props.deleteChildrenWarning;
   const onSaveFormChanges = props.onSaveFormChanges;
@@ -56,7 +57,7 @@ const EditOptions = (props) => {
           }
           break;
         case "save":
-          if (thisFormState === "viewing") {
+          if (thisFormState === "viewing" || saveDisabled === true) {
             iconHidden = true;
           } else {
             iconHidden = false;

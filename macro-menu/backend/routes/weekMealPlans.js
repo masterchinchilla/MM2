@@ -7,6 +7,13 @@ router.route('/').get((req, res) => {
         .then(weekMealPlans => res.json(weekMealPlans))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+router.route('/findwmpbyname/:name').get((req, res)=>{
+    WeekMealPlan.findOne({name:req.params.name})
+        .then((wmp)=>{
+            if(wmp){res.json("exists")}else{res.json("ok")}
+        })
+        .catch(err=>res.status(404).json('Error:'+err));
+});
 router.route('/wmpsofthisuser/:id').get((req, res) => {
     WeekMealPlan.find({GRFUser: req.params.id})
         .then(wmps => res.json(wmps))

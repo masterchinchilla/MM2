@@ -8,6 +8,7 @@ import EditOptions from "./EditOptions.component";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import MealWeighting from "./MealWeighting.component";
+import WMPForm from "./WMPForm.component";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class WeekMealPlanDetail extends Component {
       // dinnerWghtTemp: 1,
       // dessertWghtTemp: 1,
       axiosCallConfig: {},
+      httpRouteCore: "http://localhost:5000/",
       thisUserType: "admin",
       thisGRFUser: {
         _id: "609f3e444ee536749c75c729",
@@ -9113,6 +9115,11 @@ export default class WeekMealPlanDetail extends Component {
     // thisWeekMealPlan.thisWMP[`${mealTypeCode}Weight`] = newPrcnt;
     this.setState({ [`${mealTypeCode}WghtTemp`]: newPrcnt });
   };
+  toggleWMPRecordChanged=(newState)=>{
+    let thisWeekMealPlan=this.state.thisWeekMealPlan;
+    thisWeekMealPlan.recordChanged=newState;
+    this.setState({thisWeekMealPlan:thisWeekMealPlan});
+  }
   render() {
     const daysOfWeek = this.state.daysOfWeek;
     const thisWMP = this.state.thisWeekMealPlan.thisWMP;
@@ -9167,7 +9174,18 @@ export default class WeekMealPlanDetail extends Component {
                 >
                   <div className="accordion-body accrdnWMPDetailsBdy">
                     <form className="card">
-                      <div
+                      <WMPForm
+                        thisWeekMealPlan={this.state.thisWeekMealPlan}
+                        httpRouteCore={this.state.httpRouteCore}
+                        onUpdateProp={this.handleUpdateProp}
+                        onClickEditForm={this.handleClickEditForm}
+                        onCancelEditForm={this.handleCancelEditForm}
+                        onSaveFormChanges={this.handleSaveFormChanges}
+                        onDeleteRecord={this.handleDeleteRecord}
+                        onClickCopy={this.handleCopyWMP}
+                        toggleWMPRecordChanged={this.toggleWMPRecordChanged}
+                      />
+                      {/* <div
                         className={
                           this.state.thisWeekMealPlan.thisWMPJustCreated ===
                           true
@@ -9303,7 +9321,7 @@ export default class WeekMealPlanDetail extends Component {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="card weekMealPlanFormCards mt-3 mb-3">
                         <div className="card-header">
                           <h2 className="card-title">Meal Macro Weighting</h2>
