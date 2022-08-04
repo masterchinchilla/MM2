@@ -10,7 +10,15 @@ router.route('/').get((req, res) => {
 router.route('/findwmpbyname/:name').get((req, res)=>{
     WeekMealPlan.findOne({name:req.params.name})
         .then((wmp)=>{
-            if(wmp){res.json("exists")}else{res.json("ok")}
+            if(wmp){
+                // if(wmp._id===req.params.id){
+                //     res.json(wmp)
+                // }else{
+                   res.json("exists") 
+                // }   
+            }else{
+                res.json("ok")
+            }
         })
         .catch(err=>res.status(404).json('Error:'+err));
 });

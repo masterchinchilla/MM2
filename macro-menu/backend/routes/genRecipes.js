@@ -13,6 +13,13 @@ router.route('/:id').get((req, res)=>{
         .then(recipe=>res.json(recipe))
         .catch(err=>res.status(400).json('Error: '+err));
 })
+router.route('/findrecipebyname/:name').get((req, res)=>{
+    GenRecipe.findOne({name:req.params.name})
+        .then((recipe)=>{
+            if(recipe){res.json("exists")}else{res.json("ok")}
+        })
+        .catch(err=>res.status(404).json('Error:'+err));
+})
 router.route('/thisMealTypesGenRecipes/:mealType').get((req, res)=>{
     GenRecipe.find({availableMealType:req.params.mealType._id}).populate('GRFUser').populate('availableMealType')
         .then(mealTypesRecipes=>res.json(mealTypesRecipes))

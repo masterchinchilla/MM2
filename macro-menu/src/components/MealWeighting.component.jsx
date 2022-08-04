@@ -43,6 +43,7 @@ const MealWeighting = (props) => {
   }
   function handleUpdateWeights(e, mealTypeCode) {
     const newPrcnt = JSON.parse(e.target.value);
+    // const newPrcnt = e.target.value;
     console.log(`user updated ${mealTypeCode} weight to ${newPrcnt}`);
     let weightsArray = [
       { name: "breakfast", value: breakfastWeight, amntToReduceByPerChnge: 0 },

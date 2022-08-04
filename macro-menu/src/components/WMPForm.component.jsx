@@ -41,37 +41,54 @@ const WMPForm = (props) => {
   function searchSetWMPName(e) {
     clearTimeout(timer);
     const newTimer = setTimeout(() => {
-      axios
-        .get(httpRouteCore + "weekMealPlans/findwmpbyname/" + wmpName)
-        .then((response) => {
-          if (response.data === "ok") {
-            toggleSaveDisabled(false);
-            setWMPNameError(null);
-            props.onUpdateProp(
-              "weekMealPlan",
-              "",
-              "",
-              "name",
-              0,
-              "text",
-              e,
-              []
-            );
-          } else {
-            setWMPNameError("name exists");
-          }
-        });
+      if (origName !== e.target.value) {
+        if (e.target.value === "") {
+          toggleSaveDisabled(true);
+          setWMPNameError("Name is required");
+        } else {
+          axios
+            .get(
+              httpRouteCore +
+                "weekMealPlans/findwmpbyname/" +
+                // thisWMPId +
+                // "&" +
+                wmpName
+            )
+            .then((response) => {
+              if (response.data === "ok") {
+                toggleSaveDisabled(false);
+                setWMPNameError(null);
+                props.onUpdateProp(
+                  "weekMealPlan",
+                  "",
+                  "",
+                  "name",
+                  0,
+                  "text",
+                  e,
+                  []
+                );
+              } else {
+                toggleSaveDisabled(true);
+                setWMPNameError("That name is already taken");
+              }
+            });
+        }
+      } else {
+        toggleSaveDisabled(false);
+        setWMPNameError(null);
+      }
     }, 500);
     setTimer(newTimer);
   }
   function onCancelEditForm() {
-    props.onCancelEditForm(thisWeekMealPlan, "weekMealPlan");
-    const e = { target: { value: origName } };
-    props.onUpdateProp("weekMealPlan", "", "", "name", 0, "text", e, []);
+    // const e = { target: { value: origName } };
+    // props.onUpdateProp("weekMealPlan", "", "", "name", 0, "text", e, []);
     updateWMPName(origName);
     setWMPNameError(null);
-    props.toggleWMPRecordChanged(false);
+    // props.toggleWMPRecordChanged(false, "weekMealPlan", "");
     toggleSaveDisabled(false);
+    props.onCancelEditForm(thisWeekMealPlan, "weekMealPlan");
   }
   return (
     <React.Fragment>
@@ -103,7 +120,7 @@ const WMPForm = (props) => {
             className="alert alert-danger"
             hidden={wmpNameError ? false : true}
           >
-            This name is already taken
+            {wmpNameError}
           </div>
         </div>
         <EditOptions

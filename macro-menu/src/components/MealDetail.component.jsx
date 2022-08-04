@@ -320,6 +320,8 @@ const MealDetail = (props) => {
             onSaveFormChanges={props.onSaveFormChanges}
             onDeleteRecord={props.onDeleteRecord}
             onUpdateProp={props.onUpdateProp}
+            httpRouteCore={props.httpRouteCore}
+            toggleRecordChanged={props.toggleRecordChanged}
           />
           <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
           <div className="mlIngrdntsCntnr">{renderMealIngrdnts()}</div>

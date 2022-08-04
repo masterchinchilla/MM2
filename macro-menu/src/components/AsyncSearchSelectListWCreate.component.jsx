@@ -142,6 +142,7 @@ class AsyncSearchSelectListWCreate extends Component {
           isDisabled={this.props.thisFormState === "viewing" ? true : false}
           className={this.props.styleClasses}
           onCreateOption={(e) => this.handleCreate(e)}
+          allowCreateWhileLoading={false}
         />
       </div>
     );

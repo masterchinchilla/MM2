@@ -103,6 +103,7 @@ const DayDetail = (props) => {
           thisStateObj={thisMealStateObj}
           hasChildren={mealHasChildren}
           thisGRFUser={props.thisGRFUser}
+          httpRouteCore={props.httpRouteCore}
           // allGRFUsers={props.allGRFUsers}
           // allDays={props.allDays}
           thisMealTypesRecipes={thisMealTypesRecipes}
@@ -120,6 +121,7 @@ const DayDetail = (props) => {
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           onUpdateProp={props.onUpdateProp}
+          toggleRecordChanged={props.toggleRecordChanged}
         />
       );
     }

@@ -9084,6 +9084,7 @@ export default class WeekMealPlanDetail extends Component {
             //Data
             thisGRFUser={this.state.thisGRFUser}
             hasChildren={dayHasChildren}
+            httpRouteCore={this.state.httpRouteCore}
             // allGRFUsers={this.state.allGRFUsers}
             // allDays={this.state.allDays}
             allGenRecipes={this.state.allGenRecipes}
@@ -9104,6 +9105,7 @@ export default class WeekMealPlanDetail extends Component {
             populateNewMealIngredients={this.populateNewMealIngredients}
             onCreateRecord={this.handleCreateRecord}
             getRndInteger={this.getRndInteger}
+            toggleRecordChanged={this.toggleRecordChanged}
           />
         );
       }
@@ -9115,11 +9117,18 @@ export default class WeekMealPlanDetail extends Component {
     // thisWeekMealPlan.thisWMP[`${mealTypeCode}Weight`] = newPrcnt;
     this.setState({ [`${mealTypeCode}WghtTemp`]: newPrcnt });
   };
-  toggleWMPRecordChanged=(newState)=>{
-    let thisWeekMealPlan=this.state.thisWeekMealPlan;
-    thisWeekMealPlan.recordChanged=newState;
-    this.setState({thisWeekMealPlan:thisWeekMealPlan});
-  }
+  toggleRecordChanged = (newState, objType, dayOfWeekCode) => {
+    const thisObjType = objType;
+    if (thisObjType === "weekMealPlan") {
+      let thisWeekMealPlan = this.state.thisWeekMealPlan;
+      thisWeekMealPlan.recordChanged = newState;
+      this.setState({ thisWeekMealPlan: thisWeekMealPlan });
+    } else {
+      let thisWeeksDays = this.state.thisWeeksDays;
+      thisWeeksDays[dayOfWeekCode]["recordChanged"] = newState;
+      this.setState({ thisWeeksDays: thisWeeksDays });
+    }
+  };
   render() {
     const daysOfWeek = this.state.daysOfWeek;
     const thisWMP = this.state.thisWeekMealPlan.thisWMP;
@@ -9183,7 +9192,7 @@ export default class WeekMealPlanDetail extends Component {
                         onSaveFormChanges={this.handleSaveFormChanges}
                         onDeleteRecord={this.handleDeleteRecord}
                         onClickCopy={this.handleCopyWMP}
-                        toggleWMPRecordChanged={this.toggleWMPRecordChanged}
+                        toggleRecordChanged={this.toggleRecordChanged}
                       />
                       {/* <div
                         className={
