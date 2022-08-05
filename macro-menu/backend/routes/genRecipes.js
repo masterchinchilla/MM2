@@ -13,7 +13,7 @@ router.route('/:id').get((req, res)=>{
         .then(recipe=>res.json(recipe))
         .catch(err=>res.status(400).json('Error: '+err));
 })
-router.route('/findrecipebyname/:name').get((req, res)=>{
+router.route('/findbyname/:name').get((req, res)=>{
     GenRecipe.findOne({name:req.params.name})
         .then((recipe)=>{
             if(recipe){res.json("exists")}else{res.json("ok")}

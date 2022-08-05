@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
+import NameInputWDupSearch from "./NameInputWDupSearch.component";
 const Ingredient = (props) => {
   const userType = props.userType;
   const thisFormState = props.thisFormState;
@@ -19,7 +20,15 @@ const Ingredient = (props) => {
   const allWeightTypes = props.allWeightTypes;
   const allBrands = props.allBrands;
   const thisIngrdntJustCreated = thisMealIngrdntObj.thisIngrdntJustCreated;
+  const httpRouteCore = props.httpRouteCore;
+  const objType = "ingredient";
+  const objTypeForLabel = "Ingredient";
   let thisBrandObj;
+  const [name, updateName] = useState(thisObj.name);
+  const [origName, setOrigName] = useState(thisObj.name);
+  const [timer, setTimer] = useState(null);
+  const [saveDisabled, toggleSaveDisabled] = useState(false);
+  const [nameError, setNameError] = useState(null);
   {
     thisObj.brand
       ? (thisBrandObj = thisObj.brand)
@@ -35,6 +44,12 @@ const Ingredient = (props) => {
     "If you delete this Base Ingredient it will be deleted everywhere, including in other Recipes. Do you want to proceed?";
   const saveMsg =
     "Changes made to this Base Ingredient will be applied everywhere it is used, including in other Recipes. Do you want to proceed?";
+  function onCancelEditForm() {
+    updateName(origName);
+    setNameError(null);
+    toggleSaveDisabled(false);
+    props.onCancelEditForm(thisMealIngrdntObj, objType);
+  }
   return (
     <form
       className={
@@ -52,9 +67,10 @@ const Ingredient = (props) => {
           objType={"ingredient"}
           userType={userType}
           thisFormState={thisFormState}
+          saveDisabled={saveDisabled}
           recordChanged={recordChanged}
           onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
+          onCancelEditForm={onCancelEditForm}
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           deleteMsg={deleteMsg}
@@ -186,7 +202,30 @@ const Ingredient = (props) => {
             })}
           </select> */}
         </div>
-        <div className="form-group mealIngrdntInputs ingrdntName badge bg-primary">
+        <NameInputWDupSearch
+          //Data Props
+          ////Common Props
+          thisDayOfWeekCode={thisDayOfWeekCode}
+          thisMealTypeCode={thisMealTypeCode}
+          httpRouteCore={httpRouteCore}
+          objType={objType}
+          thisFormState={thisFormState}
+          mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
+          formGroupClasses="form-group mealIngrdntInputs ingrdntName badge bg-primary"
+          ////Name-Specific Props
+          origName={origName}
+          name={name}
+          timer={timer}
+          nameError={nameError}
+          objTypeForLabel={objTypeForLabel}
+          //Function Props
+          setTimer={setTimer}
+          updateName={updateName}
+          setNameError={setNameError}
+          toggleSaveDisabled={toggleSaveDisabled}
+          onUpdateProp={props.onUpdateProp}
+        />
+        {/* <div className="form-group mealIngrdntInputs ingrdntName badge bg-primary">
           <label>Ingredient Name</label>
           <input
             type={"text"}
@@ -206,7 +245,7 @@ const Ingredient = (props) => {
             }
             disabled={thisFormState === "viewing" ? true : false}
           />
-        </div>
+        </div> */}
       </div>
       <div
         className="accordion accordion-flush"

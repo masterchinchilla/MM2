@@ -59,6 +59,13 @@ router.route('/ingredientsByName/:name').get((req, res)=>{
         .then(ingredients=>res.json(ingredients))
         .catch(err=>res.status(400).json('Error: '+err));
 })
+router.route('/findbyname/:name').get((req, res)=>{
+    Ingredient.findOne({name:req.params.name})
+        .then((ingredient)=>{
+            if(ingredient){res.json("exists")}else{res.json("ok")}
+        })
+        .catch(err=>res.status(404).json('Error:'+err));
+})
 router.route('/update/:id').put((req, res)=>{
     Ingredient.findById(req.params.id)
         .then(ingredient=>{

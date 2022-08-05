@@ -3,92 +3,79 @@ import axios from "axios";
 import _ from "lodash";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
+import NameInputWDupSearch from "./NameInputWDupSearch.component";
 const WMPForm = (props) => {
+  //Data Props
+  ////Common Props
+  const thisDayOfWeekCode = "";
+  const thisMealTypeCode = "";
   const thisWeekMealPlan = props.thisWeekMealPlan;
   const thisWMPId = thisWeekMealPlan.thisWMP._id;
   const httpRouteCore = props.httpRouteCore;
-  const [wmpName, updateWMPName] = useState(thisWeekMealPlan.thisWMP.name);
+  const thisFormState = thisWeekMealPlan.thisFormState;
+  const mealIngrdntsArrayIndex = 0;
+  const formGroupClasses = "form-group wmpNameFrmGroup";
+  const objType = "weekMealPlan";
+  const objTypeForLabel = "Plan";
+  ////Name-Specific Props
   const [origName, setOrigName] = useState(thisWeekMealPlan.thisWMP.name);
+  const [name, updateName] = useState(thisWeekMealPlan.thisWMP.name);
   const [timer, setTimer] = useState(null);
+  const [nameError, setNameError] = useState(null);
   const [saveDisabled, toggleSaveDisabled] = useState(false);
-  const [wmpNameError, setWMPNameError] = useState(null);
-  // const [subFormState,changeSubFormState]=useState(thisWeekMealPlan.thisFormState);
-  //   useEffect(() => {
-  //     findWMP = () => {
-  //       axios
-  //         .get(httpRouteCore + "weekMealPlans/findwmpbyname/" + wmpName)
-  //         .then((response) => {
-  //           console.log(response.data);
-  //         });
-  //     };
-  //     // Function launches after 1.5 seconds (1500 ms) of the last keystroke
-  //     // On first render you don't want to launch anything
-  //     // Thus, you check if the user typed a query at first
-  //     let timer = setTimeout(() => {
-  //       if (wmpName) findWMP();
-  //     }, 1500);
-
-  //     // If useEffect() relaunches, you clear the function
-  //     // That means, the previous function won't launch
-  //     // Thus, won't send a request to the API
-  //     return () => clearTimeout(timer);
-  //   }, [wmpName]);
-
-  function changeWMPName(e) {
-    toggleSaveDisabled(true);
-    updateWMPName(e.target.value);
-  }
-  function searchSetWMPName(e) {
-    clearTimeout(timer);
-    const newTimer = setTimeout(() => {
-      if (origName !== e.target.value) {
-        if (e.target.value === "") {
-          toggleSaveDisabled(true);
-          setWMPNameError("Name is required");
-        } else {
-          axios
-            .get(
-              httpRouteCore +
-                "weekMealPlans/findwmpbyname/" +
-                // thisWMPId +
-                // "&" +
-                wmpName
-            )
-            .then((response) => {
-              if (response.data === "ok") {
-                toggleSaveDisabled(false);
-                setWMPNameError(null);
-                props.onUpdateProp(
-                  "weekMealPlan",
-                  "",
-                  "",
-                  "name",
-                  0,
-                  "text",
-                  e,
-                  []
-                );
-              } else {
-                toggleSaveDisabled(true);
-                setWMPNameError("That name is already taken");
-              }
-            });
-        }
-      } else {
-        toggleSaveDisabled(false);
-        setWMPNameError(null);
-      }
-    }, 500);
-    setTimer(newTimer);
-  }
+  const onUpdateProp = props.onUpdateProp;
+  // function changeWMPName(e) {
+  //   toggleSaveDisabled(true);
+  //   updateWMPName(e.target.value);
+  // }
+  // function searchSetWMPName(e) {
+  //   clearTimeout(timer);
+  //   const newTimer = setTimeout(() => {
+  //     if (origName !== e.target.value) {
+  //       if (e.target.value === "") {
+  //         toggleSaveDisabled(true);
+  //         setWMPNameError("Name is required");
+  //       } else {
+  //         axios
+  //           .get(
+  //             httpRouteCore +
+  //               "weekMealPlans/findwmpbyname/" +
+  //               // thisWMPId +
+  //               // "&" +
+  //               wmpName
+  //           )
+  //           .then((response) => {
+  //             if (response.data === "ok") {
+  //               toggleSaveDisabled(false);
+  //               setWMPNameError(null);
+  //               props.onUpdateProp(
+  //                 "weekMealPlan",
+  //                 "",
+  //                 "",
+  //                 "name",
+  //                 0,
+  //                 "text",
+  //                 e,
+  //                 []
+  //               );
+  //             } else {
+  //               toggleSaveDisabled(true);
+  //               setWMPNameError("That name is already taken");
+  //             }
+  //           });
+  //       }
+  //     } else {
+  //       toggleSaveDisabled(false);
+  //       setWMPNameError(null);
+  //     }
+  //   }, 500);
+  //   setTimer(newTimer);
+  // }
   function onCancelEditForm() {
-    // const e = { target: { value: origName } };
-    // props.onUpdateProp("weekMealPlan", "", "", "name", 0, "text", e, []);
-    updateWMPName(origName);
-    setWMPNameError(null);
-    // props.toggleWMPRecordChanged(false, "weekMealPlan", "");
+    updateName(origName);
+    setNameError(null);
     toggleSaveDisabled(false);
-    props.onCancelEditForm(thisWeekMealPlan, "weekMealPlan");
+    props.onCancelEditForm(thisWeekMealPlan, objType);
   }
   return (
     <React.Fragment>
@@ -99,7 +86,7 @@ const WMPForm = (props) => {
             : "card-header wmpCardHeader"
         }
       >
-        <div className="form-group wmpNameFrmGroup">
+        {/* <div className="form-group wmpNameFrmGroup">
           <label className="wmpNameLbl">Plan Name</label>
           <input
             type="text"
@@ -122,7 +109,30 @@ const WMPForm = (props) => {
           >
             {wmpNameError}
           </div>
-        </div>
+        </div> */}
+        <NameInputWDupSearch
+          //Data Props
+          ////Common Props
+          thisDayOfWeekCode={thisDayOfWeekCode}
+          thisMealTypeCode={thisMealTypeCode}
+          httpRouteCore={httpRouteCore}
+          objType={objType}
+          thisFormState={thisFormState}
+          mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
+          formGroupClasses={formGroupClasses}
+          ////Name-Specific Props
+          origName={origName}
+          name={name}
+          timer={timer}
+          nameError={nameError}
+          objTypeForLabel={objTypeForLabel}
+          //Function Props
+          setTimer={setTimer}
+          updateName={updateName}
+          setNameError={setNameError}
+          toggleSaveDisabled={toggleSaveDisabled}
+          onUpdateProp={onUpdateProp}
+        />
         <EditOptions
           parentObj={thisWeekMealPlan}
           objType="weekMealPlan"

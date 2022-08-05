@@ -22,7 +22,7 @@ const MealDetail = (props) => {
   const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
-
+  const httpRouteCore = props.httpRouteCore;
   const nestedMealIngrdntArray = [mealsIngrdnts];
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   let allowPopulateIngrdnts =
@@ -60,6 +60,7 @@ const MealDetail = (props) => {
             thisGRFUser={thisGRFUser}
             thisMealIngrdntObj={mealIngredient}
             mealIngrdntsArrayIndex={index}
+            httpRouteCore={httpRouteCore}
             // allGRFUsers={props.allGRFUsers}
             allGenRecipeIngredients={props.allGenRecipeIngredients}
             thisRecipesIngrdnts={thisRecipesIngrdnts}
@@ -320,7 +321,7 @@ const MealDetail = (props) => {
             onSaveFormChanges={props.onSaveFormChanges}
             onDeleteRecord={props.onDeleteRecord}
             onUpdateProp={props.onUpdateProp}
-            httpRouteCore={props.httpRouteCore}
+            httpRouteCore={httpRouteCore}
             toggleRecordChanged={props.toggleRecordChanged}
           />
           <h5 className="mealIngdntsHdr">Meal Ingredients</h5>

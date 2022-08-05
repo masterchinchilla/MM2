@@ -33,6 +33,7 @@ const GenRecipe = (props) => {
   const thisRecipesIngrdnts = mealStateObj.thisRecipesIngrdnts;
   const thisFormState = mealStateObj.thisGenRecipeFormState;
   const userType = mealStateObj.thisGenRecipeUserType;
+  const objTypeForLabel = "Recipe";
   const handleUpdatePrepInst = (e) => {
     let newPrepInst = e.target.value;
     updatePrepInstr(newPrepInst);
@@ -247,11 +248,14 @@ const GenRecipe = (props) => {
                     httpRouteCore={httpRouteCore}
                     objType={objType}
                     thisFormState={thisFormState}
+                    mealIngrdntsArrayIndex={0}
+                    formGroupClasses="form-group mealInputs"
                     ////Name-Specific Props
                     origName={origName}
                     name={name}
                     timer={timer}
                     nameError={nameError}
+                    objTypeForLabel={objTypeForLabel}
                     //Function Props
                     setTimer={setTimer}
                     updateName={updateName}

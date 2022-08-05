@@ -13,6 +13,7 @@ const MealIngredientParent = (props) => {
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisIngredient = thisGenRecipeIngrdnt.ingredient;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
+  const httpRouteCore = props.httpRouteCore;
   //Form States
   const thisMealIngrdntFormState = thisMealIngrdntObj.thisMealIngrdntFormState;
   const thisGenRecipeIngrdntFormState =
@@ -41,6 +42,7 @@ const MealIngredientParent = (props) => {
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisObj}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
+          httpRouteCore={httpRouteCore}
           // thisMealTypesMeals={props.thisMealTypesMeals}
           //Methods
           onClickEditForm={props.onClickEditForm}
@@ -64,6 +66,7 @@ const MealIngredientParent = (props) => {
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisGenRecipeIngrdnt}
+          httpRouteCore={httpRouteCore}
           // allIngredients={props.allIngredients}
           //Methods
           onClickEditForm={props.onClickEditForm}
@@ -100,6 +103,7 @@ const MealIngredientParent = (props) => {
           onDeleteRecord={props.onDeleteRecord}
           onUpdateProp={props.onUpdateProp}
           onCreateRecord={props.onCreateRecord}
+          httpRouteCore={httpRouteCore}
         />
       </div>
     </div>

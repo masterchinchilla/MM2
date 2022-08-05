@@ -359,6 +359,9 @@ button.accordion-button {
 .ingrdntName{
   grid-area: ingrdntName;
 }
+.ingrdntName label{
+  padding-bottom:0.25rem !important;
+}
 .ingrdntPicDiv{
   grid-area: ingrdntPicDiv;
   width: 85%;

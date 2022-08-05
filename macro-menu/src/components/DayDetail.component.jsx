@@ -5,6 +5,7 @@ import MacrosTable from "./MacrosTable.component";
 import CreateMeal from "./CreateMeal.component";
 import MealDetail from "./MealDetail.component";
 const DayDetail = (props) => {
+  const httpRouteCore = props.httpRouteCore;
   const hasChildren = props.hasChildren;
   const thisGRFUser = props.thisGRFUser;
   const thisWMP = props.thisWMP;
@@ -103,7 +104,7 @@ const DayDetail = (props) => {
           thisStateObj={thisMealStateObj}
           hasChildren={mealHasChildren}
           thisGRFUser={props.thisGRFUser}
-          httpRouteCore={props.httpRouteCore}
+          httpRouteCore={httpRouteCore}
           // allGRFUsers={props.allGRFUsers}
           // allDays={props.allDays}
           thisMealTypesRecipes={thisMealTypesRecipes}
