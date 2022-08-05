@@ -3,6 +3,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import _ from "lodash";
 import EditOptions from "./EditOptions.component";
+import NameInputWDupSearch from "./NameInputWDupSearch.component";
 
 const GenRecipe = (props) => {
   const mealStateObj = props.mealStateObj;
@@ -13,18 +14,19 @@ const GenRecipe = (props) => {
   const httpRouteCore = props.httpRouteCore;
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
+  const objType = "genRecipe";
   const [hideDeleteBarrier, toggleHideDeleteBarrier] = useState(true);
   const [prepInstr, updatePrepInstr] = useState(
     thisObj.defaultPrepInstructions
   );
-  const [recipeName, updateRecipeName] = useState(thisObj.name);
+  const [name, updateName] = useState(thisObj.name);
   const [origName, setOrigName] = useState(thisObj.name);
   const [origPrepInst, setOrigPrepInst] = useState(
     thisObj.defaultPrepInstructions
   );
   const [timer, setTimer] = useState(null);
   const [saveDisabled, toggleSaveDisabled] = useState(false);
-  const [recipeNameError, setRecipeNameError] = useState(null);
+  const [nameError, setNameError] = useState(null);
   const thisDayOfWeekCode = mealStateObj.thisMeal.day.dayOfWeek.code;
   const thisMealTypeCode = mealStateObj.thisMeal.mealType.code;
   const thisObjId = thisObj._id;
@@ -55,53 +57,53 @@ const GenRecipe = (props) => {
   const handleDeleteGenRecipe = () => {
     console.log("Base Recipe Deleted");
   };
-  function changeRecipeName(e) {
-    toggleSaveDisabled(true);
-    updateRecipeName(e.target.value);
-  }
-  function searchSetRecipeName(e) {
-    clearTimeout(timer);
-    const newTimer = setTimeout(() => {
-      if (origName !== e.target.value) {
-        if (e.target.value === "") {
-          toggleSaveDisabled(true);
-          setRecipeNameError("Name is required");
-        } else {
-          axios
-            .get(httpRouteCore + "genRecipes/findrecipebyname/" + recipeName)
-            .then((response) => {
-              if (response.data === "ok") {
-                toggleSaveDisabled(false);
-                setRecipeNameError(null);
-                props.onUpdateProp(
-                  "genRecipe",
-                  thisDayOfWeekCode,
-                  thisMealTypeCode,
-                  "name",
-                  0,
-                  "text",
-                  e,
-                  []
-                );
-              } else {
-                toggleSaveDisabled(true);
-                setRecipeNameError("That name is already taken");
-              }
-            });
-        }
-      } else {
-        toggleSaveDisabled(true);
-        setRecipeNameError(null);
-      }
-    }, 500);
-    setTimer(newTimer);
-  }
+  // function changeRecipeName(e) {
+  //   toggleSaveDisabled(true);
+  //   updateRecipeName(e.target.value);
+  // }
+  // function searchSetRecipeName(e) {
+  //   clearTimeout(timer);
+  //   const newTimer = setTimeout(() => {
+  //     if (origName !== e.target.value) {
+  //       if (e.target.value === "") {
+  //         toggleSaveDisabled(true);
+  //         setRecipeNameError("Name is required");
+  //       } else {
+  //         axios
+  //           .get(httpRouteCore + "genRecipes/findrecipebyname/" + recipeName)
+  //           .then((response) => {
+  //             if (response.data === "ok") {
+  //               toggleSaveDisabled(false);
+  //               setRecipeNameError(null);
+  //               props.onUpdateProp(
+  //                 "genRecipe",
+  //                 thisDayOfWeekCode,
+  //                 thisMealTypeCode,
+  //                 "name",
+  //                 0,
+  //                 "text",
+  //                 e,
+  //                 []
+  //               );
+  //             } else {
+  //               toggleSaveDisabled(true);
+  //               setRecipeNameError("That name is already taken");
+  //             }
+  //           });
+  //       }
+  //     } else {
+  //       toggleSaveDisabled(true);
+  //       setRecipeNameError(null);
+  //     }
+  //   }, 500);
+  //   setTimer(newTimer);
+  // }
   function onCancelEditForm() {
     const origPrepInstObj = { target: { value: origPrepInst } };
     // props.onUpdateProp("genRecipe", "", "", "name", 0, "text", e, []);
-    updateRecipeName(origName);
+    updateName(origName);
     handleUpdatePrepInst(origPrepInstObj);
-    setRecipeNameError(null);
+    setNameError(null);
     // props.toggleRecordChanged(false, "genRecipe", thisDayOfWeekCode);
     toggleSaveDisabled(false);
     props.onCancelEditForm(mealStateObj, "genRecipe");
@@ -218,7 +220,7 @@ const GenRecipe = (props) => {
             >
               <div className="accordion-body mealInnerAccordion">
                 <div className="form-group mealInputs">
-                  <label>Name</label>
+                  {/* <label>Name</label>
                   <input
                     type="text"
                     className={"form-control"}
@@ -236,25 +238,27 @@ const GenRecipe = (props) => {
                     hidden={recipeNameError ? false : true}
                   >
                     {recipeNameError}
-                  </div>
-                  {/* <input
-                    className="form-control"
-                    type="text"
-                    disabled={thisFormState === "viewing" ? true : false}
-                    value={thisObj.name}
-                    onChange={(e) =>
-                      props.onUpdateProp(
-                        "genRecipe",
-                        thisDayOfWeekCode,
-                        thisMealTypeCode,
-                        "name",
-                        0,
-                        "text",
-                        e,
-                        []
-                      )
-                    }
-                  /> */}
+                  </div> */}
+                  <NameInputWDupSearch
+                    //Data Props
+                    ////Common Props
+                    thisDayOfWeekCode={thisDayOfWeekCode}
+                    thisMealTypeCode={thisMealTypeCode}
+                    httpRouteCore={httpRouteCore}
+                    objType={objType}
+                    thisFormState={thisFormState}
+                    ////Name-Specific Props
+                    origName={origName}
+                    name={name}
+                    timer={timer}
+                    nameError={nameError}
+                    //Function Props
+                    setTimer={setTimer}
+                    updateName={updateName}
+                    setNameError={setNameError}
+                    toggleSaveDisabled={toggleSaveDisabled}
+                    onUpdateProp={props.onUpdateProp}
+                  />
                 </div>
                 <div className="form-group mealInputs">
                   <label>Img URL</label>
