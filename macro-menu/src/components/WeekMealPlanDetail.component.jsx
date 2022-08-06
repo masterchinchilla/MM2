@@ -8186,9 +8186,11 @@ export default class WeekMealPlanDetail extends Component {
         break;
       case "ingredient":
         recordToSave = parentObj.thisMealIngrdnt.genRecipeIngredient.ingredient;
+        console.log(recordToSave);
         break;
     }
     let recordId = recordToSave._id;
+    console.log(recordId);
     let url = `http://localhost:5000/${objType}s/update/${recordId}`;
     axios
       .put(url, recordToSave, this.state.axiosCallConfig)
