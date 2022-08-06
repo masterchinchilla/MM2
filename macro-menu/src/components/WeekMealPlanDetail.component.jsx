@@ -7701,14 +7701,16 @@ export default class WeekMealPlanDetail extends Component {
           }
           thisWeeksDays[thisDayOfWeek.code] = thisDayToUpdate;
         }
-        state.thisWeeksDays = thisWeeksDays;
+        // state.thisWeeksDays = thisWeeksDays;
         // }
         let thisWMPStateObj = state.thisWeekMealPlan;
         if (thisWMPStateObj.thisWMPJustCreated === true) {
           this.handleClickEditForm(thisWMPStateObj, "weekMealPlan");
         }
-        state.thisWeekMealPlan = thisWMPStateObj;
-        this.setState(state);
+        // state.thisWeekMealPlan = thisWMPStateObj;
+        this.setState({
+          thisWeeksDays: thisWeeksDays,
+        });
       });
   };
   getDayMeals = (thisDayToUpdate, thisDayOfWeekCode) => {
@@ -7879,8 +7881,11 @@ export default class WeekMealPlanDetail extends Component {
   };
   getAllBrands = () => {
     axios.get("http://localhost:5000/brands/").then((response) => {
+      console.log(response);
+      let allBrands = response.data.map((brand) => brand);
+      console.log(allBrands);
       this.setState({
-        allBrands: response.data.map((brand) => brand),
+        allBrands: allBrands,
       });
     });
   };

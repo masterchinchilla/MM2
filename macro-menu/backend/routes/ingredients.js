@@ -79,7 +79,7 @@ router.route('/update/:id').put((req, res)=>{
             ingredient.weightType?ingredient.weightType=req.body.weightType._id:"";
             ingredient.photoURL=req.body.photoURL;
             ingredient.GRFUser=req.body.GRFUser._id;
-            ingredient.brand?ingredient.brand=req.body.brand._id:"";
+            ingredient.brand=req.body.brand._id;
             ingredient.save()
                 .then(()=>res.json(ingredient))
                 .catch(err=>res.status(400).json('Error: '+err));
