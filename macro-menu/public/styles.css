@@ -803,3 +803,53 @@ div.mealPrcntSldr:first-child{
       margin-right: -0.5px;
         margin-bottom: -0.5px;
 }
+.chooseRecipesIngrdntValError{
+  margin-left:-10rem;
+
+}
+.myPopover{
+  width: 8rem;
+  height: 3.5rem;
+  font-size: .875rem;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  inset: auto auto 0px 0px;
+  margin: -3rem 0 0 -9rem;
+}
+.myPopoverArrow{
+      position: absolute;
+        left: 0px;
+        transform: translate3d(47.2px, 0px, 0px);
+      right: calc(-.5rem - 1px);
+        width: .5rem;
+        height: 1rem;
+}
+.myPopoverBody{
+      padding: 1rem 1rem;
+        color: #212529;
+}
+.myPopoverArrow::before{
+      right: 0;
+          position: absolute;
+            display: block;
+            content: "";
+            border-color: transparent;
+            border-style: solid;
+        border-left-color: var(--bs-popover-arrow-border);
+        border-width: calc(var(--bs-popover-arrow-width) * .5) 0 calc(var(--bs-popover-arrow-width) * .5) var(--bs-popover-arrow-height);
+}
+.myPopoverArrow::after {
+      right: var(--bs-popover-border-width);
+      position: absolute;
+        display: block;
+        content: "";
+        border-color: transparent;
+        border-style: solid;
+        border-left-color: var(--bs-popover-bg);
+            border-width: calc(var(--bs-popover-arrow-width) * .5) 0 calc(var(--bs-popover-arrow-width) * .5) var(--bs-popover-arrow-height);
+}
+.selectFieldValError{
+  margin: 0.5rem 0 0 0 !important;
+}

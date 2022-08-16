@@ -24,6 +24,8 @@ const Ingredient = (props) => {
   const objType = "ingredient";
   const objTypeForLabel = "Ingredient";
   let thisBrandObj;
+  let thisUOMObj;
+  let thisWeightTypeObj;
   const [name, updateName] = useState(thisObj.name);
   const [origName, setOrigName] = useState(thisObj.name);
   const [timer, setTimer] = useState(null);
@@ -38,8 +40,24 @@ const Ingredient = (props) => {
           GRFUser: "62577a533813f4f21c27e1c7",
         });
   }
-  const thisUOMObj = thisObj.unitOfMeasure;
-  const thisWeightTypeObj = thisObj.weightType;
+  {
+    thisObj.unitOfMeasure
+      ? (thisUOMObj = thisObj.unitOfMeasure)
+      : (thisUOMObj = {
+          _id: "627691779fa56aa1fe318390",
+          name: "",
+          GRFUser: "62577a533813f4f21c27e1c7",
+        });
+  }
+  {
+    thisObj.weightType
+      ? (thisWeightTypeObj = thisObj.weightType)
+      : (thisWeightTypeObj = {
+          _id: "627695899fa56aa1fe318396",
+          name: "",
+          GRFUser: "62577a533813f4f21c27e1c7",
+        });
+  }
   const deleteMsg =
     "If you delete this Base Ingredient it will be deleted everywhere, including in other Recipes. Do you want to proceed?";
   const saveMsg =
@@ -78,7 +96,22 @@ const Ingredient = (props) => {
         />
         <div className="form-group mealIngrdntInputs ingrdntUOM">
           <label>UOM</label>
-          <select
+          <SelectSearchListWCreate
+            required
+            objToSelect={thisUOMObj}
+            dayOfWeekCode={thisDayOfWeekCode}
+            mealType={thisMealType}
+            arrayIndex={mealIngrdntsArrayIndex}
+            onUpdateProp={props.onUpdateProp}
+            thisFormState={thisFormState}
+            objType="ingredient"
+            objTypeToChange="unitOfMeasure"
+            options={allUnitOfMeasures}
+            thisGRFUser={thisGRFUser}
+            onCreateRecord={props.onCreateRecord}
+            styleClasses="recipeSelect"
+          />
+          {/* <select
             required
             className="form-control form-select"
             value={
@@ -107,11 +140,26 @@ const Ingredient = (props) => {
                 </option>
               );
             })}
-          </select>
+          </select> */}
         </div>
         <div className="form-group mealIngrdntInputs ingrdntWghtType">
           <label>Weight Type</label>
-          <select
+          <SelectSearchListWCreate
+            required
+            objToSelect={thisWeightTypeObj}
+            dayOfWeekCode={thisDayOfWeekCode}
+            mealType={thisMealType}
+            arrayIndex={mealIngrdntsArrayIndex}
+            onUpdateProp={props.onUpdateProp}
+            thisFormState={thisFormState}
+            objType="ingredient"
+            objTypeToChange="weightType"
+            options={allWeightTypes}
+            thisGRFUser={thisGRFUser}
+            onCreateRecord={props.onCreateRecord}
+            styleClasses="recipeSelect"
+          />
+          {/* <select
             required
             className="form-control form-select"
             value={
@@ -140,7 +188,7 @@ const Ingredient = (props) => {
                 </option>
               );
             })}
-          </select>
+          </select> */}
         </div>
         <div
           className="ingrdntPicDiv"

@@ -144,7 +144,7 @@ const WMPForm = (props) => {
           onCancelEditForm={onCancelEditForm}
           onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
-          onClickCopy={props.onCopyWMP}
+          onClickCopy={props.onClickCopy}
         />
       </div>
       <div className="card-body wmpCardBody">

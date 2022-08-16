@@ -7,6 +7,7 @@ class SelectSearchListWCreate extends Component {
     super(props);
     this.state = {
       options: [],
+      newOptionValidationError: "",
     };
   }
   componentDidMount() {
@@ -34,7 +35,8 @@ class SelectSearchListWCreate extends Component {
     }
   };
   handleCreate = (e) => {
-    let newRecordName = e;
+    let trimmedName = e.trim();
+    let newRecordName = trimmedName.replace(/  +/g, " ");
     let newRecordForState = {
       label: newRecordName,
       value: {
@@ -84,12 +86,38 @@ class SelectSearchListWCreate extends Component {
       newRecordToSave
     );
   };
+  validateNewName = (e) => {
+    let inputValue = e;
+    let trimmedName = inputValue.trim();
+    let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
+    let nameLength = trimmedNameWNoDblSpcs.length;
+    if (nameLength >= 3 && nameLength <= 255) {
+      this.setState({
+        newOptionValidationError: null,
+      });
+    } else {
+      this.setState({
+        newOptionValidationError: "Must be between 3 and 255 characters",
+      });
+    }
+  };
+  clearValErrorInState = () => {
+    this.setState({
+      newOptionValidationError: null,
+    });
+  };
   render() {
     const capitalObjType =
       this.props.objTypeToChange.charAt(0).toUpperCase() +
       this.props.objTypeToChange.slice(1);
     return (
       <div>
+        <div
+          className="alert alert-danger selectFieldValError"
+          hidden={this.state.newOptionValidationError ? false : true}
+        >
+          {this.state.newOptionValidationError}
+        </div>
         <Creatable
           value={{
             label: this.props.objToSelect.name,
@@ -102,12 +130,27 @@ class SelectSearchListWCreate extends Component {
               : `Select ${capitalObjType}`
           }
           isSearchable={true}
+          onInputChange={(e) => {
+            this.validateNewName(e);
+          }}
           onChange={(e) => {
             this.handleChange(e);
           }}
           isDisabled={this.props.thisFormState === "viewing" ? true : false}
           className={this.props.styleClasses}
           onCreateOption={(e) => this.handleCreate(e)}
+          isValidNewOption={(e) => {
+            let inputValue = e;
+            let trimmedName = inputValue.trim();
+            let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
+            let nameLength = trimmedNameWNoDblSpcs.length;
+            if (nameLength >= 3 && nameLength <= 255) {
+              return true;
+            } else {
+              return false;
+            }
+          }}
+          onBlur={this.clearValErrorInState}
         />
       </div>
     );

@@ -24,14 +24,21 @@ const NameInputWDupSearch = (props) => {
   const toggleSaveDisabled = props.toggleSaveDisabled;
   const onUpdateProp = props.onUpdateProp;
   function changeName(e) {
+    let inputValue = e.target.value;
+    let trimmedName = inputValue.trim();
+    let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
     toggleSaveDisabled(true);
-    updateName(e.target.value);
+    updateName(trimmedNameWNoDblSpcs);
   }
   function searchSetName(e) {
+    console.log(e);
+    let inputValue = e.target.value;
+    let trimmedName = inputValue.trim();
+    let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
     clearTimeout(timer);
     const newTimer = setTimeout(() => {
-      if (origName !== e.target.value) {
-        if (e.target.value === "") {
+      if (origName !== trimmedNameWNoDblSpcs) {
+        if (trimmedNameWNoDblSpcs === "") {
           toggleSaveDisabled(true);
           setNameError("Name is required");
         } else {
@@ -39,18 +46,29 @@ const NameInputWDupSearch = (props) => {
             .get(httpRouteCore + `${objType}s/findbyname/` + name)
             .then((response) => {
               if (response.data === "ok") {
-                toggleSaveDisabled(false);
-                setNameError(null);
-                onUpdateProp(
-                  objType,
-                  thisDayOfWeekCode,
-                  thisMealTypeCode,
-                  "name",
-                  mealIngrdntsArrayIndex,
-                  "text",
-                  e,
-                  []
-                );
+                let nameLength = trimmedNameWNoDblSpcs.length;
+                if (nameLength >= 3 && nameLength <= 255) {
+                  toggleSaveDisabled(false);
+                  setNameError(null);
+                  let e = {
+                    target: {
+                      value: trimmedNameWNoDblSpcs,
+                    },
+                  };
+                  onUpdateProp(
+                    objType,
+                    thisDayOfWeekCode,
+                    thisMealTypeCode,
+                    "name",
+                    mealIngrdntsArrayIndex,
+                    "text",
+                    e,
+                    []
+                  );
+                } else {
+                  toggleSaveDisabled(true);
+                  setNameError("Must be between 3 and 255 characters");
+                }
               } else {
                 toggleSaveDisabled(true);
                 setNameError("That name is already taken");

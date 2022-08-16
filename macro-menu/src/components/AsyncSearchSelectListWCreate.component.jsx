@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import { Popover } from "@mui/material";
 // import AsyncSelect from "react-select/async";
 // import { ActionMeta, OnChangeValue } from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
@@ -7,7 +8,9 @@ class AsyncSearchSelectListWCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newItem: {},
+      validNewName: "",
+      newOptionValidationError: "",
+      searchMatches: false,
     };
   }
 
@@ -15,40 +18,42 @@ class AsyncSearchSelectListWCreate extends Component {
     if (!inputValue) {
       callback([]);
     } else {
-      fetch(
-        this.props.url + inputValue,
-        // "http://localhost:5000/ingredients/ingredientsByName/" + inputValue,
-        {
-          method: "GET",
-        }
-      )
+      let trimmedName = inputValue.trim();
+      let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
+      fetch(this.props.url + trimmedNameWNoDblSpcs, {
+        method: "GET",
+      })
         .then((resp) => {
           return resp.json();
         })
         .then((data) => {
           const tempArray = [];
-          if (data) {
-            if (data.length) {
-              data.forEach((element) => {
-                tempArray.push({
-                  label: `${element.name}`,
-                  value: JSON.stringify(element),
-                });
-                // if (this.state.newItem !== {}) {
-                //   let newItem = this.state.newItem;
-                //   tempArray.push({
-                //     label: `${newItem.name}`,
-                //     value: JSON.stringify(newItem),
-                //   });
-                // }
+          if (data.length > 0) {
+            this.setState({
+              searchMatches: true,
+            });
+            data.forEach((element) => {
+              tempArray.push({
+                label: `${element.name}`,
+                value: JSON.stringify(element),
+              });
+            });
+          } else {
+            let nameLength = trimmedNameWNoDblSpcs.length;
+            if (nameLength >= 3 && nameLength <= 255) {
+              this.setState({
+                searchMatches: false,
+                newOptionValidationError: "",
+                validNewName: trimmedNameWNoDblSpcs,
+              });
+            } else {
+              this.setState({
+                searchMatches: false,
+                newOptionValidationError:
+                  "Must be between 3 and 255 characters",
+                validNewName: "",
               });
             }
-            // else {
-            //   tempArray.push({
-            //     label: "No Match...",
-            //     value: {},
-            //   });
-            // }
           }
           callback(tempArray);
         })
@@ -71,8 +76,8 @@ class AsyncSearchSelectListWCreate extends Component {
       );
     }
   };
-  handleCreate = (e) => {
-    let newIngrdntName = e;
+  handleCreate = () => {
+    let newIngrdntName = this.state.validNewName;
     let newRecordForState = {
       label: newIngrdntName,
       value: {
@@ -124,9 +129,22 @@ class AsyncSearchSelectListWCreate extends Component {
       newRecordToSave
     );
   };
+  clearSearchResOrValErrorInState = () => {
+    this.setState({
+      searchMatches: false,
+      newOptionValidationError: "",
+      validNewName: "",
+    });
+  };
   render() {
     return (
       <div>
+        <div
+          className="alert alert-danger selectFieldValError"
+          hidden={this.state.newOptionValidationError ? false : true}
+        >
+          {this.state.newOptionValidationError}
+        </div>
         <AsyncCreatableSelect
           value={{
             label: this.props.objToSelect.name,
@@ -134,15 +152,26 @@ class AsyncSearchSelectListWCreate extends Component {
           }}
           loadOptions={this.fetchData}
           placeholder={this.props.objType}
-          onSearchChange
           onChange={(e) => {
             this.onSearchChange(e);
           }}
           defaultOptions={true}
           isDisabled={this.props.thisFormState === "viewing" ? true : false}
           className={this.props.styleClasses}
-          onCreateOption={(e) => this.handleCreate(e)}
+          onCreateOption={this.handleCreate}
           allowCreateWhileLoading={false}
+          isValidNewOption={(e) => {
+            let newIngrdntName = e;
+            let trimmedName = newIngrdntName.trim();
+            let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
+            let nameLength = trimmedNameWNoDblSpcs.length;
+            if (nameLength >= 3 && nameLength <= 255) {
+              return true;
+            } else {
+              return false;
+            }
+          }}
+          onBlur={this.clearSearchResOrValErrorInState}
         />
       </div>
     );
