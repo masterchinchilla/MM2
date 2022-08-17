@@ -7,7 +7,9 @@ class SelectSearchListWCreate extends Component {
     super(props);
     this.state = {
       options: [],
-      newOptionValidationError: "",
+      filteredOptions: [],
+      newOptionValidationError: null,
+      selectedOption: {},
     };
   }
   componentDidMount() {
@@ -18,7 +20,10 @@ class SelectSearchListWCreate extends Component {
         value: element._id,
       });
     });
-    this.setState({ options: newArray });
+    this.setState({
+      options: newArray,
+      selectedOption: this.props.objToSelect,
+    });
   }
   handleChange = (e) => {
     if (e) {
@@ -33,6 +38,9 @@ class SelectSearchListWCreate extends Component {
         this.props.options
       );
     }
+    this.setState({
+      newOptionValidationError: null,
+    });
   };
   handleCreate = (e) => {
     let trimmedName = e.trim();
@@ -90,18 +98,35 @@ class SelectSearchListWCreate extends Component {
     let inputValue = e;
     let trimmedName = inputValue.trim();
     let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
-    let nameLength = trimmedNameWNoDblSpcs.length;
-    if (nameLength >= 3 && nameLength <= 255) {
-      this.setState({
-        newOptionValidationError: null,
-      });
+    const regexObj = new RegExp(trimmedNameWNoDblSpcs, "i");
+    let filteredOptions = this.state.options.filter((option) => {
+      return regexObj.test(option.label);
+    });
+    if (filteredOptions.length < 1) {
+      let nameLength = trimmedNameWNoDblSpcs.length;
+      if (nameLength >= 3 && nameLength <= 255) {
+        this.setState({
+          newOptionValidationError: null,
+        });
+      } else {
+        if (nameLength > 0) {
+          this.setState({
+            newOptionValidationError: "Must be between 3 and 255 characters",
+          });
+        } else {
+          this.setState({
+            newOptionValidationError: null,
+          });
+        }
+      }
     } else {
       this.setState({
-        newOptionValidationError: "Must be between 3 and 255 characters",
+        newOptionValidationError: null,
       });
     }
   };
   clearValErrorInState = () => {
+    console.log("blurred");
     this.setState({
       newOptionValidationError: null,
     });

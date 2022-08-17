@@ -74,11 +74,17 @@ const App = (props) => {
           component={WeekMealPlanDetail}
         />
         <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} />
-        {/* <Route
+        <Route
           exact
-          path="/weekMealPlans/usersWMPs/:id"
-          component={WeekMealPlansList2}
-        /> */}
+          path="/grfusers/edit/:id"
+          render={(props) => (
+            <GRFUserDetail
+              {...props}
+              getCurrentUser={getCurrentUser}
+              thisGRFUser={currentGRFUser}
+            />
+          )}
+        />
         <Route
           exact
           path="/weekMealPlans/usersWMPs/:id"
