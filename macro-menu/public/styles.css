@@ -231,7 +231,7 @@ button.accordion-button {
 .macrosTable {
   background-color: #fff;
   border: solid 5px;
-  z-index: 555;
+  min-width:300px;
 }
 .macrosTable h4,
 .macrosTable h5 {
@@ -240,12 +240,12 @@ button.accordion-button {
 }
 .macrosTable td,
 .macrosTable th {
-  font-size: 10pt;
+  font-size: 8pt;
   padding: 0.2em 0.5em !important;
 }
-.mealMacrosTbl {
+/* .mealMacrosTbl {
   margin: 0.5rem 0.5rem 0 0.5rem !important;
-}
+} */
 .mealIngrdntSctn {
   display: flex;
   flex-direction: row;
@@ -478,7 +478,12 @@ padding:0 !important;
   }
   .form-select{
     background-position: right 2px center !important;
+  }.dayMacTable {
+    margin-left: -12px !important;
   }
+    .mealMacTable {
+      margin-left: -30px !important;
+    }
 }
 .mlIngrdntsCntnr{
   display: flex;
@@ -852,4 +857,12 @@ div.mealPrcntSldr:first-child{
 }
 .selectFieldValError{
   margin: 0.5rem 0 0 0 !important;
+}
+.dayMacTable{
+z-index: 5;
+margin: 0.5rem;
+}
+.mealMacTable{
+    z-index: 4;
+    margin: 0.5rem;
 }

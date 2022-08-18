@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import dayjs from "dayjs";
+import StickyBox from "react-sticky-box";
 import EditOptions from "./EditOptions.component";
 import MacrosTable from "./MacrosTable.component";
 import CreateMeal from "./CreateMeal.component";
@@ -244,14 +245,18 @@ const DayDetail = (props) => {
               data-bs-parent={"#accordionFull" + thisObjId}
             >
               <div className="accordion-body">
-                <div className="macroTblCntnr">
+                <StickyBox
+                  offsetTop={20}
+                  offsetBottom={20}
+                  className={"dayMacTable"}
+                >
                   <MacrosTable
                     tableType="Day Macros"
                     thisWMP={thisWMP}
                     macrosBudget={macrosBudget}
                     theseIngrdnts={thisDaysMealsIngrdnts}
                   />
-                </div>
+                </StickyBox>
                 <div className="card mt-3 mb-3">
                   <div className="card-header">
                     <h4 className="card-title">

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import dayjs from "dayjs";
+import StickyBox from "react-sticky-box";
 import EditOptions from "./EditOptions.component";
 import GenRecipe from "./GenRecipe.component";
 import MealIngredientParent from "./MealIngredientParent.component";
@@ -146,7 +147,7 @@ const MealDetail = (props) => {
         aria-labelledby={"#mealOuterAccordionHeader" + thisObjId}
         data-bs-parent={"#mealOuterAccordionFull" + thisObjId}
       >
-        <div className="macroTblCntnr">
+        <StickyBox offsetTop={142} offsetBottom={20} className={"mealMacTable"}>
           <MacrosTable
             key={"MTbleForMeal" + thisObjId}
             thisMealWeight={thisMealWeight}
@@ -154,7 +155,7 @@ const MealDetail = (props) => {
             macrosBudget={props.macrosBudget}
             theseIngrdnts={nestedMealIngrdntArray}
           />
-        </div>
+        </StickyBox>
         <div className="accordion-body wkDaysAccrdnBdy">
           <form className="card mt-3 mb-3">
             <div className="card-header mealCardHeader">
@@ -197,35 +198,6 @@ const MealDetail = (props) => {
                   onCreateRecord={props.onCreateRecord}
                   styleClasses="recipeSelect"
                 />
-                {/* <select
-                  // ref="userInput": React prevents this, but I don't know what it does anyway...
-                  required
-                  className="form-control form-select recipeSelect"
-                  value={thisObj.genRecipe._id}
-                  disabled={mealFormState === "viewing" ? true : false}
-                  //Most guides tell you how to make an OnChange Event Handler that doesn't take an argument and in the function you reference "e.target.value." But if you need a second argument for your function, you cannot simply write the call as "function(e, arg)", it won't work. There are several solutions. One involves wrapping the function in an anonymous function, which is already a suggested alternative to binding, to bind the function to the parent object. Normally you would do this like so: "onChange={()=>function}". When you need the 2nd argument, you need to pass the "e" arg into the anonymous function, and then pass BOTH args into the called function, like so: "onChange={(e)=>function(arg, e)}". For other solutions, see this Stack Overflow thread: https://stackoverflow.com/questions/44917513/passing-an-additional-parameter-with-an-onchange-event
-                  //onUpdateProp = (stateObj, dayOfWeekCode, mealTypeCode, propToUpdate, arrayIndex, e)
-                  onChange={(e) =>
-                    props.onUpdateProp(
-                      "meal",
-                      dayOfWeek.code,
-                      thisMealTypeCode,
-                      "genRecipe",
-                      0,
-                      "select",
-                      e,
-                      thisMealTypesRecipes
-                    )
-                  }
-                >
-                  {thisMealTypesRecipes.map((genRecipe) => {
-                    return (
-                      <option key={genRecipe._id} value={genRecipe._id}>
-                        {genRecipe.name}
-                      </option>
-                    );
-                  })}
-                </select> */}
                 {thisStateObj.userChangedThisMealsRecipe === true &&
                 thisMealJustCreated === false ? (
                   <div
