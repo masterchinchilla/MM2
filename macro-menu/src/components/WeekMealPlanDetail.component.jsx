@@ -8942,6 +8942,8 @@ export default class WeekMealPlanDetail extends Component {
     thisRecipe
   ) => {
     let state = this.state;
+    let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
+    state.thisWeeksDaysOld = thisWeeksDaysBackup;
     state.thisWeekMealPlan.thisFormState = "viewing";
     state.thisWeekMealPlan.userType = "viewer";
     const daysOfWeek = state.daysOfWeek;

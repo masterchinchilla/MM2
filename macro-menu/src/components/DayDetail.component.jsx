@@ -48,6 +48,7 @@ const DayDetail = (props) => {
   const renderMeal = (mealType, arrayIndex) => {
     let thisMealTypeCode = mealType.code;
     let thisMealStateObj = thisDaysMeals[thisMealTypeCode];
+    let thisRecipesIngrdnts = thisMealStateObj.thisRecipesIngrdnts;
     let thisMealObj = thisMealStateObj.thisMeal;
     let thisMealObjsAuthorsId = thisWMP.GRFUser._id;
     let thisMealObjsId = thisMealObj._id;
@@ -74,16 +75,13 @@ const DayDetail = (props) => {
         );
       }
     } else {
-      // let thisMealTypesMeals = props.allMeals.filter(
-      //   (meal) => meal.mealType.code === thisMealTypeCode
-      // );
       let thisMealTypesRecipes = props.allGenRecipes.filter(
         (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
       );
-      let thisRecipesIngrdnts = props.allGenRecipeIngredients.filter(
-        (genRecipeIngredient) =>
-          genRecipeIngredient.genRecipe._id === thisMealObj.genRecipe._id
-      );
+      // let thisRecipesIngrdnts = props.allGenRecipeIngredients.filter(
+      //   (genRecipeIngredient) =>
+      //     genRecipeIngredient.genRecipe._id === thisMealObj.genRecipe._id
+      // );
       let thisMealWeight = thisWMP[`${mealType.code}Weight`];
       let thisMealsMealIngredients = thisDaysMealsIngrdnts[arrayIndex];
       let mealHasChildren = false;
