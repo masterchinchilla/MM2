@@ -9,17 +9,26 @@ class WMPListForUser extends Component {
     this.state = {
       dataLoaded: false,
       thisGRFUser: {},
+      // thisGRFUser: this.props.location.state.currentGRFUser,
       weekMealPlans: [],
       thisUsersWMPs: [],
       allOtherWMPs: [],
+      backEndHtmlRoot: this.props.backEndHtmlRoot,
     };
   }
   componentDidMount() {
     const jwt = localStorage.getItem("token");
     const decodedToken = jwtDecode(jwt);
-    this.setState({ thisGRFUser: decodedToken.currentGRFUser });
+    const thisGRFUserId = decodedToken.currentGRFUser._id;
+    axios
+      .get(this.props.backEndHtmlRoot + "GRFUsers/" + thisGRFUserId)
+      .then((response) => {
+        this.setState({ thisGRFUser: response.data });
+      })
+      .catch((error) => console.log(error));
+    // this.setState({ thisGRFUser: decodedToken.currentGRFUser });
 
-    const thisGRFUserId = this.props.match.params.id;
+    // const thisGRFUserId = this.props.location.state.currentGRFUser._id;
     // const thisGRFUserId = "609f3e444ee536749c75c729";
     // axios
     //   .get("http://localhost:5000/grfusers/" + thisGRFUserId)
@@ -156,7 +165,13 @@ class WMPListForUser extends Component {
                       <td key={"myWMPsNameTd" + wmp._id}>
                         <Link
                           className="nav-link"
-                          to={{ pathname: "/weekMealPlans/edit/" + wmp._id }}
+                          // to={{ pathname: "/weekMealPlans/edit/" + wmp._id }}
+                          to={{
+                            pathname: "/weekMealPlans/edit/" + wmp._id,
+                            state: {
+                              currentGRFUser: this.state.thisGRFUser,
+                            },
+                          }}
                           key={"myWMPLink" + wmp._id}
                         >
                           {wmp.name}
@@ -307,7 +322,13 @@ class WMPListForUser extends Component {
                       <td key={"cmmntyWMPsNameTd" + wmp._id}>
                         <Link
                           className="nav-link"
-                          to={{ pathname: "/weekMealPlans/edit/" + wmp._id }}
+                          // to={{ pathname: "/weekMealPlans/edit/" + wmp._id }}
+                          to={{
+                            pathname: "/weekMealPlans/edit/" + wmp._id,
+                            state: {
+                              currentGRFUser: this.state.thisGRFUser,
+                            },
+                          }}
                           key={"myWMPLink" + wmp._id}
                         >
                           {wmp.name}

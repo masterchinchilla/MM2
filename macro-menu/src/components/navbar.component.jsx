@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
+import { Avatar } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
-import WeekMealPlansList from "./WeekMealPlansList.component";
-import CreateGRFUser from "./CreateGRFUser.component";
-import CreateWeekMealPlan from "./CreateWeekMealPlan.component";
-import GRFUsersList from "./GRFUsersList.component";
 
 class Navbar extends Component {
   state = {
     jwt: "",
-    currentGRFUser: { _id: "", userGroups: "GRFUser" },
+    currentGRFUser: { _id: "", userGroups: "GRFUser", handle: "Not Signed-In" },
+    backEndHtmlRoot: this.props.backEndHtmlRoot,
   };
   componentDidMount() {
     const jwt = localStorage.getItem("token");
@@ -20,9 +19,36 @@ class Navbar extends Component {
     } else {
       this.setState({ jwt: jwt });
       const decodedToken = jwtDecode(jwt);
-      this.setState({ currentGRFUser: decodedToken.currentGRFUser });
+      const currentUserId = decodedToken.currentGRFUser._id;
+      axios
+        .get(this.state.backEndHtmlRoot + "GRFUsers/" + currentUserId)
+        .then((response) => {
+          this.setState({ currentGRFUser: response.data });
+        })
+        .catch((error) => console.log(error));
     }
   }
+  stringToColor = (string) => {
+    let hash = 0;
+    let i;
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = "#";
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
+  };
+  stringAvatar = (string) => {
+    return {
+      sx: {
+        bgcolor: this.stringToColor(string),
+      },
+      // children: `${string.split(" ")[0][0]}${string.split(" ")[1][0]}`,
+    };
+  };
   render() {
     const currentGRFUser = this.state.currentGRFUser;
     const jwt = this.state.jwt;
@@ -32,7 +58,11 @@ class Navbar extends Component {
           to={
             !jwt
               ? "/"
-              : "/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id
+              : // "/weekMealPlans/usersWMPs/" + currentGRFUser._id
+                {
+                  pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
+                  state: { currentGRFUser: currentGRFUser },
+                }
           }
           className="navbar-brand"
         >
@@ -51,7 +81,10 @@ class Navbar extends Component {
             </li>
           )}
         </ul>
-        <div className="btn-group dropstart">
+        <div className="btn-group dropstart usrHndlAndDrpDwn">
+          <span className="usrHndlOnNvBr">
+            {this.state.currentGRFUser.handle}
+          </span>
           <button
             type="button"
             className="btn btn-secondary dropdown-toggle profileDDBttn"
@@ -59,7 +92,12 @@ class Navbar extends Component {
             aria-expanded="false"
             disabled={window.location.pathname === "/" ? true : false}
           >
-            <FontAwesomeIcon icon="fa-solid fa-circle-user" />
+            <Avatar
+              alt={this.state.currentGRFUser.handle}
+              src={this.state.currentGRFUser.photoURL}
+              {...this.stringAvatar(this.state.currentGRFUser.handle)}
+            />
+            {/* <FontAwesomeIcon icon="fa-solid fa-circle-user" /> */}
           </button>
           <ul className="dropdown-menu">
             <li className="dropdown-item profileDDLi">
@@ -91,6 +129,7 @@ class Navbar extends Component {
                   className="nav-link"
                   to={{
                     pathname: "/grfusers/edit/" + currentGRFUser._id,
+                    state: { currentGRFUser: currentGRFUser },
                   }}
                 >
                   Profile
@@ -105,135 +144,72 @@ class Navbar extends Component {
 }
 
 export default Navbar;
-// const Navbar = () => {
-//   const jwt = localStorage.getItem("token");
-//   let decodedToken;
-//   let currentGRFUser = { _id: "" };
-//   if (jwt) {
-//     decodedToken = jwtDecode(jwt);
-//     currentGRFUser = decodedToken.currentGRFUser;
+// import React, { Component } from "react";
+// import { Link, Redirect } from "react-router-dom";
+// import jwtDecode from "jwt-decode";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import WeekMealPlansList from "./WeekMealPlansList.component";
+// import CreateGRFUser from "./CreateGRFUser.component";
+// import CreateWeekMealPlan from "./CreateWeekMealPlan.component";
+// import GRFUsersList from "./GRFUsersList.component";
+
+// class Navbar extends Component {
+//   state = {
+//     jwt: "",
+//     currentGRFUser: { _id: "", userGroups: "GRFUser" },
+//   };
+//   componentDidMount() {
+//     const jwt = localStorage.getItem("token");
+//     if (jwt === null) {
+//       return;
+//     } else {
+//       this.setState({ jwt: jwt });
+//       const decodedToken = jwtDecode(jwt);
+//       this.setState({ currentGRFUser: decodedToken.currentGRFUser });
+//     }
 //   }
-//   return (
-//     <nav className="navbar navbar-expand-lg navbar-dark bg-dark ps-4 pe-2">
-//       <Link
-//         to={!jwt ? "/" : "/weekMealPlans/usersWMPs/" + currentGRFUser._id}
-//         className="navbar-brand"
-//       >
-//         GRF Macro Menu
-//       </Link>
-//       <ul className="navbar-nav mr-auto mb-lg-0" id="navbarNav">
-//         {!currentGRFUser ? (
-//           ""
-//         ) : currentGRFUser.userGroups !== "Admin" ? (
-//           ""
-//         ) : (
-//           <li className="nav-item">
-//             <Link to="/grfusers" className="nav-link">
-//               GRF Users List
-//             </Link>
-//           </li>
-//         )}
-//       </ul>
-//       <div className="btn-group dropstart">
-//         <button
-//           type="button"
-//           className="btn btn-secondary dropdown-toggle profileDDBttn"
-//           data-bs-toggle="dropdown"
-//           aria-expanded="false"
-//         >
-//           <FontAwesomeIcon icon="fa-solid fa-circle-user" />
-//         </button>
-//         <ul className="dropdown-menu">
-//           <li className="dropdown-item profileDDLi">
-//             {!jwt ? (
-//               <Link
-//                 className="nav-link"
-//                 to={{
-//                   pathname: "/",
-//                 }}
-//               >
-//                 Login
-//               </Link>
-//             ) : (
-//               <Link
-//                 className="nav-link"
-//                 to={{
-//                   pathname: "/logout",
-//                 }}
-//               >
-//                 Logout
-//               </Link>
-//             )}
-//           </li>
-//           <li className="dropdown-item profileDDLi">
-//             {!currentGRFUser ? (
-//               ""
-//             ) : (
-//               <Link
-//                 className="nav-link"
-//                 to={{
-//                   pathname: "/grfusers/edit/" + currentGRFUser._id,
-//                 }}
-//               >
-//                 Profile
-//               </Link>
-//             )}
-//           </li>
-//         </ul>
-//       </div>
-//       {/* </div>
-//       </div> */}
-//     </nav>
-//   );
-// };
-
-// export default Navbar;
-
-// export default class Navbar extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       thisGRFUser: this.props.thisGRFUser,
-//     };
-//   }
-
 //   render() {
+//     const currentGRFUser = this.state.currentGRFUser;
+//     const jwt = this.state.jwt;
 //     return (
-//       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-//         <div className="container-fluid pl-3 pr-3">
-//           <Link to="/" className="navbar-brand">
-//             GRF Macro Menu
-//           </Link>
+//       <nav className="navbar navbar-dark bg-dark ps-4 pe-2">
+//         <Link
+//           to={
+//             !jwt
+//               ? "/"
+//               : "/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id
+//           }
+//           className="navbar-brand"
+//         >
+//           GRF Macro Menu
+//         </Link>
+//         <ul className="navbar-nav mr-auto mb-lg-0" id="navbarNav">
+//           {!currentGRFUser ? (
+//             ""
+//           ) : currentGRFUser.userGroups !== "Admin" ? (
+//             ""
+//           ) : (
+//             <li className="nav-item">
+//               <Link to="/grfusers" className="nav-link">
+//                 GRF Users List
+//               </Link>
+//             </li>
+//           )}
+//         </ul>
+//         <div className="btn-group dropstart">
 //           <button
-//             className="navbar-toggler"
 //             type="button"
-//             data-bs-toggle="collapse"
-//             data-bs-target="#navbarNav"
-//             aria-controls="navbarNav"
+//             className="btn btn-secondary dropdown-toggle profileDDBttn"
+//             data-bs-toggle="dropdown"
 //             aria-expanded="false"
-//             aria-label="Toggle navigation"
+//             disabled={window.location.pathname === "/" ? true : false}
 //           >
-//             <span className="navbar-toggler-icon"></span>
+//             <FontAwesomeIcon icon="fa-solid fa-circle-user" />
 //           </button>
-//           <div className="collapse navbar-collapse" id="navbarNav">
-//             <ul className="navbar-nav mr-auto mb-2 mb-lg-0" id="navbarNav">
-//               <li className="nav-item">
-//                 <Link to="/grfusers" className="nav-link">
-//                   GRF Users List
-//                 </Link>
-//               </li>
-//               <li className="nav-item">
-//                 <Link
-//                   className="nav-link"
-//                   to={{
-//                     pathname:
-//                       "/weekMealPlans/usersWMPs/" + this.state.thisGRFUser._id,
-//                   }}
-//                 >
-//                   My Week Meal Plans
-//                 </Link>
-//               </li>
-//               <li className="nav-item">
+//           <ul className="dropdown-menu">
+//             <li className="dropdown-item profileDDLi">
+//               {!jwt ? (
 //                 <Link
 //                   className="nav-link"
 //                   to={{
@@ -242,11 +218,36 @@ export default Navbar;
 //                 >
 //                   Login
 //                 </Link>
-//               </li>
-//             </ul>
-//           </div>
+//               ) : (
+//                 <Link
+//                   className="nav-link"
+//                   to={{
+//                     pathname: "/logout",
+//                   }}
+//                 >
+//                   Logout
+//                 </Link>
+//               )}
+//             </li>
+//             <li className="dropdown-item profileDDLi">
+//               {!currentGRFUser ? (
+//                 ""
+//               ) : (
+//                 <Link
+//                   className="nav-link"
+//                   to={{
+//                     pathname: "/grfusers/edit/" + currentGRFUser._id,
+//                   }}
+//                 >
+//                   Profile
+//                 </Link>
+//               )}
+//             </li>
+//           </ul>
 //         </div>
 //       </nav>
 //     );
 //   }
 // }
+
+// export default Navbar;

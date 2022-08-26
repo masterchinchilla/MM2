@@ -11,6 +11,7 @@ const GRFUserSchema = new Schema(
        email: {type: String, required: true, match: /.+\@.+\..+/, unique: true, minLength:5,maxLength: 255},
        password: { type: String, required: true, minLength: 3, maxLength: 1024},
        handle: {type: String, required: true, unique: true, minLength: 3, maxLength: 100},
+       photoURL: {type: String, maxLength: 1000},
        certURL: {type: String, maxLength: 1000},
        certName: {type: String, maxLength: 1000},
        userGroups:{type:String, required:true,enum:['GRFUser','Admin'],default:'GRFUser'},

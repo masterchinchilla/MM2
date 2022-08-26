@@ -1,11 +1,29 @@
-import React, { useState, Component } from "react";
+import React, { useState, useEffect, Component } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import Joi from "joi";
 const GRFUserDetail = (props) => {
-  const decodedToken = jwtDecode(localStorage.token);
-  const currentGRFUser = decodedToken.currentGRFUser;
-  const usersId = currentGRFUser._id;
+  // let jwt = "";
+  const backEndHtmlRoot = props.backEndHtmlRoot;
+  let currentGRFUser = {
+    _id: "",
+    userGroups: "GRFUser",
+    handle: "Not Signed-In",
+  };
+  currentGRFUser = props.location.state.currentGRFUser;
+  // const token = localStorage.getItem("token");
+  // const decodedToken = jwtDecode(token);
+  // const thisUser = decodedToken.thisUser;
+  // const thisUsersId = decodedToken.currentGRFUser._id;
+  // useEffect(() => {
+  //   axios
+  //     .get(backEndHtmlRoot + "GRFUsers/" + thisUsersId)
+  //     .then((response) => {
+  //       console.log(response);
+  //       currentGRFUser = response.data;
+  //     })
+  //     .catch((err) => console.log(err));
+  // });
   const [namePrefix, updateNamePrefix] = useState(currentGRFUser.namePrefix);
   const [givenName, updateGivenName] = useState(currentGRFUser.givenName);
   const [middleName, updateMiddleName] = useState(currentGRFUser.middleName);
@@ -13,6 +31,7 @@ const GRFUserDetail = (props) => {
   const [nameSuffix, updateNameSuffix] = useState(currentGRFUser.nameSuffix);
   const [email, updateEmail] = useState(currentGRFUser.email);
   const [handle, updateHandle] = useState(currentGRFUser.handle);
+  const [photoURL, updatePhotoURL] = useState(currentGRFUser.photoURL);
   const [certURL, updateCertURL] = useState(currentGRFUser.certURL);
   const [certName, updateCertName] = useState(currentGRFUser.certName);
   const [namePrefixValError, updateNamePrefixValError] = useState(null);
@@ -22,8 +41,10 @@ const GRFUserDetail = (props) => {
   const [nameSuffixValError, updateNameSuffixValError] = useState(null);
   const [emailValError, updateEmailValError] = useState(null);
   const [handleValError, updateHandleValError] = useState(null);
+  const [photoURLValError, updatePhotoURLValError] = useState(null);
   const [certURLValError, updateCertURLValError] = useState(null);
   const [certNameValError, updateCertNameValError] = useState(null);
+  const usersId = currentGRFUser._id;
   const verified = currentGRFUser.verified;
   const schema = Joi.object({
     namePrefix: Joi.string()
@@ -74,6 +95,7 @@ const GRFUserDetail = (props) => {
       .required()
       .email({ tlds: { allow: false } }),
     handle: Joi.string().trim().regex(/^\S/).min(3).max(100).required(),
+    photoURL: Joi.string().trim().uri(),
     certURL: Joi.string().trim().min(4).uri(),
     certName: Joi.string().trim().min(1).max(300),
   });
@@ -116,6 +138,10 @@ const GRFUserDetail = (props) => {
         updateHandle(propValue);
         updateHandleValError(validationError);
         break;
+      case "photoURL":
+        updatePhotoURL(propValue);
+        updatePhotoURLValError(validationError);
+        break;
       case "certURL":
         updateCertURL(propValue);
         updateCertURLValError(validationError);
@@ -136,6 +162,7 @@ const GRFUserDetail = (props) => {
       email: email,
       password: currentGRFUser.password,
       handle: handle,
+      photoURL: photoURL,
       certURL: certURL,
       certName: certName,
       verified: verified,
@@ -247,6 +274,38 @@ const GRFUserDetail = (props) => {
                 />
                 {handleValError ? (
                   <div className="alert alert-danger">{handleValError}</div>
+                ) : null}
+              </div>
+              <div className="form-group mb-2 userPhotoURLFrmGrp">
+                <label className="form-label userPhotoURLLabel">
+                  Photo URL
+                </label>
+                <div
+                  className="userPhotoPreview"
+                  style={
+                    !photoURL
+                      ? {
+                          backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
+                          width: "100px",
+                          height: "100px",
+                        }
+                      : {
+                          backgroundImage: `url(${photoURL})`,
+                          width: "100px",
+                          height: "100px",
+                        }
+                  }
+                ></div>
+                <input
+                  type="text"
+                  className="form-control userPhotoURLInput"
+                  value={photoURL}
+                  onChange={(e) => handleUpdateProp(e, "photoURL")}
+                />
+                {photoURLValError ? (
+                  <div className="alert alert-danger userPhotoURLValError">
+                    {photoURLValError}
+                  </div>
                 ) : null}
               </div>
               <div className="form-group mb-2">

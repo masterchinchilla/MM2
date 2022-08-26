@@ -27,26 +27,15 @@ router.post('/add', async (req, res) => {
             'email',
             'password',
             'handle',
+            'photoURL',
             'certURL',
             'certName',
             'verified'
         ]));
         const salt = await bcrypt.genSalt(10);
         newGRFUser.password=await bcrypt.hash(newGRFUser.password,salt)
-        // const namePrefix = req.body.namePrefix;
-        // const givenName = req.body.givenName;
-        // const middleName = req.body.middleName;
-        // const familyName = req.body.familyName;
-        // const nameSuffix = req.body.nameSuffix;
-        // const password = req.body.password;
-        // const handle = req.body.handle;
-        // const certURL = req.body.certURL;
-        // const certName = req.body.certName;
-        // const verified = req.body.verified;
-        // let savedNewGRFUser;
-        // savedNewGRFUser = 
         const savedNewUser = await newGRFUser.save();
-        const currentGRFUser=_.pick(savedNewUser,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","certURL","certName","userGroups","verified","createdAt","updatedAt"]);
+        const currentGRFUser=_.pick(savedNewUser,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","photoURL","certURL","certName","userGroups","verified","createdAt","updatedAt"]);
         const token=jwt.sign({currentGRFUser},config.get('jwtPrivateKey'));
         res
             .header('x-auth-token',token)
@@ -77,8 +66,9 @@ router.route('/update/:id').post((req, res) => {
             thisGRFUser.familyName = req.body.familyName;
             thisGRFUser.nameSuffix = req.body.nameSuffix;
             thisGRFUser.email = req.body.email;
-            thisGRFUser.password = req.body.password;
+            thisGRFUser.password = thisGRFUser.password;
             thisGRFUser.handle = req.body.handle;
+            thisGRFUser.photoURL=req.body.photoURL;
             thisGRFUser.certURL = req.body.certURL;
             thisGRFUser.certName = req.body.certName;
             thisGRFUser.verified = req.body.verified;

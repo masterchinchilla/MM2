@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import _ from "lodash";
-import dayjs from "dayjs";
 import jwtDecode from "jwt-decode";
-import { Slider } from "@mui/material";
-import EditOptions from "./EditOptions.component";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import MealWeighting from "./MealWeighting.component";
@@ -15,23 +12,19 @@ export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // breakfastWghtTemp: 1,
-      // snack1WghtTemp: 1,
-      // lunchWghtTemp: 1,
-      // snackWghtTemp2: 1,
-      // dinnerWghtTemp: 1,
-      // dessertWghtTemp: 1,
       axiosCallConfig: {},
-      httpRouteCore: "http://localhost:5000/",
+      httpRouteCore: this.props.appHTMLRoot,
       thisUserType: "admin",
-      thisGRFUser: {
-        _id: "609f3e444ee536749c75c729",
-        givenName: "John",
-        familyName: "Doe",
-        email: "johndoe@gmail.com",
-        password: "abc123",
-        handle: "johnnyFood",
-      },
+      // thisGRFUser: {
+      //   _id: "609f3e444ee536749c75c729",
+      //   givenName: "John",
+      //   familyName: "Doe",
+      //   email: "johndoe@gmail.com",
+      //   password: "abc123",
+      //   handle: "johnnyFood",
+      //   photoURL: "",
+      // },
+      thisGRFUser: this.props.location.state.currentGRFUser,
       thisWeekMealPlan: {
         thisWMPJustCreated: true,
         dataLoaded: false,

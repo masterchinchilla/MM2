@@ -484,6 +484,13 @@ padding:0 !important;
     .mealMacTable {
       margin-left: -30px !important;
     }
+        nav.navbar {
+          padding-left: 0.5rem !important;
+          padding-right: 0.5rem !important;
+        }
+                .profileDDBttn{
+                  padding:0 0 0 0.5rem !important;
+                }
 }
 .mlIngrdntsCntnr{
   display: flex;
@@ -570,7 +577,7 @@ h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
   flex-wrap: wrap;
 }
 form fieldset{
-  min-width: 20rem;
+  min-width: 15rem;
   max-width:50rem;
   padding: 1rem;
   margin: 1rem 1rem 0 1rem;
@@ -865,4 +872,43 @@ margin: 0.5rem;
 .mealMacTable{
     z-index: 4;
     margin: 0.5rem;
+}
+.usrHndlAndDrpDwn{
+  align-items: center;
+}
+.usrHndlOnNvBr{
+  color:#fff;
+}
+.userPhotoURLFrmGrp{
+  display:grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "userPhotoURLLabel userPhotoPreview"
+    "userPhotoURLInput userPhotoURLInput"
+    "userPhotoURLValError userPhotoURLValError";
+}
+.userPhotoURLLabel{
+  grid-area: userPhotoURLLabel;
+  align-self: end;
+
+}
+.userPhotoPreview{
+  grid-area: userPhotoPreview;
+  margin:0.5rem 0 1rem 0;
+  justify-self: end;
+  align-self: start;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 100%;
+}
+.userPhotoURLInput{
+  grid-area: userPhotoURLInput;
+}
+.userPhotoURLValError{
+  grid-area: userPhotoURLValError;
+}
+.dropdown-menu{
+  right:25% !important
 }

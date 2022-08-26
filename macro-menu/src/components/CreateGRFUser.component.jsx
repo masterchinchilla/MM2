@@ -90,6 +90,7 @@ class CreateGRFUser extends Component {
       .email({ tlds: { allow: false } }),
     password: Joi.string().trim().min(8).max(100).required(),
     handle: Joi.string().trim().regex(/^\S/).min(3).max(100).required(),
+    photoURL: Joi.string().trim().min(4).uri(),
     certURL: Joi.string().trim().min(4).uri(),
     certName: Joi.string().trim().min(1).max(300),
   });
@@ -144,6 +145,7 @@ class CreateGRFUser extends Component {
       email: this.state.email,
       password: this.state.password,
       handle: this.state.handle,
+      photoURL: this.state.photoURL,
       certURL: this.state.certURL,
       certName: this.state.certName,
       verified: this.state.verified,
@@ -412,6 +414,22 @@ class CreateGRFUser extends Component {
                   {this.state.errors.handle ? (
                     <div className="alert alert-danger">
                       {this.state.errors.handle}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="form-group mb-2">
+                  <label className="form-label">Photo URL</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={this.state.photoURL}
+                    onChange={(e) => {
+                      this.handleUpdateProp(e, "photoURL");
+                    }}
+                  />
+                  {this.state.errors.photoURL ? (
+                    <div className="alert alert-danger">
+                      {this.state.errors.photoURL}
                     </div>
                   ) : null}
                 </div>

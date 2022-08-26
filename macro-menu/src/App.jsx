@@ -31,15 +31,9 @@ library.add(fas);
 const App = (props) => {
   let currentGRFUser = {};
   let serverAuthErrors = "";
+  const frontEndHtmlRoot = "http://localhost:3000/";
+  const backEndHtmlRoot = "http://localhost:5000/";
   async function getCurrentUser(token) {
-    // let response;
-    // response = await axios.post("http://localhost:5000/auth", userCreds);
-    // const errors = response.headers["x-auth-errors"];
-    // if (errors) {
-    //   serverAuthErrors = errors;
-    // } else {
-    //   const token = response.headers["x-auth-token"];
-    //   localStorage.setItem("token", token);
     const decodedToken = jwtDecode(token);
     currentGRFUser = decodedToken.currentGRFUser;
     const thisUsersId = decodedToken.currentGRFUser._id;
@@ -47,7 +41,7 @@ const App = (props) => {
   }
   async function createNewUser(newUser) {
     let response;
-    response = await axios.post("http://localhost:5000/GRFUsers/add", newUser);
+    response = await axios.post(backEndHtmlRoot + "GRFUsers/add", newUser);
     const token = response.headers["x-auth-token"];
     localStorage.setItem("token", token);
     const decodedToken = jwtDecode(token);
@@ -57,7 +51,10 @@ const App = (props) => {
   }
   return (
     <BrowserRouter>
-      <Navbar currentGRFUser={currentGRFUser} />
+      <Navbar
+        currentGRFUser={currentGRFUser}
+        backEndHtmlRoot={backEndHtmlRoot}
+      />
       <br />
       <Switch>
         <Route
@@ -73,7 +70,7 @@ const App = (props) => {
           path="/weekMealPlans/edit/:id/:isNewWMP?"
           component={WeekMealPlanDetail}
         />
-        <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} />
+        {/* <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} /> */}
         <Route
           exact
           path="/grfusers/edit/:id"
@@ -82,6 +79,7 @@ const App = (props) => {
               {...props}
               getCurrentUser={getCurrentUser}
               thisGRFUser={currentGRFUser}
+              backEndHtmlRoot={backEndHtmlRoot}
             />
           )}
         />
@@ -93,13 +91,10 @@ const App = (props) => {
               {...props}
               getCurrentUser={getCurrentUser}
               thisGRFUser={currentGRFUser}
+              backEndHtmlRoot={backEndHtmlRoot}
             />
           )}
         />
-        {/* <Route exact path={"/weekMealPlans/usersWMPs/" + currentGRFUser._id}>
-          <WeekMealPlansList2 getCurrentUser={getCurrentUser} />
-        </Route> */}
-        {/* <Route exact path="/grfuser/create" component={CreateGRFUser} /> */}
         <Route
           exact
           path="/grfuser/create"
@@ -128,77 +123,5 @@ const App = (props) => {
     </BrowserRouter>
   );
 };
-// class App extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       currentGRFUser: {
-//         _id: "",
-//       },
-//     };
-//   }
-//   getCurrentUser = async (userCreds) => {
-//     let response;
-//     response = await axios.post("http://localhost:5000/auth", userCreds);
-//     const token = response.headers["x-auth-token"];
-//     localStorage.setItem("token", token);
-//     const decodedToken = jwtDecode(token);
-//     const thisUsersId = decodedToken.currentGRFUser._id;
-//     window.location = "/weekMealPlans/usersWMPs/" + thisUsersId;
-//     this.setState({ currentGRFUser: decodedToken.currentGRFUser });
-//   };
-//   render() {
-//     const getCurrentUser = this.getCurrentUser;
-//     return (
-//       <BrowserRouter>
-//         <Navbar thisGRFUser={this.state.currentGRFUser} />
-//         <br />
-//         <Switch>
-//           <Route
-//             exact
-//             path="/weekmealplan/admin/:id"
-//             component={WeekMealPlanDetailAdmin}
-//           />
-//           <Route exact path="/grfusers" component={GRFUsersList} />
-//           <Route exact path="/create" component={CreateWeekMealPlan} />
-//           <Route
-//             exact
-//             path="/weekMealPlansList"
-//             component={WeekMealPlansList}
-//           />
-//           <Route
-//             exact
-//             path="/weekMealPlans/edit/:id/:isNewWMP?"
-//             component={WeekMealPlanDetail}
-//           />
-//           <Route exact path="/grfusers/edit/:id" component={GRFUserDetail} />
-//           <Route
-//             exact
-//             path="/weekMealPlans/usersWMPs/:id"
-//             component={WeekMealPlansList2}
-//           />
-//           <Route
-//             exact
-//             path={"/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id}
-//           >
-//             <WeekMealPlansList2 getCurrentUser={getCurrentUser} />
-//           </Route>
-//           <Route exact path="/grfuser/create" component={CreateGRFUser} />
-//           <Route
-//             exact
-//             path="/"
-//             render={(props) => (
-//               <Login
-//                 {...props}
-//                 getCurrentUser={getCurrentUser}
-//                 thisGRFUser={this.state.currentGRFUser}
-//               />
-//             )}
-//           />
-//         </Switch>
-//       </BrowserRouter>
-//     );
-//   }
-// }
 
 export default App;
