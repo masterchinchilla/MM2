@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import _ from "lodash";
 import jwtDecode from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import MealWeighting from "./MealWeighting.component";
@@ -12,8 +14,10 @@ export default class WeekMealPlanDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      axiosCallConfig: {},
+      axiosCallConfig: this.props.axiosCallConfig,
       httpRouteCore: this.props.appHTMLRoot,
+      backEndHtmlRoot: this.props.backEndHtmlRoot,
+      frontEndHtmlRoot: this.props.frontEndHtmlRoot,
       thisUserType: "admin",
       // thisGRFUser: {
       //   _id: "609f3e444ee536749c75c729",
@@ -24,7 +28,7 @@ export default class WeekMealPlanDetail extends Component {
       //   handle: "johnnyFood",
       //   photoURL: "",
       // },
-      thisGRFUser: this.props.location.state.currentGRFUser,
+      thisGRFUser: this.props.thisGRFUser,
       thisWeekMealPlan: {
         thisWMPJustCreated: true,
         dataLoaded: false,
@@ -7595,12 +7599,6 @@ export default class WeekMealPlanDetail extends Component {
       });
   };
   componentDidMount() {
-    const jwt = localStorage.getItem("token");
-    const decodedToken = jwtDecode(jwt);
-    this.setState({
-      axiosCallConfig: { "x-auth-token": jwt },
-      thisGRFUser: decodedToken.currentGRFUser,
-    });
     let daysOfWeek = this.state.daysOfWeek;
     let mealTypes = this.state.mealTypes;
     let thisWeeksDays = this.state.thisWeeksDays;
@@ -8191,9 +8189,10 @@ export default class WeekMealPlanDetail extends Component {
     let recordId = recordToSave._id;
     console.log(recordId);
     let url = `http://localhost:5000/${objType}s/update/${recordId}`;
-    axios
-      .put(url, recordToSave, this.state.axiosCallConfig)
-      .then(console.log("updated"));
+    const notify = () => {
+      toast.success("Updated Successfully");
+    };
+    axios.put(url, recordToSave, this.state.axiosCallConfig).then(notify());
     if (objType === "meal" && parentObj.userChangedThisMealsRecipe === true) {
       let dayOfWeekCode = recordToSave.day.dayOfWeek.code;
       let mealTypeCode = recordToSave.mealType.code;
@@ -9154,6 +9153,7 @@ export default class WeekMealPlanDetail extends Component {
     } else {
       return (
         <div className="container-fluid pl-4 pr-4">
+          <ToastContainer />
           <div className="card">
             <div className="card-header">
               <h1 className="card-title">Week Meal Plan Detail</h1>
@@ -9189,6 +9189,8 @@ export default class WeekMealPlanDetail extends Component {
                       <WMPForm
                         thisWeekMealPlan={this.state.thisWeekMealPlan}
                         httpRouteCore={this.state.httpRouteCore}
+                        backEndHtmlRoot={this.state.backEndHtmlRoot}
+                        frontEndHtmlRoot={this.state.frontEndHtmlRoot}
                         onUpdateProp={this.handleUpdateProp}
                         onClickEditForm={this.handleClickEditForm}
                         onCancelEditForm={this.handleCancelEditForm}

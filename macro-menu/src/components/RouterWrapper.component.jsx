@@ -24,15 +24,16 @@ class RouterWrapper extends Component {
     super(props);
     this.state = {
       userSignedIn: false,
-      serverAuthErrors: props.serverAuthErrors,
-      frontEndHtmlRoot: props.frontEndHtmlRoot,
-      backEndHtmlRoot: props.backEndHtmlRoot,
+      serverAuthErrors: this.props.serverAuthErrors,
+      frontEndHtmlRoot: this.props.frontEndHtmlRoot,
+      backEndHtmlRoot: this.props.backEndHtmlRoot,
+      axiosCallConfig: {},
       currentGRFUser: {},
       thisUsersId: "",
     };
   }
   componentDidMount() {
-    const token = localStorage.token;
+    const token = localStorage.getItem("token");
     if (!token) {
       return;
     } else {
@@ -40,6 +41,7 @@ class RouterWrapper extends Component {
       const currentGRFUser = decodedToken.currentGRFUser;
       this.setState({
         userSignedIn: true,
+        axiosCallConfig: { "x-auth-token": token },
         currentGRFUser: currentGRFUser,
         thisUsersId: currentGRFUser._id,
       });
@@ -51,19 +53,32 @@ class RouterWrapper extends Component {
     const serverAuthErrors = this.state.serverAuthErrors;
     const frontEndHtmlRoot = this.state.frontEndHtmlRoot;
     const backEndHtmlRoot = this.state.backEndHtmlRoot;
+    const axiosCallConfig = this.state.axiosCallConfig;
     const currentGRFUser = this.state.currentGRFUser;
     const thisUsersId = currentGRFUser._id;
     ///methods
     const getCurrentUser = this.props.getCurrentUser;
     const createNewUser = this.props.createNewUser;
     return (
-      <BrowserRouter>
+      <BrowserRouter
+        getCurrentUser={getCurrentUser}
+        thisGRFUser={currentGRFUser}
+        backEndHtmlRoot={backEndHtmlRoot}
+        frontEndHtmlRoot={frontEndHtmlRoot}
+        axiosCallConfig={axiosCallConfig}
+      >
         <Navbar
           currentGRFUser={currentGRFUser}
           backEndHtmlRoot={backEndHtmlRoot}
         />
         <br />
-        <Switch>
+        <Switch
+          getCurrentUser={getCurrentUser}
+          thisGRFUser={currentGRFUser}
+          backEndHtmlRoot={backEndHtmlRoot}
+          frontEndHtmlRoot={frontEndHtmlRoot}
+          axiosCallConfig={axiosCallConfig}
+        >
           <Route
             exact
             path="/weekmealplan/admin/:id"
@@ -76,10 +91,24 @@ class RouterWrapper extends Component {
             path="/weekMealPlansList"
             component={WeekMealPlansList}
           />
-          <Route
+          {/* <Route
             exact
             path="/weekMealPlans/edit/:id/:isNewWMP?"
             component={WeekMealPlanDetail}
+          /> */}
+          <Route
+            exact
+            path="/weekMealPlans/edit/:id/:isNewWMP?"
+            render={(props) => (
+              <WeekMealPlanDetail
+                {...props}
+                getCurrentUser={getCurrentUser}
+                thisGRFUser={currentGRFUser}
+                backEndHtmlRoot={backEndHtmlRoot}
+                frontEndHtmlRoot={frontEndHtmlRoot}
+                axiosCallConfig={axiosCallConfig}
+              />
+            )}
           />
           <Route
             exact

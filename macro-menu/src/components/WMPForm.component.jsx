@@ -12,6 +12,8 @@ const WMPForm = (props) => {
   const thisWeekMealPlan = props.thisWeekMealPlan;
   const thisWMPId = thisWeekMealPlan.thisWMP._id;
   const httpRouteCore = props.httpRouteCore;
+  const backEndHtmlRoot = props.backEndHtmlRoot;
+  const frontEndHtmlRoot = props.frontEndHtmlRoot;
   const thisFormState = thisWeekMealPlan.thisFormState;
   const mealIngrdntsArrayIndex = 0;
   const formGroupClasses = "form-group wmpNameFrmGroup";
@@ -116,6 +118,8 @@ const WMPForm = (props) => {
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
           httpRouteCore={httpRouteCore}
+          backEndHtmlRoot={backEndHtmlRoot}
+          frontEndHtmlRoot={frontEndHtmlRoot}
           objType={objType}
           thisFormState={thisFormState}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}

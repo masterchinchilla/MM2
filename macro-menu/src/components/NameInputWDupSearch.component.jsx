@@ -7,6 +7,8 @@ const NameInputWDupSearch = (props) => {
   const thisDayOfWeekCode = props.thisDayOfWeekCode;
   const thisMealTypeCode = props.thisMealTypeCode;
   const httpRouteCore = props.httpRouteCore;
+  const backEndHtmlRoot = props.backEndHtmlRoot;
+  const frontEndHtmlRoot = props.frontEndHtmlRoot;
   const objType = props.objType;
   const thisFormState = props.thisFormState;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
@@ -43,7 +45,7 @@ const NameInputWDupSearch = (props) => {
           setNameError("Name is required");
         } else {
           axios
-            .get(httpRouteCore + `${objType}s/findbyname/` + name)
+            .get(backEndHtmlRoot + `${objType}s/findbyname/` + name)
             .then((response) => {
               if (response.data === "ok") {
                 let nameLength = trimmedNameWNoDblSpcs.length;

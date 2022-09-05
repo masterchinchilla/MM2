@@ -58,8 +58,7 @@ class Navbar extends Component {
           to={
             !jwt
               ? "/"
-              : // "/weekMealPlans/usersWMPs/" + currentGRFUser._id
-                {
+              : {
                   pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
                   state: { currentGRFUser: currentGRFUser },
                 }
@@ -97,7 +96,6 @@ class Navbar extends Component {
               src={this.state.currentGRFUser.photoURL}
               {...this.stringAvatar(this.state.currentGRFUser.handle)}
             />
-            {/* <FontAwesomeIcon icon="fa-solid fa-circle-user" /> */}
           </button>
           <ul className="dropdown-menu">
             <li className="dropdown-item profileDDLi">
@@ -144,110 +142,3 @@ class Navbar extends Component {
 }
 
 export default Navbar;
-// import React, { Component } from "react";
-// import { Link, Redirect } from "react-router-dom";
-// import jwtDecode from "jwt-decode";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import WeekMealPlansList from "./WeekMealPlansList.component";
-// import CreateGRFUser from "./CreateGRFUser.component";
-// import CreateWeekMealPlan from "./CreateWeekMealPlan.component";
-// import GRFUsersList from "./GRFUsersList.component";
-
-// class Navbar extends Component {
-//   state = {
-//     jwt: "",
-//     currentGRFUser: { _id: "", userGroups: "GRFUser" },
-//   };
-//   componentDidMount() {
-//     const jwt = localStorage.getItem("token");
-//     if (jwt === null) {
-//       return;
-//     } else {
-//       this.setState({ jwt: jwt });
-//       const decodedToken = jwtDecode(jwt);
-//       this.setState({ currentGRFUser: decodedToken.currentGRFUser });
-//     }
-//   }
-//   render() {
-//     const currentGRFUser = this.state.currentGRFUser;
-//     const jwt = this.state.jwt;
-//     return (
-//       <nav className="navbar navbar-dark bg-dark ps-4 pe-2">
-//         <Link
-//           to={
-//             !jwt
-//               ? "/"
-//               : "/weekMealPlans/usersWMPs/" + this.state.currentGRFUser._id
-//           }
-//           className="navbar-brand"
-//         >
-//           GRF Macro Menu
-//         </Link>
-//         <ul className="navbar-nav mr-auto mb-lg-0" id="navbarNav">
-//           {!currentGRFUser ? (
-//             ""
-//           ) : currentGRFUser.userGroups !== "Admin" ? (
-//             ""
-//           ) : (
-//             <li className="nav-item">
-//               <Link to="/grfusers" className="nav-link">
-//                 GRF Users List
-//               </Link>
-//             </li>
-//           )}
-//         </ul>
-//         <div className="btn-group dropstart">
-//           <button
-//             type="button"
-//             className="btn btn-secondary dropdown-toggle profileDDBttn"
-//             data-bs-toggle="dropdown"
-//             aria-expanded="false"
-//             disabled={window.location.pathname === "/" ? true : false}
-//           >
-//             <FontAwesomeIcon icon="fa-solid fa-circle-user" />
-//           </button>
-//           <ul className="dropdown-menu">
-//             <li className="dropdown-item profileDDLi">
-//               {!jwt ? (
-//                 <Link
-//                   className="nav-link"
-//                   to={{
-//                     pathname: "/",
-//                   }}
-//                 >
-//                   Login
-//                 </Link>
-//               ) : (
-//                 <Link
-//                   className="nav-link"
-//                   to={{
-//                     pathname: "/logout",
-//                   }}
-//                 >
-//                   Logout
-//                 </Link>
-//               )}
-//             </li>
-//             <li className="dropdown-item profileDDLi">
-//               {!currentGRFUser ? (
-//                 ""
-//               ) : (
-//                 <Link
-//                   className="nav-link"
-//                   to={{
-//                     pathname: "/grfusers/edit/" + currentGRFUser._id,
-//                   }}
-//                 >
-//                   Profile
-//                 </Link>
-//               )}
-//             </li>
-//           </ul>
-//         </div>
-//       </nav>
-//     );
-//   }
-// }
-
-// export default Navbar;
