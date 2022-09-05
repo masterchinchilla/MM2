@@ -700,7 +700,7 @@ form fieldset{
 .submitBttnWRightErrs{
   display: flex;
   align-items: stretch;
-  margin: 1.5rem 1rem;
+  margin: 1.5rem 0.5rem;
 }
 .submitBttnWRightErrs input {
   margin: 0 1rem 0 0;
@@ -934,4 +934,7 @@ margin: 0.5rem;
   padding: 0.25rem !important;
   font-size: 0.8rem;
   background-color: #fff;
+}
+.loginSubmit{
+  padding: 0.25rem 0.5rem !important;
 }
