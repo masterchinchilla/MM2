@@ -7720,24 +7720,37 @@ export default class WeekMealPlanDetail extends Component {
             (meal) => meal.mealType.code === thisMealTypeCode
           )[0];
           if (thisDayMealData !== undefined) {
-            thisDaysMeals[thisMealTypeCode]["thisMeal"] = thisDayMealData;
-            let mealUserType = this.setUserType(
-              this.state.thisGRFUser._id,
-              thisDayMealData.day.weekMealPlan.GRFUser._id
-            );
-            thisDaysMeals[thisMealTypeCode]["thisMealUserType"] = mealUserType;
-            let genRecipeUserType = this.setUserType(
-              this.state.thisGRFUser._id,
-              thisDayMealData.genRecipe.GRFUser._id
-            );
-            thisDaysMeals[thisMealTypeCode]["thisGenRecipeUserType"] =
-              genRecipeUserType;
-            thisDaysMeals[thisMealTypeCode]["dataLoaded"] = true;
-            this.getMealIngrdnts(
-              thisDaysMeals[thisMealTypeCode],
-              thisDayOfWeekCode,
-              thisMealTypeCode
-            );
+            let thisRecipeId = thisDayMealData.genRecipe._id;
+            axios
+              .get(
+                this.state.backEndHtmlRoot +
+                  "genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
+                  thisRecipeId
+              )
+              .then((response) => {
+                let thisMealsRecipesIngrdnts = response.data;
+                thisDaysMeals[thisMealTypeCode]["thisRecipesIngrdnts"] =
+                  thisMealsRecipesIngrdnts;
+                thisDaysMeals[thisMealTypeCode]["thisMeal"] = thisDayMealData;
+                let mealUserType = this.setUserType(
+                  this.state.thisGRFUser._id,
+                  thisDayMealData.day.weekMealPlan.GRFUser._id
+                );
+                thisDaysMeals[thisMealTypeCode]["thisMealUserType"] =
+                  mealUserType;
+                let genRecipeUserType = this.setUserType(
+                  this.state.thisGRFUser._id,
+                  thisDayMealData.genRecipe.GRFUser._id
+                );
+                thisDaysMeals[thisMealTypeCode]["thisGenRecipeUserType"] =
+                  genRecipeUserType;
+                thisDaysMeals[thisMealTypeCode]["dataLoaded"] = true;
+                this.getMealIngrdnts(
+                  thisDaysMeals[thisMealTypeCode],
+                  thisDayOfWeekCode,
+                  thisMealTypeCode
+                );
+              });
           } else {
             thisDaysMeals[thisMealTypeCode]["thisMeal"]["day"] =
               thisDayToUpdate.thisDay;

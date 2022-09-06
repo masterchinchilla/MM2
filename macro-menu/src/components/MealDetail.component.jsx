@@ -25,7 +25,7 @@ const MealDetail = (props) => {
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
   const httpRouteCore = props.httpRouteCore;
   const nestedMealIngrdntArray = [mealsIngrdnts];
-  const thisRecipesIngrdnts = thisStateObj.thisRecipesIngrdnts;
+  const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   let allowPopulateIngrdnts =
     mealsIngrdnts.length < 1 && thisRecipesIngrdnts > 0 ? true : false;
   const thisMealTypesRecipes = props.thisMealTypesRecipes;
