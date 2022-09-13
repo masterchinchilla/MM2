@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Joi from "joi";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import auth from "../services/authService";
 //test user credentials:
 //email:johnQPublic@gmail.com
 //password:johnQPublic@GRF2022
@@ -84,11 +85,15 @@ class Login extends Component {
       return;
     } else {
       let response;
+      let token;
       try {
-        response = await axios.post("http://localhost:5000/auth", account);
-        const token = response.headers["x-auth-token"];
-        localStorage.setItem("token", token);
+        token = await auth.login(account.email, account.password);
+        // const token = response.headers["x-auth-token"];
+        // response = await axios.post("http://localhost:5000/auth", account);
+
+        // localStorage.setItem("token", token);
         this.props.getCurrentUser(token);
+        // this.props.getCurrentUser(token);
       } catch (authErrors) {
         this.setState({
           authErrors: authErrors.response.data,

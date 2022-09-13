@@ -912,8 +912,9 @@ margin: 0.5rem;
 .dropdown-menu{
   right:25% !important
 }
-.wmpsTblsCard{
-  /* max-height:80vh; */
+.wmpsTblsCard button.collapsed{
+  margin-bottom: -1px;
+  border-radius: 0 0 0.30rem 0.30rem !important;
 }
 .myWMPsCardHdr{
   display:unset;

@@ -1,0 +1,4 @@
+{
+  "frontEndHtmlRoot": "http://localhost:3000/",
+  "backEndHtmlRoot": "http://localhost:5000/"
+}
