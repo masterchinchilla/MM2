@@ -2,6 +2,9 @@ import React, { useState, useEffect, Component } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import Joi from "joi";
+import _ from "lodash";
+import NameInputWDupSearch from "./NameInputWDupSearch.component";
+import InputWSearchUnique from "./InputWSearchUnique.component";
 const GRFUserDetail = (props) => {
   // let jwt = "";
   const backEndHtmlRoot = props.backEndHtmlRoot;
@@ -11,6 +14,7 @@ const GRFUserDetail = (props) => {
     handle: "Not Signed-In",
   };
   currentGRFUser = props.location.state.currentGRFUser;
+  const objType = "GRFUser";
   // const token = localStorage.getItem("token");
   // const decodedToken = jwtDecode(token);
   // const thisUser = decodedToken.thisUser;
@@ -44,6 +48,10 @@ const GRFUserDetail = (props) => {
   const [photoURLValError, updatePhotoURLValError] = useState(null);
   const [certURLValError, updateCertURLValError] = useState(null);
   const [certNameValError, updateCertNameValError] = useState(null);
+  const [saveDisabled, toggleSaveDisabled] = useState(false);
+  const [nameError, setNameError] = useState(null);
+  const [timer, setTimer] = useState(null);
+  const [orig, setOrig] = useState(_.cloneDeep(currentGRFUser.handle));
   const usersId = currentGRFUser._id;
   const verified = currentGRFUser.verified;
   const schema = Joi.object({
@@ -100,15 +108,27 @@ const GRFUserDetail = (props) => {
     certName: Joi.string().trim().min(1).max(300),
   });
   function handleUpdateProp(e, propName) {
+    let inputValue = e.target.value;
+    let trimmed = inputValue.trim();
+    let trimmedWNoDblSpcs = trimmed.replace(/  +/g, " ");
     const rule = schema.extract(propName);
     const subSchema = Joi.object({ [propName]: rule });
-    const propValue = e.target.value;
+    const propValue = trimmedWNoDblSpcs;
     const objToValidate = { [propName]: propValue };
     const { error } = subSchema.validate(objToValidate);
-    const validationResult = error ? error : null;
-    const validationError = validationResult
-      ? validationResult.details[0].message
-      : null;
+    let validationError;
+    if (error) {
+      let validationResult = error;
+      validationError = validationResult.details[0].message;
+      toggleSaveDisabled(true);
+    } else {
+      validationError = null;
+      toggleSaveDisabled(false);
+    }
+    // const validationResult = error ? error : null;
+    // const validationError = validationResult
+    //   ? validationResult.details[0].message
+    //   : null;
     switch (propName) {
       case "namePrefix":
         updateNamePrefix(propValue);
@@ -171,6 +191,60 @@ const GRFUserDetail = (props) => {
       .post("http://localhost:5000/grfusers/update/" + usersId, thisGRFUser)
       .then((response) => console.log(response.data))
       .then((window.location = "/weekMealPlans/usersWMPs/" + usersId));
+  }
+  function searchSetUnique(
+    e,
+    orig,
+    // propName,
+    propNameSentenceCase,
+    valErrorUpdateFn
+  ) {
+    let inputValue = e.target.value;
+    let trimmed = inputValue.trim();
+    let trimmedWNoDblSpcs = trimmed.replace(/  +/g, " ");
+    let valueForSearch = trimmedWNoDblSpcs;
+    clearTimeout(timer);
+    const newTimer = setTimeout(() => {
+      if (orig !== trimmedWNoDblSpcs) {
+        if (trimmedWNoDblSpcs) {
+          //   toggleSaveDisabled(true);
+          //   setNameError(`${propNameSentenceCase} is required`);
+          // } else {
+          axios
+            .get(backEndHtmlRoot + `${objType}s/findbyname/` + valueForSearch)
+            .then((response) => {
+              if (response.data === "exists") {
+                // let nameLength = trimmedWNoDblSpcs.length;
+                // if (nameLength >= 3 && nameLength <= 255) {
+                // toggleSaveDisabled(false);
+                // setNameError(null);
+                // let e = {
+                //   target: {
+                //     value: trimmedWNoDblSpcs,
+                //   },
+                // };
+                // handleUpdateProp(e, propName);
+                // } else {
+                //   toggleSaveDisabled(true);
+                //   setNameError("Must be between 3 and 255 characters");
+                // }
+                // } else {
+                toggleSaveDisabled(true);
+                valErrorUpdateFn(
+                  `that ${propNameSentenceCase} is already taken`
+                );
+              }
+            });
+        }
+        // else {
+        //   valErrorUpdateFn(`${propNameSentenceCase} is required`);
+        // }
+      } else {
+        toggleSaveDisabled(false);
+        setNameError(null);
+      }
+    }, 500);
+    setTimer(newTimer);
   }
   return (
     <div className="card ms-4 me-4 registerCard">
@@ -266,11 +340,17 @@ const GRFUserDetail = (props) => {
                 <label className="form-label">
                   <span className="requiredFldLbl">* </span>Handle
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={handle}
-                  onChange={(e) => handleUpdateProp(e, "handle")}
+                <InputWSearchUnique
+                  backEndHtmlRoot={backEndHtmlRoot}
+                  objType={objType}
+                  propName={"handle"}
+                  propValue={handle}
+                  origPropValue={orig}
+                  propNameSentenceCase={"Handle"}
+                  fieldDisabled={false}
+                  valErrorUpdateFn={updateHandleValError}
+                  toggleSaveDisabledFn={toggleSaveDisabled}
+                  changePropFn={handleUpdateProp}
                 />
                 {handleValError ? (
                   <div className="alert alert-danger">{handleValError}</div>
