@@ -13,8 +13,16 @@ const InputWSearchUnique = (props) => {
     valErrorUpdateFn,
     toggleSaveDisabledFn,
     changePropFn,
+    changeLocalPropFn,
+    changeParentPropFn,
   } = props;
   const [timer, setTimer] = useState(null);
+  function trimValueForChangePropFn(e) {
+    const inputValue = e.target.value;
+    const noDblSpcs = inputValue.replace(/  +/g, " ");
+    toggleSaveDisabledFn(true);
+    changeLocalPropFn(noDblSpcs, propName);
+  }
   function searchSetUnique(e) {
     const inputValue = e.target.value;
     const trimmed = inputValue.trim();
@@ -33,7 +41,7 @@ const InputWSearchUnique = (props) => {
                   `that ${propNameSentenceCase} is already taken`
                 );
               } else {
-                changePropFn(e, propName);
+                changeParentPropFn(trimmedWNoDblSpcs, propName);
               }
             });
         }
@@ -48,7 +56,7 @@ const InputWSearchUnique = (props) => {
       type="text"
       className="form-control"
       value={propValue}
-      onChange={(e) => changePropFn(e, propName)}
+      onChange={trimValueForChangePropFn}
       onKeyUp={searchSetUnique}
       disabled={fieldDisabled}
     />

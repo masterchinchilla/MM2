@@ -107,14 +107,16 @@ const GRFUserDetail = (props) => {
     certURL: Joi.string().trim().min(4).uri(),
     certName: Joi.string().trim().min(1).max(300),
   });
-  function handleUpdateProp(e, propName) {
-    let inputValue = e.target.value;
-    let trimmed = inputValue.trim();
-    let trimmedWNoDblSpcs = trimmed.replace(/  +/g, " ");
+  function handleUpdateProp(propValue, propName) {
+    let thisPropValue;
+    if (propName === "handle") {
+      thisPropValue = propValue;
+    } else {
+      thisPropValue = propValue.target.value;
+    }
     const rule = schema.extract(propName);
     const subSchema = Joi.object({ [propName]: rule });
-    const propValue = trimmedWNoDblSpcs;
-    const objToValidate = { [propName]: propValue };
+    const objToValidate = { [propName]: thisPropValue };
     const { error } = subSchema.validate(objToValidate);
     let validationError;
     if (error) {
@@ -125,49 +127,45 @@ const GRFUserDetail = (props) => {
       validationError = null;
       toggleSaveDisabled(false);
     }
-    // const validationResult = error ? error : null;
-    // const validationError = validationResult
-    //   ? validationResult.details[0].message
-    //   : null;
     switch (propName) {
       case "namePrefix":
-        updateNamePrefix(propValue);
+        updateNamePrefix(thisPropValue);
         updateNamePrefixValError(validationError);
         break;
       case "givenName":
-        updateGivenName(propValue);
+        updateGivenName(thisPropValue);
         updateGivenNameValError(validationError);
         break;
       case "middleName":
-        updateMiddleName(propValue);
+        updateMiddleName(thisPropValue);
         updateMiddleNameValError(validationError);
         break;
       case "familyName":
-        updateFamilyName(propValue);
+        updateFamilyName(thisPropValue);
         updateFamilyNameValError(validationError);
         break;
       case "nameSuffix":
-        updateNameSuffix(propValue);
+        updateNameSuffix(thisPropValue);
         updateNameSuffixValError(validationError);
         break;
       case "email":
-        updateEmail(propValue);
+        updateEmail(thisPropValue);
         updateEmailValError(validationError);
         break;
       case "handle":
-        updateHandle(propValue);
+        updateHandle(thisPropValue);
         updateHandleValError(validationError);
         break;
       case "photoURL":
-        updatePhotoURL(propValue);
+        updatePhotoURL(thisPropValue);
         updatePhotoURLValError(validationError);
         break;
       case "certURL":
-        updateCertURL(propValue);
+        updateCertURL(thisPropValue);
         updateCertURLValError(validationError);
         break;
       case "certName":
-        updateCertName(propValue);
+        updateCertName(thisPropValue);
         updateCertNameValError(validationError);
         break;
     }
@@ -350,7 +348,8 @@ const GRFUserDetail = (props) => {
                   fieldDisabled={false}
                   valErrorUpdateFn={updateHandleValError}
                   toggleSaveDisabledFn={toggleSaveDisabled}
-                  changePropFn={handleUpdateProp}
+                  changeLocalPropFn={handleUpdateProp}
+                  changeParentPropFn={handleUpdateProp}
                 />
                 {handleValError ? (
                   <div className="alert alert-danger">{handleValError}</div>

@@ -74,7 +74,7 @@ router.route('/:id').delete((req, res) => {
 router.route('/update/:id').put((req, res) => {
     WeekMealPlan.findById(req.params.id)
         .then(weekMealPlan => {
-            weekMealPlan.name = req.body.name;
+            weekMealPlan.name = req.body.name.trim();
             weekMealPlan.GRFUser = req.body.GRFUser;
             weekMealPlan.breakfastWeight=req.body.breakfastWeight;
             weekMealPlan.snack1Weight=req.body.snack1Weight;

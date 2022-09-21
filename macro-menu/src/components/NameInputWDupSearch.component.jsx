@@ -25,15 +25,15 @@ const NameInputWDupSearch = (props) => {
   const setNameError = props.setNameError;
   const toggleSaveDisabled = props.toggleSaveDisabled;
   const onUpdateProp = props.onUpdateProp;
+  const onUpdateParentProp = props.onUpdateParentProp;
   function changeName(e) {
     let inputValue = e.target.value;
     let trimmedName = inputValue.trim();
-    let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
+    let trimmedNameWNoDblSpcs = inputValue.replace(/  +/g, " ");
     toggleSaveDisabled(true);
-    updateName(trimmedNameWNoDblSpcs);
+    updateName(trimmedNameWNoDblSpcs, "name");
   }
   function searchSetName(e) {
-    console.log(e);
     let inputValue = e.target.value;
     let trimmedName = inputValue.trim();
     let trimmedNameWNoDblSpcs = trimmedName.replace(/  +/g, " ");
@@ -52,21 +52,22 @@ const NameInputWDupSearch = (props) => {
                 if (nameLength >= 3 && nameLength <= 255) {
                   toggleSaveDisabled(false);
                   setNameError(null);
-                  let e = {
-                    target: {
-                      value: trimmedNameWNoDblSpcs,
-                    },
-                  };
-                  onUpdateProp(
-                    objType,
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "name",
-                    mealIngrdntsArrayIndex,
-                    "text",
-                    e,
-                    []
-                  );
+                  onUpdateParentProp(trimmedNameWNoDblSpcs, "name");
+                  // let e = {
+                  //   target: {
+                  //     value: trimmedNameWNoDblSpcs,
+                  //   },
+                  // };
+                  // onUpdateProp(
+                  //   objType,
+                  //   thisDayOfWeekCode,
+                  //   thisMealTypeCode,
+                  //   "name",
+                  //   mealIngrdntsArrayIndex,
+                  //   "text",
+                  //   e,
+                  //   []
+                  // );
                 } else {
                   toggleSaveDisabled(true);
                   setNameError("Must be between 3 and 255 characters");
