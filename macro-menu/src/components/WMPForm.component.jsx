@@ -6,12 +6,14 @@ import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import NameInputWDupSearch from "./NameInputWDupSearch.component";
 import InputWSearchUnique from "./InputWSearchUnique.component";
+import InputParent from "./InputParent.component";
 const WMPForm = (props) => {
   //Data Props
   ////Common Props
   const thisDayOfWeekCode = "";
   const thisMealTypeCode = "";
   const thisWeekMealPlan = props.thisWeekMealPlan;
+  const thisWMPOld = props.thisWMPOld;
   const thisWMPId = thisWeekMealPlan.thisWMP._id;
   const httpRouteCore = props.httpRouteCore;
   const backEndHtmlRoot = props.backEndHtmlRoot;
@@ -24,40 +26,52 @@ const WMPForm = (props) => {
   ////Name-Specific Props
   const [origName, setOrigName] = useState(thisWeekMealPlan.thisWMP.name);
   const [name, updateName] = useState(thisWeekMealPlan.thisWMP.name);
+  // const name = thisWeekMealPlan.thisWMP.name;
   const [timer, setTimer] = useState(null);
   const [nameValError, updateNameValError] = useState(null);
   const [saveDisabled, toggleSaveDisabled] = useState(false);
+  const [state, setState] = useState({
+    name: {
+      value: thisWeekMealPlan.thisWMP.name,
+      valError: null,
+    },
+    saveDisabled: false,
+  });
   const onUpdateProp = props.onUpdateProp;
   const schema = Joi.object({
     name: Joi.string().trim().min(3).max(255).required(),
   });
-  function handleUpdateLocalProp(propValue, propName) {
-    let thisPropValue;
-    if (propName === "name") {
-      thisPropValue = propValue;
-    } else {
-      thisPropValue = propValue.target.value;
-    }
-    const rule = schema.extract(propName);
-    const subSchema = Joi.object({ [propName]: rule });
-    const objToValidate = { [propName]: thisPropValue };
-    const { error } = subSchema.validate(objToValidate);
-    let validationError;
-    if (error) {
-      let validationResult = error;
-      validationError = validationResult.details[0].message;
-      toggleSaveDisabled(true);
-    } else {
-      validationError = null;
-      toggleSaveDisabled(false);
-    }
-    if (propName === "name") {
-      updateName(thisPropValue);
-      updateNameValError(validationError);
-    } else {
-      return;
-    }
+  function handleUpdateLocalProp(propValue, propName, subPropName) {
+    let updatedProp = { [subPropName]: propValue };
+    setState({ ...state, [propName]: updatedProp });
   }
+  // function handleUpdateLocalProp(propValue, propName) {
+  //   let thisPropValue;
+  //   if (propName === "name") {
+  //     thisPropValue = propValue;
+  //   } else {
+  //     thisPropValue = propValue.target.value;
+  //   }
+  //   const rule = schema.extract(propName);
+  //   const subSchema = Joi.object({ [propName]: rule });
+  //   const objToValidate = { [propName]: thisPropValue };
+  //   const { error } = subSchema.validate(objToValidate);
+  //   let validationError;
+  //   if (error) {
+  //     let validationResult = error;
+  //     validationError = validationResult.details[0].message;
+  //     toggleSaveDisabled(true);
+  //   } else {
+  //     validationError = null;
+  //     toggleSaveDisabled(false);
+  //   }
+  //   if (propName === "name") {
+  //     // updateName(thisPropValue);
+  //     updateNameValError(validationError);
+  //   } else {
+  //     return;
+  //   }
+  // }
   function handleUpdateParentProp(propValue, propName) {
     let e = {
       target: {
@@ -77,15 +91,17 @@ const WMPForm = (props) => {
     );
   }
   function onCancelEditForm() {
-    updateName(origName);
+    // handleUpdateLocalProp(thisWMPOld.name, "name", "value");
+    // handleUpdateLocalProp(null, "name", "valError");
+    updateName(thisWMPOld.name);
     updateNameValError(null);
     toggleSaveDisabled(false);
     props.onCancelEditForm(thisWeekMealPlan, objType);
   }
   function handleSaveAndUpdateOrig(parentObj, objType) {
-    if (origName !== name) {
-      setOrigName(name);
-    }
+    // if (origName !== name) {
+    //   setOrigName(name);
+    // }
     props.onSaveFormChanges(parentObj, objType);
   }
   return (
@@ -97,7 +113,29 @@ const WMPForm = (props) => {
             : "card-header wmpCardHeader"
         }
       >
-        <div className={formGroupClasses}>
+        <InputParent
+          parentObjOld={thisWMPOld}
+          valSchema={schema}
+          label={"Week Meal Plan Name"}
+          thisFormState={thisFormState}
+          formGroupClasses={formGroupClasses}
+          thisDayOfWeekCode={thisDayOfWeekCode}
+          thisMealTypeCode={thisMealTypeCode}
+          mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
+          propType={"text"}
+          backEndHtmlRoot={backEndHtmlRoot}
+          objType={objType}
+          propName={"name"}
+          propNameSentenceCase={"Name"}
+          // origPropValue={name}
+          localPropValue={name}
+          valError={nameValError}
+          updateLocalPropValueFn={updateName}
+          toggleSaveDisabledFn={toggleSaveDisabled}
+          onUpdateProp={onUpdateProp}
+          updateValErrorFn={updateNameValError}
+        />
+        {/* <div className={formGroupClasses}>
           <label>Week Meal Plan Name</label>
           <InputWSearchUnique
             backEndHtmlRoot={backEndHtmlRoot}
@@ -119,7 +157,7 @@ const WMPForm = (props) => {
           >
             {nameValError}
           </div>
-        </div>
+        </div> */}
         {/* <NameInputWDupSearch
           //Data Props
           ////Common Props
@@ -155,7 +193,7 @@ const WMPForm = (props) => {
           recordChanged={thisWeekMealPlan.recordChanged}
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={onCancelEditForm}
-          onSaveFormChanges={handleSaveAndUpdateOrig}
+          onSaveFormChanges={props.onSaveFormChanges}
           onDeleteRecord={props.onDeleteRecord}
           onClickCopy={props.onClickCopy}
         />

@@ -7375,7 +7375,11 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
       },
-      thisWeekMealPlanOld: {},
+      thisWeekMealPlanOld: {
+        thisWMP: {
+          name: "",
+        },
+      },
       thisWeeksDaysOld: {
         sunday: {},
         monday: {},
@@ -8070,7 +8074,11 @@ export default class WeekMealPlanDetail extends Component {
     state.thisWeekMealPlan = thisWMPBackup;
     state.thisWeekMealPlan.thisWMPJustCreated = false;
     state.thisWeeksDays = thisWeeksDaysBackup;
-    state.thisWeekMealPlanOld = {};
+    state.thisWeekMealPlanOld = {
+      thisWMP: {
+        name: "",
+      },
+    };
     state.thisWeeksDaysOld = {
       sunday: {},
       monday: {},
@@ -8274,14 +8282,15 @@ export default class WeekMealPlanDetail extends Component {
     this.hndleSetVwrTypsAndFrmStates("changingMealRecipe", state);
   };
   deleteRecord = (recordId, objType) => {
-    let url = `http://localhost:5000/${objType}s/${recordId}`;
-    axios.delete(url).then(console.log(recordId + " deleted"));
+    let url = `${this.state.backEndHtmlRoot}${objType}s/${recordId}`;
+    axios.delete(url).then(toast.success("Deleted Successfully"));
   };
   handleDeleteRecord = (parentObj, objType) => {
     let getRndInteger = this.getRndInteger;
     let defaultDayNewId = "missing" + getRndInteger(10000000, 99999999);
     let mealTypes = this.state.mealTypes;
     let daysOfWeek = this.state.daysOfWeek;
+    let backEndHtmlRoot = this.state.backEndHtmlRoot;
     function createRecipeIngrdntStateObj(genRecipe, mealType) {
       let genRecipeIngredient = {
         defaultQty: 1,
@@ -8412,7 +8421,7 @@ export default class WeekMealPlanDetail extends Component {
     switch (objType) {
       case "weekMealPlan":
         let thisGRFUsersId = state.thisGRFUser._id;
-        let url = `http://localhost:5000/${objType}s/${parentObj.thisWMP._id}`;
+        let url = `${backEndHtmlRoot}${objType}s/${parentObj.thisWMP._id}`;
         axios
           .delete(url)
           .then(
@@ -9166,7 +9175,7 @@ export default class WeekMealPlanDetail extends Component {
     } else {
       return (
         <div className="container-fluid pl-4 pr-4">
-          <ToastContainer />
+          <ToastContainer autoClose={2000} />
           <div className="card">
             <div className="card-header">
               <h1 className="card-title">Week Meal Plan Detail</h1>
@@ -9201,6 +9210,7 @@ export default class WeekMealPlanDetail extends Component {
                     <form className="card">
                       <WMPForm
                         thisWeekMealPlan={this.state.thisWeekMealPlan}
+                        thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
                         httpRouteCore={this.state.httpRouteCore}
                         backEndHtmlRoot={this.state.backEndHtmlRoot}
                         frontEndHtmlRoot={this.state.frontEndHtmlRoot}

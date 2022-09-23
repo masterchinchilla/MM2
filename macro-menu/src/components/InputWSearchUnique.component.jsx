@@ -6,13 +6,13 @@ const InputWSearchUnique = (props) => {
     backEndHtmlRoot,
     objType,
     propName,
-    propValue,
+    localPropValue,
     origPropValue,
     propNameSentenceCase,
     fieldDisabled,
+    propType,
     valErrorUpdateFn,
     toggleSaveDisabledFn,
-    changePropFn,
     changeLocalPropFn,
     changeParentPropFn,
   } = props;
@@ -53,9 +53,9 @@ const InputWSearchUnique = (props) => {
   }
   return (
     <input
-      type="text"
+      type={propType}
       className="form-control"
-      value={propValue}
+      value={localPropValue}
       onChange={trimValueForChangePropFn}
       onKeyUp={searchSetUnique}
       disabled={fieldDisabled}
