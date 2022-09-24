@@ -9,6 +9,7 @@ import DayDetail from "./DayDetail.component";
 import MealWeighting from "./MealWeighting.component";
 import WMPForm from "./WMPForm.component";
 import MacroBudget from "./MacroBudget.component";
+import WMPFormClass from "./WMPForm.classComponent";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -9208,6 +9209,17 @@ export default class WeekMealPlanDetail extends Component {
                 >
                   <div className="accordion-body accrdnWMPDetailsBdy">
                     <form className="card">
+                      <WMPFormClass
+                        thisWeekMealPlan={this.state.thisWeekMealPlan}
+                        thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
+                        backEndHtmlRoot={this.state.backEndHtmlRoot}
+                        onUpdateProp={this.handleUpdateProp}
+                        onClickEditForm={this.handleClickEditForm}
+                        onCancelEditForm={this.handleCancelEditForm}
+                        onSaveFormChanges={this.handleSaveFormChanges}
+                        onDeleteRecord={this.handleDeleteRecord}
+                        onClickCopy={this.handleCopyWMP}
+                      />
                       <WMPForm
                         thisWeekMealPlan={this.state.thisWeekMealPlan}
                         thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
