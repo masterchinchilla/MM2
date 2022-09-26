@@ -14,6 +14,7 @@ const MealIngredientParent = (props) => {
   const thisIngredient = thisGenRecipeIngrdnt.ingredient;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   const httpRouteCore = props.httpRouteCore;
+  const backEndHtmlRoot = props.backEndHtmlRoot;
   //Form States
   const thisMealIngrdntFormState = thisMealIngrdntObj.thisMealIngrdntFormState;
   const thisGenRecipeIngrdntFormState =
@@ -24,7 +25,6 @@ const MealIngredientParent = (props) => {
   const thisGenRecipeIngrdntUserType =
     thisMealIngrdntObj.thisGenRecipeIngrdntUserType;
   const thisIngrdntUserType = thisMealIngrdntObj.thisIngrdntUserType;
-
   return (
     <div className="card mlIngrdntsCard">
       <div className="card-header mlIgrdntCrdTpSctn">
@@ -96,6 +96,12 @@ const MealIngredientParent = (props) => {
           allUnitOfMeasures={props.allUnitOfMeasures}
           allWeightTypes={props.allWeightTypes}
           allBrands={props.allBrands}
+          httpRouteCore={httpRouteCore}
+          backEndHtmlRoot={backEndHtmlRoot}
+          thisIngrdntOld={
+            props.thisMealIngrdntStateObjOld.thisMealIngrdnt.genRecipeIngredient
+              .ingredient
+          }
           //Methods
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
@@ -103,7 +109,6 @@ const MealIngredientParent = (props) => {
           onDeleteRecord={props.onDeleteRecord}
           onUpdateProp={props.onUpdateProp}
           onCreateRecord={props.onCreateRecord}
-          httpRouteCore={httpRouteCore}
         />
       </div>
     </div>

@@ -1,24 +1,31 @@
 import React, { useState } from "react";
+import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
 import NameInputWDupSearch from "./NameInputWDupSearch.component";
+import InputParent from "./InputParent.component";
 const Ingredient = (props) => {
-  const userType = props.userType;
-  const thisFormState = props.thisFormState;
-  const thisGRFUser = props.thisGRFUser;
-  const thisMealTypeCode = props.thisMealTypeCode;
-  const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  const thisMealIngrdntObj = props.thisMealIngrdntObj;
+  const {
+    userType,
+    thisFormState,
+    thisGRFUser,
+    thisMealTypeCode,
+    mealIngrdntsArrayIndex,
+    thisMealIngrdntObj,
+    thisObj,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+    thisIngrdntOld,
+    onUpdateProp,
+    backEndHtmlRoot,
+  } = props;
   const thisMealType = thisMealIngrdntObj.thisMealIngrdnt.meal.mealType;
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
   const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
-  const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
-  const allUnitOfMeasures = props.allUnitOfMeasures;
-  const allWeightTypes = props.allWeightTypes;
-  const allBrands = props.allBrands;
   const thisIngrdntJustCreated = thisMealIngrdntObj.thisIngrdntJustCreated;
   const httpRouteCore = props.httpRouteCore;
   const objType = "ingredient";
@@ -27,6 +34,7 @@ const Ingredient = (props) => {
   let thisUOMObj;
   let thisWeightTypeObj;
   const [name, updateName] = useState(thisObj.name);
+  const [nameValError, updateNameValError] = useState(null);
   const [origName, setOrigName] = useState(thisObj.name);
   const [timer, setTimer] = useState(null);
   const [saveDisabled, toggleSaveDisabled] = useState(false);
@@ -62,9 +70,12 @@ const Ingredient = (props) => {
     "If you delete this Base Ingredient it will be deleted everywhere, including in other Recipes. Do you want to proceed?";
   const saveMsg =
     "Changes made to this Base Ingredient will be applied everywhere it is used, including in other Recipes. Do you want to proceed?";
+  const schema = Joi.object({
+    name: Joi.string().trim().min(3).max(255).required(),
+  });
   function onCancelEditForm() {
     updateName(origName);
-    setNameError(null);
+    updateNameValError(null);
     toggleSaveDisabled(false);
     props.onCancelEditForm(thisMealIngrdntObj, objType);
   }
@@ -111,36 +122,6 @@ const Ingredient = (props) => {
             onCreateRecord={props.onCreateRecord}
             styleClasses="recipeSelect"
           />
-          {/* <select
-            required
-            className="form-control form-select"
-            value={
-              thisObj.unitOfMeasure === undefined
-                ? "627691779fa56aa1fe318390"
-                : thisObj.unitOfMeasure._id
-            }
-            disabled={thisFormState === "viewing" ? true : false}
-            onChange={(e) =>
-              props.onUpdateProp(
-                "ingredient",
-                thisDayOfWeekCode,
-                thisMealTypeCode,
-                "unitOfMeasure",
-                mealIngrdntsArrayIndex,
-                "select",
-                e,
-                allUnitOfMeasures
-              )
-            }
-          >
-            {allUnitOfMeasures.map(function (unitOfMeasure) {
-              return (
-                <option key={unitOfMeasure._id} value={unitOfMeasure._id}>
-                  {unitOfMeasure.name}
-                </option>
-              );
-            })}
-          </select> */}
         </div>
         <div className="form-group mealIngrdntInputs ingrdntWghtType">
           <label>Weight Type</label>
@@ -159,36 +140,6 @@ const Ingredient = (props) => {
             onCreateRecord={props.onCreateRecord}
             styleClasses="recipeSelect"
           />
-          {/* <select
-            required
-            className="form-control form-select"
-            value={
-              thisObj.weightType === undefined
-                ? "627695899fa56aa1fe318396"
-                : thisObj.weightType._id
-            }
-            disabled={thisFormState === "viewing" ? true : false}
-            onChange={(e) =>
-              props.onUpdateProp(
-                "ingredient",
-                thisDayOfWeekCode,
-                thisMealTypeCode,
-                "weightType",
-                mealIngrdntsArrayIndex,
-                "select",
-                e,
-                allWeightTypes
-              )
-            }
-          >
-            {allWeightTypes.map(function (weightType) {
-              return (
-                <option key={weightType._id} value={weightType._id}>
-                  {weightType.name}
-                </option>
-              );
-            })}
-          </select> */}
         </div>
         <div
           className="ingrdntPicDiv"
@@ -219,38 +170,8 @@ const Ingredient = (props) => {
             onCreateRecord={props.onCreateRecord}
             styleClasses="recipeSelect"
           />
-          {/* <select
-            required
-            className="form-control form-select"
-            value={
-              thisObj.brand === undefined
-                ? "627691b69fa56aa1fe318393"
-                : thisObj.brand._id
-            }
-            disabled={thisFormState === "viewing" ? true : false}
-            onChange={(e) =>
-              props.onUpdateProp(
-                "ingredient",
-                thisDayOfWeekCode,
-                thisMealTypeCode,
-                "brand",
-                mealIngrdntsArrayIndex,
-                "select",
-                e,
-                allBrands
-              )
-            }
-          >
-            {allBrands.map(function (brand) {
-              return (
-                <option key={brand._id} value={brand._id}>
-                  {brand.name}
-                </option>
-              );
-            })}
-          </select> */}
         </div>
-        <NameInputWDupSearch
+        {/* <NameInputWDupSearch
           //Data Props
           ////Common Props
           thisDayOfWeekCode={thisDayOfWeekCode}
@@ -271,29 +192,31 @@ const Ingredient = (props) => {
           updateName={updateName}
           setNameError={setNameError}
           toggleSaveDisabled={toggleSaveDisabled}
-          onUpdateProp={props.onUpdateProp}
+          onUpdateProp={onUpdateProp}
+        /> */}
+        <InputParent
+          parentObjOld={thisIngrdntOld}
+          valSchema={schema}
+          label={"IngredientName"}
+          thisFormState={thisFormState}
+          formGroupClasses={
+            "form-group mealIngrdntInputs ingrdntName badge bg-primary"
+          }
+          thisDayOfWeekCode={thisDayOfWeekCode}
+          thisMealTypeCode={thisMealTypeCode}
+          mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
+          propType={"text"}
+          backEndHtmlRoot={backEndHtmlRoot}
+          objType={objType}
+          propName={"name"}
+          propNameSentenceCase={"Name"}
+          localPropValue={name}
+          valError={nameValError}
+          updateLocalPropValueFn={updateName}
+          toggleSaveDisabledFn={toggleSaveDisabled}
+          onUpdateProp={onUpdateProp}
+          updateValErrorFn={updateNameValError}
         />
-        {/* <div className="form-group mealIngrdntInputs ingrdntName badge bg-primary">
-          <label>Ingredient Name</label>
-          <input
-            type={"text"}
-            className="form-control"
-            value={thisObj.name}
-            onChange={(e) =>
-              props.onUpdateProp(
-                "ingredient",
-                thisDayOfWeekCode,
-                thisMealTypeCode,
-                "name",
-                mealIngrdntsArrayIndex,
-                "text",
-                e,
-                []
-              )
-            }
-            disabled={thisFormState === "viewing" ? true : false}
-          />
-        </div> */}
       </div>
       <div
         className="accordion accordion-flush"

@@ -1,11 +1,8 @@
-import React, { useState, useEffect, Component } from "react";
-import axios from "axios";
+import React, { useState, Component } from "react";
 import _ from "lodash";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
-import NameInputWDupSearch from "./NameInputWDupSearch.component";
-import InputWSearchUnique from "./InputWSearchUnique.component";
 import InputParent from "./InputParent.component";
 const WMPForm = (props) => {
   //Data Props
@@ -15,19 +12,13 @@ const WMPForm = (props) => {
   const thisWeekMealPlan = props.thisWeekMealPlan;
   const thisWMPOld = props.thisWMPOld;
   const thisWMPId = thisWeekMealPlan.thisWMP._id;
-  const httpRouteCore = props.httpRouteCore;
   const backEndHtmlRoot = props.backEndHtmlRoot;
-  const frontEndHtmlRoot = props.frontEndHtmlRoot;
   const thisFormState = thisWeekMealPlan.thisFormState;
   const mealIngrdntsArrayIndex = 0;
   const formGroupClasses = "form-group wmpNameFrmGroup";
   const objType = "weekMealPlan";
-  const objTypeForLabel = "Plan";
   ////Name-Specific Props
-  const [origName, setOrigName] = useState(thisWeekMealPlan.thisWMP.name);
   const [name, updateName] = useState(thisWeekMealPlan.thisWMP.name);
-  // const name = thisWeekMealPlan.thisWMP.name;
-  const [timer, setTimer] = useState(null);
   const [nameValError, updateNameValError] = useState(null);
   const [saveDisabled, toggleSaveDisabled] = useState(false);
   const [state, setState] = useState({
@@ -45,33 +36,6 @@ const WMPForm = (props) => {
     let updatedProp = { [subPropName]: propValue };
     setState({ ...state, [propName]: updatedProp });
   }
-  // function handleUpdateLocalProp(propValue, propName) {
-  //   let thisPropValue;
-  //   if (propName === "name") {
-  //     thisPropValue = propValue;
-  //   } else {
-  //     thisPropValue = propValue.target.value;
-  //   }
-  //   const rule = schema.extract(propName);
-  //   const subSchema = Joi.object({ [propName]: rule });
-  //   const objToValidate = { [propName]: thisPropValue };
-  //   const { error } = subSchema.validate(objToValidate);
-  //   let validationError;
-  //   if (error) {
-  //     let validationResult = error;
-  //     validationError = validationResult.details[0].message;
-  //     toggleSaveDisabled(true);
-  //   } else {
-  //     validationError = null;
-  //     toggleSaveDisabled(false);
-  //   }
-  //   if (propName === "name") {
-  //     // updateName(thisPropValue);
-  //     updateNameValError(validationError);
-  //   } else {
-  //     return;
-  //   }
-  // }
   function handleUpdateParentProp(propValue, propName) {
     let e = {
       target: {
@@ -91,18 +55,10 @@ const WMPForm = (props) => {
     );
   }
   function onCancelEditForm() {
-    // handleUpdateLocalProp(thisWMPOld.name, "name", "value");
-    // handleUpdateLocalProp(null, "name", "valError");
     updateName(thisWMPOld.name);
     updateNameValError(null);
     toggleSaveDisabled(false);
     props.onCancelEditForm(thisWeekMealPlan, objType);
-  }
-  function handleSaveAndUpdateOrig(parentObj, objType) {
-    // if (origName !== name) {
-    //   setOrigName(name);
-    // }
-    props.onSaveFormChanges(parentObj, objType);
   }
   return (
     <React.Fragment>
@@ -127,7 +83,6 @@ const WMPForm = (props) => {
           objType={objType}
           propName={"name"}
           propNameSentenceCase={"Name"}
-          // origPropValue={name}
           localPropValue={name}
           valError={nameValError}
           updateLocalPropValueFn={updateName}
@@ -135,55 +90,6 @@ const WMPForm = (props) => {
           onUpdateProp={onUpdateProp}
           updateValErrorFn={updateNameValError}
         />
-        {/* <div className={formGroupClasses}>
-          <label>Week Meal Plan Name</label>
-          <InputWSearchUnique
-            backEndHtmlRoot={backEndHtmlRoot}
-            objType={objType}
-            propName={"name"}
-            propValue={name}
-            origPropValue={origName}
-            propNameSentenceCase={"Name"}
-            fieldDisabled={thisFormState === "viewing" ? true : false}
-            valErrorUpdateFn={updateNameValError}
-            toggleSaveDisabledFn={toggleSaveDisabled}
-            changePropFn={handleUpdateLocalProp}
-            changeLocalPropFn={handleUpdateLocalProp}
-            changeParentPropFn={handleUpdateParentProp}
-          />
-          <div
-            className="alert alert-danger"
-            hidden={nameValError ? false : true}
-          >
-            {nameValError}
-          </div>
-        </div> */}
-        {/* <NameInputWDupSearch
-          //Data Props
-          ////Common Props
-          thisDayOfWeekCode={thisDayOfWeekCode}
-          thisMealTypeCode={thisMealTypeCode}
-          httpRouteCore={httpRouteCore}
-          backEndHtmlRoot={backEndHtmlRoot}
-          frontEndHtmlRoot={frontEndHtmlRoot}
-          objType={objType}
-          thisFormState={thisFormState}
-          mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
-          formGroupClasses={formGroupClasses}
-          ////Name-Specific Props
-          origName={origName}
-          name={name}
-          timer={timer}
-          nameValError={nameValError}
-          objTypeForLabel={objTypeForLabel}
-          //Function Props
-          setTimer={setTimer}
-          updateName={handleUpdateLocalProp}
-          setnameValError={updateNameValError}
-          toggleSaveDisabled={toggleSaveDisabled}
-          onUpdateProp={onUpdateProp}
-          onUpdateParentProp={handleUpdateParentProp}
-        /> */}
         <EditOptions
           parentObj={thisWeekMealPlan}
           objType="weekMealPlan"

@@ -7,6 +7,7 @@ import CreateMeal from "./CreateMeal.component";
 import MealDetail from "./MealDetail.component";
 const DayDetail = (props) => {
   const httpRouteCore = props.httpRouteCore;
+  const backEndHtmlRoot = props.backEndHtmlRoot;
   const hasChildren = props.hasChildren;
   const thisGRFUser = props.thisGRFUser;
   const thisWMP = props.thisWMP;
@@ -104,6 +105,7 @@ const DayDetail = (props) => {
           hasChildren={mealHasChildren}
           thisGRFUser={props.thisGRFUser}
           httpRouteCore={httpRouteCore}
+          backEndHtmlRoot={backEndHtmlRoot}
           // allGRFUsers={props.allGRFUsers}
           // allDays={props.allDays}
           thisMealTypesRecipes={thisMealTypesRecipes}
@@ -114,6 +116,9 @@ const DayDetail = (props) => {
           allWeightTypes={props.allWeightTypes}
           allBrands={props.allBrands}
           daysOfWeek={props.daysOfWeek}
+          thisMealStateObjOld={
+            props.thisDayStateObjOld.thisDaysMeals[thisMealTypeCode]
+          }
           //Methods
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}

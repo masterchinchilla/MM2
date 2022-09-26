@@ -7382,13 +7382,580 @@ export default class WeekMealPlanDetail extends Component {
         },
       },
       thisWeeksDaysOld: {
-        sunday: {},
-        monday: {},
-        tuesday: {},
-        wednesday: {},
-        thursday: {},
-        friday: {},
-        saturday: {},
+        sunday: {
+          thisDaysMeals: {
+            breakfast: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack1: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            lunch: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack2: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dinner: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dessert: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+        monday: {
+          thisDaysMeals: {
+            breakfast: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack1: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            lunch: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack2: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dinner: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dessert: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+        tuesday: {
+          thisDaysMeals: {
+            breakfast: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack1: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            lunch: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack2: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dinner: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dessert: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+        wednesday: {
+          thisDaysMeals: {
+            breakfast: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack1: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            lunch: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack2: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dinner: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dessert: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+        thursday: {
+          thisDaysMeals: {
+            breakfast: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack1: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            lunch: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack2: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dinner: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dessert: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+        friday: {
+          thisDaysMeals: {
+            breakfast: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack1: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            lunch: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack2: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dinner: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dessert: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+        saturday: {
+          thisDaysMeals: {
+            breakfast: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack1: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            lunch: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            snack2: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dinner: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            dessert: {
+              thisMealsIngrdnts: [
+                {
+                  thisMealIngrdnt: {
+                    genRecipeIngredient: {
+                      ingredient: {
+                        name: "",
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
       },
     };
   }
@@ -8081,13 +8648,580 @@ export default class WeekMealPlanDetail extends Component {
       },
     };
     state.thisWeeksDaysOld = {
-      sunday: {},
-      monday: {},
-      tuesday: {},
-      wednesday: {},
-      thursday: {},
-      friday: {},
-      saturday: {},
+      sunday: {
+        thisDaysMeals: {
+          breakfast: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack1: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          lunch: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack2: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dinner: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dessert: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      monday: {
+        thisDaysMeals: {
+          breakfast: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack1: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          lunch: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack2: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dinner: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dessert: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      tuesday: {
+        thisDaysMeals: {
+          breakfast: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack1: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          lunch: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack2: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dinner: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dessert: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      wednesday: {
+        thisDaysMeals: {
+          breakfast: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack1: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          lunch: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack2: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dinner: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dessert: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      thursday: {
+        thisDaysMeals: {
+          breakfast: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack1: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          lunch: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack2: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dinner: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dessert: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      friday: {
+        thisDaysMeals: {
+          breakfast: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack1: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          lunch: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack2: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dinner: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dessert: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      saturday: {
+        thisDaysMeals: {
+          breakfast: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack1: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          lunch: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          snack2: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dinner: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          dessert: {
+            thisMealsIngrdnts: [
+              {
+                thisMealIngrdnt: {
+                  genRecipeIngredient: {
+                    ingredient: {
+                      name: "",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
     this.setState(state);
   };
@@ -9110,6 +10244,7 @@ export default class WeekMealPlanDetail extends Component {
             thisGRFUser={this.state.thisGRFUser}
             hasChildren={dayHasChildren}
             httpRouteCore={this.state.httpRouteCore}
+            backEndHtmlRoot={this.state.backEndHtmlRoot}
             // allGRFUsers={this.state.allGRFUsers}
             // allDays={this.state.allDays}
             allGenRecipes={this.state.allGenRecipes}
@@ -9121,6 +10256,7 @@ export default class WeekMealPlanDetail extends Component {
             allBrands={this.state.allBrands}
             daysOfWeek={this.state.daysOfWeek}
             // allWMPs={this.state.allWMPs}
+            thisDayStateObjOld={this.state.thisWeeksDaysOld[thisDayOfWeek.code]}
             //Methods
             onClickEditForm={this.handleClickEditForm}
             onCancelEditForm={this.handleCancelEditForm}
@@ -9209,7 +10345,7 @@ export default class WeekMealPlanDetail extends Component {
                 >
                   <div className="accordion-body accrdnWMPDetailsBdy">
                     <form className="card">
-                      <WMPFormClass
+                      {/* <WMPFormClass
                         thisWeekMealPlan={this.state.thisWeekMealPlan}
                         thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
                         backEndHtmlRoot={this.state.backEndHtmlRoot}
@@ -9219,7 +10355,7 @@ export default class WeekMealPlanDetail extends Component {
                         onSaveFormChanges={this.handleSaveFormChanges}
                         onDeleteRecord={this.handleDeleteRecord}
                         onClickCopy={this.handleCopyWMP}
-                      />
+                      /> */}
                       <WMPForm
                         thisWeekMealPlan={this.state.thisWeekMealPlan}
                         thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}

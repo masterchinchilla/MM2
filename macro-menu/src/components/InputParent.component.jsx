@@ -24,7 +24,6 @@ const InputParent = (props) => {
     onUpdateProp,
     updateValErrorFn,
   } = props;
-  // const [localPropValue, updateLocalPropValue] = useState(propValue);
   const origPropValue = parentObjOld[propName];
   function handleUpdateLocalProp(newPropValue) {
     const rule = valSchema.extract(propName);
