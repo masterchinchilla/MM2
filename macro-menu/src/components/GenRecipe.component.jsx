@@ -1,52 +1,49 @@
 import React, { useState, Component } from "react";
-import axios from "axios";
-import dayjs from "dayjs";
 import _ from "lodash";
+import Joi from "joi";
+import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
-import NameInputWDupSearch from "./NameInputWDupSearch.component";
-
+import InputParent from "./InputParent.component";
 const GenRecipe = (props) => {
-  const mealStateObj = props.mealStateObj;
+  const {
+    mealStateObj,
+    onClickEditForm,
+    thisMealStateObjOld,
+    backEndHtmlRoot,
+    onUpdateProp,
+  } = props;
   const recordChanged = mealStateObj.genRecipeRecordChanged;
-  // const [recordChanged, toggleRecordChanged] = useState(
-  //   mealStateObj.genRecipeRecordChanged
-  // );
-  const httpRouteCore = props.httpRouteCore;
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
   const objType = "genRecipe";
-  const [hideDeleteBarrier, toggleHideDeleteBarrier] = useState(true);
-  const [prepInstr, updatePrepInstr] = useState(
-    thisObj.defaultPrepInstructions
-  );
-  const [name, updateName] = useState(thisObj.name);
-  const [origName, setOrigName] = useState(thisObj.name);
-  const [origPrepInst, setOrigPrepInst] = useState(
-    thisObj.defaultPrepInstructions
-  );
-  const [timer, setTimer] = useState(null);
-  const [saveDisabled, toggleSaveDisabled] = useState(false);
-  const [nameError, setNameError] = useState(null);
   const thisDayOfWeekCode = mealStateObj.thisMeal.day.dayOfWeek.code;
   const thisMealTypeCode = mealStateObj.thisMeal.mealType.code;
   const thisObjId = thisObj._id;
   const thisRecipesIngrdnts = mealStateObj.thisRecipesIngrdnts;
   const thisFormState = mealStateObj.thisGenRecipeFormState;
   const userType = mealStateObj.thisGenRecipeUserType;
-  const objTypeForLabel = "Recipe";
+  const [hideDeleteBarrier, toggleHideDeleteBarrier] = useState(true);
+  const [prepInstr, updatePrepInstr] = useState(
+    thisObj.defaultPrepInstructions
+  );
+  const [name, updateName] = useState(thisObj.name);
+  const [origPrepInst, setOrigPrepInst] = useState(
+    thisObj.defaultPrepInstructions
+  );
+  const [saveDisabled, toggleSaveDisabled] = useState(false);
+  const [nameValError, updateNameValError] = useState(null);
+  const schema = Joi.object({
+    name: Joi.string().trim().min(3).max(255).required(),
+  });
   const handleUpdatePrepInst = (e) => {
     let newPrepInst = e.target.value;
     updatePrepInstr(newPrepInst);
-    // toggleRecordChanged(true);
     mealStateObj.genRecipeRecordChanged = true;
   };
   const handleSaveRecipeChange = (parentObj, objType) => {
     const newMealStateObj = _.cloneDeep(mealStateObj);
     newMealStateObj.thisMeal.genRecipe.defaultPrepInstructions = prepInstr;
     props.onSaveFormChanges(newMealStateObj, objType);
-    // axios
-    //   .put("http://localhost:5000/genRecipes/update/" + thisObjId, newGenRecipe)
-    //   .then((window.location = "/edit/" + thisMeal.day.weekMealPlan._id));
   };
   const handleClickDelete = (thisObj, stateObj) => {
     if (thisRecipesIngrdnts.length === 0) {
@@ -58,54 +55,12 @@ const GenRecipe = (props) => {
   const handleDeleteGenRecipe = () => {
     console.log("Base Recipe Deleted");
   };
-  // function changeRecipeName(e) {
-  //   toggleSaveDisabled(true);
-  //   updateRecipeName(e.target.value);
-  // }
-  // function searchSetRecipeName(e) {
-  //   clearTimeout(timer);
-  //   const newTimer = setTimeout(() => {
-  //     if (origName !== e.target.value) {
-  //       if (e.target.value === "") {
-  //         toggleSaveDisabled(true);
-  //         setRecipeNameError("Name is required");
-  //       } else {
-  //         axios
-  //           .get(httpRouteCore + "genRecipes/findrecipebyname/" + recipeName)
-  //           .then((response) => {
-  //             if (response.data === "ok") {
-  //               toggleSaveDisabled(false);
-  //               setRecipeNameError(null);
-  //               props.onUpdateProp(
-  //                 "genRecipe",
-  //                 thisDayOfWeekCode,
-  //                 thisMealTypeCode,
-  //                 "name",
-  //                 0,
-  //                 "text",
-  //                 e,
-  //                 []
-  //               );
-  //             } else {
-  //               toggleSaveDisabled(true);
-  //               setRecipeNameError("That name is already taken");
-  //             }
-  //           });
-  //       }
-  //     } else {
-  //       toggleSaveDisabled(true);
-  //       setRecipeNameError(null);
-  //     }
-  //   }, 500);
-  //   setTimer(newTimer);
-  // }
   function onCancelEditForm() {
-    const origPrepInstObj = { target: { value: origPrepInst } };
-    // props.onUpdateProp("genRecipe", "", "", "name", 0, "text", e, []);
-    updateName(origName);
-    handleUpdatePrepInst(origPrepInstObj);
-    setNameError(null);
-    // props.toggleRecordChanged(false, "genRecipe", thisDayOfWeekCode);
+    updateName(thisMealStateObjOld.thisMeal.genRecipe.name);
+    updatePrepInstr(
+      thisMealStateObjOld.thisMeal.genRecipe.defaultPrepInstructions
+    );
+    updateNameValError(null);
     toggleSaveDisabled(false);
     props.onCancelEditForm(mealStateObj, "genRecipe");
   }
@@ -141,7 +96,6 @@ const GenRecipe = (props) => {
         </div>
       </div>
       <form className="card mt-3 mb-3">
-        {/* onSubmit={handleSubmitFormChange} */}
         <div className="card-header mealCardHeader">
           <div className="mealGenRecipeSctnHdr">
             <h5 className="formSctnTitle">Recipe Details</h5>
@@ -153,7 +107,7 @@ const GenRecipe = (props) => {
               saveDisabled={saveDisabled}
               userType={userType}
               recordChanged={recordChanged}
-              onClickEditForm={props.onClickEditForm}
+              onClickEditForm={onClickEditForm}
               onCancelEditForm={onCancelEditForm}
               onSaveFormChanges={handleSaveRecipeChange}
               onDelete={handleClickDelete}
@@ -180,17 +134,6 @@ const GenRecipe = (props) => {
               className="form-control mealTextArea"
               disabled={thisFormState === "viewing" ? true : false}
               onChange={(e) => handleUpdatePrepInst(e)}
-              //   props.onUpdateProp(
-              //     "genRecipe",
-              //     thisDayOfWeekCode,
-              //     thisMealTypeCode,
-              //     "defaultPrepInstructions",
-              //     0,
-              //     "textArea",
-              //     e,
-              //     []
-              //   )
-              // }
               value={prepInstr}
             ></textarea>
           </div>
@@ -221,47 +164,26 @@ const GenRecipe = (props) => {
             >
               <div className="accordion-body mealInnerAccordion">
                 <div className="form-group mealInputs">
-                  {/* <label>Name</label>
-                  <input
-                    type="text"
-                    className={"form-control"}
-                    value={recipeName}
-                    onChange={(e) => {
-                      changeRecipeName(e);
-                    }}
-                    onKeyUp={(e) => {
-                      searchSetRecipeName(e);
-                    }}
-                    disabled={thisFormState === "viewing" ? true : false}
-                  />
-                  <div
-                    className="alert alert-danger"
-                    hidden={recipeNameError ? false : true}
-                  >
-                    {recipeNameError}
-                  </div> */}
-                  <NameInputWDupSearch
-                    //Data Props
-                    ////Common Props
+                  <InputParent
+                    parentObjOld={thisMealStateObjOld}
+                    valSchema={schema}
+                    label={"Recipe Name"}
+                    thisFormState={thisFormState}
+                    formGroupClasses={"form-group mealInputs"}
                     thisDayOfWeekCode={thisDayOfWeekCode}
                     thisMealTypeCode={thisMealTypeCode}
-                    httpRouteCore={httpRouteCore}
-                    objType={objType}
-                    thisFormState={thisFormState}
                     mealIngrdntsArrayIndex={0}
-                    formGroupClasses="form-group mealInputs"
-                    ////Name-Specific Props
-                    origName={origName}
-                    name={name}
-                    timer={timer}
-                    nameError={nameError}
-                    objTypeForLabel={objTypeForLabel}
-                    //Function Props
-                    setTimer={setTimer}
-                    updateName={updateName}
-                    setNameError={setNameError}
-                    toggleSaveDisabled={toggleSaveDisabled}
-                    onUpdateProp={props.onUpdateProp}
+                    propType={"text"}
+                    backEndHtmlRoot={backEndHtmlRoot}
+                    objType={objType}
+                    propName={"name"}
+                    propNameSentenceCase={"Name"}
+                    localPropValue={name}
+                    valError={nameValError}
+                    updateLocalPropValueFn={updateName}
+                    toggleSaveDisabledFn={toggleSaveDisabled}
+                    onUpdateProp={onUpdateProp}
+                    updateValErrorFn={updateNameValError}
                   />
                 </div>
                 <div className="form-group mealInputs">

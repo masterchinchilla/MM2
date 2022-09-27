@@ -33,6 +33,7 @@ const MealDetail = (props) => {
   const mealFormState = thisStateObj.thisMealFormState;
   const mealUserType = thisStateObj.thisMealUserType;
   const backEndHtmlRoot = props.backEndHtmlRoot;
+  const thisMealStateObjOld = props.thisMealStateObjOld;
   const defaultIngredient = {
     _id: "627b329721ff100fa01edcaf",
     name: "",
@@ -73,8 +74,8 @@ const MealDetail = (props) => {
             allWeightTypes={props.allWeightTypes}
             allBrands={props.allBrands}
             thisMealIngrdntStateObjOld={
-              props.thisMealStateObjOld.thisMealsIngrdnts[index]
-                ? props.thisMealStateObjOld.thisMealsIngrdnts[index]
+              thisMealStateObjOld.thisMealsIngrdnts[index]
+                ? thisMealStateObjOld.thisMealsIngrdnts[index]
                 : {
                     thisMealIngrdnt: {
                       genRecipeIngredient: {
@@ -300,8 +301,9 @@ const MealDetail = (props) => {
             thisMealTypesRecipes={thisMealTypesRecipes}
             //Common Props
             //Data
-            // allGRFUsers={props.allGRFUsers}
             mealTypes={props.mealTypes}
+            thisMealStateObjOld={thisMealStateObjOld}
+            backEndHtmlRoot={backEndHtmlRoot}
             //Methods
             onClickEditForm={props.onClickEditForm}
             onCancelEditForm={props.onCancelEditForm}
