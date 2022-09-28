@@ -1,17 +1,14 @@
-import React, { useState, Component } from "react";
+import React, { useState, useContext, Component } from "react";
 import _ from "lodash";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import InputParent from "./InputParent.component";
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const GenRecipe = (props) => {
-  const {
-    mealStateObj,
-    onClickEditForm,
-    thisMealStateObjOld,
-    backEndHtmlRoot,
-    onUpdateProp,
-  } = props;
+  const weekMealPlan = useContext(WeekMealPlanContext);
+  const { mealStateObj, onClickEditForm, thisMealStateObjOld, onUpdateProp } =
+    props;
   const recordChanged = mealStateObj.genRecipeRecordChanged;
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
@@ -174,7 +171,6 @@ const GenRecipe = (props) => {
                     thisMealTypeCode={thisMealTypeCode}
                     mealIngrdntsArrayIndex={0}
                     propType={"text"}
-                    backEndHtmlRoot={backEndHtmlRoot}
                     objType={objType}
                     propName={"name"}
                     propNameSentenceCase={"Name"}

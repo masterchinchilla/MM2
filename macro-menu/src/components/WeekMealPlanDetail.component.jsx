@@ -10,6 +10,7 @@ import MealWeighting from "./MealWeighting.component";
 import WMPForm from "./WMPForm.component";
 import MacroBudget from "./MacroBudget.component";
 import WMPFormClass from "./WMPForm.classComponent";
+import WeekMealPlanContext from "./WeekMealPlanContext";
 
 export default class WeekMealPlanDetail extends Component {
   constructor(props) {
@@ -10233,31 +10234,15 @@ export default class WeekMealPlanDetail extends Component {
       } else {
         return (
           <DayDetail
-            //Specific props
+            //Props
+            ///Data
             key={thisObj._id}
             thisStateObj={thisDayStateObj}
             thisStateObjOld={thisStateObjOld}
-            onChangeMealRecipe={this.handleChangeMealRecipe}
-            thisWMP={thisWMP}
-            //Common props
-            //Data
-            thisGRFUser={this.state.thisGRFUser}
             hasChildren={dayHasChildren}
-            httpRouteCore={this.state.httpRouteCore}
-            backEndHtmlRoot={this.state.backEndHtmlRoot}
-            // allGRFUsers={this.state.allGRFUsers}
-            // allDays={this.state.allDays}
-            allGenRecipes={this.state.allGenRecipes}
-            mealTypes={this.state.mealTypes}
-            allGenRecipeIngredients={this.state.allGenRecipeIngredients}
-            // allMeals={this.state.allMeals}
-            allUnitOfMeasures={this.state.allUnitOfMeasures}
-            allWeightTypes={this.state.allWeightTypes}
-            allBrands={this.state.allBrands}
-            daysOfWeek={this.state.daysOfWeek}
-            // allWMPs={this.state.allWMPs}
             thisDayStateObjOld={this.state.thisWeeksDaysOld[thisDayOfWeek.code]}
-            //Methods
+            ///Methods
+            onChangeMealRecipe={this.handleChangeMealRecipe}
             onClickEditForm={this.handleClickEditForm}
             onCancelEditForm={this.handleCancelEditForm}
             onSaveFormChanges={this.handleSaveFormChanges}
@@ -10311,41 +10296,42 @@ export default class WeekMealPlanDetail extends Component {
       return <div className="spinner-border text-primary" role="status"></div>;
     } else {
       return (
-        <div className="container-fluid pl-4 pr-4">
-          <ToastContainer autoClose={2000} />
-          <div className="card">
-            <div className="card-header">
-              <h1 className="card-title">Week Meal Plan Detail</h1>
-            </div>
-            <div className="card-body">
-              <div
-                className="accordion accordion-flush"
-                id={"accordionFull_WMPDetails" + thisWMPId}
-              >
-                <div className="accordion-item">
-                  <h2
-                    className="accordion-header"
-                    id={"accordionHeader_WMPDetails" + thisWMPId}
-                  >
-                    <button
-                      className="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={"#dayAccrdn_WMPDetails" + thisWMPId}
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    ></button>
-                  </h2>
-                </div>
+        <WeekMealPlanContext.Provider value={this.state}>
+          <div className="container-fluid pl-4 pr-4">
+            <ToastContainer autoClose={2000} />
+            <div className="card">
+              <div className="card-header">
+                <h1 className="card-title">Week Meal Plan Detail</h1>
+              </div>
+              <div className="card-body">
                 <div
-                  id={"dayAccrdn_WMPDetails" + thisWMPId}
-                  className="accordion-collapse collapse show"
-                  aria-labelledby={"#accordionHeader_WMPDetails" + thisWMPId}
-                  data-bs-parent={"#accordionFull_WMPDetails" + thisWMPId}
+                  className="accordion accordion-flush"
+                  id={"accordionFull_WMPDetails" + thisWMPId}
                 >
-                  <div className="accordion-body accrdnWMPDetailsBdy">
-                    <form className="card">
-                      {/* <WMPFormClass
+                  <div className="accordion-item">
+                    <h2
+                      className="accordion-header"
+                      id={"accordionHeader_WMPDetails" + thisWMPId}
+                    >
+                      <button
+                        className="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={"#dayAccrdn_WMPDetails" + thisWMPId}
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      ></button>
+                    </h2>
+                  </div>
+                  <div
+                    id={"dayAccrdn_WMPDetails" + thisWMPId}
+                    className="accordion-collapse collapse show"
+                    aria-labelledby={"#accordionHeader_WMPDetails" + thisWMPId}
+                    data-bs-parent={"#accordionFull_WMPDetails" + thisWMPId}
+                  >
+                    <div className="accordion-body accrdnWMPDetailsBdy">
+                      <form className="card">
+                        {/* <WMPFormClass
                         thisWeekMealPlan={this.state.thisWeekMealPlan}
                         thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
                         backEndHtmlRoot={this.state.backEndHtmlRoot}
@@ -10356,146 +10342,151 @@ export default class WeekMealPlanDetail extends Component {
                         onDeleteRecord={this.handleDeleteRecord}
                         onClickCopy={this.handleCopyWMP}
                       /> */}
-                      <WMPForm
-                        thisWeekMealPlan={this.state.thisWeekMealPlan}
-                        thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
-                        httpRouteCore={this.state.httpRouteCore}
-                        backEndHtmlRoot={this.state.backEndHtmlRoot}
-                        frontEndHtmlRoot={this.state.frontEndHtmlRoot}
-                        onUpdateProp={this.handleUpdateProp}
-                        onClickEditForm={this.handleClickEditForm}
-                        onCancelEditForm={this.handleCancelEditForm}
-                        onSaveFormChanges={this.handleSaveFormChanges}
-                        onDeleteRecord={this.handleDeleteRecord}
-                        onClickCopy={this.handleCopyWMP}
-                        toggleRecordChanged={this.toggleRecordChanged}
-                      />
-                      <MacroBudget
-                        thisWeekMealPlan={this.state.thisWeekMealPlan}
-                        onUpdateProp={this.handleUpdateProp}
-                      />
-                      <div className="card weekMealPlanFormCards mt-3 mb-3">
-                        <div className="card-header">
-                          <h2 className="card-title">Meal Macro Weighting</h2>
-                        </div>
-                        <div className="card-body">
-                          <div
-                            className="accordion accordion-flush"
-                            id={"accordionFull_MealMacroWeighting" + thisWMPId}
-                          >
-                            <div className="accordion-item">
-                              <h2
-                                className="accordion-header"
-                                id={
-                                  "accordionHeader_MealMacroWeighting" +
+                        <WMPForm
+                          thisWeekMealPlan={this.state.thisWeekMealPlan}
+                          thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
+                          httpRouteCore={this.state.httpRouteCore}
+                          backEndHtmlRoot={this.state.backEndHtmlRoot}
+                          frontEndHtmlRoot={this.state.frontEndHtmlRoot}
+                          onUpdateProp={this.handleUpdateProp}
+                          onClickEditForm={this.handleClickEditForm}
+                          onCancelEditForm={this.handleCancelEditForm}
+                          onSaveFormChanges={this.handleSaveFormChanges}
+                          onDeleteRecord={this.handleDeleteRecord}
+                          onClickCopy={this.handleCopyWMP}
+                          toggleRecordChanged={this.toggleRecordChanged}
+                        />
+                        <MacroBudget
+                          thisWeekMealPlan={this.state.thisWeekMealPlan}
+                          onUpdateProp={this.handleUpdateProp}
+                        />
+                        <div className="card weekMealPlanFormCards mt-3 mb-3">
+                          <div className="card-header">
+                            <h2 className="card-title">Meal Macro Weighting</h2>
+                          </div>
+                          <div className="card-body">
+                            <div
+                              className="accordion accordion-flush"
+                              id={
+                                "accordionFull_MealMacroWeighting" + thisWMPId
+                              }
+                            >
+                              <div className="accordion-item">
+                                <h2
+                                  className="accordion-header"
+                                  id={
+                                    "accordionHeader_MealMacroWeighting" +
+                                    thisWMPId
+                                  }
+                                >
+                                  <button
+                                    className="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target={
+                                      "#dayAccrdn_MealMacroWeighting" +
+                                      thisWMPId
+                                    }
+                                    aria-expanded="true"
+                                    aria-controls="collapseOne"
+                                  ></button>
+                                </h2>
+                              </div>
+                              <div
+                                id={"dayAccrdn_MealMacroWeighting" + thisWMPId}
+                                className="accordion-collapse collapse show"
+                                aria-labelledby={
+                                  "#accordionHeader_MealMacroWeighting" +
+                                  thisWMPId
+                                }
+                                data-bs-parent={
+                                  "#accordionFull_MealMacroWeighting" +
                                   thisWMPId
                                 }
                               >
-                                <button
-                                  className="accordion-button"
-                                  type="button"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target={
-                                    "#dayAccrdn_MealMacroWeighting" + thisWMPId
-                                  }
-                                  aria-expanded="true"
-                                  aria-controls="collapseOne"
-                                ></button>
-                              </h2>
-                            </div>
-                            <div
-                              id={"dayAccrdn_MealMacroWeighting" + thisWMPId}
-                              className="accordion-collapse collapse show"
-                              aria-labelledby={
-                                "#accordionHeader_MealMacroWeighting" +
-                                thisWMPId
-                              }
-                              data-bs-parent={
-                                "#accordionFull_MealMacroWeighting" + thisWMPId
-                              }
-                            >
-                              <div className="accordion-body accrdnWeekMealPlanMacroBdy">
-                                <MealWeighting
-                                  mealWeights={{
-                                    breakfast:
-                                      this.state.thisWeekMealPlan.thisWMP
-                                        .breakfastWeight,
-                                    snack1:
-                                      this.state.thisWeekMealPlan.thisWMP
-                                        .snack1Weight,
-                                    lunch:
-                                      this.state.thisWeekMealPlan.thisWMP
-                                        .lunchWeight,
-                                    snack2:
-                                      this.state.thisWeekMealPlan.thisWMP
-                                        .snack2Weight,
-                                    dinner:
-                                      this.state.thisWeekMealPlan.thisWMP
-                                        .dinnerWeight,
-                                    dessert:
-                                      this.state.thisWeekMealPlan.thisWMP
-                                        .dessertWeight,
-                                  }}
-                                  thisFormState={
-                                    this.state.thisWeekMealPlan.thisFormState
-                                  }
-                                  onUpdateWeights={this.handleUpdateWeights}
-                                />
+                                <div className="accordion-body accrdnWeekMealPlanMacroBdy">
+                                  <MealWeighting
+                                    mealWeights={{
+                                      breakfast:
+                                        this.state.thisWeekMealPlan.thisWMP
+                                          .breakfastWeight,
+                                      snack1:
+                                        this.state.thisWeekMealPlan.thisWMP
+                                          .snack1Weight,
+                                      lunch:
+                                        this.state.thisWeekMealPlan.thisWMP
+                                          .lunchWeight,
+                                      snack2:
+                                        this.state.thisWeekMealPlan.thisWMP
+                                          .snack2Weight,
+                                      dinner:
+                                        this.state.thisWeekMealPlan.thisWMP
+                                          .dinnerWeight,
+                                      dessert:
+                                        this.state.thisWeekMealPlan.thisWMP
+                                          .dessertWeight,
+                                    }}
+                                    thisFormState={
+                                      this.state.thisWeekMealPlan.thisFormState
+                                    }
+                                    onUpdateWeights={this.handleUpdateWeights}
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </form>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="card mt-3 mb-3">
-            <div className="card-header">
-              <h2 className="card-title">Day Meal Plans</h2>
-            </div>
-            <div className="card-body">
-              <div
-                className="accordion accordion-flush"
-                id={"accordionFull" + thisWMPId}
-              >
-                <div className="accordion-item">
-                  <h2
-                    className="accordion-header"
-                    id={"accordionHeader" + thisWMPId}
-                  >
-                    <button
-                      className="accordion-button"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={"#dayAccrdn" + thisWMPId}
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    ></button>
-                  </h2>
-                </div>
+            <div className="card mt-3 mb-3">
+              <div className="card-header">
+                <h2 className="card-title">Day Meal Plans</h2>
+              </div>
+              <div className="card-body">
                 <div
-                  id={"dayAccrdn" + thisWMPId}
-                  className="accordion-collapse collapse show"
-                  aria-labelledby={"#accordionHeader" + thisWMPId}
-                  data-bs-parent={"#accordionFull" + thisWMPId}
+                  className="accordion accordion-flush"
+                  id={"accordionFull" + thisWMPId}
                 >
-                  <div className="accordion-body wkDaysAccrdnBdy">
-                    {this.renderDay(this.state.thisWeeksDays.sunday)}
-                    {this.renderDay(this.state.thisWeeksDays.monday)}
-                    {this.renderDay(this.state.thisWeeksDays.tuesday)}
-                    {this.renderDay(this.state.thisWeeksDays.wednesday)}
-                    {this.renderDay(this.state.thisWeeksDays.thursday)}
-                    {this.renderDay(this.state.thisWeeksDays.friday)}
-                    {this.renderDay(this.state.thisWeeksDays.saturday)}
+                  <div className="accordion-item">
+                    <h2
+                      className="accordion-header"
+                      id={"accordionHeader" + thisWMPId}
+                    >
+                      <button
+                        className="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={"#dayAccrdn" + thisWMPId}
+                        aria-expanded="true"
+                        aria-controls="collapseOne"
+                      ></button>
+                    </h2>
+                  </div>
+                  <div
+                    id={"dayAccrdn" + thisWMPId}
+                    className="accordion-collapse collapse show"
+                    aria-labelledby={"#accordionHeader" + thisWMPId}
+                    data-bs-parent={"#accordionFull" + thisWMPId}
+                  >
+                    <div className="accordion-body wkDaysAccrdnBdy">
+                      {this.renderDay(this.state.thisWeeksDays.sunday)}
+                      {this.renderDay(this.state.thisWeeksDays.monday)}
+                      {this.renderDay(this.state.thisWeeksDays.tuesday)}
+                      {this.renderDay(this.state.thisWeeksDays.wednesday)}
+                      {this.renderDay(this.state.thisWeeksDays.thursday)}
+                      {this.renderDay(this.state.thisWeeksDays.friday)}
+                      {this.renderDay(this.state.thisWeeksDays.saturday)}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </WeekMealPlanContext.Provider>
       );
     }
   }

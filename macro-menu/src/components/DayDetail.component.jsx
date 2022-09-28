@@ -1,18 +1,19 @@
-import React, { Component } from "react";
+import React, { useContext, Component } from "react";
 import dayjs from "dayjs";
 import StickyBox from "react-sticky-box";
 import EditOptions from "./EditOptions.component";
 import MacrosTable from "./MacrosTable.component";
 import CreateMeal from "./CreateMeal.component";
 import MealDetail from "./MealDetail.component";
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const DayDetail = (props) => {
-  const httpRouteCore = props.httpRouteCore;
-  const backEndHtmlRoot = props.backEndHtmlRoot;
+  const weekMealPlan = useContext(WeekMealPlanContext);
+  const backEndHtmlRoot = weekMealPlan.backEndHtmlRoot;
   const hasChildren = props.hasChildren;
-  const thisGRFUser = props.thisGRFUser;
-  const thisWMP = props.thisWMP;
+  const thisGRFUser = weekMealPlan.thisGRFUser;
+  const thisWMP = weekMealPlan.thisWeekMealPlan.thisWMP;
   const thisStateObj = props.thisStateObj;
-  const mealTypes = props.mealTypes;
+  const mealTypes = weekMealPlan.mealTypes;
   const thisObj = thisStateObj.thisDay;
   const thisDaysMeals = thisStateObj.thisDaysMeals;
   const thisObjId = thisObj._id;
@@ -76,13 +77,9 @@ const DayDetail = (props) => {
         );
       }
     } else {
-      let thisMealTypesRecipes = props.allGenRecipes.filter(
+      let thisMealTypesRecipes = weekMealPlan.allGenRecipes.filter(
         (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
       );
-      // let thisRecipesIngrdnts = props.allGenRecipeIngredients.filter(
-      //   (genRecipeIngredient) =>
-      //     genRecipeIngredient.genRecipe._id === thisMealObj.genRecipe._id
-      // );
       let thisMealWeight = thisWMP[`${mealType.code}Weight`];
       let thisMealsMealIngredients = thisDaysMealsIngrdnts[arrayIndex];
       let mealHasChildren = false;
@@ -91,7 +88,7 @@ const DayDetail = (props) => {
         : (mealHasChildren = false);
       return (
         <MealDetail
-          //Specific Props
+          ///Specific Props
           //Data
           key={thisMealObjsId}
           macrosBudget={macrosBudget}
@@ -99,23 +96,12 @@ const DayDetail = (props) => {
           //Methods
           populateNewMealIngredients={props.populateNewMealIngredients}
           onChangeMealRecipe={props.onChangeMealRecipe}
-          //Common Props
+          ///Common Props
           //Data
           thisStateObj={thisMealStateObj}
           hasChildren={mealHasChildren}
-          thisGRFUser={props.thisGRFUser}
-          httpRouteCore={httpRouteCore}
-          backEndHtmlRoot={backEndHtmlRoot}
-          // allGRFUsers={props.allGRFUsers}
-          // allDays={props.allDays}
           thisMealTypesRecipes={thisMealTypesRecipes}
-          mealTypes={props.mealTypes}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
-          // thisMealTypesMeals={thisMealTypesMeals}
-          allUnitOfMeasures={props.allUnitOfMeasures}
-          allWeightTypes={props.allWeightTypes}
-          allBrands={props.allBrands}
-          daysOfWeek={props.daysOfWeek}
           thisMealStateObjOld={
             props.thisDayStateObjOld.thisDaysMeals[thisMealTypeCode]
           }

@@ -1,18 +1,20 @@
-import React, { useState, Component } from "react";
+import React, { useState, useContext, Component } from "react";
 import _ from "lodash";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import InputParent from "./InputParent.component";
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const WMPForm = (props) => {
+  const weekMealPlan = useContext(WeekMealPlanContext);
   //Data Props
   ////Common Props
   const thisDayOfWeekCode = "";
   const thisMealTypeCode = "";
-  const thisWeekMealPlan = props.thisWeekMealPlan;
-  const thisWMPOld = props.thisWMPOld;
+  const thisWeekMealPlan = weekMealPlan.thisWeekMealPlan;
+  const thisWMPOld = weekMealPlan.thisWeekMealPlanOld.thisWMP;
   const thisWMPId = thisWeekMealPlan.thisWMP._id;
-  const backEndHtmlRoot = props.backEndHtmlRoot;
+  const backEndHtmlRoot = weekMealPlan.backEndHtmlRoot;
   const thisFormState = thisWeekMealPlan.thisFormState;
   const mealIngrdntsArrayIndex = 0;
   const formGroupClasses = "form-group wmpNameFrmGroup";
@@ -61,6 +63,8 @@ const WMPForm = (props) => {
     props.onCancelEditForm(thisWeekMealPlan, objType);
   }
   return (
+    // <WeekMealPlanContext.Consumer>
+    //   {(weekMealPlanContext) => (
     <React.Fragment>
       <div
         className={
@@ -180,6 +184,8 @@ const WMPForm = (props) => {
         </div>
       </div>
     </React.Fragment>
+    //   )}
+    // </WeekMealPlanContext.Consumer>
   );
 };
 

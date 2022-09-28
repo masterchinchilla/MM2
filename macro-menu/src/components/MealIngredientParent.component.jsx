@@ -1,20 +1,18 @@
-import React, { Component } from "react";
+import React, { useContext, Component } from "react";
 import MealIngredientChild from "./MealIngredientChild.component";
 import GenRecipeIngredient from "./GenRecipeIngredient.component";
 import Ingredient from "./Ingredient.component";
-
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const MealIngredientParent = (props) => {
+  const weekMealPlan = useContext(WeekMealPlanContext);
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisObj = thisMealIngrdntObj.thisMealIngrdnt;
-  const thisGRFUser = props.thisGRFUser;
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
   const thisGenRecipeIngrdnt = thisObj.genRecipeIngredient;
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisIngredient = thisGenRecipeIngrdnt.ingredient;
   const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  const httpRouteCore = props.httpRouteCore;
-  const backEndHtmlRoot = props.backEndHtmlRoot;
   //Form States
   const thisMealIngrdntFormState = thisMealIngrdntObj.thisMealIngrdntFormState;
   const thisGenRecipeIngrdntFormState =
@@ -37,13 +35,10 @@ const MealIngredientParent = (props) => {
           //Methods
           //Common Props
           //Data
-          thisGRFUser={thisGRFUser}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisObj}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
-          httpRouteCore={httpRouteCore}
-          // thisMealTypesMeals={props.thisMealTypesMeals}
           //Methods
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
@@ -62,12 +57,9 @@ const MealIngredientParent = (props) => {
           //Methods
           //Common Props
           //Data
-          thisGRFUser={thisGRFUser}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisGenRecipeIngrdnt}
-          httpRouteCore={httpRouteCore}
-          // allIngredients={props.allIngredients}
           //Methods
           onClickEditForm={props.onClickEditForm}
           onCancelEditForm={props.onCancelEditForm}
@@ -88,16 +80,9 @@ const MealIngredientParent = (props) => {
           //Methods
           //Common Props
           //Data
-          thisGRFUser={thisGRFUser}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisIngredient}
-          // allGRFUsers={props.allGRFUsers}
-          allUnitOfMeasures={props.allUnitOfMeasures}
-          allWeightTypes={props.allWeightTypes}
-          allBrands={props.allBrands}
-          httpRouteCore={httpRouteCore}
-          backEndHtmlRoot={backEndHtmlRoot}
           thisIngrdntOld={
             props.thisMealIngrdntStateObjOld.thisMealIngrdnt.genRecipeIngredient
               .ingredient

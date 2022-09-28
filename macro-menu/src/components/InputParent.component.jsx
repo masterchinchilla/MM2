@@ -1,8 +1,9 @@
-import React, { Component, useState } from "react";
+import React, { useState, useContext, Component } from "react";
 import Joi from "joi";
 import InputWSearchUnique from "./InputWSearchUnique.component";
-
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const InputParent = (props) => {
+  const weekMealPlan = useContext(WeekMealPlanContext);
   const {
     parentObjOld,
     valSchema,
@@ -13,7 +14,6 @@ const InputParent = (props) => {
     thisMealTypeCode,
     mealIngrdntsArrayIndex,
     propType,
-    backEndHtmlRoot,
     objType,
     propName,
     propNameSentenceCase,
@@ -64,7 +64,6 @@ const InputParent = (props) => {
     <div className={formGroupClasses}>
       <label>{label}</label>
       <InputWSearchUnique
-        backEndHtmlRoot={backEndHtmlRoot}
         objType={objType}
         propName={propName}
         localPropValue={localPropValue}

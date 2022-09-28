@@ -1,25 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext, Component } from "react";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
 import NameInputWDupSearch from "./NameInputWDupSearch.component";
 import InputParent from "./InputParent.component";
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const Ingredient = (props) => {
+  const weekMealPlan = useContext(WeekMealPlanContext);
   const {
     userType,
     thisFormState,
-    thisGRFUser,
     thisMealTypeCode,
     mealIngrdntsArrayIndex,
     thisMealIngrdntObj,
     thisObj,
-    allUnitOfMeasures,
-    allWeightTypes,
-    allBrands,
     thisIngrdntOld,
     onUpdateProp,
-    backEndHtmlRoot,
   } = props;
   const thisMealType = thisMealIngrdntObj.thisMealIngrdnt.meal.mealType;
   const thisDayOfWeekCode =
@@ -27,18 +24,14 @@ const Ingredient = (props) => {
   const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
   const thisObjId = thisObj._id;
   const thisIngrdntJustCreated = thisMealIngrdntObj.thisIngrdntJustCreated;
-  const httpRouteCore = props.httpRouteCore;
   const objType = "ingredient";
-  const objTypeForLabel = "Ingredient";
   let thisBrandObj;
   let thisUOMObj;
   let thisWeightTypeObj;
   const [name, updateName] = useState(thisObj.name);
   const [nameValError, updateNameValError] = useState(null);
   const [origName, setOrigName] = useState(thisObj.name);
-  const [timer, setTimer] = useState(null);
   const [saveDisabled, toggleSaveDisabled] = useState(false);
-  const [nameError, setNameError] = useState(null);
   {
     thisObj.brand
       ? (thisBrandObj = thisObj.brand)
@@ -117,8 +110,8 @@ const Ingredient = (props) => {
             thisFormState={thisFormState}
             objType="ingredient"
             objTypeToChange="unitOfMeasure"
-            options={allUnitOfMeasures}
-            thisGRFUser={thisGRFUser}
+            options={weekMealPlan.allUnitOfMeasures}
+            thisGRFUser={weekMealPlan.thisGRFUser}
             onCreateRecord={props.onCreateRecord}
             styleClasses="recipeSelect"
           />
@@ -135,8 +128,8 @@ const Ingredient = (props) => {
             thisFormState={thisFormState}
             objType="ingredient"
             objTypeToChange="weightType"
-            options={allWeightTypes}
-            thisGRFUser={thisGRFUser}
+            options={weekMealPlan.allWeightTypes}
+            thisGRFUser={weekMealPlan.thisGRFUser}
             onCreateRecord={props.onCreateRecord}
             styleClasses="recipeSelect"
           />
@@ -165,35 +158,12 @@ const Ingredient = (props) => {
             thisFormState={thisFormState}
             objType="ingredient"
             objTypeToChange="brand"
-            options={allBrands}
-            thisGRFUser={thisGRFUser}
+            options={weekMealPlan.allBrands}
+            thisGRFUser={weekMealPlan.thisGRFUser}
             onCreateRecord={props.onCreateRecord}
             styleClasses="recipeSelect"
           />
         </div>
-        {/* <NameInputWDupSearch
-          //Data Props
-          ////Common Props
-          thisDayOfWeekCode={thisDayOfWeekCode}
-          thisMealTypeCode={thisMealTypeCode}
-          httpRouteCore={httpRouteCore}
-          objType={objType}
-          thisFormState={thisFormState}
-          mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
-          formGroupClasses="form-group mealIngrdntInputs ingrdntName badge bg-primary"
-          ////Name-Specific Props
-          origName={origName}
-          name={name}
-          timer={timer}
-          nameError={nameError}
-          objTypeForLabel={objTypeForLabel}
-          //Function Props
-          setTimer={setTimer}
-          updateName={updateName}
-          setNameError={setNameError}
-          toggleSaveDisabled={toggleSaveDisabled}
-          onUpdateProp={onUpdateProp}
-        /> */}
         <InputParent
           parentObjOld={thisIngrdntOld}
           valSchema={schema}
@@ -206,7 +176,6 @@ const Ingredient = (props) => {
           thisMealTypeCode={thisMealTypeCode}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           propType={"text"}
-          backEndHtmlRoot={backEndHtmlRoot}
           objType={objType}
           propName={"name"}
           propNameSentenceCase={"Name"}

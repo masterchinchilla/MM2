@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext, Component } from "react";
 import dayjs from "dayjs";
 import StickyBox from "react-sticky-box";
 import EditOptions from "./EditOptions.component";
@@ -6,10 +6,11 @@ import GenRecipe from "./GenRecipe.component";
 import MealIngredientParent from "./MealIngredientParent.component";
 import MacrosTable from "./MacrosTable.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
-
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const MealDetail = (props) => {
+  const weekMealPlan = useContext(WeekMealPlanContext);
   const thisStateObj = props.thisStateObj;
-  const thisGRFUser = props.thisGRFUser;
+  const thisGRFUser = weekMealPlan.thisGRFUser;
   const userCanEditRecipe =
     thisStateObj.thisGenRecipeUserType === "author" ||
     thisStateObj.thisGenRecipeUserType === "admin"
@@ -23,7 +24,6 @@ const MealDetail = (props) => {
   const thisMealTypeCode = thisObj.mealType.code;
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
-  const httpRouteCore = props.httpRouteCore;
   const nestedMealIngrdntArray = [mealsIngrdnts];
   const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   let allowPopulateIngrdnts =
@@ -32,7 +32,7 @@ const MealDetail = (props) => {
   const thisMealWeight = props.thisMealWeight;
   const mealFormState = thisStateObj.thisMealFormState;
   const mealUserType = thisStateObj.thisMealUserType;
-  const backEndHtmlRoot = props.backEndHtmlRoot;
+  const backEndHtmlRoot = weekMealPlan.backEndHtmlRoot;
   const thisMealStateObjOld = props.thisMealStateObjOld;
   const defaultIngredient = {
     _id: "627b329721ff100fa01edcaf",
@@ -63,16 +63,11 @@ const MealDetail = (props) => {
             thisGRFUser={thisGRFUser}
             thisMealIngrdntObj={mealIngredient}
             mealIngrdntsArrayIndex={index}
-            httpRouteCore={httpRouteCore}
             backEndHtmlRoot={backEndHtmlRoot}
-            // allGRFUsers={props.allGRFUsers}
-            allGenRecipeIngredients={props.allGenRecipeIngredients}
             thisRecipesIngrdnts={thisRecipesIngrdnts}
-            // thisMealTypesMeals={props.thisMealTypesMeals}
-            // allIngredients={props.allIngredients}
-            allUnitOfMeasures={props.allUnitOfMeasures}
-            allWeightTypes={props.allWeightTypes}
-            allBrands={props.allBrands}
+            allUnitOfMeasures={weekMealPlan.allUnitOfMeasures}
+            allWeightTypes={weekMealPlan.allWeightTypes}
+            allBrands={weekMealPlan.allBrands}
             thisMealIngrdntStateObjOld={
               thisMealStateObjOld.thisMealsIngrdnts[index]
                 ? thisMealStateObjOld.thisMealsIngrdnts[index]
@@ -295,22 +290,19 @@ const MealDetail = (props) => {
             </div>
           </form>
           <GenRecipe
-            //Specific props
+            ///Specific props
+            //Data
             key={thisObj.genRecipe._id}
             mealStateObj={thisStateObj}
-            thisMealTypesRecipes={thisMealTypesRecipes}
-            //Common Props
-            //Data
-            mealTypes={props.mealTypes}
             thisMealStateObjOld={thisMealStateObjOld}
-            backEndHtmlRoot={backEndHtmlRoot}
+            thisMealTypesRecipes={thisMealTypesRecipes}
+            ///Common Props
             //Methods
             onClickEditForm={props.onClickEditForm}
             onCancelEditForm={props.onCancelEditForm}
             onSaveFormChanges={props.onSaveFormChanges}
             onDeleteRecord={props.onDeleteRecord}
             onUpdateProp={props.onUpdateProp}
-            httpRouteCore={httpRouteCore}
             toggleRecordChanged={props.toggleRecordChanged}
           />
           <h5 className="mealIngdntsHdr">Meal Ingredients</h5>

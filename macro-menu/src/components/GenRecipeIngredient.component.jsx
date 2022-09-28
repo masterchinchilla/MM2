@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { useContext, Component } from "react";
 import EditOptions from "./EditOptions.component";
 import AsyncSearchSelectListWCreate from "./AsyncSearchSelectListWCreate.component";
 import dayjs from "dayjs";
-
+import WeekMealPlanContext from "./WeekMealPlanContext";
 const GenRecipeIngredient = (props) => {
+  const weekMealPlan = useContext(WeekMealPlanContext);
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisObj = props.thisObj;
   const thisObjId = thisObj._id;
@@ -16,7 +17,6 @@ const GenRecipeIngredient = (props) => {
   const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
   const thisGenRecipeIngrdntJustCreated =
     thisMealIngrdntObj.thisGenRecipeIngrdntJustCreated;
-  const thisGRFUser = props.thisGRFUser;
   const deleteMsg =
     "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
   const saveMsg =
@@ -117,7 +117,7 @@ const GenRecipeIngredient = (props) => {
                 objTypeToChange="ingredient"
                 styleClasses=""
                 url="http://localhost:5000/ingredients/ingredientsByName/"
-                thisGRFUser={thisGRFUser}
+                thisGRFUser={weekMealPlan.thisGRFUser}
               />
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">
