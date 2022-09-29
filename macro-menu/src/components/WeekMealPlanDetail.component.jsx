@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import _ from "lodash";
-import jwtDecode from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateDay from "./CreateDay.component";
@@ -21,15 +20,6 @@ export default class WeekMealPlanDetail extends Component {
       backEndHtmlRoot: this.props.backEndHtmlRoot,
       frontEndHtmlRoot: this.props.frontEndHtmlRoot,
       thisUserType: "admin",
-      // thisGRFUser: {
-      //   _id: "609f3e444ee536749c75c729",
-      //   givenName: "John",
-      //   familyName: "Doe",
-      //   email: "johndoe@gmail.com",
-      //   password: "abc123",
-      //   handle: "johnnyFood",
-      //   photoURL: "",
-      // },
       thisGRFUser: this.props.thisGRFUser,
       thisWeekMealPlan: {
         thisWMPJustCreated: true,
@@ -56,6 +46,20 @@ export default class WeekMealPlanDetail extends Component {
           fatBudget: 1,
           fiberBudget: 1,
         },
+        valErrors: {
+          name: null,
+          breakfastWeight: null,
+          snack1Weight: null,
+          lunchWeight: null,
+          snack2Weight: null,
+          dinnerWeight: null,
+          dessertWeight: null,
+          calsBudget: null,
+          carbsBudget: null,
+          proteinBudget: null,
+          fatBudget: null,
+          fiberBudget: null,
+        },
       },
       daysOfWeek: [
         { _id: "6287cfcbb01c53cff0db5cd8", code: "sunday", name: "Sunday" },
@@ -70,19 +74,6 @@ export default class WeekMealPlanDetail extends Component {
         { _id: "6287d07eb01c53cff0db5cdd", code: "friday", name: "Friday" },
         { _id: "6287d08cb01c53cff0db5cde", code: "saturday", name: "Saturday" },
       ],
-      // allGRFUsers: [{ _id: "tempGRFUser1Id", handle: "tempGRFUser1Handle" }],
-      // allDays: [
-      //   {
-      //     _id: "tempDay1Id",
-      //     name: "tempDayName1",
-      //     dayOfWeek: {
-      //       _id: "6287cfcbb01c53cff0db5cd8",
-      //       code: "sunday",
-      //       name: "Sunday",
-      //     },
-      //     weekMealPlan: "625b7e5a4451249a38449792",
-      //   },
-      // ],
       allGenRecipes: [
         {
           _id: "tempGenRecipe1Id",
@@ -162,38 +153,6 @@ export default class WeekMealPlanDetail extends Component {
           },
         },
       ],
-      // allMeals: [
-      //   {
-      //     _id: "tempMealId1",
-      //     day: {
-      //       _id: "tempDay1Id",
-      //       name: "tempDayName1",
-      //       dayOfWeek: {
-      //         _id: "6287cfcbb01c53cff0db5cd8",
-      //         code: "sunday",
-      //         name: "Sunday",
-      //       },
-      //       weekMealPlan: "625b7e5a4451249a38449792",
-      //     },
-      //     genRecipe: {
-      //       _id: "tempGenRecipe1Id",
-      //       name: "tempGenRecipe1Name",
-      //       availableMealType: {
-      //         _id: "626dd6fc21888432c0fe3e90",
-      //         code: "breakfast",
-      //         name: "Breakfast",
-      //       },
-      //       GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-      //       defaultPrepInstructions: "",
-      //       photoUrl: "",
-      //     },
-      //     mealType: {
-      //       _id: "626dd6fc21888432c0fe3e90",
-      //       code: "breakfast",
-      //       name: "Breakfast",
-      //     },
-      //   },
-      // ],
       allUnitOfMeasures: [
         {
           _id: "tempUnitOfMeasureId1",
@@ -215,7 +174,6 @@ export default class WeekMealPlanDetail extends Component {
           GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
         },
       ],
-      // allWMPs: [],
       thisWeeksDays: {
         sunday: {
           dataLoaded: false,
@@ -291,6 +249,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -368,6 +341,11 @@ export default class WeekMealPlanDetail extends Component {
               ],
               thisRecipesIngrdnts: [],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack1: {
               dataLoaded: false,
@@ -427,6 +405,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -503,6 +496,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             lunch: {
               dataLoaded: false,
@@ -562,6 +560,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -638,6 +651,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack2: {
               dataLoaded: false,
@@ -697,6 +715,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -773,6 +806,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dinner: {
               dataLoaded: false,
@@ -832,6 +870,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -908,6 +961,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dessert: {
               dataLoaded: false,
@@ -967,6 +1025,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1043,6 +1116,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
           },
         },
@@ -1119,6 +1197,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1232,6 +1325,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack1: {
               dataLoaded: false,
@@ -1291,6 +1389,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1410,6 +1523,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             lunch: {
               dataLoaded: false,
@@ -1469,6 +1587,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1582,6 +1715,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack2: {
               dataLoaded: false,
@@ -1641,6 +1779,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1754,6 +1907,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dinner: {
               dataLoaded: false,
@@ -1813,6 +1971,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -1926,6 +2099,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dessert: {
               dataLoaded: false,
@@ -1985,6 +2163,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2098,6 +2291,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
           },
         },
@@ -2174,6 +2372,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2287,6 +2500,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack1: {
               dataLoaded: false,
@@ -2346,6 +2564,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2465,6 +2698,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             lunch: {
               dataLoaded: false,
@@ -2524,6 +2762,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2637,6 +2890,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack2: {
               dataLoaded: false,
@@ -2696,6 +2954,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2809,6 +3082,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dinner: {
               dataLoaded: false,
@@ -2868,6 +3146,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -2981,6 +3274,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dessert: {
               dataLoaded: false,
@@ -3040,6 +3338,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3153,6 +3466,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
           },
         },
@@ -3229,6 +3547,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3342,6 +3675,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack1: {
               dataLoaded: false,
@@ -3401,6 +3739,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3520,6 +3873,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             lunch: {
               dataLoaded: false,
@@ -3579,6 +3937,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3692,6 +4065,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack2: {
               dataLoaded: false,
@@ -3751,6 +4129,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -3864,6 +4257,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dinner: {
               dataLoaded: false,
@@ -3923,6 +4321,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4036,6 +4449,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dessert: {
               dataLoaded: false,
@@ -4095,6 +4513,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4208,6 +4641,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
           },
         },
@@ -4284,6 +4722,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4397,6 +4850,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack1: {
               dataLoaded: false,
@@ -4456,6 +4914,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4575,6 +5048,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             lunch: {
               dataLoaded: false,
@@ -4634,6 +5112,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4747,6 +5240,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack2: {
               dataLoaded: false,
@@ -4806,6 +5304,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -4919,6 +5432,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dinner: {
               dataLoaded: false,
@@ -4978,6 +5496,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5091,6 +5624,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dessert: {
               dataLoaded: false,
@@ -5150,6 +5688,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5263,6 +5816,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
           },
         },
@@ -5339,6 +5897,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5452,6 +6025,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack1: {
               dataLoaded: false,
@@ -5511,6 +6089,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5630,6 +6223,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             lunch: {
               dataLoaded: false,
@@ -5689,6 +6287,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5802,6 +6415,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack2: {
               dataLoaded: false,
@@ -5861,6 +6479,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -5974,6 +6607,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dinner: {
               dataLoaded: false,
@@ -6033,6 +6671,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6146,6 +6799,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dessert: {
               dataLoaded: false,
@@ -6205,6 +6863,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6318,6 +6991,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
           },
         },
@@ -6394,6 +7072,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6507,6 +7200,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack1: {
               dataLoaded: false,
@@ -6566,6 +7264,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6685,6 +7398,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             lunch: {
               dataLoaded: false,
@@ -6744,6 +7462,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -6857,6 +7590,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             snack2: {
               dataLoaded: false,
@@ -6916,6 +7654,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -7029,6 +7782,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dinner: {
               dataLoaded: false,
@@ -7088,6 +7846,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -7201,6 +7974,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
             dessert: {
               dataLoaded: false,
@@ -7260,6 +8038,21 @@ export default class WeekMealPlanDetail extends Component {
                   thisGenRecipeIngrdntUserType: "admin",
                   thisIngrdntFormState: "viewing",
                   thisIngrdntUserType: "admin",
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
                   thisMealIngrdnt: {
                     _id: "missing",
                     qty: 1,
@@ -7373,6 +8166,11 @@ export default class WeekMealPlanDetail extends Component {
                 },
               ],
               thisMealsMacrosBudget: {},
+              genRecipeValErrors: {
+                name: null,
+                defaultPrepInstructions: null,
+                photoUrl: null,
+              },
             },
           },
         },
@@ -7979,7 +8777,6 @@ export default class WeekMealPlanDetail extends Component {
   handleCopyWMP = () => {
     const pattern = /missing/;
     const newWMP = _.pick(this.state.thisWeekMealPlan.thisWMP, [
-      // "_id",
       "name",
       "breakfastWeight",
       "snack1Weight",
@@ -7999,32 +8796,8 @@ export default class WeekMealPlanDetail extends Component {
     newWMPToSave.GRFUser = newWMP.GRFUser._id;
     axios
       .post("http://localhost:5000/weekMealPlans/add", newWMPToSave)
-      // .get(
-      //   "http://localhost:5000/weekMealPlans/" +
-      //     this.state.thisWeekMealPlan.thisWMP._id
-      // )
       .then((response) => {
         newWMP._id = response.data._id;
-        // newWMP._id = this.getRndInteger(10000000, 99999999);
-        // const newWMP = {
-        //   _id: "62d4c24348c8de719cf7ca85",
-        //   name: "NMOfficialPTs 3rd copy of JD Hypertrophy Week 1b",
-        //   GRFUser: this.state.thisGRFUser,
-        //   breakfastWeight: 35,
-        //   snack1Weight: 5,
-        //   lunchWeight: 31,
-        //   snack2Weight: 6,
-        //   dinnerWeight: 19,
-        //   dessertWeight: 5,
-        //   calsBudget: 1872.21,
-        //   carbsBudget: 332.33,
-        //   proteinBudget: 285,
-        //   fatBudget: 91.59,
-        //   fiberBudget: 39,
-        //   createdAt: 1657923004319,
-        //   updatedAt: 1657923004319,
-        // };
-        // const newWMPsDays=[];
         let numOfDays = 7;
         let numOfMeals = 42;
         let numOfMealIngrdnts = 0;
@@ -8045,16 +8818,11 @@ export default class WeekMealPlanDetail extends Component {
               weekMealPlan: newWMP._id,
             };
             axios
-              // .get(
-              //   "http://localhost:5000/weekMealPlans/" +
-              //     this.state.thisWeekMealPlan.thisWMP._id
-              // )
               .post("http://localhost:5000/days/add", newDayToSave)
               .then((response) => {
                 numOfDays--;
                 console.log(numOfDays);
                 newDay._id = response.data._id;
-                // newDay._id = this.getRndInteger(10000000, 99999999);
                 for (let i = 0; i < this.state.mealTypes.length; i++) {
                   let thisMealType = this.state.mealTypes[i];
                   let thisMealStateObj =
@@ -8078,10 +8846,6 @@ export default class WeekMealPlanDetail extends Component {
                       mealType: thisMealType._id,
                     };
                     axios
-                      // .get(
-                      //   "http://localhost:5000/weekMealPlans/" +
-                      //     this.state.thisWeekMealPlan.thisWMP._id
-                      // )
                       .post("http://localhost:5000/meals/add", newMealToSave)
                       .then((response) => {
                         newMeal._id = response.data._id;
@@ -8118,10 +8882,6 @@ export default class WeekMealPlanDetail extends Component {
                               meal: newMealIngrdnt.meal._id,
                             };
                             axios
-                              // .get(
-                              //   "http://localhost:5000/weekMealPlans/" +
-                              //     this.state.thisWeekMealPlan.thisWMP._id
-                              // )
                               .post(
                                 "http://localhost:5000/mealIngredients/add",
                                 newMealIngrdntToSave
@@ -8190,17 +8950,11 @@ export default class WeekMealPlanDetail extends Component {
     this.loadData();
   }
   loadData() {
-    // this.getThisWMPsDays();
     this.getThisWeekMealPlan();
-    // this.getAllGRFUsers();
-    // this.getAllDays();
     this.getAllRecipes();
-    // this.getAllMeals();
-    // this.getAllGenRecipeIngredients();
     this.getAllUnitOfMeasures();
     this.getAllWeightTypes();
     this.getAllBrands();
-    // this.getAllWMPs();
   }
   setUserType = (thisUsersId, thisObjAuthorId) => {
     if (thisObjAuthorId === thisUsersId) {
@@ -8230,7 +8984,6 @@ export default class WeekMealPlanDetail extends Component {
         thisWeekMealPlan.userType = userType;
         thisWeekMealPlan.thisWMPJustCreated = thisWMPJustCreated;
         thisWeekMealPlan.dataLoaded = true;
-        // this.setState({ thisWeekMealPlan: thisWeekMealPlan });
         this.getThisWMPsDays(state);
       });
   };
@@ -8241,11 +8994,7 @@ export default class WeekMealPlanDetail extends Component {
       )
       .then((response) => {
         let daysData = response.data;
-        // if (daysData.length < 1) {
-        //   return;
-        // } else {
         let daysOfWeek = state.daysOfWeek;
-
         let thisWeeksDays = state.thisWeeksDays;
         for (let i = 0; i < daysOfWeek.length; i++) {
           let thisDayOfWeek = daysOfWeek[i];
@@ -8266,13 +9015,10 @@ export default class WeekMealPlanDetail extends Component {
           }
           thisWeeksDays[thisDayOfWeek.code] = thisDayToUpdate;
         }
-        // state.thisWeeksDays = thisWeeksDays;
-        // }
         let thisWMPStateObj = state.thisWeekMealPlan;
         if (thisWMPStateObj.thisWMPJustCreated === true) {
           this.handleClickEditForm(thisWMPStateObj, "weekMealPlan");
         }
-        // state.thisWeekMealPlan = thisWMPStateObj;
         this.setState({
           thisWeeksDays: thisWeeksDays,
         });
@@ -8382,6 +9128,21 @@ export default class WeekMealPlanDetail extends Component {
             thisGenRecipeIngrdntUserType: thisGenRecipeIngrdntUserType,
             thisIngrdntFormState: "viewing",
             thisIngrdntUserType: thisIngrdntUserType,
+            mealIngrdntValErrors: {
+              qty: null,
+            },
+            genRecipeIngrdntValErrors: {
+              defaultQty: null,
+            },
+            ingredientValErrors: {
+              name: null,
+              calories: null,
+              carbs: null,
+              protein: null,
+              fat: null,
+              fiber: null,
+              photoURL: null,
+            },
             thisMealIngrdnt: mealIngrdntData[i],
           };
           thisMealsIngrdnts.push(thisMealIngrdnt);
@@ -8400,24 +9161,6 @@ export default class WeekMealPlanDetail extends Component {
   getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-  // getAllGRFUsers = () => {
-  //   axios.get("http://localhost:5000/GRFUsers/").then((response) => {
-  //     if (response.data.length > 0) {
-  //       this.setState({
-  //         allGRFUsers: response.data.map((GRFUser) => GRFUser),
-  //         allGRFUsersHasLoaded: true,
-  //       });
-  //     }
-  //   });
-  // };
-  // getAllDays = () => {
-  //   axios.get("http://localhost:5000/days/").then((response) => {
-  //     this.setState({
-  //       allDays: response.data.map((day) => day),
-  //       allDaysLoaded: true,
-  //     });
-  //   });
-  // };
   getAllRecipes = () => {
     axios.get("http://localhost:5000/genRecipes/").then((response) => {
       this.setState({
@@ -8425,13 +9168,6 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  // getAllMeals = () => {
-  //   axios.get("http://localhost:5000/meals/").then((response) => {
-  //     this.setState({
-  //       allMeals: response.data.map((meal) => meal),
-  //     });
-  //   });
-  // };
   getAllGenRecipeIngredients = () => {
     axios
       .get("http://localhost:5000/genRecipeIngredients/")
@@ -8467,13 +9203,6 @@ export default class WeekMealPlanDetail extends Component {
       });
     });
   };
-  // getAllWMPs = () => {
-  //   axios.get("http://localhost:5000/weekMealPlans/").then((response) => {
-  //     this.setState({
-  //       allWMPs: response.data.map((WMP) => WMP),
-  //     });
-  //   });
-  // };
   handleClickEditForm = (parentObj, objType) => {
     let state = this.state;
     let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlan);
@@ -9466,6 +10195,21 @@ export default class WeekMealPlanDetail extends Component {
         thisGenRecipeIngrdntUserType: "viewer",
         thisIngrdntFormState: "viewing",
         thisIngrdntUserType: "viewer",
+        mealIngrdntValErrors: {
+          qty: null,
+        },
+        genRecipeIngrdntValErrors: {
+          defaultQty: null,
+        },
+        ingredientValErrors: {
+          name: null,
+          calories: null,
+          carbs: null,
+          protein: null,
+          fat: null,
+          fiber: null,
+          photoURL: null,
+        },
         thisMealIngrdnt: {
           _id: "missing",
           qty: 1,
@@ -9527,6 +10271,11 @@ export default class WeekMealPlanDetail extends Component {
         thisMeal: thisMealChild,
         thisMealsIngrdnts: [],
         thisMealsMacrosBudget: {},
+        genRecipeValErrors: {
+          name: null,
+          defaultPrepInstructions: null,
+          photoUrl: null,
+        },
         thisRecipesIngrdnts: [],
       };
       return thisMealParent;
@@ -9689,8 +10438,6 @@ export default class WeekMealPlanDetail extends Component {
       newValue = selectedFrom.filter(
         (option) => option._id === e.target.value
       )[0];
-      // } else if (inputType === "number") {
-      //   newValue = JSON.parse(e.target.value);
     } else if (inputType === "asyncReactSelect") {
       newValue = JSON.parse(e);
     } else if (inputType === "reactSelect") {
@@ -9864,7 +10611,6 @@ export default class WeekMealPlanDetail extends Component {
       switch (objType) {
         case "day":
           thisDayObj = newRecordForState;
-          // state.allDays.push(newRecordForState);
           for (let i = 0; i < mealTypes.length; i++) {
             let thisDayMealStateObj = thisDaysMeals[mealTypes[i].code];
             thisDayMealStateObj.thisMealFormState = "viewing";
@@ -9905,7 +10651,6 @@ export default class WeekMealPlanDetail extends Component {
           break;
         case "meal":
           thisMealObj = newRecordForState;
-          // state.allMeals.push(newRecordForState);
           thisMealStateObj.thisMealsIngrdnts = [];
           thisMealStateObj.thisRecipesIngrdnts = [];
           thisMealStateObj.mealIngrdntsLoaded = true;
@@ -9939,16 +10684,6 @@ export default class WeekMealPlanDetail extends Component {
             thisGenRecipeObj._id,
             state.allGenRecipes
           );
-          // thisMealObj = thisMealStateObj.thisMeal;
-          // thisMealObj.genRecipe = thisGenRecipeObj;
-          // thisMealStateObj.thisMeal = thisMealObj;
-          // parentObj = thisMealStateObj;
-          // thisDaysMeals[mealTypeCode] = thisMealStateObj;
-          // thisDayStateObj.thisDaysMeals = thisDaysMeals;
-          // thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-          // state.thisWeeksDays = thisWeeksDays;
-          // this.setState(state);
-
           break;
         case "mealIngredient":
           thisMealsIngrdnts.push(newRecordForState);
@@ -10026,17 +10761,6 @@ export default class WeekMealPlanDetail extends Component {
           thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
           thisMealIngrdntStateObj.thisIngrdntJustCreated = true;
           if (thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged === true) {
-            // let recordToSave = {
-            //   _id: thisGenRecipeIngrdntObj._id,
-            //   defaultQty: thisGenRecipeIngrdntObj.defaultQty,
-            //   ingredient: newRecordToSave._id,
-            //   genRecipe: thisGenRecipeIngrdntObj.genRecipe._id,
-            //   defaultPrepInstructions:
-            //     thisGenRecipeIngrdntObj.defaultPrepInstructions,
-            // };
-            // let recordId = recordToSave._id;
-            // let url = `http://localhost:5000/genRecipeIngredients/update/${recordId}`;
-            // axios.put(url, recordToSave).then(console.log("updated"));
             thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged = false;
             thisMealIngrdntStateObj.thisGenRecipeIngrdntJustCreated = false;
           } else {
@@ -10259,8 +10983,6 @@ export default class WeekMealPlanDetail extends Component {
   };
   handleChangeMealPrcnt = (e, mealTypeCode) => {
     let newPrcnt = e.target.value;
-    // let thisWeekMealPlan = this.state.thisWeekMealPlan;
-    // thisWeekMealPlan.thisWMP[`${mealTypeCode}Weight`] = newPrcnt;
     this.setState({ [`${mealTypeCode}WghtTemp`]: newPrcnt });
   };
   toggleRecordChanged = (newState, objType, dayOfWeekCode) => {

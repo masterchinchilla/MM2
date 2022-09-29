@@ -1,10 +1,8 @@
-import React, { useContext, Component } from "react";
+import React, { Component } from "react";
 import MealIngredientChild from "./MealIngredientChild.component";
 import GenRecipeIngredient from "./GenRecipeIngredient.component";
 import Ingredient from "./Ingredient.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const MealIngredientParent = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
   const thisMealIngrdntObj = props.thisMealIngrdntObj;
   const thisObj = thisMealIngrdntObj.thisMealIngrdnt;
   const thisObjId = thisObj._id;
