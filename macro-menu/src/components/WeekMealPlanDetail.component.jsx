@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Joi from "joi";
 import _ from "lodash";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8758,6 +8759,19 @@ export default class WeekMealPlanDetail extends Component {
       },
     };
   }
+  valSchema = {
+    name: Joi.string().trim().min(3).max(255).required(),
+    floatPercent: Joi.number().min(0).max(100).required(),
+    float: Joi.number().min(0).max(9999.99).required(),
+    textBox: Joi.string().trim().max(3000),
+    url: Joi.string().trim().uri().max(3000),
+  };
+  validateProp = (propName, value, propTypeForVal) => {
+    const objToValidate = { [propName]: value };
+    const subSchema = { [propTypeForVal]: this.valSchema[propTypeForVal] };
+    const { error } = Joi.validate(objToValidate, subSchema);
+    return error ? error.details[0].message : null;
+  };
   handleUpdateWeights = (weightsObj, e) => {
     e.preventDefault();
     let state = this.state;
@@ -10431,8 +10445,10 @@ export default class WeekMealPlanDetail extends Component {
     arrayIndex,
     inputType,
     e,
-    selectedFrom
+    selectedFrom,
+    propTypeForVal
   ) => {
+    console.log(propTypeForVal);
     let newValue;
     if (inputType === "select") {
       newValue = selectedFrom.filter(
@@ -10487,6 +10503,13 @@ export default class WeekMealPlanDetail extends Component {
       case "weekMealPlan":
         thisWMPObj[propToUpdate] = newValue;
         thisWMPStateObj.recordChanged = true;
+        if (propTypeForVal !== "objRef") {
+          thisWMPStateObj.valErrors[propToUpdate] = this.validateProp(
+            propToUpdate,
+            newValue,
+            propTypeForVal
+          );
+        }
         state.thisWeekMealPlan = thisWMPStateObj;
         break;
       case "day":
@@ -10517,15 +10540,30 @@ export default class WeekMealPlanDetail extends Component {
         thisGenRecipeObj[propToUpdate] = newValue;
         thisMealObj.genRecipe = thisGenRecipeObj;
         thisMealStateObj["genRecipeRecordChanged"] = true;
+        if (propTypeForVal !== "objRef") {
+          thisMealStateObj.genRecipeValErrors[propToUpdate] = this.validateProp(
+            propToUpdate,
+            newValue,
+            propTypeForVal
+          );
+        }
         break;
       case "mealIngredient":
         thisMealIngrdntObj[propToUpdate] = newValue;
         thisMealIngrdntStateObj["mealIngrdntRecordChanged"] = true;
+        if (propTypeForVal !== "objRef") {
+          thisMealIngrdntStateObj.mealIngrdntValErrors[propToUpdate] =
+            this.validateProp(propToUpdate, newValue, propTypeForVal);
+        }
         break;
       case "genRecipeIngredient":
         thisGenRecipeIngrdntObj[propToUpdate] = newValue;
         thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
         thisMealIngrdntStateObj["genRecipeIngrdntRecordChanged"] = true;
+        if (propTypeForVal !== "objRef") {
+          thisMealIngrdntStateObj.genRecipeIngrdntValErrors[propToUpdate] =
+            this.validateProp(propToUpdate, newValue, propTypeForVal);
+        }
         if (propToUpdate === "ingredient") {
           let newIngrdntUserType = this.setUserType(
             thisUsersId,
@@ -10539,6 +10577,10 @@ export default class WeekMealPlanDetail extends Component {
         thisGenRecipeIngrdntObj.ingredient = thisIngrdntObj;
         thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
         thisMealIngrdntStateObj["ingredientRecordChanged"] = true;
+        if (propTypeForVal !== "objRef") {
+          thisMealIngrdntStateObj.ingredientValErrors[propToUpdate] =
+            this.validateProp(propToUpdate, newValue, propTypeForVal);
+        }
         break;
     }
     if (

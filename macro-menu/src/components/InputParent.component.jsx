@@ -57,7 +57,8 @@ const InputParent = (props) => {
       mealIngrdntsArrayIndex,
       propType,
       e,
-      []
+      [],
+      "name"
     );
   }
   return (
