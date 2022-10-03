@@ -8759,17 +8759,18 @@ export default class WeekMealPlanDetail extends Component {
       },
     };
   }
-  valSchema = {
+  valSchema = Joi.object({
     name: Joi.string().trim().min(3).max(255).required(),
     floatPercent: Joi.number().min(0).max(100).required(),
     float: Joi.number().min(0).max(9999.99).required(),
     textBox: Joi.string().trim().max(3000),
     url: Joi.string().trim().uri().max(3000),
-  };
+  });
   validateProp = (propName, value, propTypeForVal) => {
+    const rule = this.valSchema.extract(propTypeForVal);
+    const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
-    const subSchema = { [propTypeForVal]: this.valSchema[propTypeForVal] };
-    const { error } = Joi.validate(objToValidate, subSchema);
+    const { error } = subSchema.validate(objToValidate);
     return error ? error.details[0].message : null;
   };
   handleUpdateWeights = (weightsObj, e) => {
@@ -8835,7 +8836,6 @@ export default class WeekMealPlanDetail extends Component {
               .post("http://localhost:5000/days/add", newDayToSave)
               .then((response) => {
                 numOfDays--;
-                console.log(numOfDays);
                 newDay._id = response.data._id;
                 for (let i = 0; i < this.state.mealTypes.length; i++) {
                   let thisMealType = this.state.mealTypes[i];
@@ -8868,7 +8868,6 @@ export default class WeekMealPlanDetail extends Component {
                         numOfMealIngrdnts += mealIngrdntsLength;
                         if (numOfMealIngrdnts === 0) {
                           numOfMeals--;
-                          console.log(numOfMeals);
                           if (
                             numOfDays === 0 &&
                             numOfMeals === 0 &&
@@ -8879,7 +8878,6 @@ export default class WeekMealPlanDetail extends Component {
                           }
                         } else {
                           numOfMeals--;
-                          console.log(numOfMeals);
                           for (let i = 0; i < mealIngrdntsLength; i++) {
                             let thisMealIngrdnt =
                               thisMealStateObj.thisMealsIngrdnts[i]
@@ -8903,7 +8901,6 @@ export default class WeekMealPlanDetail extends Component {
                               .then((response) => {
                                 newMealIngrdnt._id = response.data._id;
                                 numOfMealIngrdnts--;
-                                console.log(numOfMealIngrdnts);
                                 if (
                                   numOfDays === 0 &&
                                   numOfMeals === 0 &&
@@ -8918,7 +8915,6 @@ export default class WeekMealPlanDetail extends Component {
                       });
                   } else {
                     numOfMeals--;
-                    console.log(numOfMeals);
                     if (
                       numOfDays === 0 &&
                       numOfMeals === 0 &&
@@ -8932,8 +8928,6 @@ export default class WeekMealPlanDetail extends Component {
           } else {
             numOfMeals -= 6;
             numOfDays--;
-            console.log(numOfDays);
-            console.log(numOfMeals);
             if (
               numOfDays === 0 &&
               numOfMeals === 0 &&
@@ -9209,9 +9203,7 @@ export default class WeekMealPlanDetail extends Component {
   };
   getAllBrands = () => {
     axios.get("http://localhost:5000/brands/").then((response) => {
-      console.log(response);
       let allBrands = response.data.map((brand) => brand);
-      console.log(allBrands);
       this.setState({
         allBrands: allBrands,
       });
@@ -10083,11 +10075,9 @@ export default class WeekMealPlanDetail extends Component {
         break;
       case "ingredient":
         recordToSave = parentObj.thisMealIngrdnt.genRecipeIngredient.ingredient;
-        console.log(recordToSave);
         break;
     }
     let recordId = recordToSave._id;
-    console.log(recordId);
     let url = `http://localhost:5000/${objType}s/update/${recordId}`;
     const notify = () => {
       toast.success("Updated Successfully");
@@ -10448,7 +10438,6 @@ export default class WeekMealPlanDetail extends Component {
     selectedFrom,
     propTypeForVal
   ) => {
-    console.log(propTypeForVal);
     let newValue;
     if (inputType === "select") {
       newValue = selectedFrom.filter(

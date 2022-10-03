@@ -22,7 +22,7 @@ const WMPForm = (props) => {
   ////Name-Specific Props
   const [name, updateName] = useState(thisWeekMealPlan.thisWMP.name);
   const [nameValError, updateNameValError] = useState(null);
-  const [saveDisabled, toggleSaveDisabled] = useState(false);
+  const [saveDisabled, toggleSaveDisabled] = useState(true);
   const [state, setState] = useState({
     name: {
       value: thisWeekMealPlan.thisWMP.name,

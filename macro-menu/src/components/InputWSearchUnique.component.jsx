@@ -20,10 +20,10 @@ const InputWSearchUnique = (props) => {
   function trimValueForChangePropFn(e) {
     const inputValue = e.target.value;
     const noDblSpcs = inputValue.replace(/  +/g, " ");
-    toggleSaveDisabledFn(true);
     changeLocalPropFn(noDblSpcs, propName);
   }
   function searchSetUnique(e) {
+    toggleSaveDisabledFn(true);
     const inputValue = e.target.value;
     const trimmed = inputValue.trim();
     const trimmedWNoDblSpcs = trimmed.replace(/  +/g, " ");
@@ -49,8 +49,6 @@ const InputWSearchUnique = (props) => {
               }
             });
         }
-      } else {
-        toggleSaveDisabledFn(false);
       }
     }, 500);
     setTimer(newTimer);
