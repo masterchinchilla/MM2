@@ -3,7 +3,7 @@ import _ from "lodash";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
-import InputParent from "./InputParent.component";
+import InputWLocalStateAndValidation from "./InputWLocalStateAndValidation.component";
 import WeekMealPlanContext from "./WeekMealPlanContext";
 const GenRecipe = (props) => {
   const weekMealPlan = useContext(WeekMealPlanContext);
@@ -161,7 +161,7 @@ const GenRecipe = (props) => {
             >
               <div className="accordion-body mealInnerAccordion">
                 <div className="form-group mealInputs">
-                  <InputParent
+                  <InputWLocalStateAndValidation
                     parentObjOld={thisMealStateObjOld}
                     valSchema={schema}
                     label={"Recipe Name"}

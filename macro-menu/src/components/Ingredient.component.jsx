@@ -1,10 +1,10 @@
-import React, { useState, useContext, Component } from "react";
+import React, { useState, useContext, useEffect, Component } from "react";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
-import NameInputWDupSearch from "./NameInputWDupSearch.component";
-import InputParent from "./InputParent.component";
+import Input from "./Input.component";
+import InputWLocalStateAndValidation from "./InputWLocalStateAndValidation.component";
 import WeekMealPlanContext from "./WeekMealPlanContext";
 const Ingredient = (props) => {
   const weekMealPlan = useContext(WeekMealPlanContext);
@@ -24,6 +24,7 @@ const Ingredient = (props) => {
   const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
   const thisObjId = thisObj._id;
   const thisIngrdntJustCreated = thisMealIngrdntObj.thisIngrdntJustCreated;
+  const valErrors = thisMealIngrdntObj.ingredientValErrors;
   const objType = "ingredient";
   let thisBrandObj;
   let thisUOMObj;
@@ -31,7 +32,23 @@ const Ingredient = (props) => {
   const [name, updateName] = useState(thisObj.name);
   const [nameValError, updateNameValError] = useState(null);
   const [origName, setOrigName] = useState(thisObj.name);
-  const [saveDisabled, toggleSaveDisabled] = useState(false);
+  const [nameHasDup, toggleNameHasDup] = useState(true);
+  const [saveDisabled, toggleSaveDisabled] = useState(true);
+  useEffect(() => {
+    if (
+      nameHasDup ||
+      valErrors.calories ||
+      valErrors.carbs ||
+      valErrors.protein ||
+      valErrors.fat ||
+      valErrors.fiber ||
+      valErrors.photoURL
+    ) {
+      toggleSaveDisabled(true);
+    } else {
+      toggleSaveDisabled(false);
+    }
+  });
   {
     thisObj.brand
       ? (thisBrandObj = thisObj.brand)
@@ -69,7 +86,7 @@ const Ingredient = (props) => {
   function onCancelEditForm() {
     updateName(origName);
     updateNameValError(null);
-    toggleSaveDisabled(false);
+    toggleNameHasDup(false);
     props.onCancelEditForm(thisMealIngrdntObj, objType);
   }
   return (
@@ -164,7 +181,7 @@ const Ingredient = (props) => {
             styleClasses="recipeSelect"
           />
         </div>
-        <InputParent
+        <InputWLocalStateAndValidation
           parentObjOld={thisIngrdntOld}
           valSchema={schema}
           label={"IngredientName"}
@@ -216,7 +233,110 @@ const Ingredient = (props) => {
           data-bs-parent={"#ingrdntAccrdnFull" + thisObjId}
         >
           <div className="accordion-body ingrdntInnrAccrdn">
-            <div className="form-group mealIngrdntInputs">
+            <Input
+              formGroupClasses="form-group mealIngrdntInputs"
+              label="Calories"
+              propType="number"
+              propValue={thisObj.calories}
+              onUpdateProp={props.onUpdateProp}
+              objType="ingredient"
+              dayOfWeekCode={thisDayOfWeekCode}
+              mealTypeCode={thisMealTypeCode}
+              propToUpdate={"calories"}
+              arrayIndex={mealIngrdntsArrayIndex}
+              inputType="number"
+              selectedFrom={[]}
+              propTypeForVal="float"
+              fieldDisabled={thisFormState === "viewing" ? true : false}
+              valError={thisMealIngrdntObj.ingredientValErrors.calories}
+              inputClasses="form-control"
+            />
+            <Input
+              formGroupClasses="form-group mealIngrdntInputs"
+              label="Carbs"
+              propType="number"
+              propValue={thisObj.carbs}
+              onUpdateProp={props.onUpdateProp}
+              objType="ingredient"
+              dayOfWeekCode={thisDayOfWeekCode}
+              mealTypeCode={thisMealTypeCode}
+              propToUpdate={"carbs"}
+              arrayIndex={mealIngrdntsArrayIndex}
+              inputType="number"
+              selectedFrom={[]}
+              propTypeForVal="float"
+              fieldDisabled={thisFormState === "viewing" ? true : false}
+              valError={thisMealIngrdntObj.ingredientValErrors.carbs}
+            />
+            <Input
+              formGroupClasses="form-group mealIngrdntInputs"
+              label="Protein"
+              propType="number"
+              propValue={thisObj.protein}
+              onUpdateProp={props.onUpdateProp}
+              objType="ingredient"
+              dayOfWeekCode={thisDayOfWeekCode}
+              mealTypeCode={thisMealTypeCode}
+              propToUpdate={"protein"}
+              arrayIndex={mealIngrdntsArrayIndex}
+              inputType="number"
+              selectedFrom={[]}
+              propTypeForVal="float"
+              fieldDisabled={thisFormState === "viewing" ? true : false}
+              valError={thisMealIngrdntObj.ingredientValErrors.protein}
+            />
+            <Input
+              formGroupClasses="form-group mealIngrdntInputs"
+              label="Fat"
+              propType="number"
+              propValue={thisObj.fat}
+              onUpdateProp={props.onUpdateProp}
+              objType="ingredient"
+              dayOfWeekCode={thisDayOfWeekCode}
+              mealTypeCode={thisMealTypeCode}
+              propToUpdate={"fat"}
+              arrayIndex={mealIngrdntsArrayIndex}
+              inputType="number"
+              selectedFrom={[]}
+              propTypeForVal="float"
+              fieldDisabled={thisFormState === "viewing" ? true : false}
+              valError={thisMealIngrdntObj.ingredientValErrors.fat}
+            />
+            <Input
+              formGroupClasses="form-group mealIngrdntInputs"
+              label="Fiber"
+              propType="number"
+              propValue={thisObj.fiber}
+              onUpdateProp={props.onUpdateProp}
+              objType="ingredient"
+              dayOfWeekCode={thisDayOfWeekCode}
+              mealTypeCode={thisMealTypeCode}
+              propToUpdate={"fiber"}
+              arrayIndex={mealIngrdntsArrayIndex}
+              inputType="number"
+              selectedFrom={[]}
+              propTypeForVal="float"
+              fieldDisabled={thisFormState === "viewing" ? true : false}
+              valError={thisMealIngrdntObj.ingredientValErrors.fiber}
+            />
+            <Input
+              formGroupClasses="form-group mealIngrdntInputs"
+              label="Photo URL"
+              propType="text"
+              propValue={thisObj.photoURL}
+              onUpdateProp={props.onUpdateProp}
+              objType="ingredient"
+              dayOfWeekCode={thisDayOfWeekCode}
+              mealTypeCode={thisMealTypeCode}
+              propToUpdate={"photoURL"}
+              arrayIndex={mealIngrdntsArrayIndex}
+              inputType="text"
+              selectedFrom={[]}
+              propTypeForVal="url"
+              fieldDisabled={thisFormState === "viewing" ? true : false}
+              valError={thisMealIngrdntObj.ingredientValErrors.photoURL}
+            />
+            {/* <div className="form-group mealIngrdntInputs">
               <label>Calories</label>
               <input
                 type={"number"}
@@ -236,8 +356,8 @@ const Ingredient = (props) => {
                 }
                 disabled={thisFormState === "viewing" ? true : false}
               />
-            </div>
-            <div className="form-group mealIngrdntInputs">
+            </div> */}
+            {/* <div className="form-group mealIngrdntInputs">
               <label>Carbs</label>
               <input
                 type={"number"}
@@ -257,8 +377,8 @@ const Ingredient = (props) => {
                 }
                 disabled={thisFormState === "viewing" ? true : false}
               />
-            </div>
-            <div className="form-group mealIngrdntInputs">
+            </div> */}
+            {/* <div className="form-group mealIngrdntInputs">
               <label>Protein</label>
               <input
                 type={"number"}
@@ -278,8 +398,8 @@ const Ingredient = (props) => {
                 }
                 disabled={thisFormState === "viewing" ? true : false}
               />
-            </div>
-            <div className="form-group mealIngrdntInputs">
+            </div> */}
+            {/* <div className="form-group mealIngrdntInputs">
               <label>Fat</label>
               <input
                 type={"number"}
@@ -299,8 +419,8 @@ const Ingredient = (props) => {
                 }
                 disabled={thisFormState === "viewing" ? true : false}
               />
-            </div>
-            <div className="form-group mealIngrdntInputs">
+            </div> */}
+            {/* <div className="form-group mealIngrdntInputs">
               <label>Fiber</label>
               <input
                 type={"number"}
@@ -320,8 +440,8 @@ const Ingredient = (props) => {
                 }
                 disabled={thisFormState === "viewing" ? true : false}
               />
-            </div>
-            <div className="form-group mealIngrdntInputs">
+            </div> */}
+            {/* <div className="form-group mealIngrdntInputs">
               <label>Photo URL</label>
               <input
                 type={"text"}
@@ -341,7 +461,7 @@ const Ingredient = (props) => {
                 }
                 disabled={thisFormState === "viewing" ? true : false}
               />
-            </div>
+            </div> */}
           </div>
           <div
             className="accordion accordion-flush ingrdntAdminMenu"

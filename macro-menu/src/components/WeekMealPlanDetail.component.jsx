@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import MealWeighting from "./MealWeighting.component";
+import WMPNameAndDisabledFields from "./WMPNameAndDisabledFields.component";
 import WMPForm from "./WMPForm.component";
 import MacroBudget from "./MacroBudget.component";
 import WMPFormClass from "./WMPForm.classComponent";
@@ -8768,6 +8769,7 @@ export default class WeekMealPlanDetail extends Component {
   });
   validateProp = (propName, value, propTypeForVal) => {
     const rule = this.valSchema.extract(propTypeForVal);
+    console.log(rule);
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
     const { error } = subSchema.validate(objToValidate);
@@ -11049,7 +11051,10 @@ export default class WeekMealPlanDetail extends Component {
       return <div className="spinner-border text-primary" role="status"></div>;
     } else {
       return (
-        <WeekMealPlanContext.Provider value={this.state}>
+        <WeekMealPlanContext.Provider
+          value={this.state}
+          onClickEditForm={this.handleClickEditForm}
+        >
           <div className="container-fluid pl-4 pr-4">
             <ToastContainer autoClose={2000} />
             <div className="card">
@@ -11076,7 +11081,17 @@ export default class WeekMealPlanDetail extends Component {
                       ></button>
                     </h2>
                   </div>
-                  <div
+                  <WMPForm
+                    onUpdateProp={this.handleUpdateProp}
+                    onClickEditForm={this.handleClickEditForm}
+                    onCancelEditForm={this.handleCancelEditForm}
+                    onSaveFormChanges={this.handleSaveFormChanges}
+                    onDeleteRecord={this.handleDeleteRecord}
+                    onClickCopy={this.handleCopyWMP}
+                    toggleRecordChanged={this.toggleRecordChanged}
+                    onUpdateWeights={this.handleUpdateWeights}
+                  />
+                  {/* <div
                     id={"dayAccrdn_WMPDetails" + thisWMPId}
                     className="accordion-collapse collapse show"
                     aria-labelledby={"#accordionHeader_WMPDetails" + thisWMPId}
@@ -11084,17 +11099,6 @@ export default class WeekMealPlanDetail extends Component {
                   >
                     <div className="accordion-body accrdnWMPDetailsBdy">
                       <form className="card">
-                        {/* <WMPFormClass
-                        thisWeekMealPlan={this.state.thisWeekMealPlan}
-                        thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
-                        backEndHtmlRoot={this.state.backEndHtmlRoot}
-                        onUpdateProp={this.handleUpdateProp}
-                        onClickEditForm={this.handleClickEditForm}
-                        onCancelEditForm={this.handleCancelEditForm}
-                        onSaveFormChanges={this.handleSaveFormChanges}
-                        onDeleteRecord={this.handleDeleteRecord}
-                        onClickCopy={this.handleCopyWMP}
-                      /> */}
                         <WMPForm
                           thisWeekMealPlan={this.state.thisWeekMealPlan}
                           thisWMPOld={this.state.thisWeekMealPlanOld.thisWMP}
@@ -11191,7 +11195,7 @@ export default class WeekMealPlanDetail extends Component {
                         </div>
                       </form>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

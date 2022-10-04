@@ -2,7 +2,7 @@ import React, { useState, useContext, Component } from "react";
 import Joi from "joi";
 import InputWSearchUnique from "./InputWSearchUnique.component";
 import WeekMealPlanContext from "./WeekMealPlanContext";
-const InputParent = (props) => {
+const InputWLocalStateAndValidation = (props) => {
   const weekMealPlan = useContext(WeekMealPlanContext);
   const {
     parentObjOld,
@@ -20,7 +20,7 @@ const InputParent = (props) => {
     localPropValue,
     valError,
     updateLocalPropValueFn,
-    toggleSaveDisabledFn,
+    toggleNameHasDup,
     onUpdateProp,
     updateValErrorFn,
   } = props;
@@ -34,10 +34,10 @@ const InputParent = (props) => {
     if (error) {
       let validationResult = error;
       validationError = validationResult.details[0].message;
-      toggleSaveDisabledFn(true);
+      toggleNameHasDup(true);
     } else {
       validationError = null;
-      toggleSaveDisabledFn(false);
+      toggleNameHasDup(false);
     }
     updateLocalPropValueFn(newPropValue);
     updateValErrorFn(validationError);
@@ -62,26 +62,23 @@ const InputParent = (props) => {
     );
   }
   return (
-    <div className={formGroupClasses}>
-      <label>{label}</label>
-      <InputWSearchUnique
-        objType={objType}
-        propName={propName}
-        localPropValue={localPropValue}
-        origPropValue={origPropValue}
-        propNameSentenceCase={propNameSentenceCase}
-        fieldDisabled={thisFormState === "viewing" ? true : false}
-        propType={propType}
-        valErrorUpdateFn={updateValErrorFn}
-        toggleSaveDisabledFn={toggleSaveDisabledFn}
-        changeLocalPropFn={handleUpdateLocalProp}
-        changeParentPropFn={handleUpdateParentProp}
-      />
-      <div className="alert alert-danger" hidden={valError ? false : true}>
-        {valError}
-      </div>
-    </div>
+    <InputWSearchUnique
+      formGroupClasses={formGroupClasses}
+      label={label}
+      objType={objType}
+      propName={propName}
+      localPropValue={localPropValue}
+      origPropValue={origPropValue}
+      propNameSentenceCase={propNameSentenceCase}
+      fieldDisabled={thisFormState === "viewing" ? true : false}
+      propType={propType}
+      valError={valError}
+      valErrorUpdateFn={updateValErrorFn}
+      toggleNameHasDup={toggleNameHasDup}
+      changeLocalPropFn={handleUpdateLocalProp}
+      changeParentPropFn={handleUpdateParentProp}
+    />
   );
 };
 
-export default InputParent;
+export default InputWLocalStateAndValidation;

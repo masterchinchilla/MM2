@@ -1,191 +1,99 @@
-import React, { useState, useContext, Component } from "react";
-import _ from "lodash";
-import Joi from "joi";
-import dayjs from "dayjs";
-import EditOptions from "./EditOptions.component";
-import InputParent from "./InputParent.component";
+import React, { useState, useContext } from "react";
+import WMPNameAndDisabledFields from "./WMPNameAndDisabledFields.component";
+import MacroBudget from "./MacroBudget.component";
+import MealWeighting from "./MealWeighting.component";
 import WeekMealPlanContext from "./WeekMealPlanContext";
 const WMPForm = (props) => {
   const weekMealPlan = useContext(WeekMealPlanContext);
-  //Data Props
-  ////Common Props
-  const thisDayOfWeekCode = "";
-  const thisMealTypeCode = "";
+  const {
+    onUpdateProp,
+    onClickEditForm,
+    onCancelEditForm,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onClickCopy,
+    toggleRecordChanged,
+    onUpdateWeights,
+  } = props;
   const thisWeekMealPlan = weekMealPlan.thisWeekMealPlan;
-  const thisWMPOld = weekMealPlan.thisWeekMealPlanOld.thisWMP;
-  const thisWMPId = thisWeekMealPlan.thisWMP._id;
-  const backEndHtmlRoot = weekMealPlan.backEndHtmlRoot;
-  const thisFormState = thisWeekMealPlan.thisFormState;
-  const mealIngrdntsArrayIndex = 0;
-  const formGroupClasses = "form-group wmpNameFrmGroup";
-  const objType = "weekMealPlan";
-  ////Name-Specific Props
-  const [name, updateName] = useState(thisWeekMealPlan.thisWMP.name);
-  const [nameValError, updateNameValError] = useState(null);
-  const [saveDisabled, toggleSaveDisabled] = useState(true);
-  const [state, setState] = useState({
-    name: {
-      value: thisWeekMealPlan.thisWMP.name,
-      valError: null,
-    },
-    saveDisabled: false,
-  });
-  const onUpdateProp = props.onUpdateProp;
-  const schema = Joi.object({
-    name: Joi.string().trim().min(3).max(255).required(),
-  });
-  function handleUpdateLocalProp(propValue, propName, subPropName) {
-    let updatedProp = { [subPropName]: propValue };
-    setState({ ...state, [propName]: updatedProp });
-  }
-  function handleUpdateParentProp(propValue, propName) {
-    let e = {
-      target: {
-        value: propValue,
-      },
-    };
-    handleUpdateLocalProp(propValue, propName);
-    onUpdateProp(
-      objType,
-      thisDayOfWeekCode,
-      thisMealTypeCode,
-      propName,
-      mealIngrdntsArrayIndex,
-      "text",
-      e,
-      []
-    );
-  }
-  function onCancelEditForm() {
-    updateName(thisWMPOld.name);
-    updateNameValError(null);
-    toggleSaveDisabled(false);
-    props.onCancelEditForm(thisWeekMealPlan, objType);
-  }
+  const thisWMP = thisWeekMealPlan.thisWMP;
+  const thisWMPId = thisWMP._id;
   return (
-    // <WeekMealPlanContext.Consumer>
-    //   {(weekMealPlanContext) => (
-    <React.Fragment>
-      <div
-        className={
-          thisWeekMealPlan.thisWMPJustCreated === true
-            ? "card-header wmpCardHeader cardHeaderFocused"
-            : "card-header wmpCardHeader"
-        }
-      >
-        <InputParent
-          parentObjOld={thisWMPOld}
-          valSchema={schema}
-          label={"Week Meal Plan Name"}
-          thisFormState={thisFormState}
-          formGroupClasses={formGroupClasses}
-          thisDayOfWeekCode={thisDayOfWeekCode}
-          thisMealTypeCode={thisMealTypeCode}
-          mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
-          propType={"text"}
-          backEndHtmlRoot={backEndHtmlRoot}
-          objType={objType}
-          propName={"name"}
-          propNameSentenceCase={"Name"}
-          localPropValue={name}
-          valError={nameValError}
-          updateLocalPropValueFn={updateName}
-          toggleSaveDisabledFn={toggleSaveDisabled}
-          onUpdateProp={onUpdateProp}
-          updateValErrorFn={updateNameValError}
-        />
-        <EditOptions
-          parentObj={thisWeekMealPlan}
-          objType="weekMealPlan"
-          thisFormState={thisWeekMealPlan.thisFormState}
-          saveDisabled={saveDisabled}
-          userType={thisWeekMealPlan.userType}
-          recordChanged={thisWeekMealPlan.recordChanged}
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
-          onClickCopy={props.onClickCopy}
-        />
-      </div>
-      <div className="card-body wmpCardBody">
-        <div
-          className="accordion accordion-flush"
-          id={"wmpHiddenAccordionFull" + thisWMPId}
-        >
-          <div className="accordion-item">
-            <h2
-              className="accordion-header"
-              id={"wmpHiddenAccordionHeader" + thisWMPId}
-            >
-              <button
-                className="accordion-button collapsed wmpAdminAccrdnBttn"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target={"#wmpHiddenAccrdn" + thisWMPId}
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              ></button>
-            </h2>
-          </div>
-          <div
-            id={"wmpHiddenAccrdn" + thisWMPId}
-            className="accordion-collapse collapse"
-            aria-labelledby={"#wmpHiddenAccordionHeader" + thisWMPId}
-            data-bs-parent={"#wmpHiddenAccordionFull" + thisWMPId}
-          >
-            <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
-              <div className="form-group">
-                <label>Author </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  disabled={true}
-                  value={thisWeekMealPlan.thisWMP.GRFUser.handle}
-                  onChange={() => {}}
-                />
-              </div>
-              <div className="form-group">
-                <label>Record Id</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  disabled={true}
-                  value={thisWeekMealPlan.thisWMP._id}
-                  onChange={() => {}}
-                />
-              </div>
-              <div className="form-group">
-                <label>Created</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  disabled={true}
-                  value={dayjs(thisWeekMealPlan.thisWMP.createdAt).format(
-                    "dddd, MMMM D, YYYY h:mm A"
-                  )}
-                  onChange={() => {}}
-                />
-              </div>
-              <div className="form-group">
-                <label>Last Update</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  disabled={true}
-                  value={dayjs(thisWeekMealPlan.thisWMP.updatedAt).format(
-                    "dddd, MMMM D, YYYY h:mm A"
-                  )}
-                  onChange={() => {}}
-                />
+    <div
+      id={"dayAccrdn_WMPDetails" + thisWMPId}
+      className="accordion-collapse collapse show"
+      aria-labelledby={"#accordionHeader_WMPDetails" + thisWMPId}
+      data-bs-parent={"#accordionFull_WMPDetails" + thisWMPId}
+    >
+      <div className="accordion-body accrdnWMPDetailsBdy">
+        <form className="card">
+          <WMPNameAndDisabledFields
+            onUpdateProp={onUpdateProp}
+            onClickEditForm={onClickEditForm}
+            onCancelEditForm={onCancelEditForm}
+            onSaveFormChanges={onSaveFormChanges}
+            onDeleteRecord={onDeleteRecord}
+            onClickCopy={onClickCopy}
+            toggleRecordChanged={toggleRecordChanged}
+          />
+          <MacroBudget onUpdateProp={onUpdateProp} />
+          <div className="card weekMealPlanFormCards mt-3 mb-3">
+            <div className="card-header">
+              <h2 className="card-title">Meal Macro Weighting</h2>
+            </div>
+            <div className="card-body">
+              <div
+                className="accordion accordion-flush"
+                id={"accordionFull_MealMacroWeighting" + thisWMPId}
+              >
+                <div className="accordion-item">
+                  <h2
+                    className="accordion-header"
+                    id={"accordionHeader_MealMacroWeighting" + thisWMPId}
+                  >
+                    <button
+                      className="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={
+                        "#dayAccrdn_MealMacroWeighting" + thisWMPId
+                      }
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    ></button>
+                  </h2>
+                </div>
+                <div
+                  id={"dayAccrdn_MealMacroWeighting" + thisWMPId}
+                  className="accordion-collapse collapse show"
+                  aria-labelledby={
+                    "#accordionHeader_MealMacroWeighting" + thisWMPId
+                  }
+                  data-bs-parent={
+                    "#accordionFull_MealMacroWeighting" + thisWMPId
+                  }
+                >
+                  <div className="accordion-body accrdnWeekMealPlanMacroBdy">
+                    <MealWeighting
+                      mealWeights={{
+                        breakfast: thisWMP.breakfastWeight,
+                        snack1: thisWMP.snack1Weight,
+                        lunch: thisWMP.lunchWeight,
+                        snack2: thisWMP.snack2Weight,
+                        dinner: thisWMP.dinnerWeight,
+                        dessert: thisWMP.dessertWeight,
+                      }}
+                      thisFormState={thisWeekMealPlan.thisFormState}
+                      onUpdateWeights={onUpdateWeights}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
-    </React.Fragment>
-    //   )}
-    // </WeekMealPlanContext.Consumer>
+    </div>
   );
 };
 

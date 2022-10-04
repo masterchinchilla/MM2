@@ -4,6 +4,8 @@ import WeekMealPlanContext from "./WeekMealPlanContext";
 const InputWSearchUnique = (props) => {
   const weekMealPlan = useContext(WeekMealPlanContext);
   const {
+    formGroupClasses,
+    label,
     objType,
     propName,
     localPropValue,
@@ -11,8 +13,9 @@ const InputWSearchUnique = (props) => {
     propNameSentenceCase,
     fieldDisabled,
     propType,
+    valError,
     valErrorUpdateFn,
-    toggleSaveDisabledFn,
+    toggleNameHasDup,
     changeLocalPropFn,
     changeParentPropFn,
   } = props;
@@ -23,7 +26,7 @@ const InputWSearchUnique = (props) => {
     changeLocalPropFn(noDblSpcs, propName);
   }
   function searchSetUnique(e) {
-    toggleSaveDisabledFn(true);
+    toggleNameHasDup(true);
     const inputValue = e.target.value;
     const trimmed = inputValue.trim();
     const trimmedWNoDblSpcs = trimmed.replace(/  +/g, " ");
@@ -40,7 +43,7 @@ const InputWSearchUnique = (props) => {
             )
             .then((response) => {
               if (response.data === "exists") {
-                toggleSaveDisabledFn(true);
+                toggleNameHasDup(true);
                 valErrorUpdateFn(
                   `that ${propNameSentenceCase} is already taken`
                 );
@@ -54,14 +57,20 @@ const InputWSearchUnique = (props) => {
     setTimer(newTimer);
   }
   return (
-    <input
-      type={propType}
-      className="form-control"
-      value={localPropValue}
-      onChange={trimValueForChangePropFn}
-      onKeyUp={searchSetUnique}
-      disabled={fieldDisabled}
-    />
+    <div className={formGroupClasses}>
+      <label>{label}</label>
+      <input
+        type={propType}
+        className="form-control"
+        value={localPropValue}
+        onChange={trimValueForChangePropFn}
+        onKeyUp={searchSetUnique}
+        disabled={fieldDisabled}
+      />
+      <div className="alert alert-danger" hidden={valError ? false : true}>
+        {valError}
+      </div>
+    </div>
   );
 };
 

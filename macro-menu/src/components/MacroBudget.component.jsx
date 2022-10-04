@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState, useContext, Component } from "react";
+import WeekMealPlanContext from "./WeekMealPlanContext";
+import Input from "./Input.component";
 const MacroBudget = (props) => {
-  const thisWeekMealPlan = props.thisWeekMealPlan;
+  const weekMealPlan = useContext(WeekMealPlanContext);
+  const thisWeekMealPlan = weekMealPlan.thisWeekMealPlan;
   const thisFormState = thisWeekMealPlan.thisFormState;
   const thisWMP = thisWeekMealPlan.thisWMP;
   const thisWMPId = thisWMP._id;
@@ -42,7 +45,97 @@ const MacroBudget = (props) => {
             data-bs-parent={"#accordionFull_MacroBudget" + thisWMPId}
           >
             <div className="accordion-body accrdnWeekMealPlanMacroBdy">
-              <div className="badge bg-primary weekMealPlanMacroBadge">
+              <Input
+                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                label="Calories (g)"
+                propType="number"
+                propValue={calsBudget}
+                onUpdateProp={onUpdateProp}
+                objType="weekMealPlan"
+                dayOfWeekCode=""
+                mealTypeCode=""
+                propToUpdate={"calsBudget"}
+                arrayIndex={0}
+                inputType="number"
+                selectedFrom={[]}
+                propTypeForVal="float"
+                fieldDisabled={thisFormState === "viewing" ? true : false}
+                valError={thisWeekMealPlan.valErrors.calsBudget}
+                inputClasses="form-control weekMealPlanMacroInput"
+              />
+              <Input
+                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                label="Carbs (g)"
+                propType="number"
+                propValue={carbsBudget}
+                onUpdateProp={onUpdateProp}
+                objType="weekMealPlan"
+                dayOfWeekCode=""
+                mealTypeCode=""
+                propToUpdate={"carbsBudget"}
+                arrayIndex={0}
+                inputType="number"
+                selectedFrom={[]}
+                propTypeForVal="float"
+                fieldDisabled={thisFormState === "viewing" ? true : false}
+                valError={thisWeekMealPlan.valErrors.carbsBudget}
+                inputClasses="form-control weekMealPlanMacroInput"
+              />
+              <Input
+                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                label="Protein (g)"
+                propType="number"
+                propValue={proteinBudget}
+                onUpdateProp={onUpdateProp}
+                objType="weekMealPlan"
+                dayOfWeekCode=""
+                mealTypeCode=""
+                propToUpdate={"proteinBudget"}
+                arrayIndex={0}
+                inputType="number"
+                selectedFrom={[]}
+                propTypeForVal="float"
+                fieldDisabled={thisFormState === "viewing" ? true : false}
+                valError={thisWeekMealPlan.valErrors.proteinBudget}
+                inputClasses="form-control weekMealPlanMacroInput"
+              />
+              <Input
+                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                label="Fat (g)"
+                propType="number"
+                propValue={fatBudget}
+                onUpdateProp={onUpdateProp}
+                objType="weekMealPlan"
+                dayOfWeekCode=""
+                mealTypeCode=""
+                propToUpdate={"fatBudget"}
+                arrayIndex={0}
+                inputType="number"
+                selectedFrom={[]}
+                propTypeForVal="float"
+                fieldDisabled={thisFormState === "viewing" ? true : false}
+                valError={thisWeekMealPlan.valErrors.fatBudget}
+                inputClasses="form-control weekMealPlanMacroInput"
+              />
+              <Input
+                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                label="Fiber (g)"
+                propType="number"
+                propValue={fiberBudget}
+                onUpdateProp={onUpdateProp}
+                objType="weekMealPlan"
+                dayOfWeekCode=""
+                mealTypeCode=""
+                propToUpdate={"fiberBudget"}
+                arrayIndex={0}
+                inputType="number"
+                selectedFrom={[]}
+                propTypeForVal="float"
+                fieldDisabled={thisFormState === "viewing" ? true : false}
+                valError={thisWeekMealPlan.valErrors.fiberBudget}
+                inputClasses="form-control weekMealPlanMacroInput"
+              />
+              {/* <div className="badge bg-primary weekMealPlanMacroBadge">
                 <h6>Calories (g)</h6>
                 <input
                   type="number"
@@ -58,13 +151,14 @@ const MacroBudget = (props) => {
                       0,
                       "number",
                       e,
-                      []
+                      [],
+                      "float"
                     );
                   }}
                   disabled={thisFormState == "viewing" ? true : false}
                 ></input>
-              </div>
-              <div className="badge bg-primary weekMealPlanMacroBadge">
+              </div> */}
+              {/* <div className="badge bg-primary weekMealPlanMacroBadge">
                 <h6>Carbs (g)</h6>
                 <input
                   type="number"
@@ -151,7 +245,7 @@ const MacroBudget = (props) => {
                   }}
                   disabled={thisFormState === "viewing" ? true : false}
                 ></input>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
