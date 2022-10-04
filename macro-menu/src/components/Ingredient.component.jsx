@@ -11,7 +11,7 @@ const Ingredient = (props) => {
   const {
     userType,
     thisFormState,
-    thisMealTypeCode,
+    // thisMealTypeCode,
     mealIngrdntsArrayIndex,
     thisMealIngrdntObj,
     thisObj,
@@ -19,6 +19,7 @@ const Ingredient = (props) => {
     onUpdateProp,
   } = props;
   const thisMealType = thisMealIngrdntObj.thisMealIngrdnt.meal.mealType;
+  const thisMealTypeCode = thisMealType.code;
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
   const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
@@ -29,10 +30,16 @@ const Ingredient = (props) => {
   let thisBrandObj;
   let thisUOMObj;
   let thisWeightTypeObj;
-  const [name, updateName] = useState(thisObj.name);
+  const [name, updateName] = useState(
+    weekMealPlan.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+      thisMealTypeCode
+    ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex]["thisMealIngrdnt"][
+      "genRecipeIngredient"
+    ]["ingredient"]["name"]
+  );
   const [nameValError, updateNameValError] = useState(null);
   const [origName, setOrigName] = useState(thisObj.name);
-  const [nameHasDup, toggleNameHasDup] = useState(true);
+  const [nameHasDup, toggleNameHasDup] = useState(false);
   const [saveDisabled, toggleSaveDisabled] = useState(true);
   useEffect(() => {
     if (
@@ -199,7 +206,7 @@ const Ingredient = (props) => {
           localPropValue={name}
           valError={nameValError}
           updateLocalPropValueFn={updateName}
-          toggleSaveDisabledFn={toggleSaveDisabled}
+          toggleNameHasDup={toggleNameHasDup}
           onUpdateProp={onUpdateProp}
           updateValErrorFn={updateNameValError}
         />

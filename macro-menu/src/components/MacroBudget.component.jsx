@@ -157,8 +157,8 @@ const MacroBudget = (props) => {
                   }}
                   disabled={thisFormState == "viewing" ? true : false}
                 ></input>
-              </div> */}
-              {/* <div className="badge bg-primary weekMealPlanMacroBadge">
+              </div>
+              <div className="badge bg-primary weekMealPlanMacroBadge">
                 <h6>Carbs (g)</h6>
                 <input
                   type="number"

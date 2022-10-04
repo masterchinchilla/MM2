@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import Joi from "joi";
 import _ from "lodash";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import authService from "../services/authService";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import MealWeighting from "./MealWeighting.component";
@@ -8942,6 +8944,7 @@ export default class WeekMealPlanDetail extends Component {
       });
   };
   componentDidMount() {
+    let thisGRFUser = authService.getCurrentUser();
     let daysOfWeek = this.state.daysOfWeek;
     let mealTypes = this.state.mealTypes;
     let thisWeeksDays = this.state.thisWeeksDays;
@@ -8956,7 +8959,10 @@ export default class WeekMealPlanDetail extends Component {
         ]["_id"] = "missing" + this.getRndInteger(10000000, 99999999);
       }
     }
-    this.setState({ thisWeeksDays: thisWeeksDays });
+    this.setState({
+      thisWeeksDays: thisWeeksDays,
+      thisGRFUser: thisGRFUser.currentGRFUser,
+    });
     this.loadData();
   }
   loadData() {
