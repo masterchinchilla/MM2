@@ -1,22 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import InputWLocalStateAndValidation from "./InputWLocalStateAndValidation.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const WMPNameAndDisabledFields = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
+  const {
+    thisWeekMealPlan,
+    thisWeekMealPlanOld,
+    backEndHtmlRoot,
+    onUpdateProp,
+    onCancelEditForm,
+    onClickEditForm,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onClickCopy,
+  } = props;
   //Data Props
   ////Common Props
   const thisDayOfWeekCode = "";
   const thisMealTypeCode = "";
-  const thisWeekMealPlan = weekMealPlan.thisWeekMealPlan;
-  const thisWMPOld = weekMealPlan.thisWeekMealPlanOld.thisWMP;
+  const thisWMPOld = thisWeekMealPlanOld.thisWMP;
   const thisWMPId = thisWeekMealPlan.thisWMP._id;
-  const backEndHtmlRoot = weekMealPlan.backEndHtmlRoot;
-  const thisFormState = thisWeekMealPlan.thisFormState;
   const valErrors = thisWeekMealPlan.valErrors;
+  const thisFormState = thisWeekMealPlan.thisFormState;
   const mealIngrdntsArrayIndex = 0;
   const formGroupClasses = "form-group wmpNameFrmGroup";
   const objType = "weekMealPlan";
@@ -45,20 +52,16 @@ const WMPNameAndDisabledFields = (props) => {
       toggleSaveDisabled(false);
     }
   });
-
-  const onUpdateProp = props.onUpdateProp;
   const schema = Joi.object({
     name: Joi.string().trim().min(3).max(255).required(),
   });
-  function onCancelEditForm() {
+  function handleCancelEditForm() {
     updateName(thisWMPOld.name);
     updateNameValError(null);
     toggleNameHasDup(false);
-    props.onCancelEditForm(thisWeekMealPlan, objType);
+    onCancelEditForm(thisWeekMealPlan, objType);
   }
   return (
-    // <WeekMealPlanContext.Consumer>
-    //   {(weekMealPlanContext) => (
     <React.Fragment>
       <div
         className={
@@ -77,12 +80,12 @@ const WMPNameAndDisabledFields = (props) => {
           thisMealTypeCode={thisMealTypeCode}
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           propType={"text"}
-          backEndHtmlRoot={backEndHtmlRoot}
           objType={objType}
           propName={"name"}
           propNameSentenceCase={"Name"}
           localPropValue={name}
           valError={nameValError}
+          backEndHtmlRoot={backEndHtmlRoot}
           updateLocalPropValueFn={updateName}
           toggleNameHasDup={toggleNameHasDup}
           onUpdateProp={onUpdateProp}
@@ -95,11 +98,11 @@ const WMPNameAndDisabledFields = (props) => {
           saveDisabled={saveDisabled}
           userType={thisWeekMealPlan.userType}
           recordChanged={thisWeekMealPlan.recordChanged}
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
-          onClickCopy={props.onClickCopy}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={handleCancelEditForm}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
+          onClickCopy={onClickCopy}
         />
       </div>
       <div className="card-body wmpCardBody">
@@ -178,8 +181,6 @@ const WMPNameAndDisabledFields = (props) => {
         </div>
       </div>
     </React.Fragment>
-    //   )}
-    // </WeekMealPlanContext.Consumer>
   );
 };
 

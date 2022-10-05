@@ -1,9 +1,7 @@
-import React, { useState, useContext, Component } from "react";
+import React from "react";
 import Joi from "joi";
 import InputWSearchUnique from "./InputWSearchUnique.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const InputWLocalStateAndValidation = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
   const {
     parentObjOld,
     valSchema,
@@ -19,6 +17,7 @@ const InputWLocalStateAndValidation = (props) => {
     propNameSentenceCase,
     localPropValue,
     valError,
+    backEndHtmlRoot,
     updateLocalPropValueFn,
     toggleNameHasDup,
     onUpdateProp,
@@ -73,6 +72,7 @@ const InputWLocalStateAndValidation = (props) => {
       fieldDisabled={thisFormState === "viewing" ? true : false}
       propType={propType}
       valError={valError}
+      backEndHtmlRoot={backEndHtmlRoot}
       valErrorUpdateFn={updateValErrorFn}
       toggleNameHasDup={toggleNameHasDup}
       changeLocalPropFn={handleUpdateLocalProp}

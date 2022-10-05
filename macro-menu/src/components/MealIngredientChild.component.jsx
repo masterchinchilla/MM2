@@ -1,16 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 import EditOptions from "./EditOptions.component";
 import dayjs from "dayjs";
 
 const MealIngredientChild = (props) => {
-  const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  const thisMealIngrdntObj = props.thisMealIngrdntObj;
-  const thisObj = props.thisObj;
+  const {
+    mealIngrdntsArrayIndex,
+    thisMealIngrdntObj,
+    thisObj,
+    userType,
+    thisFormState,
+    onClickEditForm,
+    onCancelEditForm,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onUpdateProp,
+  } = props;
   const thisDayOfWeekCode = thisObj.meal.day.dayOfWeek.code;
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
-  const userType = props.userType;
-  const thisFormState = props.thisFormState;
   const recordChanged = thisMealIngrdntObj.mealIngrdntRecordChanged;
   let deleteMsg =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
@@ -28,11 +35,11 @@ const MealIngredientChild = (props) => {
           userType={userType}
           thisFormState={thisFormState}
           recordChanged={recordChanged}
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
-          onUpdateProp={props.onUpdateProp}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={onCancelEditForm}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
+          onUpdateProp={onUpdateProp}
           deleteMsg={deleteMsg}
         />
         <input
@@ -40,7 +47,7 @@ const MealIngredientChild = (props) => {
           className="form-control mlIngrdntQty"
           value={thisObj.qty}
           onChange={(e) =>
-            props.onUpdateProp(
+            onUpdateProp(
               "mealIngredient",
               thisDayOfWeekCode,
               thisMealTypeCode,

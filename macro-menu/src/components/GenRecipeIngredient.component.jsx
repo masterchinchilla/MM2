@@ -1,19 +1,26 @@
-import React, { useContext, Component } from "react";
+import React from "react";
 import EditOptions from "./EditOptions.component";
 import AsyncSearchSelectListWCreate from "./AsyncSearchSelectListWCreate.component";
 import dayjs from "dayjs";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const GenRecipeIngredient = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
-  const thisMealIngrdntObj = props.thisMealIngrdntObj;
-  const thisObj = props.thisObj;
+  const {
+    thisGRFUser,
+    thisMealIngrdntObj,
+    thisObj,
+    mealIngrdntsArrayIndex,
+    userType,
+    thisFormState,
+    onClickEditForm,
+    onCancelEditForm,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onUpdateProp,
+    onCreateRecord,
+  } = props;
   const thisObjId = thisObj._id;
   const thisMealType = thisObj.genRecipe.availableMealType.code;
   const thisDayOfWeekCode =
     thisMealIngrdntObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
-  const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
-  const userType = props.userType;
-  const thisFormState = props.thisFormState;
   const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
   const thisGenRecipeIngrdntJustCreated =
     thisMealIngrdntObj.thisGenRecipeIngrdntJustCreated;
@@ -35,10 +42,10 @@ const GenRecipeIngredient = (props) => {
           userType={userType}
           thisFormState={thisFormState}
           recordChanged={recordChanged}
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={onCancelEditForm}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
           deleteMsg={deleteMsg}
           saveMsg={saveMsg}
         />
@@ -47,7 +54,7 @@ const GenRecipeIngredient = (props) => {
           className="form-control gnRcpIngrdntQty"
           value={thisObj.defaultQty}
           onChange={(e) =>
-            props.onUpdateProp(
+            onUpdateProp(
               "genRecipeIngredient",
               thisDayOfWeekCode,
               thisMealType,
@@ -109,15 +116,15 @@ const GenRecipeIngredient = (props) => {
                 dayOfWeekCode={thisDayOfWeekCode}
                 mealTypeCode={thisMealType}
                 arrayIndex={mealIngrdntsArrayIndex}
-                onUpdateProp={props.onUpdateProp}
-                onCreateRecord={props.onCreateRecord}
+                onUpdateProp={onUpdateProp}
+                onCreateRecord={onCreateRecord}
                 thisFormState={thisFormState}
                 className="form-control form-select"
                 objType="genRecipeIngredient"
                 objTypeToChange="ingredient"
                 styleClasses=""
                 url="http://localhost:5000/ingredients/ingredientsByName/"
-                thisGRFUser={weekMealPlan.thisGRFUser}
+                thisGRFUser={thisGRFUser}
               />
             </div>
             <div className="form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng">

@@ -1,14 +1,19 @@
-import React, { useState, useContext, Component } from "react";
+import React, { useState } from "react";
 import _ from "lodash";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import InputWLocalStateAndValidation from "./InputWLocalStateAndValidation.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const GenRecipe = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
-  const { mealStateObj, onClickEditForm, thisMealStateObjOld, onUpdateProp } =
-    props;
+  const {
+    mealStateObj,
+    onClickEditForm,
+    thisMealStateObjOld,
+    backEndHtmlRoot,
+    onUpdateProp,
+    onSaveFormChanges,
+    onCancelEditForm,
+  } = props;
   const recordChanged = mealStateObj.genRecipeRecordChanged;
   const thisMeal = mealStateObj.thisMeal;
   const thisObj = thisMeal.genRecipe;
@@ -24,9 +29,6 @@ const GenRecipe = (props) => {
     thisObj.defaultPrepInstructions
   );
   const [name, updateName] = useState(thisObj.name);
-  const [origPrepInst, setOrigPrepInst] = useState(
-    thisObj.defaultPrepInstructions
-  );
   const [saveDisabled, toggleSaveDisabled] = useState(false);
   const [nameValError, updateNameValError] = useState(null);
   const schema = Joi.object({
@@ -40,7 +42,7 @@ const GenRecipe = (props) => {
   const handleSaveRecipeChange = (parentObj, objType) => {
     const newMealStateObj = _.cloneDeep(mealStateObj);
     newMealStateObj.thisMeal.genRecipe.defaultPrepInstructions = prepInstr;
-    props.onSaveFormChanges(newMealStateObj, objType);
+    onSaveFormChanges(newMealStateObj, objType);
   };
   const handleClickDelete = (thisObj, stateObj) => {
     if (thisRecipesIngrdnts.length === 0) {
@@ -52,14 +54,14 @@ const GenRecipe = (props) => {
   const handleDeleteGenRecipe = () => {
     console.log("Base Recipe Deleted");
   };
-  function onCancelEditForm() {
+  function handleCancelEditForm() {
     updateName(thisMealStateObjOld.thisMeal.genRecipe.name);
     updatePrepInstr(
       thisMealStateObjOld.thisMeal.genRecipe.defaultPrepInstructions
     );
     updateNameValError(null);
     toggleSaveDisabled(false);
-    props.onCancelEditForm(mealStateObj, "genRecipe");
+    onCancelEditForm(mealStateObj, "genRecipe");
   }
   const deleteMsg = "Are you sure you want to delete this Base Recipe?";
   return (
@@ -105,7 +107,7 @@ const GenRecipe = (props) => {
               userType={userType}
               recordChanged={recordChanged}
               onClickEditForm={onClickEditForm}
-              onCancelEditForm={onCancelEditForm}
+              onCancelEditForm={handleCancelEditForm}
               onSaveFormChanges={handleSaveRecipeChange}
               onDelete={handleClickDelete}
               deleteMsg={deleteMsg}
@@ -176,8 +178,9 @@ const GenRecipe = (props) => {
                     propNameSentenceCase={"Name"}
                     localPropValue={name}
                     valError={nameValError}
+                    backEndHtmlRoot={backEndHtmlRoot}
                     updateLocalPropValueFn={updateName}
-                    toggleSaveDisabledFn={toggleSaveDisabled}
+                    toggleNameHasDup={toggleNameHasDup}
                     onUpdateProp={onUpdateProp}
                     updateValErrorFn={updateNameValError}
                   />
@@ -189,7 +192,7 @@ const GenRecipe = (props) => {
                     type="text"
                     disabled={thisFormState === "viewing" ? true : false}
                     onChange={(e) =>
-                      props.onUpdateProp(
+                      onUpdateProp(
                         "genRecipe",
                         thisDayOfWeekCode,
                         thisMealTypeCode,

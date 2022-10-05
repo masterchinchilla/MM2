@@ -1,16 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import MealIngredientChild from "./MealIngredientChild.component";
 import GenRecipeIngredient from "./GenRecipeIngredient.component";
 import Ingredient from "./Ingredient.component";
 const MealIngredientParent = (props) => {
-  const thisMealIngrdntObj = props.thisMealIngrdntObj;
+  const {
+    thisMealIngrdntObj,
+    thisRecipesIngrdnts,
+    mealIngrdntsArrayIndex,
+    onClickEditForm,
+    onCancelEditForm,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onUpdateProp,
+    onCreateRecord,
+    thisMealTypesRecipes,
+    thisMealIngrdntStateObjOld,
+    thisGRFUser,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+    backEndHtmlRoot,
+  } = props;
   const thisObj = thisMealIngrdntObj.thisMealIngrdnt;
   const thisObjId = thisObj._id;
   const thisMealTypeCode = thisObj.meal.mealType.code;
   const thisGenRecipeIngrdnt = thisObj.genRecipeIngredient;
-  const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   const thisIngredient = thisGenRecipeIngrdnt.ingredient;
-  const mealIngrdntsArrayIndex = props.mealIngrdntsArrayIndex;
   //Form States
   const thisMealIngrdntFormState = thisMealIngrdntObj.thisMealIngrdntFormState;
   const thisGenRecipeIngrdntFormState =
@@ -38,11 +53,11 @@ const MealIngredientParent = (props) => {
           thisObj={thisObj}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
           //Methods
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
-          onUpdateProp={props.onUpdateProp}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={onCancelEditForm}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
+          onUpdateProp={onUpdateProp}
         />
         <GenRecipeIngredient
           //Specific Props
@@ -50,7 +65,7 @@ const MealIngredientParent = (props) => {
           key={thisGenRecipeIngrdnt._id}
           userType={thisGenRecipeIngrdntUserType}
           thisFormState={thisGenRecipeIngrdntFormState}
-          thisMealTypesRecipes={props.thisMealTypesRecipes}
+          thisMealTypesRecipes={thisMealTypesRecipes}
           thisMealTypeCode={thisMealTypeCode}
           //Methods
           //Common Props
@@ -58,13 +73,14 @@ const MealIngredientParent = (props) => {
           mealIngrdntsArrayIndex={mealIngrdntsArrayIndex}
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisGenRecipeIngrdnt}
+          thisGRFUser={thisGRFUser}
           //Methods
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
-          onUpdateProp={props.onUpdateProp}
-          onCreateRecord={props.onCreateRecord}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={onCancelEditForm}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
+          onUpdateProp={onUpdateProp}
+          onCreateRecord={onCreateRecord}
         />
       </div>
       <div className="mlIngrdntCrdBttmSctn">
@@ -74,7 +90,6 @@ const MealIngredientParent = (props) => {
           key={thisIngredient._id}
           userType={thisIngrdntUserType}
           thisFormState={thisIngrdntFormState}
-          thisMealTypeCode={thisMealTypeCode}
           //Methods
           //Common Props
           //Data
@@ -82,16 +97,21 @@ const MealIngredientParent = (props) => {
           thisMealIngrdntObj={thisMealIngrdntObj}
           thisObj={thisIngredient}
           thisIngrdntOld={
-            props.thisMealIngrdntStateObjOld.thisMealIngrdnt.genRecipeIngredient
+            thisMealIngrdntStateObjOld.thisMealIngrdnt.genRecipeIngredient
               .ingredient
           }
+          thisGRFUser={thisGRFUser}
+          allUnitOfMeasures={allUnitOfMeasures}
+          allWeightTypes={allWeightTypes}
+          allBrands={allBrands}
+          backEndHtmlRoot={backEndHtmlRoot}
           //Methods
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
-          onUpdateProp={props.onUpdateProp}
-          onCreateRecord={props.onCreateRecord}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={onCancelEditForm}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
+          onUpdateProp={onUpdateProp}
+          onCreateRecord={onCreateRecord}
         />
       </div>
     </div>

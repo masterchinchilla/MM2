@@ -1,11 +1,12 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import WMPNameAndDisabledFields from "./WMPNameAndDisabledFields.component";
 import MacroBudget from "./MacroBudget.component";
 import MealWeighting from "./MealWeighting.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const WMPForm = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
   const {
+    thisWeekMealPlan,
+    thisWeekMealPlanOld,
+    backEndHtmlRoot,
     onUpdateProp,
     onClickEditForm,
     onCancelEditForm,
@@ -15,7 +16,6 @@ const WMPForm = (props) => {
     toggleRecordChanged,
     onUpdateWeights,
   } = props;
-  const thisWeekMealPlan = weekMealPlan.thisWeekMealPlan;
   const thisWMP = thisWeekMealPlan.thisWMP;
   const thisWMPId = thisWMP._id;
   return (
@@ -28,6 +28,9 @@ const WMPForm = (props) => {
       <div className="accordion-body accrdnWMPDetailsBdy">
         <form className="card">
           <WMPNameAndDisabledFields
+            thisWeekMealPlan={thisWeekMealPlan}
+            thisWeekMealPlanOld={thisWeekMealPlanOld}
+            backEndHtmlRoot={backEndHtmlRoot}
             onUpdateProp={onUpdateProp}
             onClickEditForm={onClickEditForm}
             onCancelEditForm={onCancelEditForm}
@@ -36,7 +39,10 @@ const WMPForm = (props) => {
             onClickCopy={onClickCopy}
             toggleRecordChanged={toggleRecordChanged}
           />
-          <MacroBudget onUpdateProp={onUpdateProp} />
+          <MacroBudget
+            thisWeekMealPlan={thisWeekMealPlan}
+            onUpdateProp={onUpdateProp}
+          />
           <div className="card weekMealPlanFormCards mt-3 mb-3">
             <div className="card-header">
               <h2 className="card-title">Meal Macro Weighting</h2>

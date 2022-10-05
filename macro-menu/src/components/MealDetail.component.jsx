@@ -8,9 +8,27 @@ import MacrosTable from "./MacrosTable.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
 import WeekMealPlanContext from "./WeekMealPlanContext";
 const MealDetail = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
-  const thisStateObj = props.thisStateObj;
-  const thisGRFUser = weekMealPlan.thisGRFUser;
+  const {
+    thisStateObj,
+    thisGRFUser,
+    thisRecipesIngrdnts,
+    thisMealTypesRecipes,
+    thisMealWeight,
+    backEndHtmlRoot,
+    thisMealStateObjOld,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+    onClickEditForm,
+    onCancelEditForm,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onUpdateProp,
+    onCreateRecord,
+    populateNewMealIngredients,
+    macrosBudget,
+    toggleRecordChanged,
+  } = props;
   const userCanEditRecipe =
     thisStateObj.thisGenRecipeUserType === "author" ||
     thisStateObj.thisGenRecipeUserType === "admin"
@@ -25,15 +43,10 @@ const MealDetail = (props) => {
   const thisObjId = thisObj._id;
   const mealsIngrdnts = thisStateObj.thisMealsIngrdnts;
   const nestedMealIngrdntArray = [mealsIngrdnts];
-  const thisRecipesIngrdnts = props.thisRecipesIngrdnts;
   let allowPopulateIngrdnts =
     mealsIngrdnts.length < 1 && thisRecipesIngrdnts > 0 ? true : false;
-  const thisMealTypesRecipes = props.thisMealTypesRecipes;
-  const thisMealWeight = props.thisMealWeight;
   const mealFormState = thisStateObj.thisMealFormState;
   const mealUserType = thisStateObj.thisMealUserType;
-  const backEndHtmlRoot = weekMealPlan.backEndHtmlRoot;
-  const thisMealStateObjOld = props.thisMealStateObjOld;
   const defaultIngredient = {
     _id: "627b329721ff100fa01edcaf",
     name: "",
@@ -56,7 +69,7 @@ const MealDetail = (props) => {
             //Specific Props
             //Data
             key={"mealIngrdntParent" + mealIngredient.thisMealIngrdnt._id}
-            thisMealTypesRecipes={props.thisMealTypesRecipes}
+            thisMealTypesRecipes={thisMealTypesRecipes}
             //Methods
             //Common Props
             //Data
@@ -65,9 +78,9 @@ const MealDetail = (props) => {
             mealIngrdntsArrayIndex={index}
             backEndHtmlRoot={backEndHtmlRoot}
             thisRecipesIngrdnts={thisRecipesIngrdnts}
-            allUnitOfMeasures={weekMealPlan.allUnitOfMeasures}
-            allWeightTypes={weekMealPlan.allWeightTypes}
-            allBrands={weekMealPlan.allBrands}
+            allUnitOfMeasures={allUnitOfMeasures}
+            allWeightTypes={allWeightTypes}
+            allBrands={allBrands}
             thisMealIngrdntStateObjOld={
               thisMealStateObjOld.thisMealsIngrdnts[index]
                 ? thisMealStateObjOld.thisMealsIngrdnts[index]
@@ -82,12 +95,12 @@ const MealDetail = (props) => {
                   }
             }
             //Methods
-            onClickEditForm={props.onClickEditForm}
-            onCancelEditForm={props.onCancelEditForm}
-            onSaveFormChanges={props.onSaveFormChanges}
-            onDeleteRecord={props.onDeleteRecord}
-            onUpdateProp={props.onUpdateProp}
-            onCreateRecord={props.onCreateRecord}
+            onClickEditForm={onClickEditForm}
+            onCancelEditForm={onCancelEditForm}
+            onSaveFormChanges={onSaveFormChanges}
+            onDeleteRecord={onDeleteRecord}
+            onUpdateProp={onUpdateProp}
+            onCreateRecord={onCreateRecord}
           />
         );
       });
@@ -106,7 +119,7 @@ const MealDetail = (props) => {
                 type="submit"
                 className="btn btn-primary"
                 onClick={() => {
-                  props.populateNewMealIngredients(
+                  populateNewMealIngredients(
                     thisStateObj.thisGenRecipeUserType,
                     dayOfWeek.code,
                     thisMealTypeCode,
@@ -163,7 +176,7 @@ const MealDetail = (props) => {
             key={"MTbleForMeal" + thisObjId}
             thisMealWeight={thisMealWeight}
             tableType={"Meal Macros"}
-            macrosBudget={props.macrosBudget}
+            macrosBudget={macrosBudget}
             theseIngrdnts={nestedMealIngrdntArray}
           />
         </StickyBox>
@@ -178,10 +191,10 @@ const MealDetail = (props) => {
                   objType={"meal"}
                   userType={mealUserType}
                   thisFormState={mealFormState}
-                  onSaveFormChanges={props.onSaveFormChanges}
-                  onClickEditForm={props.onClickEditForm}
-                  onCancelEditForm={props.onCancelEditForm}
-                  onDeleteRecord={props.onDeleteRecord}
+                  onSaveFormChanges={onSaveFormChanges}
+                  onClickEditForm={onClickEditForm}
+                  onCancelEditForm={onCancelEditForm}
+                  onDeleteRecord={onDeleteRecord}
                   recordChanged={recordChanged}
                   deleteMsg={deleteMsg}
                 />
@@ -200,13 +213,13 @@ const MealDetail = (props) => {
                   dayOfWeekCode={dayOfWeek.code}
                   mealType={thisObj.mealType}
                   arrayIndex={0}
-                  onUpdateProp={props.onUpdateProp}
+                  onUpdateProp={onUpdateProp}
                   thisFormState={mealFormState}
                   objType="meal"
                   objTypeToChange="genRecipe"
                   options={thisMealTypesRecipes}
                   thisGRFUser={thisGRFUser}
-                  onCreateRecord={props.onCreateRecord}
+                  onCreateRecord={onCreateRecord}
                   styleClasses="recipeSelect"
                 />
                 {thisStateObj.userChangedThisMealsRecipe === true &&
@@ -297,13 +310,14 @@ const MealDetail = (props) => {
             thisMealStateObjOld={thisMealStateObjOld}
             thisMealTypesRecipes={thisMealTypesRecipes}
             ///Common Props
+            backEndHtmlRoot={backEndHtmlRoot}
             //Methods
-            onClickEditForm={props.onClickEditForm}
-            onCancelEditForm={props.onCancelEditForm}
-            onSaveFormChanges={props.onSaveFormChanges}
-            onDeleteRecord={props.onDeleteRecord}
-            onUpdateProp={props.onUpdateProp}
-            toggleRecordChanged={props.toggleRecordChanged}
+            onClickEditForm={onClickEditForm}
+            onCancelEditForm={onCancelEditForm}
+            onSaveFormChanges={onSaveFormChanges}
+            onDeleteRecord={onDeleteRecord}
+            onUpdateProp={onUpdateProp}
+            toggleRecordChanged={toggleRecordChanged}
           />
           <h5 className="mealIngdntsHdr">Meal Ingredients</h5>
           <div className="mlIngrdntsCntnr">{renderMealIngrdnts()}</div>
@@ -313,7 +327,7 @@ const MealDetail = (props) => {
                 type="submit"
                 className="btn btn-primary"
                 onClick={() => {
-                  props.onCreateRecord(
+                  onCreateRecord(
                     "genRecipeIngredient",
                     dayOfWeek.code,
                     thisMealTypeCode,

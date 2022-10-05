@@ -1,9 +1,7 @@
-import React, { useState, useContext, Component } from "react";
-import WeekMealPlanContext from "./WeekMealPlanContext";
+import React from "react";
 import Input from "./Input.component";
 const MacroBudget = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
-  const thisWeekMealPlan = weekMealPlan.thisWeekMealPlan;
+  const { thisWeekMealPlan, onUpdateProp } = props;
   const thisFormState = thisWeekMealPlan.thisFormState;
   const thisWMP = thisWeekMealPlan.thisWMP;
   const thisWMPId = thisWMP._id;
@@ -12,7 +10,6 @@ const MacroBudget = (props) => {
   const proteinBudget = thisWMP.proteinBudget;
   const fatBudget = thisWMP.fatBudget;
   const fiberBudget = thisWMP.fiberBudget;
-  const onUpdateProp = props.onUpdateProp;
   return (
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
@@ -135,117 +132,6 @@ const MacroBudget = (props) => {
                 valError={thisWeekMealPlan.valErrors.fiberBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
               />
-              {/* <div className="badge bg-primary weekMealPlanMacroBadge">
-                <h6>Calories (g)</h6>
-                <input
-                  type="number"
-                  className="form-control weekMealPlanMacroInput"
-                  placeholder="2000.00"
-                  value={calsBudget}
-                  onChange={(e) => {
-                    onUpdateProp(
-                      "weekMealPlan",
-                      "",
-                      "",
-                      "calsBudget",
-                      0,
-                      "number",
-                      e,
-                      [],
-                      "float"
-                    );
-                  }}
-                  disabled={thisFormState == "viewing" ? true : false}
-                ></input>
-              </div>
-              <div className="badge bg-primary weekMealPlanMacroBadge">
-                <h6>Carbs (g)</h6>
-                <input
-                  type="number"
-                  className="form-control weekMealPlanMacroInput"
-                  placeholder="400.00"
-                  value={carbsBudget}
-                  onChange={(e) => {
-                    onUpdateProp(
-                      "weekMealPlan",
-                      "",
-                      "",
-                      "carbsBudget",
-                      0,
-                      "number",
-                      e,
-                      []
-                    );
-                  }}
-                  disabled={thisFormState === "viewing" ? true : false}
-                ></input>
-              </div>
-              <div className="badge bg-primary weekMealPlanMacroBadge">
-                <h6>Protein (g)</h6>
-                <input
-                  type="number"
-                  className="form-control weekMealPlanMacroInput"
-                  placeholder="300"
-                  value={proteinBudget}
-                  onChange={(e) => {
-                    onUpdateProp(
-                      "weekMealPlan",
-                      "",
-                      "",
-                      "proteinBudget",
-                      0,
-                      "number",
-                      e,
-                      []
-                    );
-                  }}
-                  disabled={thisFormState === "viewing" ? true : false}
-                ></input>
-              </div>
-              <div className="badge bg-primary weekMealPlanMacroBadge">
-                <h6>Fat (g)</h6>
-                <input
-                  type="number"
-                  className="form-control weekMealPlanMacroInput"
-                  placeholder="100"
-                  value={fatBudget}
-                  onChange={(e) => {
-                    onUpdateProp(
-                      "weekMealPlan",
-                      "",
-                      "",
-                      "fatBudget",
-                      0,
-                      "number",
-                      e,
-                      []
-                    );
-                  }}
-                  disabled={thisFormState === "viewing" ? true : false}
-                ></input>
-              </div>
-              <div className="badge bg-primary weekMealPlanMacroBadge">
-                <h6>Fiber (g)</h6>
-                <input
-                  type="number"
-                  className="form-control weekMealPlanMacroInput"
-                  placeholder="40"
-                  value={fiberBudget}
-                  onChange={(e) => {
-                    onUpdateProp(
-                      "weekMealPlan",
-                      "",
-                      "",
-                      "fiberBudget",
-                      0,
-                      "number",
-                      e,
-                      []
-                    );
-                  }}
-                  disabled={thisFormState === "viewing" ? true : false}
-                ></input>
-              </div> */}
             </div>
           </div>
         </div>

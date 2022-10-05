@@ -1,26 +1,28 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EditOptions = (props) => {
+  const {
+    parentObj,
+    objType,
+    userType,
+    thisFormState,
+    saveDisabled,
+    hasChildren,
+    deleteChildrenWarning,
+    onSaveFormChanges,
+    onClickCopy,
+    onClickEditForm,
+    onDeleteRecord,
+    deleteMsg,
+    onCancelEditForm,
+    recordChanged,
+    saveMsg,
+  } = props;
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   const [hideCancelWarning, toggleHideCancelWarning] = useState(true);
   const [hideSaveWarning, toggleHideSaveWarning] = useState(true);
   const [hideDeleteBlock, toggleHideDeleteBlock] = useState(true);
-  const parentObj = props.parentObj;
-  const objType = props.objType;
-  const userType = props.userType;
-  const thisFormState = props.thisFormState;
-  const saveDisabled = props.saveDisabled;
-  const hasChildren = props.hasChildren;
-  const deleteChildrenWarning = props.deleteChildrenWarning;
-  const onSaveFormChanges = props.onSaveFormChanges;
-  const onClickCopy = props.onClickCopy;
-  const onClickEditForm = props.onClickEditForm;
-  const onDeleteRecord = props.onDeleteRecord;
-  const deleteMsg = props.deleteMsg;
-  const onCancelEditForm = props.onCancelEditForm;
-  const recordChanged = props.recordChanged;
-  const saveMsg = props.saveMsg;
   const lifeCycleStages = [
     "viewing",
     "editingOrig",

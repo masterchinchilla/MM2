@@ -1,22 +1,29 @@
-import React, { useState, useContext, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
 import Input from "./Input.component";
 import InputWLocalStateAndValidation from "./InputWLocalStateAndValidation.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const Ingredient = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
   const {
+    thisGRFUser,
     userType,
     thisFormState,
-    // thisMealTypeCode,
     mealIngrdntsArrayIndex,
     thisMealIngrdntObj,
     thisObj,
     thisIngrdntOld,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+    backEndHtmlRoot,
     onUpdateProp,
+    onCancelEditForm,
+    onClickEditForm,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onCreateRecord,
   } = props;
   const thisMealType = thisMealIngrdntObj.thisMealIngrdnt.meal.mealType;
   const thisMealTypeCode = thisMealType.code;
@@ -31,11 +38,12 @@ const Ingredient = (props) => {
   let thisUOMObj;
   let thisWeightTypeObj;
   const [name, updateName] = useState(
-    weekMealPlan.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
-      thisMealTypeCode
-    ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex]["thisMealIngrdnt"][
-      "genRecipeIngredient"
-    ]["ingredient"]["name"]
+    thisObj.name
+    // weekMealPlan.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+    //   thisMealTypeCode
+    // ]["thisMealsIngrdnts"][mealIngrdntsArrayIndex]["thisMealIngrdnt"][
+    //   "genRecipeIngredient"
+    // ]["ingredient"]["name"]
   );
   const [nameValError, updateNameValError] = useState(null);
   const [origName, setOrigName] = useState(thisObj.name);
@@ -90,11 +98,11 @@ const Ingredient = (props) => {
   const schema = Joi.object({
     name: Joi.string().trim().min(3).max(255).required(),
   });
-  function onCancelEditForm() {
+  function handleCancelEditForm() {
     updateName(origName);
     updateNameValError(null);
     toggleNameHasDup(false);
-    props.onCancelEditForm(thisMealIngrdntObj, objType);
+    onCancelEditForm(thisMealIngrdntObj, objType);
   }
   return (
     <form
@@ -115,10 +123,10 @@ const Ingredient = (props) => {
           thisFormState={thisFormState}
           saveDisabled={saveDisabled}
           recordChanged={recordChanged}
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={onCancelEditForm}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={handleCancelEditForm}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
           deleteMsg={deleteMsg}
           saveMsg={saveMsg}
         />
@@ -130,13 +138,13 @@ const Ingredient = (props) => {
             dayOfWeekCode={thisDayOfWeekCode}
             mealType={thisMealType}
             arrayIndex={mealIngrdntsArrayIndex}
-            onUpdateProp={props.onUpdateProp}
+            onUpdateProp={onUpdateProp}
             thisFormState={thisFormState}
             objType="ingredient"
             objTypeToChange="unitOfMeasure"
-            options={weekMealPlan.allUnitOfMeasures}
-            thisGRFUser={weekMealPlan.thisGRFUser}
-            onCreateRecord={props.onCreateRecord}
+            options={allUnitOfMeasures}
+            thisGRFUser={thisGRFUser}
+            onCreateRecord={onCreateRecord}
             styleClasses="recipeSelect"
           />
         </div>
@@ -148,13 +156,13 @@ const Ingredient = (props) => {
             dayOfWeekCode={thisDayOfWeekCode}
             mealType={thisMealType}
             arrayIndex={mealIngrdntsArrayIndex}
-            onUpdateProp={props.onUpdateProp}
+            onUpdateProp={onUpdateProp}
             thisFormState={thisFormState}
             objType="ingredient"
             objTypeToChange="weightType"
-            options={weekMealPlan.allWeightTypes}
-            thisGRFUser={weekMealPlan.thisGRFUser}
-            onCreateRecord={props.onCreateRecord}
+            options={allWeightTypes}
+            thisGRFUser={thisGRFUser}
+            onCreateRecord={onCreateRecord}
             styleClasses="recipeSelect"
           />
         </div>
@@ -178,13 +186,13 @@ const Ingredient = (props) => {
             dayOfWeekCode={thisDayOfWeekCode}
             mealType={thisMealType}
             arrayIndex={mealIngrdntsArrayIndex}
-            onUpdateProp={props.onUpdateProp}
+            onUpdateProp={onUpdateProp}
             thisFormState={thisFormState}
             objType="ingredient"
             objTypeToChange="brand"
-            options={weekMealPlan.allBrands}
-            thisGRFUser={weekMealPlan.thisGRFUser}
-            onCreateRecord={props.onCreateRecord}
+            options={allBrands}
+            thisGRFUser={thisGRFUser}
+            onCreateRecord={onCreateRecord}
             styleClasses="recipeSelect"
           />
         </div>
@@ -205,6 +213,7 @@ const Ingredient = (props) => {
           propNameSentenceCase={"Name"}
           localPropValue={name}
           valError={nameValError}
+          backEndHtmlRoot={backEndHtmlRoot}
           updateLocalPropValueFn={updateName}
           toggleNameHasDup={toggleNameHasDup}
           onUpdateProp={onUpdateProp}
@@ -245,7 +254,7 @@ const Ingredient = (props) => {
               label="Calories"
               propType="number"
               propValue={thisObj.calories}
-              onUpdateProp={props.onUpdateProp}
+              onUpdateProp={onUpdateProp}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -263,7 +272,7 @@ const Ingredient = (props) => {
               label="Carbs"
               propType="number"
               propValue={thisObj.carbs}
-              onUpdateProp={props.onUpdateProp}
+              onUpdateProp={onUpdateProp}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -280,7 +289,7 @@ const Ingredient = (props) => {
               label="Protein"
               propType="number"
               propValue={thisObj.protein}
-              onUpdateProp={props.onUpdateProp}
+              onUpdateProp={onUpdateProp}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -297,7 +306,7 @@ const Ingredient = (props) => {
               label="Fat"
               propType="number"
               propValue={thisObj.fat}
-              onUpdateProp={props.onUpdateProp}
+              onUpdateProp={onUpdateProp}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -314,7 +323,7 @@ const Ingredient = (props) => {
               label="Fiber"
               propType="number"
               propValue={thisObj.fiber}
-              onUpdateProp={props.onUpdateProp}
+              onUpdateProp={onUpdateProp}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -331,7 +340,7 @@ const Ingredient = (props) => {
               label="Photo URL"
               propType="text"
               propValue={thisObj.photoURL}
-              onUpdateProp={props.onUpdateProp}
+              onUpdateProp={onUpdateProp}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -343,132 +352,6 @@ const Ingredient = (props) => {
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.photoURL}
             />
-            {/* <div className="form-group mealIngrdntInputs">
-              <label>Calories</label>
-              <input
-                type={"number"}
-                className="form-control"
-                value={thisObj.calories}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "ingredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "calories",
-                    mealIngrdntsArrayIndex,
-                    "number",
-                    e,
-                    []
-                  )
-                }
-                disabled={thisFormState === "viewing" ? true : false}
-              />
-            </div> */}
-            {/* <div className="form-group mealIngrdntInputs">
-              <label>Carbs</label>
-              <input
-                type={"number"}
-                className="form-control"
-                value={thisObj.carbs}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "ingredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "carbs",
-                    mealIngrdntsArrayIndex,
-                    "number",
-                    e,
-                    []
-                  )
-                }
-                disabled={thisFormState === "viewing" ? true : false}
-              />
-            </div> */}
-            {/* <div className="form-group mealIngrdntInputs">
-              <label>Protein</label>
-              <input
-                type={"number"}
-                className="form-control"
-                value={thisObj.protein}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "ingredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "protein",
-                    mealIngrdntsArrayIndex,
-                    "number",
-                    e,
-                    []
-                  )
-                }
-                disabled={thisFormState === "viewing" ? true : false}
-              />
-            </div> */}
-            {/* <div className="form-group mealIngrdntInputs">
-              <label>Fat</label>
-              <input
-                type={"number"}
-                className="form-control"
-                value={thisObj.fat}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "ingredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "fat",
-                    mealIngrdntsArrayIndex,
-                    "number",
-                    e,
-                    []
-                  )
-                }
-                disabled={thisFormState === "viewing" ? true : false}
-              />
-            </div> */}
-            {/* <div className="form-group mealIngrdntInputs">
-              <label>Fiber</label>
-              <input
-                type={"number"}
-                className="form-control"
-                value={thisObj.fiber}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "ingredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "fiber",
-                    mealIngrdntsArrayIndex,
-                    "number",
-                    e,
-                    []
-                  )
-                }
-                disabled={thisFormState === "viewing" ? true : false}
-              />
-            </div> */}
-            {/* <div className="form-group mealIngrdntInputs">
-              <label>Photo URL</label>
-              <input
-                type={"text"}
-                className="form-control"
-                value={thisObj.photoURL}
-                onChange={(e) =>
-                  props.onUpdateProp(
-                    "ingredient",
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    "photoURL",
-                    mealIngrdntsArrayIndex,
-                    "text",
-                    e,
-                    []
-                  )
-                }
-                disabled={thisFormState === "viewing" ? true : false}
-              />
-            </div> */}
           </div>
           <div
             className="accordion accordion-flush ingrdntAdminMenu"

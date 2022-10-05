@@ -1,8 +1,6 @@
 import React, { useState, useContext, Component } from "react";
 import httpService from "../services/httpService";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const InputWSearchUnique = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
   const {
     formGroupClasses,
     label,
@@ -14,6 +12,7 @@ const InputWSearchUnique = (props) => {
     fieldDisabled,
     propType,
     valError,
+    backEndHtmlRoot,
     valErrorUpdateFn,
     toggleNameHasDup,
     changeLocalPropFn,
@@ -36,11 +35,7 @@ const InputWSearchUnique = (props) => {
       if (origPropValue !== trimmedWNoDblSpcs) {
         if (trimmedWNoDblSpcs) {
           httpService
-            .get(
-              weekMealPlan.backEndHtmlRoot +
-                `${objType}s/findbyname/` +
-                valueForSearch
-            )
+            .get(backEndHtmlRoot + `${objType}s/findbyname/` + valueForSearch)
             .then((response) => {
               if (response.data === "exists") {
                 toggleNameHasDup(true);

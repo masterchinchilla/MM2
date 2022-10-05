@@ -1,19 +1,35 @@
-import React, { useContext, Component } from "react";
+import React from "react";
 import dayjs from "dayjs";
 import StickyBox from "react-sticky-box";
 import EditOptions from "./EditOptions.component";
 import MacrosTable from "./MacrosTable.component";
 import CreateMeal from "./CreateMeal.component";
 import MealDetail from "./MealDetail.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const DayDetail = (props) => {
-  const weekMealPlan = useContext(WeekMealPlanContext);
-  const backEndHtmlRoot = weekMealPlan.backEndHtmlRoot;
-  const hasChildren = props.hasChildren;
-  const thisGRFUser = weekMealPlan.thisGRFUser;
-  const thisWMP = weekMealPlan.thisWeekMealPlan.thisWMP;
-  const thisStateObj = props.thisStateObj;
-  const mealTypes = weekMealPlan.mealTypes;
+  const {
+    hasChildren,
+    thisGRFUser,
+    thisWeekMealPlan,
+    thisStateObj,
+    mealTypes,
+    getRndInteger,
+    allGenRecipes,
+    populateNewMealIngredients,
+    onChangeMealRecipe,
+    thisDayStateObjOld,
+    onClickEditForm,
+    onCancelEditForm,
+    onCreateRecord,
+    onSaveFormChanges,
+    onDeleteRecord,
+    onUpdateProp,
+    toggleRecordChanged,
+    backEndHtmlRoot,
+    allBrands,
+    allWeightTypes,
+    allUnitOfMeasures,
+  } = props;
+  const thisWMP = thisWeekMealPlan.thisWMP;
   const thisObj = thisStateObj.thisDay;
   const thisDaysMeals = thisStateObj.thisDaysMeals;
   const thisObjId = thisObj._id;
@@ -63,8 +79,8 @@ const DayDetail = (props) => {
           <CreateMeal
             key={thisMealObjsId}
             thisStateObj={thisMealStateObj}
-            onCreateRecord={props.onCreateRecord}
-            getRndInteger={props.getRndInteger}
+            onCreateRecord={onCreateRecord}
+            getRndInteger={getRndInteger}
           />
         );
       } else {
@@ -77,7 +93,7 @@ const DayDetail = (props) => {
         );
       }
     } else {
-      let thisMealTypesRecipes = weekMealPlan.allGenRecipes.filter(
+      let thisMealTypesRecipes = allGenRecipes.filter(
         (genRecipe) => genRecipe.availableMealType.code === thisMealTypeCode
       );
       let thisMealWeight = thisWMP[`${mealType.code}Weight`];
@@ -94,25 +110,30 @@ const DayDetail = (props) => {
           macrosBudget={macrosBudget}
           thisMealWeight={thisMealWeight}
           //Methods
-          populateNewMealIngredients={props.populateNewMealIngredients}
-          onChangeMealRecipe={props.onChangeMealRecipe}
+          populateNewMealIngredients={populateNewMealIngredients}
+          onChangeMealRecipe={onChangeMealRecipe}
           ///Common Props
           //Data
           thisStateObj={thisMealStateObj}
+          thisGRFUser={thisGRFUser}
           hasChildren={mealHasChildren}
           thisMealTypesRecipes={thisMealTypesRecipes}
           thisRecipesIngrdnts={thisRecipesIngrdnts}
           thisMealStateObjOld={
-            props.thisDayStateObjOld.thisDaysMeals[thisMealTypeCode]
+            thisDayStateObjOld.thisDaysMeals[thisMealTypeCode]
           }
+          backEndHtmlRoot={backEndHtmlRoot}
+          allUnitOfMeasures={allUnitOfMeasures}
+          allWeightTypes={allWeightTypes}
+          allBrands={allBrands}
           //Methods
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
-          onCreateRecord={props.onCreateRecord}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onDeleteRecord={props.onDeleteRecord}
-          onUpdateProp={props.onUpdateProp}
-          toggleRecordChanged={props.toggleRecordChanged}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={onCancelEditForm}
+          onCreateRecord={onCreateRecord}
+          onSaveFormChanges={onSaveFormChanges}
+          onDeleteRecord={onDeleteRecord}
+          onUpdateProp={onUpdateProp}
+          toggleRecordChanged={toggleRecordChanged}
         />
       );
     }
@@ -129,10 +150,10 @@ const DayDetail = (props) => {
           recordChanged={recordChanged}
           hasChildren={hasChildren}
           deleteChildrenWarning={deleteChildrenWarning}
-          onSaveFormChanges={props.onSaveFormChanges}
-          onClickEditForm={props.onClickEditForm}
-          onCancelEditForm={props.onCancelEditForm}
-          onDeleteRecord={props.onDeleteRecord}
+          onSaveFormChanges={onSaveFormChanges}
+          onClickEditForm={onClickEditForm}
+          onCancelEditForm={onCancelEditForm}
+          onDeleteRecord={onDeleteRecord}
           deleteMsg={deleteMsg}
         />
       </div>
