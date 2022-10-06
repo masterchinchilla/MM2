@@ -283,6 +283,7 @@ const Ingredient = (props) => {
               propTypeForVal="float"
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.carbs}
+              inputClasses="form-control"
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -300,6 +301,7 @@ const Ingredient = (props) => {
               propTypeForVal="float"
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.protein}
+              inputClasses="form-control"
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -317,6 +319,7 @@ const Ingredient = (props) => {
               propTypeForVal="float"
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.fat}
+              inputClasses="form-control"
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -334,6 +337,7 @@ const Ingredient = (props) => {
               propTypeForVal="float"
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.fiber}
+              inputClasses="form-control"
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -351,6 +355,7 @@ const Ingredient = (props) => {
               propTypeForVal="url"
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.photoURL}
+              inputClasses="form-control"
             />
           </div>
           <div

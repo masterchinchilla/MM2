@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import Joi from "joi";
 import dayjs from "dayjs";
 import EditOptions from "./EditOptions.component";
 import InputWLocalStateAndValidation from "./InputWLocalStateAndValidation.component";
+import Input from "./Input.component";
 const GenRecipe = (props) => {
   const {
     mealStateObj,
@@ -24,13 +25,22 @@ const GenRecipe = (props) => {
   const thisRecipesIngrdnts = mealStateObj.thisRecipesIngrdnts;
   const thisFormState = mealStateObj.thisGenRecipeFormState;
   const userType = mealStateObj.thisGenRecipeUserType;
+  const valErrors = mealStateObj.genRecipeValErrors;
   const [hideDeleteBarrier, toggleHideDeleteBarrier] = useState(true);
   const [prepInstr, updatePrepInstr] = useState(
     thisObj.defaultPrepInstructions
   );
   const [name, updateName] = useState(thisObj.name);
-  const [saveDisabled, toggleSaveDisabled] = useState(false);
+  const [nameHasDup, toggleNameHasDup] = useState(false);
+  const [saveDisabled, toggleSaveDisabled] = useState(true);
   const [nameValError, updateNameValError] = useState(null);
+  useEffect(() => {
+    if (nameHasDup || valErrors.defaultPrepInstructions || valErrors.photoURL) {
+      toggleSaveDisabled(true);
+    } else {
+      toggleSaveDisabled(false);
+    }
+  });
   const schema = Joi.object({
     name: Joi.string().trim().min(3).max(255).required(),
   });
@@ -60,7 +70,7 @@ const GenRecipe = (props) => {
       thisMealStateObjOld.thisMeal.genRecipe.defaultPrepInstructions
     );
     updateNameValError(null);
-    toggleSaveDisabled(false);
+    toggleNameHasDup(false);
     onCancelEditForm(mealStateObj, "genRecipe");
   }
   const deleteMsg = "Are you sure you want to delete this Base Recipe?";
@@ -185,28 +195,26 @@ const GenRecipe = (props) => {
                     updateValErrorFn={updateNameValError}
                   />
                 </div>
-                <div className="form-group mealInputs">
-                  <label>Img URL</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled={thisFormState === "viewing" ? true : false}
-                    onChange={(e) =>
-                      onUpdateProp(
-                        "genRecipe",
-                        thisDayOfWeekCode,
-                        thisMealTypeCode,
-                        "photoURL",
-                        0,
-                        "text",
-                        e
-                      )
-                    }
-                    value={
-                      thisObj.photoURL === undefined ? "" : thisObj.photoURL
-                    }
-                  />
-                </div>
+                <Input
+                  formGroupClasses="form-group mealInputs"
+                  label="Photo URL"
+                  propType="text"
+                  propValue={
+                    thisObj.photoURL === undefined ? "" : thisObj.photoURL
+                  }
+                  onUpdateProp={onUpdateProp}
+                  objType="genRecipe"
+                  dayOfWeekCode={thisDayOfWeekCode}
+                  mealTypeCode={thisMealTypeCode}
+                  propToUpdate={"photoURL"}
+                  arrayIndex={0}
+                  inputType="text"
+                  selectedFrom={[]}
+                  propTypeForVal="url"
+                  fieldDisabled={thisFormState === "viewing" ? true : false}
+                  valError={valErrors.photoURL}
+                  inputClasses="form-control"
+                />
                 <div className="form-group mealInputs">
                   <label>Author</label>
                   <input
