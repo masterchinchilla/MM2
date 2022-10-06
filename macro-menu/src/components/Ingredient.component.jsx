@@ -169,7 +169,7 @@ const Ingredient = (props) => {
         <div
           className="ingrdntPicDiv"
           style={
-            thisObj.photoURL === undefined
+            !thisObj.photoURL
               ? {
                   backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
                 }
@@ -218,6 +218,10 @@ const Ingredient = (props) => {
           toggleNameHasDup={toggleNameHasDup}
           onUpdateProp={onUpdateProp}
           updateValErrorFn={updateNameValError}
+          selectedFrom={[]}
+          propTypeForVal={"name"}
+          inputClasses={"form-control"}
+          isRequired={true}
         />
       </div>
       <div
@@ -255,6 +259,7 @@ const Ingredient = (props) => {
               propType="number"
               propValue={thisObj.calories}
               onUpdateProp={onUpdateProp}
+              inputOnKeyUpFn={() => {}}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -266,6 +271,7 @@ const Ingredient = (props) => {
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.calories}
               inputClasses="form-control"
+              isRequired={true}
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -273,6 +279,7 @@ const Ingredient = (props) => {
               propType="number"
               propValue={thisObj.carbs}
               onUpdateProp={onUpdateProp}
+              inputOnKeyUpFn={() => {}}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -284,6 +291,7 @@ const Ingredient = (props) => {
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.carbs}
               inputClasses="form-control"
+              isRequired={true}
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -291,6 +299,7 @@ const Ingredient = (props) => {
               propType="number"
               propValue={thisObj.protein}
               onUpdateProp={onUpdateProp}
+              inputOnKeyUpFn={() => {}}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -302,6 +311,7 @@ const Ingredient = (props) => {
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.protein}
               inputClasses="form-control"
+              isRequired={true}
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -309,6 +319,7 @@ const Ingredient = (props) => {
               propType="number"
               propValue={thisObj.fat}
               onUpdateProp={onUpdateProp}
+              inputOnKeyUpFn={() => {}}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -320,6 +331,7 @@ const Ingredient = (props) => {
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.fat}
               inputClasses="form-control"
+              isRequired={true}
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -327,6 +339,7 @@ const Ingredient = (props) => {
               propType="number"
               propValue={thisObj.fiber}
               onUpdateProp={onUpdateProp}
+              inputOnKeyUpFn={() => {}}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -338,6 +351,7 @@ const Ingredient = (props) => {
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.fiber}
               inputClasses="form-control"
+              isRequired={true}
             />
             <Input
               formGroupClasses="form-group mealIngrdntInputs"
@@ -345,6 +359,7 @@ const Ingredient = (props) => {
               propType="text"
               propValue={thisObj.photoURL}
               onUpdateProp={onUpdateProp}
+              inputOnKeyUpFn={() => {}}
               objType="ingredient"
               dayOfWeekCode={thisDayOfWeekCode}
               mealTypeCode={thisMealTypeCode}
@@ -356,6 +371,7 @@ const Ingredient = (props) => {
               fieldDisabled={thisFormState === "viewing" ? true : false}
               valError={thisMealIngrdntObj.ingredientValErrors.photoURL}
               inputClasses="form-control"
+              isRequired={false}
             />
           </div>
           <div

@@ -129,7 +129,7 @@ const GenRecipe = (props) => {
             <div
               className="mealImg"
               style={
-                thisObj.photoURL === undefined
+                !thisObj.photoURL
                   ? {
                       backgroundImage: `url(https://i.ibb.co/vHj5XWF/placeholderimg2.png)`,
                     }
@@ -193,6 +193,10 @@ const GenRecipe = (props) => {
                     toggleNameHasDup={toggleNameHasDup}
                     onUpdateProp={onUpdateProp}
                     updateValErrorFn={updateNameValError}
+                    selectedFrom={[]}
+                    propTypeForVal={"name"}
+                    inputClasses={"form-control"}
+                    isRequired={true}
                   />
                 </div>
                 <Input
@@ -203,6 +207,7 @@ const GenRecipe = (props) => {
                     thisObj.photoURL === undefined ? "" : thisObj.photoURL
                   }
                   onUpdateProp={onUpdateProp}
+                  inputOnKeyUpFn={() => {}}
                   objType="genRecipe"
                   dayOfWeekCode={thisDayOfWeekCode}
                   mealTypeCode={thisMealTypeCode}
@@ -214,6 +219,7 @@ const GenRecipe = (props) => {
                   fieldDisabled={thisFormState === "viewing" ? true : false}
                   valError={valErrors.photoURL}
                   inputClasses="form-control"
+                  isRequired={false}
                 />
                 <div className="form-group mealInputs">
                   <label>Author</label>

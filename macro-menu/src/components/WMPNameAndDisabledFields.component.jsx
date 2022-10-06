@@ -90,6 +90,10 @@ const WMPNameAndDisabledFields = (props) => {
           toggleNameHasDup={toggleNameHasDup}
           onUpdateProp={onUpdateProp}
           updateValErrorFn={updateNameValError}
+          selectedFrom={[]}
+          propTypeForVal={"name"}
+          inputClasses={"form-control"}
+          isRequired={true}
         />
         <EditOptions
           parentObj={thisWeekMealPlan}

@@ -18,6 +18,10 @@ const InputWLocalStateAndValidation = (props) => {
     localPropValue,
     valError,
     backEndHtmlRoot,
+    selectedFrom,
+    propTypeForVal,
+    inputClasses,
+    isRequired,
     updateLocalPropValueFn,
     toggleNameHasDup,
     onUpdateProp,
@@ -73,10 +77,17 @@ const InputWLocalStateAndValidation = (props) => {
       propType={propType}
       valError={valError}
       backEndHtmlRoot={backEndHtmlRoot}
+      dayOfWeekCode={thisDayOfWeekCode}
+      mealTypeCode={thisMealTypeCode}
+      arrayIndex={mealIngrdntsArrayIndex}
       valErrorUpdateFn={updateValErrorFn}
       toggleNameHasDup={toggleNameHasDup}
       changeLocalPropFn={handleUpdateLocalProp}
       changeParentPropFn={handleUpdateParentProp}
+      selectedFrom={selectedFrom}
+      propTypeForVal={propTypeForVal}
+      inputClasses={inputClasses}
+      isRequired={isRequired}
     />
   );
 };

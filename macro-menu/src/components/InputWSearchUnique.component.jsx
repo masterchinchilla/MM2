@@ -1,5 +1,6 @@
-import React, { useState, useContext, Component } from "react";
+import React, { useState } from "react";
 import httpService from "../services/httpService";
+import Input from "./Input.component";
 const InputWSearchUnique = (props) => {
   const {
     formGroupClasses,
@@ -13,13 +14,30 @@ const InputWSearchUnique = (props) => {
     propType,
     valError,
     backEndHtmlRoot,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex,
+    selectedFrom,
+    propTypeForVal,
+    inputClasses,
+    isRequired,
     valErrorUpdateFn,
     toggleNameHasDup,
     changeLocalPropFn,
     changeParentPropFn,
   } = props;
   const [timer, setTimer] = useState(null);
-  function trimValueForChangePropFn(e) {
+  function trimValueForChangePropFn(
+    objType,
+    dayOfWeekCode,
+    mealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    inputType,
+    e,
+    selectedFrom,
+    propTypeForVal
+  ) {
     const inputValue = e.target.value;
     const noDblSpcs = inputValue.replace(/  +/g, " ");
     changeLocalPropFn(noDblSpcs, propName);
@@ -52,20 +70,42 @@ const InputWSearchUnique = (props) => {
     setTimer(newTimer);
   }
   return (
-    <div className={formGroupClasses}>
-      <label>{label}</label>
-      <input
-        type={propType}
-        className="form-control"
-        value={localPropValue}
-        onChange={trimValueForChangePropFn}
-        onKeyUp={searchSetUnique}
-        disabled={fieldDisabled}
+    <React.Fragment>
+      <Input
+        formGroupClasses={formGroupClasses}
+        label={label}
+        propType={propType}
+        propValue={localPropValue}
+        onUpdateProp={trimValueForChangePropFn}
+        inputOnKeyUpFn={searchSetUnique}
+        objType={objType}
+        propToUpdate={propName}
+        inputType={propType}
+        valError={valError}
+        dayOfWeekCode={thisDayOfWeekCode}
+        mealTypeCode={thisMealTypeCode}
+        arrayIndex={arrayIndex}
+        selectedFrom={selectedFrom}
+        propTypeForVal={propTypeForVal}
+        fieldDisabled={fieldDisabled}
+        inputClasses={inputClasses}
+        isRequired={isRequired}
       />
-      <div className="alert alert-danger" hidden={valError ? false : true}>
-        {valError}
-      </div>
-    </div>
+      {/* <div className={formGroupClasses}>
+        <label>{label}</label>
+        <input
+          type={propType}
+          className="form-control"
+          value={localPropValue}
+          onChange={trimValueForChangePropFn}
+          onKeyUp={searchSetUnique}
+          disabled={fieldDisabled}
+        />
+        <div className="alert alert-danger" hidden={valError ? false : true}>
+          {valError}
+        </div>
+      </div> */}
+    </React.Fragment>
   );
 };
 

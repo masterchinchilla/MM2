@@ -6,6 +6,7 @@ const Input = (props) => {
     propType,
     propValue,
     onUpdateProp,
+    inputOnKeyUpFn,
     objType,
     dayOfWeekCode,
     mealTypeCode,
@@ -17,10 +18,14 @@ const Input = (props) => {
     fieldDisabled,
     valError,
     inputClasses,
+    isRequired,
   } = props;
   return (
     <div className={formGroupClasses}>
-      <label>{label}</label>
+      <label>
+        {isRequired ? <span className="requiredFldLbl">* </span> : null}
+        {label}
+      </label>
       <input
         type={propType}
         className={inputClasses}
@@ -38,6 +43,7 @@ const Input = (props) => {
             propTypeForVal
           )
         }
+        onKeyUp={(e) => inputOnKeyUpFn(e)}
         disabled={fieldDisabled}
       />
       <div className="alert alert-danger" hidden={valError ? false : true}>
