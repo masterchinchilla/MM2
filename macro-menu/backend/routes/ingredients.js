@@ -11,6 +11,7 @@ let Day=require('../models/day.model');
 let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
 const Joi=require('joi');
+const jwtDecode = require('jwt-decode');
 const { validate } = require('../models/unitOfMeasure.model');
 const valSchema = Joi.object({
     name: Joi.string().trim().min(3).max(255).required(),
@@ -21,8 +22,7 @@ const valSchema = Joi.object({
     url: Joi.string().trim().uri().max(3000).allow(""),
   });
 function validateProp(propName, value, propTypeForVal) {
-    const rule = this.valSchema.extract(propTypeForVal);
-    console.log(rule);
+    const rule = valSchema.extract(propTypeForVal);
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
     const { error } = subSchema.validate(objToValidate);
@@ -84,76 +84,68 @@ router.route('/findbyname/:name').get((req, res)=>{
         .catch(err=>res.status(404).json('Error:'+err));
 })
 router.route('/update/:id').put((req, res)=>{
-    const {name,calories,carbs,protein,fat,fiber,unitOfMeasure,weightType,photoURL,GRFUser,brand}=req.body;
-    const valErrors={form:null,name:null,calories:null,carbs:null,protein:null,fat:null,fiber:null,unitOfMeasure:null,weightType:null,photoURL:null,GRFUser:null,brand:null};
-    const thisIngredient={};
-    Ingredient.findById(req.params.id).then((foundIngredient)=>{
-        thisIngredient=foundIngredient;
+    const jwt=req.headers["x-auth-token"];
+    const requestorUser=jwtDecode(jwt);
+    console.log(requestorUser);
+    const requestorUserId=requestorUser.currentGRFUser._id;
+    console.log(requestorUserId);
+    const {name, calories,carbs, protein, fat, fiber, photoURL, unitOfMeasure, weightType, GRFUser,brand}=req.body;
+    const GRFUserId=GRFUser._id;
+    console.log(GRFUserId);
+    if(requestorUserId===GRFUserId){
+        const unitOfMeasureId=unitOfMeasure._id;
+        const weightTypeId=weightType._id;
+        const brandId=brand._id;
+        const valErrorsArray=[];
+        let nameError=validateProp("name",name,"name");
+        let caloriesError=validateProp("calories",calories,"float");
+        if(caloriesError){valErrorsArray.push({calories:caloriesError})};
+        let carbsError=validateProp("carbs",carbs,"float");
+        if(carbsError){valErrorsArray.push({carbs:carbsError})};
+        let proteinError=validateProp("protein",protein,"float");
+        if(proteinError){valErrorsArray.push({protein:proteinError})};
+        let fatError=validateProp("fat",fat,"float");
+        if(fatError){valErrorsArray.push({fat:fatError})};
+        let fiberError=validateProp("fiber",fiber,"float");
+        if(fiberError){valErrorsArray.push({fiber:fiberError})};
+        let photoURLError=validateProp("photoURL",photoURL,"url");
+        if(photoURLError){valErrorsArray.push({photoURL:photoURLError})};
+        const ingredientId=req.params.id;
         Ingredient.find({name:new RegExp(name,"i")})
-        .then((ingredient)=>{
-            if(ingredient){
-                valErrors[name]="'Name' must be unique";
-                res.json(valErrors)}else{
-                valErrors.calories=validateProp("calories",calories,"float");
-                valErrors.carbs=validateProp("carbs",carbs,"float");
-                valErrors.protein=validateProp("protein",protein,"float");
-                valErrors.fat=validateProp("fat",fat,"float");
-                valErrors.fiber=validateProp("fiber",fiber,"float");
-                valErrors.photoURL=validateProp("photoURL",photoURL,"url");
-                if(valErrors.calories||valErrors.carbs||valErrors.protein||valErrors.fat||valErrors.fiber||valErrors.photoURL){
-                    res.json(valErrors);
-                }else{
-                    UnitOfMeasure.findById(unitOfMeasure._id)
-                        .catch(valErrors.unitOfMeasure="Selected Unit of Measure not found");
-                    WeightType.findById(weightType._id)
-                        .catch(valErrors.weightType="Selected Weight Type not found");
-                    Brand.findById(brand._id)
-                        .catch(valErrors.brand="Selected Brand not found");
-                    GRFUserModel.findById(GRFUser._id)
-                        .catch(valErrors.GRFUser="Selected GRFUser not found");
-                    if(valErrors.unitOfMeasure||valErrors.weightType||valErrors.brand||valErrors.GRFUser){
-                        res.json(valErrors)
-                    }else{
-                        thisIngredient.name=name;
-            thisIngredient.calories=calories;
-            thisIngredient.carbs=carbs;
-            thisIngredient.protein=protein;
-            thisIngredient.fat=fat;
-            thisIngredient.fiber=fiber;
-            thisIngredient.unitOfMeasure?thisIngredient.unitOfMeasure=unitOfMeasure._id:"";
-            thisIngredient.weightType?thisIngredient.weightType=weightType._id:"";
-            thisIngredient.photoURL=photoURL;
-            thisIngredient.GRFUser=GRFUser._id;
-            thisIngredient.brand=brand._id;
-            thisIngredient.save()
-                .then(()=>res.json(thisIngredient))
-                .catch(err=>res.status(400).json('Error: '+err));
+            .then(ingredients=>{
+                for(let i=0;i<ingredients.length;i++){
+                    if(ingredients[i].name===name){
+                        if(!(ingredients[i]._id.equals(ingredientId))){
+                            nameError="Another Ingredient is already using that name"}
                     }
-                }
-            }
-        })
-        .catch(err=>res.status(404).json('Error:'+err));
-    }).catch(res.status(404).json(valErrors.form="Ingredient not found"))
+                };
+                if(nameError){valErrorsArray.push({name:nameError})};
+                if(valErrorsArray.length>0){  
+                    res.json({valErrorsArray:valErrorsArray});
+                }else{
+                    Ingredient.findById(ingredientId)
+                        .then(ingredient=>{
+                            ingredient.name=name;
+                            ingredient.calories=calories;
+                            ingredient.carbs=carbs;
+                            ingredient.protein=protein;
+                            ingredient.fat=fat;
+                            ingredient.fiber=fiber;
+                            ingredient.photoURL=photoURL;
+                            ingredient.unitOfMeasure=unitOfMeasureId;
+                            ingredient.weightType=weightTypeId;
+                            ingredient.GRFuser=GRFUserId;
+                            ingredient.brand=brandId;
+                            ingredient.save()
+                                .then(()=>res.status(200).json("success"))
+                                .catch(err=>res.status(400).json('Error: '+err));
+                        }).catch(err=>res.status(400).json('Error: '+err));
+                }});
+        }else{
+            res.status(401).json("You do not have access to edit this record.");
+        }
     
-    // Ingredient.findById(req.params.id)
-    //     .then(ingredient=>{
-    //         ingredient.name=req.body.name;
-    //         ingredient.calories=req.body.calories;
-    //         ingredient.carbs=req.body.carbs;
-    //         ingredient.protein=req.body.protein;
-    //         ingredient.fat=req.body.fat;
-    //         ingredient.fiber=req.body.fiber;
-    //         ingredient.unitOfMeasure?ingredient.unitOfMeasure=req.body.unitOfMeasure._id:"";
-    //         ingredient.weightType?ingredient.weightType=req.body.weightType._id:"";
-    //         ingredient.photoURL=req.body.photoURL;
-    //         ingredient.GRFUser=req.body.GRFUser._id;
-    //         ingredient.brand=req.body.brand._id;
-    //         ingredient.save()
-    //             .then(()=>res.json(ingredient))
-    //             .catch(err=>res.status(400).json('Error: '+err));
-    //     })
-        .catch(err=>res.status(400).json('Error: '+err));
-})
+    });
 router.route('/add').post((req, res)=>{
     const name=req.body.name;
     const calories=req.body.calories;

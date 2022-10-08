@@ -32,7 +32,6 @@ const Ingredient = (props) => {
   const recordChanged = thisMealIngrdntObj.ingredientRecordChanged;
   const thisObjId = thisObj._id;
   const thisIngrdntJustCreated = thisMealIngrdntObj.thisIngrdntJustCreated;
-  const valErrors = thisMealIngrdntObj.ingredientValErrors;
   const objType = "ingredient";
   let thisBrandObj;
   let thisUOMObj;
@@ -45,8 +44,12 @@ const Ingredient = (props) => {
     //   "genRecipeIngredient"
     // ]["ingredient"]["name"]
   );
-  const [nameValError, updateNameValError] = useState(null);
+
   const [origName, setOrigName] = useState(thisObj.name);
+  const [valErrors, setValErrors] = useState(
+    thisMealIngrdntObj.ingredientValErrors
+  );
+  const [nameValError, updateNameValError] = useState(valErrors.name);
   const [nameHasDup, toggleNameHasDup] = useState(false);
   const [saveDisabled, toggleSaveDisabled] = useState(true);
   useEffect(() => {
@@ -269,7 +272,7 @@ const Ingredient = (props) => {
               selectedFrom={[]}
               propTypeForVal="float"
               fieldDisabled={thisFormState === "viewing" ? true : false}
-              valError={thisMealIngrdntObj.ingredientValErrors.calories}
+              valError={valErrors.calories}
               inputClasses="form-control"
               isRequired={true}
             />
@@ -289,7 +292,7 @@ const Ingredient = (props) => {
               selectedFrom={[]}
               propTypeForVal="float"
               fieldDisabled={thisFormState === "viewing" ? true : false}
-              valError={thisMealIngrdntObj.ingredientValErrors.carbs}
+              valError={valErrors.carbs}
               inputClasses="form-control"
               isRequired={true}
             />

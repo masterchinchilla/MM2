@@ -10056,10 +10056,23 @@ export default class WeekMealPlanDetail extends Component {
     this.setState(state);
   };
   handleSaveFormChanges = (parentObj, objType) => {
+    let state = this.state;
+
+    let stateObjToUpdate;
+    let valErrorsObjToUpdate = {};
+    let thisMealTypeCode;
+    let thisDayOfWeekCode;
+    let mealIngredientArrayIndex;
     let recordToSave;
+    let packageUpdatedStateObjFn;
     switch (objType) {
       case "weekMealPlan":
         recordToSave = parentObj.thisWMP;
+        stateObjToUpdate = state.thisWeekMealPlan;
+        valErrorsObjToUpdate = stateObjToUpdate.valErrors;
+        packageUpdatedStateObjFn = () => {
+          stateObjToUpdate.valErrors = valErrorsObjToUpdate;
+        };
         break;
       case "day":
         recordToSave = parentObj.day;
@@ -10069,6 +10082,19 @@ export default class WeekMealPlanDetail extends Component {
         break;
       case "genRecipe":
         recordToSave = parentObj.thisMeal.genRecipe;
+        thisDayOfWeekCode = parentObj.thisMeal.day.dayOfWeek.code;
+        thisMealTypeCode = parentObj.thisMeal.mealType.code;
+        stateObjToUpdate = state.thisWeeksDays;
+
+        valErrorsObjToUpdate =
+          state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["genRecipeValErrors"];
+        packageUpdatedStateObjFn = () => {
+          stateObjToUpdate[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["genRecipeValErrors"] = valErrorsObjToUpdate;
+        };
         break;
       case "mealIngredient":
         recordToSave = parentObj.thisMealIngrdnt;
@@ -10078,24 +10104,103 @@ export default class WeekMealPlanDetail extends Component {
         break;
       case "ingredient":
         recordToSave = parentObj.thisMealIngrdnt.genRecipeIngredient.ingredient;
+        thisDayOfWeekCode = parentObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
+        thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
+        mealIngredientArrayIndex = parentObj.mealIngrdntsArrayIndex;
+        stateObjToUpdate = state.thisWeeksDays;
+        valErrorsObjToUpdate =
+          state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngredientArrayIndex][
+            "ingredientValErrors"
+          ];
+        packageUpdatedStateObjFn = () => {
+          stateObjToUpdate[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngredientArrayIndex][
+            "ingredientValErrors"
+          ] = valErrorsObjToUpdate;
+        };
         break;
     }
     let recordId = recordToSave._id;
     let url = `http://localhost:5000/${objType}s/update/${recordId}`;
-    const notify = () => {
-      toast.success("Updated Successfully");
+    // const notify = (response) => {
+    //   let valErrorsArray=response.data.valErrors;
+    //   if (response.status === 200 && !valErrorsArray.length<1) {
+    //     toast.success("Updated Successfully");
+    //   } else {
+    //     for(let i=0;i<valErrorsArray.length;i++){
+    //       if(valErrorsArray[i]){
+    //         toast.error(valErrorsArray[i][])
+    //       }
+    //     }
+    //     // toast.error("Something went wrong");
+    //   }
+    // };
+    const notify = (notice, noticeType) => {
+      switch (noticeType) {
+        case "success":
+          toast.success(notice);
+          break;
+        default:
+          toast.error(notice);
+      }
     };
-    axios.put(url, recordToSave, this.state.axiosCallConfig).then(notify());
-    if (objType === "meal" && parentObj.userChangedThisMealsRecipe === true) {
-      let dayOfWeekCode = recordToSave.day.dayOfWeek.code;
-      let mealTypeCode = recordToSave.mealType.code;
-      this.handleSaveMealRecipeChange(dayOfWeekCode, mealTypeCode);
-    } else {
-      this.hndleSetVwrTypsAndFrmStates("savingUpdate", this.state);
-    }
+    axios
+      .put(url, recordToSave, this.state.axiosCallConfig)
+      .then((response) => {
+        const valErrorsArray = response.data.valErrorsArray;
+        if (valErrorsArray) {
+          for (let i = 0; i < valErrorsArray.length; i++) {
+            let thisValErrorObj = valErrorsArray[i];
+            let thisValErrorObjKeys = Object.keys(thisValErrorObj);
+            for (let i = 0; i < thisValErrorObjKeys.length; i++) {
+              let thisValErrorObjKey = thisValErrorObjKeys[i];
+              let thisValError = thisValErrorObj[thisValErrorObjKey];
+              valErrorsObjToUpdate[thisValErrorObjKey] = thisValError;
+              notify(thisValError, "error");
+            }
+          }
+          packageUpdatedStateObjFn();
+          if (objType === "weekMealPlan") {
+            this.setState({ thisWeekMealPlan: stateObjToUpdate });
+            state.thisWeekMealPlan = stateObjToUpdate;
+          } else {
+            this.setState({ thisWeeksDays: stateObjToUpdate });
+            state.thisWeeksDays = stateObjToUpdate;
+          }
+        } else {
+          console.log("no valErrorsArray returned from server");
+          notify("Updated successfully", "success");
+          if (
+            objType === "meal" &&
+            parentObj.userChangedThisMealsRecipe === true
+          ) {
+            this.handleSaveMealRecipeChange(
+              thisDayOfWeekCode,
+              thisMealTypeCode,
+              state
+            );
+          } else {
+            this.hndleSetVwrTypsAndFrmStates("savingUpdate", state);
+          }
+        }
+      })
+      .catch((response) => {
+        notify(response);
+        // toast.error(response.data);
+      });
+    // if (objType === "meal" && parentObj.userChangedThisMealsRecipe === true) {
+    //   let dayOfWeekCode = recordToSave.day.dayOfWeek.code;
+    //   let mealTypeCode = recordToSave.mealType.code;
+    //   this.handleSaveMealRecipeChange(dayOfWeekCode, mealTypeCode,state);
+    // } else {
+    //   this.hndleSetVwrTypsAndFrmStates("savingUpdate", this.state);
+    // }
   };
-  handleSaveMealRecipeChange = (dayOfWeekCode, mealTypeCode) => {
-    let state = this.state;
+  handleSaveMealRecipeChange = (dayOfWeekCode, mealTypeCode, stateObj) => {
+    let state = stateObj;
     let thisGRFUser = state.thisGRFUser;
     let thisGRFUserId = thisGRFUser._id;
     let thisWeeksDays = state.thisWeeksDays;
