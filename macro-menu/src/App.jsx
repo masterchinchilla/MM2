@@ -16,7 +16,9 @@ const App = () => {
   const frontEndHtmlRoot = "http://localhost:3000/";
   const backEndHtmlRoot = "http://localhost:5000/";
   async function getCurrentUser(token) {
+    console.log(token);
     const decodedToken = jwtDecode(token);
+    console.log(decodedToken);
     const usersId = decodedToken.currentGRFUser._id;
     window.location = "/weekMealPlans/usersWMPs/" + usersId;
   }

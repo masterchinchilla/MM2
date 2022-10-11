@@ -23,7 +23,7 @@ router.post('/',async (req, res)=>{
         try {
             const validPassword= await bcrypt.compare(req.body.password,existingUser.password);
             if(validPassword){
-                const currentGRFUser=_.pick(existingUser,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","certURL","certName","userGroups","verified","createdAt","updatedAt"]);
+                const currentGRFUser=_.pick(existingUser,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","certURL","certName","verified","createdAt","updatedAt","isAdmin"]);
             const token=jwt.sign({currentGRFUser},config.get('jwtPrivateKey'));
             res
             .header('x-auth-token',token)
