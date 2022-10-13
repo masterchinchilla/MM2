@@ -24,6 +24,7 @@ const GenRecipeIngredient = (props) => {
   const recordChanged = thisMealIngrdntObj.genRecipeIngrdntRecordChanged;
   const thisGenRecipeIngrdntJustCreated =
     thisMealIngrdntObj.thisGenRecipeIngrdntJustCreated;
+  const valErrors = thisMealIngrdntObj.genRecipeIngrdntValErrors;
   const deleteMsg =
     "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
   const saveMsg =
@@ -62,11 +63,18 @@ const GenRecipeIngredient = (props) => {
               mealIngrdntsArrayIndex,
               "number",
               e,
-              []
+              [],
+              "float"
             )
           }
           disabled={thisFormState === "viewing" ? true : false}
         />
+        <div
+          className="alert alert-danger"
+          hidden={valErrors.defaultQty ? false : true}
+        >
+          {valErrors.defaultQty}
+        </div>
       </div>
       <div
         className="accordion accordion-flush flushElement"

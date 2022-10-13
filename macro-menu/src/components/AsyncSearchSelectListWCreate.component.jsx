@@ -69,7 +69,8 @@ class AsyncSearchSelectListWCreate extends Component {
         this.props.arrayIndex,
         "asyncReactSelect",
         e.value,
-        []
+        [],
+        "float"
       );
     }
   };

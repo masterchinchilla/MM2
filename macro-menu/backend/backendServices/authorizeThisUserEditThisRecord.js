@@ -1,9 +1,7 @@
 
-module.exports=function authEditThisRecord(req,res){
+module.exports=function authEditThisRecord(req,res,authorId){
     const requestorUser=req.currentGRFUser;
     const requestorUserId=requestorUser._id;
-    // const requestorUserId="629e5328f4e89945aea6a206";
-    const authorId=req.body.GRFUser._id;
     if(requestorUserId===authorId||requestorUser.isAdmin===true){
         return true;
     }else{

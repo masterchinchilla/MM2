@@ -5,6 +5,18 @@ import _ from "lodash";
 class SelectSearchListWCreate extends Component {
   constructor(props) {
     super(props);
+    const {
+      options,
+      objToSelect,
+      objType,
+      dayOfWeekCode,
+      mealType,
+      objTypeToChange,
+      arrayIndex,
+      thisGRFUser,
+      thisFormState,
+      styleClasses,
+    } = this.props;
     this.state = {
       options: [],
       filteredOptions: [],
@@ -12,6 +24,7 @@ class SelectSearchListWCreate extends Component {
       selectedOption: {},
     };
   }
+
   componentDidMount() {
     let newArray = [];
     this.props.options.forEach((element) => {
@@ -35,7 +48,8 @@ class SelectSearchListWCreate extends Component {
         this.props.arrayIndex,
         "reactSelect",
         e.value,
-        this.props.options
+        this.props.options,
+        "objRef"
       );
     }
     this.setState({
@@ -62,22 +76,20 @@ class SelectSearchListWCreate extends Component {
       newRecordForState.value.availableMealType = this.props.mealType;
     }
     let newRecordToSave;
-    console.log(newRecordToSave);
     if (this.props.objTypeToChange === "genRecipe") {
       newRecordToSave = {
         name: newRecordName,
-        GRFUser: this.props.thisGRFUser._id,
+        GRFUser: this.props.thisGRFUser,
         defaultPrepInstructions: "",
         photoURL: "",
-        availableMealType: this.props.mealType._id,
+        availableMealType: this.props.mealType,
       };
     } else {
       newRecordToSave = {
         name: newRecordName,
-        GRFUser: this.props.thisGRFUser._id,
+        GRFUser: this.props.thisGRFUser,
       };
     }
-    console.log(newRecordToSave);
     // {
     //   name: newRecordName,
     //   GRFUser: this.props.thisGRFUser._id,

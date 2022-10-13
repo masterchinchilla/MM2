@@ -5,6 +5,7 @@ import _ from "lodash";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import authService from "../services/authService";
+import httpService from "../services/httpService";
 import CreateDay from "./CreateDay.component";
 import DayDetail from "./DayDetail.component";
 import WMPForm from "./WMPForm.component";
@@ -8765,12 +8766,13 @@ export default class WeekMealPlanDetail extends Component {
     url: Joi.string().trim().uri().max(3000).allow(""),
   });
   validateProp = (propName, value, propTypeForVal) => {
-    const rule = this.valSchema.extract(propTypeForVal);
-    console.log(rule);
-    const subSchema = Joi.object({ [propName]: rule });
-    const objToValidate = { [propName]: value };
-    const { error } = subSchema.validate(objToValidate);
-    return error ? error.details[0].message : null;
+    if (propTypeForVal !== "objRef") {
+      const rule = this.valSchema.extract(propTypeForVal);
+      const subSchema = Joi.object({ [propName]: rule });
+      const objToValidate = { [propName]: value };
+      const { error } = subSchema.validate(objToValidate);
+      return error ? error.details[0].message : null;
+    } else return null;
   };
   handleUpdateWeights = (weightsObj, e) => {
     e.preventDefault();
@@ -9216,6 +9218,7 @@ export default class WeekMealPlanDetail extends Component {
     let state = this.state;
     let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlan);
     let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
+    console.log(thisWeeksDaysBackup);
     state.thisWeekMealPlan.userType = "viewer";
     state.thisWeekMealPlan.thisFormState = "viewing";
     let initialUserType;
@@ -10644,10 +10647,8 @@ export default class WeekMealPlanDetail extends Component {
         thisGenRecipeIngrdntObj[propToUpdate] = newValue;
         thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
         thisMealIngrdntStateObj["genRecipeIngrdntRecordChanged"] = true;
-        if (propTypeForVal !== "objRef") {
-          thisMealIngrdntStateObj.genRecipeIngrdntValErrors[propToUpdate] =
-            this.validateProp(propToUpdate, newValue, propTypeForVal);
-        }
+        thisMealIngrdntStateObj.genRecipeIngrdntValErrors[propToUpdate] =
+          this.validateProp(propToUpdate, newValue, propTypeForVal);
         if (propToUpdate === "ingredient") {
           let newIngrdntUserType = this.setUserType(
             thisUsersId,
@@ -10690,14 +10691,14 @@ export default class WeekMealPlanDetail extends Component {
     }
     this.setState(state);
   };
-  createRecord = (newRecordToSave, objType) => {
-    let url = `http://localhost:5000/${objType}s/add`;
-    axios.post(url, newRecordToSave).then((response) => {
-      let savedRecord = response.data;
-      let savedRecordId = savedRecord._id;
-      return savedRecordId;
-    });
-  };
+  // createRecord = (newRecordToSave, objType) => {
+  //   let url = `http://localhost:5000/${objType}s/add`;
+  //   axios.post(url, newRecordToSave).then((response) => {
+  //     let savedRecord = response.data;
+  //     let savedRecordId = savedRecord._id;
+  //     return savedRecordId;
+  //   });
+  // };
   handleCreateRecord = (
     objType,
     dayOfWeekCode,
@@ -10722,6 +10723,7 @@ export default class WeekMealPlanDetail extends Component {
     let thisGenRecipeIngrdntObj;
     let thisIngrdntObj;
     let parentObj;
+    let backEndHtmlRoot = state.backEndHtmlRoot;
     if (objType !== "day") {
       thisMealStateObj = thisDaysMeals[mealTypeCode];
     }
@@ -10729,211 +10731,296 @@ export default class WeekMealPlanDetail extends Component {
       thisMealsIngrdnts = [];
     }
     let savedRecordId;
-    let url = `http://localhost:5000/${objType}s/add`;
-    axios.post(url, newRecordToSave).then((response) => {
-      let savedRecord = response.data;
-      savedRecordId = savedRecord._id;
-      newRecordForState._id = savedRecordId;
-      switch (objType) {
-        case "day":
-          thisDayObj = newRecordForState;
-          for (let i = 0; i < mealTypes.length; i++) {
-            let thisDayMealStateObj = thisDaysMeals[mealTypes[i].code];
-            thisDayMealStateObj.thisMealFormState = "viewing";
-            thisDayMealStateObj.thisMealUserType = thisUserType;
-            thisDayMealStateObj.thisGenRecipeFormState = "viewing";
-            thisDayMealStateObj.thisGenRecipeUserType = "viewer";
-            let thisDayMealObj = thisDayMealStateObj.thisMeal;
-            thisDayMealObj.day = newRecordForState;
-            thisDayMealStateObj.thisMeal = thisDayMealObj;
-            let thisDayMealsIngrdnts = thisDayMealStateObj.thisMealsIngrdnts;
-            for (let i = 0; i < thisDayMealsIngrdnts.length; i++) {
-              let thisDayMealIngrdntStateObj = thisDayMealsIngrdnts[i];
-              thisDayMealIngrdntStateObj.thisMealIngrdntFormState = "viewing";
-              thisDayMealIngrdntStateObj.thisGenRecipeIngrdntFormState =
-                "viewing";
-              thisDayMealIngrdntStateObj.thisIngrdntFormState = "viewing";
-              thisDayMealIngrdntStateObj.thisMealIngrdntUserType = "viewer";
-              thisDayMealIngrdntStateObj.thisGenRecipeIngrdntUserType =
-                "viewer";
-              thisDayMealIngrdntStateObj.thisIngrdntUserType = "viewer";
-              let thisDayMealIngrdntObj =
-                thisDayMealIngrdntStateObj.thisMealIngrdnt;
-              thisDayMealIngrdntObj.meal.day = newRecordForState;
-              thisDayMealIngrdntStateObj.thisMealIngrdnt =
-                thisDayMealIngrdntObj;
-              thisDayMealsIngrdnts[i] = thisDayMealIngrdntStateObj;
+    let url = `${backEndHtmlRoot}${objType}s/add/`;
+    httpService
+      .post(url, newRecordToSave)
+      .then((response) => {
+        let savedRecord = response.data;
+        savedRecordId = savedRecord._id;
+        newRecordForState._id = savedRecordId;
+        switch (objType) {
+          case "day":
+            thisDayObj = newRecordForState;
+            for (let i = 0; i < mealTypes.length; i++) {
+              let thisDayMealStateObj = thisDaysMeals[mealTypes[i].code];
+              thisDayMealStateObj.thisMealFormState = "viewing";
+              thisDayMealStateObj.thisMealUserType = thisUserType;
+              thisDayMealStateObj.thisGenRecipeFormState = "viewing";
+              thisDayMealStateObj.thisGenRecipeUserType = "viewer";
+              let thisDayMealObj = thisDayMealStateObj.thisMeal;
+              thisDayMealObj.day = newRecordForState;
+              thisDayMealStateObj.thisMeal = thisDayMealObj;
+              let thisDayMealsIngrdnts = thisDayMealStateObj.thisMealsIngrdnts;
+              for (let i = 0; i < thisDayMealsIngrdnts.length; i++) {
+                let thisDayMealIngrdntStateObj = thisDayMealsIngrdnts[i];
+                thisDayMealIngrdntStateObj.thisMealIngrdntFormState = "viewing";
+                thisDayMealIngrdntStateObj.thisGenRecipeIngrdntFormState =
+                  "viewing";
+                thisDayMealIngrdntStateObj.thisIngrdntFormState = "viewing";
+                thisDayMealIngrdntStateObj.thisMealIngrdntUserType = "viewer";
+                thisDayMealIngrdntStateObj.thisGenRecipeIngrdntUserType =
+                  "viewer";
+                thisDayMealIngrdntStateObj.thisIngrdntUserType = "viewer";
+                let thisDayMealIngrdntObj =
+                  thisDayMealIngrdntStateObj.thisMealIngrdnt;
+                thisDayMealIngrdntObj.meal.day = newRecordForState;
+                thisDayMealIngrdntStateObj.thisMealIngrdnt =
+                  thisDayMealIngrdntObj;
+                thisDayMealsIngrdnts[i] = thisDayMealIngrdntStateObj;
+              }
+              thisDayMealStateObj.thisMealsIngrdnts = thisDayMealsIngrdnts;
+              thisDaysMeals[i] = thisDayMealStateObj;
             }
-            thisDayMealStateObj.thisMealsIngrdnts = thisDayMealsIngrdnts;
-            thisDaysMeals[i] = thisDayMealStateObj;
-          }
-          thisDayStateObj.dataLoaded = true;
-          parentObj = thisDayStateObj;
-          thisDayStateObj.thisDaysMeals = thisDaysMeals;
-          thisDayStateObj.thisDay = thisDayObj;
-          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-          state.thisWeeksDays = thisWeeksDays;
-          this.setState(state);
-          break;
-        case "meal":
-          thisMealObj = newRecordForState;
-          thisMealStateObj.thisMealsIngrdnts = [];
-          thisMealStateObj.thisRecipesIngrdnts = [];
-          thisMealStateObj.mealIngrdntsLoaded = true;
-          thisMealStateObj.thisMealJustCreated = true;
-          thisMealStateObj.mealRecordChanged = true;
-          thisMealStateObj.dataLoaded = true;
-          parentObj = thisMealStateObj;
-          thisMealStateObj.thisMeal = thisMealObj;
-          thisDaysMeals[mealTypeCode] = thisMealStateObj;
-          thisDayStateObj.thisDaysMeals = thisDaysMeals;
-          thisDayStateObj.thisDay = thisDayObj;
-          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-          state.thisWeeksDays = thisWeeksDays;
-          this.setState(state);
-          this.handleClickEditForm(parentObj, objType);
-          break;
-        case "genRecipe":
-          parentObj = thisMealStateObj;
-          this.handleClickEditForm(parentObj, objType);
-          thisGenRecipeObj = newRecordForState;
-          console.log(thisGenRecipeObj);
-          state.allGenRecipes.push(newRecordForState);
-          this.setState(state);
-          this.handleUpdateProp(
-            "meal",
-            dayOfWeekCode,
-            mealTypeCode,
-            "genRecipe",
-            arrayIndex,
-            "reactSelect",
-            thisGenRecipeObj._id,
-            state.allGenRecipes
-          );
-          break;
-        case "mealIngredient":
-          thisMealsIngrdnts.push(newRecordForState);
-          thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
-          thisMealStateObj.dataLoaded = true;
-          parentObj = thisMealStateObj;
-          thisDaysMeals[mealTypeCode] = thisMealStateObj;
-          thisDayStateObj.thisDaysMeals = thisDaysMeals;
-          thisDayStateObj.thisDay = thisDayObj;
-          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-          state.thisWeeksDays = thisWeeksDays;
-          this.setState(state);
-          this.handleClickEditForm(parentObj, objType);
-          break;
-        case "genRecipeIngredient":
-          thisMealObj = thisMealStateObj.thisMeal;
-          thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-          thisGenRecipeIngrdntObj = newRecordForState;
-          state.allGenRecipeIngredients.push(thisGenRecipeIngrdntObj);
-          thisMealIngrdntObj = {
-            _id: "",
-            qty: 1,
-            genRecipeIngredient: thisGenRecipeIngrdntObj,
-            meal: thisMealObj,
-          };
-          let newInnerMealIngrdntToSave = {
-            qty: 1,
-            genRecipeIngredient: thisGenRecipeIngrdntObj._id,
-            meal: thisMealObj._id,
-          };
-          axios
-            .post(
-              "http://localhost:5000/mealIngredients/add",
-              newInnerMealIngrdntToSave
-            )
-            .then((response) => {
-              let newSavedMealIngrdnt = response.data;
-              let newMealIngrdntId = newSavedMealIngrdnt._id;
-              thisMealIngrdntObj._id = newMealIngrdntId;
-              let newOuterMealIngrdnt = {
-                thisIngrdntJustCreated: false,
-                thisGenRecipeIngrdntJustCreated: true,
-                mealIngrdntRecordChanged: false,
-                genRecipeIngrdntRecordChanged: true,
-                ingredientRecordChanged: false,
-                thisMealIngrdntFormState: "viewing",
-                thisMealIngrdntUserType: "viewer",
-                thisGenRecipeIngrdntFormState: "editingOrig",
-                thisGenRecipeIngrdntUserType: thisUserType,
-                thisIngrdntFormState: "viewing",
-                thisIngrdntUserType: "viewer",
-                thisMealIngrdnt: thisMealIngrdntObj,
-              };
-              thisMealIngrdntStateObj = newOuterMealIngrdnt;
-              parentObj = thisMealIngrdntStateObj;
-              thisMealsIngrdnts.push(newOuterMealIngrdnt);
-              thisMealStateObj.thisMeal = thisMealObj;
-              thisDaysMeals[mealTypeCode] = thisMealStateObj;
-              thisDayStateObj.thisDaysMeals = thisDaysMeals;
-              thisDayStateObj.thisDay = thisDayObj;
-              thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-              state.thisWeeksDays = thisWeeksDays;
-              this.setState(state);
-              this.handleClickEditForm(parentObj, objType);
-            });
-          break;
-        case "ingredient":
-          thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-          thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
-          thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
-          thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
-          parentObj = thisMealIngrdntStateObj;
-          thisGenRecipeIngrdntObj.ingredient = newRecordForState;
-          thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
-          thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
-          thisMealIngrdntStateObj.thisIngrdntJustCreated = true;
-          if (thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged === true) {
-            thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged = false;
-            thisMealIngrdntStateObj.thisGenRecipeIngrdntJustCreated = false;
-          } else {
-            thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged = true;
-          }
-          thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
-          thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
-          thisDaysMeals[mealTypeCode] = thisMealStateObj;
-          thisDayStateObj.thisDaysMeals = thisDaysMeals;
-          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-          state.thisWeeksDays = thisWeeksDays;
-          this.setState(state);
-          this.handleClickEditForm(parentObj, objType);
-          break;
-        case "brand":
-          thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-          thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
-          thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
-          thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
-          parentObj = thisMealIngrdntStateObj;
-          thisIngrdntObj = thisGenRecipeIngrdntObj.ingredient;
-          let thisBrandObj = thisIngrdntObj.brand;
-          thisBrandObj = newRecordForState;
-          thisIngrdntObj.brand = thisBrandObj;
-          thisGenRecipeIngrdntObj.ingredient = thisIngrdntObj;
-          thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
-          thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
-          if (thisMealIngrdntStateObj.ingredientRecordChanged === true) {
-            let recordToSave = thisIngrdntObj;
-            let recordId = recordToSave._id;
-            let url = `http://localhost:5000/ingredients/update/${recordId}`;
-            axios.put(url, recordToSave).then(console.log("updated"));
-            thisMealIngrdntStateObj.ingredientRecordChanged = false;
-          } else {
-            thisMealIngrdntStateObj.ingredientRecordChanged = true;
-          }
-          thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
-          thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
-          thisDaysMeals[mealTypeCode] = thisMealStateObj;
-          thisDayStateObj.thisDaysMeals = thisDaysMeals;
-          thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-          state.thisWeeksDays = thisWeeksDays;
-          state.allBrands.push(thisBrandObj);
-          this.setState(state);
-          break;
-      }
-    });
+            thisDayStateObj.dataLoaded = true;
+            parentObj = thisDayStateObj;
+            thisDayStateObj.thisDaysMeals = thisDaysMeals;
+            thisDayStateObj.thisDay = thisDayObj;
+            thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+            state.thisWeeksDays = thisWeeksDays;
+            this.setState(state);
+            break;
+          case "meal":
+            thisMealObj = newRecordForState;
+            thisMealStateObj.thisMealsIngrdnts = [];
+            thisMealStateObj.thisRecipesIngrdnts = [];
+            thisMealStateObj.mealIngrdntsLoaded = true;
+            thisMealStateObj.thisMealJustCreated = true;
+            thisMealStateObj.mealRecordChanged = true;
+            thisMealStateObj.dataLoaded = true;
+            parentObj = thisMealStateObj;
+            thisMealStateObj.thisMeal = thisMealObj;
+            thisDaysMeals[mealTypeCode] = thisMealStateObj;
+            thisDayStateObj.thisDaysMeals = thisDaysMeals;
+            thisDayStateObj.thisDay = thisDayObj;
+            thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+            state.thisWeeksDays = thisWeeksDays;
+            this.setState(state);
+            this.handleClickEditForm(parentObj, objType);
+            break;
+          case "genRecipe":
+            parentObj = thisMealStateObj;
+            this.handleClickEditForm(parentObj, objType);
+            thisGenRecipeObj = newRecordForState;
+            console.log(thisGenRecipeObj);
+            state.allGenRecipes.push(newRecordForState);
+            this.setState(state);
+            this.handleUpdateProp(
+              "meal",
+              dayOfWeekCode,
+              mealTypeCode,
+              "genRecipe",
+              arrayIndex,
+              "reactSelect",
+              thisGenRecipeObj._id,
+              state.allGenRecipes
+            );
+            break;
+          case "mealIngredient":
+            thisMealsIngrdnts.push(newRecordForState);
+            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+            thisMealStateObj.dataLoaded = true;
+            parentObj = thisMealStateObj;
+            thisDaysMeals[mealTypeCode] = thisMealStateObj;
+            thisDayStateObj.thisDaysMeals = thisDaysMeals;
+            thisDayStateObj.thisDay = thisDayObj;
+            thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+            state.thisWeeksDays = thisWeeksDays;
+            this.setState(state);
+            this.handleClickEditForm(parentObj, objType);
+            break;
+          case "genRecipeIngredient":
+            thisMealObj = thisMealStateObj.thisMeal;
+            thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+            thisGenRecipeIngrdntObj = newRecordForState;
+            state.allGenRecipeIngredients.push(thisGenRecipeIngrdntObj);
+            thisMealIngrdntObj = {
+              _id: "",
+              qty: 1,
+              genRecipeIngredient: thisGenRecipeIngrdntObj,
+              meal: thisMealObj,
+            };
+            let newInnerMealIngrdntToSave = {
+              qty: 1,
+              genRecipeIngredient: thisGenRecipeIngrdntObj,
+              meal: thisMealObj,
+            };
+            httpService
+              .post(
+                `${backEndHtmlRoot}mealIngredients/add/genRecipeIngredient`,
+                newInnerMealIngrdntToSave
+              )
+              .then((response) => {
+                let newSavedMealIngrdnt = response.data;
+                let newMealIngrdntId = newSavedMealIngrdnt._id;
+                thisMealIngrdntObj._id = newMealIngrdntId;
+                let newOuterMealIngrdnt = {
+                  thisIngrdntJustCreated: false,
+                  thisGenRecipeIngrdntJustCreated: true,
+                  mealIngrdntRecordChanged: false,
+                  genRecipeIngrdntRecordChanged: true,
+                  ingredientRecordChanged: false,
+                  thisMealIngrdntFormState: "viewing",
+                  thisMealIngrdntUserType: "viewer",
+                  thisGenRecipeIngrdntFormState: "editingOrig",
+                  thisGenRecipeIngrdntUserType: thisUserType,
+                  thisIngrdntFormState: "viewing",
+                  thisIngrdntUserType: "viewer",
+                  thisMealIngrdnt: thisMealIngrdntObj,
+                  mealIngrdntsArrayIndex: arrayIndex,
+                  mealIngrdntValErrors: {
+                    qty: null,
+                  },
+                  genRecipeIngrdntValErrors: {
+                    defaultQty: null,
+                  },
+                  ingredientValErrors: {
+                    name: null,
+                    calories: null,
+                    carbs: null,
+                    protein: null,
+                    fat: null,
+                    fiber: null,
+                    photoURL: null,
+                  },
+                };
+                thisMealIngrdntStateObj = newOuterMealIngrdnt;
+                parentObj = thisMealIngrdntStateObj;
+                thisMealsIngrdnts.push(newOuterMealIngrdnt);
+                thisMealStateObj.thisMeal = thisMealObj;
+                thisDaysMeals[mealTypeCode] = thisMealStateObj;
+                thisDayStateObj.thisDaysMeals = thisDaysMeals;
+                thisDayStateObj.thisDay = thisDayObj;
+                thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+                state.thisWeeksDays = thisWeeksDays;
+                this.setState(state);
+                this.handleClickEditForm(parentObj, objType);
+              });
+            break;
+          case "ingredient":
+            thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+            thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
+            thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+            thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
+            parentObj = thisMealIngrdntStateObj;
+            thisGenRecipeIngrdntObj.ingredient = newRecordForState;
+            thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
+            thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
+            thisMealIngrdntStateObj.thisIngrdntJustCreated = true;
+            if (
+              thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged === true
+            ) {
+              thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged = false;
+              thisMealIngrdntStateObj.thisGenRecipeIngrdntJustCreated = false;
+            } else {
+              thisMealIngrdntStateObj.genRecipeIngrdntRecordChanged = true;
+            }
+            thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+            thisDaysMeals[mealTypeCode] = thisMealStateObj;
+            thisDayStateObj.thisDaysMeals = thisDaysMeals;
+            thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+            state.thisWeeksDays = thisWeeksDays;
+            this.setState(state);
+            this.handleClickEditForm(parentObj, objType);
+            break;
+          case "brand":
+            thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+            thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
+            thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+            thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
+            parentObj = thisMealIngrdntStateObj;
+            thisIngrdntObj = thisGenRecipeIngrdntObj.ingredient;
+            let thisBrandObj = thisIngrdntObj.brand;
+            thisBrandObj = newRecordForState;
+            thisIngrdntObj.brand = thisBrandObj;
+            thisGenRecipeIngrdntObj.ingredient = thisIngrdntObj;
+            thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
+            thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
+            if (thisMealIngrdntStateObj.ingredientRecordChanged === true) {
+              let recordToSave = thisIngrdntObj;
+              let recordId = recordToSave._id;
+              let url = `${backEndHtmlRoot}ingredients/update/${recordId}`;
+              httpService.put(url, recordToSave).then(console.log("updated"));
+              thisMealIngrdntStateObj.ingredientRecordChanged = false;
+            } else {
+              thisMealIngrdntStateObj.ingredientRecordChanged = true;
+            }
+            thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+            thisDaysMeals[mealTypeCode] = thisMealStateObj;
+            thisDayStateObj.thisDaysMeals = thisDaysMeals;
+            thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+            state.thisWeeksDays = thisWeeksDays;
+            state.allBrands.push(thisBrandObj);
+            this.setState(state);
+            break;
+          case "unitOfMeasure":
+            thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+            thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
+            thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+            thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
+            parentObj = thisMealIngrdntStateObj;
+            thisIngrdntObj = thisGenRecipeIngrdntObj.ingredient;
+            let thisUOMObj = thisIngrdntObj.unitOfMeasure;
+            thisUOMObj = newRecordForState;
+            thisIngrdntObj.unitOfMeasure = thisUOMObj;
+            thisGenRecipeIngrdntObj.ingredient = thisIngrdntObj;
+            thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
+            thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
+            if (thisMealIngrdntStateObj.ingredientRecordChanged === true) {
+              let recordToSave = thisIngrdntObj;
+              let recordId = recordToSave._id;
+              let url = `${backEndHtmlRoot}ingredients/update/${recordId}`;
+              httpService.put(url, recordToSave).then(console.log("updated"));
+              thisMealIngrdntStateObj.ingredientRecordChanged = false;
+            } else {
+              thisMealIngrdntStateObj.ingredientRecordChanged = true;
+            }
+            thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+            thisDaysMeals[mealTypeCode] = thisMealStateObj;
+            thisDayStateObj.thisDaysMeals = thisDaysMeals;
+            thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+            state.thisWeeksDays = thisWeeksDays;
+            state.allUnitOfMeasures.push(thisUOMObj);
+            this.setState(state);
+            break;
+          case "weightType":
+            thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+            thisMealIngrdntStateObj = thisMealsIngrdnts[arrayIndex];
+            thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
+            thisGenRecipeIngrdntObj = thisMealIngrdntObj.genRecipeIngredient;
+            parentObj = thisMealIngrdntStateObj;
+            thisIngrdntObj = thisGenRecipeIngrdntObj.ingredient;
+            let thisWeightTypeObj = thisIngrdntObj.weightType;
+            thisWeightTypeObj = newRecordForState;
+            thisIngrdntObj.weightType = thisWeightTypeObj;
+            thisGenRecipeIngrdntObj.ingredient = thisIngrdntObj;
+            thisMealIngrdntObj.genRecipeIngredient = thisGenRecipeIngrdntObj;
+            thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
+            if (thisMealIngrdntStateObj.ingredientRecordChanged === true) {
+              let recordToSave = thisIngrdntObj;
+              let recordId = recordToSave._id;
+              let url = `${backEndHtmlRoot}ingredients/update/${recordId}`;
+              httpService.put(url, recordToSave).then(console.log("updated"));
+              thisMealIngrdntStateObj.ingredientRecordChanged = false;
+            } else {
+              thisMealIngrdntStateObj.ingredientRecordChanged = true;
+            }
+            thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+            thisDaysMeals[mealTypeCode] = thisMealStateObj;
+            thisDayStateObj.thisDaysMeals = thisDaysMeals;
+            thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+            state.thisWeeksDays = thisWeeksDays;
+            state.allWeightTypes.push(thisWeightTypeObj);
+            this.setState(state);
+            break;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   populateNewMealIngredients = (
     thisGenRecipeUserType,

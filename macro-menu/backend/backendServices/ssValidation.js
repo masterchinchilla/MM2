@@ -7,27 +7,28 @@ function ssValidateProp(propName, value, propTypeForVal) {
     const { error } = subSchema.validate(objToValidate);
     return error ? error.details[0].message : null;
 };
-async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, req, res){
+async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, nameOfObjRefPropJustCreated, req, res){
     const valErrorsArray=[];
-    let authorId;
     for(let i=0;i<propsArray.length;i++){
         let {thisPropsName,thisPropNameSentenceCase,thisPropsValue,thisPropTypeForVal,PropObjModel}=propsArray[i];
         if(thisPropTypeForVal==="objRef"){
+            let thisPropsValueId=thisPropsValue._id;
             if(thisPropsName==="GRFUser"){
-                authorId=thisPropsValue._id;
-                const foundAuthor=await PropObjModel.findById(authorId);
+                const foundAuthor=await PropObjModel.findById(thisPropsValueId);
                 if(!foundAuthor){
                     res.status(404).json({ok:false,errorMsg:"Invalid author"});
                     return false;
                 };
-            }else{
-                let thisPropsValueId=thisPropsValue._id;
-                const foundRecord=await PropObjModel.findById(thisPropsValueId);
-                if(!foundRecord){
-                    res.status(404).json({ok:false,errorMsg:`${thisPropNameSentenceCase} not found`});
-                    return false;
-                };
             }
+            else{
+                if(thisPropsName!==nameOfObjRefPropJustCreated){
+                    const foundRecord=await PropObjModel.findById(thisPropsValueId);
+                    if(!foundRecord){
+                        res.status(404).json({ok:false,errorMsg:`${thisPropNameSentenceCase} not found`});
+                        return false;
+                    };
+                }; 
+            };
         }else{
             let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
             if(thisPropsValError){valErrorsArray.push({[thisPropsName]:thisPropsValError})};

@@ -10,6 +10,9 @@ let Meal=require('../models/meal.model');
 let Day=require('../models/day.model');
 let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
+const auth = require('../middleware/auth');
+const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
+const {ssValidate}=require('../backendServices/ssValidation');
 
 router.route('/').get((req, res)=>{
     GenRecipeIngredient.find()
@@ -99,31 +102,108 @@ router.route('/thisGenRecipesGenRecipeIngredients/:id').get((req, res)=>{
         .then(genRecipeIngredients=>res.json(genRecipeIngredients))
         .catch(err=>res.status(400).json('Error: '+err));
 });
-router.route('/update/:id').put((req, res)=>{
-    GenRecipeIngredient.findById(req.params.id)
-        .then(genRecipeIngredient=>{
-            genRecipeIngredient.defaultQty=req.body.defaultQty;
-            genRecipeIngredient.ingredient=req.body.ingredient._id;
-            genRecipeIngredient.genRecipe=req.body.genRecipe._id;
-            genRecipeIngredient.defaultPrepInstructions="";
-            genRecipeIngredient.save()
-                .then(()=>res.json(genRecipeIngredient))
-                .catch(err=>res.status(400).json('Error: '+err));
-        })
-        .catch(err=>res.status(400).json('Error: '+err));
-})
-router.route('/add').post((req,res)=>{
-    const defaultQty=req.body.defaultQty;
-    const ingredient=req.body.ingredient;
-    const genRecipe=req.body.genRecipe;
-    const newGenRecipeIngredient=new GenRecipeIngredient({
+// router.route('/update/:id').put((req, res)=>{
+router.put('/update/:id',auth,async(req,res)=>{
+    const {
         defaultQty,
         ingredient,
         genRecipe
-    });
-    newGenRecipeIngredient.save()
-        .then(()=>res.json(newGenRecipeIngredient))
-        .catch(err=>res.status(400).json('Error: '+err));
+    }=req.body;
+    const genRecipeIngredientId=req.params.id
+    const ingredientId=ingredient._id
+    const genRecipeId=genRecipe._id;
+    
+    let authorId;
+    const propsArray=[
+        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null},
+        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient},
+        {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Base Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe},
+    ]
+    const ssValResult=await ssValidate("Recipe Ingredient", genRecipeIngredientId, propsArray, null, req, res);
+    
+    if(ssValResult){
+        GenRecipeIngredient.findById(genRecipeIngredientId)
+            .populate({
+                path: 'genRecipe',
+                populate:{
+                    path: 'GRFUser',
+                }
+            })
+            .then(genRecipeIngredient=>{
+                authorId=genRecipeIngredient.genRecipe.GRFUser._id;
+                console.log(authorId);
+                const userCanEdit=authEditThisRecord(req,res,authorId)
+                if(userCanEdit){
+                    genRecipeIngredient.defaultQty=defaultQty;genRecipeIngredient.ingredient=ingredientId;
+                    genRecipeIngredient.genRecipe=genRecipeId;
+                    genRecipeIngredient.save()
+                        .then(()=>res.json({ok:true,msg:"success"}))
+                        .catch((err)=>{
+                            res.status(500).json({ok:false,errorMsg:"Server error - please try again in a moment"})
+                        });
+                }else{return}
+            })
+            .catch((err)=>{
+                console.log(err);
+                res.status(404).json({ok:false,errorMsg:"Recipe Ingredient not found, it might have already been deleted"})
+            });
+    }else{return};
+    // GenRecipeIngredient.findById(req.params.id)
+    //     .then(genRecipeIngredient=>{
+    //         genRecipeIngredient.defaultQty=req.body.defaultQty;
+    //         genRecipeIngredient.ingredient=req.body.ingredient._id;
+    //         genRecipeIngredient.genRecipe=req.body.genRecipe._id;
+    //         genRecipeIngredient.defaultPrepInstructions="";
+    //         genRecipeIngredient.save()
+    //             .then(()=>res.json(genRecipeIngredient))
+    //             .catch(err=>res.status(400).json('Error: '+err));
+    //     })
+    //     .catch(err=>res.status(400).json('Error: '+err));
+})
+// router.route('/add').post((req,res)=>{
+router.post('/add/:justCreated?',auth,async(req,res)=>{
+    const {
+        defaultQty,
+        ingredient,
+        genRecipe
+    }=req.body;
+    const nameOfObjRefPropJustCreated=req.params.justCreated;
+    const genRecipeIngredientId=req.params.id
+    const ingredientId=ingredient._id
+    const genRecipeId=genRecipe._id;
+    let authorId;
+    const propsArray=[
+        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null},
+        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient},
+    ];
+    const ssValResult=await ssValidate("Recipe Ingredient", genRecipeIngredientId, propsArray, nameOfObjRefPropJustCreated, req, res);
+    if(ssValResult){
+        GenRecipe.findById(genRecipeId)
+            .populate('GRFUser')
+            .then(genRecipe=>{
+                authorId=genRecipe.GRFUser._id;
+                const userCanEdit=authEditThisRecord(req,res,authorId);
+                if(userCanEdit){
+                    const newGenRecipeIngredient=new GenRecipeIngredient({
+                        defaultQty,
+                        ingredient:ingredientId,
+                        genRecipe:genRecipeId
+                    });
+                    newGenRecipeIngredient.save()
+                        .then(()=>res.json(newGenRecipeIngredient))
+                        .catch(err=>res.status(400).json('Error: '+err));
+                }else{return};
+            })
+            .catch((err)=>{res.status(404).json({ok:false,errorMsg:"Base Recipe not found"})}); 
+    }else{return};
+    // const newGenRecipeIngredient=new GenRecipeIngredient({
+    //     defaultQty,
+    //     ingredient,
+    //     genRecipe
+    // });
+    // newGenRecipeIngredient.save()
+    //     .then(()=>res.json(newGenRecipeIngredient))
+    //     .catch(err=>res.status(400).json('Error: '+err));
 });
 router.route('/:id').delete((req, res)=>{
     GenRecipeIngredient.findByIdAndDelete(req.params.id)

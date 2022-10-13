@@ -1,4 +1,4 @@
-import React, { useContext, Component } from "react";
+import React from "react";
 import dayjs from "dayjs";
 import StickyBox from "react-sticky-box";
 import EditOptions from "./EditOptions.component";
@@ -6,7 +6,6 @@ import GenRecipe from "./GenRecipe.component";
 import MealIngredientParent from "./MealIngredientParent.component";
 import MacrosTable from "./MacrosTable.component";
 import SelectSearchListWCreate from "./SelectSearchListWCreate.component";
-import WeekMealPlanContext from "./WeekMealPlanContext";
 const MealDetail = (props) => {
   const {
     thisStateObj,
@@ -340,8 +339,8 @@ const MealDetail = (props) => {
                     },
                     {
                       defaultQty: 1,
-                      ingredient: defaultIngredient._id,
-                      genRecipe: thisGenRecipeObj._id,
+                      ingredient: defaultIngredient,
+                      genRecipe: thisGenRecipeObj,
                     }
                   );
                 }}
