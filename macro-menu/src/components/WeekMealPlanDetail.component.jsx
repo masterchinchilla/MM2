@@ -9218,7 +9218,6 @@ export default class WeekMealPlanDetail extends Component {
     let state = this.state;
     let thisWMPBackup = _.cloneDeep(state.thisWeekMealPlan);
     let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
-    console.log(thisWeeksDaysBackup);
     state.thisWeekMealPlan.userType = "viewer";
     state.thisWeekMealPlan.thisFormState = "viewing";
     let initialUserType;
@@ -10060,6 +10059,7 @@ export default class WeekMealPlanDetail extends Component {
   };
   handleSaveFormChanges = (parentObj, objType) => {
     let state = this.state;
+    let backEndHtmlRoot = state.backEndHtmlRoot;
     let stateObjToUpdate;
     let valErrorsObjToUpdate = {};
     let thisMealTypeCode;
@@ -10081,6 +10081,9 @@ export default class WeekMealPlanDetail extends Component {
         break;
       case "meal":
         recordToSave = parentObj.thisMeal;
+        thisDayOfWeekCode = parentObj.thisMeal.day.dayOfWeek.code;
+        thisMealTypeCode = parentObj.thisMeal.mealType.code;
+        stateObjToUpdate = state.thisWeeksDays;
         break;
       case "genRecipe":
         recordToSave = parentObj.thisMeal.genRecipe;
@@ -10100,9 +10103,43 @@ export default class WeekMealPlanDetail extends Component {
         break;
       case "mealIngredient":
         recordToSave = parentObj.thisMealIngrdnt;
+        thisDayOfWeekCode = parentObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
+        thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
+        mealIngredientArrayIndex = parentObj.mealIngrdntsArrayIndex;
+        stateObjToUpdate = state.thisWeeksDays;
+        valErrorsObjToUpdate =
+          state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngredientArrayIndex][
+            "mealIngrdntValErrors"
+          ];
+        packageUpdatedStateObjFn = () => {
+          stateObjToUpdate[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngredientArrayIndex][
+            "mealIngrdntValErrors"
+          ] = valErrorsObjToUpdate;
+        };
         break;
       case "genRecipeIngredient":
         recordToSave = parentObj.thisMealIngrdnt.genRecipeIngredient;
+        thisDayOfWeekCode = parentObj.thisMealIngrdnt.meal.day.dayOfWeek.code;
+        thisMealTypeCode = parentObj.thisMealIngrdnt.meal.mealType.code;
+        mealIngredientArrayIndex = parentObj.mealIngrdntsArrayIndex;
+        stateObjToUpdate = state.thisWeeksDays;
+        valErrorsObjToUpdate =
+          state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngredientArrayIndex][
+            "genRecipeIngrdntValErrors"
+          ];
+        packageUpdatedStateObjFn = () => {
+          stateObjToUpdate[thisDayOfWeekCode]["thisDaysMeals"][
+            thisMealTypeCode
+          ]["thisMealsIngrdnts"][mealIngredientArrayIndex][
+            "genRecipeIngrdntValErrors"
+          ] = valErrorsObjToUpdate;
+        };
         break;
       case "ingredient":
         recordToSave = parentObj.thisMealIngrdnt.genRecipeIngredient.ingredient;
@@ -10126,7 +10163,7 @@ export default class WeekMealPlanDetail extends Component {
         break;
     }
     let recordId = recordToSave._id;
-    let url = `http://localhost:5000/${objType}s/update/${recordId}`;
+    let url = `${backEndHtmlRoot}${objType}s/update/${recordId}`;
     const notify = (notice, noticeType) => {
       switch (noticeType) {
         case "success":
@@ -10136,7 +10173,7 @@ export default class WeekMealPlanDetail extends Component {
           toast.error(notice);
       }
     };
-    axios
+    httpService
       .put(url, recordToSave, this.state.axiosCallConfig)
       .then((response) => {
         if (!response.data.ok) {
@@ -10158,7 +10195,7 @@ export default class WeekMealPlanDetail extends Component {
         }
       })
       .catch((err) => {
-        if (err.response.status) {
+        if (err.response.data) {
           notify(err.response.data.errorMsg, "error");
           const valErrorsArray = err.response.data.valErrorsArray;
           if (valErrorsArray) {
@@ -10195,6 +10232,8 @@ export default class WeekMealPlanDetail extends Component {
     let thisGRFUserId = thisGRFUser._id;
     let thisWeeksDays = state.thisWeeksDays;
     let thisWeeksDaysOld = state.thisWeeksDaysOld;
+    let backEndHtmlRoot = state.backEndHtmlRoot;
+    let nameOfObjRefPropJustCreated = "";
     let theseMealIngrdntsToDelete =
       thisWeeksDaysOld[dayOfWeekCode]["thisDaysMeals"][mealTypeCode][
         "thisMealsIngrdnts"
@@ -10208,12 +10247,12 @@ export default class WeekMealPlanDetail extends Component {
       let thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
       let thisMealIngrdntToSave = {
         qty: thisMealIngrdntObj.qty,
-        genRecipeIngredient: thisMealIngrdntObj.genRecipeIngredient._id,
-        meal: thisMealIngrdntObj.meal._id,
+        genRecipeIngredient: thisMealIngrdntObj.genRecipeIngredient,
+        meal: thisMealIngrdntObj.meal,
       };
-      axios
+      httpService
         .post(
-          "http://localhost:5000/mealIngredients/add",
+          `${backEndHtmlRoot}mealIngredients/add/${nameOfObjRefPropJustCreated}`,
           thisMealIngrdntToSave
         )
         .then((response) => {
@@ -10230,8 +10269,8 @@ export default class WeekMealPlanDetail extends Component {
       let thisMealIngrdntStateObj = theseMealIngrdntsToDelete[i];
       let thisMealIngrdntObj = thisMealIngrdntStateObj.thisMealIngrdnt;
       let thisMealIngrdntId = thisMealIngrdntObj._id;
-      axios
-        .delete("http://localhost:5000/mealIngredients/" + thisMealIngrdntId)
+      httpService
+        .delete(`${backEndHtmlRoot}mealIngredients/${thisMealIngrdntId}`)
         .then(console.log("meal ingredient deleted"));
     }
     let wmpUserId = state.thisWeekMealPlan.thisWMP.GRFUser._id;
@@ -10328,7 +10367,7 @@ export default class WeekMealPlanDetail extends Component {
       let pattern = /missing/;
       let testResult = pattern.test(thisDayStateObjAsInStateNowId);
       let innerDfltDayObj;
-      if (testResult === false) {
+      if (testResult === true) {
         innerDfltDayObj = {
           _id: defaultDayNewId,
           name: `Temp WMP - ${dayOfWeek.name}`,
@@ -10536,6 +10575,17 @@ export default class WeekMealPlanDetail extends Component {
     selectedFrom,
     propTypeForVal
   ) => {
+    console.log({
+      objType,
+      dayOfWeekCode,
+      mealTypeCode,
+      propToUpdate,
+      arrayIndex,
+      inputType,
+      e,
+      selectedFrom,
+      propTypeForVal,
+    });
     let newValue;
     if (inputType === "select") {
       newValue = selectedFrom.filter(
@@ -10619,7 +10669,8 @@ export default class WeekMealPlanDetail extends Component {
             thisGenRecipeUserType,
             dayOfWeekCode,
             mealTypeCode,
-            newValue
+            newValue,
+            state
           );
         }
         break;
@@ -10668,28 +10719,32 @@ export default class WeekMealPlanDetail extends Component {
         }
         break;
     }
-    if (
-      objType !== "meal" &&
-      objType !== "genRecipe" &&
-      objType !== "day" &&
-      objType !== "weekMealPlan"
-    ) {
-      thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
-      thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
-      thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+    if (objType === "meal" && propToUpdate === "genRecipe") {
+      return;
+    } else {
+      if (
+        objType !== "meal" &&
+        objType !== "genRecipe" &&
+        objType !== "day" &&
+        objType !== "weekMealPlan"
+      ) {
+        thisMealIngrdntStateObj.thisMealIngrdnt = thisMealIngrdntObj;
+        thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+        thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+      }
+      if (objType === "meal" && objType === "genRecipe") {
+        thisMealStateObj.thisMeal = thisMealObj;
+      }
+      if (objType !== "day" && objType !== "weekMealPlan") {
+        thisDaysMeals[mealTypeCode] = thisMealStateObj;
+        thisDayStateObj.thisDaysMeals = thisDaysMeals;
+      }
+      if (objType !== "weekMealPlan") {
+        thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
+        state.thisWeeksDays = thisWeeksDays;
+      }
+      this.setState(state);
     }
-    if (objType === "meal" && objType === "genRecipe") {
-      thisMealStateObj.thisMeal = thisMealObj;
-    }
-    if (objType !== "day" && objType !== "weekMealPlan") {
-      thisDaysMeals[mealTypeCode] = thisMealStateObj;
-      thisDayStateObj.thisDaysMeals = thisDaysMeals;
-    }
-    if (objType !== "weekMealPlan") {
-      thisWeeksDays[dayOfWeekCode] = thisDayStateObj;
-      state.thisWeeksDays = thisWeeksDays;
-    }
-    this.setState(state);
   };
   // createRecord = (newRecordToSave, objType) => {
   //   let url = `http://localhost:5000/${objType}s/add`;
@@ -10787,8 +10842,9 @@ export default class WeekMealPlanDetail extends Component {
             thisMealStateObj.thisMealJustCreated = true;
             thisMealStateObj.mealRecordChanged = true;
             thisMealStateObj.dataLoaded = true;
-            parentObj = thisMealStateObj;
+
             thisMealStateObj.thisMeal = thisMealObj;
+            parentObj = thisMealStateObj;
             thisDaysMeals[mealTypeCode] = thisMealStateObj;
             thisDayStateObj.thisDaysMeals = thisDaysMeals;
             thisDayStateObj.thisDay = thisDayObj;
@@ -10801,7 +10857,6 @@ export default class WeekMealPlanDetail extends Component {
             parentObj = thisMealStateObj;
             this.handleClickEditForm(parentObj, objType);
             thisGenRecipeObj = newRecordForState;
-            console.log(thisGenRecipeObj);
             state.allGenRecipes.push(newRecordForState);
             this.setState(state);
             this.handleUpdateProp(
@@ -11026,10 +11081,12 @@ export default class WeekMealPlanDetail extends Component {
     thisGenRecipeUserType,
     dayOfWeekCode,
     mealTypeCode,
-    thisRecipe
+    thisRecipe,
+    stateObj
   ) => {
-    let state = this.state;
+    let state = stateObj ? stateObj : this.state;
     let thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
+    let backEndHtmlRoot = state.backEndHtmlRoot;
     state.thisWeeksDaysOld = thisWeeksDaysBackup;
     state.thisWeekMealPlan.thisFormState = "viewing";
     state.thisWeekMealPlan.userType = "viewer";
@@ -11068,10 +11125,9 @@ export default class WeekMealPlanDetail extends Component {
       }
       thisWeeksDays[daysOfWeek[i].code] = thisDayStateObj;
     }
-    axios
+    httpService
       .get(
-        "http://localhost:5000/genRecipeIngredients/thisGenRecipesGenRecipeIngredients/" +
-          thisRecipeId
+        `${backEndHtmlRoot}genRecipeIngredients/thisGenRecipesGenRecipeIngredients/${thisRecipeId}`
       )
       .then((response) => {
         const thisGenRecipesGenRecipeIngrdnts = response.data.map(
@@ -11082,19 +11138,34 @@ export default class WeekMealPlanDetail extends Component {
           let thisGenRecipeIngrdnt = thisGenRecipesGenRecipeIngrdnts[i];
           let newMealIngredient = {
             thisGenRecipeIngrdntJustCreated: false,
-            recordChanged: false,
+            thisIngrdntJustCreated: false,
+            mealIngrdntRecordChanged: false,
+            genRecipeIngrdntRecordChanged: false,
+            ingredientRecordChanged: false,
+            thisMealIngrdntFormState: "viewing",
             thisMealIngrdntUserType: thisMealInitialUserType,
+            thisGenRecipeIngrdntFormState: "viewing",
             thisGenRecipeIngrdntUserType: thisGenRecipeUserType,
+            thisIngrdntFormState: "viewing",
             thisIngrdntUserType: this.setUserType(
               thisUsersId,
               thisGenRecipeIngrdnt.ingredient.GRFUser._id
             ),
-            thisMealIngrdntFormState: "viewing",
-            thisMealIngrdntUserType: "viewer",
-            thisGenRecipeIngrdntUserType: "viewer",
-            thisGenRecipeIngrdntFormState: "viewing",
-            thisIngrdntFormState: "viewing",
-            thisIngrdntUserType: "viewer",
+            mealIngrdntValErrors: {
+              qty: null,
+            },
+            genRecipeIngrdntValErrors: {
+              defaultQty: null,
+            },
+            ingredientValErrors: {
+              name: null,
+              calories: null,
+              carbs: null,
+              protein: null,
+              fat: null,
+              fiber: null,
+              photoURL: null,
+            },
             thisMealIngrdnt: {
               _id: "tempId-" + this.getRndInteger(10000000, 99999999),
               qty: thisGenRecipeIngrdnt.defaultQty,

@@ -175,26 +175,36 @@ router.route('/:id').delete((req, res)=>{
 //         })
 //         .catch(err=>res.status(400).json('Error: '+err));
 // });
-router.put('/update/:id',auth,async(req,res)=>{
+router.put('/update/:id/:justCreated?',auth,async(req,res)=>{
     const {
         qty,
         genRecipeIngredient,
         meal,
     }=req.body;
     const mealIngredientId=req.params.id
+    const nameOfObjRefPropJustCreated=req.params.justCreated;
     const genRecipeIngredientId=genRecipeIngredient._id;
     const mealId=meal._id;
-    let authorId;
     const propsArray=[
         {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null},
         {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient},
         {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal},
     ];
-    const ssValResult=await ssValidate("Meal Ingredient", mealIngredientId, propsArray, null, req, res);
+    const ssValResult=await ssValidate("Meal Ingredient", mealIngredientId, propsArray, nameOfObjRefPropJustCreated, req, res);
     if(ssValResult){
         MealIngredient.findById(mealIngredientId)
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'day',
+                    populate:{
+                        path:'weekMealPlan',
+                        populate:{path:'GRFuser'}
+                    }
+                }
+            })
             .then(mealIngredient=>{
-                authorId=mealIngredient.meal.day.weekMealPlan.GRFUser;
+                let authorId=mealIngredient.meal.day.weekMealPlan.GRFUser._id;
                 const userCanEdit=authEditThisRecord(req,res,authorId)
                 if(userCanEdit){
                     mealIngredient.qty=qty;
@@ -210,7 +220,7 @@ router.put('/update/:id',auth,async(req,res)=>{
             .catch((err)=>{res.status(404).json({ok:false,errorMsg:"Meal Ingredient not found, it might have already been deleted"})});
     }else{return};
 });
-router.post('/add/:justCreated',auth,async(req,res)=>{
+router.post('/add/:justCreated?',auth,async(req,res)=>{
     const {
         qty,
         genRecipeIngredient,
@@ -219,11 +229,11 @@ router.post('/add/:justCreated',auth,async(req,res)=>{
     const nameOfObjRefPropJustCreated=req.params.justCreated;
     const genRecipeIngredientId=genRecipeIngredient._id;
     const mealId=meal._id;
-    console.log(mealId);
     let authorId;
     const propsArray=[
         {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null},
         {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient},
+        {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal},
     ];
     const ssValResult=await ssValidate("Meal Ingredient", null, propsArray, nameOfObjRefPropJustCreated, req, res);
     if(ssValResult){
