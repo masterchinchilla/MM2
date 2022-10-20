@@ -27,17 +27,7 @@ const InputWSearchUnique = (props) => {
     changeParentPropFn,
   } = props;
   const [timer, setTimer] = useState(null);
-  function trimValueForChangePropFn(
-    objType,
-    dayOfWeekCode,
-    mealTypeCode,
-    propToUpdate,
-    arrayIndex,
-    inputType,
-    e,
-    selectedFrom,
-    propTypeForVal
-  ) {
+  function trimValueForChangePropFn(e) {
     const inputValue = e.target.value;
     const noDblSpcs = inputValue.replace(/  +/g, " ");
     changeLocalPropFn(noDblSpcs, propName);
@@ -91,20 +81,6 @@ const InputWSearchUnique = (props) => {
         inputClasses={inputClasses}
         isRequired={isRequired}
       />
-      {/* <div className={formGroupClasses}>
-        <label>{label}</label>
-        <input
-          type={propType}
-          className="form-control"
-          value={localPropValue}
-          onChange={trimValueForChangePropFn}
-          onKeyUp={searchSetUnique}
-          disabled={fieldDisabled}
-        />
-        <div className="alert alert-danger" hidden={valError ? false : true}>
-          {valError}
-        </div>
-      </div> */}
     </React.Fragment>
   );
 };

@@ -16,7 +16,7 @@ import CreateWeekMealPlan from "./CreateWeekMealPlan.component";
 import CreateGRFUser from "./CreateGRFUser.component";
 import GRFUserDetail from "./GRFUserDetail.component";
 import GRFUsersList from "./GRFUsersList.component";
-import WeekMealPlanDetailAdmin from "./adminVersions/WeekMealPlanDetail.Admin.component";
+import NewWeekMealPlan from "./newComponents/NewWeekMealPlanDetail.component";
 import Login from "./Login.component";
 import Logout from "./Logout.component";
 class RouterWrapper extends Component {
@@ -79,11 +79,6 @@ class RouterWrapper extends Component {
           frontEndHtmlRoot={frontEndHtmlRoot}
           axiosCallConfig={axiosCallConfig}
         >
-          <Route
-            exact
-            path="/weekmealplan/admin/:id"
-            component={WeekMealPlanDetailAdmin}
-          />
           <Route exact path="/grfusers" component={GRFUsersList} />
           <Route exact path="/create" component={CreateWeekMealPlan} />
           <Route
@@ -101,6 +96,20 @@ class RouterWrapper extends Component {
             path="/weekMealPlans/edit/:id/:isNewWMP?"
             render={(props) => (
               <WeekMealPlanDetail
+                {...props}
+                getCurrentUser={getCurrentUser}
+                thisGRFUser={currentGRFUser}
+                backEndHtmlRoot={backEndHtmlRoot}
+                frontEndHtmlRoot={frontEndHtmlRoot}
+                axiosCallConfig={axiosCallConfig}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/weekMealPlansNew/edit/:id/:isNewWMP?"
+            render={(props) => (
+              <NewWeekMealPlan
                 {...props}
                 getCurrentUser={getCurrentUser}
                 thisGRFUser={currentGRFUser}

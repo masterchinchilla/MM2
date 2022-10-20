@@ -199,7 +199,6 @@ router.put('/update/:id/:justCreated?',auth,async(req,res)=>{
                     path: 'day',
                     populate:{
                         path:'weekMealPlan',
-                        populate:{path:'GRFuser'}
                     }
                 }
             })
@@ -217,7 +216,10 @@ router.put('/update/:id/:justCreated?',auth,async(req,res)=>{
                         });
                 }else{return}
             })
-            .catch((err)=>{res.status(404).json({ok:false,errorMsg:"Meal Ingredient not found, it might have already been deleted"})});
+            .catch((err)=>{
+                console.log(err);
+                res.status(404).json({ok:false,errorMsg:"Meal Ingredient not found, it might have already been deleted"})
+            });
     }else{return};
 });
 router.post('/add/:justCreated?',auth,async(req,res)=>{
@@ -251,9 +253,7 @@ router.post('/add/:justCreated?',auth,async(req,res)=>{
                 }
             })
             .then(meal=>{
-                console.log(meal);
                 authorId=meal.day.weekMealPlan.GRFUser._id;
-                console.log(authorId);
                 const userCanEdit=authEditThisRecord(req,res,authorId);
                 if(userCanEdit){
                     const newMealIngredient=new MealIngredient({
@@ -267,7 +267,6 @@ router.post('/add/:justCreated?',auth,async(req,res)=>{
                 }else{return};
             })
             .catch((err)=>{
-                console.log(err);
                 res.status(404).json({ok:false,errorMsg:"Meal not found"})
             });   
     }else{return};

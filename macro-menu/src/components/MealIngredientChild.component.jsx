@@ -55,7 +55,8 @@ const MealIngredientChild = (props) => {
               mealIngrdntsArrayIndex,
               "number",
               e,
-              []
+              [],
+              "float"
             )
           }
           disabled={thisFormState === "viewing" ? true : false}

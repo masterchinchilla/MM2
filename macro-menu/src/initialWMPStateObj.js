@@ -106,39 +106,6 @@ const initialWMPStateObj = {
           name: "Dessert",
         },
       ],
-      allGenRecipeIngredients: [
-        {
-          _id: "tempGenRecipeIngredientId1",
-          defaultQty: 1,
-          ingredient: {
-            _id: "tempIngredientId1",
-            name: "Temp Ingredient 1 Name",
-            calories: 1,
-            carbs: 1,
-            protein: 1,
-            fat: 1,
-            fiber: 1,
-            unitOfMeasure: {
-              name: "Each",
-              GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            },
-            photoURL: "",
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-          },
-          genRecipe: {
-            _id: "tempGenRecipe1Id",
-            name: "tempGenRecipe1Name",
-            availableMealType: {
-              _id: "626dd6fc21888432c0fe3e90",
-              code: "breakfast",
-              name: "Breakfast",
-            },
-            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-            defaultPrepInstructions: "",
-            photoUrl: "",
-          },
-        },
-      ],
       allUnitOfMeasures: [
         {
           _id: "tempUnitOfMeasureId1",
