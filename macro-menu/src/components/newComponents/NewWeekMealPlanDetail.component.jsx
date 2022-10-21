@@ -9,21 +9,21 @@ class NewWeekMealPlan extends Component {
     super(props);
 
     this.state = {
-      thisWMPStateObj: {
-        thisWMP: {
-          _id: 1,
-          GRFUser: {
-            handle: "a",
-          },
-        },
-        thisFormState: "viewing",
-        valErrors: {},
-      },
-      thisWeeksDays: {
-        breakfast: {
-          a: 1,
-        },
-      },
+      // thisWMPStateObj: {
+      //   thisWMP: {
+      //     _id: 1,
+      //     GRFUser: {
+      //       handle: "a",
+      //     },
+      //   },
+      //   thisFormState: "viewing",
+      //   valErrors: {},
+      // },
+      // thisWeeksDays: {
+      //   breakfast: {
+      //     a: 1,
+      //   },
+      // },
     };
   }
   getRndIntegerFn = (min, max) => {

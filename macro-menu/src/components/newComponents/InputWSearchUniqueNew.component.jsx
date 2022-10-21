@@ -9,7 +9,7 @@ const InputWSearchUniqueNew = (props) => {
     localPropValue,
     changeLocalPropFn,
     origPropValue,
-    recordToChange,
+    typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
     propToUpdate,
@@ -23,7 +23,7 @@ const InputWSearchUniqueNew = (props) => {
     propNameSentenceCase,
     togglePropValueHasDupStateFn,
     changeParentPropFn,
-    valErrorUpdateFn,
+    valErrorUpdateStateFn,
   } = props;
   const [timer, setTimerStateFn] = useState(null);
   function trimValueForChangePropFn(e) {
@@ -44,13 +44,13 @@ const InputWSearchUniqueNew = (props) => {
           httpService
             .get(
               backEndHtmlRoot +
-                `${recordToChange}s/findbyname/` +
+                `${typeOfRecordToChange}s/findbyname/` +
                 valueForSearch
             )
             .then((response) => {
               if (response.data === "exists") {
                 togglePropValueHasDupStateFn(true);
-                valErrorUpdateFn(
+                valErrorUpdateStateFn(
                   `that ${propNameSentenceCase} is already taken`
                 );
               } else {
@@ -70,7 +70,7 @@ const InputWSearchUniqueNew = (props) => {
       propValue={localPropValue}
       onUpdatePropFn={trimValueForChangePropFn}
       inputOnKeyUpFn={searchSetUnique}
-      recordToChange={recordToChange}
+      typeOfRecordToChange={typeOfRecordToChange}
       thisDayOfWeekCode={thisDayOfWeekCode}
       thisMealTypeCode={thisMealTypeCode}
       propToUpdate={propToUpdate}

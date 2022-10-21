@@ -1,7 +1,7 @@
 import React from "react";
 const InputCore = (props) => {
   const {
-    recordToChange,
+    typeOfRecordToChange,
     formGroupClasses,
     label,
     propType,
@@ -19,7 +19,7 @@ const InputCore = (props) => {
     isRequired,
   } = props;
   if (
-    recordToChange &&
+    typeOfRecordToChange &&
     formGroupClasses &&
     label &&
     propType &&
@@ -48,7 +48,7 @@ const InputCore = (props) => {
           value={propValue}
           onChange={(e) =>
             onUpdatePropFn(
-              recordToChange,
+              typeOfRecordToChange,
               thisDayOfWeekCode,
               thisMealTypeCode,
               propToUpdate,
@@ -73,7 +73,7 @@ const InputCore = (props) => {
           <label className="placeholder w-75" />
         </div>
         <div className="placeholder-glow">
-          <input className={`${inputClasses} placeholder w-90 mb-2`} />
+          <input className={`${inputClasses} placeholder w-90`} />
         </div>
         <div className="placeholder-glow mb-1">
           <span className="placeholder w-75"></span>

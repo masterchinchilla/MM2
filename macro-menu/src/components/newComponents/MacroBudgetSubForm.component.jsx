@@ -2,9 +2,18 @@ import React, { useState, useEffect } from "react";
 import InputCore from "./InputCore.component";
 const MacroBudgetSubForm = (props) => {
   const { thisStateObj, onUpdatePropFn, getRndIntegerFn } = props;
-  const thisFormState = thisStateObj.thisFormState;
-  const valErrors = thisStateObj.valErrors;
-  const thisWMP = thisStateObj.thisWMP;
+  // const thisStateObj = props.thisStateObj ? props.thisStateObj : {};
+  const thisFormState = thisStateObj ? thisStateObj.thisFormState : "";
+  const valErrors = thisStateObj ? thisStateObj.valErrors : {};
+  const thisWMP = thisStateObj
+    ? thisStateObj.thisWMP
+    : {
+        calsBudget: 0,
+        carbsBudget: 0,
+        proteinBudget: 0,
+        fatBudget: 0,
+        fiberBudget: 0,
+      };
   const { calsBudget, carbsBudget, proteinBudget, fatBudget, fiberBudget } =
     thisWMP;
   function inputOnKeyUpFn() {
@@ -56,7 +65,7 @@ const MacroBudgetSubForm = (props) => {
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Calories (g)"
                 propType="float"
-                propValue={calsBudget ? calsBudget : 0}
+                propValue={calsBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
                 recordToChange="weekMealPlan"
@@ -74,7 +83,7 @@ const MacroBudgetSubForm = (props) => {
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Carbs (g)"
                 propType="float"
-                propValue={carbsBudget ? carbsBudget : 0}
+                propValue={carbsBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
                 recordToChange="weekMealPlan"
@@ -92,7 +101,7 @@ const MacroBudgetSubForm = (props) => {
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Protein (g)"
                 propType="float"
-                propValue={proteinBudget ? proteinBudget : 0}
+                propValue={proteinBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
                 recordToChange="weekMealPlan"
@@ -112,7 +121,7 @@ const MacroBudgetSubForm = (props) => {
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Fat (g)"
                 propType="float"
-                propValue={fatBudget ? fatBudget : 0}
+                propValue={fatBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
                 recordToChange="weekMealPlan"
@@ -130,7 +139,7 @@ const MacroBudgetSubForm = (props) => {
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Fiber (g)"
                 propType="float"
-                propValue={fiberBudget ? fiberBudget : 0}
+                propValue={fiberBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
                 recordToChange="weekMealPlan"

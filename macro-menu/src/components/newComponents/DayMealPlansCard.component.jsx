@@ -13,7 +13,7 @@ const DayMealPlansCard = (props) => {
   function renderDay(dayOfWeekCode) {
     return (
       <DayCard
-        thisStateObj={thisWeeksDays[dayOfWeekCode]}
+        thisStateObj={thisWeeksDays ? thisWeeksDays[dayOfWeekCode] : {}}
         onClickEditFn={onClickEditFn}
         onClickCancelFn={onClickCancelFn}
         onUpdatePropFn={onUpdatePropFn}

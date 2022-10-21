@@ -14,8 +14,8 @@ const WeekMealPlanCard = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
   } = props;
-  const thisWMP = thisStateObj.thisWMP;
-  const thisFormState = thisStateObj.thisFormState;
+  const thisWMP = thisStateObj ? thisStateObj.thisWMP : {};
+  const thisFormState = thisStateObj ? thisStateObj.thisFormState : "";
   const mealWeights = {
     breakfast: thisWMP.breakfastWeight,
     snack1: thisWMP.snack1Weight,

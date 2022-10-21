@@ -3,13 +3,12 @@ import Joi from "joi";
 import InputWSearchUniqueNew from "./InputWSearchUniqueNew.component";
 const InputWLocalStateAndVal = (props) => {
   const {
-    parentObjOld,
+    backupOfRecordToChange,
     formGroupClasses,
     label,
     propType,
     localPropValue,
-
-    recordToChange,
+    typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
     propToUpdate,
@@ -22,12 +21,12 @@ const InputWLocalStateAndVal = (props) => {
     backEndHtmlRoot,
     propNameSentenceCase,
     valSchema,
-    changeLocalPropFn,
+    changeLocalPropStateFn,
     togglePropValueHasDupStateFn,
     onUpdatePropFn,
-    valErrorUpdateFn,
+    valErrorUpdateStateFn,
   } = props;
-  const origPropValue = parentObjOld[propToUpdate];
+  const origPropValue = backupOfRecordToChange[propToUpdate];
   function handleUpdateLocalProp(newPropValue) {
     const rule = valSchema.extract(propType);
     const subSchema = Joi.object({ [propToUpdate]: rule });
@@ -42,8 +41,8 @@ const InputWLocalStateAndVal = (props) => {
       validationError = null;
       togglePropValueHasDupStateFn(false);
     }
-    changeLocalPropFn(newPropValue);
-    valErrorUpdateFn(validationError);
+    changeLocalPropStateFn(newPropValue);
+    valErrorUpdateStateFn(validationError);
   }
   function handleUpdateParentProp(newPropValue) {
     let e = {
@@ -53,7 +52,7 @@ const InputWLocalStateAndVal = (props) => {
     };
     handleUpdateLocalProp(newPropValue);
     onUpdatePropFn(
-      recordToChange,
+      typeOfRecordToChange,
       thisDayOfWeekCode,
       thisMealTypeCode,
       propToUpdate,
@@ -71,7 +70,7 @@ const InputWLocalStateAndVal = (props) => {
       localPropValue={localPropValue}
       changeLocalPropFn={handleUpdateLocalProp}
       origPropValue={origPropValue}
-      recordToChange={recordToChange}
+      typeOfRecordToChange={typeOfRecordToChange}
       thisDayOfWeekCode={thisDayOfWeekCode}
       thisMealTypeCode={thisMealTypeCode}
       propToUpdate={propToUpdate}
@@ -85,7 +84,7 @@ const InputWLocalStateAndVal = (props) => {
       propNameSentenceCase={propNameSentenceCase}
       togglePropValueHasDupStateFn={togglePropValueHasDupStateFn}
       changeParentPropFn={handleUpdateParentProp}
-      valErrorUpdateFn={valErrorUpdateFn}
+      valErrorUpdateStateFn={valErrorUpdateStateFn}
     />
   );
 };

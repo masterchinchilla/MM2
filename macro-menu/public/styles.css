@@ -946,3 +946,6 @@ margin: 0.5rem;
         line-height: 1.2;
         font-size:1rem;
 }
+.badge input.placeholder {
+  margin-bottom: 0.5rem !important;
+}
