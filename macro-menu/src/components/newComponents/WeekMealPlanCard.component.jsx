@@ -3,6 +3,7 @@ import WMPNameAndDisabledFieldsSubForm from "./WMPNameAndDisabledFieldsSubForm.c
 import MacroBudgetSubForm from "./MacroBudgetSubForm.component.jsx";
 import MealWeightingSubForm from "./MealWeightingSubForm.component.jsx";
 // import { thisWeeksDaysOld } from "../../initialWMPStateObj.js";
+
 const WeekMealPlanCard = (props) => {
   const {
     thisStateObj,
@@ -12,9 +13,9 @@ const WeekMealPlanCard = (props) => {
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
-    getRndIntegerFn,
   } = props;
   const thisWMP = thisStateObj ? thisStateObj.thisWMP : {};
+  const thisRecordId = thisWMP ? thisWMP._id : "wmpTempId1";
   const thisFormState = thisStateObj ? thisStateObj.thisFormState : "";
   const mealWeights = {
     breakfast: thisWMP.breakfastWeight,
@@ -32,38 +33,28 @@ const WeekMealPlanCard = (props) => {
       <div className="card-body">
         <div
           className="accordion accordion-flush"
-          id={"accordionFull_WMPDetails" + getRndIntegerFn(10000000, 99999999)}
+          id={"accordionFull_WMPDetails" + thisRecordId}
         >
           <div className="accordion-item">
             <h2
               className="accordion-header"
-              id={
-                "accordionHeader_WMPDetails" +
-                getRndIntegerFn(10000000, 99999999)
-              }
+              id={"accordionHeader_WMPDetails" + thisRecordId}
             >
               <button
                 className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={
-                  "#dayAccrdn_WMPDetails" + getRndIntegerFn(10000000, 99999999)
-                }
+                data-bs-target={"#dayAccrdn_WMPDetails" + thisRecordId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               ></button>
             </h2>
           </div>
           <div
-            id={"dayAccrdn_WMPDetails" + getRndIntegerFn(10000000, 99999999)}
+            id={"dayAccrdn_WMPDetails" + thisRecordId}
             className="accordion-collapse collapse show"
-            aria-labelledby={
-              "#accordionHeader_WMPDetails" +
-              getRndIntegerFn(10000000, 99999999)
-            }
-            data-bs-parent={
-              "#accordionFull_WMPDetails" + getRndIntegerFn(10000000, 99999999)
-            }
+            aria-labelledby={"#accordionHeader_WMPDetails" + thisRecordId}
+            data-bs-parent={"#accordionFull_WMPDetails" + thisRecordId}
           >
             <div className="accordion-body accrdnWMPDetailsBdy">
               <form className="card">
@@ -74,7 +65,7 @@ const WeekMealPlanCard = (props) => {
                   onUpdatePropFn={onUpdatePropFn}
                   onClickSaveFn={onClickSaveFn}
                   onClickDeleteFn={onClickDeleteFn}
-                  getRndIntegerFn={getRndIntegerFn}
+                  thisRecordId={thisRecordId}
                 />
                 <MacroBudgetSubForm
                   thisStateObj={thisStateObj}
@@ -83,13 +74,13 @@ const WeekMealPlanCard = (props) => {
                   onUpdatePropFn={onUpdatePropFn}
                   onClickSaveFn={onClickSaveFn}
                   onClickDeleteFn={onClickDeleteFn}
-                  getRndIntegerFn={getRndIntegerFn}
+                  thisRecordId={thisRecordId}
                 />
                 <MealWeightingSubForm
                   thisFormState={thisFormState}
                   mealWeights={mealWeights}
                   onUpdateWeights={onUpdateWeightsFn}
-                  getRndIntegerFn={getRndIntegerFn}
+                  thisRecordId={thisRecordId}
                 />
               </form>
             </div>

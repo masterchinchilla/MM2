@@ -8,7 +8,7 @@ const DayMealPlansCard = (props) => {
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
-    getRndIntegerFn,
+    thisRecordId,
   } = props;
   function renderDay(dayOfWeekCode) {
     return (
@@ -19,7 +19,6 @@ const DayMealPlansCard = (props) => {
         onUpdatePropFn={onUpdatePropFn}
         onClickSaveFn={onClickSaveFn}
         onClickDeleteFn={onClickDeleteFn}
-        getRndIntegerFn={getRndIntegerFn}
       />
     );
   }
@@ -31,34 +30,28 @@ const DayMealPlansCard = (props) => {
       <div className="card-body">
         <div
           className="accordion accordion-flush"
-          id={"accordionFull" + getRndIntegerFn(10000000, 99999999)}
+          id={"accordionFull" + thisRecordId}
         >
           <div className="accordion-item">
             <h2
               className="accordion-header"
-              id={"accordionHeader" + getRndIntegerFn(10000000, 99999999)}
+              id={"accordionHeader" + thisRecordId}
             >
               <button
                 className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={
-                  "#dayAccrdn" + getRndIntegerFn(10000000, 99999999)
-                }
+                data-bs-target={"#dayAccrdn" + thisRecordId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               ></button>
             </h2>
           </div>
           <div
-            id={"dayAccrdn" + getRndIntegerFn(10000000, 99999999)}
+            id={"dayAccrdn" + thisRecordId}
             className="accordion-collapse collapse show"
-            aria-labelledby={
-              "#accordionHeader" + getRndIntegerFn(10000000, 99999999)
-            }
-            data-bs-parent={
-              "#accordionFull" + getRndIntegerFn(10000000, 99999999)
-            }
+            aria-labelledby={"#accordionHeader" + thisRecordId}
+            data-bs-parent={"#accordionFull" + thisRecordId}
           >
             <div className="accordion-body wkDaysAccrdnBdy">
               {renderDay("sunday")}

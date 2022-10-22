@@ -949,3 +949,10 @@ margin: 0.5rem;
 .badge input.placeholder {
   margin-bottom: 0.5rem !important;
 }
+.placeholderIconGroup{
+  margin:0.4rem;
+  align-self: flex-start;
+}
+.wmpNameFrmGroup input.placeholder {
+  width:90%;
+}

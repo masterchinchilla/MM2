@@ -2,29 +2,14 @@ import React, { Component } from "react";
 import httpService from "../../services/httpService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Bootstrap from "bootstrap";
+import Popper from "popper.js";
 import WeekMealPlanCard from "./WeekMealPlanCard.component";
 import DayMealPlansCard from "./DayMealPlansCard.component";
 class NewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      // thisWMPStateObj: {
-      //   thisWMP: {
-      //     _id: 1,
-      //     GRFUser: {
-      //       handle: "a",
-      //     },
-      //   },
-      //   thisFormState: "viewing",
-      //   valErrors: {},
-      // },
-      // thisWeeksDays: {
-      //   breakfast: {
-      //     a: 1,
-      //   },
-      // },
-    };
+    this.state = {};
   }
   getRndIntegerFn = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -61,7 +46,6 @@ class NewWeekMealPlan extends Component {
           onUpdatePropFn={this.handleUpdatePropFn}
           onClickSaveFn={this.handleClickSaveFn}
           onClickDeleteFn={this.handleClickDeleteFn}
-          getRndIntegerFn={this.getRndIntegerFn}
         />
         <DayMealPlansCard
           thisWeeksDays={this.state.thisWeeksDays}
@@ -70,7 +54,6 @@ class NewWeekMealPlan extends Component {
           onUpdatePropFn={this.handleUpdatePropFn}
           onClickSaveFn={this.handleClickSaveFn}
           onClickDeleteFn={this.handleClickDeleteFn}
-          getRndIntegerFn={this.getRndIntegerFn}
         />
       </div>
     );

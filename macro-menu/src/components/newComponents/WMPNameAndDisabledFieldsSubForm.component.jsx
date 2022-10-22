@@ -2,31 +2,65 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
+import FormControl from "./FormControl.component";
 const WMPNameAndDisabledFieldsSubForm = (props) => {
   const {
     thisStateObjBackup,
-    getRndIntegerFn,
+    thisRecordId,
     backEndHtmlRoot,
-    onUpdatePropFn,
     valSchema,
-    onCancelEditFormFn,
+    onClickEditFn,
+    onClickCancelFn,
+    onUpdatePropFn,
+    onClickSaveFn,
+    onClickDeleteFn,
   } = props;
-  const thisStateObj = props.thisStateObj ? props.thisStateObj : {};
-  const valErrors = thisStateObj.valErrors;
-  const thisFormState = thisStateObj ? thisStateObj.thisFormState : "";
-  const fieldsDisabled = thisFormState === "viewing" ? true : false;
-  const thisWMP = thisStateObj ? thisStateObj.thisWMP : {};
-  const author = thisWMP ? thisWMP.GRFUser : {};
-  const thisWMPInitialName = thisWMP ? thisWMP.name : "";
+  const thisStateObj = props.thisStateObj
+    ? props.thisStateObj
+    : {
+        editingForm: false,
+        thisWMP: {
+          _id: 1,
+          GRFUser: {},
+          name: "",
+          createdAt: "",
+          updatedAt: "",
+        },
+        recordChanged: false,
+        valErrors: {},
+        thisObjJustCreated: false,
+        //this prop is crucial because it determines whether the form control component renders or renders placeholder; Should be falsy unless data is loaded
+        userType: "",
+        deleteDisabled: true,
+        deleteChildrenWarning:
+          "You must delete all this week's days before you can delete this Week Meal Plan",
+      };
+  const {
+    editingForm,
+    thisWMP,
+    recordChanged,
+    valErrors,
+    thisObjJustCreated,
+    userType,
+    deleteDisabled,
+    deleteChildrenWarning,
+  } = thisStateObj;
+  const { _id, GRFUser, name, createdAt, updatedAt } = thisWMP;
+  const fieldsDisabled = !editingForm ? true : false;
   const backupOfRecordToChange = thisStateObjBackup
     ? thisStateObjBackup.thisWMP
     : {};
-  const [name, updateName] = useState(
-    thisWMPInitialName ? thisWMPInitialName : ""
+  const typeOfRecordToChange = "weekMealPlan";
+  const thisDayOfWeekCode = "";
+  const thisMealTypeCode = "";
+  const arrayIndex = 0;
+  const [localName, updateName] = useState(name);
+  const [nameValError, updateNameValError] = useState(
+    valErrors ? valErrors.name : null
   );
-  const [nameValError, updateNameValError] = useState(null);
   const [nameHasDup, toggleNameHasDup] = useState(true);
   const [saveDisabled, toggleSaveDisabled] = useState(true);
+  const [localDeleteDisabled, toggleDeleteDisabled] = useState(deleteDisabled);
   useEffect(() => {
     if (
       nameHasDup ||
@@ -43,21 +77,28 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
       valErrors.fiberBudget
     ) {
       toggleSaveDisabled(true);
+      toggleDeleteDisabled(true);
     } else {
       toggleSaveDisabled(false);
+      toggleDeleteDisabled(deleteDisabled);
     }
   });
   function handleCancelEditForm() {
     updateName(backupOfRecordToChange.name);
     updateNameValError(null);
     toggleNameHasDup(false);
-    onCancelEditFormFn(thisStateObj, "weekMealPlan");
+    onClickCancelFn(
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex
+    );
   }
   return (
     <React.Fragment>
       <div
         className={
-          thisStateObj.thisWMPJustCreated === true
+          thisObjJustCreated === true
             ? "card-header wmpCardHeader cardHeaderFocused"
             : "card-header wmpCardHeader"
         }
@@ -66,11 +107,11 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           backupOfRecordToChange={backupOfRecordToChange}
           formGroupClasses={"form-group wmpNameFrmGroup"}
           label={"Week Meal Plan Name"}
-          propType={"name"}
-          localPropValue={name}
-          typeOfRecordToChange="weekMealPlan"
-          thisDayOfWeekCode=""
-          thisMealTypeCode=""
+          propType="name"
+          localPropValue={localName}
+          typeOfRecordToChange={typeOfRecordToChange}
+          thisDayOfWeekCode={thisDayOfWeekCode}
+          thisMealTypeCode={thisMealTypeCode}
           propToUpdate="name"
           arrayIndex={0}
           selectedFrom={[]}
@@ -86,40 +127,51 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           onUpdatePropFn={onUpdatePropFn}
           valErrorUpdateStateFn={updateNameValError}
         />
+        <FormControl
+          typeOfRecordToChange={typeOfRecordToChange}
+          recordChanged={recordChanged}
+          thisDayOfWeekCode={thisDayOfWeekCode}
+          thisMealTypeCode={thisMealTypeCode}
+          arrayIndex={arrayIndex}
+          userType={userType}
+          editingForm={editingForm}
+          saveDisabled={saveDisabled}
+          deleteDisabled={localDeleteDisabled}
+          saveWarning={null}
+          deleteWarning={"Are you sure you want to delete this Week Meal Plan?"}
+          deleteChildrenWarning={deleteChildrenWarning}
+          onClickEditFn={onClickEditFn}
+          onClickCancelFn={handleCancelEditForm}
+          onClickSaveFn={onClickSaveFn}
+          onClickDeleteFn={onClickDeleteFn}
+          onClickCopyFn
+        />
       </div>
       <div className="card-body wmpCardBody">
         <div
           className="accordion accordion-flush"
-          id={"wmpHiddenAccordionFull" + getRndIntegerFn(10000000, 99999999)}
+          id={"wmpHiddenAccordionFull" + thisRecordId}
         >
           <div className="accordion-item">
             <h2
               className="accordion-header"
-              id={
-                "wmpHiddenAccordionHeader" + getRndIntegerFn(10000000, 99999999)
-              }
+              id={"wmpHiddenAccordionHeader" + thisRecordId}
             >
               <button
                 className="accordion-button collapsed wmpAdminAccrdnBttn"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={
-                  "#wmpHiddenAccrdn" + getRndIntegerFn(10000000, 99999999)
-                }
+                data-bs-target={"#wmpHiddenAccrdn" + thisRecordId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               ></button>
             </h2>
           </div>
           <div
-            id={"wmpHiddenAccrdn" + getRndIntegerFn(10000000, 99999999)}
+            id={"wmpHiddenAccrdn" + thisRecordId}
             className="accordion-collapse collapse"
-            aria-labelledby={
-              "#wmpHiddenAccordionHeader" + getRndIntegerFn(10000000, 99999999)
-            }
-            data-bs-parent={
-              "#wmpHiddenAccordionFull" + getRndIntegerFn(10000000, 99999999)
-            }
+            aria-labelledby={"#wmpHiddenAccordionHeader" + thisRecordId}
+            data-bs-parent={"#wmpHiddenAccordionFull" + thisRecordId}
           >
             <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
               <ReadOnlyInputCore
@@ -127,14 +179,14 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 label="Author "
                 inputClasses="form-control"
                 propType="text"
-                propValue={author ? author.handle : ""}
+                propValue={GRFUser ? GRFUser.handle : ""}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
                 label="Record Id "
                 inputClasses="form-control"
                 propType="text"
-                propValue={thisWMP ? thisWMP._id : ""}
+                propValue={_id}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -143,9 +195,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propType="text"
                 propValue={
                   thisWMP
-                    ? dayjs(thisWMP.createdAt).format(
-                        "dddd, MMMM D, YYYY h:mm A"
-                      )
+                    ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
                     : ""
                 }
               />
@@ -156,9 +206,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propType="text"
                 propValue={
                   thisWMP
-                    ? dayjs(thisWMP.updatedAt).format(
-                        "dddd, MMMM D, YYYY h:mm A"
-                      )
+                    ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
                     : ""
                 }
               />

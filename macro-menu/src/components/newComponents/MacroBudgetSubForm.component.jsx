@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import InputCore from "./InputCore.component";
 const MacroBudgetSubForm = (props) => {
-  const { thisStateObj, onUpdatePropFn, getRndIntegerFn } = props;
+  const { thisStateObj, onUpdatePropFn, thisRecordId } = props;
   // const thisStateObj = props.thisStateObj ? props.thisStateObj : {};
   const thisFormState = thisStateObj ? thisStateObj.thisFormState : "";
   const valErrors = thisStateObj ? thisStateObj.valErrors : {};
@@ -27,38 +27,28 @@ const MacroBudgetSubForm = (props) => {
       <div className="card-body">
         <div
           className="accordion accordion-flush"
-          id={"accordionFull_MacroBudget" + getRndIntegerFn(10000000, 99999999)}
+          id={"accordionFull_MacroBudget" + thisRecordId}
         >
           <div className="accordion-item">
             <h2
               className="accordion-header"
-              id={
-                "accordionHeader_MacroBudget" +
-                getRndIntegerFn(10000000, 99999999)
-              }
+              id={"accordionHeader_MacroBudget" + thisRecordId}
             >
               <button
                 className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={
-                  "#dayAccrdn_MacroBudget" + getRndIntegerFn(10000000, 99999999)
-                }
+                data-bs-target={"#dayAccrdn_MacroBudget" + thisRecordId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               ></button>
             </h2>
           </div>
           <div
-            id={"dayAccrdn_MacroBudget" + getRndIntegerFn(10000000, 99999999)}
+            id={"dayAccrdn_MacroBudget" + thisRecordId}
             className="accordion-collapse collapse show"
-            aria-labelledby={
-              "#accordionHeader_MacroBudget" +
-              getRndIntegerFn(10000000, 99999999)
-            }
-            data-bs-parent={
-              "#accordionFull_MacroBudget" + getRndIntegerFn(10000000, 99999999)
-            }
+            aria-labelledby={"#accordionHeader_MacroBudget" + thisRecordId}
+            data-bs-parent={"#accordionFull_MacroBudget" + thisRecordId}
           >
             <div className="accordion-body accrdnWeekMealPlanMacroBdy">
               <InputCore

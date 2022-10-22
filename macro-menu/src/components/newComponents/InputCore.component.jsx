@@ -73,7 +73,7 @@ const InputCore = (props) => {
           <label className="placeholder w-75" />
         </div>
         <div className="placeholder-glow">
-          <input className={`${inputClasses} placeholder w-90`} />
+          <input className={`${inputClasses} placeholder mt-1`} />
         </div>
         <div className="placeholder-glow mb-1">
           <span className="placeholder w-75"></span>

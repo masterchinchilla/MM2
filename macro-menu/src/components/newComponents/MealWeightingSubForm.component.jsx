@@ -3,8 +3,7 @@ import _ from "lodash";
 import { Slider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const MealWeightingSubForm = (props) => {
-  const { thisFormState, mealWeights, onUpdateWeightsFn, getRndIntegerFn } =
-    props;
+  const { thisFormState, mealWeights, onUpdateWeightsFn, thisRecordId } = props;
   const breakfast = mealWeights.breakfast ? mealWeights.breakfast : 0;
   const snack1 = mealWeights.snack1 ? mealWeights.snack1 : 0;
   const lunch = mealWeights.lunch ? mealWeights.lunch : 0;
@@ -283,46 +282,30 @@ const MealWeightingSubForm = (props) => {
       <div className="card-body">
         <div
           className="accordion accordion-flush"
-          id={
-            "accordionFull_MealMacroWeighting" +
-            getRndIntegerFn(10000000, 99999999)
-          }
+          id={"accordionFull_MealMacroWeighting" + thisRecordId}
         >
           <div className="accordion-item">
             <h2
               className="accordion-header"
-              id={
-                "accordionHeader_MealMacroWeighting" +
-                getRndIntegerFn(10000000, 99999999)
-              }
+              id={"accordionHeader_MealMacroWeighting" + thisRecordId}
             >
               <button
                 className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={
-                  "#dayAccrdn_MealMacroWeighting" +
-                  getRndIntegerFn(10000000, 99999999)
-                }
+                data-bs-target={"#dayAccrdn_MealMacroWeighting" + thisRecordId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               ></button>
             </h2>
           </div>
           <div
-            id={
-              "dayAccrdn_MealMacroWeighting" +
-              getRndIntegerFn(10000000, 99999999)
-            }
+            id={"dayAccrdn_MealMacroWeighting" + thisRecordId}
             className="accordion-collapse collapse show"
             aria-labelledby={
-              "#accordionHeader_MealMacroWeighting" +
-              getRndIntegerFn(10000000, 99999999)
+              "#accordionHeader_MealMacroWeighting" + thisRecordId
             }
-            data-bs-parent={
-              "#accordionFull_MealMacroWeighting" +
-              getRndIntegerFn(10000000, 99999999)
-            }
+            data-bs-parent={"#accordionFull_MealMacroWeighting" + thisRecordId}
           >
             <div className="accordion-body accrdnWeekMealPlanMacroBdy">
               <div className="mlWghtsCont">

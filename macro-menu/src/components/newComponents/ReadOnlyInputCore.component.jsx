@@ -21,7 +21,7 @@ const ReadOnlyInputCore = (props) => {
           <label className="placeholder w-75" />
         </div>
         <div className="placeholder-glow">
-          <input className={`${inputClasses} placeholder w-90 mb-2`} />
+          <input className={`${inputClasses} placeholder w-90 mt-1`} />
         </div>
         <div className="placeholder-glow mb-1">
           <span className="placeholder w-75"></span>
