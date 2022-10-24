@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import StickyBox from "react-sticky-box";
 import NewMacrosTable from "./NewMacrosTable.component";
+import MealChildCard from "./MealChildCard.component";
+import RecipeCard from "./RecipeCard.component";
+import MealIngredients from "./MealIngredients.component";
 const MealParentCard = (props) => {
   const { getRndIntegerFn } = props;
   const thisStateObj = props.thisStateObj.day
@@ -62,6 +65,11 @@ const MealParentCard = (props) => {
             theseIngrdnts={thisMealsIngrdnts}
           />
         </StickyBox>
+        <div className="accordion-body wkDaysAccrdnBdy">
+          <MealChildCard />
+          <RecipeCard />
+          <MealIngredients />
+        </div>
       </div>
     </div>
   );
