@@ -37,11 +37,15 @@ class NewWeekMealPlan extends Component {
   };
   render() {
     const { thisGRFUser, backEndHtmlRoot, axiosCallConfig } = this.props;
-    const thisWMPId = this.props.match.params.id;
+    const thisRecordId = this.props.match.params.id;
     return (
       <div className="container-fluid pl-4 pr-4">
-        <ToastContainer autoClose={2000} />
+        <ToastContainer
+          key={`toastCntnrForWMP${thisRecordId}`}
+          autoClose={2000}
+        />
         <WeekMealPlanCard
+          key={`wmpCardForWMP${thisRecordId}`}
           thisStateObj={this.state.thisWMPStateObj}
           thisStateObjBackup={this.state.thisWMPStateBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
@@ -56,6 +60,7 @@ class NewWeekMealPlan extends Component {
           getRndIntegerFn={this.getRndIntegerFn}
         />
         <DaysCard
+          key={`daysCardForWMP${thisRecordId}`}
           thisWeeksDays={this.state.thisWeeksDays}
           thisWeeksDaysBackup={this.state.thisWeeksDaysBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}

@@ -40,9 +40,18 @@ const WeekMealPlanCard = (props) => {
           >
             <div className="accordion-body accrdnWMPDetailsBdy">
               <form className="card">
-                <WMPNameAndDisabledFieldsSubForm {...props} />
-                <MacroBudgetSubForm {...props} />
-                <MealWeightingSubForm {...props} />
+                <WMPNameAndDisabledFieldsSubForm
+                  key={`nameAndDsbldFldsSubFormForWMP${thisRecordId}`}
+                  {...props}
+                />
+                <MacroBudgetSubForm
+                  key={`macroBdgtSubFormForWMP${thisRecordId}`}
+                  {...props}
+                />
+                <MealWeightingSubForm
+                  key={`mealWghtngSubFormForWMP${thisRecordId}`}
+                  {...props}
+                />
               </form>
             </div>
           </div>

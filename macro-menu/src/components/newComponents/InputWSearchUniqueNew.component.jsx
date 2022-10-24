@@ -24,6 +24,7 @@ const InputWSearchUniqueNew = (props) => {
     togglePropValueHasDupStateFn,
     changeParentPropFn,
     valErrorUpdateStateFn,
+    getRndIntegerFn,
   } = props;
   const [timer, setTimerStateFn] = useState(null);
   function trimValueForChangePropFn(e) {
@@ -64,6 +65,10 @@ const InputWSearchUniqueNew = (props) => {
   }
   return (
     <InputCore
+      key={`inputWSrchUniqueFor_${propToUpdate}_${getRndIntegerFn(
+        10000000,
+        99999999
+      )}`}
       formGroupClasses={formGroupClasses}
       label={label}
       propType={propType}
@@ -80,6 +85,7 @@ const InputWSearchUniqueNew = (props) => {
       valError={valError}
       inputClasses={inputClasses}
       isRequired={isRequired}
+      getRndIntegerFn={getRndIntegerFn}
     />
   );
 };

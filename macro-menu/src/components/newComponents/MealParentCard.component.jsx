@@ -3,7 +3,7 @@ import StickyBox from "react-sticky-box";
 import NewMacrosTable from "./NewMacrosTable.component";
 const MealParentCard = (props) => {
   const { getRndIntegerFn } = props;
-  const thisStateObj = props.thisStateObj
+  const thisStateObj = props.thisStateObj.day
     ? props.thisStateObj
     : {
         thisRecord: {
@@ -48,8 +48,14 @@ const MealParentCard = (props) => {
         aria-labelledby={"#mealOuterAccordionHeader" + thisRecordId}
         data-bs-parent={"#mealOuterAccordionFull" + thisRecordId}
       >
-        <StickyBox offsetTop={142} offsetBottom={20} className={"mealMacTable"}>
+        <StickyBox
+          key={`macroTblStickyBoxForMeal${thisRecordId}`}
+          offsetTop={142}
+          offsetBottom={20}
+          className={"mealMacTable"}
+        >
           <NewMacrosTable
+            key={`macrosTblForMeal${thisRecordId}`}
             thisWMPRecord={weekMealPlan}
             tableType={"Meal Macros"}
             thisMealTypeCode={mealType.code}

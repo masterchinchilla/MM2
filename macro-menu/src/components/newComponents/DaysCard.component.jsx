@@ -15,6 +15,7 @@ const DaysCard = (props) => {
   function renderDay(dayOfWeekCode) {
     return (
       <DayCard
+        key={`${dayOfWeekCode}DayCard`}
         thisStateObj={thisWeeksDays ? thisWeeksDays[dayOfWeekCode] : null}
         thisStateObjBackup={
           thisWeeksDaysBackup ? thisWeeksDaysBackup[dayOfWeekCode] : null

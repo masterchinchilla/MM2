@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MealParentCard from "./MealCard.component";
+import MealParentCard from "./MealParentCard.component";
 import CreateMealButton from "./CreateMealButton.component";
 const MealsCard = (props) => {
   const {
@@ -27,7 +27,10 @@ const MealsCard = (props) => {
   function renderMeal(mealTypeCode, mealTypeName) {
     const mealStateObj = thisDaysMeals
       ? thisDaysMeals[mealTypeCode]
-      : { thisRecord: { _id: null }, userType: null };
+      : {
+          thisRecord: { _id: getRndIntegerFn(10000000, 99999999) },
+          userType: null,
+        };
     const mealRecordId = mealStateObj.thisRecord._id;
     const mealUserType = mealStateObj.userType;
     const pattern = /missing/;
@@ -36,7 +39,7 @@ const MealsCard = (props) => {
       if (mealUserType === "admin" || mealUserType === "author") {
         return (
           <CreateMealButton
-            key={mealRecordId}
+            key={`createMealBttnForMeal${mealRecordId}`}
             thisStateObj={mealStateObj}
             onClickEditFn={onClickEditFn}
             onClickCancelFn={onClickCancelFn}
@@ -58,7 +61,7 @@ const MealsCard = (props) => {
     }
     return (
       <MealParentCard
-        key={mealRecordId}
+        key={`mealPrntCardForMeal${mealRecordId}`}
         thisStateObj={mealStateObj}
         nClickEditFn={onClickEditFn}
         onClickCancelFn={onClickCancelFn}

@@ -58,11 +58,13 @@ const DayMealsAndMacros = (props) => {
           >
             <div className="accordion-body">
               <StickyBox
+                key={`macroTblStickyBoxForDay${thisRecordId}`}
                 offsetTop={20}
                 offsetBottom={20}
                 className={"dayMacTable"}
               >
                 <NewMacrosTable
+                  key={`macrosTblForDay${thisRecordId}`}
                   thisWMPRecord={thisWMPRecord._id ? thisWMPRecord : null}
                   tableType={"Day Macros"}
                   thisMealTypeCode={null}
@@ -70,6 +72,7 @@ const DayMealsAndMacros = (props) => {
                 />
               </StickyBox>
               <MealsCard
+                key={`mealsCardForDay${thisRecordId}`}
                 thisStateObj={thisStateObj}
                 onClickEditFn={onClickEditFn}
                 onClickCancelFn={onClickCancelFn}

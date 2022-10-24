@@ -102,6 +102,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
         }
       >
         <InputWLocalStateAndVal
+          key={`inputWLclStateNValForNameForWMP${thisRecordId}`}
           backupOfRecordToChange={backupOfRecordToChange}
           formGroupClasses={"form-group wmpNameFrmGroup"}
           label={"Week Meal Plan Name"}
@@ -124,8 +125,10 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           togglePropValueHasDupStateFn={toggleNameHasDup}
           onUpdatePropFn={onUpdatePropFn}
           valErrorUpdateStateFn={updateNameValError}
+          getRndIntegerFn={getRndIntegerFn}
         />
         <FormControl
+          key={`formCtrlForWMP${thisRecordId}`}
           typeOfRecordToChange={typeOfRecordToChange}
           recordChanged={recordChanged}
           thisDayOfWeekCode={thisDayOfWeekCode}
@@ -173,6 +176,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           >
             <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
               <ReadOnlyInputCore
+                key={`readOnlyInputForAuthorForWMP${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Author "
                 inputClasses="form-control"
@@ -180,6 +184,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propValue={GRFUser ? GRFUser.handle : null}
               />
               <ReadOnlyInputCore
+                key={`readOnlyInputForIdForWMP${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Record Id "
                 inputClasses="form-control"
@@ -187,6 +192,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propValue={_id ? thisRecordId : null}
               />
               <ReadOnlyInputCore
+                key={`readOnlyInputForCreatedDtForWMP${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Created "
                 inputClasses="form-control"
@@ -198,6 +204,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 }
               />
               <ReadOnlyInputCore
+                key={`readOnlyInputForUpdatedDtForWMP${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Last Update "
                 inputClasses="form-control"

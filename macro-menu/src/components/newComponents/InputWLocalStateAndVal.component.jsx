@@ -25,8 +25,12 @@ const InputWLocalStateAndVal = (props) => {
     togglePropValueHasDupStateFn,
     onUpdatePropFn,
     valErrorUpdateStateFn,
+    getRndIntegerFn,
   } = props;
-  const origPropValue = backupOfRecordToChange[propToUpdate];
+  const origPropValue = backupOfRecordToChange
+    ? backupOfRecordToChange[propToUpdate]
+    : {};
+  const thisRecordId = backupOfRecordToChange ? backupOfRecordToChange._id : 1;
   function handleUpdateLocalProp(newPropValue) {
     const rule = valSchema.extract(propType);
     const subSchema = Joi.object({ [propToUpdate]: rule });
@@ -64,6 +68,7 @@ const InputWLocalStateAndVal = (props) => {
   }
   return (
     <InputWSearchUniqueNew
+      key={`inputWSrchUniqueFor_${propToUpdate}_ForRecord${thisRecordId}`}
       formGroupClasses={formGroupClasses}
       label={label}
       propType={propType}
@@ -85,6 +90,7 @@ const InputWLocalStateAndVal = (props) => {
       togglePropValueHasDupStateFn={togglePropValueHasDupStateFn}
       changeParentPropFn={handleUpdateParentProp}
       valErrorUpdateStateFn={valErrorUpdateStateFn}
+      getRndIntegerFn={getRndIntegerFn}
     />
   );
 };
