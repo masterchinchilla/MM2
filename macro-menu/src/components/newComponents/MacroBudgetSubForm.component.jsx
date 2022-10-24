@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from "react";
 import InputCore from "./InputCore.component";
 const MacroBudgetSubForm = (props) => {
-  const { thisStateObj, onUpdatePropFn, thisRecordId } = props;
-  // const thisStateObj = props.thisStateObj ? props.thisStateObj : {};
-  const thisFormState = thisStateObj ? thisStateObj.thisFormState : "";
-  const valErrors = thisStateObj ? thisStateObj.valErrors : {};
-  const thisWMP = thisStateObj
-    ? thisStateObj.thisWMP
+  const { onUpdatePropFn } = props;
+  const thisStateObj = props.thisStateObj
+    ? props.thisStateObj
     : {
-        calsBudget: 0,
-        carbsBudget: 0,
-        proteinBudget: 0,
-        fatBudget: 0,
-        fiberBudget: 0,
+        editingForm: false,
+        thisRecord: {
+          _id: 1,
+          calsBudget: 0,
+          carbsBudget: 0,
+          proteinBudget: 0,
+          fatBudget: 0,
+          fiberBudget: 0,
+        },
+        valErrors: {},
       };
-  const { calsBudget, carbsBudget, proteinBudget, fatBudget, fiberBudget } =
-    thisWMP;
+  const { editingForm, thisRecord, valErrors } = thisStateObj;
+  const {
+    _id,
+    calsBudget,
+    carbsBudget,
+    proteinBudget,
+    fatBudget,
+    fiberBudget,
+  } = thisRecord;
+  const thisRecordId = _id;
   function inputOnKeyUpFn() {
     console.log("Key up");
   }
@@ -64,7 +74,7 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"calsBudget"}
                 arrayIndex={0}
                 selectedFrom={[]}
-                fieldDisabled={thisFormState === "viewing" ? true : false}
+                fieldDisabled={!editingForm ? true : false}
                 valError={valErrors.calsBudget ? valErrors.calsBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
@@ -82,7 +92,7 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"carbsBudget"}
                 arrayIndex={0}
                 selectedFrom={[]}
-                fieldDisabled={thisFormState === "viewing" ? true : false}
+                fieldDisabled={!editingForm ? true : false}
                 valError={valErrors.carbsBudget ? valErrors.carbsBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
@@ -100,7 +110,7 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"proteinBudget"}
                 arrayIndex={0}
                 selectedFrom={[]}
-                fieldDisabled={thisFormState === "viewing" ? true : false}
+                fieldDisabled={!editingForm ? true : false}
                 valError={
                   valErrors.proteinBudget ? valErrors.proteinBudget : ""
                 }
@@ -120,7 +130,7 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"fatBudget"}
                 arrayIndex={0}
                 selectedFrom={[]}
-                fieldDisabled={thisFormState === "viewing" ? true : false}
+                fieldDisabled={!editingForm ? true : false}
                 valError={valErrors.fatBudget ? valErrors.fatBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
@@ -138,7 +148,7 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"fiberBudget"}
                 arrayIndex={0}
                 selectedFrom={[]}
-                fieldDisabled={thisFormState === "viewing" ? true : false}
+                fieldDisabled={!editingForm ? true : false}
                 valError={valErrors.fiberBudget ? valErrors.fiberBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}

@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
 import DayCard from "./DayCard.component";
-const DayMealPlansCard = (props) => {
+const DaysCard = (props) => {
   const {
     thisWeeksDays,
+    thisWeeksDaysBackup,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
+    getRndIntegerFn,
     thisRecordId,
   } = props;
   function renderDay(dayOfWeekCode) {
     return (
       <DayCard
-        thisStateObj={thisWeeksDays ? thisWeeksDays[dayOfWeekCode] : {}}
+        thisStateObj={thisWeeksDays ? thisWeeksDays[dayOfWeekCode] : null}
+        thisStateObjBackup={
+          thisWeeksDaysBackup ? thisWeeksDaysBackup[dayOfWeekCode] : null
+        }
         onClickEditFn={onClickEditFn}
         onClickCancelFn={onClickCancelFn}
         onUpdatePropFn={onUpdatePropFn}
         onClickSaveFn={onClickSaveFn}
         onClickDeleteFn={onClickDeleteFn}
+        getRndIntegerFn={getRndIntegerFn}
       />
     );
   }
@@ -69,4 +75,4 @@ const DayMealPlansCard = (props) => {
   );
 };
 
-export default DayMealPlansCard;
+export default DaysCard;

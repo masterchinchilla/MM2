@@ -6,7 +6,6 @@ import FormControl from "./FormControl.component";
 const WMPNameAndDisabledFieldsSubForm = (props) => {
   const {
     thisStateObjBackup,
-    thisRecordId,
     backEndHtmlRoot,
     valSchema,
     onClickEditFn,
@@ -14,41 +13,43 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
+    getRndIntegerFn,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
     : {
         editingForm: false,
-        thisWMP: {
-          _id: 1,
+        thisRecord: {
+          _id: null,
           GRFUser: {},
-          name: "",
-          createdAt: "",
-          updatedAt: "",
+          name: null,
+          createdAt: null,
+          updatedAt: null,
         },
         recordChanged: false,
         valErrors: {},
         thisObjJustCreated: false,
         //this prop is crucial because it determines whether the form control component renders or renders placeholder; Should be falsy unless data is loaded
         userType: "",
-        deleteDisabled: true,
+        hasChildren: true,
         deleteChildrenWarning:
           "You must delete all this week's days before you can delete this Week Meal Plan",
       };
   const {
     editingForm,
-    thisWMP,
+    thisRecord,
     recordChanged,
     valErrors,
     thisObjJustCreated,
     userType,
-    deleteDisabled,
+    hasChildren,
     deleteChildrenWarning,
   } = thisStateObj;
-  const { _id, GRFUser, name, createdAt, updatedAt } = thisWMP;
+  const { _id, GRFUser, name, createdAt, updatedAt } = thisRecord;
+  const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const fieldsDisabled = !editingForm ? true : false;
   const backupOfRecordToChange = thisStateObjBackup
-    ? thisStateObjBackup.thisWMP
+    ? thisStateObjBackup.thisRecord
     : {};
   const typeOfRecordToChange = "weekMealPlan";
   const thisDayOfWeekCode = "";
@@ -60,7 +61,6 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   );
   const [nameHasDup, toggleNameHasDup] = useState(true);
   const [saveDisabled, toggleSaveDisabled] = useState(true);
-  const [localDeleteDisabled, toggleDeleteDisabled] = useState(deleteDisabled);
   useEffect(() => {
     if (
       nameHasDup ||
@@ -77,10 +77,8 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
       valErrors.fiberBudget
     ) {
       toggleSaveDisabled(true);
-      toggleDeleteDisabled(true);
     } else {
       toggleSaveDisabled(false);
-      toggleDeleteDisabled(deleteDisabled);
     }
   });
   function handleCancelEditForm() {
@@ -98,7 +96,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
     <React.Fragment>
       <div
         className={
-          thisObjJustCreated === true
+          thisObjJustCreated
             ? "card-header wmpCardHeader cardHeaderFocused"
             : "card-header wmpCardHeader"
         }
@@ -136,7 +134,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           userType={userType}
           editingForm={editingForm}
           saveDisabled={saveDisabled}
-          deleteDisabled={localDeleteDisabled}
+          hasChildren={hasChildren}
           saveWarning={null}
           deleteWarning={"Are you sure you want to delete this Week Meal Plan?"}
           deleteChildrenWarning={deleteChildrenWarning}
@@ -179,14 +177,14 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 label="Author "
                 inputClasses="form-control"
                 propType="text"
-                propValue={GRFUser ? GRFUser.handle : ""}
+                propValue={GRFUser ? GRFUser.handle : null}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
                 label="Record Id "
                 inputClasses="form-control"
                 propType="text"
-                propValue={_id}
+                propValue={_id ? thisRecordId : null}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -194,9 +192,9 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 inputClasses="form-control"
                 propType="text"
                 propValue={
-                  thisWMP
+                  thisRecord.createdAt
                     ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : ""
+                    : null
                 }
               />
               <ReadOnlyInputCore
@@ -205,9 +203,9 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 inputClasses="form-control"
                 propType="text"
                 propValue={
-                  thisWMP
+                  thisRecord.updatedAt
                     ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : ""
+                    : null
                 }
               />
             </div>

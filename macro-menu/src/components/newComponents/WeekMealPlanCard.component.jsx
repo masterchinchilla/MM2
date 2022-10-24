@@ -2,29 +2,11 @@ import React, { useState, useEffect } from "react";
 import WMPNameAndDisabledFieldsSubForm from "./WMPNameAndDisabledFieldsSubForm.component.jsx";
 import MacroBudgetSubForm from "./MacroBudgetSubForm.component.jsx";
 import MealWeightingSubForm from "./MealWeightingSubForm.component.jsx";
-// import { thisWeeksDaysOld } from "../../initialWMPStateObj.js";
 
 const WeekMealPlanCard = (props) => {
-  const {
-    thisStateObj,
-    onUpdateWeightsFn,
-    onClickEditFn,
-    onClickCancelFn,
-    onUpdatePropFn,
-    onClickSaveFn,
-    onClickDeleteFn,
-  } = props;
-  const thisWMP = thisStateObj ? thisStateObj.thisWMP : {};
-  const thisRecordId = thisWMP ? thisWMP._id : "wmpTempId1";
-  const thisFormState = thisStateObj ? thisStateObj.thisFormState : "";
-  const mealWeights = {
-    breakfast: thisWMP.breakfastWeight,
-    snack1: thisWMP.snack1Weight,
-    lunch: thisWMP.lunchWeight,
-    snack2: thisWMP.snack2Weight,
-    dinner: thisWMP.dinnerWeight,
-    dessert: thisWMP.dessertWeight,
-  };
+  const thisRecordId = props.thisStateObj
+    ? props.thisStateObj.thisRecord._id
+    : 1;
   return (
     <div className="card">
       <div className="card-header">
@@ -58,30 +40,9 @@ const WeekMealPlanCard = (props) => {
           >
             <div className="accordion-body accrdnWMPDetailsBdy">
               <form className="card">
-                <WMPNameAndDisabledFieldsSubForm
-                  thisStateObj={thisStateObj}
-                  onClickEditFn={onClickEditFn}
-                  onClickCancelFn={onClickCancelFn}
-                  onUpdatePropFn={onUpdatePropFn}
-                  onClickSaveFn={onClickSaveFn}
-                  onClickDeleteFn={onClickDeleteFn}
-                  thisRecordId={thisRecordId}
-                />
-                <MacroBudgetSubForm
-                  thisStateObj={thisStateObj}
-                  onClickEditFn={onClickEditFn}
-                  onClickCancelFn={onClickCancelFn}
-                  onUpdatePropFn={onUpdatePropFn}
-                  onClickSaveFn={onClickSaveFn}
-                  onClickDeleteFn={onClickDeleteFn}
-                  thisRecordId={thisRecordId}
-                />
-                <MealWeightingSubForm
-                  thisFormState={thisFormState}
-                  mealWeights={mealWeights}
-                  onUpdateWeights={onUpdateWeightsFn}
-                  thisRecordId={thisRecordId}
-                />
+                <WMPNameAndDisabledFieldsSubForm {...props} />
+                <MacroBudgetSubForm {...props} />
+                <MealWeightingSubForm {...props} />
               </form>
             </div>
           </div>

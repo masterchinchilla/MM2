@@ -30,7 +30,8 @@ const Input = (props) => {
         type={propType}
         className={inputClasses}
         value={propValue}
-        onChange={(e) =>
+        onChange={(e) => {
+          console.log(e);
           onUpdateProp(
             objType,
             dayOfWeekCode,
@@ -41,8 +42,8 @@ const Input = (props) => {
             e,
             selectedFrom,
             propTypeForVal
-          )
-        }
+          );
+        }}
         onKeyUp={(e) => inputOnKeyUpFn(e)}
         disabled={fieldDisabled}
       />

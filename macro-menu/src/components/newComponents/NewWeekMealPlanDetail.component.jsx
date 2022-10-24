@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Bootstrap from "bootstrap";
 import Popper from "popper.js";
 import WeekMealPlanCard from "./WeekMealPlanCard.component";
-import DayMealPlansCard from "./DayMealPlansCard.component";
+import DaysCard from "./DaysCard.component";
 class NewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +32,9 @@ class NewWeekMealPlan extends Component {
   handleUpdateWeightsFn = () => {
     console.log("weights updated");
   };
+  handleClickCopyFn = () => {
+    console.log("clicked copy");
+  };
   render() {
     const { thisGRFUser, backEndHtmlRoot, axiosCallConfig } = this.props;
     const thisWMPId = this.props.match.params.id;
@@ -40,20 +43,29 @@ class NewWeekMealPlan extends Component {
         <ToastContainer autoClose={2000} />
         <WeekMealPlanCard
           thisStateObj={this.state.thisWMPStateObj}
+          thisStateObjBackup={this.state.thisWMPStateBackup}
+          backEndHtmlRoot={this.state.backEndHtmlRoot}
+          valSchema={this.valSchema}
           onUpdateWeightsFn={this.handleUpdateWeightsFn}
           onClickEditFn={this.handleClickEditFn}
           onClickCancelFn={this.handleClickCancelFn}
           onUpdatePropFn={this.handleUpdatePropFn}
           onClickSaveFn={this.handleClickSaveFn}
           onClickDeleteFn={this.handleClickDeleteFn}
+          onClickCopyFn={this.handleClickCopyFn}
+          getRndIntegerFn={this.getRndIntegerFn}
         />
-        <DayMealPlansCard
+        <DaysCard
           thisWeeksDays={this.state.thisWeeksDays}
+          thisWeeksDaysBackup={this.state.thisWeeksDaysBackup}
+          backEndHtmlRoot={this.state.backEndHtmlRoot}
+          valSchema={this.valSchema}
           onClickEditFn={this.handleClickEditFn}
           onClickCancelFn={this.handleClickCancelFn}
           onUpdatePropFn={this.handleUpdatePropFn}
           onClickSaveFn={this.handleClickSaveFn}
           onClickDeleteFn={this.handleClickDeleteFn}
+          getRndIntegerFn={this.getRndIntegerFn}
         />
       </div>
     );

@@ -3,33 +3,58 @@ import _ from "lodash";
 import { Slider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const MealWeightingSubForm = (props) => {
-  const { thisFormState, mealWeights, onUpdateWeightsFn, thisRecordId } = props;
-  const breakfast = mealWeights.breakfast ? mealWeights.breakfast : 0;
-  const snack1 = mealWeights.snack1 ? mealWeights.snack1 : 0;
-  const lunch = mealWeights.lunch ? mealWeights.lunch : 0;
-  const snack2 = mealWeights.snack2 ? mealWeights.snack2 : 0;
-  const dinner = mealWeights.dinner ? mealWeights.dinner : 0;
-  const dessert = mealWeights.dessert ? mealWeights.dessert : 0;
+  const { onUpdateWeightsFn } = props;
+  const thisStateObj = props.thisStateObj
+    ? props.thisStateObj
+    : {
+        editingForm: false,
+        thisRecord: {
+          _id: 1,
+          breakfastWeight: 0,
+          snack1Weight: 0,
+          lunchWeight: 0,
+          snack2Weight: 0,
+          dinnerWeight: 0,
+          dessertWeight: 0,
+        },
+      };
+  const { editingForm, thisRecord } = thisStateObj;
+  const {
+    _id,
+    breakfastWeight,
+    snack1Weight,
+    lunchWeight,
+    snack2Weight,
+    dinnerWeight,
+    dessertWeight,
+  } = thisRecord;
+  const thisRecordId = _id;
   const [subFormUnChangedOrInvalid, setSubFrmUnChngdOrInvld] = useState(true);
-  const [breakfastWeight, breakfastWeightUpdate] = useState(breakfast);
-  const [snack1Weight, snack1WeightUpdate] = useState(snack1);
-  const [lunchWeight, lunchWeightUpdate] = useState(lunch);
-  const [snack2Weight, snack2WeightUpdate] = useState(snack2);
-  const [dinnerWeight, dinnerWeightUpdate] = useState(dinner);
-  const [dessertWeight, dessertWeightUpdate] = useState(dessert);
+  const [localBreakfastWeight, breakfastWeightUpdate] =
+    useState(breakfastWeight);
+  const [localSnack1Weight, snack1WeightUpdate] = useState(snack1Weight);
+  const [localLunchWeight, lunchWeightUpdate] = useState(lunchWeight);
+  const [localSnack2Weight, snack2WeightUpdate] = useState(snack2Weight);
+  const [localDinnerWeight, dinnerWeightUpdate] = useState(dinnerWeight);
+  const [localDessertWeight, dessertWeightUpdate] = useState(dessertWeight);
   const [mlWghtPrctPrgrss, changeMlWghtPrcntProgress] = useState(
-    breakfast + snack1 + lunch + snack2 + dinner + dessert
+    breakfastWeight +
+      snack1Weight +
+      lunchWeight +
+      snack2Weight +
+      dinnerWeight +
+      dessertWeight
   );
   function applyChange(e) {
     setSubFrmUnChngdOrInvld(true);
     onUpdateWeightsFn(
       {
-        breakfast: breakfastWeight,
-        snack1: snack1Weight,
-        lunch: lunchWeight,
-        snack2: snack2Weight,
-        dinner: dinnerWeight,
-        dessert: dessertWeight,
+        breakfast: localBreakfastWeight,
+        snack1: localSnack1Weight,
+        lunch: localLunchWeight,
+        snack2: localSnack2Weight,
+        dinner: localDinnerWeight,
+        dessert: localDessertWeight,
       },
       e
     );
@@ -40,14 +65,14 @@ const MealWeightingSubForm = (props) => {
     let weightsArray = [
       {
         name: "breakfast",
-        value: breakfastWeight,
+        value: localBreakfastWeight,
         amntToReduceByPerChnge: 0,
       },
-      { name: "snack1", value: snack1Weight, amntToReduceByPerChnge: 0 },
-      { name: "lunch", value: lunchWeight, amntToReduceByPerChnge: 0 },
-      { name: "snack2", value: snack2Weight, amntToReduceByPerChnge: 0 },
-      { name: "dinner", value: dinnerWeight, amntToReduceByPerChnge: 0 },
-      { name: "dessert", value: dessertWeight, amntToReduceByPerChnge: 0 },
+      { name: "snack1", value: localSnack1Weight, amntToReduceByPerChnge: 0 },
+      { name: "lunch", value: localLunchWeight, amntToReduceByPerChnge: 0 },
+      { name: "snack2", value: localSnack2Weight, amntToReduceByPerChnge: 0 },
+      { name: "dinner", value: localDinnerWeight, amntToReduceByPerChnge: 0 },
+      { name: "dessert", value: localDessertWeight, amntToReduceByPerChnge: 0 },
     ];
     switch (mealTypeCode) {
       case "breakfast":
@@ -362,11 +387,11 @@ const MealWeightingSubForm = (props) => {
                     <input
                       className="form-control mealWeightNumField"
                       type={"number"}
-                      value={breakfastWeight}
+                      value={localBreakfastWeight}
                       onChange={(e) => {
                         handleUpdateWeights(e, "breakfast");
                       }}
-                      disabled={thisFormState === "viewing" ? true : false}
+                      disabled={!editingForm ? true : false}
                     />
                     %
                   </label>
@@ -375,12 +400,12 @@ const MealWeightingSubForm = (props) => {
                     step={1}
                     min={0}
                     max={100}
-                    value={breakfastWeight}
+                    value={localBreakfastWeight}
                     className="mealPrcntSldr"
                     onChange={(e) => {
                       handleUpdateWeights(e, "breakfast");
                     }}
-                    disabled={thisFormState === "viewing" ? true : false}
+                    disabled={!editingForm ? true : false}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -389,11 +414,11 @@ const MealWeightingSubForm = (props) => {
                     <input
                       className="form-control mealWeightNumField"
                       type={"number"}
-                      value={snack1Weight}
+                      value={localSnack1Weight}
                       onChange={(e) => {
                         handleUpdateWeights(e, "snack1");
                       }}
-                      disabled={thisFormState === "viewing" ? true : false}
+                      disabled={!editingForm ? true : false}
                     />
                     %
                   </label>
@@ -402,12 +427,12 @@ const MealWeightingSubForm = (props) => {
                     step={1}
                     min={0}
                     max={100}
-                    value={snack1Weight}
+                    value={localSnack1Weight}
                     className="mealPrcntSldr"
                     onChange={(e) => {
                       handleUpdateWeights(e, "snack1");
                     }}
-                    disabled={thisFormState === "viewing" ? true : false}
+                    disabled={!editingForm ? true : false}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -416,11 +441,11 @@ const MealWeightingSubForm = (props) => {
                     <input
                       className="form-control mealWeightNumField"
                       type={"number"}
-                      value={lunchWeight}
+                      value={localLunchWeight}
                       onChange={(e) => {
                         handleUpdateWeights(e, "lunch");
                       }}
-                      disabled={thisFormState === "viewing" ? true : false}
+                      disabled={!editingForm ? true : false}
                     />
                     %
                   </label>
@@ -429,12 +454,12 @@ const MealWeightingSubForm = (props) => {
                     step={1}
                     min={0}
                     max={100}
-                    value={lunchWeight}
+                    value={localLunchWeight}
                     className="mealPrcntSldr"
                     onChange={(e) => {
                       handleUpdateWeights(e, "lunch");
                     }}
-                    disabled={thisFormState === "viewing" ? true : false}
+                    disabled={!editingForm ? true : false}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -443,11 +468,11 @@ const MealWeightingSubForm = (props) => {
                     <input
                       className="form-control mealWeightNumField"
                       type={"number"}
-                      value={snack2Weight}
+                      value={localSnack2Weight}
                       onChange={(e) => {
                         handleUpdateWeights(e, "snack2");
                       }}
-                      disabled={thisFormState === "viewing" ? true : false}
+                      disabled={!editingForm ? true : false}
                     />
                     %
                   </label>
@@ -456,12 +481,12 @@ const MealWeightingSubForm = (props) => {
                     step={1}
                     min={0}
                     max={100}
-                    value={snack2Weight}
+                    value={localSnack2Weight}
                     className="mealPrcntSldr"
                     onChange={(e) => {
                       handleUpdateWeights(e, "snack2");
                     }}
-                    disabled={thisFormState === "viewing" ? true : false}
+                    disabled={!editingForm ? true : false}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -470,11 +495,11 @@ const MealWeightingSubForm = (props) => {
                     <input
                       className="form-control mealWeightNumField"
                       type={"number"}
-                      value={dinnerWeight}
+                      value={localDinnerWeight}
                       onChange={(e) => {
                         handleUpdateWeights(e, "dinner");
                       }}
-                      disabled={thisFormState === "viewing" ? true : false}
+                      disabled={!editingForm ? true : false}
                     />
                     %
                   </label>
@@ -483,12 +508,12 @@ const MealWeightingSubForm = (props) => {
                     step={1}
                     min={0}
                     max={100}
-                    value={dinnerWeight}
+                    value={localDinnerWeight}
                     className="mealPrcntSldr"
                     onChange={(e) => {
                       handleUpdateWeights(e, "dinner");
                     }}
-                    disabled={thisFormState === "viewing" ? true : false}
+                    disabled={!editingForm ? true : false}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -497,11 +522,11 @@ const MealWeightingSubForm = (props) => {
                     <input
                       className="form-control mealWeightNumField"
                       type={"number"}
-                      value={dessertWeight}
+                      value={localDessertWeight}
                       onChange={(e) => {
                         handleUpdateWeights(e, "dessert");
                       }}
-                      disabled={thisFormState === "viewing" ? true : false}
+                      disabled={!editingForm ? true : false}
                     />
                     %
                   </label>
@@ -510,12 +535,12 @@ const MealWeightingSubForm = (props) => {
                     step={1}
                     min={0}
                     max={100}
-                    value={dessertWeight}
+                    value={localDessertWeight}
                     className="mealPrcntSldr mealPrcntSldr"
                     onChange={(e) => {
                       handleUpdateWeights(e, "dessert");
                     }}
-                    disabled={thisFormState === "viewing" ? true : false}
+                    disabled={!editingForm ? true : false}
                   />
                 </div>
               </div>

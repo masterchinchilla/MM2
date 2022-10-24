@@ -956,3 +956,6 @@ margin: 0.5rem;
 .wmpNameFrmGroup input.placeholder {
   width:90%;
 }
+td span.placeholder{
+  width: 3rem;
+}

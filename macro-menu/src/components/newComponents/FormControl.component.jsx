@@ -10,7 +10,7 @@ const FormControl = (props) => {
     userType,
     editingForm,
     saveDisabled,
-    deleteDisabled,
+    hasChildren,
     saveWarning,
     deleteWarning,
     deleteChildrenWarning,
@@ -60,7 +60,7 @@ const FormControl = (props) => {
         }
         break;
       case "delete":
-        if (!editingForm || deleteDisabled) {
+        if (!editingForm) {
           iconHidden = true;
         } else if (localUserType === "admin") {
           iconHidden = false;
@@ -76,14 +76,14 @@ const FormControl = (props) => {
     return iconHidden;
   }
   function handleClickDelete() {
-    if (deleteChildrenWarning) {
+    if (hasChildren) {
       toggleHideDeleteBlock(false);
     } else {
       toggleHideDeleteWarning(false);
     }
   }
   function handleClickCancel() {
-    recordChanged === true
+    recordChanged
       ? toggleHideCancelWarning(false)
       : onClickCancelFn(
           typeOfRecordToChange,
@@ -149,7 +149,7 @@ const FormControl = (props) => {
             <FontAwesomeIcon
               icon="fa-solid fa-floppy-disk"
               size="xl"
-              className={recordChanged === true ? "changingWarning p-1" : "p-1"}
+              className={recordChanged ? "changingWarning p-1" : "p-1"}
               hidden={hideIcon("save")}
             />
           </button>

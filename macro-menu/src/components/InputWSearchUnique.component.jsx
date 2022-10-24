@@ -27,7 +27,18 @@ const InputWSearchUnique = (props) => {
     changeParentPropFn,
   } = props;
   const [timer, setTimer] = useState(null);
-  function trimValueForChangePropFn(e) {
+  function trimValueForChangePropFn(
+    objType,
+    dayOfWeekCode,
+    mealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    inputType,
+    e,
+    selectedFrom,
+    propTypeForVal
+  ) {
+    console.log(e);
     const inputValue = e.target.value;
     const noDblSpcs = inputValue.replace(/  +/g, " ");
     changeLocalPropFn(noDblSpcs, propName);
