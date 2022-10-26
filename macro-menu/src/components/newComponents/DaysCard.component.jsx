@@ -4,12 +4,15 @@ const DaysCard = (props) => {
   const {
     thisWeeksDays,
     thisWeeksDaysBackup,
+    currentGRFUser,
+    validateProp,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
     getRndIntegerFn,
+    onCreateNewRecordFn,
     thisRecordId,
   } = props;
   function renderDay(dayOfWeekCode) {
@@ -20,12 +23,15 @@ const DaysCard = (props) => {
         thisStateObjBackup={
           thisWeeksDaysBackup ? thisWeeksDaysBackup[dayOfWeekCode] : null
         }
+        currentGRFUser={currentGRFUser}
+        validateProp={validateProp}
         onClickEditFn={onClickEditFn}
         onClickCancelFn={onClickCancelFn}
         onUpdatePropFn={onUpdatePropFn}
         onClickSaveFn={onClickSaveFn}
         onClickDeleteFn={onClickDeleteFn}
         getRndIntegerFn={getRndIntegerFn}
+        onCreateNewRecordFn={onCreateNewRecordFn}
       />
     );
   }

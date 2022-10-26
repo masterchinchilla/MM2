@@ -3,12 +3,15 @@ import MealParentCard from "./MealParentCard.component";
 import CreateMealButton from "./CreateMealButton.component";
 const MealsCard = (props) => {
   const {
+    currentGRFUser,
+    validateProp,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
     getRndIntegerFn,
+    onCreateNewRecordFn,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -63,12 +66,11 @@ const MealsCard = (props) => {
       <MealParentCard
         key={`mealPrntCardForMeal${mealRecordId}`}
         thisStateObj={mealStateObj}
-        nClickEditFn={onClickEditFn}
-        onClickCancelFn={onClickCancelFn}
+        currentGRFUser={currentGRFUser}
+        validateProp={validateProp}
         onUpdatePropFn={onUpdatePropFn}
-        onClickSaveFn={onClickSaveFn}
-        onClickDeleteFn={onClickDeleteFn}
         getRndIntegerFn={getRndIntegerFn}
+        onCreateNewRecordFn={onCreateNewRecordFn}
       />
     );
   }

@@ -5,7 +5,13 @@ import MealChildCard from "./MealChildCard.component";
 import RecipeCard from "./RecipeCard.component";
 import MealIngredients from "./MealIngredients.component";
 const MealParentCard = (props) => {
-  const { getRndIntegerFn } = props;
+  const {
+    currentGRFUser,
+    onUpdatePropFn,
+    validateProp,
+    getRndIntegerFn,
+    onCreateNewRecordFn,
+  } = props;
   const thisStateObj = props.thisStateObj.day
     ? props.thisStateObj
     : {
@@ -66,7 +72,13 @@ const MealParentCard = (props) => {
           />
         </StickyBox>
         <div className="accordion-body wkDaysAccrdnBdy">
-          <MealChildCard />
+          <MealChildCard
+            currentGRFUser={currentGRFUser}
+            validateProp={validateProp}
+            onUpdatePropFn={onUpdatePropFn}
+            getRndIntegerFn={getRndIntegerFn}
+            onCreateNewRecord={onCreateNewRecordFn}
+          />
           <RecipeCard />
           <MealIngredients />
         </div>

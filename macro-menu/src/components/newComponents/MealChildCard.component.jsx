@@ -2,21 +2,27 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import FormControl from "./FormControl.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
+import SelectSearchListWCreateNew from "./SelectSearchListWCreateNew.component";
 const MealChildCard = (props) => {
   const {
+    currentGRFUser,
+    validateProp,
+    onUpdatePropFn,
     onClickEditFn,
     onClickCancelFn,
     onClickSaveFn,
     onClickDeleteFn,
     getRndIntegerFn,
+    onCreateNewRecordFn,
   } = props;
-  const thisStateObj = props.thisStateObj.userType
+  const thisStateObj = props.thisStateObj
     ? props.thisStateObj
     : {
         recordChanged: false,
         thisRecord: {
           _id: null,
           day: { dayOfWeek: null },
+          genRecipe: null,
           mealType: null,
           createdAt: null,
           updatedAt: null,
@@ -26,6 +32,7 @@ const MealChildCard = (props) => {
         thisMealsIngrdnts: [],
         thisMealJustCreated: false,
         userChangedThisMealsRecipe: false,
+        thisRecipesIngrdnts: [],
       };
   const {
     recordChanged,
@@ -35,8 +42,9 @@ const MealChildCard = (props) => {
     thisMealsIngrdnts,
     thisMealJustCreated,
     userChangedThisMealsRecipe,
+    thisRecipesIngrdnts,
   } = thisStateObj;
-  const { _id, day, mealType, createdAt, updatedAt } = thisRecord;
+  const { _id, day, mealType, genRecipe, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "meal";
   const thisDayOfWeekCode = day.dayOfWeek ? day.dayOfWeek.code : "";
@@ -52,6 +60,31 @@ const MealChildCard = (props) => {
     "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?";
   const deleteChildrenWarning =
     "You must delete all this meals's ingredients before you can delete this meal";
+  function handleCreateNewRecipeFn(newRecipeName) {
+    const newRecordToSave = {
+      name: newRecipeName,
+      GRFUser: currentGRFUser._id,
+      defaultPrepInstructions: "",
+      photoURL: "",
+      availableMealType: mealType._id,
+    };
+    const newRecordForState = {
+      _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
+      name: newRecipeName,
+      GRFUser: currentGRFUser,
+      defaultPrepInstructions: "",
+      photoURL: "",
+      availableMealType: mealType,
+    };
+    onCreateNewRecordFn(
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex,
+      newRecordForState,
+      newRecordToSave
+    );
+  }
   return (
     <form className="card mt-3 mb-3">
       <div className="card-header mealCardHeader">
@@ -85,21 +118,24 @@ const MealChildCard = (props) => {
           }
         >
           <h5 className="recipeSelectHeader">Recipe:</h5>
-          {/* <SelectSearchListWCreate
-            required
-            objToSelect={thisGenRecipeObj}
-            dayOfWeekCode={dayOfWeek.code}
-            mealType={thisObj.mealType}
-            arrayIndex={0}
-            onUpdateProp={onUpdateProp}
-            thisFormState={mealFormState}
-            objType="meal"
-            objTypeToChange="genRecipe"
-            options={thisMealTypesRecipes}
-            thisGRFUser={thisGRFUser}
-            onCreateRecord={onCreateRecord}
-            styleClasses="recipeSelect"
-          /> */}
+          <SelectSearchListWCreateNew
+            options={thisRecipesIngrdnts}
+            recordToSelect={genRecipe}
+            typeOfRecordToChange={"Meal"}
+            propNameSentenceCase={"Recipe"}
+            thisDayOfWeekCode={thisDayOfWeekCode}
+            thisMealTypeCode={thisMealTypeCode}
+            propToUpdate={"genRecipe"}
+            propType={"reactSelect"}
+            arrayIndex={arrayIndex}
+            currentGRFUser={currentGRFUser}
+            inputClasses={"recipeSelect"}
+            formGroupClasses=""
+            fieldsDisabled={!editingForm}
+            validateProp={validateProp}
+            onUpdatePropFn={onUpdatePropFn}
+            onCreateNewRecordFn={handleCreateNewRecipeFn}
+          />
           {userChangedThisMealsRecipe && !thisMealJustCreated ? (
             <div className="alert alert-warning recipeWarning" role="alert">
               CAUTION: If you save a change to this Meal's Recipe, your meal

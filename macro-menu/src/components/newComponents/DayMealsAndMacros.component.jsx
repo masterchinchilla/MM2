@@ -5,12 +5,15 @@ import NewMacrosTable from "./NewMacrosTable.component";
 const DayMealsAndMacros = (props) => {
   const {
     thisStateObjBackup,
+    currentGRFUser,
+    validateProp,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
     getRndIntegerFn,
+    onCreateNewRecordFn,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -74,12 +77,15 @@ const DayMealsAndMacros = (props) => {
               <MealsCard
                 key={`mealsCardForDay${thisRecordId}`}
                 thisStateObj={thisStateObj}
+                currentGRFUser={currentGRFUser}
+                validateProp={validateProp}
                 onClickEditFn={onClickEditFn}
                 onClickCancelFn={onClickCancelFn}
                 onUpdatePropFn={onUpdatePropFn}
                 onClickSaveFn={onClickSaveFn}
                 onClickDeleteFn={onClickDeleteFn}
                 getRndIntegerFn={getRndIntegerFn}
+                onCreateNewRecordFn={onCreateNewRecordFn}
               />
             </div>
           </div>

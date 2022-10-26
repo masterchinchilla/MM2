@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Joi from "joi";
 import httpService from "../../services/httpService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,6 +7,7 @@ import Bootstrap from "bootstrap";
 import Popper from "popper.js";
 import WeekMealPlanCard from "./WeekMealPlanCard.component";
 import DaysCard from "./DaysCard.component";
+import valSchema from "../universalJoiValSchema";
 class NewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +37,23 @@ class NewWeekMealPlan extends Component {
   handleClickCopyFn = () => {
     console.log("clicked copy");
   };
+  handleCreateNewRecordFn = () => {
+    console.log("created new record");
+  };
+  handleValidateProp = (propType, propToUpdate, newPropValue) => {
+    const rule = valSchema.extract(propType);
+    const subSchema = Joi.object({ [propToUpdate]: rule });
+    const objToValidate = { [propToUpdate]: newPropValue };
+    const { error } = subSchema.validate(objToValidate);
+    let validationError;
+    if (error) {
+      let validationResult = error;
+      validationError = validationResult.details[0].message;
+    } else {
+      validationError = null;
+    }
+    return validationError;
+  };
   render() {
     const { thisGRFUser, backEndHtmlRoot, axiosCallConfig } = this.props;
     const thisRecordId = this.props.match.params.id;
@@ -50,6 +69,7 @@ class NewWeekMealPlan extends Component {
           thisStateObjBackup={this.state.thisWMPStateBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
           valSchema={this.valSchema}
+          validateProp={this.handleValidateProp}
           onUpdateWeightsFn={this.handleUpdateWeightsFn}
           onClickEditFn={this.handleClickEditFn}
           onClickCancelFn={this.handleClickCancelFn}
@@ -64,12 +84,15 @@ class NewWeekMealPlan extends Component {
           thisWeeksDays={this.state.thisWeeksDays}
           thisWeeksDaysBackup={this.state.thisWeeksDaysBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
+          currentGRFUser={this.state.currentGRFUser}
           valSchema={this.valSchema}
+          validateProp={this.handleValidateProp}
           onClickEditFn={this.handleClickEditFn}
           onClickCancelFn={this.handleClickCancelFn}
           onUpdatePropFn={this.handleUpdatePropFn}
           onClickSaveFn={this.handleClickSaveFn}
           onClickDeleteFn={this.handleClickDeleteFn}
+          onCreateNewRecordFn={this.handleCreateNewRecordFn}
           getRndIntegerFn={this.getRndIntegerFn}
         />
       </div>
