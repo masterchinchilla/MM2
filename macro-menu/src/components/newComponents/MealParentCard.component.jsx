@@ -6,13 +6,20 @@ import RecipeCard from "./RecipeCard.component";
 import MealIngredients from "./MealIngredients.component";
 const MealParentCard = (props) => {
   const {
+    thisStateObjBackup,
     currentGRFUser,
+    backEndHtmlRoot,
     onUpdatePropFn,
     validateProp,
-    getRndIntegerFn,
     onCreateNewRecordFn,
+    trimEnteredValue,
+    onClickEditFn,
+    onClickCancelFn,
+    onClickSaveFn,
+    onClickDeleteFn,
+    getRndIntegerFn,
   } = props;
-  const thisStateObj = props.thisStateObj.day
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         thisRecord: {
@@ -24,6 +31,7 @@ const MealParentCard = (props) => {
           mealType: { code: null, name: "Meal" },
         },
         thisMealsIngrdnts: [],
+        recordLoaded: false,
       };
   const { thisRecord, thisMealsIngrdnts } = thisStateObj;
   const { _id, day, mealType } = thisRecord;
@@ -78,8 +86,20 @@ const MealParentCard = (props) => {
             onUpdatePropFn={onUpdatePropFn}
             getRndIntegerFn={getRndIntegerFn}
             onCreateNewRecord={onCreateNewRecordFn}
+            trimEnteredValue={trimEnteredValue}
           />
-          <RecipeCard />
+          <RecipeCard
+            thisStateObj={thisStateObj}
+            thisStateObjBackup={thisStateObjBackup}
+            onClickEditFn={onClickEditFn}
+            onClickCancelFn={onClickCancelFn}
+            onClickSaveFn={onClickSaveFn}
+            onClickDeleteFn={onClickDeleteFn}
+            onUpdatePropFn={onUpdatePropFn}
+            getRndIntegerFn={getRndIntegerFn}
+            backEndHtmlRoot={backEndHtmlRoot}
+            validateProp={validateProp}
+          />
           <MealIngredients />
         </div>
       </div>

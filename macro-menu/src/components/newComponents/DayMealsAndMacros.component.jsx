@@ -14,6 +14,7 @@ const DayMealsAndMacros = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onCreateNewRecordFn,
+    trimEnteredValue,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -86,6 +87,7 @@ const DayMealsAndMacros = (props) => {
                 onClickDeleteFn={onClickDeleteFn}
                 getRndIntegerFn={getRndIntegerFn}
                 onCreateNewRecordFn={onCreateNewRecordFn}
+                trimEnteredValue={trimEnteredValue}
               />
             </div>
           </div>

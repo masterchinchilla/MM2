@@ -7,12 +7,13 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   const {
     thisStateObjBackup,
     backEndHtmlRoot,
-    valSchema,
+    validateProp,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
+    onClickCopyFn,
     getRndIntegerFn,
   } = props;
   const thisStateObj = props.thisStateObj
@@ -28,22 +29,24 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
         },
         recordChanged: false,
         valErrors: {},
-        thisObjJustCreated: false,
+        justCreated: false,
         //this prop is crucial because it determines whether the form control component renders or renders placeholder; Should be falsy unless data is loaded
         userType: "",
         hasChildren: true,
         deleteChildrenWarning:
           "You must delete all this week's days before you can delete this Week Meal Plan",
+        recordLoaded: false,
       };
   const {
     editingForm,
     thisRecord,
     recordChanged,
     valErrors,
-    thisObjJustCreated,
+    justCreated,
     userType,
     hasChildren,
     deleteChildrenWarning,
+    recordLoaded,
   } = thisStateObj;
   const { _id, GRFUser, name, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
@@ -55,12 +58,12 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   const thisDayOfWeekCode = "";
   const thisMealTypeCode = "";
   const arrayIndex = 0;
-  const [localName, updateName] = useState(name);
-  const [nameValError, updateNameValError] = useState(
+  const [localName, updateNameStateFn] = useState(name);
+  const [nameValError, updateNameValErrorStateFn] = useState(
     valErrors ? valErrors.name : null
   );
-  const [nameHasDup, toggleNameHasDup] = useState(true);
-  const [saveDisabled, toggleSaveDisabled] = useState(true);
+  const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
+  const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
   useEffect(() => {
     if (
       nameHasDup ||
@@ -76,15 +79,15 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
       valErrors.fatBudget ||
       valErrors.fiberBudget
     ) {
-      toggleSaveDisabled(true);
+      toggleSaveDisabledStateFn(true);
     } else {
-      toggleSaveDisabled(false);
+      toggleSaveDisabledStateFn(false);
     }
   });
   function handleCancelEditForm() {
-    updateName(backupOfRecordToChange.name);
-    updateNameValError(null);
-    toggleNameHasDup(false);
+    updateNameStateFn(backupOfRecordToChange.name);
+    updateNameValErrorStateFn(null);
+    toggleNameHasDupStateFn(false);
     onClickCancelFn(
       typeOfRecordToChange,
       thisDayOfWeekCode,
@@ -96,7 +99,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
     <React.Fragment>
       <div
         className={
-          thisObjJustCreated
+          justCreated
             ? "card-header wmpCardHeader cardHeaderFocused"
             : "card-header wmpCardHeader"
         }
@@ -120,11 +123,11 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           isRequired={true}
           backEndHtmlRoot={backEndHtmlRoot}
           propNameSentenceCase={"Name"}
-          valSchema={valSchema}
-          changeLocalPropStateFn={updateName}
-          togglePropValueHasDupStateFn={toggleNameHasDup}
+          validateProp={validateProp}
+          changeLocalPropStateFn={updateNameStateFn}
+          togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
           onUpdatePropFn={onUpdatePropFn}
-          valErrorUpdateStateFn={updateNameValError}
+          valErrorUpdateStateFn={updateNameValErrorStateFn}
           getRndIntegerFn={getRndIntegerFn}
         />
         <FormControl
@@ -145,7 +148,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           onClickCancelFn={handleCancelEditForm}
           onClickSaveFn={onClickSaveFn}
           onClickDeleteFn={onClickDeleteFn}
-          onClickCopyFn
+          onClickCopyFn={onClickCopyFn}
         />
       </div>
       <div className="card-body wmpCardBody">

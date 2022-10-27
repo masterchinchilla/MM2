@@ -40,6 +40,11 @@ class NewWeekMealPlan extends Component {
   handleCreateNewRecordFn = () => {
     console.log("created new record");
   };
+  handleTrimEnteredValue = (untrimmedValue) => {
+    let trimmedValue = untrimmedValue.trim();
+    let trimmedValueWNoDblSpcs = trimmedValue.replace(/  +/g, " ");
+    return trimmedValueWNoDblSpcs;
+  };
   handleValidateProp = (propType, propToUpdate, newPropValue) => {
     const rule = valSchema.extract(propType);
     const subSchema = Joi.object({ [propToUpdate]: rule });
@@ -94,6 +99,7 @@ class NewWeekMealPlan extends Component {
           onClickDeleteFn={this.handleClickDeleteFn}
           onCreateNewRecordFn={this.handleCreateNewRecordFn}
           getRndIntegerFn={this.getRndIntegerFn}
+          trimEnteredValue={this.handleTrimEnteredValue}
         />
       </div>
     );

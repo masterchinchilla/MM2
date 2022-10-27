@@ -14,11 +14,12 @@ const MealChildCard = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onCreateNewRecordFn,
+    trimEnteredValue,
   } = props;
-  const thisStateObj = props.thisStateObj
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
-        recordChanged: false,
+        recordChanged: { meal: false },
         thisRecord: {
           _id: null,
           day: { dayOfWeek: null },
@@ -27,23 +28,28 @@ const MealChildCard = (props) => {
           createdAt: null,
           updatedAt: null,
         },
-        userType: "",
-        editingForm: false,
+        userType: { meal: "" },
+        editingForm: { meal: false },
+        justCreated: { meal: false },
         thisMealsIngrdnts: [],
-        thisMealJustCreated: false,
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
+        valErrors: { genRecipe: { name: null } },
+        recordLoaded: false,
       };
   const {
     recordChanged,
     thisRecord,
     userType,
     editingForm,
+    justCreated,
     thisMealsIngrdnts,
-    thisMealJustCreated,
     userChangedThisMealsRecipe,
     thisRecipesIngrdnts,
+    valErrors,
+    recordLoaded,
   } = thisStateObj;
+  const genRecipeValErrors = valErrors.genRecipe;
   const { _id, day, mealType, genRecipe, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "meal";
@@ -51,7 +57,8 @@ const MealChildCard = (props) => {
   const thisMealTypeCode = mealType ? mealType.code : "";
   const arrayIndex = 0;
   const saveDisabled =
-    (userType === "author" || userType === "admin") && editingForm
+    (userType.meal === "author" || userType.meal === "admin") &&
+    editingForm.meal
       ? false
       : true;
   const hasChildren = thisMealsIngrdnts.length > 0 ? true : false;
@@ -103,6 +110,7 @@ const MealChildCard = (props) => {
             saveWarning={saveWarning}
             deleteWarning={deleteWarning}
             deleteChildrenWarning={deleteChildrenWarning}
+            recordLoaded={recordLoaded}
             onClickEditFn={onClickEditFn}
             onClickCancelFn={onClickCancelFn}
             onClickSaveFn={onClickSaveFn}
@@ -112,7 +120,7 @@ const MealChildCard = (props) => {
         </div>
         <div
           className={
-            thisMealJustCreated
+            justCreated.meal
               ? "subCardHeader cardHeaderFocused"
               : "subCardHeader"
           }
@@ -132,11 +140,13 @@ const MealChildCard = (props) => {
             inputClasses={"recipeSelect"}
             formGroupClasses=""
             fieldsDisabled={!editingForm}
+            valError={genRecipeValErrors.name}
             validateProp={validateProp}
             onUpdatePropFn={onUpdatePropFn}
             onCreateNewRecordFn={handleCreateNewRecipeFn}
+            trimEnteredValue={trimEnteredValue}
           />
-          {userChangedThisMealsRecipe && !thisMealJustCreated ? (
+          {userChangedThisMealsRecipe && !justCreated.meal ? (
             <div className="alert alert-warning recipeWarning" role="alert">
               CAUTION: If you save a change to this Meal's Recipe, your meal
               ingredient custom qtys will be reset.

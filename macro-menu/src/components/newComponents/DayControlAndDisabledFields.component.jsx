@@ -17,11 +17,12 @@ const DayControlAndDisabledFields = (props) => {
           updatedAt: null,
         },
         recordChanged: false,
-        //this prop is crucial because it determines whether the form control component renders or renders placeholder; Should be falsy unless data is loaded
         userType: "",
         hasChildren: true,
         deleteChildrenWarning:
           "You must delete all this day's meals before you can delete this day",
+        //this prop is crucial because it determines whether the form control component renders or renders placeholder; Should be falsy unless data is loaded
+        recordLoaded: false,
       };
   const {
     editingForm,
@@ -30,6 +31,7 @@ const DayControlAndDisabledFields = (props) => {
     userType,
     hasChildren,
     deleteChildrenWarning,
+    recordLoaded,
   } = thisStateObj;
   const { _id, name, dayOfWeek, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
@@ -60,6 +62,7 @@ const DayControlAndDisabledFields = (props) => {
           saveWarning={null}
           deleteWarning={"Are you sure you want to delete this Day Meal Plan?"}
           deleteChildrenWarning={deleteChildrenWarning}
+          recordLoaded={recordLoaded}
           onClickEditFn={onClickEditFn}
           onClickCancelFn={onClickCancelFn}
           onClickSaveFn={() => {}}

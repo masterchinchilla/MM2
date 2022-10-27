@@ -4,6 +4,7 @@ import CreateMealButton from "./CreateMealButton.component";
 const MealsCard = (props) => {
   const {
     currentGRFUser,
+    backEndHtmlRoot,
     validateProp,
     onClickEditFn,
     onClickCancelFn,
@@ -12,6 +13,7 @@ const MealsCard = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onCreateNewRecordFn,
+    trimEnteredValue,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -21,6 +23,7 @@ const MealsCard = (props) => {
           dayOfWeek: null,
         },
         thisDaysMeals: null,
+        recordLoaded: false,
       };
   const { thisRecord, thisDaysMeals } = thisStateObj;
   const thisDayOfWeek = thisRecord.dayOfWeek
@@ -28,14 +31,14 @@ const MealsCard = (props) => {
     : { name: "Day" };
   const thisRecordId = thisRecord._id;
   function renderMeal(mealTypeCode, mealTypeName) {
-    const mealStateObj = thisDaysMeals
+    const thisMealStateObj = thisDaysMeals
       ? thisDaysMeals[mealTypeCode]
       : {
           thisRecord: { _id: getRndIntegerFn(10000000, 99999999) },
-          userType: null,
+          userType: { meal: null },
         };
-    const mealRecordId = mealStateObj.thisRecord._id;
-    const mealUserType = mealStateObj.userType;
+    const mealRecordId = thisMealStateObj.thisRecord._id;
+    const mealUserType = thisMealStateObj.userType.meal;
     const pattern = /missing/;
     let testResult = pattern.test(mealRecordId);
     if (testResult) {
@@ -43,7 +46,7 @@ const MealsCard = (props) => {
         return (
           <CreateMealButton
             key={`createMealBttnForMeal${mealRecordId}`}
-            thisStateObj={mealStateObj}
+            thisStateObj={thisMealStateObj}
             onClickEditFn={onClickEditFn}
             onClickCancelFn={onClickCancelFn}
             onUpdatePropFn={onUpdatePropFn}
@@ -65,12 +68,14 @@ const MealsCard = (props) => {
     return (
       <MealParentCard
         key={`mealPrntCardForMeal${mealRecordId}`}
-        thisStateObj={mealStateObj}
+        thisStateObj={thisMealStateObj}
         currentGRFUser={currentGRFUser}
+        backEndHtmlRoot={backEndHtmlRoot}
         validateProp={validateProp}
         onUpdatePropFn={onUpdatePropFn}
         getRndIntegerFn={getRndIntegerFn}
         onCreateNewRecordFn={onCreateNewRecordFn}
+        trimEnteredValue={trimEnteredValue}
       />
     );
   }

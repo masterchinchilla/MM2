@@ -4,9 +4,10 @@ import MacroBudgetSubForm from "./MacroBudgetSubForm.component.jsx";
 import MealWeightingSubForm from "./MealWeightingSubForm.component.jsx";
 
 const WeekMealPlanCard = (props) => {
-  const thisRecordId = props.thisStateObj
-    ? props.thisStateObj.thisRecord._id
-    : 1;
+  const { thisStateObj, getRndIntegerFn } = props;
+  const thisRecordId = thisStateObj.thisRecord
+    ? thisStateObj.thisRecord._id
+    : getRndIntegerFn(10000000, 99999999);
   return (
     <div className="card">
       <div className="card-header">

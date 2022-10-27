@@ -14,6 +14,7 @@ const FormControl = (props) => {
     saveWarning,
     deleteWarning,
     deleteChildrenWarning,
+    recordLoaded,
     onClickEditFn,
     onClickCancelFn,
     onClickSaveFn,
@@ -98,11 +99,13 @@ const FormControl = (props) => {
           typeOfRecordToChange,
           thisDayOfWeekCode,
           thisMealTypeCode,
-          arrayIndex
+          arrayIndex,
+          {},
+          {}
         )
       : toggleHideSaveWarning(false);
   }
-  if (userType) {
+  if (recordLoaded) {
     return (
       <React.Fragment>
         <div className="iconGroup m-1">

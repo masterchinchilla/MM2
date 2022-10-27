@@ -20,7 +20,7 @@ const InputWLocalStateAndVal = (props) => {
     isRequired,
     backEndHtmlRoot,
     propNameSentenceCase,
-    valSchema,
+    validateProp,
     changeLocalPropStateFn,
     togglePropValueHasDupStateFn,
     onUpdatePropFn,
@@ -32,21 +32,14 @@ const InputWLocalStateAndVal = (props) => {
     : {};
   const thisRecordId = backupOfRecordToChange ? backupOfRecordToChange._id : 1;
   function handleUpdateLocalProp(newPropValue) {
-    const rule = valSchema.extract(propType);
-    const subSchema = Joi.object({ [propToUpdate]: rule });
-    const objToValidate = { [propToUpdate]: newPropValue };
-    const { error } = subSchema.validate(objToValidate);
-    let validationError;
-    if (error) {
-      let validationResult = error;
-      validationError = validationResult.details[0].message;
+    const thisValError = validateProp(propType, propToUpdate, newPropValue);
+    if (thisValError) {
       togglePropValueHasDupStateFn(true);
     } else {
-      validationError = null;
       togglePropValueHasDupStateFn(false);
     }
     changeLocalPropStateFn(newPropValue);
-    valErrorUpdateStateFn(validationError);
+    valErrorUpdateStateFn(thisValError);
   }
   function handleUpdateParentProp(newPropValue) {
     let e = {

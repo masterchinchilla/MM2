@@ -15,12 +15,15 @@ const SelectSearchListWCreateNew = (props) => {
     formGroupClasses,
     inputClasses,
     fieldsDisabled,
+    valError,
     onUpdatePropFn,
     validateProp,
     onCreateNewRecordFn,
+    trimEnteredValue,
   } = props;
   const [localOptions, updateLocalOptionsStateFn] = useState([]);
-  const [newOptionValError, updateNewOptionValErrorStateFn] = useState(null);
+  const [newOptionValError, updateNewOptionValErrorStateFn] =
+    useState(valError);
   function setStateOnLoad() {
     let newArray = [];
     options.forEach((element) => {
@@ -48,11 +51,6 @@ const SelectSearchListWCreateNew = (props) => {
     }
     updateNewOptionValErrorStateFn(null);
   }
-  function handleTrimEnteredText(e) {
-    let trimmedValue = e.trim();
-    let trimmedValueWNoDblSpcs = trimmedValue.replace(/  +/g, " ");
-    return trimmedValueWNoDblSpcs;
-  }
   function handleCheckForOptionMatchEnteredText(trimmedValueWNoDblSpcs) {
     const regexObj = new RegExp(trimmedValueWNoDblSpcs, "i");
     let filteredOptions = options.filter((option) => {
@@ -74,13 +72,13 @@ const SelectSearchListWCreateNew = (props) => {
     return valError ? false : true;
   }
   function handleTrimAndValEnteredText(e) {
-    const trimmedValueWNoDblSpcs = handleTrimEnteredText(e);
+    const trimmedValueWNoDblSpcs = trimEnteredValue(e);
     const isValidNewOption = handleValEnteredText(trimmedValueWNoDblSpcs);
     return isValidNewOption;
   }
 
   function handleTrimAndValIfNewOption(e) {
-    const trimmedValueWNoDblSpcs = handleTrimEnteredText(e);
+    const trimmedValueWNoDblSpcs = trimEnteredValue(e);
     const optionMatchesEnteredText = handleCheckForOptionMatchEnteredText(
       trimmedValueWNoDblSpcs
     );

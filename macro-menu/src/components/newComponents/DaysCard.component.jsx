@@ -14,6 +14,7 @@ const DaysCard = (props) => {
     getRndIntegerFn,
     onCreateNewRecordFn,
     thisRecordId,
+    trimEnteredValue,
   } = props;
   function renderDay(dayOfWeekCode) {
     return (
@@ -32,6 +33,7 @@ const DaysCard = (props) => {
         onClickDeleteFn={onClickDeleteFn}
         getRndIntegerFn={getRndIntegerFn}
         onCreateNewRecordFn={onCreateNewRecordFn}
+        trimEnteredValue={trimEnteredValue}
       />
     );
   }
