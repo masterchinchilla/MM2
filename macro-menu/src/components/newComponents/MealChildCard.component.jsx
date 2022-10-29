@@ -23,7 +23,7 @@ const MealChildCard = (props) => {
         thisRecord: {
           _id: null,
           day: { dayOfWeek: null },
-          genRecipe: null,
+          genRecipe: { name: null },
           mealType: null,
           createdAt: null,
           updatedAt: null,
@@ -104,7 +104,7 @@ const MealChildCard = (props) => {
             thisMealTypeCode={thisMealTypeCode}
             arrayIndex={arrayIndex}
             userType={userType}
-            editingForm={editingForm}
+            editingForm={editingForm.meal}
             saveDisabled={saveDisabled}
             hasChildren={hasChildren}
             saveWarning={saveWarning}
@@ -125,7 +125,13 @@ const MealChildCard = (props) => {
               : "subCardHeader"
           }
         >
-          <h5 className="recipeSelectHeader">Recipe:</h5>
+          <h5 className="recipeSelectHeader">
+            {editingForm.meal ? (
+              <span className="requiredFldLbl">*</span>
+            ) : null}
+            Recipe:
+          </h5>
+          {/* change this into an async search component! */}
           <SelectSearchListWCreateNew
             options={thisRecipesIngrdnts}
             recordToSelect={genRecipe}
@@ -139,12 +145,14 @@ const MealChildCard = (props) => {
             currentGRFUser={currentGRFUser}
             inputClasses={"recipeSelect"}
             formGroupClasses=""
-            fieldsDisabled={!editingForm}
+            fieldDisabled={!editingForm.meal}
             valError={genRecipeValErrors.name}
             validateProp={validateProp}
             onUpdatePropFn={onUpdatePropFn}
             onCreateNewRecordFn={handleCreateNewRecipeFn}
             trimEnteredValue={trimEnteredValue}
+            isRequired={true}
+            recordLoaded={recordLoaded}
           />
           {userChangedThisMealsRecipe && !justCreated.meal ? (
             <div className="alert alert-warning recipeWarning" role="alert">
@@ -193,6 +201,7 @@ const MealChildCard = (props) => {
                     ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
                     : null
                 }
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -204,6 +213,7 @@ const MealChildCard = (props) => {
                     ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
                     : null
                 }
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -211,6 +221,7 @@ const MealChildCard = (props) => {
                 inputClasses="form-control"
                 propType="text"
                 propValue={_id ? thisRecordId : null}
+                recordLoaded={recordLoaded}
               />
             </div>
           </div>

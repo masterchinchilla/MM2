@@ -12,12 +12,16 @@ const MealParentCard = (props) => {
     onUpdatePropFn,
     validateProp,
     onCreateNewRecordFn,
+    populateMealIngrdntsFn,
     trimEnteredValue,
     onClickEditFn,
     onClickCancelFn,
     onClickSaveFn,
     onClickDeleteFn,
     getRndIntegerFn,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
   } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
@@ -33,6 +37,9 @@ const MealParentCard = (props) => {
         thisMealsIngrdnts: [],
         recordLoaded: false,
       };
+  const thisMealsIngrdntsBackup = thisStateObjBackup
+    ? thisStateObjBackup.thisMealsIngrdnts
+    : [];
   const { thisRecord, thisMealsIngrdnts } = thisStateObj;
   const { _id, day, mealType } = thisRecord;
   const { weekMealPlan, dayOfWeek } = day;
@@ -81,11 +88,12 @@ const MealParentCard = (props) => {
         </StickyBox>
         <div className="accordion-body wkDaysAccrdnBdy">
           <MealChildCard
+            thisStateObj={thisStateObj}
             currentGRFUser={currentGRFUser}
             validateProp={validateProp}
             onUpdatePropFn={onUpdatePropFn}
             getRndIntegerFn={getRndIntegerFn}
-            onCreateNewRecord={onCreateNewRecordFn}
+            onCreateNewRecordFn={onCreateNewRecordFn}
             trimEnteredValue={trimEnteredValue}
           />
           <RecipeCard
@@ -100,7 +108,24 @@ const MealParentCard = (props) => {
             backEndHtmlRoot={backEndHtmlRoot}
             validateProp={validateProp}
           />
-          <MealIngredients />
+          <MealIngredients
+            currentGRFUser={currentGRFUser}
+            thisStateObj={thisStateObj}
+            thisStateObjBackup={thisMealsIngrdntsBackup}
+            onClickEditFn={onClickEditFn}
+            onClickCancelFn={onClickCancelFn}
+            onClickSaveFn={onClickSaveFn}
+            onClickDeleteFn={onClickDeleteFn}
+            onUpdatePropFn={onUpdatePropFn}
+            onCreateNewRecordFn={onCreateNewRecordFn}
+            populateMealIngrdntsFn={populateMealIngrdntsFn}
+            getRndIntegerFn={getRndIntegerFn}
+            backEndHtmlRoot={backEndHtmlRoot}
+            validateProp={validateProp}
+            allUnitOfMeasures={allUnitOfMeasures}
+            allWeightTypes={allWeightTypes}
+            allBrands={allBrands}
+          />
         </div>
       </div>
     </div>

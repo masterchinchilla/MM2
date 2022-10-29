@@ -13,7 +13,11 @@ const MealsCard = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onCreateNewRecordFn,
+    populateMealIngrdntsFn,
     trimEnteredValue,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -28,7 +32,7 @@ const MealsCard = (props) => {
   const { thisRecord, thisDaysMeals } = thisStateObj;
   const thisDayOfWeek = thisRecord.dayOfWeek
     ? thisRecord.dayOfWeek
-    : { name: "Day" };
+    : { code: "day", name: "Day" };
   const thisRecordId = thisRecord._id;
   function renderMeal(mealTypeCode, mealTypeName) {
     const thisMealStateObj = thisDaysMeals
@@ -37,6 +41,9 @@ const MealsCard = (props) => {
           thisRecord: { _id: getRndIntegerFn(10000000, 99999999) },
           userType: { meal: null },
         };
+    const thisStateObjBackup = props.thisStateObjBackup
+      ? props.thisStateObjBackup[mealTypeCode]
+      : {};
     const mealRecordId = thisMealStateObj.thisRecord._id;
     const mealUserType = thisMealStateObj.userType.meal;
     const pattern = /missing/;
@@ -69,13 +76,18 @@ const MealsCard = (props) => {
       <MealParentCard
         key={`mealPrntCardForMeal${mealRecordId}`}
         thisStateObj={thisMealStateObj}
+        thisStateObjBackup={thisStateObjBackup}
         currentGRFUser={currentGRFUser}
         backEndHtmlRoot={backEndHtmlRoot}
         validateProp={validateProp}
         onUpdatePropFn={onUpdatePropFn}
         getRndIntegerFn={getRndIntegerFn}
         onCreateNewRecordFn={onCreateNewRecordFn}
+        populateMealIngrdntsFn={populateMealIngrdntsFn}
         trimEnteredValue={trimEnteredValue}
+        allUnitOfMeasures={allUnitOfMeasures}
+        allWeightTypes={allWeightTypes}
+        allBrands={allBrands}
       />
     );
   }

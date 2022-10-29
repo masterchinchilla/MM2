@@ -5,6 +5,7 @@ const InputCore = (props) => {
     formGroupClasses,
     label,
     propType,
+    inputTypeForHtml,
     propValue,
     onUpdatePropFn,
     inputOnKeyUpFn,
@@ -17,33 +18,25 @@ const InputCore = (props) => {
     valError,
     inputClasses,
     isRequired,
+    recordLoaded,
+    excludeLabel,
   } = props;
-  if (
-    typeOfRecordToChange &&
-    formGroupClasses &&
-    label &&
-    propType &&
-    propValue &&
-    onUpdatePropFn &&
-    inputOnKeyUpFn &&
-    thisDayOfWeekCode &&
-    thisMealTypeCode &&
-    propToUpdate &&
-    arrayIndex &&
-    selectedFrom &&
-    fieldDisabled &&
-    valError &&
-    inputClasses &&
-    isRequired
-  ) {
+  if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
-        <label>
-          {isRequired ? <span className="requiredFldLbl">* </span> : null}
-          {label}
-        </label>
+        {!excludeLabel ? (
+          <label>
+            {isRequired && !fieldDisabled ? (
+              <span className="requiredFldLbl">* </span>
+            ) : null}
+            {label}
+          </label>
+        ) : (
+          ""
+        )}
+
         <input
-          type={propType}
+          type={inputTypeForHtml}
           className={inputClasses}
           value={propValue}
           onChange={(e) =>
@@ -69,9 +62,13 @@ const InputCore = (props) => {
   } else {
     return (
       <div className={`${formGroupClasses}`}>
-        <div className="placeholder-glow mt-1">
-          <label className="placeholder w-75" />
-        </div>
+        {!excludeLabel ? (
+          <div className="placeholder-glow mt-1">
+            <label className="placeholder w-75" />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="placeholder-glow">
           <input className={`${inputClasses} placeholder mt-1`} />
         </div>

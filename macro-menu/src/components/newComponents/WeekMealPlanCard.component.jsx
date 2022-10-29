@@ -5,7 +5,7 @@ import MealWeightingSubForm from "./MealWeightingSubForm.component.jsx";
 
 const WeekMealPlanCard = (props) => {
   const { thisStateObj, getRndIntegerFn } = props;
-  const thisRecordId = thisStateObj.thisRecord
+  const thisRecordId = thisStateObj
     ? thisStateObj.thisRecord._id
     : getRndIntegerFn(10000000, 99999999);
   return (

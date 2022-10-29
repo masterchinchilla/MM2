@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import DayCard from "./DayCard.component";
 const DaysCard = (props) => {
   const {
-    thisWeeksDays,
-    thisWeeksDaysBackup,
+    thisStateObj,
+    thisStateObjBackup,
     currentGRFUser,
     validateProp,
     onClickEditFn,
@@ -13,16 +13,20 @@ const DaysCard = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onCreateNewRecordFn,
+    populateMealIngrdntsFn,
     thisRecordId,
     trimEnteredValue,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
   } = props;
   function renderDay(dayOfWeekCode) {
     return (
       <DayCard
         key={`${dayOfWeekCode}DayCard`}
-        thisStateObj={thisWeeksDays ? thisWeeksDays[dayOfWeekCode] : null}
+        thisStateObj={thisStateObj ? thisStateObj[dayOfWeekCode] : null}
         thisStateObjBackup={
-          thisWeeksDaysBackup ? thisWeeksDaysBackup[dayOfWeekCode] : null
+          thisStateObjBackup ? thisStateObjBackup[dayOfWeekCode] : null
         }
         currentGRFUser={currentGRFUser}
         validateProp={validateProp}
@@ -33,7 +37,11 @@ const DaysCard = (props) => {
         onClickDeleteFn={onClickDeleteFn}
         getRndIntegerFn={getRndIntegerFn}
         onCreateNewRecordFn={onCreateNewRecordFn}
+        populateMealIngrdntsFn={populateMealIngrdntsFn}
         trimEnteredValue={trimEnteredValue}
+        allUnitOfMeasures={allUnitOfMeasures}
+        allWeightTypes={allWeightTypes}
+        allBrands={allBrands}
       />
     );
   }

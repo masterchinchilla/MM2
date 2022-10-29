@@ -1,7 +1,14 @@
 import React from "react";
 const ReadOnlyInputCore = (props) => {
-  const { formGroupClasses, label, inputClasses, propType, propValue } = props;
-  if (formGroupClasses && label && inputClasses && propType && propValue) {
+  const {
+    formGroupClasses,
+    label,
+    inputClasses,
+    propType,
+    propValue,
+    recordLoaded,
+  } = props;
+  if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
         <label>{label}</label>

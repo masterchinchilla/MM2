@@ -3,7 +3,6 @@ import Creatable from "react-select/creatable";
 import _ from "lodash";
 const SelectSearchListWCreateNew = (props) => {
   const {
-    options,
     recordToSelect,
     typeOfRecordToChange,
     propNameSentenceCase,
@@ -14,13 +13,17 @@ const SelectSearchListWCreateNew = (props) => {
     arrayIndex,
     formGroupClasses,
     inputClasses,
-    fieldsDisabled,
+    fieldDisabled,
     valError,
     onUpdatePropFn,
     validateProp,
     onCreateNewRecordFn,
     trimEnteredValue,
+    isRequired,
+    recordLoaded,
   } = props;
+  const options =
+    props.options.length > 0 ? props.options : [{ name: null, _id: null }];
   const [localOptions, updateLocalOptionsStateFn] = useState([]);
   const [newOptionValError, updateNewOptionValErrorStateFn] =
     useState(valError);
@@ -88,22 +91,7 @@ const SelectSearchListWCreateNew = (props) => {
       updateNewOptionValErrorStateFn(null);
     }
   }
-  if (
-    options &&
-    recordToSelect &&
-    typeOfRecordToChange &&
-    propNameSentenceCase &&
-    thisDayOfWeekCode &&
-    thisMealTypeCode &&
-    propToUpdate &&
-    propType &&
-    arrayIndex &&
-    inputClasses &&
-    fieldsDisabled &&
-    onUpdatePropFn &&
-    validateProp &&
-    onCreateNewRecordFn
-  ) {
+  if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
         <div
@@ -112,6 +100,9 @@ const SelectSearchListWCreateNew = (props) => {
         >
           {newOptionValError}
         </div>
+        {isRequired && !fieldDisabled ? (
+          <span className="requiredFldLbl">* </span>
+        ) : null}
         <Creatable
           value={{
             label: recordToSelect.name,
@@ -126,7 +117,7 @@ const SelectSearchListWCreateNew = (props) => {
           onChange={(e) => {
             handleSelectValue(e);
           }}
-          isDisabled={fieldsDisabled}
+          isDisabled={fieldDisabled}
           className={inputClasses}
           onCreateOption={(e) => onCreateNewRecordFn(e)}
           isValidNewOption={(e) => handleTrimAndValEnteredText(e)}

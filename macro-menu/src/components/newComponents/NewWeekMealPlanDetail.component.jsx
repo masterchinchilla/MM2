@@ -40,6 +40,9 @@ class NewWeekMealPlan extends Component {
   handleCreateNewRecordFn = () => {
     console.log("created new record");
   };
+  populateMealIngrdntsFn = () => {
+    console.lof("populating meal Ingredients");
+  };
   handleTrimEnteredValue = (untrimmedValue) => {
     let trimmedValue = untrimmedValue.trim();
     let trimmedValueWNoDblSpcs = trimmedValue.replace(/  +/g, " ");
@@ -86,8 +89,8 @@ class NewWeekMealPlan extends Component {
         />
         <DaysCard
           key={`daysCardForWMP${thisRecordId}`}
-          thisWeeksDays={this.state.thisWeeksDays}
-          thisWeeksDaysBackup={this.state.thisWeeksDaysBackup}
+          thisStateObj={this.state.thisWeeksDays}
+          thisStateObjBackup={this.state.thisWeeksDaysBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
           currentGRFUser={this.state.currentGRFUser}
           valSchema={this.valSchema}
@@ -98,8 +101,12 @@ class NewWeekMealPlan extends Component {
           onClickSaveFn={this.handleClickSaveFn}
           onClickDeleteFn={this.handleClickDeleteFn}
           onCreateNewRecordFn={this.handleCreateNewRecordFn}
+          populateMealIngrdntsFn={this.populateMealIngrdntsFn}
           getRndIntegerFn={this.getRndIntegerFn}
           trimEnteredValue={this.handleTrimEnteredValue}
+          allUnitOfMeasures={this.state.allUnitOfMeasures}
+          allWeightTypes={this.state.allWeightTypes}
+          allBrands={this.state.allBrands}
         />
       </div>
     );

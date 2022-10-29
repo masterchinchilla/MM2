@@ -25,6 +25,7 @@ const InputWSearchUniqueNew = (props) => {
     changeParentPropFn,
     valErrorUpdateStateFn,
     getRndIntegerFn,
+    recordLoaded,
   } = props;
   const [timer, setTimerStateFn] = useState(null);
   function trimValueForChangePropFn(e) {
@@ -72,6 +73,7 @@ const InputWSearchUniqueNew = (props) => {
       formGroupClasses={formGroupClasses}
       label={label}
       propType={propType}
+      inputTypeForHtml={"text"}
       propValue={localPropValue}
       onUpdatePropFn={trimValueForChangePropFn}
       inputOnKeyUpFn={searchSetUnique}
@@ -86,6 +88,8 @@ const InputWSearchUniqueNew = (props) => {
       inputClasses={inputClasses}
       isRequired={isRequired}
       getRndIntegerFn={getRndIntegerFn}
+      recordLoaded={recordLoaded}
+      excludeLabel={false}
     />
   );
 };

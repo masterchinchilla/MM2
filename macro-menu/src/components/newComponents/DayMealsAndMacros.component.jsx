@@ -14,7 +14,11 @@ const DayMealsAndMacros = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onCreateNewRecordFn,
+    populateMealIngrdntsFn,
     trimEnteredValue,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -78,6 +82,7 @@ const DayMealsAndMacros = (props) => {
               <MealsCard
                 key={`mealsCardForDay${thisRecordId}`}
                 thisStateObj={thisStateObj}
+                thisStateObjBackup={thisStateObjBackup}
                 currentGRFUser={currentGRFUser}
                 validateProp={validateProp}
                 onClickEditFn={onClickEditFn}
@@ -87,7 +92,11 @@ const DayMealsAndMacros = (props) => {
                 onClickDeleteFn={onClickDeleteFn}
                 getRndIntegerFn={getRndIntegerFn}
                 onCreateNewRecordFn={onCreateNewRecordFn}
+                populateMealIngrdntsFn={populateMealIngrdntsFn}
                 trimEnteredValue={trimEnteredValue}
+                allUnitOfMeasures={allUnitOfMeasures}
+                allWeightTypes={allWeightTypes}
+                allBrands={allBrands}
               />
             </div>
           </div>

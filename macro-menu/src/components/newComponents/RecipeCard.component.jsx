@@ -17,7 +17,7 @@ const RecipeCard = (props) => {
     thisStateObjBackup,
     backEndHtmlRoot,
   } = props;
-  const backupOfRecordToChange = thisStateObjBackup
+  const backupOfRecordToChange = thisStateObjBackup.thisRecord
     ? thisStateObjBackup.thisRecord.genRecipe
     : {};
   const thisStateObj = props.thisStateObj.recordLoaded
@@ -32,7 +32,7 @@ const RecipeCard = (props) => {
             name: null,
             availableMealType: null,
             GRFUser: null,
-            defaultPrepInstructions: null,
+            defaultPrepInstructions: "",
             photoURL: null,
             createdAt: null,
             updatedAt: null,
@@ -84,7 +84,7 @@ const RecipeCard = (props) => {
     editingForm
       ? false
       : true;
-  const fieldsDisabled = !editingForm ? true : false;
+  const fieldsDisabled = !editingForm.genRecipe ? true : false;
   const [recipeHasConnectedMeals, updateRecipeHasConnectedMeals] =
     useState(true);
   const [localRecordChanged, updateLocalRecordChangedStateFn] =
@@ -237,12 +237,14 @@ const RecipeCard = (props) => {
                     onUpdatePropFn={onUpdatePropFn}
                     valErrorUpdateStateFn={updateNameValErrorStateFn}
                     getRndIntegerFn={getRndIntegerFn}
+                    recordLoaded={recordLoaded}
                   />
                 </div>
                 <InputCore
                   formGroupClasses="form-group mealInputs"
                   label="Photo URL"
                   propType="url"
+                  inputTypeForHtml={"url"}
                   propValue={photoURL ? photoURL : ""}
                   onUpdatePropFn={onUpdatePropFn}
                   inputOnKeyUpFn={() => {}}
@@ -252,7 +254,7 @@ const RecipeCard = (props) => {
                   propToUpdate={"photoURL"}
                   arrayIndex={0}
                   selectedFrom={[]}
-                  fieldDisabled={!editingForm ? true : false}
+                  fieldDisabled={fieldsDisabled}
                   valError={
                     valErrors.genRecipe.photoURL
                       ? valErrors.genRecipe.photoURL
@@ -260,6 +262,8 @@ const RecipeCard = (props) => {
                   }
                   inputClasses="form-control"
                   isRequired={false}
+                  recordLoaded={recordLoaded}
+                  excludeLabel={false}
                 />
                 <ReadOnlyInputCore
                   key={`readOnlyInputForAuthorForGenRecipe${thisRecordId}`}
@@ -267,7 +271,8 @@ const RecipeCard = (props) => {
                   label="Author "
                   inputClasses="form-control"
                   propType="text"
-                  propValue={GRFUser.handle ? GRFUser.handle : ""}
+                  propValue={GRFUser ? GRFUser.handle : ""}
+                  recordLoaded={recordLoaded}
                 />
               </div>
               <div className="card-body mealCardBody">
@@ -306,10 +311,9 @@ const RecipeCard = (props) => {
                         inputClasses="form-control"
                         propType="text"
                         propValue={
-                          availableMealType
-                            ? availableMealType.name
-                            : "Meal Type"
+                          availableMealType ? availableMealType.name : null
                         }
+                        recordLoaded={recordLoaded}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForIdForGenRecipe${thisRecordId}`}
@@ -317,7 +321,8 @@ const RecipeCard = (props) => {
                         label="Record ID "
                         inputClasses="form-control"
                         propType="text"
-                        propValue={thisRecordId}
+                        propValue={_id ? thisRecordId : null}
+                        recordLoaded={recordLoaded}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForCreatedDtForGenRecipe${thisRecordId}`}
@@ -332,6 +337,7 @@ const RecipeCard = (props) => {
                               )
                             : null
                         }
+                        recordLoaded={recordLoaded}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForUpdatedDtForGenRecipe${thisRecordId}`}
@@ -346,6 +352,7 @@ const RecipeCard = (props) => {
                               )
                             : null
                         }
+                        recordLoaded={recordLoaded}
                       />
                     </div>
                   </div>

@@ -103,6 +103,7 @@ const DayControlAndDisabledFields = (props) => {
                 inputClasses="form-control"
                 propType="text"
                 propValue={name ? name : null}
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -110,6 +111,7 @@ const DayControlAndDisabledFields = (props) => {
                 inputClasses="form-control"
                 propType="text"
                 propValue={_id ? thisRecordId : null}
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -121,6 +123,7 @@ const DayControlAndDisabledFields = (props) => {
                     ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
                     : null
                 }
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -132,6 +135,7 @@ const DayControlAndDisabledFields = (props) => {
                     ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
                     : null
                 }
+                recordLoaded={recordLoaded}
               />
             </div>
           </div>

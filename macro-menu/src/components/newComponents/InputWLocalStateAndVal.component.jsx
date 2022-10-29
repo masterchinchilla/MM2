@@ -26,6 +26,7 @@ const InputWLocalStateAndVal = (props) => {
     onUpdatePropFn,
     valErrorUpdateStateFn,
     getRndIntegerFn,
+    recordLoaded,
   } = props;
   const origPropValue = backupOfRecordToChange
     ? backupOfRecordToChange[propToUpdate]
@@ -84,6 +85,7 @@ const InputWLocalStateAndVal = (props) => {
       changeParentPropFn={handleUpdateParentProp}
       valErrorUpdateStateFn={valErrorUpdateStateFn}
       getRndIntegerFn={getRndIntegerFn}
+      recordLoaded={recordLoaded}
     />
   );
 };

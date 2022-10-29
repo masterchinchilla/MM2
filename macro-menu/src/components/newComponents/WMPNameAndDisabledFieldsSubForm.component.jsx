@@ -185,6 +185,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 inputClasses="form-control"
                 propType="text"
                 propValue={GRFUser ? GRFUser.handle : null}
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForIdForWMP${thisRecordId}`}
@@ -193,6 +194,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 inputClasses="form-control"
                 propType="text"
                 propValue={_id ? thisRecordId : null}
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForCreatedDtForWMP${thisRecordId}`}
@@ -205,6 +207,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                     ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
                     : null
                 }
+                recordLoaded={recordLoaded}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForUpdatedDtForWMP${thisRecordId}`}
@@ -217,6 +220,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                     ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
                     : null
                 }
+                recordLoaded={recordLoaded}
               />
             </div>
           </div>

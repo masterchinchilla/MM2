@@ -15,8 +15,9 @@ const MacroBudgetSubForm = (props) => {
           fiberBudget: 0,
         },
         valErrors: {},
+        recordLoaded: false,
       };
-  const { editingForm, thisRecord, valErrors } = thisStateObj;
+  const { editingForm, thisRecord, valErrors, recordLoaded } = thisStateObj;
   const {
     _id,
     calsBudget,
@@ -65,6 +66,7 @@ const MacroBudgetSubForm = (props) => {
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Calories (g)"
                 propType="float"
+                inputTypeForHtml={"number"}
                 propValue={calsBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
@@ -78,11 +80,14 @@ const MacroBudgetSubForm = (props) => {
                 valError={valErrors.calsBudget ? valErrors.calsBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
+                recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <InputCore
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Carbs (g)"
                 propType="float"
+                inputTypeForHtml={"number"}
                 propValue={carbsBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
@@ -96,11 +101,14 @@ const MacroBudgetSubForm = (props) => {
                 valError={valErrors.carbsBudget ? valErrors.carbsBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
+                recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <InputCore
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Protein (g)"
                 propType="float"
+                inputTypeForHtml={"number"}
                 propValue={proteinBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
@@ -116,11 +124,14 @@ const MacroBudgetSubForm = (props) => {
                 }
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
+                recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <InputCore
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Fat (g)"
                 propType="float"
+                inputTypeForHtml={"number"}
                 propValue={fatBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
@@ -134,11 +145,14 @@ const MacroBudgetSubForm = (props) => {
                 valError={valErrors.fatBudget ? valErrors.fatBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
+                recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <InputCore
                 formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
                 label="Fiber (g)"
                 propType="float"
+                inputTypeForHtml={"number"}
                 propValue={fiberBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={inputOnKeyUpFn}
@@ -152,6 +166,8 @@ const MacroBudgetSubForm = (props) => {
                 valError={valErrors.fiberBudget ? valErrors.fiberBudget : ""}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
+                recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
             </div>
           </div>
