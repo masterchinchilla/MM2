@@ -14,7 +14,7 @@ const SelectSearchListWCreateNew = (props) => {
     formGroupClasses,
     inputClasses,
     fieldDisabled,
-    valError,
+    valErrors,
     onUpdatePropFn,
     validateProp,
     onCreateNewRecordFn,
@@ -26,7 +26,7 @@ const SelectSearchListWCreateNew = (props) => {
     props.options.length > 0 ? props.options : [{ name: null, _id: null }];
   const [localOptions, updateLocalOptionsStateFn] = useState([]);
   const [newOptionValError, updateNewOptionValErrorStateFn] =
-    useState(valError);
+    useState(valErrors);
   function setStateOnLoad() {
     let newArray = [];
     options.forEach((element) => {
@@ -66,13 +66,13 @@ const SelectSearchListWCreateNew = (props) => {
     }
   }
   function handleValEnteredText(trimmedValueWNoDblSpcs) {
-    const valError = validateProp(
+    const valErrors = validateProp(
       propType,
       propToUpdate,
       trimmedValueWNoDblSpcs
     );
-    updateNewOptionValErrorStateFn(valError);
-    return valError ? false : true;
+    updateNewOptionValErrorStateFn(valErrors);
+    return valErrors ? false : true;
   }
   function handleTrimAndValEnteredText(e) {
     const trimmedValueWNoDblSpcs = trimEnteredValue(e);
@@ -100,9 +100,14 @@ const SelectSearchListWCreateNew = (props) => {
         >
           {newOptionValError}
         </div>
-        {isRequired && !fieldDisabled ? (
-          <span className="requiredFldLbl">* </span>
-        ) : null}
+        <label>
+          {!fieldDisabled && isRequired ? (
+            <span className="requiredFldLbl">* </span>
+          ) : (
+            ""
+          )}
+          {propNameSentenceCase}
+        </label>
         <Creatable
           value={{
             label: recordToSelect.name,
@@ -119,7 +124,7 @@ const SelectSearchListWCreateNew = (props) => {
           }}
           isDisabled={fieldDisabled}
           className={inputClasses}
-          onCreateOption={(e) => onCreateNewRecordFn(e)}
+          onCreateOption={(e) => onCreateNewRecordFn(e, propToUpdate)}
           isValidNewOption={(e) => handleTrimAndValEnteredText(e)}
           onBlur={() => updateNewOptionValErrorStateFn(null)}
         />

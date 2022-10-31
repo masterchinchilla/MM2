@@ -67,9 +67,9 @@ const MealIngredientCard = (props) => {
           thisStateObj={thisStateObj}
           arrayIndex={arrayIndex}
           backEndHtmlRoot={backEndHtmlRoot}
-          allUnitOfMeasures={allUnitOfMeasures}
-          allWeightTypes={allWeightTypes}
-          allBrands={allBrands}
+          allUnitOfMeasures={allUnitOfMeasures ? allUnitOfMeasures : []}
+          allWeightTypes={allWeightTypes ? allWeightTypes : []}
+          allBrands={allBrands ? allBrands : []}
           thisStateObjBackup={thisStateObjBackup}
           validateProp={validateProp}
           onClickEditFn={onClickEditFn}

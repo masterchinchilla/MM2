@@ -37,7 +37,16 @@ class NewWeekMealPlan extends Component {
   handleClickCopyFn = () => {
     console.log("clicked copy");
   };
-  handleCreateNewRecordFn = () => {
+  handleCreateNewRecordFn = (
+    typeOfRecordToChange,
+    typeOfRecordToCreate,
+    propType,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex,
+    newRecordForState,
+    newRecordToSave
+  ) => {
     console.log("created new record");
   };
   populateMealIngrdntsFn = () => {

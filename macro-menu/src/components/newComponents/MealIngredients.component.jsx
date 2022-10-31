@@ -162,7 +162,9 @@ const MealIngredients = (props) => {
             className="btn btn-primary"
             onClick={() => {
               onCreateNewRecordFn(
+                "meal",
                 "genRecipeIngredient",
+                null,
                 thisDayOfWeekCode,
                 thisMealTypeCode,
                 0,

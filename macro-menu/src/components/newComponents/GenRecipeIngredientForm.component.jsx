@@ -3,14 +3,21 @@ import dayjs from "dayjs";
 import FormControl from "./FormControl.component";
 import InputCore from "./InputCore.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
+import AsyncSearchSelectWCreateNew from "./AsyncSearchSelectWCreateNew.component";
 const GenRecipeIngredientForm = (props) => {
   const {
+    currentGRFUser,
     getRndIntegerFn,
     onClickEditFn,
     onClickCancelFn,
     onClickSaveFn,
     onClickDeleteFn,
     onUpdatePropFn,
+    trimEnteredValueFn,
+    validatePropFn,
+    notifyFn,
+    backEndHtmlRoot,
+    onCreateNewRecordFn,
   } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
@@ -20,6 +27,7 @@ const GenRecipeIngredientForm = (props) => {
             _id: null,
             defaultQty: 1,
             genRecipe: null,
+            ingredient: { name: "" },
           },
           meal: {
             day: { dayOfWeek: { code: "sunday" } },
@@ -46,7 +54,7 @@ const GenRecipeIngredientForm = (props) => {
   } = thisStateObj;
   const { meal, genRecipeIngredient } = thisRecord;
   const { day, mealType } = meal;
-  const { _id, defaultQty, genRecipe, createdAt, updatedAt } =
+  const { _id, defaultQty, genRecipe, ingredient, createdAt, updatedAt } =
     genRecipeIngredient;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "genRecipeIngredient";
@@ -64,6 +72,57 @@ const GenRecipeIngredientForm = (props) => {
     "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
   const saveWarning =
     "Changes made to this Recipe Ingredient will be applied everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
+  function handleCreateNewIngredientFn(newIngredientName) {
+    const newRecordToSave = {
+      name: newIngredientName,
+      GRFUser: currentGRFUser._id,
+      calories: 1,
+      carbs: 1,
+      protein: 1,
+      fat: 1,
+      fiber: 1,
+      unitOfMeasure: "627691779fa56aa1fe318390",
+      weightType: "627695899fa56aa1fe318396",
+      photoURL: "",
+      brand: "627691b69fa56aa1fe318393",
+    };
+    const newRecordForState = {
+      _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
+      name: newIngredientName,
+      GRFUser: currentGRFUser,
+      calories: 1,
+      carbs: 1,
+      protein: 1,
+      fat: 1,
+      fiber: 1,
+      unitOfMeasure: {
+        _id: "627691779fa56aa1fe318390",
+        name: "",
+        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+      },
+      weightType: {
+        _id: "627695899fa56aa1fe318396",
+        name: "",
+        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+      },
+      photoURL: "",
+      brand: {
+        _id: "627691b69fa56aa1fe318393",
+        name: "",
+        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+      },
+    };
+    onCreateNewRecordFn(
+      typeOfRecordToChange,
+      "ingredient",
+      "reactSelect",
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex,
+      newRecordForState,
+      newRecordToSave
+    );
+  }
   return (
     <form className="gnRcpIngrdntFrm">
       <div className="gnRcpIngrdntFrmHdr">
@@ -159,7 +218,27 @@ const GenRecipeIngredientForm = (props) => {
               }
             >
               <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
-              {/*Async search select list w create*/}
+              <AsyncSearchSelectWCreateNew
+                formGroupClasses=""
+                typeOfRecordToChange={"genRecipeIngredient"}
+                thisDayOfWeekCode={thisDayOfWeekCode}
+                thisMealTypeCode={thisMealTypeCode}
+                arrayIndex={arrayIndex}
+                recordToSelect={ingredient}
+                propType={"reactSelect"}
+                propToUpdateSentenceCase={"Ingredient"}
+                propToUpdate={"ingredient"}
+                trimEnteredValueFn={trimEnteredValueFn}
+                fetchDataUrl={`${backEndHtmlRoot}genRecipes/findbyname/`}
+                validatePropFn={validatePropFn}
+                valErrors={genRecipeIngrdntValErrors}
+                notifyFn={notifyFn}
+                onUpdatePropFn={onUpdatePropFn}
+                onCreateNewRecordFn={handleCreateNewIngredientFn}
+                fieldDisabled={!editingForm.genRecipeIngredient}
+                inputClasses={"recipeSelect"}
+                recordLoaded={recordLoaded}
+              />
             </div>
             <ReadOnlyInputCore
               key={`readOnlyInputForRecipeForGenRecipeIngrdnt${thisRecordId}`}

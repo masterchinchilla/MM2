@@ -3,10 +3,13 @@ import dayjs from "dayjs";
 import FormControl from "./FormControl.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 import SelectSearchListWCreateNew from "./SelectSearchListWCreateNew.component";
+import AsyncSearchSelectWCreateNew from "./AsyncSearchSelectWCreateNew.component";
 const MealChildCard = (props) => {
   const {
     currentGRFUser,
-    validateProp,
+    backEndHtmlRoot,
+    notifyFn,
+    validatePropFn,
     onUpdatePropFn,
     onClickEditFn,
     onClickCancelFn,
@@ -14,7 +17,7 @@ const MealChildCard = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onCreateNewRecordFn,
-    trimEnteredValue,
+    trimEnteredValueFn,
   } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
@@ -85,6 +88,8 @@ const MealChildCard = (props) => {
     };
     onCreateNewRecordFn(
       typeOfRecordToChange,
+      "genRecipe",
+      "reactSelect",
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
@@ -132,7 +137,28 @@ const MealChildCard = (props) => {
             Recipe:
           </h5>
           {/* change this into an async search component! */}
-          <SelectSearchListWCreateNew
+          <AsyncSearchSelectWCreateNew
+            formGroupClasses=""
+            typeOfRecordToChange={"meal"}
+            thisDayOfWeekCode={thisDayOfWeekCode}
+            thisMealTypeCode={thisMealTypeCode}
+            arrayIndex={0}
+            recordToSelect={genRecipe}
+            propType={"reactSelect"}
+            propToUpdateSentenceCase={"Recipe"}
+            propToUpdate={"recipe"}
+            trimEnteredValueFn={trimEnteredValueFn}
+            fetchDataUrl={`${backEndHtmlRoot}genRecipes/findbyname/`}
+            validatePropFn={validatePropFn}
+            valErrors={genRecipeValErrors}
+            notifyFn={notifyFn}
+            onUpdatePropFn={onUpdatePropFn}
+            onCreateNewRecordFn={handleCreateNewRecipeFn}
+            fieldDisabled={!editingForm.meal}
+            inputClasses={"recipeSelect"}
+            recordLoaded={recordLoaded}
+          />
+          {/* <SelectSearchListWCreateNew
             options={thisRecipesIngrdnts}
             recordToSelect={genRecipe}
             typeOfRecordToChange={"Meal"}
@@ -147,13 +173,13 @@ const MealChildCard = (props) => {
             formGroupClasses=""
             fieldDisabled={!editingForm.meal}
             valError={genRecipeValErrors.name}
-            validateProp={validateProp}
+            validatePropFn={validatePropFn}
             onUpdatePropFn={onUpdatePropFn}
             onCreateNewRecordFn={handleCreateNewRecipeFn}
-            trimEnteredValue={trimEnteredValue}
+            trimEnteredValueFn={trimEnteredValueFn}
             isRequired={true}
             recordLoaded={recordLoaded}
-          />
+          /> */}
           {userChangedThisMealsRecipe && !justCreated.meal ? (
             <div className="alert alert-warning recipeWarning" role="alert">
               CAUTION: If you save a change to this Meal's Recipe, your meal
