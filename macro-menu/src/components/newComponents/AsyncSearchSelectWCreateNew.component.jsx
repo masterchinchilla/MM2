@@ -22,12 +22,18 @@ const AsyncSearchSelectWCreateNew = (props) => {
     fieldDisabled,
     inputClasses,
     recordLoaded,
+    getRndIntegerFn,
+    excludeLabel,
+    isRequired,
   } = props;
   const selectedFrom = [];
   const [matchesExist, updateMatchesExist] = useState(false);
   const [newOptionValErrors, updateNewOptionValErrorsStateFn] =
     useState(valErrors);
   const [localName, updateLocalName] = useState(recordToSelect.name);
+  const thisRecordId = recordToSelect
+    ? recordToSelect._id
+    : getRndIntegerFn(10000000, 99999999);
   function handleValEnteredTextFn(trimmedValueWNoDblSpcs) {
     const valErrors = validatePropFn(
       propType,
@@ -131,9 +137,22 @@ const AsyncSearchSelectWCreateNew = (props) => {
   }
   if (recordLoaded) {
     return (
-      <div>
+      <div className={formGroupClasses}>
+        {!excludeLabel ? (
+          <label>
+            {isRequired && !fieldDisabled ? (
+              <span className="requiredFldLbl">* </span>
+            ) : (
+              ""
+            )}
+            {propToUpdateSentenceCase}
+          </label>
+        ) : (
+          ""
+        )}
         {renderNewOptionValErrors()}
         <AsyncCreatableSelect
+          key={`AsyncCreateableFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
           value={{
             label: recordToSelect.name,
             value: recordToSelect,
@@ -158,6 +177,13 @@ const AsyncSearchSelectWCreateNew = (props) => {
   } else {
     return (
       <div className={`${formGroupClasses} selectPlaceholderFormGrp`}>
+        {!excludeLabel ? (
+          <div className="placeholder-glow mt-1">
+            <label className="placeholder w-75" />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="placeholder-glow">
           <span className="placeholder w-50"></span>
         </div>

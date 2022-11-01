@@ -21,12 +21,17 @@ const SelectSearchListWCreateNew = (props) => {
     trimEnteredValue,
     isRequired,
     recordLoaded,
+    excludeLabel,
+    getRndIntegerFn,
   } = props;
   const options =
     props.options.length > 0 ? props.options : [{ name: null, _id: null }];
   const [localOptions, updateLocalOptionsStateFn] = useState([]);
   const [newOptionValError, updateNewOptionValErrorStateFn] =
     useState(valErrors);
+  const thisRecordId = recordToSelect
+    ? recordToSelect._id
+    : getRndIntegerFn(10000000, 99999999);
   function setStateOnLoad() {
     let newArray = [];
     options.forEach((element) => {
@@ -100,15 +105,20 @@ const SelectSearchListWCreateNew = (props) => {
         >
           {newOptionValError}
         </div>
-        <label>
-          {!fieldDisabled && isRequired ? (
-            <span className="requiredFldLbl">* </span>
-          ) : (
-            ""
-          )}
-          {propNameSentenceCase}
-        </label>
+        {!excludeLabel ? (
+          <label>
+            {!fieldDisabled && isRequired ? (
+              <span className="requiredFldLbl">* </span>
+            ) : (
+              ""
+            )}
+            {propNameSentenceCase}
+          </label>
+        ) : (
+          ""
+        )}
         <Creatable
+          key={`CreateableFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
           value={{
             label: recordToSelect.name,
             value: recordToSelect._id,
@@ -133,6 +143,13 @@ const SelectSearchListWCreateNew = (props) => {
   } else {
     return (
       <div className={`${formGroupClasses} selectPlaceholderFormGrp`}>
+        {!excludeLabel ? (
+          <div className="placeholder-glow mt-1">
+            <label className="placeholder w-75" />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="placeholder-glow">
           <span className="placeholder w-50"></span>
         </div>

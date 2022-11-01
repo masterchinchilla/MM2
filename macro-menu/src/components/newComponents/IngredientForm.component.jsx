@@ -190,6 +190,7 @@ const IngredientForm = (props) => {
           isRequired={true}
           recordLoaded={recordLoaded}
           label="UOM"
+          getRndIntegerFn={getRndIntegerFn}
         />
         <SelectSearchListWCreateNew
           key={`SlctSrchLstWCreateForWghtTypeForIngrdnt${thisRecordId}`}
@@ -213,6 +214,7 @@ const IngredientForm = (props) => {
           trimEnteredValueFn={trimEnteredValueFn}
           isRequired={false}
           recordLoaded={recordLoaded}
+          getRndIntegerFn={getRndIntegerFn}
         />
 
         <div
@@ -249,6 +251,7 @@ const IngredientForm = (props) => {
           trimEnteredValueFn={trimEnteredValueFn}
           isRequired={false}
           recordLoaded={recordLoaded}
+          getRndIntegerFn={getRndIntegerFn}
         />
       </div>
       <InputWLocalStateAndVal
@@ -279,6 +282,7 @@ const IngredientForm = (props) => {
         valErrorUpdateStateFn={updateNameValErrorStateFn}
         getRndIntegerFn={getRndIntegerFn}
         recordLoaded={recordLoaded}
+        excludeLabel={false}
       />
       <div
         className="accordion accordion-flush"
@@ -496,6 +500,7 @@ const IngredientForm = (props) => {
                   propType="text"
                   propValue={GRFUser ? GRFUser.handle : ""}
                   recordLoaded={recordLoaded}
+                  excludeLabel={false}
                 />
                 <div className="accordion-body ingrdntInnerAccrdn">
                   <ReadOnlyInputCore
@@ -510,6 +515,7 @@ const IngredientForm = (props) => {
                         : null
                     }
                     recordLoaded={recordLoaded}
+                    excludeLabel={false}
                   />
                   <ReadOnlyInputCore
                     key={`readOnlyInputForUpdatedForIngrdnt${thisRecordId}`}
@@ -523,6 +529,7 @@ const IngredientForm = (props) => {
                         : null
                     }
                     recordLoaded={recordLoaded}
+                    excludeLabel={false}
                   />
                   <ReadOnlyInputCore
                     key={`readOnlyInputForIdForIngrdnt${thisRecordId}`}
@@ -532,6 +539,7 @@ const IngredientForm = (props) => {
                     propType="text"
                     propValue={_id ? _id : thisRecordId}
                     recordLoaded={recordLoaded}
+                    excludeLabel={false}
                   />
                 </div>
               </div>

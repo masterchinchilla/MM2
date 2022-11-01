@@ -4,7 +4,7 @@ import { Slider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const MealWeightingSubForm = (props) => {
   const { onUpdateWeightsFn } = props;
-  const thisStateObj = props.thisStateObj
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         editingForm: false,
@@ -45,6 +45,7 @@ const MealWeightingSubForm = (props) => {
       dinnerWeight +
       dessertWeight
   );
+  const typeOfRecordToChange = "weekMealPlan";
   function applyChange(e) {
     setSubFrmUnChngdOrInvld(true);
     onUpdateWeightsFn(
@@ -396,6 +397,7 @@ const MealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
+                    key={`sliderForBrkfstPrcntFor${typeOfRecordToChange}${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -423,6 +425,7 @@ const MealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
+                    key={`sliderForSnck1PrcntFor${typeOfRecordToChange}${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -450,6 +453,7 @@ const MealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
+                    key={`sliderForLnchPrcntFor${typeOfRecordToChange}${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -477,6 +481,7 @@ const MealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
+                    key={`sliderForSnck2PrcntFor${typeOfRecordToChange}${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -504,6 +509,7 @@ const MealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
+                    key={`sliderForDnnrPrcntFor${typeOfRecordToChange}${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -531,6 +537,7 @@ const MealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
+                    key={`sliderForDssrtPrcntFor${typeOfRecordToChange}${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}

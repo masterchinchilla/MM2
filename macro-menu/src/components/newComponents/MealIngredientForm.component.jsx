@@ -149,6 +149,7 @@ const MealIngredientForm = (props) => {
                     : null
                 }
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
             </div>
             <ReadOnlyInputCore
@@ -161,6 +162,7 @@ const MealIngredientForm = (props) => {
               propType="text"
               propValue={meal ? `${meal.day.name} ${meal.mealType.name}` : null}
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForCreatedDtForMealIngrdnt${thisRecordId}`}
@@ -176,6 +178,7 @@ const MealIngredientForm = (props) => {
                   : null
               }
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForUpdatedDtForMealIngrdnt${thisRecordId}`}
@@ -191,6 +194,7 @@ const MealIngredientForm = (props) => {
                   : null
               }
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForIdForMealIngrdnt${thisRecordId}`}
@@ -202,6 +206,7 @@ const MealIngredientForm = (props) => {
               propType="text"
               propValue={_id ? thisRecordId : null}
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
           </div>
         </div>

@@ -157,6 +157,8 @@ const MealChildCard = (props) => {
             fieldDisabled={!editingForm.meal}
             inputClasses={"recipeSelect"}
             recordLoaded={recordLoaded}
+            excludeLabel={true}
+            isRequired={true}
           />
           {/* <SelectSearchListWCreateNew
             options={thisRecipesIngrdnts}
@@ -228,6 +230,7 @@ const MealChildCard = (props) => {
                     : null
                 }
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -240,6 +243,7 @@ const MealChildCard = (props) => {
                     : null
                 }
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <ReadOnlyInputCore
                 formGroupClasses={"form-group"}
@@ -248,6 +252,7 @@ const MealChildCard = (props) => {
                 propType="text"
                 propValue={_id ? thisRecordId : null}
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
             </div>
           </div>

@@ -4,10 +4,24 @@ import MacroBudgetSubForm from "./MacroBudgetSubForm.component.jsx";
 import MealWeightingSubForm from "./MealWeightingSubForm.component.jsx";
 
 const WeekMealPlanCard = (props) => {
-  const { thisStateObj, getRndIntegerFn } = props;
-  const thisRecordId = thisStateObj
+  const {
+    thisStateObjBackup,
+    backEndHtmlRoot,
+    validateProp,
+    onClickEditFn,
+    onClickCancelFn,
+    onUpdatePropFn,
+    onClickSaveFn,
+    onClickDeleteFn,
+    onClickCopyFn,
+    thisStateObj,
+    getRndIntegerFn,
+    onUpdateWeightsFn,
+  } = props;
+  const thisRecordId = thisStateObj.thisRecord
     ? thisStateObj.thisRecord._id
     : getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "weekMealPlan";
   return (
     <div className="card">
       <div className="card-header">
@@ -42,16 +56,29 @@ const WeekMealPlanCard = (props) => {
             <div className="accordion-body accrdnWMPDetailsBdy">
               <form className="card">
                 <WMPNameAndDisabledFieldsSubForm
-                  key={`nameAndDsbldFldsSubFormForWMP${thisRecordId}`}
-                  {...props}
+                  key={`nameAndDsbldFldsSubFormFor${typeOfRecordToChange}${thisRecordId}`}
+                  thisStateObj={thisStateObj}
+                  thisStateObjBackup={thisStateObjBackup}
+                  backEndHtmlRoot={backEndHtmlRoot}
+                  validateProp={validateProp}
+                  onClickEditFn={onClickEditFn}
+                  onClickCancelFn={onClickCancelFn}
+                  onUpdatePropFn={onUpdatePropFn}
+                  onClickSaveFn={onClickSaveFn}
+                  onClickDeleteFn={onClickDeleteFn}
+                  onClickCopyFn={onClickCopyFn}
+                  getRndIntegerFn={getRndIntegerFn}
                 />
                 <MacroBudgetSubForm
-                  key={`macroBdgtSubFormForWMP${thisRecordId}`}
-                  {...props}
+                  key={`macroBdgtSubFormFor${typeOfRecordToChange}${thisRecordId}`}
+                  thisStateObj={thisStateObj}
+                  onUpdatePropFn={onUpdatePropFn}
+                  getRndIntegerFn={getRndIntegerFn}
                 />
                 <MealWeightingSubForm
-                  key={`mealWghtngSubFormForWMP${thisRecordId}`}
-                  {...props}
+                  key={`mealWghtngSubFormFor${typeOfRecordToChange}${thisRecordId}`}
+                  thisStateObj={thisStateObj}
+                  onUpdateWeightsFn={onUpdateWeightsFn}
                 />
               </form>
             </div>

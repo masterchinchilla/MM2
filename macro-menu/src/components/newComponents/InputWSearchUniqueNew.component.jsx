@@ -26,39 +26,29 @@ const InputWSearchUniqueNew = (props) => {
     valErrorUpdateStateFn,
     getRndIntegerFn,
     recordLoaded,
+    thisRecordId,
+    trimEnteredValue,
   } = props;
   const [timer, setTimerStateFn] = useState(null);
-  function trimValueForChangePropFn(e) {
-    const inputValue = e.target.value;
-    const noDblSpcs = inputValue.replace(/  +/g, " ");
-    changeLocalPropFn(noDblSpcs, propToUpdate);
-  }
+  const fetchBaseURL =
+    backEndHtmlRoot + `${typeOfRecordToChange}s/findby${propToUpdate}/`;
   function searchSetUnique(e) {
     togglePropValueHasDupStateFn(true);
-    const inputValue = e.target.value;
-    const trimmed = inputValue.trim();
-    const trimmedWNoDblSpcs = trimmed.replace(/  +/g, " ");
-    const valueForSearch = trimmedWNoDblSpcs;
+    const trimmedWNoDblSpcs = trimEnteredValue(e.target.value);
     clearTimeout(timer);
     const newTimer = setTimeout(() => {
       if (origPropValue !== trimmedWNoDblSpcs) {
         if (trimmedWNoDblSpcs) {
-          httpService
-            .get(
-              backEndHtmlRoot +
-                `${typeOfRecordToChange}s/findbyname/` +
-                valueForSearch
-            )
-            .then((response) => {
-              if (response.data === "exists") {
-                togglePropValueHasDupStateFn(true);
-                valErrorUpdateStateFn(
-                  `that ${propNameSentenceCase} is already taken`
-                );
-              } else {
-                changeParentPropFn(trimmedWNoDblSpcs, propToUpdate);
-              }
-            });
+          httpService.get(fetchBaseURL + trimmedWNoDblSpcs).then((response) => {
+            if (response.data === "exists") {
+              togglePropValueHasDupStateFn(true);
+              valErrorUpdateStateFn(
+                `that ${propNameSentenceCase} is already taken`
+              );
+            } else {
+              changeParentPropFn(trimmedWNoDblSpcs, propToUpdate);
+            }
+          });
         }
       }
     }, 500);
@@ -66,16 +56,15 @@ const InputWSearchUniqueNew = (props) => {
   }
   return (
     <InputCore
-      key={`inputWSrchUniqueFor_${propToUpdate}_${getRndIntegerFn(
-        10000000,
-        99999999
-      )}`}
+      key={`inputWSrchUniqueFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
       formGroupClasses={formGroupClasses}
       label={label}
       propType={propType}
       inputTypeForHtml={"text"}
       propValue={localPropValue}
-      onUpdatePropFn={trimValueForChangePropFn}
+      onUpdatePropFn={(e) => {
+        changeLocalPropFn(trimEnteredValue(e.target.value), propToUpdate);
+      }}
       inputOnKeyUpFn={searchSetUnique}
       typeOfRecordToChange={typeOfRecordToChange}
       thisDayOfWeekCode={thisDayOfWeekCode}

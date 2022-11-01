@@ -3,6 +3,7 @@ import MealParentCard from "./MealParentCard.component";
 import CreateMealButton from "./CreateMealButton.component";
 const MealsCard = (props) => {
   const {
+    thisStateObjBackup,
     currentGRFUser,
     backEndHtmlRoot,
     validateProp,
@@ -23,26 +24,34 @@ const MealsCard = (props) => {
     ? props.thisStateObj
     : {
         thisRecord: {
-          _id: getRndIntegerFn(10000000, 99999999),
+          _id: "",
           dayOfWeek: null,
         },
         thisDaysMeals: null,
         recordLoaded: false,
       };
-  const { thisRecord, thisDaysMeals } = thisStateObj;
+  const thisDaysMeals = thisStateObj.thisDaysMeals
+    ? thisStateObj.thisDaysMeals
+    : {};
+  const thisDaysMealsBackup = thisStateObjBackup
+    ? thisStateObjBackup.thisDaysMeals
+    : {};
+  const { thisRecord } = thisStateObj;
+  const { _id } = thisRecord;
   const thisDayOfWeek = thisRecord.dayOfWeek
     ? thisRecord.dayOfWeek
     : { code: "day", name: "Day" };
-  const thisRecordId = thisRecord._id;
+  const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "meal";
   function renderMeal(mealTypeCode, mealTypeName) {
-    const thisMealStateObj = thisDaysMeals
+    const thisMealStateObj = thisDaysMeals[mealTypeCode]
       ? thisDaysMeals[mealTypeCode]
       : {
           thisRecord: { _id: getRndIntegerFn(10000000, 99999999) },
           userType: { meal: null },
         };
-    const thisStateObjBackup = props.thisStateObjBackup
-      ? props.thisStateObjBackup[mealTypeCode]
+    const thisStateObjBackup = thisDaysMealsBackup[mealTypeCode]
+      ? thisDaysMealsBackup[mealTypeCode]
       : {};
     const mealRecordId = thisMealStateObj.thisRecord._id;
     const mealUserType = thisMealStateObj.userType.meal;
@@ -52,7 +61,7 @@ const MealsCard = (props) => {
       if (mealUserType === "admin" || mealUserType === "author") {
         return (
           <CreateMealButton
-            key={`createMealBttnForMeal${mealRecordId}`}
+            key={`createMealBttnFor${typeOfRecordToChange}${mealRecordId}`}
             thisStateObj={thisMealStateObj}
             onClickEditFn={onClickEditFn}
             onClickCancelFn={onClickCancelFn}
@@ -74,7 +83,7 @@ const MealsCard = (props) => {
     }
     return (
       <MealParentCard
-        key={`mealPrntCardForMeal${mealRecordId}`}
+        key={`mealPrntCardFor${typeOfRecordToChange}${mealRecordId}`}
         thisStateObj={thisMealStateObj}
         thisStateObjBackup={thisStateObjBackup}
         currentGRFUser={currentGRFUser}

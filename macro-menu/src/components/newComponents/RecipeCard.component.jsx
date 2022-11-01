@@ -238,6 +238,7 @@ const RecipeCard = (props) => {
                     valErrorUpdateStateFn={updateNameValErrorStateFn}
                     getRndIntegerFn={getRndIntegerFn}
                     recordLoaded={recordLoaded}
+                    excludeLabel={false}
                   />
                 </div>
                 <InputCore
@@ -273,6 +274,7 @@ const RecipeCard = (props) => {
                   propType="text"
                   propValue={GRFUser ? GRFUser.handle : ""}
                   recordLoaded={recordLoaded}
+                  excludeLabel={false}
                 />
               </div>
               <div className="card-body mealCardBody">
@@ -314,6 +316,7 @@ const RecipeCard = (props) => {
                           availableMealType ? availableMealType.name : null
                         }
                         recordLoaded={recordLoaded}
+                        excludeLabel={false}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForIdForGenRecipe${thisRecordId}`}
@@ -323,6 +326,7 @@ const RecipeCard = (props) => {
                         propType="text"
                         propValue={_id ? thisRecordId : null}
                         recordLoaded={recordLoaded}
+                        excludeLabel={false}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForCreatedDtForGenRecipe${thisRecordId}`}
@@ -338,6 +342,7 @@ const RecipeCard = (props) => {
                             : null
                         }
                         recordLoaded={recordLoaded}
+                        excludeLabel={false}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForUpdatedDtForGenRecipe${thisRecordId}`}
@@ -353,6 +358,7 @@ const RecipeCard = (props) => {
                             : null
                         }
                         recordLoaded={recordLoaded}
+                        excludeLabel={false}
                       />
                     </div>
                   </div>

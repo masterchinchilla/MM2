@@ -11,7 +11,18 @@ import valSchema from "../universalJoiValSchema";
 class NewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    const { backEndHtmlRoot, currentGRFUser } = this.props;
+    this.state = {
+      backEndHtmlRoot: backEndHtmlRoot,
+      currentGRFUser: currentGRFUser,
+      thisWMPStateObj: {},
+      thisWMPStateBackup: {},
+      thisWeeksDays: {},
+      thisWeeksDaysBackup: {},
+      allUnitOfMeasures: [],
+      allWeightTypes: [],
+      allBrands: [],
+    };
   }
   getRndIntegerFn = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -72,8 +83,8 @@ class NewWeekMealPlan extends Component {
     return validationError;
   };
   render() {
-    const { thisGRFUser, backEndHtmlRoot, axiosCallConfig } = this.props;
     const thisRecordId = this.props.match.params.id;
+    const typeOfRecordToChange = "weekMealPlan";
     return (
       <div className="container-fluid pl-4 pr-4">
         <ToastContainer
@@ -81,11 +92,10 @@ class NewWeekMealPlan extends Component {
           autoClose={2000}
         />
         <WeekMealPlanCard
-          key={`wmpCardForWMP${thisRecordId}`}
+          key={`wmpCardFor${typeOfRecordToChange}${thisRecordId}`}
           thisStateObj={this.state.thisWMPStateObj}
           thisStateObjBackup={this.state.thisWMPStateBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
-          valSchema={this.valSchema}
           validateProp={this.handleValidateProp}
           onUpdateWeightsFn={this.handleUpdateWeightsFn}
           onClickEditFn={this.handleClickEditFn}
@@ -97,12 +107,11 @@ class NewWeekMealPlan extends Component {
           getRndIntegerFn={this.getRndIntegerFn}
         />
         <DaysCard
-          key={`daysCardForWMP${thisRecordId}`}
+          key={`daysCardFor${typeOfRecordToChange}${thisRecordId}`}
           thisStateObj={this.state.thisWeeksDays}
           thisStateObjBackup={this.state.thisWeeksDaysBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
           currentGRFUser={this.state.currentGRFUser}
-          valSchema={this.valSchema}
           validateProp={this.handleValidateProp}
           onClickEditFn={this.handleClickEditFn}
           onClickCancelFn={this.handleClickCancelFn}

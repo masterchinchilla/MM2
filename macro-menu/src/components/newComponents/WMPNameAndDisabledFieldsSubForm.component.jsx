@@ -16,21 +16,20 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
     onClickCopyFn,
     getRndIntegerFn,
   } = props;
-  const thisStateObj = props.thisStateObj
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         editingForm: false,
         thisRecord: {
-          _id: null,
+          _id: "",
           GRFUser: {},
-          name: null,
-          createdAt: null,
-          updatedAt: null,
+          name: "",
+          createdAt: "",
+          updatedAt: "",
         },
         recordChanged: false,
         valErrors: {},
         justCreated: false,
-        //this prop is crucial because it determines whether the form control component renders or renders placeholder; Should be falsy unless data is loaded
         userType: "",
         hasChildren: true,
         deleteChildrenWarning:
@@ -59,25 +58,27 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   const thisMealTypeCode = "";
   const arrayIndex = 0;
   const [localName, updateNameStateFn] = useState(name);
-  const [nameValError, updateNameValErrorStateFn] = useState(
-    valErrors ? valErrors.name : null
+  const [nameValErrors, updateNameValErrorsStateFn] = useState(
+    valErrors ? valErrors.name : []
   );
   const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
   const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
+  const deleteWarning = "Are you sure you want to delete this Week Meal Plan?";
+  const saveWarning = "";
   useEffect(() => {
     if (
       nameHasDup ||
-      valErrors.breakfastWeight ||
-      valErrors.snack1Weight ||
-      valErrors.lunchWeight ||
-      valErrors.snack2Weight ||
-      valErrors.dinnerWeight ||
-      valErrors.dessertWeight ||
-      valErrors.calsBudget ||
-      valErrors.carbsBudget ||
-      valErrors.proteinBudget ||
-      valErrors.fatBudget ||
-      valErrors.fiberBudget
+      valErrors.breakfastWeight.length > 0 ||
+      valErrors.snack1Weight.length > 0 ||
+      valErrors.lunchWeight.length > 0 ||
+      valErrors.snack2Weight.length > 0 ||
+      valErrors.dinnerWeight.length > 0 ||
+      valErrors.dessertWeight.length > 0 ||
+      valErrors.calsBudget.length > 0 ||
+      valErrors.carbsBudget.length > 0 ||
+      valErrors.proteinBudget.length > 0 ||
+      valErrors.fatBudget.length > 0 ||
+      valErrors.fiberBudget.length > 0
     ) {
       toggleSaveDisabledStateFn(true);
     } else {
@@ -86,7 +87,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   });
   function handleCancelEditForm() {
     updateNameStateFn(backupOfRecordToChange.name);
-    updateNameValErrorStateFn(null);
+    updateNameValErrorsStateFn([]);
     toggleNameHasDupStateFn(false);
     onClickCancelFn(
       typeOfRecordToChange,
@@ -105,7 +106,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
         }
       >
         <InputWLocalStateAndVal
-          key={`inputWLclStateNValForNameForWMP${thisRecordId}`}
+          key={`inputWLclStateNValForNameFor${typeOfRecordToChange}${thisRecordId}`}
           backupOfRecordToChange={backupOfRecordToChange}
           formGroupClasses={"form-group wmpNameFrmGroup"}
           label={"Week Meal Plan Name"}
@@ -115,10 +116,10 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
           propToUpdate="name"
-          arrayIndex={0}
+          arrayIndex={arrayIndex}
           selectedFrom={[]}
           fieldDisabled={fieldsDisabled}
-          valError={nameValError}
+          valErrors={nameValErrors}
           inputClasses={"form-control"}
           isRequired={true}
           backEndHtmlRoot={backEndHtmlRoot}
@@ -127,11 +128,12 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           changeLocalPropStateFn={updateNameStateFn}
           togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
           onUpdatePropFn={onUpdatePropFn}
-          valErrorUpdateStateFn={updateNameValErrorStateFn}
+          valErrorsUpdateStateFn={updateNameValErrorsStateFn}
           getRndIntegerFn={getRndIntegerFn}
+          excludeLabel={false}
         />
         <FormControl
-          key={`formCtrlForWMP${thisRecordId}`}
+          key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
           typeOfRecordToChange={typeOfRecordToChange}
           recordChanged={recordChanged}
           thisDayOfWeekCode={thisDayOfWeekCode}
@@ -141,8 +143,8 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           editingForm={editingForm}
           saveDisabled={saveDisabled}
           hasChildren={hasChildren}
-          saveWarning={null}
-          deleteWarning={"Are you sure you want to delete this Week Meal Plan?"}
+          saveWarning={saveWarning}
+          deleteWarning={deleteWarning}
           deleteChildrenWarning={deleteChildrenWarning}
           onClickEditFn={onClickEditFn}
           onClickCancelFn={handleCancelEditForm}
@@ -179,25 +181,27 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           >
             <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
               <ReadOnlyInputCore
-                key={`readOnlyInputForAuthorForWMP${thisRecordId}`}
+                key={`readOnlyInputForAuthorFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Author "
                 inputClasses="form-control"
                 propType="text"
                 propValue={GRFUser ? GRFUser.handle : null}
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForIdForWMP${thisRecordId}`}
+                key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Record Id "
                 inputClasses="form-control"
                 propType="text"
                 propValue={_id ? thisRecordId : null}
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForCreatedDtForWMP${thisRecordId}`}
+                key={`readOnlyInputForCreatedDtFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Created "
                 inputClasses="form-control"
@@ -208,9 +212,10 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                     : null
                 }
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForUpdatedDtForWMP${thisRecordId}`}
+                key={`readOnlyInputForUpdatedDtFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Last Update "
                 inputClasses="form-control"
@@ -221,6 +226,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                     : null
                 }
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
               />
             </div>
           </div>

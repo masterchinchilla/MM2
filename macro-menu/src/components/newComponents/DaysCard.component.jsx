@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import DayCard from "./DayCard.component";
 const DaysCard = (props) => {
   const {
-    thisStateObj,
-    thisStateObjBackup,
     currentGRFUser,
     validateProp,
     onClickEditFn,
@@ -20,14 +18,18 @@ const DaysCard = (props) => {
     allWeightTypes,
     allBrands,
   } = props;
+  const thisStateObj = props.thisStateObj ? props.thisStateObj : {};
+  const thisStateObjBackup = props.thisStateObjBackup
+    ? props.thisStateObjBackup
+    : {};
   function renderDay(dayOfWeekCode) {
+    console.log(dayOfWeekCode);
+    console.log(thisStateObj[dayOfWeekCode]);
     return (
       <DayCard
         key={`${dayOfWeekCode}DayCard`}
-        thisStateObj={thisStateObj ? thisStateObj[dayOfWeekCode] : null}
-        thisStateObjBackup={
-          thisStateObjBackup ? thisStateObjBackup[dayOfWeekCode] : null
-        }
+        thisStateObj={thisStateObj[dayOfWeekCode]}
+        thisStateObjBackup={thisStateObjBackup[dayOfWeekCode]}
         currentGRFUser={currentGRFUser}
         validateProp={validateProp}
         onClickEditFn={onClickEditFn}

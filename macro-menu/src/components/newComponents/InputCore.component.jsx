@@ -28,7 +28,9 @@ const InputCore = (props) => {
           <label>
             {isRequired && !fieldDisabled ? (
               <span className="requiredFldLbl">* </span>
-            ) : null}
+            ) : (
+              ""
+            )}
             {label}
           </label>
         ) : (

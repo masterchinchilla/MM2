@@ -7,6 +7,7 @@ const ReadOnlyInputCore = (props) => {
     propType,
     propValue,
     recordLoaded,
+    excludeLabel,
   } = props;
   if (recordLoaded) {
     return (
@@ -24,9 +25,13 @@ const ReadOnlyInputCore = (props) => {
   } else {
     return (
       <div className={`${formGroupClasses}`}>
-        <div className="placeholder-glow mt-1">
-          <label className="placeholder w-75" />
-        </div>
+        {!excludeLabel ? (
+          <div className="placeholder-glow mt-1">
+            <label className="placeholder w-75" />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="placeholder-glow">
           <input className={`${inputClasses} placeholder w-90 mt-1`} />
         </div>

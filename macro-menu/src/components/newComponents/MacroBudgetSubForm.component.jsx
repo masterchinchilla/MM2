@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import InputCore from "./InputCore.component";
 const MacroBudgetSubForm = (props) => {
-  const { onUpdatePropFn } = props;
-  const thisStateObj = props.thisStateObj
+  const { onUpdatePropFn, getRndIntegerFn } = props;
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         editingForm: false,
@@ -26,10 +26,12 @@ const MacroBudgetSubForm = (props) => {
     fatBudget,
     fiberBudget,
   } = thisRecord;
-  const thisRecordId = _id;
-  function inputOnKeyUpFn() {
-    console.log("Key up");
-  }
+  const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "weekMealPlan";
+  const thisDayOfWeekCode = "";
+  const thisMealTypeCode = "";
+  const arrayIndex = 0;
+  const wmpMacroFormGrpClasses = "badge bg-primary weekMealPlanMacroBadge";
   return (
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
@@ -63,64 +65,67 @@ const MacroBudgetSubForm = (props) => {
           >
             <div className="accordion-body accrdnWeekMealPlanMacroBdy">
               <InputCore
-                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                key={`inputCoreForCalsBdgtFor${typeOfRecordToChange}${thisRecordId}`}
+                formGroupClasses={wmpMacroFormGrpClasses}
                 label="Calories (g)"
                 propType="float"
                 inputTypeForHtml={"number"}
                 propValue={calsBudget}
                 onUpdatePropFn={onUpdatePropFn}
-                inputOnKeyUpFn={inputOnKeyUpFn}
-                recordToChange="weekMealPlan"
-                thisDayOfWeekCode=""
-                thisMealTypeCode=""
+                inputOnKeyUpFn={() => {}}
+                recordToChange={typeOfRecordToChange}
+                thisDayOfWeekCode={thisDayOfWeekCode}
+                thisMealTypeCode={thisMealTypeCode}
+                arrayIndex={arrayIndex}
                 propToUpdate={"calsBudget"}
-                arrayIndex={0}
                 selectedFrom={[]}
                 fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.calsBudget ? valErrors.calsBudget : ""}
+                valError={valErrors.calsBudget ? valErrors.calsBudget : []}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
               <InputCore
-                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                key={`inputCoreForCarbsBdgtFor${typeOfRecordToChange}${thisRecordId}`}
+                formGroupClasses={wmpMacroFormGrpClasses}
                 label="Carbs (g)"
                 propType="float"
                 inputTypeForHtml={"number"}
                 propValue={carbsBudget}
                 onUpdatePropFn={onUpdatePropFn}
-                inputOnKeyUpFn={inputOnKeyUpFn}
-                recordToChange="weekMealPlan"
-                thisDayOfWeekCode=""
-                thisMealTypeCode=""
+                inputOnKeyUpFn={() => {}}
+                recordToChange={typeOfRecordToChange}
+                thisDayOfWeekCode={thisDayOfWeekCode}
+                thisMealTypeCode={thisMealTypeCode}
+                arrayIndex={arrayIndex}
                 propToUpdate={"carbsBudget"}
-                arrayIndex={0}
                 selectedFrom={[]}
                 fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.carbsBudget ? valErrors.carbsBudget : ""}
+                valError={valErrors.carbsBudget ? valErrors.carbsBudget : []}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
               <InputCore
-                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                key={`inputCoreForProteinBdgtFor${typeOfRecordToChange}${thisRecordId}`}
+                formGroupClasses={wmpMacroFormGrpClasses}
                 label="Protein (g)"
                 propType="float"
                 inputTypeForHtml={"number"}
                 propValue={proteinBudget}
                 onUpdatePropFn={onUpdatePropFn}
-                inputOnKeyUpFn={inputOnKeyUpFn}
-                recordToChange="weekMealPlan"
-                thisDayOfWeekCode=""
-                thisMealTypeCode=""
+                inputOnKeyUpFn={() => {}}
+                recordToChange={typeOfRecordToChange}
+                thisDayOfWeekCode={thisDayOfWeekCode}
+                thisMealTypeCode={thisMealTypeCode}
+                arrayIndex={arrayIndex}
                 propToUpdate={"proteinBudget"}
-                arrayIndex={0}
                 selectedFrom={[]}
                 fieldDisabled={!editingForm ? true : false}
                 valError={
-                  valErrors.proteinBudget ? valErrors.proteinBudget : ""
+                  valErrors.proteinBudget ? valErrors.proteinBudget : []
                 }
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
@@ -128,42 +133,44 @@ const MacroBudgetSubForm = (props) => {
                 excludeLabel={false}
               />
               <InputCore
-                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                key={`inputCoreForFatBdgtFor${typeOfRecordToChange}${thisRecordId}`}
+                formGroupClasses={wmpMacroFormGrpClasses}
                 label="Fat (g)"
                 propType="float"
                 inputTypeForHtml={"number"}
                 propValue={fatBudget}
                 onUpdatePropFn={onUpdatePropFn}
-                inputOnKeyUpFn={inputOnKeyUpFn}
-                recordToChange="weekMealPlan"
-                thisDayOfWeekCode=""
-                thisMealTypeCode=""
+                inputOnKeyUpFn={() => {}}
+                recordToChange={typeOfRecordToChange}
+                thisDayOfWeekCode={thisDayOfWeekCode}
+                thisMealTypeCode={thisMealTypeCode}
+                arrayIndex={arrayIndex}
                 propToUpdate={"fatBudget"}
-                arrayIndex={0}
                 selectedFrom={[]}
                 fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.fatBudget ? valErrors.fatBudget : ""}
+                valError={valErrors.fatBudget ? valErrors.fatBudget : []}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
               <InputCore
-                formGroupClasses="badge bg-primary weekMealPlanMacroBadge"
+                key={`inputCoreForFiberBdgtFor${typeOfRecordToChange}${thisRecordId}`}
+                formGroupClasses={wmpMacroFormGrpClasses}
                 label="Fiber (g)"
                 propType="float"
                 inputTypeForHtml={"number"}
                 propValue={fiberBudget}
                 onUpdatePropFn={onUpdatePropFn}
-                inputOnKeyUpFn={inputOnKeyUpFn}
-                recordToChange="weekMealPlan"
-                thisDayOfWeekCode=""
-                thisMealTypeCode=""
+                inputOnKeyUpFn={() => {}}
+                recordToChange={typeOfRecordToChange}
+                thisDayOfWeekCode={thisDayOfWeekCode}
+                thisMealTypeCode={thisMealTypeCode}
+                arrayIndex={arrayIndex}
                 propToUpdate={"fiberBudget"}
-                arrayIndex={0}
                 selectedFrom={[]}
                 fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.fiberBudget ? valErrors.fiberBudget : ""}
+                valError={valErrors.fiberBudget ? valErrors.fiberBudget : []}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}

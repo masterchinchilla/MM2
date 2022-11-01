@@ -970,3 +970,6 @@ td span.placeholder{
   margin: 0.5rem 0 0 -0.01rem !important;
   padding: unset !important;
 }
+ label.placeholder {
+  min-height: 1rem !important;
+}

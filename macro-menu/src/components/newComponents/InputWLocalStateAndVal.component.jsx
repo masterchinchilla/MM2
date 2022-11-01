@@ -1,5 +1,4 @@
 import React from "react";
-import Joi from "joi";
 import InputWSearchUniqueNew from "./InputWSearchUniqueNew.component";
 const InputWLocalStateAndVal = (props) => {
   const {
@@ -27,11 +26,15 @@ const InputWLocalStateAndVal = (props) => {
     valErrorUpdateStateFn,
     getRndIntegerFn,
     recordLoaded,
+    trimEnteredValue,
+    excludeLabel,
   } = props;
   const origPropValue = backupOfRecordToChange
     ? backupOfRecordToChange[propToUpdate]
     : {};
-  const thisRecordId = backupOfRecordToChange ? backupOfRecordToChange._id : 1;
+  const thisRecordId = backupOfRecordToChange
+    ? backupOfRecordToChange._id
+    : getRndIntegerFn(10000000, 99999999);
   function handleUpdateLocalProp(newPropValue) {
     const thisValError = validateProp(propType, propToUpdate, newPropValue);
     if (thisValError) {
@@ -62,7 +65,7 @@ const InputWLocalStateAndVal = (props) => {
   }
   return (
     <InputWSearchUniqueNew
-      key={`inputWSrchUniqueFor_${propToUpdate}_ForRecord${thisRecordId}`}
+      key={`inputWSrchUniqueFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
       formGroupClasses={formGroupClasses}
       label={label}
       propType={propType}
@@ -86,6 +89,9 @@ const InputWLocalStateAndVal = (props) => {
       valErrorUpdateStateFn={valErrorUpdateStateFn}
       getRndIntegerFn={getRndIntegerFn}
       recordLoaded={recordLoaded}
+      thisRecordId={thisRecordId}
+      trimEnteredValue={trimEnteredValue}
+      excludeLabel={excludeLabel}
     />
   );
 };

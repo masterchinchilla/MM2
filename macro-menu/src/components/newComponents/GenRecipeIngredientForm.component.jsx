@@ -238,6 +238,8 @@ const GenRecipeIngredientForm = (props) => {
                 fieldDisabled={!editingForm.genRecipeIngredient}
                 inputClasses={"recipeSelect"}
                 recordLoaded={recordLoaded}
+                excludeLabel={false}
+                isRequired={true}
               />
             </div>
             <ReadOnlyInputCore
@@ -250,6 +252,7 @@ const GenRecipeIngredientForm = (props) => {
               propType="text"
               propValue={genRecipe ? genRecipe.name : null}
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForCreatedDtForGenRecipeIngrdnt${thisRecordId}`}
@@ -265,6 +268,7 @@ const GenRecipeIngredientForm = (props) => {
                   : null
               }
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForUpdatedDtForGenRecipeIngrdnt${thisRecordId}`}
@@ -280,6 +284,7 @@ const GenRecipeIngredientForm = (props) => {
                   : null
               }
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForIdForGenRecipeIngrdnt${thisRecordId}`}
@@ -291,6 +296,7 @@ const GenRecipeIngredientForm = (props) => {
               propType="text"
               propValue={_id ? thisRecordId : null}
               recordLoaded={recordLoaded}
+              excludeLabel={false}
             />
           </div>
         </div>
