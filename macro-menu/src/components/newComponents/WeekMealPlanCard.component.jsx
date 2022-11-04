@@ -2,30 +2,43 @@ import React, { useState, useEffect } from "react";
 import WMPNameAndDisabledFieldsSubForm from "./WMPNameAndDisabledFieldsSubForm.component.jsx";
 import MacroBudgetSubForm from "./MacroBudgetSubForm.component.jsx";
 import MealWeightingSubForm from "./MealWeightingSubForm.component.jsx";
-
+import CustomHeading from "./CustomHeading.component.jsx";
 const WeekMealPlanCard = (props) => {
   const {
     thisStateObjBackup,
     backEndHtmlRoot,
-    validateProp,
+    validatePropFn,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
     onClickSaveFn,
     onClickDeleteFn,
     onClickCopyFn,
-    thisStateObj,
     getRndIntegerFn,
     onUpdateWeightsFn,
   } = props;
-  const thisRecordId = thisStateObj.thisRecord
-    ? thisStateObj.thisRecord._id
-    : getRndIntegerFn(10000000, 99999999);
+  const thisStateObj = props.thisStateObj.recordLoaded
+    ? props.thisStateObj
+    : {
+        thisRecord: {
+          _id: null,
+        },
+        recordLoaded: false,
+      };
+  const { thisRecord, recordLoaded } = thisStateObj;
+  const { _id } = thisRecord;
+  const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "weekMealPlan";
   return (
     <div className="card">
       <div className="card-header">
-        <h1 className="card-title">Week Meal Plan Detail</h1>
+        <CustomHeading
+          headingLvl={1}
+          recordLoaded={recordLoaded}
+          headingText="Week Meal Plan Detail"
+          hdngIsReqFormLbl={false}
+          headingClasses="card-title"
+        />
       </div>
       <div className="card-body">
         <div
@@ -60,7 +73,7 @@ const WeekMealPlanCard = (props) => {
                   thisStateObj={thisStateObj}
                   thisStateObjBackup={thisStateObjBackup}
                   backEndHtmlRoot={backEndHtmlRoot}
-                  validateProp={validateProp}
+                  validatePropFn={validatePropFn}
                   onClickEditFn={onClickEditFn}
                   onClickCancelFn={onClickCancelFn}
                   onUpdatePropFn={onUpdatePropFn}

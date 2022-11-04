@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import CustomHeading from "./CustomHeading.component";
 import DayCard from "./DayCard.component";
 const DaysCard = (props) => {
   const {
+    wmpRecordLoaded,
     currentGRFUser,
-    validateProp,
+    validatePropFn,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
@@ -12,8 +14,8 @@ const DaysCard = (props) => {
     getRndIntegerFn,
     onCreateNewRecordFn,
     populateMealIngrdntsFn,
-    thisRecordId,
-    trimEnteredValue,
+    thisWMPRecordId,
+    trimEnteredValueFn,
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
@@ -23,15 +25,13 @@ const DaysCard = (props) => {
     ? props.thisStateObjBackup
     : {};
   function renderDay(dayOfWeekCode) {
-    console.log(dayOfWeekCode);
-    console.log(thisStateObj[dayOfWeekCode]);
     return (
       <DayCard
-        key={`${dayOfWeekCode}DayCard`}
+        key={`dayCardFor${dayOfWeekCode}ForWMP${thisWMPRecordId}`}
         thisStateObj={thisStateObj[dayOfWeekCode]}
         thisStateObjBackup={thisStateObjBackup[dayOfWeekCode]}
         currentGRFUser={currentGRFUser}
-        validateProp={validateProp}
+        validatePropFn={validatePropFn}
         onClickEditFn={onClickEditFn}
         onClickCancelFn={onClickCancelFn}
         onUpdatePropFn={onUpdatePropFn}
@@ -40,7 +40,7 @@ const DaysCard = (props) => {
         getRndIntegerFn={getRndIntegerFn}
         onCreateNewRecordFn={onCreateNewRecordFn}
         populateMealIngrdntsFn={populateMealIngrdntsFn}
-        trimEnteredValue={trimEnteredValue}
+        trimEnteredValueFn={trimEnteredValueFn}
         allUnitOfMeasures={allUnitOfMeasures}
         allWeightTypes={allWeightTypes}
         allBrands={allBrands}
@@ -50,33 +50,39 @@ const DaysCard = (props) => {
   return (
     <div className="card mt-3 mb-3">
       <div className="card-header">
-        <h2 className="card-title">Day Meal Plans</h2>
+        <CustomHeading
+          headingLvl={2}
+          recordLoaded={wmpRecordLoaded}
+          headingText="Day Meal Plans"
+          hdngIsReqFormLbl={false}
+          headingClasses="card-title"
+        />
       </div>
       <div className="card-body">
         <div
           className="accordion accordion-flush"
-          id={"accordionFull" + thisRecordId}
+          id={"accordionFull" + thisWMPRecordId}
         >
           <div className="accordion-item">
             <h2
               className="accordion-header"
-              id={"accordionHeader" + thisRecordId}
+              id={"accordionHeader" + thisWMPRecordId}
             >
               <button
                 className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target={"#dayAccrdn" + thisRecordId}
+                data-bs-target={"#dayAccrdn" + thisWMPRecordId}
                 aria-expanded="true"
                 aria-controls="collapseOne"
               ></button>
             </h2>
           </div>
           <div
-            id={"dayAccrdn" + thisRecordId}
+            id={"dayAccrdn" + thisWMPRecordId}
             className="accordion-collapse collapse show"
-            aria-labelledby={"#accordionHeader" + thisRecordId}
-            data-bs-parent={"#accordionFull" + thisRecordId}
+            aria-labelledby={"#accordionHeader" + thisWMPRecordId}
+            data-bs-parent={"#accordionFull" + thisWMPRecordId}
           >
             <div className="accordion-body wkDaysAccrdnBdy">
               {renderDay("sunday")}

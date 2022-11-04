@@ -12,10 +12,11 @@ const MealIngredients = (props) => {
     populateMealIngrdntsFn,
     getRndIntegerFn,
     backEndHtmlRoot,
-    validateProp,
+    validatePropFn,
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
+    trimEnteredValueFn,
   } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
@@ -104,7 +105,7 @@ const MealIngredients = (props) => {
             allWeightTypes={allWeightTypes}
             allBrands={allBrands}
             thisStateObjBackup={thisStateObjBackup}
-            validateProp={validateProp}
+            validatePropFn={validatePropFn}
             onClickEditFn={onClickEditFn}
             onClickCancelFn={onClickCancelFn}
             onClickSaveFn={onClickSaveFn}
@@ -112,6 +113,7 @@ const MealIngredients = (props) => {
             onUpdatePropFn={onUpdatePropFn}
             onCreateNewRecordFn={onCreateNewRecordFn}
             getRndIntegerFn={getRndIntegerFn}
+            trimEnteredValueFn={trimEnteredValueFn}
           />
         );
       });

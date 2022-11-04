@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 const NewMacrosTable = (props) => {
-  const { tableType, thisMealTypeCode, theseIngrdnts } = props;
-  const localMealTypeCode = thisMealTypeCode ? thisMealTypeCode : "breakfast";
-  const thisMealWeightType = `${localMealTypeCode}Weight`;
+  const { tableType, thisMealType, theseIngrdnts } = props;
+  const thisMealTypeCode = thisMealType.code ? thisMealType.code : "breakfast";
+  const thisMealWeightType = `${thisMealTypeCode}Weight`;
   const thisWMPRecord = props.thisWMPRecord
     ? props.thisWMPRecord
     : {

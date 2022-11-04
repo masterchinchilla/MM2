@@ -12,7 +12,7 @@ const MealIngredientCard = (props) => {
     allWeightTypes,
     allBrands,
     thisStateObjBackup,
-    validateProp,
+    validatePropFn,
     onClickEditFn,
     onClickCancelFn,
     onClickSaveFn,
@@ -20,6 +20,7 @@ const MealIngredientCard = (props) => {
     onUpdatePropFn,
     onCreateNewRecordFn,
     getRndIntegerFn,
+    trimEnteredValueFn,
   } = props;
   return (
     <div className="card mlIngrdntsCard">
@@ -33,7 +34,7 @@ const MealIngredientCard = (props) => {
           allWeightTypes={allWeightTypes}
           allBrands={allBrands}
           thisStateObjBackup={thisStateObjBackup}
-          validateProp={validateProp}
+          validatePropFn={validatePropFn}
           onClickEditFn={onClickEditFn}
           onClickCancelFn={onClickCancelFn}
           onClickSaveFn={onClickSaveFn}
@@ -51,7 +52,7 @@ const MealIngredientCard = (props) => {
           allWeightTypes={allWeightTypes}
           allBrands={allBrands}
           thisStateObjBackup={thisStateObjBackup}
-          validateProp={validateProp}
+          validatePropFn={validatePropFn}
           onClickEditFn={onClickEditFn}
           onClickCancelFn={onClickCancelFn}
           onClickSaveFn={onClickSaveFn}
@@ -71,7 +72,7 @@ const MealIngredientCard = (props) => {
           allWeightTypes={allWeightTypes ? allWeightTypes : []}
           allBrands={allBrands ? allBrands : []}
           thisStateObjBackup={thisStateObjBackup}
-          validateProp={validateProp}
+          validatePropFn={validatePropFn}
           onClickEditFn={onClickEditFn}
           onClickCancelFn={onClickCancelFn}
           onClickSaveFn={onClickSaveFn}
@@ -79,6 +80,7 @@ const MealIngredientCard = (props) => {
           onUpdatePropFn={onUpdatePropFn}
           onCreateNewRecord={onCreateNewRecordFn}
           getRndIntegerFn={getRndIntegerFn}
+          trimEnteredValueFn={trimEnteredValueFn}
         />
       </div>
     </div>

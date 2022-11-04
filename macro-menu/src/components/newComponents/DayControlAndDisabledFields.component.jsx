@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 import FormControl from "./FormControl.component";
+import CustomHeading from "./CustomHeading.component";
 const DayControlAndDisabledFields = (props) => {
   const { onClickEditFn, onClickCancelFn, onClickDeleteFn, getRndIntegerFn } =
     props;
-  const thisStateObj = props.thisStateObj
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         editingForm: false,
@@ -35,21 +36,22 @@ const DayControlAndDisabledFields = (props) => {
   } = thisStateObj;
   const { _id, name, dayOfWeek, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
-  const typeOfRecordToChange = "weekMealPlan";
+  const typeOfRecordToChange = "day";
   const thisDayOfWeekCode = dayOfWeek ? dayOfWeek.code : "";
   const thisMealTypeCode = "";
   const arrayIndex = 0;
   return (
     <React.Fragment>
       <div className="card-header">
-        {dayOfWeek ? (
-          <h3 className="card-title">{dayOfWeek.name}</h3>
-        ) : (
-          <h3 className="placeholder-glow w-75">
-            <span className="placeholder w-75"></span>
-          </h3>
-        )}
+        <CustomHeading
+          headingLvl={3}
+          recordLoaded={recordLoaded}
+          headingText={recordLoaded ? dayOfWeek.name : ""}
+          hdngIsReqFormLbl={false}
+          headingClasses="card-title"
+        />
         <FormControl
+          key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
           typeOfRecordToChange={typeOfRecordToChange}
           recordChanged={recordChanged}
           thisDayOfWeekCode={thisDayOfWeekCode}
@@ -98,6 +100,7 @@ const DayControlAndDisabledFields = (props) => {
           >
             <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
               <ReadOnlyInputCore
+                key={`readOnlyInputForNameFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Name "
                 inputClasses="form-control"
@@ -107,6 +110,7 @@ const DayControlAndDisabledFields = (props) => {
                 excludeLabel={false}
               />
               <ReadOnlyInputCore
+                key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Record Id "
                 inputClasses="form-control"
@@ -116,6 +120,7 @@ const DayControlAndDisabledFields = (props) => {
                 excludeLabel={false}
               />
               <ReadOnlyInputCore
+                key={`readOnlyInputForCreatedAtFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Created "
                 inputClasses="form-control"
@@ -129,6 +134,7 @@ const DayControlAndDisabledFields = (props) => {
                 excludeLabel={false}
               />
               <ReadOnlyInputCore
+                key={`readOnlyInputForUpdatedAtFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Last Update "
                 inputClasses="form-control"

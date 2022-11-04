@@ -6,7 +6,7 @@ const DayMealsAndMacros = (props) => {
   const {
     thisStateObjBackup,
     currentGRFUser,
-    validateProp,
+    validatePropFn,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
@@ -15,7 +15,7 @@ const DayMealsAndMacros = (props) => {
     getRndIntegerFn,
     onCreateNewRecordFn,
     populateMealIngrdntsFn,
-    trimEnteredValue,
+    trimEnteredValueFn,
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
@@ -24,20 +24,14 @@ const DayMealsAndMacros = (props) => {
     ? props.thisStateObj
     : {
         thisRecord: {
-          _id: getRndIntegerFn(10000000, 99999999),
-          weekMealPlan: null,
+          _id: null,
+          weekMealPlan: { _id: null },
         },
       };
   const { thisRecord } = thisStateObj;
-  const thisWeekMealPlan = thisRecord.thisWeekMealPlan
-    ? thisRecord.thisWeekMealPlan
-    : {
-        thisRecord: {
-          _id: null,
-        },
-      };
-  const thisWMPRecord = thisWeekMealPlan.thisRecord;
-  const thisRecordId = thisRecord._id;
+  const { _id, weekMealPlan } = thisRecord;
+  const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "day";
   return (
     <div className="card-body">
       <div
@@ -66,25 +60,25 @@ const DayMealsAndMacros = (props) => {
           >
             <div className="accordion-body">
               <StickyBox
-                key={`macroTblStickyBoxForDay${thisRecordId}`}
+                key={`macroTblStickyBoxFor${typeOfRecordToChange}${thisRecordId}`}
                 offsetTop={20}
                 offsetBottom={20}
                 className={"dayMacTable"}
               >
                 <NewMacrosTable
-                  key={`macrosTblForDay${thisRecordId}`}
-                  thisWMPRecord={thisWMPRecord._id ? thisWMPRecord : null}
+                  key={`macrosTblFor${typeOfRecordToChange}${thisRecordId}`}
+                  thisWMPRecord={weekMealPlan}
                   tableType={"Day Macros"}
-                  thisMealTypeCode={null}
+                  thisMealType={{}}
                   theseIngrdnts={[]}
                 />
               </StickyBox>
               <MealsCard
-                key={`mealsCardForDay${thisRecordId}`}
+                key={`mealsCardFor${typeOfRecordToChange}${thisRecordId}`}
                 thisStateObj={thisStateObj}
                 thisStateObjBackup={thisStateObjBackup}
                 currentGRFUser={currentGRFUser}
-                validateProp={validateProp}
+                validatePropFn={validatePropFn}
                 onClickEditFn={onClickEditFn}
                 onClickCancelFn={onClickCancelFn}
                 onUpdatePropFn={onUpdatePropFn}
@@ -93,7 +87,7 @@ const DayMealsAndMacros = (props) => {
                 getRndIntegerFn={getRndIntegerFn}
                 onCreateNewRecordFn={onCreateNewRecordFn}
                 populateMealIngrdntsFn={populateMealIngrdntsFn}
-                trimEnteredValue={trimEnteredValue}
+                trimEnteredValueFn={trimEnteredValueFn}
                 allUnitOfMeasures={allUnitOfMeasures}
                 allWeightTypes={allWeightTypes}
                 allBrands={allBrands}

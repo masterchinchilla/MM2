@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CustomHeading from "./CustomHeading.component";
 import InputCore from "./InputCore.component";
 const MacroBudgetSubForm = (props) => {
   const { onUpdatePropFn, getRndIntegerFn } = props;
@@ -35,7 +36,13 @@ const MacroBudgetSubForm = (props) => {
   return (
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
-        <h2 className="card-title">Macro Daily Budget</h2>
+        <CustomHeading
+          headingLvl={2}
+          recordLoaded={recordLoaded}
+          headingText="Macro Daily Budget"
+          hdngIsReqFormLbl={false}
+          headingClasses="card-title"
+        />
       </div>
       <div className="card-body">
         <div

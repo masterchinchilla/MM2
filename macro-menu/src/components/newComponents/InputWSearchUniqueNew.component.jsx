@@ -27,14 +27,14 @@ const InputWSearchUniqueNew = (props) => {
     getRndIntegerFn,
     recordLoaded,
     thisRecordId,
-    trimEnteredValue,
+    trimEnteredValueFn,
   } = props;
   const [timer, setTimerStateFn] = useState(null);
   const fetchBaseURL =
     backEndHtmlRoot + `${typeOfRecordToChange}s/findby${propToUpdate}/`;
   function searchSetUnique(e) {
     togglePropValueHasDupStateFn(true);
-    const trimmedWNoDblSpcs = trimEnteredValue(e.target.value);
+    const trimmedWNoDblSpcs = trimEnteredValueFn(e.target.value);
     clearTimeout(timer);
     const newTimer = setTimeout(() => {
       if (origPropValue !== trimmedWNoDblSpcs) {
@@ -63,7 +63,7 @@ const InputWSearchUniqueNew = (props) => {
       inputTypeForHtml={"text"}
       propValue={localPropValue}
       onUpdatePropFn={(e) => {
-        changeLocalPropFn(trimEnteredValue(e.target.value), propToUpdate);
+        changeLocalPropFn(trimEnteredValueFn(e.target.value), propToUpdate);
       }}
       inputOnKeyUpFn={searchSetUnique}
       typeOfRecordToChange={typeOfRecordToChange}

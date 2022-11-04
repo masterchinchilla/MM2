@@ -7,7 +7,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   const {
     thisStateObjBackup,
     backEndHtmlRoot,
-    validateProp,
+    validatePropFn,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
@@ -124,7 +124,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           isRequired={true}
           backEndHtmlRoot={backEndHtmlRoot}
           propNameSentenceCase={"Name"}
-          validateProp={validateProp}
+          validatePropFn={validatePropFn}
           changeLocalPropStateFn={updateNameStateFn}
           togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
           onUpdatePropFn={onUpdatePropFn}

@@ -126,12 +126,18 @@ const GenRecipeIngredientForm = (props) => {
   return (
     <form className="gnRcpIngrdntFrm">
       <div className="gnRcpIngrdntFrmHdr">
+        {/* {recordLoaded ? ( */}
         <h6 className="gnRcpIngrdntHdr doubleHeightLabel">
           {editingForm.genRecipeIngredient ? (
             <span className="requiredFldLbl">* </span>
           ) : null}
           Default Qty
         </h6>
+        {/* ) : (
+          <h6 className="placeholder-glow w-75 gnRcpIngrdntHdr doubleHeightLabel">
+            <span className="placeholder w-75"></span>
+          </h6>
+        )} */}
         <FormControl
           key={`FormCtrlForGenRecipeIngrdnt${thisRecordId}`}
           typeOfRecordToChange={typeOfRecordToChange}
@@ -217,7 +223,13 @@ const GenRecipeIngredientForm = (props) => {
                   : "form-group mealIngrdntInputs"
               }
             >
-              <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
+              {recordLoaded ? (
+                <h6 className="genRecipeIngrdntHdr">Recipe Ingredient</h6>
+              ) : (
+                <h6 className="placeholder-glow w-75 genRecipeIngrdntHdr">
+                  <span className="placeholder w-75"></span>
+                </h6>
+              )}
               <AsyncSearchSelectWCreateNew
                 formGroupClasses=""
                 typeOfRecordToChange={"genRecipeIngredient"}

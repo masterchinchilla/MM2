@@ -13,7 +13,7 @@ const RecipeCard = (props) => {
     onClickDeleteFn,
     getRndIntegerFn,
     onUpdatePropFn,
-    validateProp,
+    validatePropFn,
     thisStateObjBackup,
     backEndHtmlRoot,
   } = props;
@@ -140,7 +140,13 @@ const RecipeCard = (props) => {
       <form className="card mt-3 mb-3">
         <div className="card-header mealCardHeader">
           <div className="mealGenRecipeSctnHdr">
-            <h5 className="formSctnTitle">Recipe Details</h5>
+            {recordLoaded ? (
+              <h5 className="formSctnTitle">Recipe Details</h5>
+            ) : (
+              <h5 className="placeholder-glow w-75 formSctnTitle">
+                <span className="placeholder w-75"></span>
+              </h5>
+            )}
             <FormControl
               typeOfRecordToChange={typeOfRecordToChange}
               recordChanged={localRecordChanged}
@@ -177,7 +183,13 @@ const RecipeCard = (props) => {
                     }
               }
             />
-            <h6 className="mealPrepInst">Prep Instructions:</h6>
+            {recordLoaded ? (
+              <h6 className="mealPrepInst">Prep Instructions:</h6>
+            ) : (
+              <h6 className="placeholder-glow w-75 mealPrepInst">
+                <span className="placeholder w-75"></span>
+              </h6>
+            )}
             <textarea
               className="form-control mealTextArea"
               disabled={!editingForm.genRecipe ? true : false}
@@ -231,7 +243,7 @@ const RecipeCard = (props) => {
                     isRequired={true}
                     backEndHtmlRoot={backEndHtmlRoot}
                     propNameSentenceCase={"Name"}
-                    validateProp={validateProp}
+                    validatePropFn={validatePropFn}
                     changeLocalPropStateFn={updateNameStateFn}
                     togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
                     onUpdatePropFn={onUpdatePropFn}

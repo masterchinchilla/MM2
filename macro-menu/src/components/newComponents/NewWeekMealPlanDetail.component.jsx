@@ -15,7 +15,10 @@ class NewWeekMealPlan extends Component {
     this.state = {
       backEndHtmlRoot: backEndHtmlRoot,
       currentGRFUser: currentGRFUser,
-      thisWMPStateObj: {},
+      thisWMPStateObj: {
+        thisRecord: { _id: this.props.match.params.id },
+        recordLoaded: false,
+      },
       thisWMPStateBackup: {},
       thisWeeksDays: {},
       thisWeeksDaysBackup: {},
@@ -61,7 +64,7 @@ class NewWeekMealPlan extends Component {
     console.log("created new record");
   };
   populateMealIngrdntsFn = () => {
-    console.lof("populating meal Ingredients");
+    console.log("populating meal Ingredients");
   };
   handleTrimEnteredValue = (untrimmedValue) => {
     let trimmedValue = untrimmedValue.trim();
@@ -83,20 +86,20 @@ class NewWeekMealPlan extends Component {
     return validationError;
   };
   render() {
-    const thisRecordId = this.props.match.params.id;
+    const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;
     const typeOfRecordToChange = "weekMealPlan";
     return (
       <div className="container-fluid pl-4 pr-4">
         <ToastContainer
-          key={`toastCntnrForWMP${thisRecordId}`}
+          key={`toastCntnrFor${typeOfRecordToChange}${thisWMPRecordId}`}
           autoClose={2000}
         />
         <WeekMealPlanCard
-          key={`wmpCardFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`wmpCardFor${typeOfRecordToChange}${thisWMPRecordId}`}
           thisStateObj={this.state.thisWMPStateObj}
           thisStateObjBackup={this.state.thisWMPStateBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
-          validateProp={this.handleValidateProp}
+          validatePropFn={this.handleValidateProp}
           onUpdateWeightsFn={this.handleUpdateWeightsFn}
           onClickEditFn={this.handleClickEditFn}
           onClickCancelFn={this.handleClickCancelFn}
@@ -107,12 +110,13 @@ class NewWeekMealPlan extends Component {
           getRndIntegerFn={this.getRndIntegerFn}
         />
         <DaysCard
-          key={`daysCardFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`daysCardFor${typeOfRecordToChange}${thisWMPRecordId}`}
+          wmpRecordLoaded={this.state.thisWMPStateObj.recordLoaded}
           thisStateObj={this.state.thisWeeksDays}
           thisStateObjBackup={this.state.thisWeeksDaysBackup}
           backEndHtmlRoot={this.state.backEndHtmlRoot}
           currentGRFUser={this.state.currentGRFUser}
-          validateProp={this.handleValidateProp}
+          validatePropFn={this.handleValidateProp}
           onClickEditFn={this.handleClickEditFn}
           onClickCancelFn={this.handleClickCancelFn}
           onUpdatePropFn={this.handleUpdatePropFn}
@@ -121,10 +125,11 @@ class NewWeekMealPlan extends Component {
           onCreateNewRecordFn={this.handleCreateNewRecordFn}
           populateMealIngrdntsFn={this.populateMealIngrdntsFn}
           getRndIntegerFn={this.getRndIntegerFn}
-          trimEnteredValue={this.handleTrimEnteredValue}
+          trimEnteredValueFn={this.handleTrimEnteredValue}
           allUnitOfMeasures={this.state.allUnitOfMeasures}
           allWeightTypes={this.state.allWeightTypes}
           allBrands={this.state.allBrands}
+          thisWMPRecordId={thisWMPRecordId}
         />
       </div>
     );

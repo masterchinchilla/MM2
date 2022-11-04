@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import _ from "lodash";
 import { Slider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CustomHeading from "./CustomHeading.component";
 const MealWeightingSubForm = (props) => {
   const { onUpdateWeightsFn } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
@@ -17,8 +18,9 @@ const MealWeightingSubForm = (props) => {
           dinnerWeight: 0,
           dessertWeight: 0,
         },
+        recordLoaded: false,
       };
-  const { editingForm, thisRecord } = thisStateObj;
+  const { editingForm, thisRecord, recordLoaded } = thisStateObj;
   const {
     _id,
     breakfastWeight,
@@ -303,7 +305,14 @@ const MealWeightingSubForm = (props) => {
   return (
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
-        <h2 className="card-title">Meal Macro Weighting</h2>
+        <CustomHeading
+          headingLvl={2}
+          recordLoaded={recordLoaded}
+          headingText="Meal Macro Weighting"
+          hdngIsReqFormLbl={false}
+          headingClasses="card-title"
+        />
+        {/* <h2 className="card-title">Meal Macro Weighting</h2> */}
       </div>
       <div className="card-body">
         <div

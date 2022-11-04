@@ -4,16 +4,17 @@ import NewMacrosTable from "./NewMacrosTable.component";
 import MealChildCard from "./MealChildCard.component";
 import RecipeCard from "./RecipeCard.component";
 import MealIngredients from "./MealIngredients.component";
+import CustomHeading from "./CustomHeading.component";
 const MealParentCard = (props) => {
   const {
     thisStateObjBackup,
     currentGRFUser,
     backEndHtmlRoot,
     onUpdatePropFn,
-    validateProp,
+    validatePropFn,
     onCreateNewRecordFn,
     populateMealIngrdntsFn,
-    trimEnteredValue,
+    trimEnteredValueFn,
     onClickEditFn,
     onClickCancelFn,
     onClickSaveFn,
@@ -27,12 +28,12 @@ const MealParentCard = (props) => {
     ? props.thisStateObj
     : {
         thisRecord: {
-          _id: getRndIntegerFn(10000000, 99999999),
+          _id: null,
           day: {
             weekMealPlan: null,
-            dayOfWeek: { name: "Day" },
+            dayOfWeek: null,
           },
-          mealType: { code: null, name: "Meal" },
+          mealType: {},
         },
         thisMealsIngrdnts: [],
         recordLoaded: false,
@@ -40,10 +41,11 @@ const MealParentCard = (props) => {
   const thisMealsIngrdntsBackup = thisStateObjBackup
     ? thisStateObjBackup.thisMealsIngrdnts
     : [];
-  const { thisRecord, thisMealsIngrdnts } = thisStateObj;
+  const { thisRecord, thisMealsIngrdnts, recordLoaded } = thisStateObj;
   const { _id, day, mealType } = thisRecord;
   const { weekMealPlan, dayOfWeek } = day;
-  const thisRecordId = _id;
+  const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "meal";
   return (
     <div
       className="accordion accordionNotFlush mealDetailTopAccrdn"
@@ -62,7 +64,15 @@ const MealParentCard = (props) => {
             aria-expanded="true"
             aria-controls="collapseOne"
           >
-            <h5>{`${dayOfWeek.name} ${mealType.name}`}</h5>
+            <CustomHeading
+              headingLvl={5}
+              recordLoaded={recordLoaded}
+              headingText={
+                recordLoaded ? `${dayOfWeek.name} ${mealType.name}` : ""
+              }
+              hdngIsReqFormLbl={false}
+              headingClasses=""
+            />
           </button>
         </h2>
       </div>
@@ -73,30 +83,32 @@ const MealParentCard = (props) => {
         data-bs-parent={"#mealOuterAccordionFull" + thisRecordId}
       >
         <StickyBox
-          key={`macroTblStickyBoxForMeal${thisRecordId}`}
+          key={`macroTblStickyBoxFor${typeOfRecordToChange}${thisRecordId}`}
           offsetTop={142}
           offsetBottom={20}
           className={"mealMacTable"}
         >
           <NewMacrosTable
-            key={`macrosTblForMeal${thisRecordId}`}
+            key={`macrosTblFor${typeOfRecordToChange}${thisRecordId}`}
             thisWMPRecord={weekMealPlan}
             tableType={"Meal Macros"}
-            thisMealTypeCode={mealType.code}
+            thisMealType={mealType}
             theseIngrdnts={thisMealsIngrdnts}
           />
         </StickyBox>
         <div className="accordion-body wkDaysAccrdnBdy">
           <MealChildCard
+            key={`mealChildCardFor${typeOfRecordToChange}${thisRecordId}`}
             thisStateObj={thisStateObj}
             currentGRFUser={currentGRFUser}
-            validateProp={validateProp}
+            validatePropFn={validatePropFn}
             onUpdatePropFn={onUpdatePropFn}
             getRndIntegerFn={getRndIntegerFn}
             onCreateNewRecordFn={onCreateNewRecordFn}
-            trimEnteredValue={trimEnteredValue}
+            trimEnteredValueFn={trimEnteredValueFn}
           />
           <RecipeCard
+            key={`recipeCardFor${typeOfRecordToChange}${thisRecordId}`}
             thisStateObj={thisStateObj}
             thisStateObjBackup={thisStateObjBackup}
             onClickEditFn={onClickEditFn}
@@ -106,9 +118,10 @@ const MealParentCard = (props) => {
             onUpdatePropFn={onUpdatePropFn}
             getRndIntegerFn={getRndIntegerFn}
             backEndHtmlRoot={backEndHtmlRoot}
-            validateProp={validateProp}
+            validatePropFn={validatePropFn}
           />
           <MealIngredients
+            key={`mealIngrdntsFor${typeOfRecordToChange}${thisRecordId}`}
             currentGRFUser={currentGRFUser}
             thisStateObj={thisStateObj}
             thisStateObjBackup={thisMealsIngrdntsBackup}
@@ -121,10 +134,11 @@ const MealParentCard = (props) => {
             populateMealIngrdntsFn={populateMealIngrdntsFn}
             getRndIntegerFn={getRndIntegerFn}
             backEndHtmlRoot={backEndHtmlRoot}
-            validateProp={validateProp}
+            validatePropFn={validatePropFn}
             allUnitOfMeasures={allUnitOfMeasures}
             allWeightTypes={allWeightTypes}
             allBrands={allBrands}
+            trimEnteredValueFn={trimEnteredValueFn}
           />
         </div>
       </div>

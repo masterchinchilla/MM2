@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import FormControl from "./FormControl.component";
 import InputCore from "./InputCore.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
+import CustomHeading from "./CustomHeading.component";
 const MealIngredientForm = (props) => {
   const {
     getRndIntegerFn,
@@ -61,12 +62,13 @@ const MealIngredientForm = (props) => {
   return (
     <form className="mlIngrdntFrm">
       <div className="mlIngrdntFrmHdr">
-        <h6 className="mlIngrdntHdr doubleHeightLabel">
-          {editingForm.genRecipeIngredient ? (
-            <span className="requiredFldLbl">* </span>
-          ) : null}
-          Qty
-        </h6>
+        <CustomHeading
+          headingLvl={6}
+          recordLoaded={recordLoaded}
+          headingText="Qty"
+          hdngIsReqFormLbl={true}
+          headingClasses="mlIngrdntHdr doubleHeightLabel"
+        />
         <FormControl
           typeOfRecordToChange={typeOfRecordToChange}
           recordChanged={recordChanged}
@@ -136,7 +138,13 @@ const MealIngredientForm = (props) => {
         >
           <div className="accordion-body">
             <div className="form-group mealIngrdntInputs">
-              <h6 className="mealIngrdntHdr">Custom Ingredient</h6>
+              {recordLoaded ? (
+                <h6 className="mealIngrdntHdr">Custom Ingredient</h6>
+              ) : (
+                <h6 className="placeholder-glow w-75 mealIngrdntHdr">
+                  <span className="placeholder w-75"></span>
+                </h6>
+              )}
               <ReadOnlyInputCore
                 key={`readOnlyInputForRecipeIngrdntForMealIngrdnt${thisRecordId}`}
                 formGroupClasses={"ingrdntFrmGrpWBttmPddng"}

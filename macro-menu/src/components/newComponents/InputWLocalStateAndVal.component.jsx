@@ -19,14 +19,14 @@ const InputWLocalStateAndVal = (props) => {
     isRequired,
     backEndHtmlRoot,
     propNameSentenceCase,
-    validateProp,
+    validatePropFn,
     changeLocalPropStateFn,
     togglePropValueHasDupStateFn,
     onUpdatePropFn,
     valErrorUpdateStateFn,
     getRndIntegerFn,
     recordLoaded,
-    trimEnteredValue,
+    trimEnteredValueFn,
     excludeLabel,
   } = props;
   const origPropValue = backupOfRecordToChange
@@ -36,7 +36,7 @@ const InputWLocalStateAndVal = (props) => {
     ? backupOfRecordToChange._id
     : getRndIntegerFn(10000000, 99999999);
   function handleUpdateLocalProp(newPropValue) {
-    const thisValError = validateProp(propType, propToUpdate, newPropValue);
+    const thisValError = validatePropFn(propType, propToUpdate, newPropValue);
     if (thisValError) {
       togglePropValueHasDupStateFn(true);
     } else {
@@ -90,7 +90,7 @@ const InputWLocalStateAndVal = (props) => {
       getRndIntegerFn={getRndIntegerFn}
       recordLoaded={recordLoaded}
       thisRecordId={thisRecordId}
-      trimEnteredValue={trimEnteredValue}
+      trimEnteredValueFn={trimEnteredValueFn}
       excludeLabel={excludeLabel}
     />
   );

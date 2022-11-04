@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import MealParentCard from "./MealParentCard.component";
 import CreateMealButton from "./CreateMealButton.component";
+import CustomHeading from "./CustomHeading.component";
 const MealsCard = (props) => {
   const {
-    thisStateObjBackup,
     currentGRFUser,
     backEndHtmlRoot,
-    validateProp,
+    validatePropFn,
     onClickEditFn,
     onClickCancelFn,
     onUpdatePropFn,
@@ -15,7 +15,7 @@ const MealsCard = (props) => {
     getRndIntegerFn,
     onCreateNewRecordFn,
     populateMealIngrdntsFn,
-    trimEnteredValue,
+    trimEnteredValueFn,
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
@@ -33,16 +33,14 @@ const MealsCard = (props) => {
   const thisDaysMeals = thisStateObj.thisDaysMeals
     ? thisStateObj.thisDaysMeals
     : {};
-  const thisDaysMealsBackup = thisStateObjBackup
-    ? thisStateObjBackup.thisDaysMeals
+  const thisDaysMealsBackup = props.thisStateObjBackup
+    ? props.thisStateObjBackup.thisDaysMeals
     : {};
-  const { thisRecord } = thisStateObj;
-  const { _id } = thisRecord;
-  const thisDayOfWeek = thisRecord.dayOfWeek
-    ? thisRecord.dayOfWeek
-    : { code: "day", name: "Day" };
+  const { thisRecord, recordLoaded } = thisStateObj;
+  const { _id, dayOfWeek } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "meal";
+
   function renderMeal(mealTypeCode, mealTypeName) {
     const thisMealStateObj = thisDaysMeals[mealTypeCode]
       ? thisDaysMeals[mealTypeCode]
@@ -88,22 +86,32 @@ const MealsCard = (props) => {
         thisStateObjBackup={thisStateObjBackup}
         currentGRFUser={currentGRFUser}
         backEndHtmlRoot={backEndHtmlRoot}
-        validateProp={validateProp}
+        validatePropFn={validatePropFn}
         onUpdatePropFn={onUpdatePropFn}
         getRndIntegerFn={getRndIntegerFn}
         onCreateNewRecordFn={onCreateNewRecordFn}
         populateMealIngrdntsFn={populateMealIngrdntsFn}
-        trimEnteredValue={trimEnteredValue}
+        trimEnteredValueFn={trimEnteredValueFn}
         allUnitOfMeasures={allUnitOfMeasures}
         allWeightTypes={allWeightTypes}
         allBrands={allBrands}
+        onClickEditFn={onClickEditFn}
+        onClickCancelFn={onClickCancelFn}
+        onClickSaveFn={onClickSaveFn}
+        onClickDeleteFn={onClickDeleteFn}
       />
     );
   }
   return (
     <div className="card mt-3 mb-3">
       <div className="card-header">
-        <h4 className="card-title">{`${thisDayOfWeek.name} Meals`}</h4>
+        <CustomHeading
+          headingLvl={4}
+          recordLoaded={recordLoaded}
+          headingText={recordLoaded ? `${dayOfWeek.name} Meals` : ""}
+          hdngIsReqFormLbl={false}
+          headingClasses="card-title"
+        />
       </div>
       <div className="card-body">
         <div

@@ -566,6 +566,7 @@ h6.mealIngrdntHdr, h6.genRecipeIngrdntHdr{
   padding:0 0.5rem 0.5rem;
 }
 .requiredFldLbl{
+  white-space: nowrap;
   color:red;
 }
 .registerCard{
@@ -949,6 +950,9 @@ margin: 0.5rem;
 .badge input.placeholder {
   margin-bottom: 0.5rem !important;
 }
+.ingrdntName input.placeholder {
+  margin: 0.5rem 0 !important;
+}
 .placeholderIconGroup{
   margin:0.4rem;
   align-self: flex-start;
@@ -972,4 +976,10 @@ td span.placeholder{
 }
  label.placeholder {
   min-height: 1rem !important;
+}
+.recipeSelectHeader span.placeholder{
+  width:4rem !important;
+}
+.mealIngrdntInputs h6.placeholder-glow{
+  margin: 0.5rem 0 !important;
 }

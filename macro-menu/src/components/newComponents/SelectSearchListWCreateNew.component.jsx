@@ -16,9 +16,9 @@ const SelectSearchListWCreateNew = (props) => {
     fieldDisabled,
     valErrors,
     onUpdatePropFn,
-    validateProp,
+    validatePropFn,
     onCreateNewRecordFn,
-    trimEnteredValue,
+    trimEnteredValueFn,
     isRequired,
     recordLoaded,
     excludeLabel,
@@ -71,7 +71,7 @@ const SelectSearchListWCreateNew = (props) => {
     }
   }
   function handleValEnteredText(trimmedValueWNoDblSpcs) {
-    const valErrors = validateProp(
+    const valErrors = validatePropFn(
       propType,
       propToUpdate,
       trimmedValueWNoDblSpcs
@@ -80,13 +80,13 @@ const SelectSearchListWCreateNew = (props) => {
     return valErrors ? false : true;
   }
   function handleTrimAndValEnteredText(e) {
-    const trimmedValueWNoDblSpcs = trimEnteredValue(e);
+    const trimmedValueWNoDblSpcs = trimEnteredValueFn(e);
     const isValidNewOption = handleValEnteredText(trimmedValueWNoDblSpcs);
     return isValidNewOption;
   }
 
   function handleTrimAndValIfNewOption(e) {
-    const trimmedValueWNoDblSpcs = trimEnteredValue(e);
+    const trimmedValueWNoDblSpcs = trimEnteredValueFn(e);
     const optionMatchesEnteredText = handleCheckForOptionMatchEnteredText(
       trimmedValueWNoDblSpcs
     );
