@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import CreateDayButton from "./CreateDayButton.component";
 import CustomHeading from "./CustomHeading.component";
 import DayCard from "./DayCard.component";
 const DaysCard = (props) => {
   const {
-    wmpRecordLoaded,
     currentGRFUser,
     validatePropFn,
     onClickEditFn,
@@ -14,47 +14,93 @@ const DaysCard = (props) => {
     getRndIntegerFn,
     onCreateNewRecordFn,
     populateMealIngrdntsFn,
-    thisWMPRecordId,
     trimEnteredValueFn,
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
   } = props;
-  const thisStateObj = props.thisStateObj ? props.thisStateObj : {};
-  const thisStateObjBackup = props.thisStateObjBackup
+  const thisWeeksDays = props.thisStateObj ? props.thisStateObj : {};
+  const thisWeeksDaysBackup = props.thisStateObjBackup
     ? props.thisStateObjBackup
     : {};
-  function renderDay(dayOfWeekCode) {
-    return (
-      <DayCard
-        key={`dayCardFor${dayOfWeekCode}ForWMP${thisWMPRecordId}`}
-        thisStateObj={thisStateObj[dayOfWeekCode]}
-        thisStateObjBackup={thisStateObjBackup[dayOfWeekCode]}
-        currentGRFUser={currentGRFUser}
-        validatePropFn={validatePropFn}
-        onClickEditFn={onClickEditFn}
-        onClickCancelFn={onClickCancelFn}
-        onUpdatePropFn={onUpdatePropFn}
-        onClickSaveFn={onClickSaveFn}
-        onClickDeleteFn={onClickDeleteFn}
-        getRndIntegerFn={getRndIntegerFn}
-        onCreateNewRecordFn={onCreateNewRecordFn}
-        populateMealIngrdntsFn={populateMealIngrdntsFn}
-        trimEnteredValueFn={trimEnteredValueFn}
-        allUnitOfMeasures={allUnitOfMeasures}
-        allWeightTypes={allWeightTypes}
-        allBrands={allBrands}
-      />
-    );
+  const thisWMPStateObj = props.thisWMPStateObj.recordLoaded
+    ? props.thisWMPStateObj
+    : {
+        thisRecord: { _id: props.thisWMPStateObj.thisRecord._id },
+        recordLoaded: false,
+        userType: null,
+      };
+  const { thisRecord, recordLoaded, userType } = thisWMPStateObj;
+  const { _id } = thisRecord;
+  const thisWMPRecordId = _id;
+  const wmpRecordLoaded = recordLoaded;
+  const wmpUserType = userType;
+  const parentTypeOfRecordToChange = "week";
+  const childTypeOfRecordToChange = "day";
+  function renderDay(dayOfWeekCode, dayOfWeekName) {
+    const thisDayStateObj = thisWeeksDays[dayOfWeekCode]
+      ? thisWeeksDays[dayOfWeekCode]
+      : {
+          thisRecord: { _id: getRndIntegerFn(10000000, 99999999) },
+        };
+    const thisStateObjBackup = thisWeeksDaysBackup[dayOfWeekCode]
+      ? thisWeeksDaysBackup[dayOfWeekCode]
+      : {};
+    const dayRecordId = thisDayStateObj.thisRecord._id;
+    const pattern = /missing/;
+    let testResult = pattern.test(dayRecordId);
+    if (testResult) {
+      if (wmpUserType === "admin" || wmpUserType === "author") {
+        return (
+          <CreateDayButton
+            onCreateNewRecordFn={onCreateNewRecordFn}
+            getRndIntegerFn={getRndIntegerFn}
+            dayOfWeekName={dayOfWeekName}
+          />
+        );
+      } else {
+        return (
+          <div className="alert alert-secondary" role="alert">
+            <em>
+              <span>No {dayOfWeekName}</span> Meal Plan added to this week...
+            </em>
+          </div>
+        );
+      }
+    } else {
+      return (
+        <DayCard
+          key={`dayCardFor${childTypeOfRecordToChange}${dayRecordId}`}
+          thisStateObj={thisDayStateObj}
+          thisStateObjBackup={thisStateObjBackup}
+          currentGRFUser={currentGRFUser}
+          validatePropFn={validatePropFn}
+          onClickEditFn={onClickEditFn}
+          onClickCancelFn={onClickCancelFn}
+          onUpdatePropFn={onUpdatePropFn}
+          onClickSaveFn={onClickSaveFn}
+          onClickDeleteFn={onClickDeleteFn}
+          getRndIntegerFn={getRndIntegerFn}
+          onCreateNewRecordFn={onCreateNewRecordFn}
+          populateMealIngrdntsFn={populateMealIngrdntsFn}
+          trimEnteredValueFn={trimEnteredValueFn}
+          allUnitOfMeasures={allUnitOfMeasures}
+          allWeightTypes={allWeightTypes}
+          allBrands={allBrands}
+        />
+      );
+    }
   }
   return (
     <div className="card mt-3 mb-3">
       <div className="card-header">
         <CustomHeading
+          key={`customDayMealPlnsHeadingFor${parentTypeOfRecordToChange}${thisWMPRecordId}`}
           headingLvl={2}
           recordLoaded={wmpRecordLoaded}
           headingText="Day Meal Plans"
           hdngIsReqFormLbl={false}
+          editingForm={false}
           headingClasses="card-title"
         />
       </div>
@@ -85,13 +131,13 @@ const DaysCard = (props) => {
             data-bs-parent={"#accordionFull" + thisWMPRecordId}
           >
             <div className="accordion-body wkDaysAccrdnBdy">
-              {renderDay("sunday")}
-              {renderDay("monday")}
-              {renderDay("tuesday")}
-              {renderDay("wednesday")}
-              {renderDay("thursday")}
-              {renderDay("friday")}
-              {renderDay("saturday")}
+              {renderDay("sunday", "Sunday")}
+              {renderDay("monday", "Monday")}
+              {renderDay("tuesday", "Tuesday")}
+              {renderDay("wednesday", "Wednesday")}
+              {renderDay("thursday", "Thursday")}
+              {renderDay("friday", "Friday")}
+              {renderDay("saturday", "Saturday")}
             </div>
           </div>
         </div>

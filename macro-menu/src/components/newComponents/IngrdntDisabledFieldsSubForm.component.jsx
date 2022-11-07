@@ -1,5 +1,4 @@
 import React from "react";
-import dayjs from "dayjs";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 const IngrdntDisabledFieldsSubForm = (props) => {
   const { thisRecordId } = props;
@@ -10,6 +9,7 @@ const IngrdntDisabledFieldsSubForm = (props) => {
           genRecipeIngredient: {
             ingredient: {
               _id: null,
+              GRFUser: { handle: "" },
             },
           },
         },
@@ -56,7 +56,7 @@ const IngrdntDisabledFieldsSubForm = (props) => {
               label="Author "
               inputClasses="form-control"
               propType="text"
-              propValue={GRFUser ? GRFUser.handle : ""}
+              propValue={GRFUser.handle}
               recordLoaded={recordLoaded}
               excludeLabel={false}
             />
@@ -67,11 +67,7 @@ const IngrdntDisabledFieldsSubForm = (props) => {
                 label="Created "
                 inputClasses="form-control"
                 propType="text"
-                propValue={
-                  createdAt
-                    ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : null
-                }
+                propValue={createdAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
@@ -81,11 +77,7 @@ const IngrdntDisabledFieldsSubForm = (props) => {
                 label="Last Update "
                 inputClasses="form-control"
                 propType="text"
-                propValue={
-                  updatedAt
-                    ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : null
-                }
+                propValue={updatedAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
@@ -95,7 +87,7 @@ const IngrdntDisabledFieldsSubForm = (props) => {
                 label="Record ID "
                 inputClasses="form-control"
                 propType="text"
-                propValue={_id ? _id : thisRecordId}
+                propValue={_id}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />

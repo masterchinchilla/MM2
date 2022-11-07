@@ -37,11 +37,13 @@ const MealParentCard = (props) => {
         },
         thisMealsIngrdnts: [],
         recordLoaded: false,
+        editingForm: { meal: false },
       };
   const thisMealsIngrdntsBackup = thisStateObjBackup
     ? thisStateObjBackup.thisMealsIngrdnts
     : [];
-  const { thisRecord, thisMealsIngrdnts, recordLoaded } = thisStateObj;
+  const { thisRecord, thisMealsIngrdnts, recordLoaded, editingForm } =
+    thisStateObj;
   const { _id, day, mealType } = thisRecord;
   const { weekMealPlan, dayOfWeek } = day;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
@@ -65,12 +67,14 @@ const MealParentCard = (props) => {
             aria-controls="collapseOne"
           >
             <CustomHeading
+              key={`customNameHeadingFor${typeOfRecordToChange}${thisRecordId}`}
               headingLvl={5}
               recordLoaded={recordLoaded}
               headingText={
                 recordLoaded ? `${dayOfWeek.name} ${mealType.name}` : ""
               }
               hdngIsReqFormLbl={false}
+              editingForm={null}
               headingClasses=""
             />
           </button>
@@ -94,6 +98,8 @@ const MealParentCard = (props) => {
             tableType={"Meal Macros"}
             thisMealType={mealType}
             theseIngrdnts={thisMealsIngrdnts}
+            recordLoaded={recordLoaded}
+            getRndIntegerFn={getRndIntegerFn}
           />
         </StickyBox>
         <div className="accordion-body wkDaysAccrdnBdy">

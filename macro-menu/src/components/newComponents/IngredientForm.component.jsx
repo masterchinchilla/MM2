@@ -37,6 +37,7 @@ const IngredientForm = (props) => {
   const thisRecord = thisStateObj.thisRecord.genRecipeIngredient.ingredient;
   const { _id } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "ingredient";
   return (
     <form
       className={
@@ -46,6 +47,7 @@ const IngredientForm = (props) => {
       }
     >
       <IngrdntFormCtrlAndKeyFldsSubForm
+        key={`ingrdntFormCtrlAndKeyFldsSubFormFor${typeOfRecordToChange}${thisRecordId}`}
         thisRecordId={thisRecordId}
         thisStateObj={thisStateObj}
         getRndIntegerFn={getRndIntegerFn}
@@ -96,11 +98,13 @@ const IngredientForm = (props) => {
           data-bs-parent={"#ingrdntAccrdnFull" + thisRecordId}
         >
           <IngrdntMacrosSubForm
+            key={`ingrdntMacrosSubFormFor${typeOfRecordToChange}${thisRecordId}`}
             thisRecordId={thisRecordId}
             onUpdatePropFn={onUpdatePropFn}
             thisStateObj={thisStateObj}
           />
           <IngrdntDisabledFieldsSubForm
+            key={`IngrdntDisabledFieldsSubFormFor${typeOfRecordToChange}${thisRecordId}`}
             thisRecordId={thisRecordId}
             thisStateObj={thisStateObj}
             getRndIntegerFn={getRndIntegerFn}
@@ -112,9 +116,3 @@ const IngredientForm = (props) => {
 };
 
 export default IngredientForm;
-{
-  /* <React.Fragment>
-      <IngrdntFormCtrlAndKeyFldsSubForm {...props} />
-      
-    </React.Fragment> */
-}

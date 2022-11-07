@@ -22,7 +22,7 @@ const IngrdntMacrosSubForm = (props) => {
           },
         },
         editingForm: { ingredient: false },
-        valErrors: { ingredient: [] },
+        valErrors: { ingredient: { calories: null } },
         recordLoaded: false,
       };
   const { arrayIndex, editingForm, valErrors, recordLoaded } = thisStateObj;
@@ -51,9 +51,7 @@ const IngrdntMacrosSubForm = (props) => {
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={
-          valErrors.ingredient.calories ? valErrors.ingredient.calories : null
-        }
+        valError={valErrors.ingredient.calories}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
@@ -75,9 +73,7 @@ const IngrdntMacrosSubForm = (props) => {
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={
-          valErrors.ingredient.carbs ? valErrors.ingredient.carbs : null
-        }
+        valError={valErrors.ingredient.carbs}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
@@ -99,9 +95,7 @@ const IngrdntMacrosSubForm = (props) => {
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={
-          valErrors.ingredient.protein ? valErrors.ingredient.protein : null
-        }
+        valError={valErrors.ingredient.protein}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
@@ -123,7 +117,7 @@ const IngrdntMacrosSubForm = (props) => {
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={valErrors.ingredient.fat ? valErrors.ingredient.fat : null}
+        valError={valErrors.ingredient.fat}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
@@ -145,9 +139,7 @@ const IngrdntMacrosSubForm = (props) => {
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={
-          valErrors.ingredient.fiber ? valErrors.ingredient.fiber : null
-        }
+        valError={valErrors.ingredient.fiber}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
@@ -159,7 +151,7 @@ const IngrdntMacrosSubForm = (props) => {
         label="Photo URL"
         propType="url"
         inputTypeForHtml={"url"}
-        propValue={photoURL ? photoURL : ""}
+        propValue={photoURL}
         onUpdatePropFn={onUpdatePropFn}
         inputOnKeyUpFn={() => {}}
         recordToChange="ingredient"
@@ -169,9 +161,7 @@ const IngrdntMacrosSubForm = (props) => {
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={
-          valErrors.ingredient.photoURL ? valErrors.ingredient.photoURL : null
-        }
+        valError={valErrors.ingredient.photoURL}
         inputClasses="form-control"
         isRequired={false}
         recordLoaded={recordLoaded}

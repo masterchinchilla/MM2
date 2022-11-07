@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import GenRecipeIngredientForm from "./GenRecipeIngredientForm.component";
 import IngredientForm from "./IngredientForm.component";
 import MealIngredientForm from "./MealIngredientForm.component";
 const MealIngredientCard = (props) => {
   const {
     currentGRFUser,
-    thisStateObj,
     arrayIndex,
     backEndHtmlRoot,
     allUnitOfMeasures,
@@ -22,10 +21,20 @@ const MealIngredientCard = (props) => {
     getRndIntegerFn,
     trimEnteredValueFn,
   } = props;
+  const thisStateObj = props.thisStateObj.recordLoaded
+    ? props.thisStateObj
+    : {
+        thisRecord: { _id: null },
+      };
+  const { thisRecord } = thisStateObj;
+  const { _id } = thisRecord;
+  const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "mealIngredient";
   return (
     <div className="card mlIngrdntsCard">
       <div className="card-header mlIgrdntCrdTpSctn">
         <MealIngredientForm
+          key={`mealIngrdntFormFor${typeOfRecordToChange}${thisRecordId}`}
           currentGRFUser={currentGRFUser}
           thisStateObj={thisStateObj}
           arrayIndex={arrayIndex}
@@ -44,6 +53,7 @@ const MealIngredientCard = (props) => {
           getRndIntegerFn={getRndIntegerFn}
         />
         <GenRecipeIngredientForm
+          key={`genRecipeIngrdntFormFor${typeOfRecordToChange}${thisRecordId}`}
           currentGRFUser={currentGRFUser}
           thisStateObj={thisStateObj}
           arrayIndex={arrayIndex}
@@ -64,13 +74,14 @@ const MealIngredientCard = (props) => {
       </div>
       <div className="mlIngrdntCrdBttmSctn">
         <IngredientForm
+          key={`ingrdntFormFor${typeOfRecordToChange}${thisRecordId}`}
           currentGRFUser={currentGRFUser}
           thisStateObj={thisStateObj}
           arrayIndex={arrayIndex}
           backEndHtmlRoot={backEndHtmlRoot}
-          allUnitOfMeasures={allUnitOfMeasures ? allUnitOfMeasures : []}
-          allWeightTypes={allWeightTypes ? allWeightTypes : []}
-          allBrands={allBrands ? allBrands : []}
+          allUnitOfMeasures={allUnitOfMeasures}
+          allWeightTypes={allWeightTypes}
+          allBrands={allBrands}
           thisStateObjBackup={thisStateObjBackup}
           validatePropFn={validatePropFn}
           onClickEditFn={onClickEditFn}

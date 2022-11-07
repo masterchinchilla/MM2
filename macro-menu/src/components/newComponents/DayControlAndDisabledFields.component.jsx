@@ -13,7 +13,7 @@ const DayControlAndDisabledFields = (props) => {
         thisRecord: {
           _id: null,
           name: null,
-          dayOfWeek: null,
+          dayOfWeek: { name: "Day" },
           createdAt: null,
           updatedAt: null,
         },
@@ -37,17 +37,19 @@ const DayControlAndDisabledFields = (props) => {
   const { _id, name, dayOfWeek, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "day";
-  const thisDayOfWeekCode = dayOfWeek ? dayOfWeek.code : "";
+  const thisDayOfWeekCode = dayOfWeek.code ? dayOfWeek.code : "";
   const thisMealTypeCode = "";
   const arrayIndex = 0;
   return (
     <React.Fragment>
       <div className="card-header">
         <CustomHeading
+          key={`customDayOfWeekNameHeadingFor${typeOfRecordToChange}${thisRecordId}`}
           headingLvl={3}
           recordLoaded={recordLoaded}
-          headingText={recordLoaded ? dayOfWeek.name : ""}
+          headingText={dayOfWeek.name}
           hdngIsReqFormLbl={false}
+          editingForm={editingForm}
           headingClasses="card-title"
         />
         <FormControl

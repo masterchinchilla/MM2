@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
+import React from "react";
 import FormControl from "./FormControl.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
-import SelectSearchListWCreateNew from "./SelectSearchListWCreateNew.component";
 import AsyncSearchSelectWCreateNew from "./AsyncSearchSelectWCreateNew.component";
+import CustomHeading from "./CustomHeading.component";
+
 const MealChildCard = (props) => {
   const {
     currentGRFUser,
@@ -44,7 +44,6 @@ const MealChildCard = (props) => {
     recordChanged,
     thisRecord,
     userType,
-    editingForm,
     justCreated,
     thisMealsIngrdnts,
     userChangedThisMealsRecipe,
@@ -52,6 +51,7 @@ const MealChildCard = (props) => {
     valErrors,
     recordLoaded,
   } = thisStateObj;
+  const editingForm = thisStateObj.editingForm.meal;
   const genRecipeValErrors = valErrors.genRecipe;
   const { _id, day, mealType, genRecipe, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
@@ -101,14 +101,17 @@ const MealChildCard = (props) => {
     <form className="card mt-3 mb-3">
       <div className="card-header mealCardHeader">
         <div className="mealGenRecipeSctnHdr">
-          {recordLoaded ? (
-            <h5 className="formSctnTitle">Meal</h5>
-          ) : (
-            <h5 className="placeholder-glow w-75 formSctnTitle">
-              <span className="placeholder w-75"></span>
-            </h5>
-          )}
+          <CustomHeading
+            key={`customMealHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+            headingLvl={5}
+            recordLoaded={recordLoaded}
+            headingText={"Meal"}
+            hdngIsReqFormLbl={false}
+            editingForm={editingForm}
+            headingClasses="formSctnTitle"
+          />
           <FormControl
+            key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
             typeOfRecordToChange={typeOfRecordToChange}
             recordChanged={recordChanged}
             thisDayOfWeekCode={thisDayOfWeekCode}
@@ -136,22 +139,17 @@ const MealChildCard = (props) => {
               : "subCardHeader"
           }
         >
-          {recordLoaded ? (
-            <h5 className="recipeSelectHeader">
-              {editingForm.meal ? (
-                <span className="requiredFldLbl">*</span>
-              ) : null}
-              Recipe:
-            </h5>
-          ) : (
-            <h5
-              className="placeholder-glow w-75 recipeSelectHeader"
-              // style={{ width: "5rem" }}
-            >
-              <span className="placeholder w-75"></span>
-            </h5>
-          )}
+          <CustomHeading
+            key={`customRecipeHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+            headingLvl={5}
+            recordLoaded={recordLoaded}
+            headingText={"Recipe:"}
+            hdngIsReqFormLbl={true}
+            editingForm={editingForm}
+            headingClasses="recipeSelectHeader"
+          />
           <AsyncSearchSelectWCreateNew
+            key={`AsyncSrchSlctWCrtNewForMealRcpFor${typeOfRecordToChange}${thisRecordId}`}
             formGroupClasses=""
             typeOfRecordToChange={"meal"}
             thisDayOfWeekCode={thisDayOfWeekCode}
@@ -212,37 +210,32 @@ const MealChildCard = (props) => {
           >
             <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
               <ReadOnlyInputCore
+                key={`ReadOnlyInputCoreForCreatedAtFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Created "
                 inputClasses="form-control"
                 propType="text"
-                propValue={
-                  createdAt
-                    ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : null
-                }
+                propValue={createdAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
               <ReadOnlyInputCore
+                key={`ReadOnlyInputCoreForUpdatedAtFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Last Update "
                 inputClasses="form-control"
                 propType="text"
-                propValue={
-                  updatedAt
-                    ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : null
-                }
+                propValue={updatedAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
               <ReadOnlyInputCore
+                key={`ReadOnlyInputCoreForIdFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Record Id "
                 inputClasses="form-control"
                 propType="text"
-                propValue={_id ? thisRecordId : null}
+                propValue={_id}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />

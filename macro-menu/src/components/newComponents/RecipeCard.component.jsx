@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
-import dayjs from "dayjs";
 import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 import FormControl from "./FormControl.component";
 import InputCore from "./InputCore.component";
+import CustomHeading from "./CustomHeading.component";
 const RecipeCard = (props) => {
   const {
     onClickEditFn,
@@ -30,10 +30,10 @@ const RecipeCard = (props) => {
           genRecipe: {
             _id: null,
             name: null,
-            availableMealType: null,
-            GRFUser: null,
+            availableMealType: { name: "" },
+            GRFUser: { handle: "" },
             defaultPrepInstructions: "",
-            photoURL: null,
+            photoURL: "",
             createdAt: null,
             updatedAt: null,
           },
@@ -45,7 +45,7 @@ const RecipeCard = (props) => {
         justCreated: { meal: false },
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
-        valErrors: { genRecipe: { name: null } },
+        valErrors: { genRecipe: { name: null, photoURL: null } },
         recordLoaded: false,
       };
   const {
@@ -72,6 +72,7 @@ const RecipeCard = (props) => {
     createdAt,
     updatedAt,
   } = thisRecord;
+
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "genRecipe";
   const thisDayOfWeekCode = thisMeal.day.dayOfWeek
@@ -85,6 +86,9 @@ const RecipeCard = (props) => {
       ? false
       : true;
   const fieldsDisabled = !editingForm.genRecipe ? true : false;
+  const hasChildren =
+    thisRecipesIngrdnts.length > 0 && recipeHasConnectedMeals ? true : false;
+
   const [recipeHasConnectedMeals, updateRecipeHasConnectedMeals] =
     useState(true);
   const [localRecordChanged, updateLocalRecordChangedStateFn] =
@@ -96,13 +100,13 @@ const RecipeCard = (props) => {
   );
   const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
   const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(saveDisabled);
-  const hasChildren =
-    thisRecipesIngrdnts.length > 0 && recipeHasConnectedMeals ? true : false;
+
   const saveWarning =
     "Any changes saved to this recipe will affect any meal to which it has been connected. Do you want to proceed?";
   const deleteWarning = "Are you sure you want to delete this Recipe?";
   const deleteChildrenWarning =
     "You must delete all this recipe's recipe ingredients AND disconnect this recipe from any meals before you can delete it";
+
   useEffect(() => {
     //search db for meals connected to this recipe, if found update "recipeHasConnectedMeals"
   }, []);
@@ -140,14 +144,17 @@ const RecipeCard = (props) => {
       <form className="card mt-3 mb-3">
         <div className="card-header mealCardHeader">
           <div className="mealGenRecipeSctnHdr">
-            {recordLoaded ? (
-              <h5 className="formSctnTitle">Recipe Details</h5>
-            ) : (
-              <h5 className="placeholder-glow w-75 formSctnTitle">
-                <span className="placeholder w-75"></span>
-              </h5>
-            )}
+            <CustomHeading
+              key={`customRcpDtlsHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+              headingLvl={5}
+              recordLoaded={recordLoaded}
+              headingText="Recipe Details"
+              hdngIsReqFormLbl={false}
+              editingForm={editingForm}
+              headingClasses="formSctnTitle"
+            />
             <FormControl
+              key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
               typeOfRecordToChange={typeOfRecordToChange}
               recordChanged={localRecordChanged}
               thisDayOfWeekCode={thisDayOfWeekCode}
@@ -183,16 +190,18 @@ const RecipeCard = (props) => {
                     }
               }
             />
-            {recordLoaded ? (
-              <h6 className="mealPrepInst">Prep Instructions:</h6>
-            ) : (
-              <h6 className="placeholder-glow w-75 mealPrepInst">
-                <span className="placeholder w-75"></span>
-              </h6>
-            )}
+            <CustomHeading
+              key={`customPrepInstrHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+              headingLvl={6}
+              recordLoaded={recordLoaded}
+              headingText="Prep Instructions:"
+              hdngIsReqFormLbl={false}
+              editingForm={editingForm}
+              headingClasses="mealPrepInst"
+            />
             <textarea
               className="form-control mealTextArea"
-              disabled={!editingForm.genRecipe ? true : false}
+              disabled={fieldsDisabled}
               onChange={(e) => handleUpdatePrepInst(e)}
               value={prepInstr}
             ></textarea>
@@ -235,7 +244,7 @@ const RecipeCard = (props) => {
                     thisDayOfWeekCode={thisDayOfWeekCode}
                     thisMealTypeCode={thisMealTypeCode}
                     propToUpdate="name"
-                    arrayIndex={0}
+                    arrayIndex={arrayIndex}
                     selectedFrom={[]}
                     fieldDisabled={fieldsDisabled}
                     valError={nameValError}
@@ -258,21 +267,17 @@ const RecipeCard = (props) => {
                   label="Photo URL"
                   propType="url"
                   inputTypeForHtml={"url"}
-                  propValue={photoURL ? photoURL : ""}
+                  propValue={photoURL}
                   onUpdatePropFn={onUpdatePropFn}
                   inputOnKeyUpFn={() => {}}
                   recordToChange="genRecipe"
                   thisDayOfWeekCode={thisDayOfWeekCode}
                   thisMealTypeCode={thisMealTypeCode}
                   propToUpdate={"photoURL"}
-                  arrayIndex={0}
+                  arrayIndex={arrayIndex}
                   selectedFrom={[]}
                   fieldDisabled={fieldsDisabled}
-                  valError={
-                    valErrors.genRecipe.photoURL
-                      ? valErrors.genRecipe.photoURL
-                      : null
-                  }
+                  valError={valErrors.genRecipe.photoURL}
                   inputClasses="form-control"
                   isRequired={false}
                   recordLoaded={recordLoaded}
@@ -284,7 +289,7 @@ const RecipeCard = (props) => {
                   label="Author "
                   inputClasses="form-control"
                   propType="text"
-                  propValue={GRFUser ? GRFUser.handle : ""}
+                  propValue={GRFUser.handle}
                   recordLoaded={recordLoaded}
                   excludeLabel={false}
                 />
@@ -324,9 +329,7 @@ const RecipeCard = (props) => {
                         label="Available Meal Type "
                         inputClasses="form-control"
                         propType="text"
-                        propValue={
-                          availableMealType ? availableMealType.name : null
-                        }
+                        propValue={availableMealType.name}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
                       />
@@ -336,7 +339,7 @@ const RecipeCard = (props) => {
                         label="Record ID "
                         inputClasses="form-control"
                         propType="text"
-                        propValue={_id ? thisRecordId : null}
+                        propValue={_id}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
                       />
@@ -346,13 +349,7 @@ const RecipeCard = (props) => {
                         label="Created "
                         inputClasses="form-control"
                         propType="text"
-                        propValue={
-                          createdAt
-                            ? dayjs(createdAt).format(
-                                "dddd, MMMM D, YYYY h:mm A"
-                              )
-                            : null
-                        }
+                        propValue={createdAt}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
                       />
@@ -362,13 +359,7 @@ const RecipeCard = (props) => {
                         label="Last Update "
                         inputClasses="form-control"
                         propType="text"
-                        propValue={
-                          updatedAt
-                            ? dayjs(updatedAt).format(
-                                "dddd, MMMM D, YYYY h:mm A"
-                              )
-                            : null
-                        }
+                        propValue={updatedAt}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
                       />

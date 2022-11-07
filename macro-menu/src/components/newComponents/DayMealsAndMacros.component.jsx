@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import StickyBox from "react-sticky-box";
 import MealsCard from "./MealsCard.component";
 import NewMacrosTable from "./NewMacrosTable.component";
 const DayMealsAndMacros = (props) => {
   const {
-    thisStateObjBackup,
     currentGRFUser,
     validatePropFn,
     onClickEditFn,
@@ -27,8 +26,12 @@ const DayMealsAndMacros = (props) => {
           _id: null,
           weekMealPlan: { _id: null },
         },
+        recordLoaded: false,
       };
-  const { thisRecord } = thisStateObj;
+  const thisStateObjBackup = props.thisStateObjBackup
+    ? props.thisStateObjBackup.thisDaysMeals
+    : {};
+  const { thisRecord, recordLoaded } = thisStateObj;
   const { _id, weekMealPlan } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "day";
@@ -71,6 +74,8 @@ const DayMealsAndMacros = (props) => {
                   tableType={"Day Macros"}
                   thisMealType={{}}
                   theseIngrdnts={[]}
+                  recordLoaded={recordLoaded}
+                  getRndIntegerFn={getRndIntegerFn}
                 />
               </StickyBox>
               <MealsCard

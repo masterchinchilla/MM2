@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import CustomHeading from "./CustomHeading.component";
 const NewMacrosTable = (props) => {
-  const { tableType, thisMealType, theseIngrdnts } = props;
+  const {
+    tableType,
+    thisMealType,
+    theseIngrdnts,
+    recordLoaded,
+    getRndIntegerFn,
+  } = props;
   const thisMealTypeCode = thisMealType.code ? thisMealType.code : "breakfast";
   const thisMealWeightType = `${thisMealTypeCode}Weight`;
   const thisWMPRecord = props.thisWMPRecord
@@ -21,7 +28,8 @@ const NewMacrosTable = (props) => {
   const thisMealWeight = thisWMPRecord[thisMealWeightType];
   const { calsBudget, carbsBudget, proteinBudget, fatBudget, fiberBudget } =
     thisWMPRecord;
-
+  const thisRecordId = getRndIntegerFn(10000000, 99999999);
+  const typeOfRecordToChange = "tableType";
   let mealWeightPercent;
   (function () {
     if (tableType === "Day Macros") {
@@ -62,7 +70,15 @@ const NewMacrosTable = (props) => {
       <thead className="thead">
         <tr>
           <th colSpan={6} scope="col">
-            <h5>{tableType}</h5>
+            <CustomHeading
+              key={`customTblTypHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+              headingLvl={5}
+              recordLoaded={recordLoaded}
+              headingText={tableType}
+              hdngIsReqFormLbl={false}
+              editingForm={null}
+              headingClasses=""
+            />
           </th>
         </tr>
         <tr>

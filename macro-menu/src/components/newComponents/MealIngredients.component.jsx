@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MealIngredientCard from "./MealIngredientCard.component";
 const MealIngredients = (props) => {
   const {
@@ -82,6 +82,10 @@ const MealIngredients = (props) => {
   function renderMealIngrdnts() {
     if (thisMealsIngrdnts.length > 0) {
       return thisMealsIngrdnts.map((mealIngredient, index) => {
+        let thisMealIngrdntRecord = mealIngredient.thisRecord;
+        let thisMealIngrdntId = thisMealIngrdntRecord._id
+          ? thisMealIngrdntRecord._id
+          : getRndIntegerFn(10000000, 99999999);
         mealIngredient.arrayIndex = index;
         const thisStateObjBackup = props.thisStateObjBackup
           ? props.thisStateObjBackup[index]
@@ -96,7 +100,7 @@ const MealIngredients = (props) => {
             };
         return (
           <MealIngredientCard
-            key={`mealIngrdntParent${thisRecordId}`}
+            key={`mealIngrdntCardFor${thisMealIngrdntId}`}
             currentGRFUser={currentGRFUser}
             thisStateObj={mealIngredient}
             arrayIndex={index}

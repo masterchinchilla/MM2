@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MealParentCard from "./MealParentCard.component";
 import CreateMealButton from "./CreateMealButton.component";
 import CustomHeading from "./CustomHeading.component";
@@ -20,12 +20,12 @@ const MealsCard = (props) => {
     allWeightTypes,
     allBrands,
   } = props;
-  const thisStateObj = props.thisStateObj
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         thisRecord: {
           _id: "",
-          dayOfWeek: null,
+          dayOfWeek: { name: "Day" },
         },
         thisDaysMeals: null,
         recordLoaded: false,
@@ -39,8 +39,8 @@ const MealsCard = (props) => {
   const { thisRecord, recordLoaded } = thisStateObj;
   const { _id, dayOfWeek } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
-  const typeOfRecordToChange = "meal";
-
+  const parentTypeOfRecordToChange = "day";
+  const childTypeOfRecordToChange = "meal";
   function renderMeal(mealTypeCode, mealTypeName) {
     const thisMealStateObj = thisDaysMeals[mealTypeCode]
       ? thisDaysMeals[mealTypeCode]
@@ -52,14 +52,16 @@ const MealsCard = (props) => {
       ? thisDaysMealsBackup[mealTypeCode]
       : {};
     const mealRecordId = thisMealStateObj.thisRecord._id;
-    const mealUserType = thisMealStateObj.userType.meal;
+    const mealUserType = thisMealStateObj.userType
+      ? thisMealStateObj.userType.meal
+      : "viewer";
     const pattern = /missing/;
     let testResult = pattern.test(mealRecordId);
     if (testResult) {
       if (mealUserType === "admin" || mealUserType === "author") {
         return (
           <CreateMealButton
-            key={`createMealBttnFor${typeOfRecordToChange}${mealRecordId}`}
+            key={`createMealBttnFor${childTypeOfRecordToChange}${mealRecordId}`}
             thisStateObj={thisMealStateObj}
             onClickEditFn={onClickEditFn}
             onClickCancelFn={onClickCancelFn}
@@ -81,7 +83,7 @@ const MealsCard = (props) => {
     }
     return (
       <MealParentCard
-        key={`mealPrntCardFor${typeOfRecordToChange}${mealRecordId}`}
+        key={`mealPrntCardFor${childTypeOfRecordToChange}${mealRecordId}`}
         thisStateObj={thisMealStateObj}
         thisStateObjBackup={thisStateObjBackup}
         currentGRFUser={currentGRFUser}
@@ -106,10 +108,12 @@ const MealsCard = (props) => {
     <div className="card mt-3 mb-3">
       <div className="card-header">
         <CustomHeading
+          key={`customDayNameMealsHeadingFor${parentTypeOfRecordToChange}${thisRecordId}`}
           headingLvl={4}
           recordLoaded={recordLoaded}
-          headingText={recordLoaded ? `${dayOfWeek.name} Meals` : ""}
+          headingText={`${dayOfWeek.name} Meals`}
           hdngIsReqFormLbl={false}
+          editingForm={null}
           headingClasses="card-title"
         />
       </div>

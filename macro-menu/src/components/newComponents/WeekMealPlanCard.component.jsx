@@ -16,6 +16,7 @@ const WeekMealPlanCard = (props) => {
     onClickCopyFn,
     getRndIntegerFn,
     onUpdateWeightsFn,
+    trimEnteredValueFn,
   } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
@@ -33,10 +34,12 @@ const WeekMealPlanCard = (props) => {
     <div className="card">
       <div className="card-header">
         <CustomHeading
+          key={`customCarddHeadingFor${typeOfRecordToChange}${thisRecordId}`}
           headingLvl={1}
           recordLoaded={recordLoaded}
           headingText="Week Meal Plan Detail"
           hdngIsReqFormLbl={false}
+          editingForm={false}
           headingClasses="card-title"
         />
       </div>
@@ -81,6 +84,7 @@ const WeekMealPlanCard = (props) => {
                   onClickDeleteFn={onClickDeleteFn}
                   onClickCopyFn={onClickCopyFn}
                   getRndIntegerFn={getRndIntegerFn}
+                  trimEnteredValueFn={trimEnteredValueFn}
                 />
                 <MacroBudgetSubForm
                   key={`macroBdgtSubFormFor${typeOfRecordToChange}${thisRecordId}`}

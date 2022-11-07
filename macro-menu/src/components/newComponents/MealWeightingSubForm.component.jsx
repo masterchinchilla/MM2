@@ -21,6 +21,7 @@ const MealWeightingSubForm = (props) => {
         recordLoaded: false,
       };
   const { editingForm, thisRecord, recordLoaded } = thisStateObj;
+  const fieldsDisabled = !editingForm ? true : false;
   const {
     _id,
     breakfastWeight,
@@ -306,13 +307,14 @@ const MealWeightingSubForm = (props) => {
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
         <CustomHeading
+          key={`customMacroWghtngHeadingFor${typeOfRecordToChange}${thisRecordId}`}
           headingLvl={2}
           recordLoaded={recordLoaded}
           headingText="Meal Macro Weighting"
           hdngIsReqFormLbl={false}
+          editingForm={editingForm}
           headingClasses="card-title"
         />
-        {/* <h2 className="card-title">Meal Macro Weighting</h2> */}
       </div>
       <div className="card-body">
         <div
@@ -401,7 +403,7 @@ const MealWeightingSubForm = (props) => {
                       onChange={(e) => {
                         handleUpdateWeights(e, "breakfast");
                       }}
-                      disabled={!editingForm ? true : false}
+                      disabled={fieldsDisabled}
                     />
                     %
                   </label>
@@ -416,7 +418,7 @@ const MealWeightingSubForm = (props) => {
                     onChange={(e) => {
                       handleUpdateWeights(e, "breakfast");
                     }}
-                    disabled={!editingForm ? true : false}
+                    disabled={fieldsDisabled}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -429,7 +431,7 @@ const MealWeightingSubForm = (props) => {
                       onChange={(e) => {
                         handleUpdateWeights(e, "snack1");
                       }}
-                      disabled={!editingForm ? true : false}
+                      disabled={fieldsDisabled}
                     />
                     %
                   </label>
@@ -444,7 +446,7 @@ const MealWeightingSubForm = (props) => {
                     onChange={(e) => {
                       handleUpdateWeights(e, "snack1");
                     }}
-                    disabled={!editingForm ? true : false}
+                    disabled={fieldsDisabled}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -457,7 +459,7 @@ const MealWeightingSubForm = (props) => {
                       onChange={(e) => {
                         handleUpdateWeights(e, "lunch");
                       }}
-                      disabled={!editingForm ? true : false}
+                      disabled={fieldsDisabled}
                     />
                     %
                   </label>
@@ -472,7 +474,7 @@ const MealWeightingSubForm = (props) => {
                     onChange={(e) => {
                       handleUpdateWeights(e, "lunch");
                     }}
-                    disabled={!editingForm ? true : false}
+                    disabled={fieldsDisabled}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -485,7 +487,7 @@ const MealWeightingSubForm = (props) => {
                       onChange={(e) => {
                         handleUpdateWeights(e, "snack2");
                       }}
-                      disabled={!editingForm ? true : false}
+                      disabled={fieldsDisabled}
                     />
                     %
                   </label>
@@ -500,7 +502,7 @@ const MealWeightingSubForm = (props) => {
                     onChange={(e) => {
                       handleUpdateWeights(e, "snack2");
                     }}
-                    disabled={!editingForm ? true : false}
+                    disabled={fieldsDisabled}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -513,7 +515,7 @@ const MealWeightingSubForm = (props) => {
                       onChange={(e) => {
                         handleUpdateWeights(e, "dinner");
                       }}
-                      disabled={!editingForm ? true : false}
+                      disabled={fieldsDisabled}
                     />
                     %
                   </label>
@@ -528,7 +530,7 @@ const MealWeightingSubForm = (props) => {
                     onChange={(e) => {
                       handleUpdateWeights(e, "dinner");
                     }}
-                    disabled={!editingForm ? true : false}
+                    disabled={fieldsDisabled}
                   />
                 </div>
                 <div className="form-group mealPrcntSldr">
@@ -541,7 +543,7 @@ const MealWeightingSubForm = (props) => {
                       onChange={(e) => {
                         handleUpdateWeights(e, "dessert");
                       }}
-                      disabled={!editingForm ? true : false}
+                      disabled={fieldsDisabled}
                     />
                     %
                   </label>
@@ -556,7 +558,7 @@ const MealWeightingSubForm = (props) => {
                     onChange={(e) => {
                       handleUpdateWeights(e, "dessert");
                     }}
-                    disabled={!editingForm ? true : false}
+                    disabled={fieldsDisabled}
                   />
                 </div>
               </div>

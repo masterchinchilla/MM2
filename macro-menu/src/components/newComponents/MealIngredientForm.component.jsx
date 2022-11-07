@@ -19,11 +19,11 @@ const MealIngredientForm = (props) => {
         thisRecord: {
           _id: null,
           meal: {
-            day: { dayOfWeek: { code: "sunday" } },
-            mealType: { code: "breakfast" },
+            day: { name: "", dayOfWeek: { code: "sunday" } },
+            mealType: { code: "breakfast", name: "" },
           },
           qty: 1,
-          genRecipeIngredient: null,
+          genRecipeIngredient: { ingredient: { name: null } },
         },
         justCreated: { mealIngredient: false },
         arrayIndex: 0,
@@ -52,31 +52,33 @@ const MealIngredientForm = (props) => {
   const saveDisabled =
     (userType.mealIngredient === "author" ||
       userType.mealIngredient === "admin") &&
-    editingForm.meal
+    editingForm.mealIngredient
       ? false
       : true;
   const deleteWarning =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   const fieldsDisabled = !editingForm.genRecipeIngredient ? true : false;
-  const mealIngrdntValErrors = valErrors.mealIngredient;
   return (
     <form className="mlIngrdntFrm">
       <div className="mlIngrdntFrmHdr">
         <CustomHeading
+          key={`customQtyHeadingFor${typeOfRecordToChange}${thisRecordId}`}
           headingLvl={6}
           recordLoaded={recordLoaded}
           headingText="Qty"
           hdngIsReqFormLbl={true}
+          editingForm={editingForm}
           headingClasses="mlIngrdntHdr doubleHeightLabel"
         />
         <FormControl
+          key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
           typeOfRecordToChange={typeOfRecordToChange}
           recordChanged={recordChanged}
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
           arrayIndex={arrayIndex}
           userType={userType}
-          editingForm={editingForm.genRecipeIngredient}
+          editingForm={editingForm.mealIngredient}
           saveDisabled={saveDisabled}
           hasChildren={false}
           saveWarning={null}
@@ -90,11 +92,12 @@ const MealIngredientForm = (props) => {
           onClickCopyFn={() => {}}
         />
         <InputCore
+          key={`inputCoreForQtyFor${typeOfRecordToChange}${thisRecordId}`}
           formGroupClasses=""
           label=""
           propType="float"
           inputTypeForHtml="number"
-          propValue={qty ? qty : 1}
+          propValue={qty}
           onUpdatePropFn={onUpdatePropFn}
           inputOnKeyUpFn={() => {}}
           typeOfRecordToChange="mealIngredient"
@@ -103,8 +106,8 @@ const MealIngredientForm = (props) => {
           propToUpdate={"qty"}
           arrayIndex={arrayIndex}
           selectedFrom={[]}
-          fieldDisabled={!editingForm.genRecipeIngredient ? true : false}
-          valError={mealIngrdntValErrors.qty ? mealIngrdntValErrors.qty : null}
+          fieldDisabled={fieldsDisabled}
+          valError={valErrors.mealIngredient.qty}
           inputClasses="form-control mlIngrdntQty"
           isRequired={true}
           recordLoaded={recordLoaded}
@@ -138,81 +141,71 @@ const MealIngredientForm = (props) => {
         >
           <div className="accordion-body">
             <div className="form-group mealIngrdntInputs">
-              {recordLoaded ? (
-                <h6 className="mealIngrdntHdr">Custom Ingredient</h6>
-              ) : (
-                <h6 className="placeholder-glow w-75 mealIngrdntHdr">
-                  <span className="placeholder w-75"></span>
-                </h6>
-              )}
+              <CustomHeading
+                key={`custonIngrdntHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+                headingLvl={6}
+                recordLoaded={recordLoaded}
+                headingText="Custom Ingredient"
+                hdngIsReqFormLbl={false}
+                editingForm={editingForm}
+                headingClasses="mealIngrdntHdr"
+              />
               <ReadOnlyInputCore
-                key={`readOnlyInputForRecipeIngrdntForMealIngrdnt${thisRecordId}`}
+                key={`readOnlyInputForRecipeIngrdntFor${typeOfRecordToChange}${thisRecordId}`}
                 formGroupClasses={"ingrdntFrmGrpWBttmPddng"}
                 label="Recipe Ingredient "
                 inputClasses="form-control"
                 propType="text"
-                propValue={
-                  genRecipeIngredient
-                    ? genRecipeIngredient.ingredient.name
-                    : null
-                }
+                propValue={genRecipeIngredient.ingredient.name}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
             </div>
             <ReadOnlyInputCore
-              key={`readOnlyInputForMealForMealIngrdnt${thisRecordId}`}
+              key={`readOnlyInputForMealFor${typeOfRecordToChange}${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
               label="Meal "
               inputClasses="form-control"
               propType="text"
-              propValue={meal ? `${meal.day.name} ${meal.mealType.name}` : null}
+              propValue={`${meal.day.name} ${meal.mealType.name}`}
               recordLoaded={recordLoaded}
               excludeLabel={false}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForCreatedDtForMealIngrdnt${thisRecordId}`}
+              key={`readOnlyInputForCreatedDtFor${typeOfRecordToChange}${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
               label="Created "
               inputClasses="form-control"
               propType="text"
-              propValue={
-                createdAt
-                  ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
-                  : null
-              }
+              propValue={createdAt}
               recordLoaded={recordLoaded}
               excludeLabel={false}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForUpdatedDtForMealIngrdnt${thisRecordId}`}
+              key={`readOnlyInputForUpdatedDtFor${typeOfRecordToChange}${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
               label="Last Update "
               inputClasses="form-control"
               propType="text"
-              propValue={
-                updatedAt
-                  ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
-                  : null
-              }
+              propValue={updatedAt}
               recordLoaded={recordLoaded}
               excludeLabel={false}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForIdForMealIngrdnt${thisRecordId}`}
+              key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
               label="Record ID "
               inputClasses="form-control"
               propType="text"
-              propValue={_id ? thisRecordId : null}
+              propValue={_id}
               recordLoaded={recordLoaded}
               excludeLabel={false}
             />

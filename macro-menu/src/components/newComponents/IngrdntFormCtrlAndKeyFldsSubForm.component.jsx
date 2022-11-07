@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SelectSearchListWCreateNew from "./SelectSearchListWCreateNew.component";
 import FormControl from "./FormControl.component";
 import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
+import CustomHeading from "./CustomHeading.component";
 const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const {
     thisRecordId,
@@ -80,7 +81,6 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
       ? false
       : true;
   const fieldsDisabled = !editingForm.ingredient ? true : false;
-  const ingrdntValErrors = valErrors.ingredient;
   const deleteWarning =
     "If you delete this Base Ingredient it will be deleted everywhere, including in other Recipes. Do you want to proceed?";
   const saveWarning =
@@ -126,13 +126,15 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   });
   return (
     <div className="ingrdntFrmHdr">
-      {recordLoaded ? (
-        <h6 className="ingrdntHdr">Base Ingredient</h6>
-      ) : (
-        <h6 className="placeholder-glow w-75 ingrdntHdr">
-          <span className="placeholder w-75"></span>
-        </h6>
-      )}
+      <CustomHeading
+        key={`custonBaseIngrdntHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+        headingLvl={6}
+        recordLoaded={recordLoaded}
+        headingText="Base Ingredient"
+        hdngIsReqFormLbl={false}
+        editingForm={editingForm}
+        headingClasses="ingrdntHdr"
+      />
       <FormControl
         key={`FormCtrlFor${typeOfRecordToChange}${thisRecordId}`}
         typeOfRecordToChange={typeOfRecordToChange}
@@ -168,8 +170,8 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         currentGRFUser={currentGRFUser}
         inputClasses={"recipeSelect"}
         formGroupClasses="form-group mealIngrdntInputs ingrdntUOM"
-        fieldDisabled={!editingForm.ingredient}
-        valErrors={ingrdntValErrors.unitOfMeasure}
+        fieldDisabled={fieldsDisabled}
+        valErrors={valErrors.ingredient.unitOfMeasure}
         validatePropFn={validatePropFn}
         onUpdatePropFn={onUpdatePropFn}
         onCreateNewRecordFn={handleCreateNewUOMWghtTypOrBrndFn}
@@ -193,8 +195,8 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         currentGRFUser={currentGRFUser}
         inputClasses={"recipeSelect"}
         formGroupClasses="form-group mealIngrdntInputs ingrdntWghtType"
-        fieldDisabled={!editingForm.ingredient}
-        valErrors={ingrdntValErrors.weightType}
+        fieldDisabled={fieldsDisabled}
+        valErrors={valErrors.ingredient.weightType}
         validatePropFn={validatePropFn}
         onUpdatePropFn={onUpdatePropFn}
         onCreateNewRecordFn={handleCreateNewUOMWghtTypOrBrndFn}
@@ -230,8 +232,8 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         currentGRFUser={currentGRFUser}
         inputClasses={"recipeSelect"}
         formGroupClasses="form-group mealIngrdntInputs ingrdntBrnd"
-        fieldDisabled={!editingForm.ingredient}
-        valErrors={ingrdntValErrors.brand}
+        fieldDisabled={fieldsDisabled}
+        valErrors={valErrors.ingredient.brand}
         validatePropFn={validatePropFn}
         onUpdatePropFn={onUpdatePropFn}
         onCreateNewRecordFn={handleCreateNewUOMWghtTypOrBrndFn}

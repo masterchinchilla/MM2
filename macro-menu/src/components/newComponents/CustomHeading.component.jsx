@@ -5,6 +5,7 @@ const CustomHeading = (props) => {
     recordLoaded,
     headingText,
     hdngIsReqFormLbl,
+    editingForm,
     headingClasses,
   } = props;
   const CustomHeading = `h${headingLvl}`;
@@ -18,7 +19,7 @@ const CustomHeading = (props) => {
     >
       {!recordLoaded ? (
         <span className="placeholder w-75"></span>
-      ) : hdngIsReqFormLbl ? (
+      ) : hdngIsReqFormLbl && editingForm ? (
         <span>
           <span className="requiredFldLbl">{"* "}</span>
           <span>{headingText}</span>

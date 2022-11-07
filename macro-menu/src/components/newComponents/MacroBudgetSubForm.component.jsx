@@ -15,7 +15,13 @@ const MacroBudgetSubForm = (props) => {
           fatBudget: 0,
           fiberBudget: 0,
         },
-        valErrors: {},
+        valErrors: {
+          calsBudget: [],
+          carbsBudget: [],
+          proteinBudget: [],
+          fatBudget: [],
+          fiberBudget: [],
+        },
         recordLoaded: false,
       };
   const { editingForm, thisRecord, valErrors, recordLoaded } = thisStateObj;
@@ -33,14 +39,17 @@ const MacroBudgetSubForm = (props) => {
   const thisMealTypeCode = "";
   const arrayIndex = 0;
   const wmpMacroFormGrpClasses = "badge bg-primary weekMealPlanMacroBadge";
+  const fieldsDisabled = !editingForm ? true : false;
   return (
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
         <CustomHeading
+          key={`customMacroBdgtHeadingFor${typeOfRecordToChange}${thisRecordId}`}
           headingLvl={2}
           recordLoaded={recordLoaded}
           headingText="Macro Daily Budget"
           hdngIsReqFormLbl={false}
+          editingForm={editingForm}
           headingClasses="card-title"
         />
       </div>
@@ -86,8 +95,8 @@ const MacroBudgetSubForm = (props) => {
                 arrayIndex={arrayIndex}
                 propToUpdate={"calsBudget"}
                 selectedFrom={[]}
-                fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.calsBudget ? valErrors.calsBudget : []}
+                fieldDisabled={fieldsDisabled}
+                valError={valErrors.calsBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
@@ -108,8 +117,8 @@ const MacroBudgetSubForm = (props) => {
                 arrayIndex={arrayIndex}
                 propToUpdate={"carbsBudget"}
                 selectedFrom={[]}
-                fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.carbsBudget ? valErrors.carbsBudget : []}
+                fieldDisabled={fieldsDisabled}
+                valError={valErrors.carbsBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
@@ -130,10 +139,8 @@ const MacroBudgetSubForm = (props) => {
                 arrayIndex={arrayIndex}
                 propToUpdate={"proteinBudget"}
                 selectedFrom={[]}
-                fieldDisabled={!editingForm ? true : false}
-                valError={
-                  valErrors.proteinBudget ? valErrors.proteinBudget : []
-                }
+                fieldDisabled={fieldsDisabled}
+                valError={valErrors.proteinBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
@@ -154,8 +161,8 @@ const MacroBudgetSubForm = (props) => {
                 arrayIndex={arrayIndex}
                 propToUpdate={"fatBudget"}
                 selectedFrom={[]}
-                fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.fatBudget ? valErrors.fatBudget : []}
+                fieldDisabled={fieldsDisabled}
+                valError={valErrors.fatBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
@@ -176,8 +183,8 @@ const MacroBudgetSubForm = (props) => {
                 arrayIndex={arrayIndex}
                 propToUpdate={"fiberBudget"}
                 selectedFrom={[]}
-                fieldDisabled={!editingForm ? true : false}
-                valError={valErrors.fiberBudget ? valErrors.fiberBudget : []}
+                fieldDisabled={fieldsDisabled}
+                valError={valErrors.fiberBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}

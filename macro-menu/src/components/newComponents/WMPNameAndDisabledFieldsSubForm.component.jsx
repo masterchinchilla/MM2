@@ -15,17 +15,18 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
     onClickDeleteFn,
     onClickCopyFn,
     getRndIntegerFn,
+    trimEnteredValueFn,
   } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         editingForm: false,
         thisRecord: {
-          _id: "",
-          GRFUser: {},
-          name: "",
-          createdAt: "",
-          updatedAt: "",
+          _id: null,
+          GRFUser: { handle: "" },
+          name: null,
+          createdAt: null,
+          updatedAt: null,
         },
         recordChanged: false,
         valErrors: {},
@@ -131,6 +132,8 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           valErrorsUpdateStateFn={updateNameValErrorsStateFn}
           getRndIntegerFn={getRndIntegerFn}
           excludeLabel={false}
+          recordLoaded={recordLoaded}
+          trimEnteredValueFn={trimEnteredValueFn}
         />
         <FormControl
           key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
@@ -151,6 +154,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           onClickSaveFn={onClickSaveFn}
           onClickDeleteFn={onClickDeleteFn}
           onClickCopyFn={onClickCopyFn}
+          recordLoaded={recordLoaded}
         />
       </div>
       <div className="card-body wmpCardBody">
@@ -186,7 +190,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 label="Author "
                 inputClasses="form-control"
                 propType="text"
-                propValue={GRFUser ? GRFUser.handle : null}
+                propValue={GRFUser.handle}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
@@ -196,7 +200,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 label="Record Id "
                 inputClasses="form-control"
                 propType="text"
-                propValue={_id ? thisRecordId : null}
+                propValue={_id}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
@@ -206,11 +210,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 label="Created "
                 inputClasses="form-control"
                 propType="text"
-                propValue={
-                  thisRecord.createdAt
-                    ? dayjs(createdAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : null
-                }
+                propValue={createdAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
@@ -220,11 +220,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 label="Last Update "
                 inputClasses="form-control"
                 propType="text"
-                propValue={
-                  thisRecord.updatedAt
-                    ? dayjs(updatedAt).format("dddd, MMMM D, YYYY h:mm A")
-                    : null
-                }
+                propValue={updatedAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
               />
