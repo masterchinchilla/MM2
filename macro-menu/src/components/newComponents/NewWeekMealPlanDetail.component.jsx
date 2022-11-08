@@ -124,7 +124,9 @@ class NewWeekMealPlan extends Component {
     ) {
       recordStateObj.valErrors = thisValErrorObjToUpdate;
     } else {
-      recordStateObj.valErrors = {};
+      recordStateObj.valErrors = recordStateObj.valErrors
+        ? recordStateObj.valErrors
+        : {};
       recordStateObj.valErrors[typeOfRecordToChange] = thisValErrorObjToUpdate;
     }
     return recordStateObj;
@@ -136,7 +138,9 @@ class NewWeekMealPlan extends Component {
     ) {
       recordStateObj.editingForm = false;
     } else {
-      recordStateObj.editingForm = {};
+      recordStateObj.editingForm = recordStateObj.editingForm
+        ? recordStateObj.editingForm
+        : {};
       recordStateObj.editingForm[typeOfRecordToChange] = false;
     }
     return recordStateObj;
@@ -153,7 +157,9 @@ class NewWeekMealPlan extends Component {
       recordStateObj.userType =
         this.determineThisRecordsUserType(recordAuthorId);
     } else {
-      recordStateObj.userType = {};
+      recordStateObj.userType = recordStateObj.userType
+        ? recordStateObj.userType
+        : {};
       recordStateObj.userType[typeOfRecordToChange] =
         this.determineThisRecordsUserType(recordAuthorId);
     }
@@ -166,7 +172,9 @@ class NewWeekMealPlan extends Component {
     ) {
       recordStateObj.recordChanged = false;
     } else {
-      recordStateObj.recordChanged = {};
+      recordStateObj.recordChanged = recordStateObj.recordChanged
+        ? recordStateObj.recordChanged
+        : {};
       recordStateObj.recordChanged[typeOfRecordToChange] = false;
     }
     return recordStateObj;
@@ -178,7 +186,9 @@ class NewWeekMealPlan extends Component {
     ) {
       recordStateObj.justCreated = false;
     } else {
-      recordStateObj.justCreated = {};
+      recordStateObj.justCreated = recordStateObj.justCreated
+        ? recordStateObj.justCreated
+        : {};
       recordStateObj.justCreated[typeOfRecordToChange] = false;
     }
     return recordStateObj;
@@ -198,25 +208,25 @@ class NewWeekMealPlan extends Component {
       case "meal":
         authorId = thisRecord.day.weekMealPlan.GRFUser._id;
 
-        recordStateObj = this.resetRecordValErrors(
-          recordStateObj,
-          thisRecord.genRecipe,
-          "genRecipe"
-        );
+        // recordStateObj = this.resetRecordValErrors(
+        //   recordStateObj,
+        //   thisRecord.genRecipe,
+        //   "genRecipe"
+        // );
 
         break;
       case "mealIngredient":
         authorId = thisRecord.meal.day.weekMealPlan.GRFUser._id;
-        recordStateObj = this.resetRecordValErrors(
-          recordStateObj,
-          thisRecord.genRecipeIngredient,
-          "genRecipeIngredient"
-        );
-        recordStateObj = this.resetRecordValErrors(
-          recordStateObj,
-          thisRecord.genRecipeIngredient.ingredient,
-          "ingredient"
-        );
+        // recordStateObj = this.resetRecordValErrors(
+        //   recordStateObj,
+        //   thisRecord.genRecipeIngredient,
+        //   "genRecipeIngredient"
+        // );
+        // recordStateObj = this.resetRecordValErrors(
+        //   recordStateObj,
+        //   thisRecord.genRecipeIngredient.ingredient,
+        //   "ingredient"
+        // );
         break;
       case "genRecipeIngredient":
         authorId = thisRecord.genRecipe.GRFUser._id;
@@ -264,19 +274,32 @@ class NewWeekMealPlan extends Component {
   getThisMealsIngrdnts = async (thisMealStateObj, backEndHtmlRoot) => {
     const { thisRecord } = thisMealStateObj;
     const { _id } = thisRecord;
-    const backEndReqUrl = `${backEndHtmlRoot}meals/mealsOfThisDay/${_id}`;
+    const backEndReqUrl = `${backEndHtmlRoot}mealIngredients/thisMealsMealIngredients/${_id}`;
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
       const reqResponseRecords = backEndReqResponse.data;
+
       let thisMealsIngrdnts = [];
       for (let i = 0; i < reqResponseRecords.length; i++) {
-        let thisMealIngrdntStateObj;
+        let thisMealIngrdntStateObj = {};
+
         thisMealIngrdntStateObj.thisRecord = reqResponseRecords[i];
         thisMealIngrdntStateObj = this.resetRecordStateObj(
           thisMealIngrdntStateObj,
           thisMealIngrdntStateObj.thisRecord,
           "mealIngredient"
         );
+        thisMealIngrdntStateObj = this.resetRecordStateObj(
+          thisMealIngrdntStateObj,
+          thisMealIngrdntStateObj.thisRecord.genRecipeIngredient,
+          "genRecipeIngredient"
+        );
+        thisMealIngrdntStateObj = this.resetRecordStateObj(
+          thisMealIngrdntStateObj,
+          thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient,
+          "ingredient"
+        );
+        thisMealIngrdntStateObj.recordLoaded = true;
         thisMealsIngrdnts.push(thisMealIngrdntStateObj);
       }
       thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
@@ -288,9 +311,8 @@ class NewWeekMealPlan extends Component {
   };
   getThisDaysMealsFn = async (thisDayStateObj, backEndHtmlRoot) => {
     const thisDayId = thisDayStateObj.thisRecord._id;
-
     const backEndReqUrl = `${backEndHtmlRoot}meals/mealsOfThisDay/${thisDayId}`;
-
+    let thisDaysMealsBackup = {};
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
 
@@ -303,12 +325,14 @@ class NewWeekMealPlan extends Component {
         "dinner",
         "dessert",
       ];
+      thisDayStateObj.thisDaysMeals = {};
       for (let i = 0; i < mealTypes.length; i++) {
+        thisDaysMealsBackup[mealTypes[i]] = {};
         let thisMealStateObj = { valErrors: { meal: {}, genRecipe: {} } };
         const thisMealData = reqResponseRecords.filter(
           (meal) => meal.mealType.code === mealTypes[i]
         )[0];
-        thisDayStateObj.thisDaysMeals = {};
+
         if (thisMealData) {
           thisMealStateObj.thisRecord = thisMealData;
           try {
@@ -320,16 +344,33 @@ class NewWeekMealPlan extends Component {
           } catch (error) {
             console.log(error);
           }
-
-          // thisMealStateObj.thisRecipeIngrdnts =
-          //   await this.getThisGenRecipesGenRecipeIngrdnts(
-          //     thisMealData.genRecipe,
-          //     backEndHtmlRoot
-          //   );
-          // thisMealStateObj = await this.getThisMealsIngrdnts(
-          //   thisMealStateObj,
-          //   backEndHtmlRoot
-          // );
+          try {
+            thisMealStateObj = this.resetRecordStateObj(
+              thisMealStateObj,
+              thisMealData.genRecipe,
+              "genRecipe"
+            );
+          } catch (error) {
+            console.log(error);
+          }
+          try {
+            thisMealStateObj.thisRecipeIngrdnts =
+              await this.getThisGenRecipesGenRecipeIngrdnts(
+                thisMealData.genRecipe,
+                backEndHtmlRoot
+              );
+          } catch (error) {
+            console.log(error);
+          }
+          try {
+            thisMealStateObj = await this.getThisMealsIngrdnts(
+              thisMealStateObj,
+              backEndHtmlRoot
+            );
+          } catch (error) {
+            console.log(error);
+          }
+          thisMealStateObj.recordLoaded = { meal: true, genRecipe: true };
         } else {
           thisMealStateObj.thisRecord = {
             _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
@@ -337,7 +378,7 @@ class NewWeekMealPlan extends Component {
         }
         thisDayStateObj.thisDaysMeals[mealTypes[i]] = thisMealStateObj;
       }
-      return thisDayStateObj;
+      return { thisDayStateObj, thisDaysMealsBackup };
     } catch (error) {
       this.notify(error, "error");
       return;
@@ -345,6 +386,7 @@ class NewWeekMealPlan extends Component {
   };
   getThisWMPsDaysFn = async (wmpId, backEndHtmlRoot) => {
     let thisWeeksDays = {};
+    let thisWeeksDaysBackup = {};
     const backEndReqUrl = `${backEndHtmlRoot}days/daysofthiswmp/${wmpId}`;
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
@@ -373,11 +415,13 @@ class NewWeekMealPlan extends Component {
             thisDayData,
             "day"
           );
-
-          thisDayStateObj = await this.getThisDaysMealsFn(
+          let thisDayStateObjAndBackup = await this.getThisDaysMealsFn(
             thisDayStateObj,
             backEndHtmlRoot
           );
+          thisDayStateObj = thisDayStateObjAndBackup.thisDayStateObj;
+          thisWeeksDaysBackup[daysOfWeek[i]] =
+            thisDayStateObjAndBackup.thisDaysMealsBackup;
         } else {
           thisDayStateObj.thisRecord = {
             _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
@@ -387,7 +431,7 @@ class NewWeekMealPlan extends Component {
         thisWeeksDays[daysOfWeek[i]] = thisDayStateObj;
       }
 
-      return thisWeeksDays;
+      return { thisWeeksDays, thisWeeksDaysBackup };
     } catch (error) {
       this.notify(error, "error");
       return;
@@ -419,14 +463,17 @@ class NewWeekMealPlan extends Component {
       let newState = {};
       thisNewWMPStateObj.justCreated = thisRecordJustCreated;
       newState.thisWMPStateObj = thisNewWMPStateObj;
-      let thisNewWeeksDays = await this.getThisWMPsDaysFn(
+      let thisWeeksDaysAndBackup = await this.getThisWMPsDaysFn(
         thisWMPId,
         backEndHtmlRoot
       );
-      newState.thisWeeksDays = thisNewWeeksDays;
+
+      newState.thisWeeksDays = thisWeeksDaysAndBackup.thisWeeksDays;
+      newState.thisWeeksDaysBackup = thisWeeksDaysAndBackup.thisWeeksDaysBackup;
       this.setState({
-        thisWMPStateObj: thisNewWMPStateObj,
-        thisWeeksDays: thisNewWeeksDays,
+        thisWMPStateObj: newState.thisWMPStateObj,
+        thisWeeksDays: newState.thisWeeksDays,
+        thisWeeksDaysBackup: newState.thisWeeksDaysBackup,
       });
     } catch (error) {
       this.notify(error, "error");

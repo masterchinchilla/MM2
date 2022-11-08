@@ -48,6 +48,7 @@ const MealParentCard = (props) => {
   const { weekMealPlan, dayOfWeek } = day;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "meal";
+  thisStateObj.recordLoaded = false;
   return (
     <div
       className="accordion accordionNotFlush mealDetailTopAccrdn"

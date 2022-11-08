@@ -46,7 +46,7 @@ const RecipeCard = (props) => {
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
         valErrors: { genRecipe: { name: null, photoURL: null } },
-        recordLoaded: false,
+        recordLoaded: { genRecipe: false },
       };
   const {
     recordChanged,
@@ -86,11 +86,11 @@ const RecipeCard = (props) => {
       ? false
       : true;
   const fieldsDisabled = !editingForm.genRecipe ? true : false;
-  const hasChildren =
-    thisRecipesIngrdnts.length > 0 && recipeHasConnectedMeals ? true : false;
 
   const [recipeHasConnectedMeals, updateRecipeHasConnectedMeals] =
     useState(true);
+  const hasChildren =
+    thisRecipesIngrdnts.length > 0 && recipeHasConnectedMeals ? true : false;
   const [localRecordChanged, updateLocalRecordChangedStateFn] =
     useState(thisRecordChanged);
   const [localName, updateNameStateFn] = useState(name);

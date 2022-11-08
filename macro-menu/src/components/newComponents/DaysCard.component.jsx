@@ -18,6 +18,7 @@ const DaysCard = (props) => {
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
+    backEndHtmlRoot,
   } = props;
   const thisWeeksDays = props.thisStateObj ? props.thisStateObj : {};
   const thisWeeksDaysBackup = props.thisStateObjBackup
@@ -87,6 +88,7 @@ const DaysCard = (props) => {
           allUnitOfMeasures={allUnitOfMeasures}
           allWeightTypes={allWeightTypes}
           allBrands={allBrands}
+          backEndHtmlRoot={backEndHtmlRoot}
         />
       );
     }

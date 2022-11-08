@@ -18,6 +18,7 @@ const DayMealsAndMacros = (props) => {
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
+    backEndHtmlRoot,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -96,6 +97,7 @@ const DayMealsAndMacros = (props) => {
                 allUnitOfMeasures={allUnitOfMeasures}
                 allWeightTypes={allWeightTypes}
                 allBrands={allBrands}
+                backEndHtmlRoot={backEndHtmlRoot}
               />
             </div>
           </div>

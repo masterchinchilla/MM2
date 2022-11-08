@@ -19,6 +19,7 @@ const DayCard = (props) => {
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
+    backEndHtmlRoot,
   } = props;
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
@@ -57,6 +58,7 @@ const DayCard = (props) => {
         allUnitOfMeasures={allUnitOfMeasures}
         allWeightTypes={allWeightTypes}
         allBrands={allBrands}
+        backEndHtmlRoot={backEndHtmlRoot}
       />
     </div>
   );
