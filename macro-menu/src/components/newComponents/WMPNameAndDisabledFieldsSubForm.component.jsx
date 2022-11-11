@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
 import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 import FormControl from "./FormControl.component";
@@ -29,7 +28,24 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           updatedAt: null,
         },
         recordChanged: false,
-        valErrors: {},
+        valErrors: {
+          _id: [],
+          GRFUser: [],
+          name: [],
+          createdAt: [],
+          updatedAt: [],
+          breakfastWeight: [],
+          snack1Weight: [],
+          lunchWeight: [],
+          snack2Weight: [],
+          dinnerWeight: [],
+          dessertWeight: [],
+          calsBudget: [],
+          carbsBudget: [],
+          proteinBudget: [],
+          fatBudget: [],
+          fiberBudget: [],
+        },
         justCreated: false,
         userType: "",
         hasChildren: true,

@@ -8,7 +8,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
     thisDayOfWeekCode,
     thisMealTypeCode,
     arrayIndex,
-    recordToSelect,
+    // recordToSelect,
     propType,
     propToUpdateSentenceCase,
     propToUpdate,
@@ -26,6 +26,9 @@ const AsyncSearchSelectWCreateNew = (props) => {
     excludeLabel,
     isRequired,
   } = props;
+  const recordToSelect = props.recordToSelect
+    ? props.recordToSelect
+    : { name: "", _id: "" };
   const selectedFrom = [];
   const [matchesExist, updateMatchesExist] = useState(false);
   const [newOptionValErrors, updateNewOptionValErrorsStateFn] =
@@ -159,18 +162,16 @@ const AsyncSearchSelectWCreateNew = (props) => {
           }}
           loadOptions={fetchData}
           placeholder={propToUpdateSentenceCase}
-          onChange={(e) => {
-            onSearchChange(e);
-          }}
+          onChange={onSearchChange}
           defaultOptions={true}
           isDisabled={fieldDisabled}
           className={inputClasses}
-          onCreateOption={(e) => onCreateNewRecordFn(e)}
+          onCreateOption={onCreateNewRecordFn}
           allowCreateWhileLoading={false}
-          isValidNewOption={(e) => {
-            handleTrimAndValEnteredText(e);
-          }}
-          onBlur={resetLocalState()}
+          // isValidNewOption={(e) => {
+          //   handleTrimAndValEnteredText(e);
+          // }}
+          onBlur={resetLocalState}
         />
       </div>
     );

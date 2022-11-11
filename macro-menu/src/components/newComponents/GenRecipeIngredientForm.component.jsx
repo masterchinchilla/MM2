@@ -41,7 +41,7 @@ const GenRecipeIngredientForm = (props) => {
         userType: { genRecipeIngredient: null },
         editingForm: { genRecipeIngredient: false },
         valErrors: {
-          genRecipeIngredient: { defaultQty: null, ingredient: null },
+          genRecipeIngredient: { defaultQty: [], ingredient: [] },
         },
       };
   const {
@@ -133,7 +133,7 @@ const GenRecipeIngredientForm = (props) => {
           recordLoaded={recordLoaded}
           headingText="Default Qty"
           hdngIsReqFormLbl={true}
-          editingForm={editingForm}
+          editingForm={editingForm.genRecipeIngredient}
           headingClasses="gnRcpIngrdntHdr doubleHeightLabel"
         />
         <FormControl
@@ -166,18 +166,19 @@ const GenRecipeIngredientForm = (props) => {
           propValue={defaultQty}
           onUpdatePropFn={onUpdatePropFn}
           inputOnKeyUpFn={() => {}}
-          typeOfRecordToChange="mealIngredient"
+          typeOfRecordToChange="genRecipeIngredient"
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
           propToUpdate={"qty"}
           arrayIndex={arrayIndex}
           selectedFrom={[]}
           fieldDisabled={fieldsDisabled}
-          valError={valErrors.genRecipeIngredient.defaultQty}
+          valErrors={valErrors.genRecipeIngredient.defaultQty}
           inputClasses="form-control mlIngrdntQty"
           isRequired={true}
           recordLoaded={recordLoaded}
           excludeLabel={true}
+          getRndIntegerFn={getRndIntegerFn}
         />
       </div>
       <div
@@ -223,7 +224,7 @@ const GenRecipeIngredientForm = (props) => {
                 recordLoaded={recordLoaded}
                 headingText="Recipe Ingredient"
                 hdngIsReqFormLbl={true}
-                editingForm={editingForm}
+                editingForm={editingForm.genRecipeIngredient}
                 headingClasses="genRecipeIngrdntHdr"
               />
               <AsyncSearchSelectWCreateNew
@@ -249,6 +250,7 @@ const GenRecipeIngredientForm = (props) => {
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
                 isRequired={true}
+                getRndIntegerFn={getRndIntegerFn}
               />
             </div>
             <ReadOnlyInputCore

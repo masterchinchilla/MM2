@@ -16,14 +16,14 @@ const InputWSearchUniqueNew = (props) => {
     arrayIndex,
     selectedFrom,
     fieldDisabled,
-    valError,
+    valErrors,
     inputClasses,
     isRequired,
     backEndHtmlRoot,
     propNameSentenceCase,
     togglePropValueHasDupStateFn,
     changeParentPropFn,
-    valErrorUpdateStateFn,
+    valErrorsUpdateStateFn,
     getRndIntegerFn,
     recordLoaded,
     thisRecordId,
@@ -42,9 +42,9 @@ const InputWSearchUniqueNew = (props) => {
           httpService.get(fetchBaseURL + trimmedWNoDblSpcs).then((response) => {
             if (response.data === "exists") {
               togglePropValueHasDupStateFn(true);
-              valErrorUpdateStateFn(
-                `that ${propNameSentenceCase} is already taken`
-              );
+              valErrorsUpdateStateFn([
+                `that ${propNameSentenceCase} is already taken`,
+              ]);
             } else {
               changeParentPropFn(trimmedWNoDblSpcs, propToUpdate);
             }
@@ -73,7 +73,7 @@ const InputWSearchUniqueNew = (props) => {
       arrayIndex={arrayIndex}
       selectedFrom={selectedFrom}
       fieldDisabled={fieldDisabled}
-      valError={valError}
+      valErrors={valErrors}
       inputClasses={inputClasses}
       isRequired={isRequired}
       getRndIntegerFn={getRndIntegerFn}

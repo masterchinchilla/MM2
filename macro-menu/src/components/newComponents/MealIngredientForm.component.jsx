@@ -31,7 +31,7 @@ const MealIngredientForm = (props) => {
         recordChanged: false,
         userType: { mealIngredient: null },
         editingForm: { mealIngredient: false },
-        valErrors: { mealIngredient: { qty: null } },
+        valErrors: { mealIngredient: { qty: [] } },
       };
   const {
     thisRecord,
@@ -67,7 +67,7 @@ const MealIngredientForm = (props) => {
           recordLoaded={recordLoaded}
           headingText="Qty"
           hdngIsReqFormLbl={true}
-          editingForm={editingForm}
+          editingForm={editingForm.mealIngredient}
           headingClasses="mlIngrdntHdr doubleHeightLabel"
         />
         <FormControl
@@ -107,11 +107,12 @@ const MealIngredientForm = (props) => {
           arrayIndex={arrayIndex}
           selectedFrom={[]}
           fieldDisabled={fieldsDisabled}
-          valError={valErrors.mealIngredient.qty}
+          valErrors={valErrors.mealIngredient.qty}
           inputClasses="form-control mlIngrdntQty"
           isRequired={true}
           recordLoaded={recordLoaded}
           excludeLabel={true}
+          getRndIntegerFn={getRndIntegerFn}
         />
       </div>
       <div
@@ -147,7 +148,7 @@ const MealIngredientForm = (props) => {
                 recordLoaded={recordLoaded}
                 headingText="Custom Ingredient"
                 hdngIsReqFormLbl={false}
-                editingForm={editingForm}
+                editingForm={editingForm.mealIngredient}
                 headingClasses="mealIngrdntHdr"
               />
               <ReadOnlyInputCore

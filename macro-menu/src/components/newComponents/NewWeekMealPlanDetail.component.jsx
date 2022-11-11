@@ -22,7 +22,24 @@ class NewWeekMealPlan extends Component {
       thisWMPStateObj: {
         thisRecord: { _id: pgReqParams.id },
         recordLoaded: false,
-        valErrors: {},
+        valErrors: {
+          _id: [],
+          GRFUser: [],
+          name: [],
+          createdAt: [],
+          updatedAt: [],
+          breakfastWeight: [],
+          snack1Weight: [],
+          lunchWeight: [],
+          snack2Weight: [],
+          dinnerWeight: [],
+          dessertWeight: [],
+          calsBudget: [],
+          carbsBudget: [],
+          proteinBudget: [],
+          fatBudget: [],
+          fiberBudget: [],
+        },
       },
       thisWMPStateBackup: {},
       thisWeeksDays: {},
@@ -100,7 +117,7 @@ class NewWeekMealPlan extends Component {
         toast.error(notice);
     }
   };
-  determineThisRecordsUserType = (recordAuthorId) => {
+  determineThisRecordsUserTypeFn = (recordAuthorId) => {
     const thisUser = this.state.currentGRFUser;
     if (thisUser.isAdmin) {
       return "admin";
@@ -112,7 +129,11 @@ class NewWeekMealPlan extends Component {
       }
     }
   };
-  resetRecordValErrors = (recordStateObj, thisRecord, typeOfRecordToChange) => {
+  resetRecordValErrorsFn = (
+    recordStateObj,
+    thisRecord,
+    typeOfRecordToChange
+  ) => {
     let thisValErrorObjToUpdate = {};
     const valErrorPropNames = Object.keys(thisRecord);
     valErrorPropNames.map((propName) => {
@@ -131,7 +152,7 @@ class NewWeekMealPlan extends Component {
     }
     return recordStateObj;
   };
-  resetRecordEditingForm = (recordStateObj, typeOfRecordToChange) => {
+  resetRecordEditingFormFn = (recordStateObj, typeOfRecordToChange) => {
     if (
       typeOfRecordToChange === "weekMealPlan" ||
       typeOfRecordToChange === "day"
@@ -145,7 +166,7 @@ class NewWeekMealPlan extends Component {
     }
     return recordStateObj;
   };
-  resetRecordUserType = (
+  resetRecordUserTypeFn = (
     recordStateObj,
     typeOfRecordToChange,
     recordAuthorId
@@ -155,17 +176,17 @@ class NewWeekMealPlan extends Component {
       typeOfRecordToChange === "day"
     ) {
       recordStateObj.userType =
-        this.determineThisRecordsUserType(recordAuthorId);
+        this.determineThisRecordsUserTypeFn(recordAuthorId);
     } else {
       recordStateObj.userType = recordStateObj.userType
         ? recordStateObj.userType
         : {};
       recordStateObj.userType[typeOfRecordToChange] =
-        this.determineThisRecordsUserType(recordAuthorId);
+        this.determineThisRecordsUserTypeFn(recordAuthorId);
     }
     return recordStateObj;
   };
-  resetRecordChanged = (recordStateObj, typeOfRecordToChange) => {
+  resetRecordChangedFn = (recordStateObj, typeOfRecordToChange) => {
     if (
       typeOfRecordToChange === "weekMealPlan" ||
       typeOfRecordToChange === "day"
@@ -179,7 +200,7 @@ class NewWeekMealPlan extends Component {
     }
     return recordStateObj;
   };
-  resetRecordJustCreated = (recordStateObj, typeOfRecordToChange) => {
+  resetRecordJustCreatedFn = (recordStateObj, typeOfRecordToChange) => {
     if (
       typeOfRecordToChange === "weekMealPlan" ||
       typeOfRecordToChange === "day"
@@ -193,9 +214,13 @@ class NewWeekMealPlan extends Component {
     }
     return recordStateObj;
   };
-  resetRecordStateObj = (recordStateObj, thisRecord, typeOfRecordToChange) => {
+  resetRecordStateObjFn = (
+    recordStateObj,
+    thisRecord,
+    typeOfRecordToChange
+  ) => {
     let authorId;
-    recordStateObj = this.resetRecordValErrors(
+    recordStateObj = this.resetRecordValErrorsFn(
       recordStateObj,
       thisRecord,
       typeOfRecordToChange
@@ -235,29 +260,29 @@ class NewWeekMealPlan extends Component {
         authorId = thisRecord.GRFUser._id;
     }
 
-    recordStateObj = this.resetRecordEditingForm(
+    recordStateObj = this.resetRecordEditingFormFn(
       recordStateObj,
       typeOfRecordToChange
     );
 
-    recordStateObj = this.resetRecordUserType(
+    recordStateObj = this.resetRecordUserTypeFn(
       recordStateObj,
       typeOfRecordToChange,
       authorId
     );
 
-    recordStateObj = this.resetRecordChanged(
+    recordStateObj = this.resetRecordChangedFn(
       recordStateObj,
       typeOfRecordToChange
     );
-    recordStateObj = this.resetRecordJustCreated(
+    recordStateObj = this.resetRecordJustCreatedFn(
       recordStateObj,
       typeOfRecordToChange
     );
 
     return recordStateObj;
   };
-  getThisGenRecipesGenRecipeIngrdnts = async (
+  getThisGenRecipesGenRecipeIngrdntsFn = async (
     thisGenRecipe,
     backEndHtmlRoot
   ) => {
@@ -271,7 +296,7 @@ class NewWeekMealPlan extends Component {
       return;
     }
   };
-  getThisMealsIngrdnts = async (thisMealStateObj, backEndHtmlRoot) => {
+  getThisMealsIngrdntsFn = async (thisMealStateObj, backEndHtmlRoot) => {
     const { thisRecord } = thisMealStateObj;
     const { _id } = thisRecord;
     const backEndReqUrl = `${backEndHtmlRoot}mealIngredients/thisMealsMealIngredients/${_id}`;
@@ -284,17 +309,17 @@ class NewWeekMealPlan extends Component {
         let thisMealIngrdntStateObj = {};
 
         thisMealIngrdntStateObj.thisRecord = reqResponseRecords[i];
-        thisMealIngrdntStateObj = this.resetRecordStateObj(
+        thisMealIngrdntStateObj = this.resetRecordStateObjFn(
           thisMealIngrdntStateObj,
           thisMealIngrdntStateObj.thisRecord,
           "mealIngredient"
         );
-        thisMealIngrdntStateObj = this.resetRecordStateObj(
+        thisMealIngrdntStateObj = this.resetRecordStateObjFn(
           thisMealIngrdntStateObj,
           thisMealIngrdntStateObj.thisRecord.genRecipeIngredient,
           "genRecipeIngredient"
         );
-        thisMealIngrdntStateObj = this.resetRecordStateObj(
+        thisMealIngrdntStateObj = this.resetRecordStateObjFn(
           thisMealIngrdntStateObj,
           thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient,
           "ingredient"
@@ -328,55 +353,45 @@ class NewWeekMealPlan extends Component {
       thisDayStateObj.thisDaysMeals = {};
       for (let i = 0; i < mealTypes.length; i++) {
         thisDaysMealsBackup[mealTypes[i]] = {};
+
         let thisMealStateObj = { valErrors: { meal: {}, genRecipe: {} } };
+        let thisNewMealStateObj;
         const thisMealData = reqResponseRecords.filter(
           (meal) => meal.mealType.code === mealTypes[i]
         )[0];
 
         if (thisMealData) {
           thisMealStateObj.thisRecord = thisMealData;
-          try {
-            thisMealStateObj = this.resetRecordStateObj(
-              thisMealStateObj,
-              thisMealData,
-              "meal"
-            );
-          } catch (error) {
-            console.log(error);
-          }
-          try {
-            thisMealStateObj = this.resetRecordStateObj(
-              thisMealStateObj,
+          thisMealStateObj = this.resetRecordStateObjFn(
+            thisMealStateObj,
+            thisMealData,
+            "meal"
+          );
+          thisMealStateObj = this.resetRecordStateObjFn(
+            thisMealStateObj,
+            thisMealData.genRecipe,
+            "genRecipe"
+          );
+          thisMealStateObj.thisRecipesIngrdnts =
+            await this.getThisGenRecipesGenRecipeIngrdntsFn(
               thisMealData.genRecipe,
-              "genRecipe"
-            );
-          } catch (error) {
-            console.log(error);
-          }
-          try {
-            thisMealStateObj.thisRecipeIngrdnts =
-              await this.getThisGenRecipesGenRecipeIngrdnts(
-                thisMealData.genRecipe,
-                backEndHtmlRoot
-              );
-          } catch (error) {
-            console.log(error);
-          }
-          try {
-            thisMealStateObj = await this.getThisMealsIngrdnts(
-              thisMealStateObj,
               backEndHtmlRoot
             );
-          } catch (error) {
-            console.log(error);
-          }
-          thisMealStateObj.recordLoaded = { meal: true, genRecipe: true };
+          thisNewMealStateObj = await this.getThisMealsIngrdntsFn(
+            thisMealStateObj,
+            backEndHtmlRoot
+          );
+          thisNewMealStateObj.recordLoaded = true;
+          // thisMealStateObj.recordLoaded = true;
+          // thisMealStateObj.thisRecipeIngrdnts
+          //   ? true
+          //   : false;
         } else {
           thisMealStateObj.thisRecord = {
             _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
           };
         }
-        thisDayStateObj.thisDaysMeals[mealTypes[i]] = thisMealStateObj;
+        thisDayStateObj.thisDaysMeals[mealTypes[i]] = thisNewMealStateObj;
       }
       return { thisDayStateObj, thisDaysMealsBackup };
     } catch (error) {
@@ -410,7 +425,7 @@ class NewWeekMealPlan extends Component {
         if (thisDayData) {
           thisDayStateObj.thisRecord = thisDayData;
 
-          thisDayStateObj = this.resetRecordStateObj(
+          thisDayStateObj = this.resetRecordStateObjFn(
             thisDayStateObj,
             thisDayData,
             "day"
@@ -455,7 +470,7 @@ class NewWeekMealPlan extends Component {
       thisWMPStateObj.recordLoaded = true;
       let thisNewWMPStateObj;
 
-      thisNewWMPStateObj = this.resetRecordStateObj(
+      thisNewWMPStateObj = this.resetRecordStateObjFn(
         thisWMPStateObj,
         reqResponseRecord,
         "weekMealPlan"

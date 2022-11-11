@@ -1,7 +1,7 @@
 import React from "react";
 import InputCore from "./InputCore.component";
 const IngrdntMacrosSubForm = (props) => {
-  const { thisRecordId, onUpdatePropFn } = props;
+  const { thisRecordId, onUpdatePropFn, getRndIntegerFn } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
@@ -22,7 +22,16 @@ const IngrdntMacrosSubForm = (props) => {
           },
         },
         editingForm: { ingredient: false },
-        valErrors: { ingredient: { calories: null } },
+        valErrors: {
+          ingredient: {
+            calories: [],
+            carbs: [],
+            protein: [],
+            fat: [],
+            fiber: [],
+            photoURL: [],
+          },
+        },
         recordLoaded: false,
       };
   const { arrayIndex, editingForm, valErrors, recordLoaded } = thisStateObj;
@@ -44,18 +53,19 @@ const IngrdntMacrosSubForm = (props) => {
         propValue={calories}
         onUpdatePropFn={onUpdatePropFn}
         inputOnKeyUpFn={() => {}}
-        recordToChange="ingredient"
+        typeOfRecordToChange={typeOfRecordToChange}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
         propToUpdate={"calories"}
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={valErrors.ingredient.calories}
+        valErrors={valErrors.ingredient.calories}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
         excludeLabel={false}
+        getRndIntegerFn={getRndIntegerFn}
       />
       <InputCore
         key={`inputForCarbsFor${typeOfRecordToChange}${thisRecordId}`}
@@ -66,18 +76,19 @@ const IngrdntMacrosSubForm = (props) => {
         propValue={carbs}
         onUpdatePropFn={onUpdatePropFn}
         inputOnKeyUpFn={() => {}}
-        recordToChange="ingredient"
+        typeOfRecordToChange={typeOfRecordToChange}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
         propToUpdate={"carbs"}
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={valErrors.ingredient.carbs}
+        valErrors={valErrors.ingredient.carbs}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
         excludeLabel={false}
+        getRndIntegerFn={getRndIntegerFn}
       />
       <InputCore
         key={`inputForProteinFor${typeOfRecordToChange}${thisRecordId}`}
@@ -88,18 +99,19 @@ const IngrdntMacrosSubForm = (props) => {
         propValue={protein}
         onUpdatePropFn={onUpdatePropFn}
         inputOnKeyUpFn={() => {}}
-        recordToChange="ingredient"
+        typeOfRecordToChange={typeOfRecordToChange}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
         propToUpdate={"protein"}
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={valErrors.ingredient.protein}
+        valErrors={valErrors.ingredient.protein}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
         excludeLabel={false}
+        getRndIntegerFn={getRndIntegerFn}
       />
       <InputCore
         key={`inputForFatFor${typeOfRecordToChange}${thisRecordId}`}
@@ -110,18 +122,19 @@ const IngrdntMacrosSubForm = (props) => {
         propValue={fat}
         onUpdatePropFn={onUpdatePropFn}
         inputOnKeyUpFn={() => {}}
-        recordToChange="ingredient"
+        typeOfRecordToChange={typeOfRecordToChange}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
         propToUpdate={"fat"}
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={valErrors.ingredient.fat}
+        valErrors={valErrors.ingredient.fat}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
         excludeLabel={false}
+        getRndIntegerFn={getRndIntegerFn}
       />
       <InputCore
         key={`inputForFiberFor${typeOfRecordToChange}${thisRecordId}`}
@@ -132,18 +145,19 @@ const IngrdntMacrosSubForm = (props) => {
         propValue={fiber}
         onUpdatePropFn={onUpdatePropFn}
         inputOnKeyUpFn={() => {}}
-        recordToChange="ingredient"
+        typeOfRecordToChange={typeOfRecordToChange}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
         propToUpdate={"fiber"}
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={valErrors.ingredient.fiber}
+        valErrors={valErrors.ingredient.fiber}
         inputClasses="form-control"
         isRequired={true}
         recordLoaded={recordLoaded}
         excludeLabel={false}
+        getRndIntegerFn={getRndIntegerFn}
       />
       <InputCore
         key={`inputForPhotoURLFor${typeOfRecordToChange}${thisRecordId}`}
@@ -154,18 +168,19 @@ const IngrdntMacrosSubForm = (props) => {
         propValue={photoURL}
         onUpdatePropFn={onUpdatePropFn}
         inputOnKeyUpFn={() => {}}
-        recordToChange="ingredient"
+        typeOfRecordToChange={typeOfRecordToChange}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
         propToUpdate={"photoURL"}
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={valErrors.ingredient.photoURL}
+        valErrors={valErrors.ingredient.photoURL}
         inputClasses="form-control"
         isRequired={false}
         recordLoaded={recordLoaded}
         excludeLabel={false}
+        getRndIntegerFn={getRndIntegerFn}
       />
     </div>
   );

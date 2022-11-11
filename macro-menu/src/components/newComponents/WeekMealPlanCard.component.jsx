@@ -39,7 +39,7 @@ const WeekMealPlanCard = (props) => {
           recordLoaded={recordLoaded}
           headingText="Week Meal Plan Detail"
           hdngIsReqFormLbl={false}
-          editingForm={false}
+          editingForm={null}
           headingClasses="card-title"
         />
       </div>

@@ -14,7 +14,7 @@ const InputWLocalStateAndVal = (props) => {
     arrayIndex,
     selectedFrom,
     fieldDisabled,
-    valError,
+    valErrors,
     inputClasses,
     isRequired,
     backEndHtmlRoot,
@@ -23,7 +23,7 @@ const InputWLocalStateAndVal = (props) => {
     changeLocalPropStateFn,
     togglePropValueHasDupStateFn,
     onUpdatePropFn,
-    valErrorUpdateStateFn,
+    valErrorsUpdateStateFn,
     getRndIntegerFn,
     recordLoaded,
     trimEnteredValueFn,
@@ -36,14 +36,14 @@ const InputWLocalStateAndVal = (props) => {
     ? backupOfRecordToChange._id
     : getRndIntegerFn(10000000, 99999999);
   function handleUpdateLocalProp(newPropValue) {
-    const thisValError = validatePropFn(propType, propToUpdate, newPropValue);
-    if (thisValError) {
+    const localValErrors = validatePropFn(propType, propToUpdate, newPropValue);
+    if (localValErrors) {
       togglePropValueHasDupStateFn(true);
     } else {
       togglePropValueHasDupStateFn(false);
     }
     changeLocalPropStateFn(newPropValue);
-    valErrorUpdateStateFn(thisValError);
+    valErrorsUpdateStateFn(localValErrors);
   }
   function handleUpdateParentProp(newPropValue) {
     let e = {
@@ -79,14 +79,14 @@ const InputWLocalStateAndVal = (props) => {
       arrayIndex={arrayIndex}
       selectedFrom={selectedFrom}
       fieldDisabled={fieldDisabled}
-      valError={valError}
+      valErrors={valErrors}
       inputClasses={inputClasses}
       isRequired={isRequired}
       backEndHtmlRoot={backEndHtmlRoot}
       propNameSentenceCase={propNameSentenceCase}
       togglePropValueHasDupStateFn={togglePropValueHasDupStateFn}
       changeParentPropFn={handleUpdateParentProp}
-      valErrorUpdateStateFn={valErrorUpdateStateFn}
+      valErrorsUpdateStateFn={valErrorsUpdateStateFn}
       getRndIntegerFn={getRndIntegerFn}
       recordLoaded={recordLoaded}
       thisRecordId={thisRecordId}

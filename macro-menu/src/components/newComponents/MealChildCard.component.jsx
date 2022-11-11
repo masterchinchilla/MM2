@@ -37,7 +37,7 @@ const MealChildCard = (props) => {
         thisMealsIngrdnts: [],
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
-        valErrors: { genRecipe: { name: null } },
+        valErrors: { meal: { genRecipe: [] }, genRecipe: { name: [] } },
         recordLoaded: false,
       };
   const {
@@ -52,7 +52,6 @@ const MealChildCard = (props) => {
     recordLoaded,
   } = thisStateObj;
   const editingForm = thisStateObj.editingForm.meal;
-  const genRecipeValErrors = valErrors.genRecipe;
   const { _id, day, mealType, genRecipe, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "meal";
@@ -107,7 +106,7 @@ const MealChildCard = (props) => {
             recordLoaded={recordLoaded}
             headingText={"Meal"}
             hdngIsReqFormLbl={false}
-            editingForm={editingForm}
+            editingForm={editingForm.meal}
             headingClasses="formSctnTitle"
           />
           <FormControl
@@ -145,7 +144,7 @@ const MealChildCard = (props) => {
             recordLoaded={recordLoaded}
             headingText={"Recipe:"}
             hdngIsReqFormLbl={true}
-            editingForm={editingForm}
+            editingForm={editingForm.meal}
             headingClasses="recipeSelectHeader"
           />
           <AsyncSearchSelectWCreateNew
@@ -162,7 +161,7 @@ const MealChildCard = (props) => {
             trimEnteredValueFn={trimEnteredValueFn}
             fetchDataUrl={`${backEndHtmlRoot}genRecipes/findbyname/`}
             validatePropFn={validatePropFn}
-            valErrors={genRecipeValErrors}
+            valErrors={valErrors.meal.genRecipe}
             notifyFn={notifyFn}
             onUpdatePropFn={onUpdatePropFn}
             onCreateNewRecordFn={handleCreateNewRecipeFn}

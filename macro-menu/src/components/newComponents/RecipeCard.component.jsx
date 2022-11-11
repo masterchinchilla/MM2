@@ -45,8 +45,8 @@ const RecipeCard = (props) => {
         justCreated: { meal: false },
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
-        valErrors: { genRecipe: { name: null, photoURL: null } },
-        recordLoaded: { genRecipe: false },
+        valErrors: { genRecipe: { name: [], photoURL: [] } },
+        recordLoaded: false,
       };
   const {
     recordChanged,
@@ -95,8 +95,8 @@ const RecipeCard = (props) => {
     useState(thisRecordChanged);
   const [localName, updateNameStateFn] = useState(name);
   const [prepInstr, updatePrepInstrStateFn] = useState(defaultPrepInstructions);
-  const [nameValError, updateNameValErrorStateFn] = useState(
-    valErrors ? valErrors.genRecipe.name : null
+  const [nameValErrors, updateNameValErrorsStateFn] = useState(
+    valErrors ? valErrors.genRecipe.name : []
   );
   const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
   const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(saveDisabled);
@@ -130,7 +130,7 @@ const RecipeCard = (props) => {
   function handleClickCancelFn() {
     updateNameStateFn(backupOfRecordToChange.name);
     updatePrepInstrStateFn(backupOfRecordToChange.defaultPrepInstructions);
-    updateNameValErrorStateFn(null);
+    updateNameValErrorsStateFn([]);
     toggleNameHasDupStateFn(false);
     onClickCancelFn(
       typeOfRecordToChange,
@@ -150,7 +150,7 @@ const RecipeCard = (props) => {
               recordLoaded={recordLoaded}
               headingText="Recipe Details"
               hdngIsReqFormLbl={false}
-              editingForm={editingForm}
+              editingForm={editingForm.genRecipe}
               headingClasses="formSctnTitle"
             />
             <FormControl
@@ -161,7 +161,7 @@ const RecipeCard = (props) => {
               thisMealTypeCode={thisMealTypeCode}
               arrayIndex={arrayIndex}
               userType={userType.genRecipe}
-              editingForm={editingForm}
+              editingForm={editingForm.genRecipe}
               saveDisabled={localSaveDisabled}
               hasChildren={hasChildren}
               saveWarning={saveWarning}
@@ -196,7 +196,7 @@ const RecipeCard = (props) => {
               recordLoaded={recordLoaded}
               headingText="Prep Instructions:"
               hdngIsReqFormLbl={false}
-              editingForm={editingForm}
+              editingForm={editingForm.genRecipe}
               headingClasses="mealPrepInst"
             />
             <textarea
@@ -247,7 +247,7 @@ const RecipeCard = (props) => {
                     arrayIndex={arrayIndex}
                     selectedFrom={[]}
                     fieldDisabled={fieldsDisabled}
-                    valError={nameValError}
+                    valErrors={nameValErrors}
                     inputClasses={"form-control"}
                     isRequired={true}
                     backEndHtmlRoot={backEndHtmlRoot}
@@ -256,7 +256,7 @@ const RecipeCard = (props) => {
                     changeLocalPropStateFn={updateNameStateFn}
                     togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
                     onUpdatePropFn={onUpdatePropFn}
-                    valErrorUpdateStateFn={updateNameValErrorStateFn}
+                    valErrorsUpdateStateFn={updateNameValErrorsStateFn}
                     getRndIntegerFn={getRndIntegerFn}
                     recordLoaded={recordLoaded}
                     excludeLabel={false}
@@ -270,18 +270,19 @@ const RecipeCard = (props) => {
                   propValue={photoURL}
                   onUpdatePropFn={onUpdatePropFn}
                   inputOnKeyUpFn={() => {}}
-                  recordToChange="genRecipe"
+                  typeOfRecordToChange="genRecipe"
                   thisDayOfWeekCode={thisDayOfWeekCode}
                   thisMealTypeCode={thisMealTypeCode}
                   propToUpdate={"photoURL"}
                   arrayIndex={arrayIndex}
                   selectedFrom={[]}
                   fieldDisabled={fieldsDisabled}
-                  valError={valErrors.genRecipe.photoURL}
+                  valErrors={valErrors.genRecipe.photoURL}
                   inputClasses="form-control"
                   isRequired={false}
                   recordLoaded={recordLoaded}
                   excludeLabel={false}
+                  getRndIntegerFn={getRndIntegerFn}
                 />
                 <ReadOnlyInputCore
                   key={`readOnlyInputForAuthorForGenRecipe${thisRecordId}`}

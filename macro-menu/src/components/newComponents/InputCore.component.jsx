@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 const InputCore = (props) => {
   const {
     typeOfRecordToChange,
@@ -15,12 +16,31 @@ const InputCore = (props) => {
     arrayIndex,
     selectedFrom,
     fieldDisabled,
-    valError,
+    // valErrors,
     inputClasses,
     isRequired,
     recordLoaded,
     excludeLabel,
+    getRndIntegerFn,
   } = props;
+  let valErrors = [];
+  let thisElementId = "";
+  function setValErrors() {
+    thisElementId = getRndIntegerFn(10000000, 99999999);
+    if (props.valErrors) {
+      valErrors = props.valErrors;
+    } else {
+      valErrors = [];
+      console.log(
+        `valErrors for Input Element for ${propToUpdate} with key ${thisElementId} for ${typeOfRecordToChange} not received`
+      );
+    }
+  }
+  useEffect(() => {
+    if (recordLoaded) {
+      setValErrors();
+    } else return;
+  }, []);
   if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
@@ -38,6 +58,7 @@ const InputCore = (props) => {
         )}
 
         <input
+          key={thisElementId}
           type={inputTypeForHtml}
           className={inputClasses}
           value={propValue}
@@ -56,8 +77,19 @@ const InputCore = (props) => {
           onKeyUp={(e) => inputOnKeyUpFn(e)}
           disabled={fieldDisabled}
         />
-        <div className="alert alert-danger" hidden={valError ? false : true}>
-          {valError}
+        <div
+          className="alert alert-danger"
+          hidden={valErrors.length > 0 ? false : true}
+        >
+          {valErrors.length < 1 ? (
+            ""
+          ) : (
+            <ul>
+              {valErrors.map((valError) => (
+                <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     );

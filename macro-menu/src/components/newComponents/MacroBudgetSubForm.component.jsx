@@ -96,11 +96,12 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"calsBudget"}
                 selectedFrom={[]}
                 fieldDisabled={fieldsDisabled}
-                valError={valErrors.calsBudget}
+                valErrors={valErrors.calsBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <InputCore
                 key={`inputCoreForCarbsBdgtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -118,11 +119,12 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"carbsBudget"}
                 selectedFrom={[]}
                 fieldDisabled={fieldsDisabled}
-                valError={valErrors.carbsBudget}
+                valErrors={valErrors.carbsBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <InputCore
                 key={`inputCoreForProteinBdgtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -140,11 +142,12 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"proteinBudget"}
                 selectedFrom={[]}
                 fieldDisabled={fieldsDisabled}
-                valError={valErrors.proteinBudget}
+                valErrors={valErrors.proteinBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <InputCore
                 key={`inputCoreForFatBdgtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -162,11 +165,12 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"fatBudget"}
                 selectedFrom={[]}
                 fieldDisabled={fieldsDisabled}
-                valError={valErrors.fatBudget}
+                valErrors={valErrors.fatBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <InputCore
                 key={`inputCoreForFiberBdgtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -184,11 +188,12 @@ const MacroBudgetSubForm = (props) => {
                 propToUpdate={"fiberBudget"}
                 selectedFrom={[]}
                 fieldDisabled={fieldsDisabled}
-                valError={valErrors.fiberBudget}
+                valErrors={valErrors.fiberBudget}
                 inputClasses="form-control weekMealPlanMacroInput"
                 isRequired={true}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                getRndIntegerFn={getRndIntegerFn}
               />
             </div>
           </div>

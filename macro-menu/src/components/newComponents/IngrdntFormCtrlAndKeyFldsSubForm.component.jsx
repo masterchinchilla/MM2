@@ -53,7 +53,20 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         recordLoaded: false,
         userType: "viewer",
         editingForm: { ingredient: false },
-        valErrors: { ingredient: [] },
+        valErrors: {
+          ingredient: {
+            _id: [],
+            photoURL: [],
+            unitOfMeasure: [],
+            weightType: [],
+            brand: [],
+            calories: [],
+            carbs: [],
+            protein: [],
+            fat: [],
+            fiber: [],
+          },
+        },
         recordLoaded: false,
         ingrdntHasConnectedRecords: false,
       };
@@ -90,8 +103,8 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const [localName, updateNameStateFn] = useState(name);
   const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
   const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(saveDisabled);
-  const [nameValError, updateNameValErrorStateFn] = useState(
-    valErrors ? valErrors.ingredient.name : null
+  const [nameValErrors, updateNameValErrorsStateFn] = useState(
+    valErrors ? valErrors.ingredient.name : []
   );
   function handleCreateNewUOMWghtTypOrBrndFn(
     newRecordName,
@@ -118,7 +131,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     );
   }
   useEffect(() => {
-    if (nameHasDup || nameValError) {
+    if (nameHasDup || nameValErrors.length > 0) {
       toggleSaveDisabledStateFn(true);
     } else {
       toggleSaveDisabledStateFn(false);
@@ -132,7 +145,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         recordLoaded={recordLoaded}
         headingText="Base Ingredient"
         hdngIsReqFormLbl={false}
-        editingForm={editingForm}
+        editingForm={editingForm.ingredient}
         headingClasses="ingrdntHdr"
       />
       <FormControl
@@ -160,7 +173,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         key={`SlctSrchLstWCreateForUOMFor${typeOfRecordToChange}${thisRecordId}`}
         options={allUnitOfMeasures}
         recordToSelect={unitOfMeasure}
-        typeOfRecordToChange={"ingredient"}
+        typeOfRecordToChange={typeOfRecordToChange}
         propNameSentenceCase={"UOM"}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
@@ -185,7 +198,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         key={`SlctSrchLstWCreateForWghtTypeFor${typeOfRecordToChange}${thisRecordId}`}
         options={allWeightTypes}
         recordToSelect={weightType}
-        typeOfRecordToChange={"ingredient"}
+        typeOfRecordToChange={typeOfRecordToChange}
         propNameSentenceCase={"Weight Type"}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
@@ -222,7 +235,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         key={`SlctSrchLstWCreateForBrandFor${typeOfRecordToChange}${thisRecordId}`}
         options={allBrands}
         recordToSelect={brand}
-        typeOfRecordToChange={"ingredient"}
+        typeOfRecordToChange={typeOfRecordToChange}
         propNameSentenceCase={"Brand"}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
@@ -259,7 +272,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         arrayIndex={arrayIndex}
         selectedFrom={[]}
         fieldDisabled={fieldsDisabled}
-        valError={nameValError}
+        valErrors={nameValErrors}
         inputClasses={"form-control"}
         isRequired={true}
         backEndHtmlRoot={backEndHtmlRoot}
@@ -268,7 +281,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         changeLocalPropStateFn={updateNameStateFn}
         togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
         onUpdatePropFn={onUpdatePropFn}
-        valErrorUpdateStateFn={updateNameValErrorStateFn}
+        valErrorUpdateStateFn={updateNameValErrorsStateFn}
         getRndIntegerFn={getRndIntegerFn}
         recordLoaded={recordLoaded}
         excludeLabel={false}

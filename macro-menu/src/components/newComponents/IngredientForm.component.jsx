@@ -102,12 +102,12 @@ const IngredientForm = (props) => {
             thisRecordId={thisRecordId}
             onUpdatePropFn={onUpdatePropFn}
             thisStateObj={thisStateObj}
+            getRndIntegerFn={getRndIntegerFn}
           />
           <IngrdntDisabledFieldsSubForm
             key={`IngrdntDisabledFieldsSubFormFor${typeOfRecordToChange}${thisRecordId}`}
             thisRecordId={thisRecordId}
             thisStateObj={thisStateObj}
-            getRndIntegerFn={getRndIntegerFn}
           />
         </div>
       </div>

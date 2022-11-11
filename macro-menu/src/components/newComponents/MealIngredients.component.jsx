@@ -43,7 +43,7 @@ const MealIngredients = (props) => {
         justCreated: { meal: false },
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
-        valErrors: { meal: { name: null } },
+        valErrors: { meal: { name: [] } },
         recordLoaded: false,
       };
   const {

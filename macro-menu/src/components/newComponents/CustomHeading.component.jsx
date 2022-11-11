@@ -8,9 +8,9 @@ const CustomHeading = (props) => {
     editingForm,
     headingClasses,
   } = props;
-  const CustomHeading = `h${headingLvl}`;
+  const ThisHeading = `h${headingLvl}`;
   return (
-    <CustomHeading
+    <ThisHeading
       className={
         recordLoaded
           ? headingClasses
@@ -27,7 +27,7 @@ const CustomHeading = (props) => {
       ) : (
         <span>{headingText}</span>
       )}
-    </CustomHeading>
+    </ThisHeading>
   );
 };
 

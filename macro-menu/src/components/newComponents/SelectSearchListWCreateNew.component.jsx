@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Creatable from "react-select/creatable";
+import CreatableSelect from "react-select/creatable";
 import _ from "lodash";
 const SelectSearchListWCreateNew = (props) => {
   const {
-    recordToSelect,
+    // recordToSelect,
     typeOfRecordToChange,
     propNameSentenceCase,
     thisDayOfWeekCode,
@@ -14,7 +14,7 @@ const SelectSearchListWCreateNew = (props) => {
     formGroupClasses,
     inputClasses,
     fieldDisabled,
-    valErrors,
+    // valErrors,
     onUpdatePropFn,
     validatePropFn,
     onCreateNewRecordFn,
@@ -24,24 +24,45 @@ const SelectSearchListWCreateNew = (props) => {
     excludeLabel,
     getRndIntegerFn,
   } = props;
-  const options =
-    props.options.length > 0 ? props.options : [{ name: null, _id: null }];
-  const [localOptions, updateLocalOptionsStateFn] = useState([]);
-  const [newOptionValError, updateNewOptionValErrorStateFn] =
+  let valErrors = [];
+  const recordToSelect = props.recordToSelect
+    ? props.recordToSelect
+    : { name: "", _id: "" };
+  let options;
+  // =props.options.length > 0 ? props.options : [{ name: null, _id: null }];
+  const [localOptions, updateLocalOptionsStateFn] = useState([
+    { label: "", value: "" },
+  ]);
+  const [newOptionValErrors, updateNewOptionValErrorsStateFn] =
     useState(valErrors);
-  const thisRecordId = recordToSelect
-    ? recordToSelect._id
-    : getRndIntegerFn(10000000, 99999999);
+  let thisRecordId = "";
   function setStateOnLoad() {
     let newArray = [];
-    options.forEach((element) => {
+    props.options.forEach((element) => {
+      console.log(element);
       newArray.push({ label: element.name, value: element._id });
     });
     updateLocalOptionsStateFn(newArray);
   }
-
+  function setValErrors() {
+    let localId = getRndIntegerFn(10000000, 99999999);
+    if (recordToSelect) {
+      thisRecordId = recordToSelect._id;
+    } else {
+      thisRecordId = localId;
+    }
+    if (props.valErrors) {
+      valErrors = props.valErrors;
+    } else {
+      valErrors = [];
+      console.log(
+        `valErrors for Createable Element for ${propToUpdate} with key ${localId} for ${typeOfRecordToChange} not received`
+      );
+    }
+  }
   useEffect(() => {
     setStateOnLoad();
+    setValErrors();
   }, []);
   function handleSelectValue(e) {
     if (e) {
@@ -57,7 +78,7 @@ const SelectSearchListWCreateNew = (props) => {
         options
       );
     }
-    updateNewOptionValErrorStateFn(null);
+    updateNewOptionValErrorsStateFn([]);
   }
   function handleCheckForOptionMatchEnteredText(trimmedValueWNoDblSpcs) {
     const regexObj = new RegExp(trimmedValueWNoDblSpcs, "i");
@@ -76,7 +97,7 @@ const SelectSearchListWCreateNew = (props) => {
       propToUpdate,
       trimmedValueWNoDblSpcs
     );
-    updateNewOptionValErrorStateFn(valErrors);
+    updateNewOptionValErrorsStateFn(valErrors);
     return valErrors ? false : true;
   }
   function handleTrimAndValEnteredText(e) {
@@ -93,7 +114,7 @@ const SelectSearchListWCreateNew = (props) => {
     if (!optionMatchesEnteredText) {
       handleValEnteredText(trimmedValueWNoDblSpcs);
     } else {
-      updateNewOptionValErrorStateFn(null);
+      updateNewOptionValErrorsStateFn([]);
     }
   }
   if (recordLoaded) {
@@ -101,9 +122,17 @@ const SelectSearchListWCreateNew = (props) => {
       <div className={formGroupClasses}>
         <div
           className="alert alert-danger selectFieldValError"
-          hidden={newOptionValError ? false : true}
+          hidden={newOptionValErrors.length > 0 ? false : true}
         >
-          {newOptionValError}
+          {newOptionValErrors.length < 1 ? (
+            ""
+          ) : (
+            <ul>
+              {newOptionValErrors.map((valError) => (
+                <li>{valError}</li>
+              ))}
+            </ul>
+          )}
         </div>
         {!excludeLabel ? (
           <label>
@@ -117,7 +146,7 @@ const SelectSearchListWCreateNew = (props) => {
         ) : (
           ""
         )}
-        <Creatable
+        <CreatableSelect
           key={`CreateableFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
           value={{
             label: recordToSelect.name,
@@ -126,17 +155,13 @@ const SelectSearchListWCreateNew = (props) => {
           options={localOptions}
           placeholder={`Select ${propNameSentenceCase}`}
           isSearchable={true}
-          onInputChange={(e) => {
-            handleTrimAndValIfNewOption(e);
-          }}
-          onChange={(e) => {
-            handleSelectValue(e);
-          }}
+          onInputChange={handleTrimAndValIfNewOption}
+          onChange={handleSelectValue}
           isDisabled={fieldDisabled}
           className={inputClasses}
           onCreateOption={(e) => onCreateNewRecordFn(e, propToUpdate)}
-          isValidNewOption={(e) => handleTrimAndValEnteredText(e)}
-          onBlur={() => updateNewOptionValErrorStateFn(null)}
+          // isValidNewOption={handleTrimAndValEnteredText}
+          onBlur={() => updateNewOptionValErrorsStateFn([])}
         />
       </div>
     );

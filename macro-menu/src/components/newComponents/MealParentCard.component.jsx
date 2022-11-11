@@ -36,6 +36,7 @@ const MealParentCard = (props) => {
           mealType: {},
         },
         thisMealsIngrdnts: [],
+        thisRecipesIngrdnts: [],
         recordLoaded: false,
         editingForm: { meal: false },
       };
@@ -48,7 +49,6 @@ const MealParentCard = (props) => {
   const { weekMealPlan, dayOfWeek } = day;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "meal";
-  thisStateObj.recordLoaded = false;
   return (
     <div
       className="accordion accordionNotFlush mealDetailTopAccrdn"
@@ -75,7 +75,7 @@ const MealParentCard = (props) => {
                 recordLoaded ? `${dayOfWeek.name} ${mealType.name}` : ""
               }
               hdngIsReqFormLbl={false}
-              editingForm={null}
+              editingForm={editingForm.meal}
               headingClasses=""
             />
           </button>
@@ -108,6 +108,7 @@ const MealParentCard = (props) => {
             key={`mealChildCardFor${typeOfRecordToChange}${thisRecordId}`}
             thisStateObj={thisStateObj}
             currentGRFUser={currentGRFUser}
+            backEndHtmlRoot={backEndHtmlRoot}
             validatePropFn={validatePropFn}
             onUpdatePropFn={onUpdatePropFn}
             getRndIntegerFn={getRndIntegerFn}
