@@ -387,9 +387,11 @@ class NewWeekMealPlan extends Component {
           //   ? true
           //   : false;
         } else {
-          thisMealStateObj.thisRecord = {
+          thisNewMealStateObj = thisMealStateObj;
+          thisNewMealStateObj.thisRecord = {
             _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
           };
+          thisNewMealStateObj.thisMealsIngrdnts = [];
         }
         thisDayStateObj.thisDaysMeals[mealTypes[i]] = thisNewMealStateObj;
       }

@@ -45,6 +45,7 @@ const MealParentCard = (props) => {
     : [];
   const { thisRecord, thisMealsIngrdnts, recordLoaded, editingForm } =
     thisStateObj;
+  const nestedMealIngrdntArray = [thisMealsIngrdnts];
   const { _id, day, mealType } = thisRecord;
   const { weekMealPlan, dayOfWeek } = day;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
@@ -98,7 +99,7 @@ const MealParentCard = (props) => {
             thisWMPRecord={weekMealPlan}
             tableType={"Meal Macros"}
             thisMealType={mealType}
-            theseIngrdnts={thisMealsIngrdnts}
+            theseIngrdnts={nestedMealIngrdntArray}
             recordLoaded={recordLoaded}
             getRndIntegerFn={getRndIntegerFn}
           />
@@ -114,6 +115,10 @@ const MealParentCard = (props) => {
             getRndIntegerFn={getRndIntegerFn}
             onCreateNewRecordFn={onCreateNewRecordFn}
             trimEnteredValueFn={trimEnteredValueFn}
+            onClickEditFn={onClickEditFn}
+            onClickCancelFn={onClickCancelFn}
+            onClickSaveFn={onClickSaveFn}
+            onClickDeleteFn={onClickDeleteFn}
           />
           <RecipeCard
             key={`recipeCardFor${typeOfRecordToChange}${thisRecordId}`}

@@ -155,7 +155,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}
         arrayIndex={arrayIndex}
-        userType={userType}
+        userType={userType.ingredient}
         editingForm={editingForm.ingredient}
         saveDisabled={localSaveDisabled}
         hasChildren={ingrdntHasConnectedRecords}

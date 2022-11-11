@@ -43,15 +43,15 @@ const NewMacrosTable = (props) => {
   const localProteinBudget = proteinBudget * mealWeightPercent;
   const localFatBudget = fatBudget * mealWeightPercent;
   const localFiberBudget = fiberBudget * mealWeightPercent;
-  const calsCurrent = 0;
-  const carbsCurrent = 0;
-  const proteinCurrent = 0;
-  const fatCurrent = 0;
-  const fiberCurrent = 0;
+  let calsCurrent = 0;
+  let carbsCurrent = 0;
+  let proteinCurrent = 0;
+  let fatCurrent = 0;
+  let fiberCurrent = 0;
   for (let i = 0; i < theseIngrdnts.length; i++) {
     let thisMealTypesIngrdnts = theseIngrdnts[i];
     for (let i = 0; i < thisMealTypesIngrdnts.length; i++) {
-      let thisIngrdnt = thisMealTypesIngrdnts[i].thisMealIngrdnt;
+      let thisIngrdnt = thisMealTypesIngrdnts[i].thisRecord;
       calsCurrent +=
         thisIngrdnt.qty * thisIngrdnt.genRecipeIngredient.ingredient.calories;
       carbsCurrent +=

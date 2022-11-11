@@ -20,7 +20,7 @@ const DayMealsAndMacros = (props) => {
     allBrands,
     backEndHtmlRoot,
   } = props;
-  const thisStateObj = props.thisStateObj
+  const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
         thisRecord: {
@@ -28,11 +28,34 @@ const DayMealsAndMacros = (props) => {
           weekMealPlan: { _id: null },
         },
         recordLoaded: false,
+        thisDaysMeals: {
+          breakfast: { thisMealsIngrdnts: [] },
+          snack1: { thisMealsIngrdnts: [] },
+          lunch: { thisMealsIngrdnts: [] },
+          snack2: { thisMealsIngrdnts: [] },
+          dinner: { thisMealsIngrdnts: [] },
+          dessert: { thisMealsIngrdnts: [] },
+        },
       };
   const thisStateObjBackup = props.thisStateObjBackup
     ? props.thisStateObjBackup.thisDaysMeals
     : {};
-  const { thisRecord, recordLoaded } = thisStateObj;
+  const { thisRecord, recordLoaded, thisDaysMeals } = thisStateObj;
+  const { breakfast, snack1, lunch, snack2, dinner, dessert } = thisDaysMeals;
+  const breakfastIngrdnts = breakfast.thisMealsIngrdnts;
+  const snack1Ingrdnts = snack1.thisMealsIngrdnts;
+  const lunchIngrdnts = lunch.thisMealsIngrdnts;
+  const snack2Ingrdnts = snack2.thisMealsIngrdnts;
+  const dinnerIngrdnts = dinner.thisMealsIngrdnts;
+  const dessertIngrdnts = dessert.thisMealsIngrdnts;
+  const thisDaysMealsIngrdnts = [
+    breakfastIngrdnts ? breakfastIngrdnts : [],
+    snack1Ingrdnts ? snack1Ingrdnts : [],
+    lunchIngrdnts ? lunchIngrdnts : [],
+    snack2Ingrdnts ? snack2Ingrdnts : [],
+    dinnerIngrdnts ? dinnerIngrdnts : [],
+    dessertIngrdnts ? dessertIngrdnts : [],
+  ];
   const { _id, weekMealPlan } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "day";
@@ -74,7 +97,7 @@ const DayMealsAndMacros = (props) => {
                   thisWMPRecord={weekMealPlan}
                   tableType={"Day Macros"}
                   thisMealType={{}}
-                  theseIngrdnts={[]}
+                  theseIngrdnts={thisDaysMealsIngrdnts}
                   recordLoaded={recordLoaded}
                   getRndIntegerFn={getRndIntegerFn}
                 />

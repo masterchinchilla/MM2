@@ -77,7 +77,7 @@ const MealIngredientForm = (props) => {
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
           arrayIndex={arrayIndex}
-          userType={userType}
+          userType={userType.mealIngredient}
           editingForm={editingForm.mealIngredient}
           saveDisabled={saveDisabled}
           hasChildren={false}

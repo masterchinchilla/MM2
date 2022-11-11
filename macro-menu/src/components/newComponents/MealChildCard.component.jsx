@@ -50,8 +50,8 @@ const MealChildCard = (props) => {
     thisRecipesIngrdnts,
     valErrors,
     recordLoaded,
+    editingForm,
   } = thisStateObj;
-  const editingForm = thisStateObj.editingForm.meal;
   const { _id, day, mealType, genRecipe, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "meal";
@@ -116,7 +116,7 @@ const MealChildCard = (props) => {
             thisDayOfWeekCode={thisDayOfWeekCode}
             thisMealTypeCode={thisMealTypeCode}
             arrayIndex={arrayIndex}
-            userType={userType}
+            userType={userType.meal}
             editingForm={editingForm.meal}
             saveDisabled={saveDisabled}
             hasChildren={hasChildren}

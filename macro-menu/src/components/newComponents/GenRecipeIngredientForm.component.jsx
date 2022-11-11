@@ -143,7 +143,7 @@ const GenRecipeIngredientForm = (props) => {
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
           arrayIndex={arrayIndex}
-          userType={userType}
+          userType={userType.genRecipeIngredient}
           editingForm={editingForm.genRecipeIngredient}
           saveDisabled={saveDisabled}
           hasChildren={false}
