@@ -24,6 +24,7 @@ const InputCore = (props) => {
     getRndIntegerFn,
   } = props;
   let valErrors = [];
+  // = ["error 1", "error 2 with more text", "error 3"];
   let thisElementId = "";
   function setValErrors() {
     thisElementId = getRndIntegerFn(10000000, 99999999);
@@ -78,7 +79,7 @@ const InputCore = (props) => {
           disabled={fieldDisabled}
         />
         <div
-          className="alert alert-danger"
+          className="alert alert-danger valErrorsListDiv"
           hidden={valErrors.length > 0 ? false : true}
         >
           {valErrors.length < 1 ? (

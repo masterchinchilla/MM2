@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Joi from "joi";
+import _ from "lodash";
 import httpService from "../../services/httpService";
 import authService from "../../services/authService";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,7 +15,26 @@ class NewWeekMealPlan extends Component {
     super(props);
     const { backEndHtmlRoot, thisGRFUser, match } = this.props;
     const pgReqParams = match.params;
+    const mealTypeCodes = [
+      "breakfast",
+      "snack1",
+      "lunch",
+      "snack2",
+      "dinner",
+      "dessert",
+    ];
+    const dayOfWeekCodes = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
     this.state = {
+      dayOfWeekCodes: dayOfWeekCodes,
+      mealTypeCodes: mealTypeCodes,
       typeOfRecordToChange: "weekMealPlan",
       pgReqParams: pgReqParams,
       backEndHtmlRoot: backEndHtmlRoot,
@@ -53,9 +73,7 @@ class NewWeekMealPlan extends Component {
   getRndIntegerFn = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-  handleClickEditFn = () => {
-    console.log("clicked Edit");
-  };
+
   handleClickCancelFn = () => {
     console.log("clicked Cancel");
   };
@@ -338,26 +356,20 @@ class NewWeekMealPlan extends Component {
     const thisDayId = thisDayStateObj.thisRecord._id;
     const backEndReqUrl = `${backEndHtmlRoot}meals/mealsOfThisDay/${thisDayId}`;
     let thisDaysMealsBackup = {};
+    let mealTypeCodes = this.state.mealTypeCodes;
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
 
       const reqResponseRecords = backEndReqResponse.data;
-      const mealTypes = [
-        "breakfast",
-        "snack1",
-        "lunch",
-        "snack2",
-        "dinner",
-        "dessert",
-      ];
+
       thisDayStateObj.thisDaysMeals = {};
-      for (let i = 0; i < mealTypes.length; i++) {
-        thisDaysMealsBackup[mealTypes[i]] = {};
+      for (let i = 0; i < mealTypeCodes.length; i++) {
+        thisDaysMealsBackup[mealTypeCodes[i]] = {};
 
         let thisMealStateObj = { valErrors: { meal: {}, genRecipe: {} } };
         let thisNewMealStateObj;
         const thisMealData = reqResponseRecords.filter(
-          (meal) => meal.mealType.code === mealTypes[i]
+          (meal) => meal.mealType.code === mealTypeCodes[i]
         )[0];
 
         if (thisMealData) {
@@ -393,7 +405,7 @@ class NewWeekMealPlan extends Component {
           };
           thisNewMealStateObj.thisMealsIngrdnts = [];
         }
-        thisDayStateObj.thisDaysMeals[mealTypes[i]] = thisNewMealStateObj;
+        thisDayStateObj.thisDaysMeals[mealTypeCodes[i]] = thisNewMealStateObj;
       }
       return { thisDayStateObj, thisDaysMealsBackup };
     } catch (error) {
@@ -404,24 +416,17 @@ class NewWeekMealPlan extends Component {
   getThisWMPsDaysFn = async (wmpId, backEndHtmlRoot) => {
     let thisWeeksDays = {};
     let thisWeeksDaysBackup = {};
+    let dayOfWeekCodes = this.state.dayOfWeekCodes;
     const backEndReqUrl = `${backEndHtmlRoot}days/daysofthiswmp/${wmpId}`;
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
 
       const reqResponseRecords = backEndReqResponse.data;
-      const daysOfWeek = [
-        "sunday",
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-      ];
-      for (let i = 0; i < daysOfWeek.length; i++) {
+
+      for (let i = 0; i < dayOfWeekCodes.length; i++) {
         let thisDayStateObj = { valErrors: {} };
         const thisDayData = reqResponseRecords.filter(
-          (day) => day.dayOfWeek.code === daysOfWeek[i]
+          (day) => day.dayOfWeek.code === dayOfWeekCodes[i]
         )[0];
 
         if (thisDayData) {
@@ -437,7 +442,7 @@ class NewWeekMealPlan extends Component {
             backEndHtmlRoot
           );
           thisDayStateObj = thisDayStateObjAndBackup.thisDayStateObj;
-          thisWeeksDaysBackup[daysOfWeek[i]] =
+          thisWeeksDaysBackup[dayOfWeekCodes[i]] =
             thisDayStateObjAndBackup.thisDaysMealsBackup;
         } else {
           thisDayStateObj.thisRecord = {
@@ -445,7 +450,7 @@ class NewWeekMealPlan extends Component {
           };
         }
         thisDayStateObj.recordLoaded = true;
-        thisWeeksDays[daysOfWeek[i]] = thisDayStateObj;
+        thisWeeksDays[dayOfWeekCodes[i]] = thisDayStateObj;
       }
 
       return { thisWeeksDays, thisWeeksDaysBackup };
@@ -496,6 +501,118 @@ class NewWeekMealPlan extends Component {
       this.notify(error, "error");
       return;
     }
+  };
+  handleClickEditFn = (
+    typeOfRecordToChange,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex
+  ) => {
+    let state = this.state;
+    let pattern = /missing/;
+    state.thisWMPStateBackup = _.cloneDeep(state.thisWMPStateObj);
+    state.thisWeeksDaysBackup = _.cloneDeep(state.thisWeeksDays);
+    state.thisWMPStateObj.userType = "viewer";
+    let thisRecordsAuthorId;
+    let dayOfWeekCodes = state.dayOfWeekCodes;
+    let mealTypeCodes = state.mealTypeCodes;
+    let thisWeeksDays = state.thisWeeksDays;
+    let thisDayStateObj = thisDayOfWeekCode
+      ? thisWeeksDays[thisDayOfWeekCode]
+      : null;
+    let thisMealStateObj = thisMealTypeCode
+      ? thisDayStateObj.thisDaysMeals[thisMealTypeCode]
+      : null;
+    let thisMealIngrdntStateObj = arrayIndex
+      ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
+      : null;
+    for (let i = 0; i < dayOfWeekCodes.length; i++) {
+      let thisDayStateObjLocal = thisWeeksDays[dayOfWeekCodes[i]];
+      let testResult = thisDayStateObjLocal.thisRecord._id;
+      if (!testResult) {
+        thisDayStateObjLocal.userType = "viewer";
+        let thisDaysMeals = thisDayStateObjLocal.thisDaysMeals;
+        for (let i = 0; i < mealTypeCodes.length; i++) {
+          let thisMealStateObjLocal = thisDaysMeals[mealTypeCodes[i]];
+          let testResult = thisMealStateObjLocal.thisRecord._id;
+          if (!testResult) {
+            thisMealStateObjLocal.userType = {
+              meal: "viewer",
+              genRecipe: "viewer",
+            };
+            let thisMealsIngrdnts = thisMealStateObjLocal.thisMealsIngrdnts;
+            for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+              let thisMealIngrdntStateObjLocal = thisMealsIngrdnts[i];
+              thisMealIngrdntStateObjLocal.userType = {
+                mealIngredient: "viewer",
+                genRecipeIngredient: "viewer",
+                ingredient: "viewer",
+              };
+              thisMealsIngrdnts[i] = thisMealIngrdntStateObjLocal;
+            }
+            thisMealStateObjLocal.thisMealsIngrdnts = thisMealsIngrdnts;
+          }
+          thisDaysMeals[mealTypeCodes[i]] = thisMealStateObjLocal;
+        }
+        thisDayStateObjLocal.thisDaysMeals = thisDaysMeals;
+      }
+      thisWeeksDays[dayOfWeekCodes[i]] = thisDayStateObjLocal;
+    }
+    switch (typeOfRecordToChange) {
+      case "weekMealPlan" || "day" || "meal" || "mealIngredient":
+        thisRecordsAuthorId = state.thisWMPStateObj.thisRecord.GRFUser._id;
+      case "weekMealPlan":
+        state.thisWMPStateObj.userType =
+          this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
+        state.thisWMPStateObj.editingRecord = true;
+        break;
+      case "day":
+        thisDayStateObj.userType =
+          this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
+        thisDayStateObj.editingRecord = true;
+        break;
+      case "meal":
+        thisMealStateObj.userType.meal =
+          this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
+        thisMealStateObj.editingRecord.meal = true;
+        break;
+      case "genRecipe" || "genRecipeIngredient":
+        thisRecordsAuthorId = thisMealStateObj.thisRecord.genRecipe.GRFUser._id;
+      case "genRecipe":
+        thisMealStateObj.userType.genRecipe =
+          this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
+        thisMealStateObj.editingRecord.genRecipe = true;
+        break;
+      case "mealIngredient":
+        thisMealIngrdntStateObj.userType.mealIngredient =
+          this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
+        thisMealIngrdntStateObj.editingRecord.mealIngredient = true;
+        break;
+      case "genRecipeIngredient":
+        thisMealIngrdntStateObj.userType.genRecipeIngredient =
+          this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
+        thisMealIngrdntStateObj.editingRecord.genRecipeIngredient = true;
+        break;
+      case "ingredient":
+        thisRecordsAuthorId =
+          thisMealIngrdntStateObj.thisRecord.ingredient.GRFUser._id;
+        thisMealIngrdntStateObj.userType.ingredient =
+          this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
+        thisMealIngrdntStateObj.editingRecord.ingredient = true;
+        break;
+    }
+    switch (typeOfRecordToChange) {
+      case "ingredient" || "genRecipeIngredient" || "mealIngredient":
+        thisMealStateObj.thisMealsIngrdnts[arrayIndex] =
+          thisMealIngrdntStateObj;
+      case !"day" || !"weekMealPlan":
+        thisDayStateObj.thisDaysMeals[thisMealTypeCode] = thisMealStateObj;
+      case !"weekMealPlan":
+        thisWeeksDays[thisDayOfWeekCode] = thisDayStateObj;
+        state.thisWeeksDays = thisWeeksDays;
+        break;
+    }
+    this.setState(state);
   };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();

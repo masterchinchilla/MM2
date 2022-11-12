@@ -170,6 +170,7 @@ const MealChildCard = (props) => {
             recordLoaded={recordLoaded}
             excludeLabel={true}
             isRequired={true}
+            getRndIntegerFn={getRndIntegerFn}
           />
           {userChangedThisMealsRecipe && !justCreated.meal ? (
             <div className="alert alert-warning recipeWarning" role="alert">

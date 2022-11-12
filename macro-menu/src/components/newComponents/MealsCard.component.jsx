@@ -51,6 +51,7 @@ const MealsCard = (props) => {
     const thisStateObjBackup = thisDaysMealsBackup[mealTypeCode]
       ? thisDaysMealsBackup[mealTypeCode]
       : {};
+    console.log(thisStateObjBackup);
     const mealRecordId = thisMealStateObj.thisRecord._id;
     const mealUserType = thisMealStateObj.userType
       ? thisMealStateObj.userType.meal

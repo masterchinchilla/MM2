@@ -26,6 +26,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
     excludeLabel,
     isRequired,
   } = props;
+  // let valErrors = ["error 1", "error 2 with more text", "error 3"];
   const recordToSelect = props.recordToSelect
     ? props.recordToSelect
     : { name: "", _id: "" };
@@ -125,19 +126,6 @@ const AsyncSearchSelectWCreateNew = (props) => {
     const isValidNewOption = handleValEnteredTextFn(trimmedValueWNoDblSpcs);
     return isValidNewOption;
   }
-  function renderNewOptionValErrors() {
-    if (newOptionValErrors.length > 0) {
-      newOptionValErrors.map((valError) => {
-        return (
-          <div className="alert alert-danger selectFieldValError">
-            {valError}
-          </div>
-        );
-      });
-    } else {
-      return "";
-    }
-  }
   if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
@@ -153,7 +141,20 @@ const AsyncSearchSelectWCreateNew = (props) => {
         ) : (
           ""
         )}
-        {renderNewOptionValErrors()}
+        <div
+          className="alert alert-danger valErrorsListDiv topValErrors"
+          hidden={valErrors.length > 0 ? false : true}
+        >
+          {valErrors.length < 1 ? (
+            ""
+          ) : (
+            <ul>
+              {valErrors.map((valError) => (
+                <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
+              ))}
+            </ul>
+          )}
+        </div>
         <AsyncCreatableSelect
           key={`AsyncCreateableFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
           value={{

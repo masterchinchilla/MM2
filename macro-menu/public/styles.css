@@ -983,3 +983,23 @@ td span.placeholder{
 .mealIngrdntInputs h6.placeholder-glow{
   margin: 0.5rem 0 !important;
 }
+.valErrorsUl{
+  list-style: none;
+  text-align: left;
+  padding-left: 0.5rem;
+}
+.valErrorsListDiv{
+  padding:0.25rem 0 0 0 !important;
+  line-height: 1.1rem;
+text-align: left;}
+.valErrorsListDiv ul{
+  list-style: none;
+  padding:0.25rem 0 0 0 !important
+}
+.valErrorsListDiv li{
+      padding: 0.25rem 0.5rem 0 !important;
+      font-size: 0.8rem;
+}
+.topValErrors{
+  margin: 0.5rem 0.5rem -0.5rem !important;
+}
