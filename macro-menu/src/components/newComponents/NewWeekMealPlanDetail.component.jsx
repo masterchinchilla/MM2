@@ -347,6 +347,7 @@ class NewWeekMealPlan extends Component {
           thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient,
           "ingredient"
         );
+        thisMealIngrdntStateObj.arrayIndex = [i];
         thisMealIngrdntStateObj.recordLoaded = true;
         thisMealsIngrdnts.push(thisMealIngrdntStateObj);
       }
@@ -504,6 +505,7 @@ class NewWeekMealPlan extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
+    // console.log(typeOfRecordToChange, thisDayOfWeekCode, thisMealTypeCode);
     let state = this.state;
     let pattern = /missing/;
     state.thisWMPStateBackup = _.cloneDeep(state.thisWMPStateObj);
@@ -516,39 +518,40 @@ class NewWeekMealPlan extends Component {
     let thisDayStateObj = thisDayOfWeekCode
       ? thisWeeksDays[thisDayOfWeekCode]
       : null;
-    console.log(thisDayStateObj);
+    // console.log(thisDayStateObj);
     let thisMealStateObj = thisMealTypeCode
       ? thisDayStateObj.thisDaysMeals[thisMealTypeCode]
       : null;
-    console.log(thisMealStateObj);
-    let thisMealIngrdntStateObj = arrayIndex
-      ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
-      : null;
-    console.log(thisMealIngrdntStateObj);
+    // console.log(thisMealStateObj);
+    let thisMealIngrdntStateObj =
+      arrayIndex || arrayIndex === 0
+        ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
+        : null;
+    // console.log(thisMealIngrdntStateObj);
     for (let i = 0; i < dayOfWeekCodes.length; i++) {
       let thisDayStateObjLocal = thisWeeksDays[dayOfWeekCodes[i]];
-      console.log(thisDayStateObjLocal);
+
       let testResult = pattern.test(thisDayStateObjLocal.thisRecord._id);
-      console.log(testResult);
+
       if (!testResult) {
         thisDayStateObjLocal.userType = "viewer";
         let thisDaysMeals = thisDayStateObjLocal.thisDaysMeals;
-        console.log(thisDaysMeals);
+
         for (let i = 0; i < mealTypeCodes.length; i++) {
           let thisMealStateObjLocal = thisDaysMeals[mealTypeCodes[i]];
-          console.log(thisMealStateObjLocal);
+
           let testResult = pattern.test(thisMealStateObjLocal.thisRecord._id);
-          console.log(testResult);
+
           if (!testResult) {
             thisMealStateObjLocal.userType = {
               meal: "viewer",
               genRecipe: "viewer",
             };
             let thisMealsIngrdnts = thisMealStateObjLocal.thisMealsIngrdnts;
-            console.log(thisMealsIngrdnts);
+
             for (let i = 0; i < thisMealsIngrdnts.length; i++) {
               let thisMealIngrdntStateObjLocal = thisMealsIngrdnts[i];
-              console.log(thisMealIngrdntStateObjLocal);
+
               thisMealIngrdntStateObjLocal.userType = {
                 mealIngredient: "viewer",
                 genRecipeIngredient: "viewer",
@@ -590,6 +593,7 @@ class NewWeekMealPlan extends Component {
         thisMealStateObj.editingForm.genRecipe = true;
         break;
       case "mealIngredient":
+        // console.log(thisMealIngrdntStateObj);
         thisMealIngrdntStateObj.userType.mealIngredient =
           this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
         thisMealIngrdntStateObj.editingForm.mealIngredient = true;
@@ -601,7 +605,8 @@ class NewWeekMealPlan extends Component {
         break;
       case "ingredient":
         thisRecordsAuthorId =
-          thisMealIngrdntStateObj.thisRecord.ingredient.GRFUser._id;
+          thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient
+            .GRFUser._id;
         thisMealIngrdntStateObj.userType.ingredient =
           this.determineThisRecordsUserTypeFn(thisRecordsAuthorId);
         thisMealIngrdntStateObj.editingForm.ingredient = true;

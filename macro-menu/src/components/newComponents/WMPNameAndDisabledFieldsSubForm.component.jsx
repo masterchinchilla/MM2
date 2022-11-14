@@ -73,7 +73,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   const typeOfRecordToChange = "weekMealPlan";
   const thisDayOfWeekCode = "";
   const thisMealTypeCode = "";
-  const arrayIndex = 0;
+  const arrayIndex = null;
   const [localName, updateNameStateFn] = useState(name);
   const [nameValErrors, updateNameValErrorsStateFn] = useState(
     valErrors ? valErrors.name : []

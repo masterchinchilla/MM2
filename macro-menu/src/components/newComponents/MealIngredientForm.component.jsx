@@ -73,7 +73,7 @@ const MealIngredientForm = (props) => {
         <FormControl
           key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
           typeOfRecordToChange={typeOfRecordToChange}
-          recordChanged={recordChanged}
+          recordChanged={recordChanged.mealIngredient}
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
           arrayIndex={arrayIndex}

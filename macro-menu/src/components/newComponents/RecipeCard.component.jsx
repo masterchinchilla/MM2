@@ -79,7 +79,7 @@ const RecipeCard = (props) => {
     ? thisMeal.day.dayOfWeek.code
     : "";
   const thisMealTypeCode = thisMeal.mealType ? thisMeal.mealType.code : "";
-  const arrayIndex = 0;
+  const arrayIndex = null;
   const saveDisabled =
     (userType.genRecipe === "author" || userType.genRecipe === "admin") &&
     editingForm

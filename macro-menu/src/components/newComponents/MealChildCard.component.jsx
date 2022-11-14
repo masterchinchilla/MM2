@@ -57,7 +57,7 @@ const MealChildCard = (props) => {
   const typeOfRecordToChange = "meal";
   const thisDayOfWeekCode = day.dayOfWeek ? day.dayOfWeek.code : "";
   const thisMealTypeCode = mealType ? mealType.code : "";
-  const arrayIndex = 0;
+  const arrayIndex = null;
   const saveDisabled =
     (userType.meal === "author" || userType.meal === "admin") &&
     editingForm.meal

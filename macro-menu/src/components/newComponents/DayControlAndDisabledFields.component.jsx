@@ -39,7 +39,6 @@ const DayControlAndDisabledFields = (props) => {
   const typeOfRecordToChange = "day";
   const thisDayOfWeekCode = dayOfWeek.code ? dayOfWeek.code : "";
   const thisMealTypeCode = "";
-  const arrayIndex = 0;
   return (
     <React.Fragment>
       <div className="card-header">
@@ -58,7 +57,7 @@ const DayControlAndDisabledFields = (props) => {
           recordChanged={recordChanged}
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
-          arrayIndex={arrayIndex}
+          arrayIndex={null}
           userType={userType}
           editingForm={editingForm}
           saveDisabled={true}
