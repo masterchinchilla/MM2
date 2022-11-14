@@ -112,7 +112,7 @@ const MealChildCard = (props) => {
           <FormControl
             key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
             typeOfRecordToChange={typeOfRecordToChange}
-            recordChanged={recordChanged}
+            recordChanged={recordChanged.meal}
             thisDayOfWeekCode={thisDayOfWeekCode}
             thisMealTypeCode={thisMealTypeCode}
             arrayIndex={arrayIndex}

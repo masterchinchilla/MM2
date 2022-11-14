@@ -38,7 +38,7 @@ const DayMealsAndMacros = (props) => {
         },
       };
   const thisStateObjBackup = props.thisStateObjBackup
-    ? props.thisStateObjBackup.thisDaysMeals
+    ? props.thisStateObjBackup
     : {};
   const { thisRecord, recordLoaded, thisDaysMeals } = thisStateObj;
   const { breakfast, snack1, lunch, snack2, dinner, dessert } = thisDaysMeals;

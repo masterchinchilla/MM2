@@ -55,9 +55,9 @@ const SelectSearchListWCreateNew = (props) => {
       valErrors = props.valErrors;
     } else {
       valErrors = [];
-      console.log(
-        `valErrors for Createable Element for ${propToUpdate} with key ${localId} for ${typeOfRecordToChange} not received`
-      );
+      // console.log(
+      //   `valErrors for Createable Element for ${propToUpdate} with key ${localId} for ${typeOfRecordToChange} not received`
+      // );
     }
   }
   useEffect(() => {

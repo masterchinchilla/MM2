@@ -32,9 +32,9 @@ const InputCore = (props) => {
       valErrors = props.valErrors;
     } else {
       valErrors = [];
-      console.log(
-        `valErrors for Input Element for ${propToUpdate} with key ${thisElementId} for ${typeOfRecordToChange} not received`
-      );
+      // console.log(
+      //   `valErrors for Input Element for ${propToUpdate} with key ${thisElementId} for ${typeOfRecordToChange} not received`
+      // );
     }
   }
   useEffect(() => {
