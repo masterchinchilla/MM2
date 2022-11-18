@@ -35,15 +35,24 @@ const InputWLocalStateAndVal = (props) => {
   const thisRecordId = backupOfRecordToChange
     ? backupOfRecordToChange._id
     : getRndIntegerFn(10000000, 99999999);
-  function handleUpdateLocalProp(newPropValue) {
-    const localValErrors = validatePropFn(propType, propToUpdate, newPropValue);
-    if (localValErrors) {
-      togglePropValueHasDupStateFn(true);
-    } else {
-      togglePropValueHasDupStateFn(false);
-    }
-    changeLocalPropStateFn(newPropValue);
-    valErrorsUpdateStateFn(localValErrors);
+  function handleUpdateLocalProp(
+    typeOfRecordToChange,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    propType,
+    e,
+    selectedFrom
+  ) {
+    // const localValErrors = validatePropFn(propType, propToUpdate, newPropValue);
+    // if (localValErrors) {
+    //   togglePropValueHasDupStateFn(true);
+    // } else {
+    //   togglePropValueHasDupStateFn(false);
+    // }
+    changeLocalPropStateFn(e.target.value);
+    // valErrorsUpdateStateFn(localValErrors);
   }
   function handleUpdateParentProp(newPropValue) {
     let e = {
@@ -51,7 +60,7 @@ const InputWLocalStateAndVal = (props) => {
         value: newPropValue,
       },
     };
-    handleUpdateLocalProp(newPropValue);
+    changeLocalPropStateFn(newPropValue);
     onUpdatePropFn(
       typeOfRecordToChange,
       thisDayOfWeekCode,
@@ -92,6 +101,7 @@ const InputWLocalStateAndVal = (props) => {
       thisRecordId={thisRecordId}
       trimEnteredValueFn={trimEnteredValueFn}
       excludeLabel={excludeLabel}
+      validatePropFn={validatePropFn}
     />
   );
 };

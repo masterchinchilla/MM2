@@ -16,32 +16,13 @@ const InputCore = (props) => {
     arrayIndex,
     selectedFrom,
     fieldDisabled,
-    // valErrors,
+    valErrors,
     inputClasses,
     isRequired,
     recordLoaded,
     excludeLabel,
     getRndIntegerFn,
   } = props;
-  let valErrors = [];
-  // = ["error 1", "error 2 with more text", "error 3"];
-  let thisElementId = "";
-  function setValErrors() {
-    thisElementId = getRndIntegerFn(10000000, 99999999);
-    if (props.valErrors) {
-      valErrors = props.valErrors;
-    } else {
-      valErrors = [];
-      // console.log(
-      //   `valErrors for Input Element for ${propToUpdate} with key ${thisElementId} for ${typeOfRecordToChange} not received`
-      // );
-    }
-  }
-  useEffect(() => {
-    if (recordLoaded) {
-      setValErrors();
-    } else return;
-  }, []);
   if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
@@ -59,7 +40,6 @@ const InputCore = (props) => {
         )}
 
         <input
-          key={thisElementId}
           type={inputTypeForHtml}
           className={inputClasses}
           value={propValue}
@@ -75,23 +55,28 @@ const InputCore = (props) => {
               selectedFrom
             )
           }
-          onKeyUp={(e) => inputOnKeyUpFn(e)}
+          onKeyUp={inputOnKeyUpFn}
           disabled={fieldDisabled}
         />
-        <div
-          className="alert alert-danger valErrorsListDiv"
-          hidden={valErrors.length > 0 ? false : true}
-        >
-          {valErrors.length < 1 ? (
-            ""
-          ) : (
-            <ul>
-              {valErrors.map((valError) => (
-                <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {!valErrors ? (
+          ""
+        ) : (
+          //This conditional is necessary for an esoteric reason: In some DB tables, some records are missing some columns that were added later. This means when the record is retrieved, it lacks a key-value pair. The state object builder uses a ObjectKeys array loop to build content like the valErrors complex object. When it comes to these records missing fields, it will fail to build a corresponding valError object, and when we try to access that object below, it will throw an error and crash the app.
+          <div
+            className="alert alert-danger valErrorsListDiv"
+            hidden={valErrors.length > 0 ? false : true}
+          >
+            {valErrors.length < 1 ? (
+              ""
+            ) : (
+              <ul>
+                {valErrors.map((valError) => (
+                  <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
       </div>
     );
   } else {

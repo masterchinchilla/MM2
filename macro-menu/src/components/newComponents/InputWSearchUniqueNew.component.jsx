@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import httpService from "../../services/httpService";
 import InputCore from "./InputCore.component";
 const InputWSearchUniqueNew = (props) => {
@@ -16,24 +16,58 @@ const InputWSearchUniqueNew = (props) => {
     arrayIndex,
     selectedFrom,
     fieldDisabled,
-    valErrors,
     inputClasses,
     isRequired,
     backEndHtmlRoot,
     propNameSentenceCase,
-    togglePropValueHasDupStateFn,
     changeParentPropFn,
-    valErrorsUpdateStateFn,
     getRndIntegerFn,
     recordLoaded,
     thisRecordId,
     trimEnteredValueFn,
+    validatePropFn,
+    updatePropValErrorsStateFn,
   } = props;
   const [timer, setTimerStateFn] = useState(null);
+  const [localValErrors, setLclValErrsStateFn] = useState([]);
   const fetchBaseURL =
     backEndHtmlRoot + `${typeOfRecordToChange}s/findby${propToUpdate}/`;
+  function handleUpdateLocalPropFn(
+    typeOfRecordToChange,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    propType,
+    e,
+    selectedFrom
+  ) {
+    let newPropValue = e.target.value;
+    if (newPropValue === "") {
+      setLclValErrsStateFn([`${propNameSentenceCase} cannot be empty`]);
+      updatePropValErrorsStateFn([`${propNameSentenceCase} cannot be empty`]);
+    }
+    changeLocalPropFn(e.target.value);
+  }
+  function handleUpdateParentPropFn(newPropValue) {
+    console.log(newPropValue);
+    let e = {
+      target: {
+        value: newPropValue,
+      },
+    };
+    changeParentPropFn(
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      propToUpdate,
+      arrayIndex,
+      propType,
+      e,
+      selectedFrom
+    );
+  }
   function searchSetUnique(e) {
-    togglePropValueHasDupStateFn(true);
     const trimmedWNoDblSpcs = trimEnteredValueFn(e.target.value);
     clearTimeout(timer);
     const newTimer = setTimeout(() => {
@@ -41,12 +75,24 @@ const InputWSearchUniqueNew = (props) => {
         if (trimmedWNoDblSpcs) {
           httpService.get(fetchBaseURL + trimmedWNoDblSpcs).then((response) => {
             if (response.data === "exists") {
-              togglePropValueHasDupStateFn(true);
-              valErrorsUpdateStateFn([
-                `that ${propNameSentenceCase} is already taken`,
-              ]);
+              let valueTknValErr = `That ${propNameSentenceCase} is already taken`;
+              setLclValErrsStateFn([valueTknValErr]);
+              updatePropValErrorsStateFn([valueTknValErr]);
             } else {
-              changeParentPropFn(trimmedWNoDblSpcs, propToUpdate);
+              let valFnResults = validatePropFn(
+                propType,
+                propToUpdate,
+                trimmedWNoDblSpcs
+              );
+              if (valFnResults.length > 0) {
+                setLclValErrsStateFn([valFnResults]);
+                updatePropValErrorsStateFn([valFnResults]);
+                return;
+              } else {
+                setLclValErrsStateFn("");
+                updatePropValErrorsStateFn([]);
+                handleUpdateParentPropFn(trimmedWNoDblSpcs);
+              }
             }
           });
         }
@@ -62,9 +108,7 @@ const InputWSearchUniqueNew = (props) => {
       propType={propType}
       inputTypeForHtml={"text"}
       propValue={localPropValue}
-      onUpdatePropFn={(e) => {
-        changeLocalPropFn(trimEnteredValueFn(e.target.value), propToUpdate);
-      }}
+      onUpdatePropFn={handleUpdateLocalPropFn}
       inputOnKeyUpFn={searchSetUnique}
       typeOfRecordToChange={typeOfRecordToChange}
       thisDayOfWeekCode={thisDayOfWeekCode}
@@ -73,7 +117,7 @@ const InputWSearchUniqueNew = (props) => {
       arrayIndex={arrayIndex}
       selectedFrom={selectedFrom}
       fieldDisabled={fieldDisabled}
-      valErrors={valErrors}
+      valErrors={localValErrors}
       inputClasses={inputClasses}
       isRequired={isRequired}
       getRndIntegerFn={getRndIntegerFn}

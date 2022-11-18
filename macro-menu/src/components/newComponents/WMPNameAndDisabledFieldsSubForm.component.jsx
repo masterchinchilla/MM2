@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 import FormControl from "./FormControl.component";
+import InputWSearchUniqueNew from "./InputWSearchUniqueNew.component";
 const WMPNameAndDisabledFieldsSubForm = (props) => {
   const {
     thisStateObjBackup,
@@ -78,13 +78,12 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   const [nameValErrors, updateNameValErrorsStateFn] = useState(
     valErrors ? valErrors.name : []
   );
-  const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
   const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
   const deleteWarning = "Are you sure you want to delete this Week Meal Plan?";
   const saveWarning = "";
   useEffect(() => {
     if (
-      nameHasDup ||
+      nameValErrors.length > 0 ||
       valErrors.breakfastWeight.length > 0 ||
       valErrors.snack1Weight.length > 0 ||
       valErrors.lunchWeight.length > 0 ||
@@ -102,10 +101,10 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
       toggleSaveDisabledStateFn(false);
     }
   });
+
   function handleCancelEditForm() {
     updateNameStateFn(backupOfRecordToChange.name);
     updateNameValErrorsStateFn([]);
-    toggleNameHasDupStateFn(false);
     onClickCancelFn(
       typeOfRecordToChange,
       thisDayOfWeekCode,
@@ -122,13 +121,16 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
             : "card-header wmpCardHeader"
         }
       >
-        <InputWLocalStateAndVal
-          key={`inputWLclStateNValForNameFor${typeOfRecordToChange}${thisRecordId}`}
-          backupOfRecordToChange={backupOfRecordToChange}
-          formGroupClasses={"form-group wmpNameFrmGroup"}
-          label={"Week Meal Plan Name"}
+        <InputWSearchUniqueNew
+          key={`inputWSrchUniqueForNameFor${typeOfRecordToChange}${thisRecordId}`}
+          formGroupClasses="form-group wmpNameFrmGroup"
+          label="Week Meal Plan Name"
           propType="name"
           localPropValue={localName}
+          changeLocalPropFn={updateNameStateFn}
+          origPropValue={
+            backupOfRecordToChange ? backupOfRecordToChange["name"] : {}
+          }
           typeOfRecordToChange={typeOfRecordToChange}
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
@@ -136,20 +138,18 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           arrayIndex={arrayIndex}
           selectedFrom={[]}
           fieldDisabled={fieldsDisabled}
-          valErrors={nameValErrors}
-          inputClasses={"form-control"}
+          inputClasses="form-control"
           isRequired={true}
           backEndHtmlRoot={backEndHtmlRoot}
-          propNameSentenceCase={"Name"}
-          validatePropFn={validatePropFn}
-          changeLocalPropStateFn={updateNameStateFn}
-          togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
-          onUpdatePropFn={onUpdatePropFn}
-          valErrorsUpdateStateFn={updateNameValErrorsStateFn}
+          propNameSentenceCase="Name"
+          changeParentPropFn={onUpdatePropFn}
           getRndIntegerFn={getRndIntegerFn}
-          excludeLabel={false}
           recordLoaded={recordLoaded}
+          thisRecordId={thisRecordId}
           trimEnteredValueFn={trimEnteredValueFn}
+          excludeLabel={false}
+          validatePropFn={validatePropFn}
+          updatePropValErrorsStateFn={updateNameValErrorsStateFn}
         />
         <FormControl
           key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}

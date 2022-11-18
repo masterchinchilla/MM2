@@ -1,6 +1,6 @@
 import Joi from "joi";
 const valSchema = Joi.object({
-    name: Joi.string().trim().min(3).max(255).required(),
+    name: Joi.string().trim().required().min(3).max(255),
     reactSelect:Joi.string().trim().min(3).max(255).required(),
     floatPercent: Joi.number().min(0).max(100).required(),
     float: Joi.number().min(0).max(9999.99).required(),

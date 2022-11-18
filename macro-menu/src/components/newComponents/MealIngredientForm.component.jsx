@@ -57,7 +57,7 @@ const MealIngredientForm = (props) => {
       : true;
   const deleteWarning =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
-  const fieldsDisabled = !editingForm.genRecipeIngredient ? true : false;
+  const fieldsDisabled = !editingForm.mealIngredient ? true : false;
   return (
     <form className="mlIngrdntFrm">
       <div className="mlIngrdntFrmHdr">

@@ -37,7 +37,7 @@ const MacroBudgetSubForm = (props) => {
   const typeOfRecordToChange = "weekMealPlan";
   const thisDayOfWeekCode = "";
   const thisMealTypeCode = "";
-  const arrayIndex = 0;
+  const arrayIndex = null;
   const wmpMacroFormGrpClasses = "badge bg-primary weekMealPlanMacroBadge";
   const fieldsDisabled = !editingForm ? true : false;
   return (
@@ -89,7 +89,7 @@ const MacroBudgetSubForm = (props) => {
                 propValue={calsBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={() => {}}
-                recordToChange={typeOfRecordToChange}
+                typeOfRecordToChange={typeOfRecordToChange}
                 thisDayOfWeekCode={thisDayOfWeekCode}
                 thisMealTypeCode={thisMealTypeCode}
                 arrayIndex={arrayIndex}
@@ -112,7 +112,7 @@ const MacroBudgetSubForm = (props) => {
                 propValue={carbsBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={() => {}}
-                recordToChange={typeOfRecordToChange}
+                typeOfRecordToChange={typeOfRecordToChange}
                 thisDayOfWeekCode={thisDayOfWeekCode}
                 thisMealTypeCode={thisMealTypeCode}
                 arrayIndex={arrayIndex}
@@ -135,7 +135,7 @@ const MacroBudgetSubForm = (props) => {
                 propValue={proteinBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={() => {}}
-                recordToChange={typeOfRecordToChange}
+                typeOfRecordToChange={typeOfRecordToChange}
                 thisDayOfWeekCode={thisDayOfWeekCode}
                 thisMealTypeCode={thisMealTypeCode}
                 arrayIndex={arrayIndex}
@@ -158,7 +158,7 @@ const MacroBudgetSubForm = (props) => {
                 propValue={fatBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={() => {}}
-                recordToChange={typeOfRecordToChange}
+                typeOfRecordToChange={typeOfRecordToChange}
                 thisDayOfWeekCode={thisDayOfWeekCode}
                 thisMealTypeCode={thisMealTypeCode}
                 arrayIndex={arrayIndex}
@@ -181,7 +181,7 @@ const MacroBudgetSubForm = (props) => {
                 propValue={fiberBudget}
                 onUpdatePropFn={onUpdatePropFn}
                 inputOnKeyUpFn={() => {}}
-                recordToChange={typeOfRecordToChange}
+                typeOfRecordToChange={typeOfRecordToChange}
                 thisDayOfWeekCode={thisDayOfWeekCode}
                 thisMealTypeCode={thisMealTypeCode}
                 arrayIndex={arrayIndex}

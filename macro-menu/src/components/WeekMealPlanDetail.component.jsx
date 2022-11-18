@@ -223,7 +223,7 @@ export default class WeekMealPlanDetail extends Component {
       thisGRFUser: this.props.thisGRFUser,
       id: this.props.match.params.id,
       thisWeeksDays: thisWeeksDays,
-      thisGRFUser: thisGRFUser.currentGRFUser,
+      thisGRFUser: thisGRFUser,
     });
     this.loadData();
   }

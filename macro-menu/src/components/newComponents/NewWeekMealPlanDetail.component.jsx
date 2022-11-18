@@ -82,9 +82,7 @@ class NewWeekMealPlan extends Component {
     state.thisWeeksDaysBackup = {};
     this.setState(state);
   };
-  handleUpdatePropFn = () => {
-    console.log("updated Prop");
-  };
+
   handleClickSaveFn = () => {
     console.log("clicked Save");
   };
@@ -93,6 +91,20 @@ class NewWeekMealPlan extends Component {
   };
   handleUpdateWeightsFn = () => {
     console.log("weights updated");
+  };
+  handleUpdateWeightsFn = (weightsObj, e) => {
+    e.preventDefault();
+    let thisWMPStateObj = this.state.thisWMPStateObj;
+    let thisWMP = thisWMPStateObj.thisRecord;
+    thisWMP.breakfastWeight = weightsObj.breakfast;
+    thisWMP.snack1Weight = weightsObj.snack1;
+    thisWMP.lunchWeight = weightsObj.lunch;
+    thisWMP.snack2Weight = weightsObj.snack2;
+    thisWMP.dinnerWeight = weightsObj.dinner;
+    thisWMP.dessertWeight = weightsObj.dessert;
+    thisWMPStateObj.thisRecord = thisWMP;
+    thisWMPStateObj.recordChanged = true;
+    this.setState({ thisWMPStateObj: thisWMPStateObj });
   };
   handleClickCopyFn = () => {
     console.log("clicked copy");
@@ -122,14 +134,133 @@ class NewWeekMealPlan extends Component {
     const subSchema = Joi.object({ [propToUpdate]: rule });
     const objToValidate = { [propToUpdate]: newPropValue };
     const { error } = subSchema.validate(objToValidate);
-    let validationError;
-    if (error) {
-      let validationResult = error;
-      validationError = validationResult.details[0].message;
-    } else {
-      validationError = null;
+    console.log(error);
+    let valErrorDetails = error ? error.details : [];
+    let valErrorsArray = [];
+    if (valErrorDetails) {
+      valErrorDetails.map((valError) => {
+        valErrorsArray.push(valError.message);
+      });
     }
-    return validationError;
+    return valErrorsArray;
+  };
+  handleUpdatePropFn = (
+    typeOfRecordToChange,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    propType,
+    e,
+    selectedFrom
+  ) => {
+    let newValue;
+    switch (propType) {
+      case "select":
+        newValue = selectedFrom.filter(
+          (option) => option._id === e.target.value
+        )[0];
+        break;
+      case "asyncReactSelect":
+        newValue = JSON.parse(e);
+        break;
+      case "reactSelect":
+        newValue = selectedFrom.filter((option) => option._id === e)[0];
+        break;
+      default:
+        newValue = e.target.value;
+    }
+    console.log(newValue);
+    let newValueValErrors = [];
+    let shouldValidateNewVal =
+      propType === "name" ||
+      propType === "floatPercent" ||
+      propType === "float" ||
+      propType === "textBox" ||
+      propType === "url"
+        ? true
+        : false;
+    if (shouldValidateNewVal) {
+      newValueValErrors = this.handleValidateProp(
+        propType,
+        propToUpdate,
+        newValue
+      );
+      console.log(newValueValErrors);
+    }
+    let state = this.state;
+    let thisWeeksDays = state.thisWeeksDays;
+    let thisDayStateObj;
+    let thisMealStateObj;
+    let thisMealIngrdntStateObj;
+    if (thisDayOfWeekCode) {
+      thisDayStateObj = thisWeeksDays[thisDayOfWeekCode];
+    }
+    if (thisMealTypeCode) {
+      thisMealStateObj = thisDayStateObj.thisDaysMeals[thisMealTypeCode];
+    }
+    if (arrayIndex || arrayIndex === 0) {
+      thisMealIngrdntStateObj = thisMealStateObj.thisMealsIngrdnts[arrayIndex];
+    }
+    switch (typeOfRecordToChange) {
+      case "weekMealPlan":
+        let thisWMPStateObj = state.thisWMPStateObj;
+        thisWMPStateObj.thisRecord[propToUpdate] = newValue;
+        console.log(thisWMPStateObj);
+        thisWMPStateObj.valErrors[propToUpdate] = newValueValErrors;
+        thisWMPStateObj.recordChanged = true;
+        state.thisWMPStateObj = thisWMPStateObj;
+        break;
+      case "day":
+        thisDayStateObj.thisRecord[propToUpdate] = newValue;
+        thisDayStateObj.valErrors[propToUpdate] = newValueValErrors;
+        thisDayStateObj.recordChanged = true;
+        break;
+      // case "meal"||"genRecipe":
+      case "meal":
+        thisMealStateObj.thisRecord[propToUpdate] = newValue;
+        thisMealStateObj.valErrors.meal[propToUpdate] = newValueValErrors;
+        thisMealStateObj.recordChanged.meal = true;
+        break;
+      case "genRecipe":
+        thisMealStateObj.thisRecord.genRecipe[propToUpdate] = newValue;
+        thisMealStateObj.valErrors.genRecipe[propToUpdate] = newValueValErrors;
+        thisMealStateObj.recordChanged.genRecipe = true;
+        break;
+      // case "mealIngredient"||"genRecipeIngredient"||"ingredient":
+      case "mealIngredient":
+        thisMealIngrdntStateObj.thisRecord[propToUpdate] = newValue;
+        thisMealIngrdntStateObj.valErrors.mealIngredient[propToUpdate] =
+          newValueValErrors;
+        thisMealIngrdntStateObj.recordChanged.mealIngredient = true;
+        break;
+      case "genRecipeIngredient":
+        thisMealIngrdntStateObj.thisRecord.genRecipeIngredient[propToUpdate] =
+          newValue;
+        thisMealIngrdntStateObj.valErrors.genRecipeIngredient[propToUpdate] =
+          newValueValErrors;
+        thisMealIngrdntStateObj.recordChanged.genRecipeIngredient = true;
+        break;
+      case "ingredient":
+        thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient[
+          propToUpdate
+        ] = newValue;
+        thisMealIngrdntStateObj.valErrors.ingredient[propToUpdate] =
+          newValueValErrors;
+        thisMealIngrdntStateObj.recordChanged.ingredient = true;
+        break;
+    }
+    if (thisMealIngrdntStateObj) {
+      thisMealStateObj.thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
+    }
+    if (thisMealStateObj) {
+      thisDayStateObj.thisDaysMeals[thisMealTypeCode] = thisMealStateObj;
+    }
+    if (thisDayStateObj) {
+      thisWeeksDays[thisDayOfWeekCode] = thisDayStateObj;
+      state.thisWeeksDays = thisWeeksDays;
+    }
+    this.setState(state);
   };
   notify = (notice, noticeType) => {
     switch (noticeType) {
@@ -451,8 +582,8 @@ class NewWeekMealPlan extends Component {
         thisDayStateObj.recordLoaded = true;
         thisWeeksDays[dayOfWeekCodes[i]] = thisDayStateObj;
       }
-
       return thisWeeksDays;
+      // this.setState({ thisWeeksDays: thisWeeksDays });
     } catch (error) {
       this.notify(error, "error");
       return;
@@ -488,7 +619,6 @@ class NewWeekMealPlan extends Component {
         thisWMPId,
         backEndHtmlRoot
       );
-
       newState.thisWeeksDays = thisWeeksDays;
       this.setState({
         thisWMPStateObj: newState.thisWMPStateObj,
@@ -629,6 +759,10 @@ class NewWeekMealPlan extends Component {
     const currentGRFUser = authService.getCurrentUser();
     this.setState({ currentGRFUser: currentGRFUser });
     this.getThisWMPFn();
+    // this.getThisWMPsDaysFn(
+    //   this.state.thisWMPStateObj.thisRecord._id,
+    //   this.state.backEndHtmlRoot
+    // );
   }
   render() {
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;
