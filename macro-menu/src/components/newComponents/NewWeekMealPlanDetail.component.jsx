@@ -756,10 +756,32 @@ class NewWeekMealPlan extends Component {
     }
     this.setState(state);
   };
+  getFullRecordSet = async (typeOfRecordToChange) => {
+    const backEndHtmlRoot = this.state.backEndHtmlRoot;
+    const backEndReqUrl = `${backEndHtmlRoot}${typeOfRecordToChange}s/`;
+    try {
+      const backEndReqResponse = await httpService.get(backEndReqUrl);
+      return backEndReqResponse.data;
+    } catch (error) {
+      this.notify(error.message, "error");
+      return [];
+    }
+  };
+  getAllUOMsWTsAndBrands = async () => {
+    let allUnitOfMeasures = await this.getFullRecordSet("unitOfMeasure");
+    let allWeightTypes = await this.getFullRecordSet("weightType");
+    let allBrands = await this.getFullRecordSet("brand");
+    this.setState({
+      allUnitOfMeasures: allUnitOfMeasures,
+      allWeightTypes: allWeightTypes,
+      allBrands: allBrands,
+    });
+  };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();
     this.setState({ currentGRFUser: currentGRFUser });
     this.getThisWMPFn();
+    this.getAllUOMsWTsAndBrands();
   }
   render() {
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;

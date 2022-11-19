@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
 import FormControl from "./FormControl.component";
 import InputCore from "./InputCore.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
