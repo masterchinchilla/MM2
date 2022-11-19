@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
-import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 import FormControl from "./FormControl.component";
 import InputCore from "./InputCore.component";
 import CustomHeading from "./CustomHeading.component";
+import InputWSearchUniqueNew from "./InputWSearchUniqueNew.component";
 const RecipeCard = (props) => {
   const {
     onClickEditFn,
@@ -16,6 +16,7 @@ const RecipeCard = (props) => {
     validatePropFn,
     thisStateObjBackup,
     backEndHtmlRoot,
+    trimEnteredValueFn,
   } = props;
   const backupOfRecordToChange = thisStateObjBackup.thisRecord
     ? thisStateObjBackup.thisRecord.genRecipe
@@ -29,7 +30,7 @@ const RecipeCard = (props) => {
           day: { dayOfWeek: null },
           genRecipe: {
             _id: null,
-            name: null,
+            name: "",
             availableMealType: { name: "" },
             GRFUser: { handle: "" },
             defaultPrepInstructions: "",
@@ -45,7 +46,9 @@ const RecipeCard = (props) => {
         justCreated: { meal: false },
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
-        valErrors: { genRecipe: { name: [], photoURL: [] } },
+        valErrors: {
+          genRecipe: { name: [], photoURL: [], defaultPrepInstructions: [] },
+        },
         recordLoaded: false,
       };
   const {
@@ -80,13 +83,7 @@ const RecipeCard = (props) => {
     : "";
   const thisMealTypeCode = thisMeal.mealType ? thisMeal.mealType.code : "";
   const arrayIndex = null;
-  const saveDisabled =
-    (userType.genRecipe === "author" || userType.genRecipe === "admin") &&
-    editingForm
-      ? false
-      : true;
   const fieldsDisabled = !editingForm.genRecipe ? true : false;
-
   const [recipeHasConnectedMeals, updateRecipeHasConnectedMeals] =
     useState(true);
   const hasChildren =
@@ -98,8 +95,7 @@ const RecipeCard = (props) => {
   const [nameValErrors, updateNameValErrorsStateFn] = useState(
     valErrors ? valErrors.genRecipe.name : []
   );
-  const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
-  const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(saveDisabled);
+  const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(true);
 
   const saveWarning =
     "Any changes saved to this recipe will affect any meal to which it has been connected. Do you want to proceed?";
@@ -109,7 +105,18 @@ const RecipeCard = (props) => {
 
   useEffect(() => {
     //search db for meals connected to this recipe, if found update "recipeHasConnectedMeals"
-  }, []);
+    let photoURLValErrors = photoURL ? valErrors.genRecipe.photoURL : [];
+    if (
+      nameValErrors.length > 0 ||
+      valErrors.genRecipe.defaultPrepInstructions.length > 0 ||
+      photoURLValErrors.length > 0
+    ) {
+      toggleSaveDisabledStateFn(true);
+    } else {
+      toggleSaveDisabledStateFn(false);
+    }
+    updateLocalRecordChangedStateFn(thisRecordChanged);
+  });
   function handleUpdatePrepInst(e) {
     let newPrepInst = e.target.value;
     updatePrepInstrStateFn(newPrepInst);
@@ -131,7 +138,6 @@ const RecipeCard = (props) => {
     updateNameStateFn(backupOfRecordToChange.name);
     updatePrepInstrStateFn(backupOfRecordToChange.defaultPrepInstructions);
     updateNameValErrorsStateFn([]);
-    toggleNameHasDupStateFn(false);
     onClickCancelFn(
       typeOfRecordToChange,
       thisDayOfWeekCode,
@@ -233,13 +239,16 @@ const RecipeCard = (props) => {
             >
               <div className="accordion-body mealInnerAccordion">
                 <div className="form-group mealInputs">
-                  <InputWLocalStateAndVal
-                    key={`inputWLclStateNValForNameForWMP${thisRecordId}`}
-                    backupOfRecordToChange={backupOfRecordToChange}
-                    formGroupClasses={"form-group wmpNameFrmGroup"}
-                    label={"Recipe Name"}
+                  <InputWSearchUniqueNew
+                    key={`inputWSrchUniqueForNameFor${typeOfRecordToChange}${thisRecordId}`}
+                    formGroupClasses="form-group mealInputs"
+                    label="Recipe Name"
                     propType="name"
                     localPropValue={localName}
+                    changeLocalPropFn={updateNameStateFn}
+                    origPropValue={
+                      backupOfRecordToChange ? backupOfRecordToChange.name : ""
+                    }
                     typeOfRecordToChange={typeOfRecordToChange}
                     thisDayOfWeekCode={thisDayOfWeekCode}
                     thisMealTypeCode={thisMealTypeCode}
@@ -247,19 +256,19 @@ const RecipeCard = (props) => {
                     arrayIndex={arrayIndex}
                     selectedFrom={[]}
                     fieldDisabled={fieldsDisabled}
-                    valErrors={nameValErrors}
-                    inputClasses={"form-control"}
+                    inputClasses="form-control"
                     isRequired={true}
                     backEndHtmlRoot={backEndHtmlRoot}
-                    propNameSentenceCase={"Name"}
-                    validatePropFn={validatePropFn}
-                    changeLocalPropStateFn={updateNameStateFn}
-                    togglePropValueHasDupStateFn={toggleNameHasDupStateFn}
-                    onUpdatePropFn={onUpdatePropFn}
-                    valErrorsUpdateStateFn={updateNameValErrorsStateFn}
+                    propNameSentenceCase="Name"
+                    valErrors={nameValErrors}
+                    changeParentPropFn={onUpdatePropFn}
                     getRndIntegerFn={getRndIntegerFn}
                     recordLoaded={recordLoaded}
+                    thisRecordId={thisRecordId}
+                    trimEnteredValueFn={trimEnteredValueFn}
                     excludeLabel={false}
+                    validatePropFn={validatePropFn}
+                    updatePropValErrorsStateFn={updateNameValErrorsStateFn}
                   />
                 </div>
                 <InputCore

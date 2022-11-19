@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FormControl from "./FormControl.component";
 import InputCore from "./InputCore.component";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
@@ -62,12 +62,6 @@ const GenRecipeIngredientForm = (props) => {
   const typeOfRecordToChange = "genRecipeIngredient";
   const thisDayOfWeekCode = day.dayOfWeek.code;
   const thisMealTypeCode = mealType.code;
-  const saveDisabled =
-    (userType.genRecipeIngredient === "author" ||
-      userType.genRecipeIngredient === "admin") &&
-    editingForm.genRecipeIngredient
-      ? false
-      : true;
   const fieldsDisabled = !editingForm.genRecipeIngredient ? true : false;
   const deleteWarning =
     "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
@@ -124,6 +118,17 @@ const GenRecipeIngredientForm = (props) => {
       newRecordToSave
     );
   }
+  const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(true);
+  useEffect(() => {
+    if (
+      valErrors.genRecipeIngredient.defaultQty.length > 0 ||
+      valErrors.genRecipeIngredient.ingredient.length > 0
+    ) {
+      toggleSaveDisabledStateFn(true);
+    } else {
+      toggleSaveDisabledStateFn(false);
+    }
+  });
   return (
     <form className="gnRcpIngrdntFrm">
       <div className="gnRcpIngrdntFrmHdr">
@@ -145,7 +150,7 @@ const GenRecipeIngredientForm = (props) => {
           arrayIndex={arrayIndex}
           userType={userType.genRecipeIngredient}
           editingForm={editingForm.genRecipeIngredient}
-          saveDisabled={saveDisabled}
+          saveDisabled={localSaveDisabled}
           hasChildren={false}
           saveWarning={saveWarning}
           deleteWarning={deleteWarning}
@@ -169,7 +174,7 @@ const GenRecipeIngredientForm = (props) => {
           typeOfRecordToChange="genRecipeIngredient"
           thisDayOfWeekCode={thisDayOfWeekCode}
           thisMealTypeCode={thisMealTypeCode}
-          propToUpdate={"qty"}
+          propToUpdate={"defaultQty"}
           arrayIndex={arrayIndex}
           selectedFrom={[]}
           fieldDisabled={fieldsDisabled}

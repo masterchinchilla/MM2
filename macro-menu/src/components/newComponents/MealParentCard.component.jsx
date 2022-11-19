@@ -132,6 +132,7 @@ const MealParentCard = (props) => {
             getRndIntegerFn={getRndIntegerFn}
             backEndHtmlRoot={backEndHtmlRoot}
             validatePropFn={validatePropFn}
+            trimEnteredValueFn={trimEnteredValueFn}
           />
           <MealIngredients
             key={`mealIngrdntsFor${typeOfRecordToChange}${thisRecordId}`}

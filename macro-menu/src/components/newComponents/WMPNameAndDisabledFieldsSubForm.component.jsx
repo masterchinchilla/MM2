@@ -129,7 +129,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           localPropValue={localName}
           changeLocalPropFn={updateNameStateFn}
           origPropValue={
-            backupOfRecordToChange ? backupOfRecordToChange["name"] : {}
+            backupOfRecordToChange ? backupOfRecordToChange.name : ""
           }
           typeOfRecordToChange={typeOfRecordToChange}
           thisDayOfWeekCode={thisDayOfWeekCode}
@@ -142,6 +142,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           isRequired={true}
           backEndHtmlRoot={backEndHtmlRoot}
           propNameSentenceCase="Name"
+          valErrors={nameValErrors}
           changeParentPropFn={onUpdatePropFn}
           getRndIntegerFn={getRndIntegerFn}
           recordLoaded={recordLoaded}

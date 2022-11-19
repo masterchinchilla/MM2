@@ -24,7 +24,7 @@ const DayCard = (props) => {
   const thisStateObj = props.thisStateObj
     ? props.thisStateObj
     : {
-        thisRecord: { _id: null },
+        thisRecord: { _id: "" },
         recordLoaded: false,
       };
   const { thisRecord } = thisStateObj;

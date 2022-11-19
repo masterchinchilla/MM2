@@ -1935,7 +1935,7 @@ export default class WeekMealPlanDetail extends Component {
     } else {
       return (
         <div className="container-fluid pl-4 pr-4">
-          <ToastContainer autoClose={2000} />
+          {/* <ToastContainer autoClose={2000} /> */}
           <div className="card">
             <div className="card-header">
               <h1 className="card-title">Week Meal Plan Detail</h1>

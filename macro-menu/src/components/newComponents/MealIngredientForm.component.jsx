@@ -49,15 +49,17 @@ const MealIngredientForm = (props) => {
   const typeOfRecordToChange = "mealIngredient";
   const thisDayOfWeekCode = day.dayOfWeek.code;
   const thisMealTypeCode = mealType.code;
-  const saveDisabled =
-    (userType.mealIngredient === "author" ||
-      userType.mealIngredient === "admin") &&
-    editingForm.mealIngredient
-      ? false
-      : true;
   const deleteWarning =
     "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?";
   const fieldsDisabled = !editingForm.mealIngredient ? true : false;
+  const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(true);
+  useEffect(() => {
+    if (valErrors.mealIngredient.qty.length > 0) {
+      toggleSaveDisabledStateFn(true);
+    } else {
+      toggleSaveDisabledStateFn(false);
+    }
+  });
   return (
     <form className="mlIngrdntFrm">
       <div className="mlIngrdntFrmHdr">
@@ -79,7 +81,7 @@ const MealIngredientForm = (props) => {
           arrayIndex={arrayIndex}
           userType={userType.mealIngredient}
           editingForm={editingForm.mealIngredient}
-          saveDisabled={saveDisabled}
+          saveDisabled={localSaveDisabled}
           hasChildren={false}
           saveWarning={null}
           deleteWarning={deleteWarning}

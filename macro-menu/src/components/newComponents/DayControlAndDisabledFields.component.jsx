@@ -11,11 +11,11 @@ const DayControlAndDisabledFields = (props) => {
     : {
         editingForm: false,
         thisRecord: {
-          _id: null,
-          name: null,
+          _id: "",
+          name: "",
           dayOfWeek: { name: "Day" },
-          createdAt: null,
-          updatedAt: null,
+          createdAt: "",
+          updatedAt: "",
         },
         recordChanged: false,
         userType: "",

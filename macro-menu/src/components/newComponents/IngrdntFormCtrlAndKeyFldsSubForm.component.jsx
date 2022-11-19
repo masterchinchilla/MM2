@@ -3,6 +3,7 @@ import SelectSearchListWCreateNew from "./SelectSearchListWCreateNew.component";
 import FormControl from "./FormControl.component";
 import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
 import CustomHeading from "./CustomHeading.component";
+import InputWSearchUniqueNew from "./InputWSearchUniqueNew.component";
 const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const {
     thisRecordId,
@@ -21,6 +22,9 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     allWeightTypes,
     allBrands,
     thisStateObjBackup,
+    localSaveDisabled,
+    updateNameValErrorsStateFn,
+    nameValErrors,
   } = props;
   const backupOfRecordToChange = thisStateObjBackup.thisRecord
     ? thisStateObjBackup.thisRecord.genRecipeIngredient.ingredient
@@ -55,6 +59,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         editingForm: { ingredient: false },
         valErrors: {
           ingredient: {
+            name: [],
             _id: [],
             photoURL: [],
             unitOfMeasure: [],
@@ -88,11 +93,6 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const typeOfRecordToChange = "ingredient";
   const thisDayOfWeekCode = day.dayOfWeek.code;
   const thisMealTypeCode = mealType.code;
-  const saveDisabled =
-    (userType.ingredient === "author" || userType.ingredient === "admin") &&
-    editingForm.ingredient
-      ? false
-      : true;
   const fieldsDisabled = !editingForm.ingredient ? true : false;
   const deleteWarning =
     "If you delete this Base Ingredient it will be deleted everywhere, including in other Recipes. Do you want to proceed?";
@@ -101,11 +101,6 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const deleteChildrenWarning =
     "You cannot delete this Base Ingredient until all connected Recipe Ingredients have been disconnected from it.";
   const [localName, updateNameStateFn] = useState(name);
-  const [nameHasDup, toggleNameHasDupStateFn] = useState(true);
-  const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(saveDisabled);
-  const [nameValErrors, updateNameValErrorsStateFn] = useState(
-    valErrors ? valErrors.ingredient.name : []
-  );
   function handleCreateNewUOMWghtTypOrBrndFn(
     newRecordName,
     typeOfRecordToCreate
@@ -130,13 +125,15 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
       newRecordToSave
     );
   }
-  useEffect(() => {
-    if (nameHasDup || nameValErrors.length > 0) {
-      toggleSaveDisabledStateFn(true);
-    } else {
-      toggleSaveDisabledStateFn(false);
-    }
-  });
+  function handleClickCancelFn() {
+    updateNameStateFn(backupOfRecordToChange.name);
+    onClickCancelFn(
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex
+    );
+  }
   return (
     <div className="ingrdntFrmHdr">
       <CustomHeading
@@ -164,7 +161,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         deleteChildrenWarning={deleteChildrenWarning}
         recordLoaded={recordLoaded}
         onClickEditFn={onClickEditFn}
-        onClickCancelFn={onClickCancelFn}
+        onClickCancelFn={handleClickCancelFn}
         onClickSaveFn={onClickSaveFn}
         onClickDeleteFn={onClickDeleteFn}
         onClickCopyFn={() => {}}
@@ -255,8 +252,38 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         recordLoaded={recordLoaded}
         getRndIntegerFn={getRndIntegerFn}
       />
-
-      <InputWLocalStateAndVal
+      <InputWSearchUniqueNew
+        key={`inputWSrchUniqueForNameFor${typeOfRecordToChange}${thisRecordId}`}
+        formGroupClasses="form-group mealIngrdntInputs ingrdntName badge bg-primary"
+        label="Ingredient Name"
+        propType="name"
+        localPropValue={localName}
+        changeLocalPropFn={updateNameStateFn}
+        origPropValue={
+          backupOfRecordToChange ? backupOfRecordToChange.name : ""
+        }
+        typeOfRecordToChange={typeOfRecordToChange}
+        thisDayOfWeekCode={thisDayOfWeekCode}
+        thisMealTypeCode={thisMealTypeCode}
+        propToUpdate="name"
+        arrayIndex={arrayIndex}
+        selectedFrom={[]}
+        fieldDisabled={fieldsDisabled}
+        inputClasses="form-control"
+        isRequired={true}
+        backEndHtmlRoot={backEndHtmlRoot}
+        propNameSentenceCase="Name"
+        valErrors={nameValErrors}
+        changeParentPropFn={onUpdatePropFn}
+        getRndIntegerFn={getRndIntegerFn}
+        recordLoaded={recordLoaded}
+        thisRecordId={thisRecordId}
+        trimEnteredValueFn={trimEnteredValueFn}
+        excludeLabel={false}
+        validatePropFn={validatePropFn}
+        updatePropValErrorsStateFn={updateNameValErrorsStateFn}
+      />
+      {/* <InputWLocalStateAndVal
         key={`inputWLclStateNValForNameFor${typeOfRecordToChange}${thisRecordId}`}
         backupOfRecordToChange={backupOfRecordToChange}
         formGroupClasses={
@@ -285,7 +312,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         getRndIntegerFn={getRndIntegerFn}
         recordLoaded={recordLoaded}
         excludeLabel={false}
-      />
+      /> */}
     </div>
   );
 };

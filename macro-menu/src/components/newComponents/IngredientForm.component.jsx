@@ -28,16 +28,64 @@ const IngredientForm = (props) => {
           genRecipeIngredient: {
             ingredient: {
               _id: null,
+              photoURL: "",
             },
+          },
+          meal: {
+            day: { dayOfWeek: { code: "sunday" } },
+            mealType: { code: "breakfast" },
           },
         },
         justCreated: { ingredient: false },
+        valErrors: {
+          ingredient: {
+            name: [],
+            calories: [],
+            carbs: [],
+            protein: [],
+            fat: [],
+            fiber: [],
+            photoURL: [],
+          },
+        },
       };
-  const { justCreated } = thisStateObj;
-  const thisRecord = thisStateObj.thisRecord.genRecipeIngredient.ingredient;
-  const { _id } = thisRecord;
+  const { justCreated, valErrors, thisRecord, arrayIndex } = thisStateObj;
+  const meal = thisRecord.meal;
+  const { day, mealType } = meal;
+  const { _id, photoURL } = thisRecord.genRecipeIngredient.ingredient;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "ingredient";
+  const thisDayOfWeekCode = day.dayOfWeek.code;
+  const thisMealTypeCode = mealType.code;
+  const [nameValErrors, updateNameValErrorsStateFn] = useState(
+    valErrors ? valErrors.ingredient.name : []
+  );
+  const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(true);
+  useEffect(() => {
+    let photoURLValErrors = photoURL ? valErrors.ingredient.photoURL : [];
+    if (
+      nameValErrors.length > 0 ||
+      photoURLValErrors.length > 0 ||
+      valErrors.ingredient.calories.length > 0 ||
+      valErrors.ingredient.carbs.length > 0 ||
+      valErrors.ingredient.protein.length > 0 ||
+      valErrors.ingredient.fat.length > 0 ||
+      valErrors.ingredient.fiber.length > 0
+    ) {
+      toggleSaveDisabledStateFn(true);
+    } else {
+      toggleSaveDisabledStateFn(false);
+    }
+  });
+  function handleClickCancelFn() {
+    updateNameValErrorsStateFn([]);
+    onClickCancelFn(
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex
+    );
+  }
   return (
     <form
       className={
@@ -53,7 +101,7 @@ const IngredientForm = (props) => {
         getRndIntegerFn={getRndIntegerFn}
         currentGRFUser={currentGRFUser}
         onClickEditFn={onClickEditFn}
-        onClickCancelFn={onClickCancelFn}
+        onClickCancelFn={handleClickCancelFn}
         onClickSaveFn={onClickSaveFn}
         onClickDeleteFn={onClickDeleteFn}
         onUpdatePropFn={onUpdatePropFn}
@@ -65,6 +113,9 @@ const IngredientForm = (props) => {
         allWeightTypes={allWeightTypes}
         allBrands={allBrands}
         thisStateObjBackup={thisStateObjBackup}
+        localSaveDisabled={localSaveDisabled}
+        nameValErrors={nameValErrors}
+        updateNameValErrorsStateFn={updateNameValErrorsStateFn}
       />
       <div
         className="accordion accordion-flush"

@@ -154,6 +154,7 @@ class NewWeekMealPlan extends Component {
     e,
     selectedFrom
   ) => {
+    console.log(propType);
     let newValue;
     switch (propType) {
       case "select":
@@ -759,10 +760,6 @@ class NewWeekMealPlan extends Component {
     const currentGRFUser = authService.getCurrentUser();
     this.setState({ currentGRFUser: currentGRFUser });
     this.getThisWMPFn();
-    // this.getThisWMPsDaysFn(
-    //   this.state.thisWMPStateObj.thisRecord._id,
-    //   this.state.backEndHtmlRoot
-    // );
   }
   render() {
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;

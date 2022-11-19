@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import httpService from "../../services/httpService";
 import InputCore from "./InputCore.component";
 const InputWSearchUniqueNew = (props) => {
@@ -20,6 +20,7 @@ const InputWSearchUniqueNew = (props) => {
     isRequired,
     backEndHtmlRoot,
     propNameSentenceCase,
+    valErrors,
     changeParentPropFn,
     getRndIntegerFn,
     recordLoaded,
@@ -73,33 +74,43 @@ const InputWSearchUniqueNew = (props) => {
     const newTimer = setTimeout(() => {
       if (origPropValue !== trimmedWNoDblSpcs) {
         if (trimmedWNoDblSpcs) {
-          httpService.get(fetchBaseURL + trimmedWNoDblSpcs).then((response) => {
-            if (response.data === "exists") {
-              let valueTknValErr = `That ${propNameSentenceCase} is already taken`;
-              setLclValErrsStateFn([valueTknValErr]);
-              updatePropValErrorsStateFn([valueTknValErr]);
-            } else {
-              let valFnResults = validatePropFn(
-                propType,
-                propToUpdate,
-                trimmedWNoDblSpcs
-              );
-              if (valFnResults.length > 0) {
-                setLclValErrsStateFn([valFnResults]);
-                updatePropValErrorsStateFn([valFnResults]);
-                return;
+          httpService
+            .get(fetchBaseURL + trimmedWNoDblSpcs)
+            .then((response) => {
+              if (response.data === "exists") {
+                let valueTknValErr = `That ${propNameSentenceCase} is already taken`;
+                setLclValErrsStateFn([valueTknValErr]);
+                updatePropValErrorsStateFn([valueTknValErr]);
               } else {
-                setLclValErrsStateFn("");
-                updatePropValErrorsStateFn([]);
-                handleUpdateParentPropFn(trimmedWNoDblSpcs);
+                let valFnResults = validatePropFn(
+                  propType,
+                  propToUpdate,
+                  trimmedWNoDblSpcs
+                );
+                if (valFnResults.length > 0) {
+                  setLclValErrsStateFn([valFnResults]);
+                  updatePropValErrorsStateFn([valFnResults]);
+                  return;
+                } else {
+                  setLclValErrsStateFn("");
+                  updatePropValErrorsStateFn([]);
+                  handleUpdateParentPropFn(trimmedWNoDblSpcs);
+                }
               }
-            }
-          });
+            })
+            .catch((err) => {
+              setLclValErrsStateFn([JSON.stringify(err.message)]);
+              updatePropValErrorsStateFn([JSON.stringify(err.message)]);
+            });
         }
       }
     }, 500);
     setTimerStateFn(newTimer);
   }
+
+  useEffect(() => {
+    setLclValErrsStateFn(valErrors);
+  });
   return (
     <InputCore
       key={`inputWSrchUniqueFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
