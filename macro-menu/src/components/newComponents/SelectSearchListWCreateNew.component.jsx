@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CreatableSelect from "react-select/creatable";
-import _ from "lodash";
 const SelectSearchListWCreateNew = (props) => {
   const {
-    // recordToSelect,
     typeOfRecordToChange,
     propNameSentenceCase,
     thisDayOfWeekCode,
@@ -14,7 +12,6 @@ const SelectSearchListWCreateNew = (props) => {
     formGroupClasses,
     inputClasses,
     fieldDisabled,
-    // valErrors,
     onUpdatePropFn,
     validatePropFn,
     onCreateNewRecordFn,
@@ -23,13 +20,12 @@ const SelectSearchListWCreateNew = (props) => {
     recordLoaded,
     excludeLabel,
     getRndIntegerFn,
+    options,
   } = props;
   let valErrors = [];
   const recordToSelect = props.recordToSelect
     ? props.recordToSelect
     : { name: "", _id: "" };
-  let options;
-  // =props.options.length > 0 ? props.options : [{ name: null, _id: null }];
   const [localOptions, updateLocalOptionsStateFn] = useState([
     { label: "", value: "" },
   ]);
@@ -38,8 +34,7 @@ const SelectSearchListWCreateNew = (props) => {
   let thisRecordId = "";
   function setStateOnLoad() {
     let newArray = [];
-    props.options.forEach((element) => {
-      console.log(element);
+    options.forEach((element) => {
       newArray.push({ label: element.name, value: element._id });
     });
     updateLocalOptionsStateFn(newArray);
@@ -64,16 +59,16 @@ const SelectSearchListWCreateNew = (props) => {
     setStateOnLoad();
     setValErrors();
   }, []);
-  function handleSelectValue(e) {
-    if (e) {
-      let eObj = { target: { e } };
+  function handleSelectValue(selected) {
+    if (selected) {
+      let eObj = { target: { value: selected.value } };
       onUpdatePropFn(
         typeOfRecordToChange,
         thisDayOfWeekCode,
         thisMealTypeCode,
         propToUpdate,
         arrayIndex,
-        "reactSelect",
+        "select",
         eObj,
         options
       );
@@ -82,7 +77,7 @@ const SelectSearchListWCreateNew = (props) => {
   }
   function handleCheckForOptionMatchEnteredText(trimmedValueWNoDblSpcs) {
     const regexObj = new RegExp(trimmedValueWNoDblSpcs, "i");
-    let filteredOptions = options.filter((option) => {
+    let filteredOptions = localOptions.filter((option) => {
       return regexObj.test(option.label);
     });
     if (filteredOptions.length < 1) {

@@ -69,11 +69,9 @@ class NewWeekMealPlan extends Component {
       allBrands: [],
     };
   }
-
   getRndIntegerFn = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-
   handleClickCancelFn = () => {
     let state = this.state;
     state.thisWMPStateObj = state.thisWMPStateBackup;
@@ -82,7 +80,6 @@ class NewWeekMealPlan extends Component {
     state.thisWeeksDaysBackup = {};
     this.setState(state);
   };
-
   handleClickSaveFn = () => {
     console.log("clicked Save");
   };
@@ -154,7 +151,6 @@ class NewWeekMealPlan extends Component {
     e,
     selectedFrom
   ) => {
-    console.log(propType);
     let newValue;
     switch (propType) {
       case "select":
@@ -165,13 +161,9 @@ class NewWeekMealPlan extends Component {
       case "asyncReactSelect":
         newValue = JSON.parse(e);
         break;
-      case "reactSelect":
-        newValue = selectedFrom.filter((option) => option._id === e)[0];
-        break;
       default:
         newValue = e.target.value;
     }
-    console.log(newValue);
     let newValueValErrors = [];
     let shouldValidateNewVal =
       propType === "name" ||
