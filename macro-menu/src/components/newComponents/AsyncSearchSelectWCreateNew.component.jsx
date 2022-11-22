@@ -14,6 +14,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
     propToUpdate,
     trimEnteredValueFn,
     fetchDataUrl,
+    createRecordUrl,
     validatePropFn,
     valErrors,
     notifyFn,
@@ -25,27 +26,27 @@ const AsyncSearchSelectWCreateNew = (props) => {
     getRndIntegerFn,
     excludeLabel,
     isRequired,
+    newRecordToSave,
+    newRecordForState,
   } = props;
   // let valErrors = ["error 1", "error 2 with more text", "error 3"];
   const recordToSelect = props.recordToSelect
     ? props.recordToSelect
     : { name: "", _id: "" };
   const selectedFrom = [];
-  const [matchesExist, updateMatchesExist] = useState(false);
-  const [newOptionValErrors, updateNewOptionValErrorsStateFn] =
-    useState(valErrors);
+  const [localValErrors, setLclValErrsStateFn] = useState(valErrors);
   const [localName, updateLocalName] = useState(recordToSelect.name);
   const thisRecordId = recordToSelect
     ? recordToSelect._id
     : getRndIntegerFn(10000000, 99999999);
   function handleValEnteredTextFn(trimmedValueWNoDblSpcs) {
-    const valErrors = validatePropFn(
+    const newValErrors = validatePropFn(
       propType,
       propToUpdate,
       trimmedValueWNoDblSpcs
     );
-    updateNewOptionValErrorsStateFn(valErrors);
-    return valErrors ? false : true;
+    setLclValErrsStateFn(newValErrors);
+    return newValErrors ? false : true;
   }
   function fetchData(inputValue, callback) {
     if (!inputValue) {
@@ -53,11 +54,10 @@ const AsyncSearchSelectWCreateNew = (props) => {
     } else {
       const trimmedValueWNoDblSpcs = trimEnteredValueFn(inputValue);
       httpService
-        .get(fetchDataUrl, trimmedValueWNoDblSpcs)
+        .get(`${fetchDataUrl}/${trimmedValueWNoDblSpcs}`)
         .then((response) => {
           const tempArray = [];
           if (response.data.length > 0) {
-            updateMatchesExist(true);
             response.data.forEach((element) => {
               tempArray.push({
                 label: `${element.name}`,
@@ -69,36 +69,16 @@ const AsyncSearchSelectWCreateNew = (props) => {
               trimmedValueWNoDblSpcs
             );
             if (isValidNewOption) {
-              updateMatchesExist(false);
-              updateNewOptionValErrorsStateFn(null);
+              setLclValErrsStateFn([]);
               updateLocalName(trimmedValueWNoDblSpcs);
             } else {
-              updateMatchesExist(false);
               updateLocalName("");
             }
           }
           callback(tempArray);
         })
         .catch((err) => {
-          notifyFn(err, "error");
-          // if (err.response.data) {
-          //   notifyFn(err.response.data.errorMsg, "error");
-          //   const valErrorsArray = err.response.data.valErrorsArray;
-          //   const valErrorsObjToUpdate = {};
-          //   if (valErrorsArray) {
-          //     for (let i = 0; i < valErrorsArray.length; i++) {
-          //       let thisValErrorObj = valErrorsArray[i];
-          //       let thisValErrorObjKeys = Object.keys(thisValErrorObj);
-          //       for (let i = 0; i < thisValErrorObjKeys.length; i++) {
-          //         let thisValErrorObjKey = thisValErrorObjKeys[i];
-          //         let thisValError = thisValErrorObj[thisValErrorObjKey];
-          //         valErrorsObjToUpdate[thisValErrorObjKey] = thisValError;
-          //         notifyFn(thisValError, "error");
-          //       }
-          //     }
-          //     updateNewOptionValErrorsStateFn(valErrorsObjToUpdate);
-          //   }
-          // }
+          setLclValErrsStateFn([JSON.stringify(err.message)]);
         });
     }
   }
@@ -117,14 +97,8 @@ const AsyncSearchSelectWCreateNew = (props) => {
     }
   }
   function resetLocalState() {
-    updateMatchesExist(false);
-    updateNewOptionValErrorsStateFn(valErrors);
+    setLclValErrsStateFn(valErrors);
     updateLocalName(recordToSelect.name);
-  }
-  function handleTrimAndValEnteredText(e) {
-    const trimmedValueWNoDblSpcs = trimEnteredValueFn(e);
-    const isValidNewOption = handleValEnteredTextFn(trimmedValueWNoDblSpcs);
-    return isValidNewOption;
   }
   if (recordLoaded) {
     return (
@@ -143,13 +117,13 @@ const AsyncSearchSelectWCreateNew = (props) => {
         )}
         <div
           className="alert alert-danger valErrorsListDiv topValErrors"
-          hidden={valErrors.length > 0 ? false : true}
+          hidden={localValErrors.length > 0 ? false : true}
         >
-          {valErrors.length < 1 ? (
+          {localValErrors.length < 1 ? (
             ""
           ) : (
             <ul>
-              {valErrors.map((valError) => (
+              {localValErrors.map((valError) => (
                 <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
               ))}
             </ul>
@@ -167,11 +141,17 @@ const AsyncSearchSelectWCreateNew = (props) => {
           defaultOptions={true}
           isDisabled={fieldDisabled}
           className={inputClasses}
-          onCreateOption={onCreateNewRecordFn}
+          onCreateOption={() => onCreateNewRecordFn(localName)}
           allowCreateWhileLoading={false}
-          // isValidNewOption={(e) => {
-          //   handleTrimAndValEnteredText(e);
-          // }}
+          isValidNewOption={(e) => {
+            let trimmedNameWNoDblSpcs = trimEnteredValueFn(e);
+            let nameLength = trimmedNameWNoDblSpcs.length;
+            if (nameLength >= 3 && nameLength <= 255) {
+              return true;
+            } else {
+              return false;
+            }
+          }}
           onBlur={resetLocalState}
         />
       </div>

@@ -57,6 +57,7 @@ const MealChildCard = (props) => {
   const typeOfRecordToChange = "meal";
   const thisDayOfWeekCode = day.dayOfWeek ? day.dayOfWeek.code : "";
   const thisMealTypeCode = mealType ? mealType.code : "";
+  const thisMealTypeId = mealType ? mealType._id : "";
   const arrayIndex = null;
   const saveDisabled =
     (userType.meal === "author" || userType.meal === "admin") &&
@@ -88,7 +89,7 @@ const MealChildCard = (props) => {
     onCreateNewRecordFn(
       typeOfRecordToChange,
       "genRecipe",
-      "reactSelect",
+      "Recipe",
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
@@ -159,7 +160,7 @@ const MealChildCard = (props) => {
             propToUpdateSentenceCase={"Recipe"}
             propToUpdate={"recipe"}
             trimEnteredValueFn={trimEnteredValueFn}
-            fetchDataUrl={`${backEndHtmlRoot}genRecipes/findbyname/`}
+            fetchDataUrl={`${backEndHtmlRoot}genRecipes/genRecipesByMealTypeAndName/${thisMealTypeId}`}
             validatePropFn={validatePropFn}
             valErrors={valErrors.meal.genRecipe}
             notifyFn={notifyFn}

@@ -25,12 +25,12 @@ router.route('/thisMealTypesGenRecipes/:mealType').get((req, res)=>{
         .then(mealTypesRecipes=>res.json(mealTypesRecipes))
         .catch(err=>res.status(400).json('Error: '+err));
 })
-router.route('/genRecipesByMealTypeAndName/:name').get((req, res)=>{
-    // '/genRecipesByMealTypeAndName/:mealTypeId:name'
+router.route('/genRecipesByMealTypeAndName/:mealType/:name').get((req, res)=>{
     GenRecipe.find({
-        name:new RegExp(req.params.name,"i")
+        name:new RegExp(req.params.name,"i"),
+        availableMealType:req.params.mealType
     }).populate('GRFUser').populate('availableMealType')
-        .then(recipe=>res.json(recipe))
+        .then(recipes=>res.json(recipes))
         .catch(err=>res.status(400).json('Error: '+err));
 })
 router.route('/update/:id').put((req, res)=>{
@@ -47,7 +47,7 @@ router.route('/update/:id').put((req, res)=>{
         })
         .catch(err=>res.status(400).json('Error: '+err));
 })
-router.route('/add').post((req, res)=>{
+router.route('/add/').post((req, res)=>{
     const name=req.body.name;
     const availableMealType=req.body.availableMealType;
     const GRFUser=req.body.GRFUser;

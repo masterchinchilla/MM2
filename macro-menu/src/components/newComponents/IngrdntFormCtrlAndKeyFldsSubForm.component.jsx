@@ -103,11 +103,12 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const [localName, updateNameStateFn] = useState(name);
   function handleCreateNewUOMWghtTypOrBrndFn(
     newRecordName,
-    typeOfRecordToCreate
+    typeOfRecordToCreate,
+    typeOfRecordToCreateSentenceCase
   ) {
     const newRecordToSave = {
       name: newRecordName,
-      GRFUser: currentGRFUser._id,
+      GRFUser: currentGRFUser,
     };
     const newRecordForState = {
       _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
@@ -117,7 +118,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     onCreateNewRecordFn(
       typeOfRecordToChange,
       typeOfRecordToCreate,
-      "reactSelect",
+      typeOfRecordToCreateSentenceCase,
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,

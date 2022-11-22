@@ -110,7 +110,7 @@ const GenRecipeIngredientForm = (props) => {
     onCreateNewRecordFn(
       typeOfRecordToChange,
       "ingredient",
-      "reactSelect",
+      "Ingredient",
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
@@ -244,14 +244,14 @@ const GenRecipeIngredientForm = (props) => {
                 propToUpdateSentenceCase={"Ingredient"}
                 propToUpdate={"ingredient"}
                 trimEnteredValueFn={trimEnteredValueFn}
-                fetchDataUrl={`${backEndHtmlRoot}genRecipes/findbyname/`}
+                fetchDataUrl={`${backEndHtmlRoot}ingredients/ingredientsByName`}
                 validatePropFn={validatePropFn}
                 valErrors={valErrors.genRecipeIngredient.ingredient}
                 notifyFn={notifyFn}
                 onUpdatePropFn={onUpdatePropFn}
                 onCreateNewRecordFn={handleCreateNewIngredientFn}
                 fieldDisabled={fieldsDisabled}
-                inputClasses={"recipeSelect"}
+                inputClasses={""}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
                 isRequired={true}

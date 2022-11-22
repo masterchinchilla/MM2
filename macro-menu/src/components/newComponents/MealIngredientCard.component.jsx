@@ -49,7 +49,7 @@ const MealIngredientCard = (props) => {
           onClickSaveFn={onClickSaveFn}
           onClickDeleteFn={onClickDeleteFn}
           onUpdatePropFn={onUpdatePropFn}
-          onCreateNewRecord={onCreateNewRecordFn}
+          onCreateNewRecordFn={onCreateNewRecordFn}
           getRndIntegerFn={getRndIntegerFn}
         />
         <GenRecipeIngredientForm
@@ -70,6 +70,7 @@ const MealIngredientCard = (props) => {
           onUpdatePropFn={onUpdatePropFn}
           onCreateNewRecord={onCreateNewRecordFn}
           getRndIntegerFn={getRndIntegerFn}
+          trimEnteredValueFn={trimEnteredValueFn}
         />
       </div>
       <div className="mlIngrdntCrdBttmSctn">
@@ -89,7 +90,7 @@ const MealIngredientCard = (props) => {
           onClickSaveFn={onClickSaveFn}
           onClickDeleteFn={onClickDeleteFn}
           onUpdatePropFn={onUpdatePropFn}
-          onCreateNewRecord={onCreateNewRecordFn}
+          onCreateNewRecordFn={onCreateNewRecordFn}
           getRndIntegerFn={getRndIntegerFn}
           trimEnteredValueFn={trimEnteredValueFn}
         />

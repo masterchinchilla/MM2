@@ -124,7 +124,7 @@ const SelectSearchListWCreateNew = (props) => {
           ) : (
             <ul>
               {newOptionValErrors.map((valError) => (
-                <li>{valError}</li>
+                <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
               ))}
             </ul>
           )}
@@ -154,8 +154,18 @@ const SelectSearchListWCreateNew = (props) => {
           onChange={handleSelectValue}
           isDisabled={fieldDisabled}
           className={inputClasses}
-          onCreateOption={(e) => onCreateNewRecordFn(e, propToUpdate)}
-          // isValidNewOption={handleTrimAndValEnteredText}
+          onCreateOption={(e) =>
+            onCreateNewRecordFn(e, propToUpdate, propNameSentenceCase)
+          }
+          isValidNewOption={(e) => {
+            let trimmedNameWNoDblSpcs = trimEnteredValueFn(e);
+            let nameLength = trimmedNameWNoDblSpcs.length;
+            if (nameLength >= 3 && nameLength <= 255) {
+              return true;
+            } else {
+              return false;
+            }
+          }}
           onBlur={() => updateNewOptionValErrorsStateFn([])}
         />
       </div>

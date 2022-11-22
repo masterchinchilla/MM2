@@ -30,7 +30,9 @@ router.route('/daysofthiswmp/:id').get((req, res) => {
         .then(days => res.json(days))
         .catch(err => res.status(400).json('Error: ' + err));
 });
-router.route('/add').post((req, res) => {
+// router.route('/add').post((req, res) => {
+//     Note that the above worked in the prior version of the app, the below WILL NOT. The below needs the extra slash to accomodate add routes that take an optional param at the end ":justCreated"
+router.route('/add/').post((req, res) => {
     const dayOfWeek = req.body.dayOfWeek;
     const name = req.body.name;
     const weekMealPlan = req.body.weekMealPlan;
