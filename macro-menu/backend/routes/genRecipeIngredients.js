@@ -115,9 +115,9 @@ router.put('/update/:id',auth,async(req,res)=>{
     
     let authorId;
     const propsArray=[
-        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient},
-        {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Base Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe},
+        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient,justCreated:null},
+        {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Base Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe,justCreated:null},
     ]
     const ssValResult=await ssValidate("Recipe Ingredient", genRecipeIngredientId, propsArray, null, req, res);
     
@@ -161,22 +161,23 @@ router.put('/update/:id',auth,async(req,res)=>{
     //     .catch(err=>res.status(400).json('Error: '+err));
 })
 // router.route('/add').post((req,res)=>{
-router.post('/add/:justCreated?',auth,async(req,res)=>{
+router.post('/add',auth,async(req,res)=>{
+// /:justCreated?
     const {
         defaultQty,
         ingredient,
         genRecipe
     }=req.body;
-    const nameOfObjRefPropJustCreated=req.params.justCreated;
+    // const nameOfObjRefPropJustCreated=req.params.justCreated;
     const genRecipeIngredientId=req.params.id
     const ingredientId=ingredient._id
     const genRecipeId=genRecipe._id;
     let authorId;
     const propsArray=[
-        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient},
+        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient,justCreated:null},
     ];
-    const ssValResult=await ssValidate("Recipe Ingredient", genRecipeIngredientId, propsArray, nameOfObjRefPropJustCreated, req, res);
+    const ssValResult=await ssValidate("Recipe Ingredient", genRecipeIngredientId, propsArray, req, res);
     if(ssValResult){
         GenRecipe.findById(genRecipeId)
             .populate('GRFUser')

@@ -2,11 +2,7 @@ import React from "react";
 const CreateDayButton = (props) => {
   const { onCreateNewRecordFn, getRndIntegerFn, thisWMPStateObj, dayOfWeek } =
     props;
-  const thisRecordJustCreated = thisWMPStateObj.thisRecordJustCreated;
   const thisWMPRecord = thisWMPStateObj.thisRecord;
-  const objRefPropsJustCreatedArray = thisRecordJustCreated
-    ? ["weekMealPlan"]
-    : [];
   const thisRecordId = getRndIntegerFn(10000000, 99999999);
   function handleCreateDay() {
     onCreateNewRecordFn(
@@ -15,14 +11,13 @@ const CreateDayButton = (props) => {
       "Day",
       dayOfWeek.code,
       "",
-      0,
+      null,
       {
         _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
         name: `${thisWMPRecord.name}-${dayOfWeek.name}`,
         dayOfWeek: dayOfWeek,
         weekMealPlan: thisWMPRecord,
-      },
-      objRefPropsJustCreatedArray
+      }
     );
   }
   return (

@@ -68,7 +68,8 @@ router.route('/findbyname/:name').get((req, res)=>{
         })
         .catch(err=>res.status(404).json('Error:'+err));
 });
-router.put('/update/:id/:objRefPropsJustCreatedArray?',auth,async(req,res)=>{
+router.put('/update/:id',auth,async(req,res)=>{
+// /:objRefPropsJustCreatedArray?
     const {
         name,
         calories,
@@ -87,9 +88,9 @@ router.put('/update/:id/:objRefPropsJustCreatedArray?',auth,async(req,res)=>{
     const weightTypeId=weightType._id;
     const brandId=brand._id;
     const authorId=GRFUser._id;
-    const uomJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="unitOfMeasure");
-    const weightTypeJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weightType");
-    const brandJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="brand");
+    // const uomJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="unitOfMeasure");
+    // const weightTypeJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weightType");
+    // const brandJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="brand");
     const propsArray=[
         {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Ingredient,justCreated:null},
         {thisPropsName:"calories",thisPropNameSentenceCase:"Calories",thisPropsValue:calories,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
@@ -98,10 +99,10 @@ router.put('/update/:id/:objRefPropsJustCreatedArray?',auth,async(req,res)=>{
         {thisPropsName:"fat",thisPropNameSentenceCase:"Fat",thisPropsValue:fat,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
         {thisPropsName:"fiber",thisPropNameSentenceCase:"Fiber",thisPropsValue:fiber,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
         {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null,justCreated:null},
-        {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure,justCreated:uomJustCreated?true:false},
-        {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType,justCreated:weightTypeJustCreated?true:false},
+        {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure,justCreated:null},
+        {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType,justCreated:null},
         {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null},
-        {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand,justCreated:brandJustCreated?true:false},
+        {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand,justCreated:null},
     ];
     const ssValResult=await ssValidate("Ingredient", ingredientId, propsArray, null, req, res);
     if(ssValResult){

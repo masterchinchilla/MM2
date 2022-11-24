@@ -86,8 +86,7 @@ const MealChildCard = (props) => {
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
-      newRecord,
-      []
+      newRecord
     );
   }
   return (

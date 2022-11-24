@@ -70,8 +70,7 @@ const SelectSearchListWCreateNew = (props) => {
         arrayIndex,
         "select",
         eObj,
-        options,
-        null
+        options
       );
     }
     updateNewOptionValErrorsStateFn([]);

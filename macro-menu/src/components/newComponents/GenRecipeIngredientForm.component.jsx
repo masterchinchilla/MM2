@@ -77,8 +77,7 @@ const GenRecipeIngredientForm = (props) => {
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
-      defaultIngredient,
-      []
+      defaultIngredient
     );
   }
   const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(true);

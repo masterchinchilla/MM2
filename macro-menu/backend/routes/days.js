@@ -46,7 +46,8 @@ router.route('/daysofthiswmp/:id').get((req, res) => {
 //         .then(() => res.json(newDay))
 //         .catch(err => res.status(400).json('Error: ' + err));
 // })
-router.post('/add/:objRefPropsJustCreatedArray?',auth,async(req,res)=>{
+router.post('/add',auth,async(req,res)=>{
+// /:objRefPropsJustCreatedArray?
     const requestorUser=req.currentGRFUser;
     if(requestorUser){
         const {
@@ -59,11 +60,11 @@ router.post('/add/:objRefPropsJustCreatedArray?',auth,async(req,res)=>{
         .then(async(dayOfWeek)  => {
             const dayOfWeekId=dayOfWeek._id;
             const wmpId=weekMealPlan._id;
-            const objRefPropsJustCreatedArray=req.params.objRefPropsJustCreatedArray?objRefPropsJustCreatedArray:[];
-            const wmpJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weekMealPlan");
+            // const objRefPropsJustCreatedArray=req.params.objRefPropsJustCreatedArray?objRefPropsJustCreatedArray:[];
+            // const wmpJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weekMealPlan");
             const propsArray=[
             {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Day,justCreated:null},
-            {thisPropsName:"weekMealPlan",thisPropNameSentenceCase:"Week Meal Plan",thisPropsValue:weekMealPlan,thisPropTypeForVal:"objRef",PropObjModel:WeekMealPlan,justCreated:wmpJustCreated?true:false},
+            {thisPropsName:"weekMealPlan",thisPropNameSentenceCase:"Week Meal Plan",thisPropsValue:weekMealPlan,thisPropTypeForVal:"objRef",PropObjModel:WeekMealPlan,justCreated:null},
         ];
         const ssValResult=await ssValidate("Day", null, propsArray, req, res);
         if(ssValResult){

@@ -52,8 +52,7 @@ const InputCore = (props) => {
               arrayIndex,
               propType,
               e,
-              selectedFrom,
-              null
+              selectedFrom
             )
           }
           onKeyUp={inputOnKeyUpFn}

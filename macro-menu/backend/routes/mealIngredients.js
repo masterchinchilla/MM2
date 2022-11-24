@@ -175,22 +175,23 @@ router.route('/:id').delete((req, res)=>{
 //         })
 //         .catch(err=>res.status(400).json('Error: '+err));
 // });
-router.put('/update/:id/:justCreated?',auth,async(req,res)=>{
+router.put('/update/:id',auth,async(req,res)=>{
+// /:justCreated?
     const {
         qty,
         genRecipeIngredient,
         meal,
     }=req.body;
     const mealIngredientId=req.params.id
-    const nameOfObjRefPropJustCreated=req.params.justCreated;
+    // const nameOfObjRefPropJustCreated=req.params.justCreated;
     const genRecipeIngredientId=genRecipeIngredient._id;
     const mealId=meal._id;
     const propsArray=[
-        {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient},
-        {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal},
+        {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient,justCreated:null},
+        {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal,justCreated:null},
     ];
-    const ssValResult=await ssValidate("Meal Ingredient", mealIngredientId, propsArray, nameOfObjRefPropJustCreated, req, res);
+    const ssValResult=await ssValidate("Meal Ingredient", mealIngredientId, propsArray,req, res);
     if(ssValResult){
         MealIngredient.findById(mealIngredientId)
             .populate({
@@ -222,22 +223,23 @@ router.put('/update/:id/:justCreated?',auth,async(req,res)=>{
             });
     }else{return};
 });
-router.post('/add/:justCreated?',auth,async(req,res)=>{
+router.post('/add',auth,async(req,res)=>{
+// /:justCreated?
     const {
         qty,
         genRecipeIngredient,
         meal,
     }=req.body;
-    const nameOfObjRefPropJustCreated=req.params.justCreated;
+    // const nameOfObjRefPropJustCreated=req.params.justCreated;
     const genRecipeIngredientId=genRecipeIngredient._id;
     const mealId=meal._id;
     let authorId;
     const propsArray=[
-        {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient},
-        {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal},
+        {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient,justCreated:null},
+        {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal,justCreated:null},
     ];
-    const ssValResult=await ssValidate("Meal Ingredient", null, propsArray, nameOfObjRefPropJustCreated, req, res);
+    const ssValResult=await ssValidate("Meal Ingredient", null, propsArray, req, res);
     if(ssValResult){
         Meal.findById(mealId)
             .populate('day')

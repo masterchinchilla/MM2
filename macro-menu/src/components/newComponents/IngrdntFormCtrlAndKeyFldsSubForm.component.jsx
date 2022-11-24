@@ -118,8 +118,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
-      newRecord,
-      []
+      newRecord
     );
   }
   function handleClickCancelFn() {

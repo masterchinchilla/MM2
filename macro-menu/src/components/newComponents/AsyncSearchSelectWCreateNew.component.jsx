@@ -91,8 +91,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
         arrayIndex,
         propType,
         eObj,
-        selectedFrom,
-        null
+        selectedFrom
       );
     }
   }

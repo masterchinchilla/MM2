@@ -77,24 +77,25 @@ router.route('/add').post((req, res)=>{
 //         })
 //         .catch(err=>res.status(400).json('Error: '+err));
 // });
-router.put('/update/:id/:justCreated?',auth,async(req,res)=>{
+router.put('/update/:id',auth,async(req,res)=>{
+// /:justCreated?
     const {
         day,
         genRecipe,
         mealType
     }=req.body;
     const mealId=req.params.id;
-    const nameOfObjRefPropJustCreated=req.params.justCreated;
+    // const nameOfObjRefPropJustCreated=req.params.justCreated;
     const dayId=day._id;
     const genRecipeId=genRecipe._id;
     const mealTypeId=mealType._id;
     const authorId=day.weekMealPlan.GRFUser._id;
     const propsArray=[
-        {thisPropsName:"day",thisPropNameSentenceCase:"Day",thisPropsValue:day,thisPropTypeForVal:"objRef",PropObjModel:Day},
-        {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe},
-        {thisPropsName:"mealType",thisPropNameSentenceCase:"Meal Type",thisPropsValue:mealType,thisPropTypeForVal:"objRef",PropObjModel:MealType},
+        {thisPropsName:"day",thisPropNameSentenceCase:"Day",thisPropsValue:day,thisPropTypeForVal:"objRef",PropObjModel:Day,justCreated:null},
+        {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe,justCreated:null},
+        {thisPropsName:"mealType",thisPropNameSentenceCase:"Meal Type",thisPropsValue:mealType,thisPropTypeForVal:"objRef",PropObjModel:MealType,justCreated:null},
     ];
-    const ssValResult=await ssValidate("Meal", mealId, propsArray, nameOfObjRefPropJustCreated, req, res);
+    const ssValResult=await ssValidate("Meal", mealId, propsArray, req, res);
     if(ssValResult){
         const userCanEdit=authEditThisRecord(req,res,authorId)
         if(userCanEdit){

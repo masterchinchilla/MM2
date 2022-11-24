@@ -62,13 +62,10 @@ const MealsCard = (props) => {
         return (
           <CreateMealButton
             key={`createMealBttnFor${childTypeOfRecordToChange}${mealRecordId}`}
-            thisStateObj={thisMealStateObj}
-            onClickEditFn={onClickEditFn}
-            onClickCancelFn={onClickCancelFn}
-            onUpdatePropFn={onUpdatePropFn}
-            onClickSaveFn={onClickSaveFn}
-            onClickDeleteFn={onClickDeleteFn}
+            day={thisRecord}
+            mealType={{ code: mealTypeCode, name: mealTypeName }}
             getRndIntegerFn={getRndIntegerFn}
+            onCreateNewRecordFn={onCreateNewRecordFn}
           />
         );
       } else {

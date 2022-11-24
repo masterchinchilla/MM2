@@ -122,16 +122,15 @@ class NewWeekMealPlan extends Component {
     thisDayOfWeekCode,
     thisMealTypeCode,
     arrayIndex,
-    newRecord,
-    objRefPropsJustCreatedArray
+    newRecord
+    // objRefPropsJustCreatedArray
   ) => {
-    let createRecordUrl = `${
-      this.state.backEndHtmlRoot
-    }${typeOfRecordToCreate}s/add${
-      objRefPropsJustCreatedArray.length > 0
-        ? `/${objRefPropsJustCreatedArray}`
-        : ``
-    }`;
+    let createRecordUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
+    // ${
+    //   objRefPropsJustCreatedArray.length > 0
+    //     ? `/${objRefPropsJustCreatedArray}`
+    //     : ``
+    // }`;
     httpService
       .post(createRecordUrl, newRecord)
       .then((response) => {
@@ -234,8 +233,8 @@ class NewWeekMealPlan extends Component {
     propType,
     e,
     selectedFrom,
-    thisRecordJustCreated,
-    objRefPropsJustCreatedArray
+    thisRecordJustCreated
+    // objRefPropsJustCreatedArray
   ) => {
     console.log(propToUpdate);
     let newValue;
@@ -269,7 +268,6 @@ class NewWeekMealPlan extends Component {
     }
     let state = this.state;
     let thisWMPStateObj = state.thisWMPStateObj;
-    let thisWMPJustCreated = thisWMPStateObj.thisRecordJustCreated;
     let thisWeeksDays = state.thisWeeksDays;
     let thisDayStateObj;
     let thisMealStateObj;
@@ -294,16 +292,12 @@ class NewWeekMealPlan extends Component {
       case "thisWeeksDays":
         let thisNewDayStateObj = thisWeeksDays[thisDayOfWeekCode];
         thisNewDayStateObj.thisRecord = newValue;
-
-        if (thisWMPJustCreated) {
-          thisNewDayStateObj.propRefObjsJustCreated.push("weekMealPlan");
-        }
+        thisNewDayStateObj.userType = this.determineThisRecordsUserTypeFn(
+          thisWMPStateObj.thisRecord.GRFUser._id
+        );
         thisWeeksDays[thisDayOfWeekCode] = thisNewDayStateObj;
         break;
       case "day":
-        if (thisWMPJustCreated) {
-          thisDayStateObj.propRefObjsJustCreated.push("weekMealPlan");
-        }
         thisDayStateObj.thisRecord[propToUpdate] = newValue;
         thisDayStateObj.valErrors[propToUpdate] = newValueValErrors;
         thisDayStateObj.recordChanged = true;
@@ -311,6 +305,14 @@ class NewWeekMealPlan extends Component {
       case "thisDaysMeals":
         let thisNewMealStateObj = thisDayStateObj[thisMealTypeCode];
         thisNewMealStateObj.thisRecord = newValue;
+        thisNewMealStateObj.userType = {
+          meal: this.determineThisRecordsUserTypeFn(
+            thisWMPStateObj.thisRecord.GRFUser._id
+          ),
+          genRecipe: this.determineThisRecordsUserTypeFn(
+            newValue.genRecipe.GRFUser._id
+          ),
+        };
         thisDayStateObj[thisMealTypeCode] = thisNewMealStateObj;
         break;
       case "meal":
@@ -395,16 +397,12 @@ class NewWeekMealPlan extends Component {
         thisMealStateObj.thisRecord.genRecipe[propToUpdate] = newValue;
         thisMealStateObj.valErrors.genRecipe[propToUpdate] = newValueValErrors;
         thisMealStateObj.recordChanged.genRecipe = true;
-        // thisMealStateObj.justCreated.genRecipe = justCreated ? true : false;
         break;
       case "mealIngredient":
         thisMealIngrdntStateObj.thisRecord[propToUpdate] = newValue;
         thisMealIngrdntStateObj.valErrors.mealIngredient[propToUpdate] =
           newValueValErrors;
         thisMealIngrdntStateObj.recordChanged.mealIngredient = true;
-        // thisMealIngrdntStateObj.justCreated.mealIngredient = justCreated
-        //   ? true
-        //   : false;
         break;
       case "genRecipeIngredient":
         thisMealIngrdntStateObj.thisRecord.genRecipeIngredient[propToUpdate] =
@@ -614,10 +612,10 @@ class NewWeekMealPlan extends Component {
       recordStateObj,
       typeOfRecordToChange
     );
-    recordStateObj = this.resetPropRefObjsJustCreatedFn(
-      recordStateObj,
-      typeOfRecordToChange
-    );
+    // recordStateObj = this.resetPropRefObjsJustCreatedFn(
+    //   recordStateObj,
+    //   typeOfRecordToChange
+    // );
     return recordStateObj;
   };
   getThisGenRecipesGenRecipeIngrdntsFn = async (
@@ -674,6 +672,15 @@ class NewWeekMealPlan extends Component {
     }
   };
   getThisDaysMealsFn = async (thisDayStateObj, backEndHtmlRoot) => {
+    const defaultRecipeIds = {
+      breakfastId: "62577f516682e3955e98b1d0",
+      snack1Id: "62577a7d93011a9b47306e6f",
+      lunchId: "62577f666682e3955e98b1d1",
+      snack2Id: "62577f786682e3955e98b1d2",
+      dinnerId: "62577f8b6682e3955e98b1d3",
+      dessertId: "62577f9c6682e3955e98b1d4",
+    };
+
     const thisDayId = thisDayStateObj.thisRecord._id;
     const backEndReqUrl = `${backEndHtmlRoot}meals/mealsOfThisDay/${thisDayId}`;
     let mealTypeCodes = this.state.mealTypeCodes;
@@ -717,9 +724,27 @@ class NewWeekMealPlan extends Component {
           //   ? true
           //   : false;
         } else {
+          let thisDefaultRecipeId = defaultRecipeIds[`${mealTypeCodes[i]}Id`];
+          let thisDefaultGenRecipe = {
+            _id: thisDefaultRecipeId,
+            name: " ",
+            availableMealType: { code: mealTypeCodes[i] },
+            GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
+            defaultPrepInstructions: "",
+            photoURL: "",
+          };
           thisNewMealStateObj = thisMealStateObj;
           thisNewMealStateObj.thisRecord = {
             _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
+            genRecipe: thisDefaultGenRecipe,
+          };
+          thisNewMealStateObj.userType = {
+            meal: this.determineThisRecordsUserTypeFn(
+              thisDayStateObj.thisRecord.weekMealPlan.GRFUser._id
+            ),
+            genRecipe: this.determineThisRecordsUserTypeFn(
+              thisDefaultGenRecipe.GRFUser._id
+            ),
           };
           thisNewMealStateObj.thisMealsIngrdnts = [];
         }
@@ -731,7 +756,8 @@ class NewWeekMealPlan extends Component {
       return;
     }
   };
-  getThisWMPsDaysFn = async (wmpId, backEndHtmlRoot, wmpJustCreated) => {
+  getThisWMPsDaysFn = async (thisWMP, backEndHtmlRoot, wmpJustCreated) => {
+    let wmpId = thisWMP._id;
     let thisWeeksDays = {};
     let dayOfWeekCodes = this.state.dayOfWeekCodes;
     const backEndReqUrl = `${backEndHtmlRoot}days/daysofthiswmp/${wmpId}`;
@@ -764,6 +790,7 @@ class NewWeekMealPlan extends Component {
         } else {
           thisDayStateObj.thisRecord = {
             _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
+            weekMealPlan: thisWMP,
           };
         }
         thisDayStateObj.recordLoaded = true;
@@ -803,7 +830,7 @@ class NewWeekMealPlan extends Component {
       thisNewWMPStateObj.thisRecordJustCreated = thisRecordJustCreated;
       newState.thisWMPStateObj = thisNewWMPStateObj;
       let thisWeeksDays = await this.getThisWMPsDaysFn(
-        thisWMPId,
+        thisWMPStateObj.thisRecord,
         backEndHtmlRoot,
         thisRecordJustCreated
       );

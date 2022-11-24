@@ -185,8 +185,7 @@ const MealIngredients = (props) => {
                   defaultQty: 1,
                   ingredient: defaultIngredient,
                   genRecipe: genRecipe,
-                },
-                []
+                }
               );
             }}
           >
