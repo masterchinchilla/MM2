@@ -7,10 +7,10 @@ function ssValidateProp(propName, value, propTypeForVal) {
     const { error } = subSchema.validate(objToValidate);
     return error ? error.details[0].message : null;
 };
-async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, nameOfObjRefPropJustCreated, req, res){
+async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, req, res){
     const valErrorsArray=[];
     for(let i=0;i<propsArray.length;i++){
-        let {thisPropsName,thisPropNameSentenceCase,thisPropsValue,thisPropTypeForVal,PropObjModel}=propsArray[i];
+        let {thisPropsName,thisPropNameSentenceCase,thisPropsValue,thisPropTypeForVal,PropObjModel,justCreated}=propsArray[i];
         if(thisPropTypeForVal==="objRef"){
             let thisPropsValueId=thisPropsValue._id;
             if(thisPropsName==="GRFUser"){
@@ -21,7 +21,7 @@ async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, nameOfObj
                 };
             }
             else{
-                if(thisPropsName!==nameOfObjRefPropJustCreated){
+                if(!justCreated){
                     const foundRecord=await PropObjModel.findById(thisPropsValueId);
                     if(!foundRecord){
                         res.status(404).json({ok:false,errorMsg:`${thisPropNameSentenceCase} not found`});

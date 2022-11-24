@@ -72,6 +72,15 @@ class NewWeekMealPlan extends Component {
   getRndIntegerFn = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
+  notifyFn = (notice, noticeType) => {
+    switch (noticeType) {
+      case "success":
+        toast.success(notice);
+        break;
+      default:
+        toast.error(notice);
+    }
+  };
   handleClickCancelFn = () => {
     let state = this.state;
     state.thisWMPStateObj = state.thisWMPStateBackup;
@@ -113,15 +122,20 @@ class NewWeekMealPlan extends Component {
     thisDayOfWeekCode,
     thisMealTypeCode,
     arrayIndex,
-    newRecordForState,
-    newRecordToSave
+    newRecord,
+    objRefPropsJustCreatedArray
   ) => {
-    let createRecordUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add/`;
-    // ${typeOfRecordToCreate}`;
+    let createRecordUrl = `${
+      this.state.backEndHtmlRoot
+    }${typeOfRecordToCreate}s/add${
+      objRefPropsJustCreatedArray.length > 0
+        ? `/${objRefPropsJustCreatedArray}`
+        : ``
+    }`;
     httpService
-      .post(createRecordUrl, newRecordToSave)
+      .post(createRecordUrl, newRecord)
       .then((response) => {
-        newRecordForState._id = response.data._id;
+        newRecord._id = response.data._id;
         this.notifyFn(
           `New ${typeOfRecordToCreateSentenceCase} successfully created`,
           "success"
@@ -129,10 +143,10 @@ class NewWeekMealPlan extends Component {
         if (!thisDayOfWeekCode) {
           let thisStateObjToUpdate = `all${typeOfRecordToCreateSentenceCase}s`;
           let allTypeOfRecord = this.state[thisStateObjToUpdate];
-          allTypeOfRecord.push(newRecordForState);
+          allTypeOfRecord.push(newRecord);
           this.setState({ [thisStateObjToUpdate]: allTypeOfRecord });
         } else {
-          let e = { target: { value: newRecordForState } };
+          let e = { target: { value: newRecord } };
           this.handleUpdatePropFn(
             typeOfRecordToChange,
             thisDayOfWeekCode,
@@ -146,10 +160,48 @@ class NewWeekMealPlan extends Component {
           );
         }
       })
-      .catch((err) => {
-        console.log([JSON.stringify(err.message)]);
+      .catch((errs) => {
+        this.updateStateWValErrs(errs);
       });
   };
+  updateStateWValErrs(errs) {
+    let errResponse = errs.response ? errs.response : null;
+    if (errResponse) {
+      let errData = errResponse.data ? errResponse.data : { data: null };
+      if (errData) {
+        let errMsg = errData.errorMsg ? errData.errorMsg : { errorMsg: null };
+        if (errMsg) {
+          this.notifyFn(errMsg, "error");
+        } else {
+          let valErrorsArray = errData.valErrorsArray
+            ? errData.valErrorsArray
+            : { valErrorsArray: null };
+          if (valErrorsArray) {
+            console.log(valErrorsArray);
+            for (let i = 0; i < valErrorsArray.length; i++) {
+              let thisValErrorObj = valErrorsArray[i];
+              let thisValErrorObjKeys = Object.keys(thisValErrorObj);
+              for (let i = 0; i < thisValErrorObjKeys.length; i++) {
+                let thisValErrorObjKey = thisValErrorObjKeys[i];
+                let thisValError = thisValErrorObj[thisValErrorObjKey];
+                // valErrorsObjToUpdate[thisValErrorObjKey] = thisValError;
+                this.notifyFn(thisValError, "error");
+              }
+            }
+          } else {
+            this.notifyFn("Something went wrong...", "error");
+            console.log(errData);
+          }
+        }
+      } else {
+        this.notifyFn("Something went wrong...", "error");
+        console.log(errResponse);
+      }
+    } else {
+      this.notifyFn("Something went wrong...", "error");
+      console.log(errs);
+    }
+  }
   populateMealIngrdntsFn = () => {
     console.log("populating meal Ingredients");
   };
@@ -182,8 +234,10 @@ class NewWeekMealPlan extends Component {
     propType,
     e,
     selectedFrom,
-    justCreated
+    thisRecordJustCreated,
+    objRefPropsJustCreatedArray
   ) => {
+    console.log(propToUpdate);
     let newValue;
     switch (propType) {
       case "select":
@@ -214,9 +268,12 @@ class NewWeekMealPlan extends Component {
       );
     }
     let state = this.state;
+    let thisWMPStateObj = state.thisWMPStateObj;
+    let thisWMPJustCreated = thisWMPStateObj.thisRecordJustCreated;
     let thisWeeksDays = state.thisWeeksDays;
     let thisDayStateObj;
     let thisMealStateObj;
+    let thisMealJustCreated;
     let thisMealIngrdntStateObj;
     if (thisDayOfWeekCode) {
       thisDayStateObj = thisWeeksDays[thisDayOfWeekCode];
@@ -229,22 +286,39 @@ class NewWeekMealPlan extends Component {
     }
     switch (typeOfRecordToChange) {
       case "weekMealPlan":
-        let thisWMPStateObj = state.thisWMPStateObj;
         thisWMPStateObj.thisRecord[propToUpdate] = newValue;
         thisWMPStateObj.valErrors[propToUpdate] = newValueValErrors;
         thisWMPStateObj.recordChanged = true;
         state.thisWMPStateObj = thisWMPStateObj;
         break;
+      case "thisWeeksDays":
+        let thisNewDayStateObj = thisWeeksDays[thisDayOfWeekCode];
+        thisNewDayStateObj.thisRecord = newValue;
+
+        if (thisWMPJustCreated) {
+          thisNewDayStateObj.propRefObjsJustCreated.push("weekMealPlan");
+        }
+        thisWeeksDays[thisDayOfWeekCode] = thisNewDayStateObj;
+        break;
       case "day":
+        if (thisWMPJustCreated) {
+          thisDayStateObj.propRefObjsJustCreated.push("weekMealPlan");
+        }
         thisDayStateObj.thisRecord[propToUpdate] = newValue;
         thisDayStateObj.valErrors[propToUpdate] = newValueValErrors;
         thisDayStateObj.recordChanged = true;
         break;
-      // case "meal"||"genRecipe":
+      case "thisDaysMeals":
+        let thisNewMealStateObj = thisDayStateObj[thisMealTypeCode];
+        thisNewMealStateObj.thisRecord = newValue;
+        thisDayStateObj[thisMealTypeCode] = thisNewMealStateObj;
+        break;
       case "meal":
         thisMealStateObj.thisRecord[propToUpdate] = newValue;
         thisMealStateObj.valErrors.meal[propToUpdate] = newValueValErrors;
         thisMealStateObj.recordChanged.meal = true;
+        thisMealStateObj.recordsJustCreated.genRecipe =
+          propToUpdate === "genRecipe" && thisRecordJustCreated ? true : false;
         break;
       case "genRecipe" || "genRecipeIngredient" || "ingredient":
         let dayOfWeekCodes = state.dayOfWeekCodes;
@@ -268,6 +342,11 @@ class NewWeekMealPlan extends Component {
               ) {
                 thisLocalMealStateObj.thisRecord.genRecipe[propToUpdate] =
                   newValue;
+                if (propToUpdate === "genRecipe" && thisRecordJustCreated) {
+                  thisLocalMealStateObj.propRefObjsJustCreated.meal.push(
+                    "genRecipe"
+                  );
+                }
               } else {
                 let thisMealsIngrdntsLocal =
                   thisLocalMealStateObj.thisMealsIngrdnts;
@@ -333,9 +412,8 @@ class NewWeekMealPlan extends Component {
         thisMealIngrdntStateObj.valErrors.genRecipeIngredient[propToUpdate] =
           newValueValErrors;
         thisMealIngrdntStateObj.recordChanged.genRecipeIngredient = true;
-        // thisMealIngrdntStateObj.justCreated.genRecipeIngredient = justCreated
-        //   ? true
-        //   : false;
+        thisMealIngrdntStateObj.thisRecordJustCreated.ingredient =
+          propToUpdate === "ingredient" && thisRecordJustCreated ? true : false;
         break;
       case "ingredient":
         thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient[
@@ -344,9 +422,6 @@ class NewWeekMealPlan extends Component {
         thisMealIngrdntStateObj.valErrors.ingredient[propToUpdate] =
           newValueValErrors;
         thisMealIngrdntStateObj.recordChanged.ingredient = true;
-        // thisMealIngrdntStateObj.justCreated.ingredient = justCreated
-        //   ? true
-        //   : false;
         break;
     }
 
@@ -361,15 +436,6 @@ class NewWeekMealPlan extends Component {
       state.thisWeeksDays = thisWeeksDays;
     }
     this.setState(state);
-  };
-  notifyFn = (notice, noticeType) => {
-    switch (noticeType) {
-      case "success":
-        toast.success(notice);
-        break;
-      default:
-        toast.error(notice);
-    }
   };
   determineThisRecordsUserTypeFn = (recordAuthorId) => {
     const thisUser = this.state.currentGRFUser;
@@ -454,17 +520,32 @@ class NewWeekMealPlan extends Component {
     }
     return recordStateObj;
   };
-  resetRecordJustCreatedFn = (recordStateObj, typeOfRecordToChange) => {
+  resetRecordsJustCreatedFn = (recordStateObj, typeOfRecordToChange) => {
     if (
       typeOfRecordToChange === "weekMealPlan" ||
       typeOfRecordToChange === "day"
     ) {
-      recordStateObj.justCreated = false;
+      recordStateObj.thisRecordJustCreated = false;
     } else {
-      recordStateObj.justCreated = recordStateObj.justCreated
-        ? recordStateObj.justCreated
+      recordStateObj.recordsJustCreated = recordStateObj.justCreated
+        ? recordStateObj.recordsJustCreated
         : {};
-      recordStateObj.justCreated[typeOfRecordToChange] = false;
+      recordStateObj.recordsJustCreated[typeOfRecordToChange] = false;
+    }
+    return recordStateObj;
+  };
+  resetPropRefObjsJustCreatedFn = (recordStateObj, typeOfRecordToChange) => {
+    if (
+      typeOfRecordToChange === "weekMealPlan" ||
+      typeOfRecordToChange === "day"
+    ) {
+      recordStateObj.propRefObjsJustCreated = [];
+    } else {
+      recordStateObj.propRefObjsJustCreated =
+        recordStateObj.propRefObjsJustCreated
+          ? recordStateObj.propRefObjsJustCreated
+          : {};
+      recordStateObj.propRefObjsJustCreated[typeOfRecordToChange] = [];
     }
     return recordStateObj;
   };
@@ -529,11 +610,14 @@ class NewWeekMealPlan extends Component {
       recordStateObj,
       typeOfRecordToChange
     );
-    recordStateObj = this.resetRecordJustCreatedFn(
+    recordStateObj = this.resetRecordsJustCreatedFn(
       recordStateObj,
       typeOfRecordToChange
     );
-
+    recordStateObj = this.resetPropRefObjsJustCreatedFn(
+      recordStateObj,
+      typeOfRecordToChange
+    );
     return recordStateObj;
   };
   getThisGenRecipesGenRecipeIngrdntsFn = async (
@@ -545,8 +629,8 @@ class NewWeekMealPlan extends Component {
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
       return backEndReqResponse.data;
-    } catch (error) {
-      this.notifyFn(error, "error");
+    } catch (errs) {
+      this.updateStateWValErrs(errs);
       return;
     }
   };
@@ -584,8 +668,8 @@ class NewWeekMealPlan extends Component {
       }
       thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
       return thisMealStateObj;
-    } catch (error) {
-      this.notifyFn(error, "error");
+    } catch (errs) {
+      this.updateStateWValErrs(errs);
       return;
     }
   };
@@ -642,12 +726,12 @@ class NewWeekMealPlan extends Component {
         thisDayStateObj.thisDaysMeals[mealTypeCodes[i]] = thisNewMealStateObj;
       }
       return thisDayStateObj;
-    } catch (error) {
-      this.notifyFn(error, "error");
+    } catch (errs) {
+      this.updateStateWValErrs(errs);
       return;
     }
   };
-  getThisWMPsDaysFn = async (wmpId, backEndHtmlRoot) => {
+  getThisWMPsDaysFn = async (wmpId, backEndHtmlRoot, wmpJustCreated) => {
     let thisWeeksDays = {};
     let dayOfWeekCodes = this.state.dayOfWeekCodes;
     const backEndReqUrl = `${backEndHtmlRoot}days/daysofthiswmp/${wmpId}`;
@@ -670,6 +754,9 @@ class NewWeekMealPlan extends Component {
             thisDayData,
             "day"
           );
+          if (wmpJustCreated) {
+            thisDayStateObj.propRefObjsJustCreated = ["weekMealPlan"];
+          }
           thisDayStateObj = await this.getThisDaysMealsFn(
             thisDayStateObj,
             backEndHtmlRoot
@@ -684,8 +771,8 @@ class NewWeekMealPlan extends Component {
       }
       return thisWeeksDays;
       // this.setState({ thisWeeksDays: thisWeeksDays });
-    } catch (error) {
-      this.notifyFn(error, "error");
+    } catch (errs) {
+      this.updateStateWValErrs(errs);
       return;
     }
   };
@@ -713,19 +800,20 @@ class NewWeekMealPlan extends Component {
         "weekMealPlan"
       );
       let newState = {};
-      thisNewWMPStateObj.justCreated = thisRecordJustCreated;
+      thisNewWMPStateObj.thisRecordJustCreated = thisRecordJustCreated;
       newState.thisWMPStateObj = thisNewWMPStateObj;
       let thisWeeksDays = await this.getThisWMPsDaysFn(
         thisWMPId,
-        backEndHtmlRoot
+        backEndHtmlRoot,
+        thisRecordJustCreated
       );
       newState.thisWeeksDays = thisWeeksDays;
       this.setState({
         thisWMPStateObj: newState.thisWMPStateObj,
         thisWeeksDays: newState.thisWeeksDays,
       });
-    } catch (error) {
-      this.notifyFn(error, "error");
+    } catch (errs) {
+      this.updateStateWValErrs(errs);
       return;
     }
   };
@@ -861,8 +949,8 @@ class NewWeekMealPlan extends Component {
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
       return backEndReqResponse.data;
-    } catch (error) {
-      this.notifyFn(error.message, "error");
+    } catch (errs) {
+      this.updateStateWValErrs(errs);
       return [];
     }
   };

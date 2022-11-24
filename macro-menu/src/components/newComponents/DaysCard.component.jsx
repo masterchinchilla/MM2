@@ -56,7 +56,8 @@ const DaysCard = (props) => {
           <CreateDayButton
             onCreateNewRecordFn={onCreateNewRecordFn}
             getRndIntegerFn={getRndIntegerFn}
-            dayOfWeekName={dayOfWeekName}
+            thisWMPStateObj={thisWMPStateObj}
+            dayOfWeek={{ code: dayOfWeekCode, name: dayOfWeekName }}
           />
         );
       } else {

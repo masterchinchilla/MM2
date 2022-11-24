@@ -7,6 +7,7 @@ import CustomHeading from "./CustomHeading.component";
 const GenRecipeIngredientForm = (props) => {
   const {
     currentGRFUser,
+    defaultIngredient,
     getRndIntegerFn,
     onClickEditFn,
     onClickCancelFn,
@@ -34,7 +35,7 @@ const GenRecipeIngredientForm = (props) => {
             mealType: { code: "breakfast" },
           },
         },
-        justCreated: { genRecipeIngredient: false },
+        recordsJustCreated: { genRecipeIngredient: false },
         arrayIndex: 0,
         recordLoaded: false,
         recordChanged: false,
@@ -52,7 +53,7 @@ const GenRecipeIngredientForm = (props) => {
     userType,
     editingForm,
     valErrors,
-    justCreated,
+    recordsJustCreated,
   } = thisStateObj;
   const { meal, genRecipeIngredient } = thisRecord;
   const { day, mealType } = meal;
@@ -68,45 +69,7 @@ const GenRecipeIngredientForm = (props) => {
   const saveWarning =
     "Changes made to this Recipe Ingredient will be applied everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?";
   function handleCreateNewIngredientFn(newIngredientName) {
-    const newRecordToSave = {
-      name: newIngredientName,
-      GRFUser: currentGRFUser._id,
-      calories: 1,
-      carbs: 1,
-      protein: 1,
-      fat: 1,
-      fiber: 1,
-      unitOfMeasure: "627691779fa56aa1fe318390",
-      weightType: "627695899fa56aa1fe318396",
-      photoURL: "",
-      brand: "627691b69fa56aa1fe318393",
-    };
-    const newRecordForState = {
-      _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
-      name: newIngredientName,
-      GRFUser: currentGRFUser,
-      calories: 1,
-      carbs: 1,
-      protein: 1,
-      fat: 1,
-      fiber: 1,
-      unitOfMeasure: {
-        _id: "627691779fa56aa1fe318390",
-        name: "",
-        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-      },
-      weightType: {
-        _id: "627695899fa56aa1fe318396",
-        name: "",
-        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-      },
-      photoURL: "",
-      brand: {
-        _id: "627691b69fa56aa1fe318393",
-        name: "",
-        GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
-      },
-    };
+    defaultIngredient.name = newIngredientName;
     onCreateNewRecordFn(
       typeOfRecordToChange,
       "ingredient",
@@ -114,8 +77,8 @@ const GenRecipeIngredientForm = (props) => {
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
-      newRecordForState,
-      newRecordToSave
+      defaultIngredient,
+      []
     );
   }
   const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(true);
@@ -208,7 +171,7 @@ const GenRecipeIngredientForm = (props) => {
         <div
           id={"gnRcpIngrdntFrmAccrdn" + thisRecordId}
           className={
-            justCreated.genRecipeIngredient
+            recordsJustCreated.genRecipeIngredient
               ? "accordion-collapse open"
               : "accordion-collapse collapse"
           }
@@ -218,7 +181,7 @@ const GenRecipeIngredientForm = (props) => {
           <div className="accordion-body">
             <div
               className={
-                justCreated.genRecipeIngredient
+                recordsJustCreated.genRecipeIngredient
                   ? "form-group mealIngrdntInputs subCardHeaderFocused"
                   : "form-group mealIngrdntInputs"
               }

@@ -43,7 +43,7 @@ const RecipeCard = (props) => {
         userType: { genRecipe: "" },
         editingForm: { genRecipe: false },
         thisMealsIngrdnts: [],
-        justCreated: { meal: false },
+        recordsJustCreated: { meal: false },
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
         valErrors: {
@@ -56,7 +56,7 @@ const RecipeCard = (props) => {
     userType,
     editingForm,
     thisMealsIngrdnts,
-    justCreated,
+    recordsJustCreated,
     userChangedThisMealsRecipe,
     thisRecipesIngrdnts,
     valErrors,

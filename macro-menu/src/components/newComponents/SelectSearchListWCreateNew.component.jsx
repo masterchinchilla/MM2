@@ -70,7 +70,8 @@ const SelectSearchListWCreateNew = (props) => {
         arrayIndex,
         "select",
         eObj,
-        options
+        options,
+        null
       );
     }
     updateNewOptionValErrorsStateFn([]);
@@ -116,7 +117,7 @@ const SelectSearchListWCreateNew = (props) => {
     return (
       <div className={formGroupClasses}>
         <div
-          className="alert alert-danger selectFieldValError"
+          className="alert alert-danger selectFieldValError valErrorsListDiv"
           hidden={newOptionValErrors.length > 0 ? false : true}
         >
           {newOptionValErrors.length < 1 ? (

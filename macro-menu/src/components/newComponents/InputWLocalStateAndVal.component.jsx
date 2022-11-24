@@ -69,7 +69,8 @@ const InputWLocalStateAndVal = (props) => {
       arrayIndex,
       propType,
       e,
-      selectedFrom
+      selectedFrom,
+      null
     );
   }
   return (

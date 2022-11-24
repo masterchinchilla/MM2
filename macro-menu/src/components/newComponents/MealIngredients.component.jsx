@@ -40,7 +40,7 @@ const MealIngredients = (props) => {
         userType: { meal: "", genRecipe: "" },
         editingForm: { meal: false },
         thisMealsIngrdnts: [{ thisRecord: { _id: null } }],
-        justCreated: { meal: false },
+        recordsJustCreated: { meal: false },
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
         valErrors: { meal: { name: [] } },
@@ -51,7 +51,7 @@ const MealIngredients = (props) => {
     userType,
     editingForm,
     thisMealsIngrdnts,
-    justCreated,
+    recordsJustCreated,
     userChangedThisMealsRecipe,
     thisRecipesIngrdnts,
     valErrors,
@@ -70,8 +70,13 @@ const MealIngredients = (props) => {
     protein: 0.0,
     fat: 0.0,
     fiber: 0.0,
-    unitOfMeasure: "627691779fa56aa1fe318390",
-    GRFUser: "62577a533813f4f21c27e1c7",
+    unitOfMeasure: {
+      _id: "627691779fa56aa1fe318390",
+      name: "",
+      GRFUser: { _id: "62577a533813f4f21c27e1c7" },
+    },
+    photoURL: "",
+    GRFUser: { _id: "62577a533813f4f21c27e1c7" },
   };
   const userCanEditRecipe =
     userType.genRecipe === "author" || userType.genRecipe === "admin"
@@ -109,6 +114,7 @@ const MealIngredients = (props) => {
             allWeightTypes={allWeightTypes}
             allBrands={allBrands}
             thisStateObjBackup={thisStateObjBackup}
+            defaultIngredient={defaultIngredient}
             validatePropFn={validatePropFn}
             onClickEditFn={onClickEditFn}
             onClickCancelFn={onClickCancelFn}
@@ -168,9 +174,9 @@ const MealIngredients = (props) => {
             className="btn btn-primary"
             onClick={() => {
               onCreateNewRecordFn(
-                "meal",
+                "mealIngredient",
                 "genRecipeIngredient",
-                null,
+                "Recipe Ingredient",
                 thisDayOfWeekCode,
                 thisMealTypeCode,
                 0,
@@ -180,11 +186,7 @@ const MealIngredients = (props) => {
                   ingredient: defaultIngredient,
                   genRecipe: genRecipe,
                 },
-                {
-                  defaultQty: 1,
-                  ingredient: defaultIngredient,
-                  genRecipe: genRecipe,
-                }
+                []
               );
             }}
           >

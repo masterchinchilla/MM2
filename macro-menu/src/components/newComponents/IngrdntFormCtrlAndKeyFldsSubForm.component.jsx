@@ -53,7 +53,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
           },
         },
         recordChanged: false,
-        justCreated: { ingredient: false },
+        recordsJustCreated: { ingredient: false },
         recordLoaded: false,
         userType: "viewer",
         editingForm: { ingredient: false },
@@ -77,7 +77,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
       };
   const {
     thisRecord,
-    justCreated,
+    recordsJustCreated,
     recordChanged,
     userType,
     editingForm,
@@ -106,11 +106,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     typeOfRecordToCreate,
     typeOfRecordToCreateSentenceCase
   ) {
-    const newRecordToSave = {
-      name: newRecordName,
-      GRFUser: currentGRFUser,
-    };
-    const newRecordForState = {
+    const newRecord = {
       _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
       name: newRecordName,
       GRFUser: currentGRFUser,
@@ -122,8 +118,8 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
-      newRecordForState,
-      newRecordToSave
+      newRecord,
+      []
     );
   }
   function handleClickCancelFn() {

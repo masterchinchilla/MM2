@@ -1,11 +1,34 @@
 import React from "react";
 const CreateDayButton = (props) => {
-  const { onCreateNewRecordFn, getRndIntegerFn, dayOfWeekName } = props;
+  const { onCreateNewRecordFn, getRndIntegerFn, thisWMPStateObj, dayOfWeek } =
+    props;
+  const thisRecordJustCreated = thisWMPStateObj.thisRecordJustCreated;
+  const thisWMPRecord = thisWMPStateObj.thisRecord;
+  const objRefPropsJustCreatedArray = thisRecordJustCreated
+    ? ["weekMealPlan"]
+    : [];
   const thisRecordId = getRndIntegerFn(10000000, 99999999);
+  function handleCreateDay() {
+    onCreateNewRecordFn(
+      "thisWeeksDays",
+      "day",
+      "Day",
+      dayOfWeek.code,
+      "",
+      0,
+      {
+        _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
+        name: `${thisWMPRecord.name}-${dayOfWeek.name}`,
+        dayOfWeek: dayOfWeek,
+        weekMealPlan: thisWMPRecord,
+      },
+      objRefPropsJustCreatedArray
+    );
+  }
   return (
     <div className="card mt-3 mb-3">
       <div className="card-header">
-        <h3 className="card-title">{dayOfWeekName}</h3>
+        <h3 className="card-title">{dayOfWeek.name}</h3>
       </div>
       <div className="card-body">
         <div
@@ -38,9 +61,7 @@ const CreateDayButton = (props) => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      onClick={() => {
-                        onCreateNewRecordFn();
-                      }}
+                      onClick={handleCreateDay}
                     >
                       Create Day
                     </button>

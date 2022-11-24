@@ -68,7 +68,7 @@ router.route('/findbyname/:name').get((req, res)=>{
         })
         .catch(err=>res.status(404).json('Error:'+err));
 });
-router.put('/update/:id',auth,async(req,res)=>{
+router.put('/update/:id/:objRefPropsJustCreatedArray?',auth,async(req,res)=>{
     const {
         name,
         calories,
@@ -87,18 +87,21 @@ router.put('/update/:id',auth,async(req,res)=>{
     const weightTypeId=weightType._id;
     const brandId=brand._id;
     const authorId=GRFUser._id;
+    const uomJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="unitOfMeasure");
+    const weightTypeJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weightType");
+    const brandJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="brand");
     const propsArray=[
-        {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Ingredient},
-        {thisPropsName:"calories",thisPropNameSentenceCase:"Calories",thisPropsValue:calories,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"carbs",thisPropNameSentenceCase:"Carbs",thisPropsValue:carbs,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"protein",thisPropNameSentenceCase:"Protein",thisPropsValue:protein,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"fat",thisPropNameSentenceCase:"Fat",thisPropsValue:fat,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"fiber",thisPropNameSentenceCase:"Fiber",thisPropsValue:fiber,thisPropTypeForVal:"float",PropObjModel:null},
-        {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null},
-        {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure},
-        {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType},
-        {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel},
-        {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand},
+        {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Ingredient,justCreated:null},
+        {thisPropsName:"calories",thisPropNameSentenceCase:"Calories",thisPropsValue:calories,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"carbs",thisPropNameSentenceCase:"Carbs",thisPropsValue:carbs,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"protein",thisPropNameSentenceCase:"Protein",thisPropsValue:protein,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"fat",thisPropNameSentenceCase:"Fat",thisPropsValue:fat,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"fiber",thisPropNameSentenceCase:"Fiber",thisPropsValue:fiber,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+        {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null,justCreated:null},
+        {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure,justCreated:uomJustCreated?true:false},
+        {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType,justCreated:weightTypeJustCreated?true:false},
+        {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null},
+        {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand,justCreated:brandJustCreated?true:false},
     ];
     const ssValResult=await ssValidate("Ingredient", ingredientId, propsArray, null, req, res);
     if(ssValResult){
@@ -132,7 +135,7 @@ router.put('/update/:id',auth,async(req,res)=>{
         return;
     }
 });
-router.post('/add/:justCreated?',auth,async(req,res)=>{
+router.post('/add',auth,async(req,res)=>{
     const requestorUser=req.currentGRFUser;
     if(requestorUser){
         const {
@@ -148,25 +151,24 @@ router.post('/add/:justCreated?',auth,async(req,res)=>{
             GRFUser,
             brand
         }=req.body;
-        const nameOfObjRefPropJustCreated=req.params.justCreated;
         const unitOfMeasureId=unitOfMeasure._id;
         const weightTypeId=weightType._id;
         const brandId=brand._id;
         const authorId=GRFUser._id;
         const propsArray=[
-            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Ingredient},
-            {thisPropsName:"calories",thisPropNameSentenceCase:"Calories",thisPropsValue:calories,thisPropTypeForVal:"float",PropObjModel:null},
-            {thisPropsName:"carbs",thisPropNameSentenceCase:"Carbs",thisPropsValue:carbs,thisPropTypeForVal:"float",PropObjModel:null},
-            {thisPropsName:"protein",thisPropNameSentenceCase:"Protein",thisPropsValue:protein,thisPropTypeForVal:"float",PropObjModel:null},
-            {thisPropsName:"fat",thisPropNameSentenceCase:"Fat",thisPropsValue:fat,thisPropTypeForVal:"float",PropObjModel:null},
-            {thisPropsName:"fiber",thisPropNameSentenceCase:"Fiber",thisPropsValue:fiber,thisPropTypeForVal:"float",PropObjModel:null},
-            {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null},
-            {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure},
-            {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType},
-            {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel},
-            {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand},
+            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Ingredient,justCreated:null},
+            {thisPropsName:"calories",thisPropNameSentenceCase:"Calories",thisPropsValue:calories,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+            {thisPropsName:"carbs",thisPropNameSentenceCase:"Carbs",thisPropsValue:carbs,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+            {thisPropsName:"protein",thisPropNameSentenceCase:"Protein",thisPropsValue:protein,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+            {thisPropsName:"fat",thisPropNameSentenceCase:"Fat",thisPropsValue:fat,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+            {thisPropsName:"fiber",thisPropNameSentenceCase:"Fiber",thisPropsValue:fiber,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
+            {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null,justCreated:null},
+            {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure,justCreated:null},
+            {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType,justCreated:null},
+            {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null},
+            {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand,justCreated:null},
         ];
-        const ssValResult=await ssValidate("Ingredient", null, propsArray, nameOfObjRefPropJustCreated, req, res);
+        const ssValResult=await ssValidate("Ingredient", null, propsArray, req, res);
         if(ssValResult){
             const newIngredient=new Ingredient({
                 name,

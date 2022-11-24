@@ -17,20 +17,19 @@ router.route('/').get((req, res)=>{
         .then(weightType=>res.json(weightType))
         .catch(err=>res.status(400).json('Error: '+err));
 });
-router.post('/add/:justCreated?',auth,async(req,res)=>{
+router.post('/add',auth,async(req,res)=>{
     const requestorUser=req.currentGRFUser;
     if(requestorUser){
         const {
             name,
             GRFUser
         }=req.body;
-        const nameOfObjRefPropJustCreated=req.params.justCreated;
         const authorId=GRFUser._id;
         const propsArray=[
-            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:WeightType},
-            {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel}
+            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:WeightType,justCreated:null},
+            {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null}
         ];
-        const ssValResult=await ssValidate("Weight Type", null, propsArray, nameOfObjRefPropJustCreated, req, res);
+        const ssValResult=await ssValidate("Weight Type", null, propsArray, req, res);
         if(ssValResult){
             const newWeightType=new WeightType({
                 name,

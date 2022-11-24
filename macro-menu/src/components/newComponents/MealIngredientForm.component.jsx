@@ -24,7 +24,7 @@ const MealIngredientForm = (props) => {
           qty: 1,
           genRecipeIngredient: { ingredient: { name: null } },
         },
-        justCreated: { mealIngredient: false },
+        recordsJustCreated: { mealIngredient: false },
         arrayIndex: 0,
         recordLoaded: false,
         recordChanged: false,

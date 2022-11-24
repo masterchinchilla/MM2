@@ -33,7 +33,7 @@ const MealChildCard = (props) => {
         },
         userType: { meal: "" },
         editingForm: { meal: false },
-        justCreated: { meal: false },
+        recordsJustCreated: { meal: false },
         thisMealsIngrdnts: [],
         userChangedThisMealsRecipe: false,
         thisRecipesIngrdnts: [],
@@ -44,7 +44,7 @@ const MealChildCard = (props) => {
     recordChanged,
     thisRecord,
     userType,
-    justCreated,
+    recordsJustCreated,
     thisMealsIngrdnts,
     userChangedThisMealsRecipe,
     thisRecipesIngrdnts,
@@ -71,14 +71,7 @@ const MealChildCard = (props) => {
   const deleteChildrenWarning =
     "You must delete all this meals's ingredients before you can delete this meal";
   function handleCreateNewRecipeFn(newRecipeName) {
-    const newRecordToSave = {
-      name: newRecipeName,
-      GRFUser: currentGRFUser._id,
-      defaultPrepInstructions: "",
-      photoURL: "",
-      availableMealType: mealType._id,
-    };
-    const newRecordForState = {
+    const newRecord = {
       _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
       name: newRecipeName,
       GRFUser: currentGRFUser,
@@ -93,8 +86,8 @@ const MealChildCard = (props) => {
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,
-      newRecordForState,
-      newRecordToSave
+      newRecord,
+      []
     );
   }
   return (
@@ -134,7 +127,7 @@ const MealChildCard = (props) => {
         </div>
         <div
           className={
-            justCreated.meal
+            recordsJustCreated.meal
               ? "subCardHeader cardHeaderFocused"
               : "subCardHeader"
           }
@@ -158,7 +151,7 @@ const MealChildCard = (props) => {
             recordToSelect={genRecipe}
             propType={"reactSelect"}
             propToUpdateSentenceCase={"Recipe"}
-            propToUpdate={"recipe"}
+            propToUpdate={"genRecipe"}
             trimEnteredValueFn={trimEnteredValueFn}
             fetchDataUrl={`${backEndHtmlRoot}genRecipes/genRecipesByMealTypeAndName/${thisMealTypeId}`}
             validatePropFn={validatePropFn}
@@ -173,7 +166,7 @@ const MealChildCard = (props) => {
             isRequired={true}
             getRndIntegerFn={getRndIntegerFn}
           />
-          {userChangedThisMealsRecipe && !justCreated.meal ? (
+          {userChangedThisMealsRecipe && !recordsJustCreated.meal ? (
             <div className="alert alert-warning recipeWarning" role="alert">
               CAUTION: If you save a change to this Meal's Recipe, your meal
               ingredient custom qtys will be reset.

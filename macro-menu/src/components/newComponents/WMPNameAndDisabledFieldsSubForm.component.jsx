@@ -46,7 +46,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
           fatBudget: [],
           fiberBudget: [],
         },
-        justCreated: false,
+        thisRecordJustCreated: false,
         userType: "",
         hasChildren: true,
         deleteChildrenWarning:
@@ -58,7 +58,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
     thisRecord,
     recordChanged,
     valErrors,
-    justCreated,
+    thisRecordJustCreated,
     userType,
     hasChildren,
     deleteChildrenWarning,
@@ -116,7 +116,7 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
     <React.Fragment>
       <div
         className={
-          justCreated
+          thisRecordJustCreated
             ? "card-header wmpCardHeader cardHeaderFocused"
             : "card-header wmpCardHeader"
         }

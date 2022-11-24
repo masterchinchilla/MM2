@@ -14,10 +14,8 @@ const AsyncSearchSelectWCreateNew = (props) => {
     propToUpdate,
     trimEnteredValueFn,
     fetchDataUrl,
-    createRecordUrl,
     validatePropFn,
     valErrors,
-    notifyFn,
     onUpdatePropFn,
     onCreateNewRecordFn,
     fieldDisabled,
@@ -26,8 +24,6 @@ const AsyncSearchSelectWCreateNew = (props) => {
     getRndIntegerFn,
     excludeLabel,
     isRequired,
-    newRecordToSave,
-    newRecordForState,
   } = props;
   // let valErrors = ["error 1", "error 2 with more text", "error 3"];
   const recordToSelect = props.recordToSelect
@@ -46,7 +42,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
       trimmedValueWNoDblSpcs
     );
     setLclValErrsStateFn(newValErrors);
-    return newValErrors ? false : true;
+    return newValErrors.length > 0 ? false : true;
   }
   function fetchData(inputValue, callback) {
     if (!inputValue) {
@@ -61,7 +57,8 @@ const AsyncSearchSelectWCreateNew = (props) => {
             response.data.forEach((element) => {
               tempArray.push({
                 label: `${element.name}`,
-                value: JSON.stringify(element),
+                value: element,
+                // value: JSON.stringify(element),
               });
             });
           } else {
@@ -71,6 +68,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
             if (isValidNewOption) {
               setLclValErrsStateFn([]);
               updateLocalName(trimmedValueWNoDblSpcs);
+              console.log(localName);
             } else {
               updateLocalName("");
             }
@@ -83,6 +81,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
     }
   }
   function onSearchChange(e) {
+    let eObj = { target: { value: e.value } };
     if (e) {
       onUpdatePropFn(
         typeOfRecordToChange,
@@ -91,8 +90,9 @@ const AsyncSearchSelectWCreateNew = (props) => {
         propToUpdate,
         arrayIndex,
         propType,
-        e.value,
-        selectedFrom
+        eObj,
+        selectedFrom,
+        null
       );
     }
   }

@@ -2,7 +2,10 @@ const router = require('express').Router();
 const { response } = require('express');
 let Day = require('../models/day.model');
 let WeekMealPlan = require('../models/weekMealPlan.model');
-let DayOfWeek=require('../models/dayOfWeek.model')
+let DayOfWeek=require('../models/dayOfWeek.model');
+const auth = require('../middleware/auth');
+const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
+const {ssValidate}=require('../backendServices/ssValidation');
 router.route('/').get((req, res) => {
     Day.find()
         .populate("dayOfWeek")
@@ -31,20 +34,56 @@ router.route('/daysofthiswmp/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 // router.route('/add').post((req, res) => {
-//     Note that the above worked in the prior version of the app, the below WILL NOT. The below needs the extra slash to accomodate add routes that take an optional param at the end ":justCreated"
-router.route('/add/').post((req, res) => {
-    const dayOfWeek = req.body.dayOfWeek;
-    const name = req.body.name;
-    const weekMealPlan = req.body.weekMealPlan;
-    const newDay = new Day({
-        dayOfWeek,
-        name,
-        weekMealPlan
-    });
-    newDay.save()
-        .then(() => res.json(newDay))
-        .catch(err => res.status(400).json('Error: ' + err));
-})
+//     const dayOfWeek = req.body.dayOfWeek;
+//     const name = req.body.name;
+//     const weekMealPlan = req.body.weekMealPlan;
+//     const newDay = new Day({
+//         dayOfWeek,
+//         name,
+//         weekMealPlan
+//     });
+//     newDay.save()
+//         .then(() => res.json(newDay))
+//         .catch(err => res.status(400).json('Error: ' + err));
+// })
+router.post('/add/:objRefPropsJustCreatedArray?',auth,async(req,res)=>{
+    const requestorUser=req.currentGRFUser;
+    if(requestorUser){
+        const {
+            name,
+      dayOfWeek,
+      weekMealPlan,
+        }=req.body;
+        
+        DayOfWeek.findOne({name:dayOfWeek.name})
+        .then(async(dayOfWeek)  => {
+            const dayOfWeekId=dayOfWeek._id;
+            const wmpId=weekMealPlan._id;
+            const objRefPropsJustCreatedArray=req.params.objRefPropsJustCreatedArray?objRefPropsJustCreatedArray:[];
+            const wmpJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weekMealPlan");
+            const propsArray=[
+            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Day,justCreated:null},
+            {thisPropsName:"weekMealPlan",thisPropNameSentenceCase:"Week Meal Plan",thisPropsValue:weekMealPlan,thisPropTypeForVal:"objRef",PropObjModel:WeekMealPlan,justCreated:wmpJustCreated?true:false},
+        ];
+        const ssValResult=await ssValidate("Day", null, propsArray, req, res);
+        if(ssValResult){
+            const newDay=new Day({
+                name,
+                dayOfWeek:dayOfWeekId,
+                weekMealPlan:wmpId
+            });
+            newDay.save()
+                .then(()=>res.json(newDay))
+                .catch(err=>res.status(400).json('Error: '+err));
+        }else{return};
+        })
+        .catch(err=>res.status(404).json({ok:false,errorMsg:"Day of Week not found"}))
+        
+    }else{
+        res.status(401).json({ok:false,errorMsg:"You must be logged-in to create new records"});
+        return};
+    
+});
 router.route('/:id').get((req, res) => {
     Day.findById(req.params.id).populate("weekMealPlan").populate("dayOfWeek").populate({
             path:'weekMealPlan',

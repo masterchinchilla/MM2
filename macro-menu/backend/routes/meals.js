@@ -59,9 +59,7 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
         .then(meals => res.json(meals))
         .catch(err => res.status(400).json('Error: '+err));
 });
-// router.route('/add').post((req, res) => {
-//     Note that the above worked in the prior version of the app, the below WILL NOT. The below needs the extra slash to accomodate add routes that take an optional param at the end ":justCreated"
-router.route('/add/').post((req, res)=>{
+router.route('/add').post((req, res)=>{
     const meal=new Meal(req.body);
     meal.save()
         .then((meal)=>res.json(meal))

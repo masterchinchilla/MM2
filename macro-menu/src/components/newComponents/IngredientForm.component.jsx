@@ -36,7 +36,7 @@ const IngredientForm = (props) => {
             mealType: { code: "breakfast" },
           },
         },
-        justCreated: { ingredient: false },
+        recordsJustCreated: { ingredient: false },
         valErrors: {
           ingredient: {
             name: [],
@@ -49,7 +49,8 @@ const IngredientForm = (props) => {
           },
         },
       };
-  const { justCreated, valErrors, thisRecord, arrayIndex } = thisStateObj;
+  const { recordsJustCreated, valErrors, thisRecord, arrayIndex } =
+    thisStateObj;
   const meal = thisRecord.meal;
   const { day, mealType } = meal;
   const { _id, photoURL } = thisRecord.genRecipeIngredient.ingredient;
@@ -89,7 +90,7 @@ const IngredientForm = (props) => {
   return (
     <form
       className={
-        justCreated.ingredient
+        recordsJustCreated.ingredient
           ? "ingrdntFrm subCardHeaderFocused"
           : "ingrdntFrm"
       }
@@ -128,7 +129,7 @@ const IngredientForm = (props) => {
           >
             <button
               className={
-                justCreated.ingredient
+                recordsJustCreated.ingredient
                   ? "accordion-button mealInnerAccrdnBttn open"
                   : "accordion-button mealInnerAccrdnBttn collapsed"
               }
@@ -141,7 +142,7 @@ const IngredientForm = (props) => {
         <div
           id={"ingrdntAccrdnBdy" + thisRecordId}
           className={
-            justCreated.ingredient
+            recordsJustCreated.ingredient
               ? "accordion-collapse open"
               : "accordion-collapse collapse"
           }
