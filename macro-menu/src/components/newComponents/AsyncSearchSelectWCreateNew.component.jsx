@@ -37,7 +37,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
     : getRndIntegerFn(10000000, 99999999);
   function handleValEnteredTextFn(trimmedValueWNoDblSpcs) {
     const newValErrors = validatePropFn(
-      propType,
+      "name",
       propToUpdate,
       trimmedValueWNoDblSpcs
     );
@@ -89,7 +89,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
         thisMealTypeCode,
         propToUpdate,
         arrayIndex,
-        propType,
+        "objRef",
         eObj,
         selectedFrom
       );

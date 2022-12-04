@@ -106,15 +106,15 @@ const RecipeCard = (props) => {
   useEffect(() => {
     //search db for meals connected to this recipe, if found update "recipeHasConnectedMeals"
     let photoURLValErrors = photoURL ? valErrors.genRecipe.photoURL : [];
-    if (
-      nameValErrors.length > 0 ||
-      valErrors.genRecipe.defaultPrepInstructions.length > 0 ||
-      photoURLValErrors.length > 0
-    ) {
-      toggleSaveDisabledStateFn(true);
-    } else {
-      toggleSaveDisabledStateFn(false);
-    }
+    // if (
+    //   nameValErrors.length > 0 ||
+    //   valErrors.genRecipe.defaultPrepInstructions.length > 0 ||
+    //   photoURLValErrors.length > 0
+    // ) {
+    //   toggleSaveDisabledStateFn(true);
+    // } else {
+    //   toggleSaveDisabledStateFn(false);
+    // }
     updateLocalRecordChangedStateFn(thisRecordChanged);
   });
   function handleUpdatePrepInst(e) {
