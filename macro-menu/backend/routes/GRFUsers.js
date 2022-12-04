@@ -55,7 +55,7 @@ router.route('/:id').delete((req, res) => {
 router.route('/:id').get((req, res) => {
     GRFUserModel.findById(req.params.id)
         .then(GRFUser => res.json(GRFUser))
-        .catch(err => res.status(400).json("Invalid Author"));
+        .catch(err => res.status(400).json('Error: '+err));
 });
 router.route('/findbyname/:valueForSearch').get((req, res)=>{
     GRFUserModel.findOne({handle:req.params.valueForSearch})

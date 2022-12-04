@@ -350,9 +350,9 @@ class NewWeekMealPlan extends Component {
       console.log(errs);
     }
   };
-  notifyOfErrors = (valErrorsArray) => {
-    for (let i = 0; i < valErrorsArray.length; i++) {
-      let thisValErrorObj = valErrorsArray[i];
+  notifyOfErrors = (valErrsNestedArray) => {
+    for (let i = 0; i < valErrsNestedArray.length; i++) {
+      let thisValErrorObj = valErrsNestedArray[i];
       let thisValErrorObjKeys = Object.keys(thisValErrorObj);
       for (let i = 0; i < thisValErrorObjKeys.length; i++) {
         let thisValErrorObjKey = thisValErrorObjKeys[i];
@@ -363,6 +363,16 @@ class NewWeekMealPlan extends Component {
         }
       }
     }
+  };
+  updateThisObjsValErrs = (thisObjsValErrsObj, valErrsNestedArray) => {
+    for (let i = 0; i < valErrsNestedArray.length; i++) {
+      let valErrsArrayKeys = Object.keys(valErrsNestedArray[i]);
+      let thisValuesValErrsArrayKey = valErrsArrayKeys[0];
+      thisObjsValErrsObj[thisValuesValErrsArrayKey] =
+        valErrsNestedArray[i][thisValuesValErrsArrayKey];
+    }
+    this.notifyOfErrors(valErrsNestedArray);
+    return thisObjsValErrsObj;
   };
   populateMealIngrdntsFn = () => {
     console.log("populating meal Ingredients");
@@ -397,19 +407,7 @@ class NewWeekMealPlan extends Component {
     thisRecordJustCreated
   ) => {
     let newValue = e.target.value;
-
-    let newValueValErrors = [];
-    // let shouldValidateNewVal =
-    //   propType === "name" ||
-    //   propType === "floatPercent" ||
-    //   propType === "float" ||
-    //   propType === "textBox" ||
-    //   propType === "url"
-    //     ? true
-    //     : false;
-    // if (shouldValidateNewVal) {
-    //   newValueValErrors = csValidateProp(propToUpdate, newValue, propType);
-    // }
+    // let newValueValErrors = [];
     let state = this.state;
     const typeOfRcrdToChngSntncCase =
       state.rcrdOrFldNameSnctncCase[typeOfRecordToChange];
@@ -422,8 +420,7 @@ class NewWeekMealPlan extends Component {
         thisPropTypeForVal: propType,
       },
     ];
-    let csValResult;
-
+    // let csValResult;
     let thisWMPStateObj = state.thisWMPStateObj;
     let thisWeeksDays = state.thisWeeksDays;
     let thisDayStateObj;
@@ -440,21 +437,27 @@ class NewWeekMealPlan extends Component {
       thisMealIngrdntStateObj = thisMealStateObj.thisMealsIngrdnts[arrayIndex];
     }
     let thisRecordId;
-    function getCSValResult() {
-      csValResult = csValidate(
+    const getCSValResult = async (thisObjsValErrsObj) => {
+      const csValResult = await csValidate(
         typeOfRecordToChange,
         typeOfRcrdToChngSntncCase,
         thisRecordId,
         propsArray
       );
-      newValueValErrors.push(csValResult);
-    }
+      const thisObjsValErrsObjNew = this.updateThisObjsValErrs(
+        thisObjsValErrsObj,
+        csValResult
+      );
+      // newValueValErrors.push(csValResult);
+      return thisObjsValErrsObjNew;
+    };
     switch (typeOfRecordToChange) {
       case "weekMealPlan":
         thisRecordId = thisWMPStateObj.thisRecord._id;
         thisWMPStateObj.thisRecord[propToUpdate] = newValue;
-        getCSValResult();
-        thisWMPStateObj.valErrors[propToUpdate] = csValResult;
+        const wmpValErrs = thisWMPStateObj.valErrors;
+        const wmpValErrsNew = await getCSValResult(wmpValErrs);
+        thisWMPStateObj.valErrors = wmpValErrsNew;
         thisWMPStateObj.recordChanged = true;
         state.thisWMPStateObj = thisWMPStateObj;
         break;
@@ -468,9 +471,10 @@ class NewWeekMealPlan extends Component {
         break;
       case "day":
         thisRecordId = thisDayStateObj.thisRecord._id;
-        getCSValResult();
-        thisDayStateObj.thisRecord[propToUpdate] = csValResult;
-        thisDayStateObj.valErrors[propToUpdate] = newValueValErrors;
+        const dayValErrs = thisDayStateObj.valErrors;
+        const dayValErrsNew = await getCSValResult(dayValErrs);
+        thisDayStateObj.valErrors = dayValErrsNew;
+        thisDayStateObj.thisRecord[propToUpdate] = newValue;
         thisDayStateObj.recordChanged = true;
         break;
       case "thisDaysMeals":
@@ -507,9 +511,10 @@ class NewWeekMealPlan extends Component {
         break;
       case "meal":
         thisRecordId = thisMealStateObj.thisRecord._id;
-        getCSValResult();
+        const mealValErrs = thisMealStateObj.valErrors.meal;
+        const mealValErrsNew = await getCSValResult(mealValErrs);
+        thisMealStateObj.valErrors.meal = mealValErrsNew;
         thisMealStateObj.thisRecord[propToUpdate] = newValue;
-        thisMealStateObj.valErrors.meal[propToUpdate] = csValResult;
         thisMealStateObj.recordChanged.meal = true;
         thisMealStateObj.recordsJustCreated.genRecipe =
           propToUpdate === "genRecipe" && thisRecordJustCreated ? true : false;
@@ -594,26 +599,35 @@ class NewWeekMealPlan extends Component {
       case "genRecipe":
         thisRecordId = thisMealStateObj.thisRecord.genRecipe._id;
         thisMealStateObj.thisRecord.genRecipe[propToUpdate] = newValue;
-        getCSValResult();
-        thisMealStateObj.valErrors.genRecipe = csValResult;
+        const genRecipeValErrs = thisMealStateObj.valErrors.genRecipe;
+        const genRecipeValErrsNew = await getCSValResult(genRecipeValErrs);
+        thisMealStateObj.valErrors.genRecipe = genRecipeValErrsNew;
         thisMealStateObj.recordChanged.genRecipe = true;
         break;
       case "mealIngredient":
         thisRecordId = thisMealIngrdntStateObj.thisRecord._id;
-        getCSValResult();
         thisMealIngrdntStateObj.thisRecord[propToUpdate] = newValue;
-        thisMealIngrdntStateObj.valErrors.mealIngredient[propToUpdate] =
-          csValResult;
+        const mealIngredientValErrs =
+          thisMealIngrdntStateObj.valErrors.mealIngredient;
+        const mealIngredientValErrsNew = await getCSValResult(
+          mealIngredientValErrs
+        );
+        thisMealIngrdntStateObj.valErrors.mealIngredient =
+          mealIngredientValErrsNew;
         thisMealIngrdntStateObj.recordChanged.mealIngredient = true;
         break;
       case "genRecipeIngredient":
         thisRecordId =
           thisMealIngrdntStateObj.thisRecord.genRecipeIngredient._id;
-        getCSValResult();
         thisMealIngrdntStateObj.thisRecord.genRecipeIngredient[propToUpdate] =
           newValue;
-        thisMealIngrdntStateObj.valErrors.genRecipeIngredient[propToUpdate] =
-          csValResult;
+        const genRecipeIngredientValErrs =
+          thisMealIngrdntStateObj.valErrors.genRecipeIngredient;
+        const genRecipeIngredientValErrsNew = await getCSValResult(
+          genRecipeIngredientValErrs
+        );
+        thisMealIngrdntStateObj.valErrors.genRecipeIngredient =
+          genRecipeIngredientValErrsNew;
         thisMealIngrdntStateObj.recordChanged.genRecipeIngredient = true;
         thisMealIngrdntStateObj.thisRecordJustCreated.ingredient =
           propToUpdate === "ingredient" && thisRecordJustCreated ? true : false;
@@ -621,12 +635,12 @@ class NewWeekMealPlan extends Component {
       case "ingredient":
         thisRecordId =
           thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient._id;
-        getCSValResult();
         thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient[
           propToUpdate
         ] = newValue;
-        thisMealIngrdntStateObj.valErrors.ingredient[propToUpdate] =
-          csValResult;
+        const ingredientValErrs = thisMealIngrdntStateObj.valErrors.ingredient;
+        const ingredientValErrsNew = await getCSValResult(ingredientValErrs);
+        thisMealIngrdntStateObj.valErrors.ingredient = ingredientValErrsNew;
         thisMealIngrdntStateObj.recordChanged.ingredient = true;
         break;
     }
@@ -641,7 +655,7 @@ class NewWeekMealPlan extends Component {
       thisWeeksDays[thisDayOfWeekCode] = thisDayStateObj;
       state.thisWeeksDays = thisWeeksDays;
     }
-    this.notifyOfErrors(newValueValErrors);
+    // this.notifyOfErrors(newValueValErrors);
     this.setState(state);
   };
   determineThisRecordsUserTypeFn = (recordAuthorId) => {

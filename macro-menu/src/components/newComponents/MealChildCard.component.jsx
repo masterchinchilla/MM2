@@ -211,6 +211,8 @@ const MealChildCard = (props) => {
                 propValue={createdAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.meal.createdAt}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`ReadOnlyInputCoreForUpdatedAtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -221,6 +223,8 @@ const MealChildCard = (props) => {
                 propValue={updatedAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.meal.updatedAt}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`ReadOnlyInputCoreForIdFor${typeOfRecordToChange}${thisRecordId}`}
@@ -231,6 +235,8 @@ const MealChildCard = (props) => {
                 propValue={_id}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.meal._id}
+                getRndIntegerFn={getRndIntegerFn}
               />
             </div>
           </div>

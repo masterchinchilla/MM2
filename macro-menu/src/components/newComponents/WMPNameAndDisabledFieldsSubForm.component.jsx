@@ -210,6 +210,8 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propValue={GRFUser.handle}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.GRFUser}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
@@ -220,6 +222,8 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propValue={_id}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors._id}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForCreatedDtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -230,6 +234,8 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propValue={createdAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.createdAt}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForUpdatedDtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -240,6 +246,8 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
                 propValue={updatedAt}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.updatedAt}
+                getRndIntegerFn={getRndIntegerFn}
               />
             </div>
           </div>

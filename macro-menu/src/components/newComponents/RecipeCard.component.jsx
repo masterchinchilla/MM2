@@ -106,15 +106,15 @@ const RecipeCard = (props) => {
   useEffect(() => {
     //search db for meals connected to this recipe, if found update "recipeHasConnectedMeals"
     let photoURLValErrors = photoURL ? valErrors.genRecipe.photoURL : [];
-    // if (
-    //   nameValErrors.length > 0 ||
-    //   valErrors.genRecipe.defaultPrepInstructions.length > 0 ||
-    //   photoURLValErrors.length > 0
-    // ) {
-    //   toggleSaveDisabledStateFn(true);
-    // } else {
-    //   toggleSaveDisabledStateFn(false);
-    // }
+    if (
+      nameValErrors.length > 0 ||
+      valErrors.genRecipe.defaultPrepInstructions.length > 0 ||
+      photoURLValErrors.length > 0
+    ) {
+      toggleSaveDisabledStateFn(true);
+    } else {
+      toggleSaveDisabledStateFn(false);
+    }
     updateLocalRecordChangedStateFn(thisRecordChanged);
   });
   function handleUpdatePrepInst(e) {
@@ -302,6 +302,8 @@ const RecipeCard = (props) => {
                   propValue={GRFUser.handle}
                   recordLoaded={recordLoaded}
                   excludeLabel={false}
+                  valErrors={valErrors.genRecipe.GRFUser}
+                  getRndIntegerFn={getRndIntegerFn}
                 />
               </div>
               <div className="card-body mealCardBody">
@@ -342,6 +344,8 @@ const RecipeCard = (props) => {
                         propValue={availableMealType.name}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
+                        valErrors={valErrors.genRecipe.availableMealType}
+                        getRndIntegerFn={getRndIntegerFn}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForIdForGenRecipe${thisRecordId}`}
@@ -352,6 +356,8 @@ const RecipeCard = (props) => {
                         propValue={_id}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
+                        valErrors={valErrors.genRecipe._id}
+                        getRndIntegerFn={getRndIntegerFn}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForCreatedDtForGenRecipe${thisRecordId}`}
@@ -362,6 +368,8 @@ const RecipeCard = (props) => {
                         propValue={createdAt}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
+                        valErrors={valErrors.genRecipe.createdAt}
+                        getRndIntegerFn={getRndIntegerFn}
                       />
                       <ReadOnlyInputCore
                         key={`readOnlyInputForUpdatedDtForGenRecipe${thisRecordId}`}
@@ -372,6 +380,8 @@ const RecipeCard = (props) => {
                         propValue={updatedAt}
                         recordLoaded={recordLoaded}
                         excludeLabel={false}
+                        valErrors={valErrors.genRecipe.updatedAt}
+                        getRndIntegerFn={getRndIntegerFn}
                       />
                     </div>
                   </div>

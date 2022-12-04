@@ -24,6 +24,14 @@ const DayControlAndDisabledFields = (props) => {
           "You must delete all this day's meals before you can delete this day",
         //this prop is crucial because it determines whether the form control component renders or renders placeholder; Should be falsy unless data is loaded
         recordLoaded: false,
+        valErrors: {
+          _id: [],
+          name: [],
+          dayOfWeek: [],
+          weekMealPlan: [],
+          createdAt: [],
+          updatedAt: [],
+        },
       };
   const {
     editingForm,
@@ -33,6 +41,7 @@ const DayControlAndDisabledFields = (props) => {
     hasChildren,
     deleteChildrenWarning,
     recordLoaded,
+    valErrors,
   } = thisStateObj;
   const { _id, name, dayOfWeek, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
@@ -109,6 +118,8 @@ const DayControlAndDisabledFields = (props) => {
                 propValue={name ? name : null}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.name}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
@@ -119,6 +130,8 @@ const DayControlAndDisabledFields = (props) => {
                 propValue={_id ? thisRecordId : null}
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors._id}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForCreatedAtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -133,6 +146,8 @@ const DayControlAndDisabledFields = (props) => {
                 }
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.createdAt}
+                getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
                 key={`readOnlyInputForUpdatedAtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -147,6 +162,8 @@ const DayControlAndDisabledFields = (props) => {
                 }
                 recordLoaded={recordLoaded}
                 excludeLabel={false}
+                valErrors={valErrors.updatedAt}
+                getRndIntegerFn={getRndIntegerFn}
               />
             </div>
           </div>

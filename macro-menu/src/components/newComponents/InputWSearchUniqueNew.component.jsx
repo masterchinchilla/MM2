@@ -30,7 +30,7 @@ const InputWSearchUniqueNew = (props) => {
     updatePropValErrorsStateFn,
   } = props;
   const [timer, setTimerStateFn] = useState(null);
-  const [localValErrors, setLclValErrsStateFn] = useState([]);
+  const [localValErrors, setLclValErrsStateFn] = useState(valErrors);
   const fetchBaseURL =
     backEndHtmlRoot + `${typeOfRecordToChange}s/findby${propToUpdate}/`;
   function handleUpdateLocalPropFn(

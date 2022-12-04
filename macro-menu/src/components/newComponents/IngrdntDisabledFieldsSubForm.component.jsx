@@ -1,7 +1,7 @@
 import React from "react";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 const IngrdntDisabledFieldsSubForm = (props) => {
-  const { thisRecordId } = props;
+  const { thisRecordId, getRndIntegerFn } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
@@ -14,8 +14,11 @@ const IngrdntDisabledFieldsSubForm = (props) => {
           },
         },
         recordLoaded: false,
+        valErrors: {
+          ingredient: { _id: [], GRFUser: [], createdAt: [], updatedAt: [] },
+        },
       };
-  const { thisRecord, recordLoaded } = thisStateObj;
+  const { thisRecord, recordLoaded, valErrors } = thisStateObj;
   const { _id, GRFUser, createdAt, updatedAt } =
     thisRecord.genRecipeIngredient.ingredient;
   const typeOfRecordToChange = "ingredient";
@@ -59,6 +62,8 @@ const IngrdntDisabledFieldsSubForm = (props) => {
               propValue={GRFUser.handle}
               recordLoaded={recordLoaded}
               excludeLabel={false}
+              valErrors={valErrors.ingredient.GRFUser}
+              getRndIntegerFn={getRndIntegerFn}
             />
             <div className="accordion-body ingrdntInnerAccrdn">
               <ReadOnlyInputCore

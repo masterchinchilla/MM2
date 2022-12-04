@@ -8,6 +8,8 @@ const ReadOnlyInputCore = (props) => {
     propValue,
     recordLoaded,
     excludeLabel,
+    valErrors,
+    getRndIntegerFn,
   } = props;
   if (recordLoaded) {
     return (
@@ -20,6 +22,25 @@ const ReadOnlyInputCore = (props) => {
           value={propValue}
           onChange={() => {}}
         />
+        {!valErrors ? (
+          ""
+        ) : (
+          //This conditional is necessary for an esoteric reason: In some DB tables, some records are missing some columns that were added later. This means when the record is retrieved, it lacks a key-value pair. The state object builder uses a ObjectKeys array loop to build content like the valErrors complex object. When it comes to these records missing fields, it will fail to build a corresponding valError object, and when we try to access that object below, it will throw an error and crash the app.
+          <div
+            className="alert alert-danger valErrorsListDiv"
+            hidden={valErrors.length > 0 ? false : true}
+          >
+            {valErrors.length < 1 ? (
+              ""
+            ) : (
+              <ul>
+                {valErrors.map((valError) => (
+                  <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
       </div>
     );
   } else {

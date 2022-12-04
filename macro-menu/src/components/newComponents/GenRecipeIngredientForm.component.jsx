@@ -231,6 +231,8 @@ const GenRecipeIngredientForm = (props) => {
               propValue={genRecipe.name}
               recordLoaded={recordLoaded}
               excludeLabel={false}
+              valErrors={valErrors.genRecipeIngredient.genRecipe}
+              getRndIntegerFn={getRndIntegerFn}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForCreatedDtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -243,6 +245,8 @@ const GenRecipeIngredientForm = (props) => {
               propValue={createdAt}
               recordLoaded={recordLoaded}
               excludeLabel={false}
+              valErrors={valErrors.genRecipeIngredient.createdAt}
+              getRndIntegerFn={getRndIntegerFn}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForUpdatedDtFor${typeOfRecordToChange}${thisRecordId}`}
@@ -255,6 +259,8 @@ const GenRecipeIngredientForm = (props) => {
               propValue={updatedAt}
               recordLoaded={recordLoaded}
               excludeLabel={false}
+              valErrors={valErrors.genRecipeIngredient.updatedAt}
+              getRndIntegerFn={getRndIntegerFn}
             />
             <ReadOnlyInputCore
               key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
@@ -267,6 +273,8 @@ const GenRecipeIngredientForm = (props) => {
               propValue={_id}
               recordLoaded={recordLoaded}
               excludeLabel={false}
+              valErrors={valErrors.genRecipeIngredient._id}
+              getRndIntegerFn={getRndIntegerFn}
             />
           </div>
         </div>

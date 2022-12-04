@@ -3,12 +3,27 @@ import config from "../config.json";
 import valSchema from"../components/universalJoiValSchemaCS";
 const Joi =require("joi");
 const backEndHtmlRoot=config.backEndHtmlRoot;
+const propNamesForLookup={
+    brand:"brand",
+    day:"day",
+    dayOfWeek:"dayOfWeek",
+    genRecipe:"genRecipe",
+    genRecipeIngredient:"genRecipeIngredient",
+    GRFUser:"GRFUser",
+    ingredient:"ingredient",
+    meal:"meal",
+    mealIngredient:"mealIngredient",
+    mealType:"mealType",
+    availableMealType:"mealType",
+    unitOfMeasure:"unitOfMeasure",
+    weekMealPlan:"weekMealPlan",
+    weightType:"weightType"
+}
 export function csValidateProp(propName, value, propTypeForVal) {
     const rule = valSchema.extract(propTypeForVal);
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
     const { error } = subSchema.validate(objToValidate);
-    console.log(error);
     let valErrorDetails = error ? error.details : [];
     let valErrorsArray = [];
     if (valErrorDetails) {
@@ -20,33 +35,31 @@ export function csValidateProp(propName, value, propTypeForVal) {
 };    
 export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray){
     const valErrorsArray=[];
-    let valErrorsObj={};
     for(let i=0;i<propsArray.length;i++){
         let {thisPropsName,thisPropNameSentenceCase,thisPropsValue,thisPropTypeForVal}=propsArray[i];
         let thisPropsValErrsArray=[];
         if(thisPropTypeForVal==="objRef"){
             let thisPropsValueId=thisPropsValue._id;
-            let apiEndpoint=`${backEndHtmlRoot}${thisPropsName}s/`
+            let thisPropsNameForLookup=thisPropsName==="availableMealType"?"mealType":thisPropsName;
+            let apiEndpoint=`${backEndHtmlRoot}${thisPropsNameForLookup}s/`
             if(thisPropsName==="GRFUser"){
                 try {await httpService.get(`${apiEndpoint}${thisPropsValueId}`);
                 } catch
                 (err) {
                     let errResponse = err.response ? err.response : null;
                     let errData = errResponse.data ? errResponse.data : { data: null };
-                    thisPropsValErrsArray.push(errData);
+                    thisPropsValErrsArray.push("Invalid Author");
+                    console.log(errData);
                 }
             }else{
-                try {
-                    const foundRecord=await httpService.get(`${apiEndpoint}${thisPropsValueId}`);
-                    if(!foundRecord){
-                        // valErrorsArray.push({[thisPropsName]:[`${thisPropNameSentenceCase} not found`]})
+                try {await httpService.get(`${apiEndpoint}${thisPropsValueId}`);
                         thisPropsValErrsArray.push(`${thisPropNameSentenceCase} not found`)
-                    };
+                    // };
                 } catch (err) {
                     let errResponse = err.response ? err.response : null;
                     let errData = errResponse.data ? errResponse.data : { data: null };
-                    // valErrorsArray.push({[thisPropsName]:[errData]})
-                    thisPropsValErrsArray.push(errData);
+                    thisPropsValErrsArray.push(`${thisPropNameSentenceCase} not found`);
+                    console.log(errData);
                 }
             };
         }else{
@@ -57,7 +70,7 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                 }
                 
             };
-            if(thisPropsName==="name"){
+            if(thisPropsName==="name"&&thisPropsValue){
                 let apiEndpoint=`${backEndHtmlRoot}${typeOfRecordToChange}s/`
                 try {
                     const matchingRecords=await httpService.get(`${apiEndpoint}findbyname/${thisPropsValue}`);
@@ -74,12 +87,11 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                     thisPropsValErrsArray.push(errData)
                 }
             }
-            // valErrorsArray.push({[thisPropsName]:thisPropsValErrsArray})
             
         };
-        valErrorsObj[thisPropsName]=thisPropsValErrsArray;
+        valErrorsArray.push({[thisPropsName]:thisPropsValErrsArray})
     };
-    return valErrorsObj;
+    return valErrorsArray;
 };
 
 export default {csValidateProp,csValidate};
