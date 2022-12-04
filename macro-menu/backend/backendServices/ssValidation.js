@@ -1,5 +1,5 @@
 const Joi =require("joi");
-const valSchema=require("../universalJoiValSchema");
+const valSchema=require("../universalJoiValSchemaSS");
 function ssValidateProp(propName, value, propTypeForVal) {
     const rule = valSchema.extract(propTypeForVal);
     const subSchema = Joi.object({ [propName]: rule });
@@ -38,11 +38,11 @@ async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, req, res)
             .then(matchingRecords=>{
                 let nameError;
                 for(let i=0;i<matchingRecords.length;i++){
-                    if(matchingRecords[i].name===thisPropsValue){
+                    // if(matchingRecords[i].name===thisPropsValue){
                         if(!(matchingRecords[i]._id.equals(recordId))){
                             nameError=`Another ${objTypeSnglrSntncCase} is already using that name`}
                     }
-                };
+                // };
                 if(nameError){valErrorsArray.push({name:nameError})};
             })
         }

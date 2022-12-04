@@ -3,7 +3,7 @@ const { response } = require('express');
 let UnitOfMeasure=require('../models/unitOfMeasure.model');
 let WeightType=require('../models/weightType.model');
 let Brand=require('../models/brand.model');
-let GRFUser=require('../models/GRFUser.model');
+let GRFUserModel=require('../models/GRFUser.model');
 let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
 let GenRecipe=require('../models/genRecipe.model');
 let Ingredient=require('../models/ingredient.model');
@@ -59,12 +59,12 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
         .then(meals => res.json(meals))
         .catch(err => res.status(400).json('Error: '+err));
 });
-router.route('/add').post((req, res)=>{
-    const meal=new Meal(req.body);
-    meal.save()
-        .then((meal)=>res.json(meal))
-        .catch(err=>res.status(400).json('Error: '+err));
-});
+// router.route('/add').post((req, res)=>{
+//     const meal=new Meal(req.body);
+//     meal.save()
+//         .then((meal)=>res.json(meal))
+//         .catch(err=>res.status(400).json('Error: '+err));
+// });
 // router.route('/update/:id').put((req, res)=>{
 //     Meal.findById(req.params.id)
 //         .then(meal=>{
@@ -123,5 +123,37 @@ router.route('/:id').delete((req, res)=>{
     Meal.findByIdAndDelete(req.params.id)
         .then(()=>res.json('Meal successfully deleted.'))
         .catch(err=>res.status(400).json('Error :'+err));
+});
+router.post('/add',auth,async(req,res)=>{
+    const requestorUser=req.currentGRFUser;
+    if(requestorUser){
+        const {
+            day,
+            genRecipe,
+            mealType
+        }=req.body;
+        const dayId=day._id;
+        const genRecipeId=genRecipe._id;
+        const mealTypeId=mealType._id;
+        const propsArray=[
+            {thisPropsName:"day",thisPropNameSentenceCase:"Day",thisPropsValue:day,thisPropTypeForVal:"objRef",PropObjModel:Day,justCreated:null},
+            {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe,justCreated:null},
+            {thisPropsName:"mealType",thisPropNameSentenceCase:"Meal Type",thisPropsValue:mealType,thisPropTypeForVal:"objRef",PropObjModel:MealType,justCreated:null},
+        ];
+        const ssValResult=await ssValidate("meal", null, propsArray, req, res);
+        if(ssValResult){
+            const newMeal=new Meal({
+                day: dayId,
+                genRecipe: genRecipeId,
+                mealType: mealTypeId
+            });
+            newMeal.save()
+                .then(()=>res.json(newMeal))
+                .catch(err=>res.status(400).json('Error: '+err));
+        }else{return};
+    }else{
+        res.status(401).json({ok:false,errorMsg:"You must be logged-in to create new records"});
+        return};
+    
 });
 module.exports=router;

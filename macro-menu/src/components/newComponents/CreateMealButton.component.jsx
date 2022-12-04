@@ -15,11 +15,24 @@ const CreateMealButton = ({
     dinnerId: "62577f8b6682e3955e98b1d3",
     dessertId: "62577f9c6682e3955e98b1d4",
   };
+  const mealTypeIds = {
+    breakfast: "626dd6fc21888432c0fe3e90",
+    snack1: "626ddf9e21888432c0fe3e91",
+    lunch: "626ddfb721888432c0fe3e92",
+    snack2: "626ddfcb21888432c0fe3e93",
+    dinner: "626ddfdc21888432c0fe3e94",
+    dessert: "626ddfee21888432c0fe3e95",
+  };
+  const thisMealTypeRecord = {
+    _id: mealTypeIds[mealType.code],
+    code: mealType.code,
+    name: mealType.name,
+  };
   const thisDefaultRecipeId = defaultRecipeIds[`${mealType.code}Id`];
   const thisDefaultGenRecipe = {
     _id: thisDefaultRecipeId,
     name: " ",
-    availableMealType: mealType,
+    availableMealType: thisMealTypeRecord,
     GRFUser: { _id: "62577a533813f4f21c27e1c7", handle: "Service" },
     defaultPrepInstructions: "",
     photoURL: "",
@@ -36,7 +49,7 @@ const CreateMealButton = ({
         _id: `tempId${getRndIntegerFn(10000000, 99999999)}`,
         day: day,
         genRecipe: thisDefaultGenRecipe,
-        mealType: mealType,
+        mealType: thisMealTypeRecord,
       }
     );
   }
