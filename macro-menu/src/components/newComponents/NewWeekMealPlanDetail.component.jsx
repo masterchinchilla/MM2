@@ -396,7 +396,27 @@ class NewWeekMealPlan extends Component {
     }
     return valErrorsArray;
   };
-  handleUpdatePropFn = async (
+  getCSValResult = async (
+    thisObjsValErrsObj,
+    typeOfRecordToChange,
+    typeOfRcrdToChngSntncCase,
+    thisRecordId,
+    propsArray
+  ) => {
+    console.log(propsArray);
+    const csValResult = await csValidate(
+      typeOfRecordToChange,
+      typeOfRcrdToChngSntncCase,
+      thisRecordId,
+      propsArray
+    );
+    const thisObjsValErrsObjNew = this.updateThisObjsValErrs(
+      thisObjsValErrsObj,
+      csValResult
+    );
+    return thisObjsValErrsObjNew;
+  };
+  handleUpdatePropFn2 = async (
     typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
@@ -406,9 +426,7 @@ class NewWeekMealPlan extends Component {
     e,
     thisRecordJustCreated
   ) => {
-    console.log(e);
     let newValue = e.target.value;
-    // let newValueValErrors = [];
     let state = this.state;
     const typeOfRcrdToChngSntncCase =
       state.rcrdOrFldNameSnctncCase[typeOfRecordToChange];
@@ -421,25 +439,7 @@ class NewWeekMealPlan extends Component {
         thisPropTypeForVal: propType,
       },
     ];
-    // let csValResult;
-    let thisWMPStateObj = state.thisWMPStateObj;
-    let thisWeeksDays = state.thisWeeksDays;
-    let thisDayStateObj;
-    let thisMealStateObj;
-    let thisMealJustCreated;
-    let thisMealIngrdntStateObj;
-    if (thisDayOfWeekCode) {
-      thisDayStateObj = thisWeeksDays[thisDayOfWeekCode];
-    }
-    if (thisMealTypeCode) {
-      thisMealStateObj = thisDayStateObj.thisDaysMeals[thisMealTypeCode];
-    }
-    if (arrayIndex || arrayIndex === 0) {
-      thisMealIngrdntStateObj = thisMealStateObj.thisMealsIngrdnts[arrayIndex];
-    }
-    console.log(thisMealIngrdntStateObj);
-    let thisRecordId;
-    const getCSValResult = async (thisObjsValErrsObj) => {
+    const getCSValResult2 = async (thisObjsValErrsObj, thisRecordId) => {
       const csValResult = await csValidate(
         typeOfRecordToChange,
         typeOfRcrdToChngSntncCase,
@@ -450,15 +450,177 @@ class NewWeekMealPlan extends Component {
         thisObjsValErrsObj,
         csValResult
       );
-      // newValueValErrors.push(csValResult);
       return thisObjsValErrsObjNew;
     };
+    let stateObjToUpdate;
+    let recordToUpdate;
+    let thisDay;
+    let thisMeal;
+    let thisObjsValErrsObj;
+    switch (typeOfRecordToChange) {
+      case "thisWeeksDays" || "thisDaysMeals" || "thisMealsIngrdnts":
+        recordToUpdate = null;
+      case "thisWeeksDays":
+        stateObjToUpdate = state.thisWeeksDays;
+        break;
+      case !"weekMealPlan":
+        thisDay = state.thisWeeksDays[thisDayOfWeekCode];
+      case !"day":
+        thisMeal = thisDay.thisDaysMeals[thisMealTypeCode];
+      case "thisDaysMeals":
+        thisDay = state.thisWeeksDays[thisDayOfWeekCode];
+        stateObjToUpdate = thisDay;
+        break;
+      case "thisMealsIngrdnts":
+        stateObjToUpdate = thisMeal;
+        break;
+      default:
+        switch (typeOfRecordToChange) {
+          case "weekMealPlan":
+            stateObjToUpdate = state.thisWMPStateObj;
+            stateObjToUpdate.thisRecord = recordToUpdate;
+          case "day":
+            stateObjToUpdate = thisDay;
+          case "meal" || "genRecipe":
+            stateObjToUpdate = thisMeal;
+          case "weekMealPlan" || "day" || "meal":
+            recordToUpdate = stateObjToUpdate.thisRecord;
+            recordToUpdate[propToUpdate] = newValue;
+          case "weekMealPlan" || "day":
+            stateObjToUpdate.thisRecord = recordToUpdate;
+            stateObjToUpdate.recordChanged = true;
+            stateObjToUpdate.valErrors = getCSValResult2(
+              stateObjToUpdate.valErrors,
+              recordToUpdate._id
+            );
+          case "weekMealPlan":
+            state.thisWMPStateObj = stateObjToUpdate;
+            break;
+          case "day":
+            state.thisWeeksDays[thisDayOfWeekCode] = stateObjToUpdate;
+            break;
+          case "meal" || "genRecipe":
+            stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
+            thisObjsValErrsObj =
+              stateObjToUpdate.valErrors[typeOfRecordToChange];
+
+          case "meal":
+            stateObjToUpdate.thisRecord = recordToUpdate;
+            stateObjToUpdate.valErrors[typeOfRecordToChange] = getCSValResult2(
+              thisObjsValErrsObj,
+              recordToUpdate._id
+            );
+          case "genRecipe":
+            let recordToUpdateId = stateObjToUpdate.thisRecord.genRecipe._id;
+            stateObjToUpdate.thisRecord.genRecipe[propToUpdate] = newValue;
+            stateObjToUpdate.valErrors[typeOfRecordToChange] = getCSValResult2(
+              thisObjsValErrsObj,
+              recordToUpdateId
+            );
+          case "meal" || "genRecipe":
+            thisDay.thisDaysMeals[thisMealTypeCode] = stateObjToUpdate;
+            state.thisWeeksDays[thisDayOfWeekCode] = thisDay;
+            break;
+          default:
+            stateObjToUpdate = thisMeal.thisMealsIngrdnts[arrayIndex];
+            stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
+            recordToUpdate = stateObjToUpdate.thisRecord;
+            thisObjsValErrsObj =
+              stateObjToUpdate.valErrors[typeOfRecordToChange];
+            switch (typeOfRecordToChange) {
+              case "mealIngredient":
+                recordToUpdate[propToUpdate] = newValue;
+                stateObjToUpdate.thisRecord = recordToUpdate;
+                stateObjToUpdate.valErrors[typeOfRecordToChange] =
+                  getCSValResult2(thisObjsValErrsObj, recordToUpdate._id);
+                break;
+              case !"mealIngredient":
+                recordToUpdate = recordToUpdate.genRecipeIngredient;
+              case "genRecipeIngredient":
+                recordToUpdate[propToUpdate] = newValue;
+                stateObjToUpdate.thisRecord.genRecipeIngredient =
+                  recordToUpdate;
+                stateObjToUpdate.valErrors[typeOfRecordToChange] =
+                  getCSValResult2(thisObjsValErrsObj, recordToUpdate._id);
+                break;
+              default:
+                recordToUpdate = recordToUpdate.ingredient;
+                recordToUpdate[propToUpdate] = newValue;
+                stateObjToUpdate.thisRecord.genRecipeIngredient.ingredient =
+                  recordToUpdate;
+                stateObjToUpdate.valErrors[typeOfRecordToChange] =
+                  getCSValResult2(thisObjsValErrsObj, recordToUpdate._id);
+            }
+            thisMeal.thisMealsIngrdnts[arrayIndex] = stateObjToUpdate;
+            thisDay.thisDaysMeals[thisMealTypeCode] = thisMeal;
+            state.thisWeeksDays[thisDayOfWeekCode] = thisDay;
+        }
+    }
+    this.setState(state);
+  };
+  handleUpdatePropFn = async (
+    typeOfRecordToChange,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    propToUpdate,
+    arrayIndex,
+    propType,
+    e,
+    thisRecordJustCreated
+  ) => {
+    let newValue = e.target.value;
+    let state = this.state;
+    const typeOfRcrdToChngSntncCase =
+      state.rcrdOrFldNameSnctncCase[typeOfRecordToChange];
+    const prpToUpdtSntncCase = state.rcrdOrFldNameSnctncCase[propToUpdate];
+    const propsArray = [
+      {
+        thisPropsName: propToUpdate,
+        thisPropNameSentenceCase: prpToUpdtSntncCase,
+        thisPropsValue: newValue,
+        thisPropTypeForVal: propType,
+      },
+    ];
+    let thisWMPStateObj = state.thisWMPStateObj;
+    let thisWeeksDays = state.thisWeeksDays;
+    let thisDayStateObj;
+    let thisMealStateObj;
+    let thisMealIngrdntStateObj;
+    if (thisDayOfWeekCode) {
+      thisDayStateObj = thisWeeksDays[thisDayOfWeekCode];
+    }
+    if (thisMealTypeCode) {
+      thisMealStateObj = thisDayStateObj.thisDaysMeals[thisMealTypeCode];
+    }
+    if (arrayIndex || arrayIndex === 0) {
+      thisMealIngrdntStateObj = thisMealStateObj.thisMealsIngrdnts[arrayIndex];
+    }
+    let thisRecordId;
+    // const getCSValResult = async (thisObjsValErrsObj) => {
+    //   const csValResult = await csValidate(
+    //     typeOfRecordToChange,
+    //     typeOfRcrdToChngSntncCase,
+    //     thisRecordId,
+    //     propsArray
+    //   );
+    //   const thisObjsValErrsObjNew = this.updateThisObjsValErrs(
+    //     thisObjsValErrsObj,
+    //     csValResult
+    //   );
+    //   return thisObjsValErrsObjNew;
+    // };
     switch (typeOfRecordToChange) {
       case "weekMealPlan":
         thisRecordId = thisWMPStateObj.thisRecord._id;
         thisWMPStateObj.thisRecord[propToUpdate] = newValue;
         const wmpValErrs = thisWMPStateObj.valErrors;
-        const wmpValErrsNew = await getCSValResult(wmpValErrs);
+        const wmpValErrsNew = await this.getCSValResult(
+          wmpValErrs,
+          typeOfRecordToChange,
+          typeOfRcrdToChngSntncCase,
+          thisRecordId,
+          propsArray
+        );
         thisWMPStateObj.valErrors = wmpValErrsNew;
         thisWMPStateObj.recordChanged = true;
         state.thisWMPStateObj = thisWMPStateObj;
@@ -474,7 +636,13 @@ class NewWeekMealPlan extends Component {
       case "day":
         thisRecordId = thisDayStateObj.thisRecord._id;
         const dayValErrs = thisDayStateObj.valErrors;
-        const dayValErrsNew = await getCSValResult(dayValErrs);
+        const dayValErrsNew = await this.getCSValResult(
+          dayValErrs,
+          typeOfRecordToChange,
+          typeOfRcrdToChngSntncCase,
+          thisRecordId,
+          propsArray
+        );
         thisDayStateObj.valErrors = dayValErrsNew;
         thisDayStateObj.thisRecord[propToUpdate] = newValue;
         thisDayStateObj.recordChanged = true;
@@ -514,7 +682,13 @@ class NewWeekMealPlan extends Component {
       case "meal":
         thisRecordId = thisMealStateObj.thisRecord._id;
         const mealValErrs = thisMealStateObj.valErrors.meal;
-        const mealValErrsNew = await getCSValResult(mealValErrs);
+        const mealValErrsNew = await this.getCSValResult(
+          mealValErrs,
+          typeOfRecordToChange,
+          typeOfRcrdToChngSntncCase,
+          thisRecordId,
+          propsArray
+        );
         thisMealStateObj.valErrors.meal = mealValErrsNew;
         thisMealStateObj.thisRecord[propToUpdate] = newValue;
         thisMealStateObj.recordChanged.meal = true;
@@ -546,11 +720,6 @@ class NewWeekMealPlan extends Component {
                 ) {
                   thisLocalMealStateObj.thisRecord.genRecipe[propToUpdate] =
                     newValue;
-                  // if (propToUpdate === "genRecipe" && thisRecordJustCreated) {
-                  //   thisLocalMealStateObj.propRefObjsJustCreated.meal.push(
-                  //     "genRecipe"
-                  //   );
-                  // }
                 }
                 let thisMealsIngrdntsLocal =
                   thisLocalMealStateObj.thisMealsIngrdnts;
@@ -602,7 +771,13 @@ class NewWeekMealPlan extends Component {
         thisRecordId = thisMealStateObj.thisRecord.genRecipe._id;
         thisMealStateObj.thisRecord.genRecipe[propToUpdate] = newValue;
         const genRecipeValErrs = thisMealStateObj.valErrors.genRecipe;
-        const genRecipeValErrsNew = await getCSValResult(genRecipeValErrs);
+        const genRecipeValErrsNew = await this.getCSValResult(
+          genRecipeValErrs,
+          typeOfRecordToChange,
+          typeOfRcrdToChngSntncCase,
+          thisRecordId,
+          propsArray
+        );
         thisMealStateObj.valErrors.genRecipe = genRecipeValErrsNew;
         thisMealStateObj.recordChanged.genRecipe = true;
         break;
@@ -611,8 +786,12 @@ class NewWeekMealPlan extends Component {
         thisMealIngrdntStateObj.thisRecord[propToUpdate] = newValue;
         const mealIngredientValErrs =
           thisMealIngrdntStateObj.valErrors.mealIngredient;
-        const mealIngredientValErrsNew = await getCSValResult(
-          mealIngredientValErrs
+        const mealIngredientValErrsNew = await this.getCSValResult(
+          mealIngredientValErrs,
+          typeOfRecordToChange,
+          typeOfRcrdToChngSntncCase,
+          thisRecordId,
+          propsArray
         );
         thisMealIngrdntStateObj.valErrors.mealIngredient =
           mealIngredientValErrsNew;
@@ -625,8 +804,12 @@ class NewWeekMealPlan extends Component {
           newValue;
         const genRecipeIngredientValErrs =
           thisMealIngrdntStateObj.valErrors.genRecipeIngredient;
-        const genRecipeIngredientValErrsNew = await getCSValResult(
-          genRecipeIngredientValErrs
+        const genRecipeIngredientValErrsNew = await this.getCSValResult(
+          genRecipeIngredientValErrs,
+          typeOfRecordToChange,
+          typeOfRcrdToChngSntncCase,
+          thisRecordId,
+          propsArray
         );
         thisMealIngrdntStateObj.valErrors.genRecipeIngredient =
           genRecipeIngredientValErrsNew;
@@ -641,7 +824,13 @@ class NewWeekMealPlan extends Component {
           propToUpdate
         ] = newValue;
         const ingredientValErrs = thisMealIngrdntStateObj.valErrors.ingredient;
-        const ingredientValErrsNew = await getCSValResult(ingredientValErrs);
+        const ingredientValErrsNew = await this.getCSValResult(
+          ingredientValErrs,
+          typeOfRecordToChange,
+          typeOfRcrdToChngSntncCase,
+          thisRecordId,
+          propsArray
+        );
         thisMealIngrdntStateObj.valErrors.ingredient = ingredientValErrsNew;
         thisMealIngrdntStateObj.recordChanged.ingredient = true;
         break;
