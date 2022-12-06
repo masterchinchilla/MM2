@@ -3,7 +3,11 @@ import Joi from "joi";
 import _ from "lodash";
 import httpService from "../../services/httpService";
 import authService from "../../services/authService";
-import { csValidateProp, csValidate } from "../../services/validationService";
+import {
+  csValidateProp,
+  csValidate,
+  csValidateObj,
+} from "../../services/validationService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Bootstrap from "bootstrap";
@@ -428,35 +432,44 @@ class NewWeekMealPlan extends Component {
   ) => {
     let newValue = e.target.value;
     let state = this.state;
-    const typeOfRcrdToChngSntncCase =
-      state.rcrdOrFldNameSnctncCase[typeOfRecordToChange];
-    const prpToUpdtSntncCase = state.rcrdOrFldNameSnctncCase[propToUpdate];
-    const propsArray = [
-      {
-        thisPropsName: propToUpdate,
-        thisPropNameSentenceCase: prpToUpdtSntncCase,
-        thisPropsValue: newValue,
-        thisPropTypeForVal: propType,
-      },
-    ];
-    const getCSValResult2 = async (thisObjsValErrsObj, thisRecordId) => {
-      const csValResult = await csValidate(
-        typeOfRecordToChange,
-        typeOfRcrdToChngSntncCase,
-        thisRecordId,
-        propsArray
-      );
-      const thisObjsValErrsObjNew = this.updateThisObjsValErrs(
-        thisObjsValErrsObj,
-        csValResult
-      );
-      return thisObjsValErrsObjNew;
-    };
+    // const typeOfRcrdToChngSntncCase =
+    //   state.rcrdOrFldNameSnctncCase[typeOfRecordToChange];
+    // const prpToUpdtSntncCase = state.rcrdOrFldNameSnctncCase[propToUpdate];
+    // const propsArray = [
+    //   {
+    //     thisPropsName: propToUpdate,
+    //     thisPropNameSentenceCase: prpToUpdtSntncCase,
+    //     thisPropsValue: newValue,
+    //     thisPropTypeForVal: propType,
+    //   },
+    // ];
     let stateObjToUpdate;
     let recordToUpdate;
     let thisDay;
     let thisMeal;
     let thisObjsValErrsObj;
+    const getCSValResult2 = async (thisObjsValErrsObj, thisRecordId) => {
+      // const csValResult = await csValidate(
+      //   typeOfRecordToChange,
+      //   typeOfRcrdToChngSntncCase,
+      //   thisRecordId,
+      //   propsArray
+      // );
+      const csValResult2 = await csValidateObj(
+        typeOfRecordToChange,
+        (recordToUpdate = { [propToUpdate]: newValue })
+      );
+      // const thisObjsValErrsObjNew = this.updateThisObjsValErrs(
+      //   thisObjsValErrsObj,
+      //   csValResult
+      // );
+      const thisObjsValErrsObjNew2 = this.updateThisObjsValErrs(
+        thisObjsValErrsObj,
+        csValResult2
+      );
+      return thisObjsValErrsObjNew2;
+    };
+
     switch (typeOfRecordToChange) {
       case "thisWeeksDays" || "thisDaysMeals" || "thisMealsIngrdnts":
         recordToUpdate = null;
