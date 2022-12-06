@@ -17,6 +17,11 @@ router.route('/').get((req, res)=>{
         .then(weightType=>res.json(weightType))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/:id').get((req, res)=>{
+    WeightType.findById(req.params.id).populate("GRFUser")
+        .then(weightType=>res.json(weightType))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 router.post('/add',auth,async(req,res)=>{
     const requestorUser=req.currentGRFUser;
     if(requestorUser){

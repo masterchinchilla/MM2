@@ -53,8 +53,6 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                 }
             }else{
                 try {await httpService.get(`${apiEndpoint}${thisPropsValueId}`);
-                        thisPropsValErrsArray.push(`${thisPropNameSentenceCase} not found`)
-                    // };
                 } catch (err) {
                     let errResponse = err.response ? err.response : null;
                     let errData = errResponse.data ? errResponse.data : { data: null };

@@ -105,12 +105,11 @@ const WMPNameAndDisabledFieldsSubForm = (props) => {
   function handleCancelEditForm() {
     updateNameStateFn(backupOfRecordToChange.name);
     updateNameValErrorsStateFn([]);
-    onClickCancelFn(
-      typeOfRecordToChange,
-      thisDayOfWeekCode,
-      thisMealTypeCode,
-      arrayIndex
-    );
+    onClickCancelFn();
+    // typeOfRecordToChange,
+    // thisDayOfWeekCode,
+    // thisMealTypeCode,
+    // arrayIndex
   }
   return (
     <React.Fragment>

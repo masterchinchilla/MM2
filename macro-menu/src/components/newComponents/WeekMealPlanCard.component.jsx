@@ -30,6 +30,11 @@ const WeekMealPlanCard = (props) => {
   const { _id } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "weekMealPlan";
+  const [changesCancelled, toggleChangesCancelled] = useState(false);
+  function handleCancelEditForm() {
+    toggleChangesCancelled(true);
+    onClickCancelFn(typeOfRecordToChange, "", "", null);
+  }
   return (
     <div className="card">
       <div className="card-header">
@@ -78,7 +83,7 @@ const WeekMealPlanCard = (props) => {
                   backEndHtmlRoot={backEndHtmlRoot}
                   validatePropFn={validatePropFn}
                   onClickEditFn={onClickEditFn}
-                  onClickCancelFn={onClickCancelFn}
+                  onClickCancelFn={handleCancelEditForm}
                   onUpdatePropFn={onUpdatePropFn}
                   onClickSaveFn={onClickSaveFn}
                   onClickDeleteFn={onClickDeleteFn}
@@ -96,6 +101,8 @@ const WeekMealPlanCard = (props) => {
                   key={`mealWghtngSubFormFor${typeOfRecordToChange}${thisRecordId}`}
                   thisStateObj={thisStateObj}
                   onUpdateWeightsFn={onUpdateWeightsFn}
+                  changesCancelled={changesCancelled}
+                  toggleChangesCancelled={toggleChangesCancelled}
                 />
               </form>
             </div>

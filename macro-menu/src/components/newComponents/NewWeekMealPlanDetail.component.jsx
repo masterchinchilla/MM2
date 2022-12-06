@@ -406,6 +406,7 @@ class NewWeekMealPlan extends Component {
     e,
     thisRecordJustCreated
   ) => {
+    console.log(e);
     let newValue = e.target.value;
     // let newValueValErrors = [];
     let state = this.state;
@@ -436,6 +437,7 @@ class NewWeekMealPlan extends Component {
     if (arrayIndex || arrayIndex === 0) {
       thisMealIngrdntStateObj = thisMealStateObj.thisMealsIngrdnts[arrayIndex];
     }
+    console.log(thisMealIngrdntStateObj);
     let thisRecordId;
     const getCSValResult = async (thisObjsValErrsObj) => {
       const csValResult = await csValidate(
@@ -629,7 +631,7 @@ class NewWeekMealPlan extends Component {
         thisMealIngrdntStateObj.valErrors.genRecipeIngredient =
           genRecipeIngredientValErrsNew;
         thisMealIngrdntStateObj.recordChanged.genRecipeIngredient = true;
-        thisMealIngrdntStateObj.thisRecordJustCreated.ingredient =
+        thisMealIngrdntStateObj.recordsJustCreated.ingredient =
           propToUpdate === "ingredient" && thisRecordJustCreated ? true : false;
         break;
       case "ingredient":
@@ -748,7 +750,7 @@ class NewWeekMealPlan extends Component {
     ) {
       recordStateObj.thisRecordJustCreated = false;
     } else {
-      recordStateObj.recordsJustCreated = recordStateObj.justCreated
+      recordStateObj.recordsJustCreated = recordStateObj.recordsJustCreated
         ? recordStateObj.recordsJustCreated
         : {};
       recordStateObj.recordsJustCreated[typeOfRecordToChange] = false;

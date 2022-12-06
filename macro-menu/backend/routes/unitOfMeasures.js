@@ -17,6 +17,11 @@ router.route('/').get((req, res)=>{
         .then(unitOfMeasure=>res.json(unitOfMeasure))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/:id').get((req, res)=>{
+    UnitOfMeasure.findById(req.params.id).populate("GRFUser")
+        .then(unitOfMeasure=>res.json(unitOfMeasure))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 router.post('/add',auth,async(req,res)=>{
     const requestorUser=req.currentGRFUser;
     if(requestorUser){

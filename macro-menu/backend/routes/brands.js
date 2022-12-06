@@ -17,6 +17,11 @@ router.route('/').get((req, res)=>{
         .then(brands=>res.json(brands))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/:id').get((req, res)=>{
+    Brand.findById(req.params.id).populate("GRFUser")
+        .then(brand=>res.json(brand))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 // router.route('/add').post((req, res)=>{
 //     const name=req.body.name;
 //     const GRFUser=req.body.GRFUser;

@@ -90,8 +90,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
         propToUpdate,
         arrayIndex,
         "objRef",
-        eObj,
-        selectedFrom
+        eObj
       );
     }
   }

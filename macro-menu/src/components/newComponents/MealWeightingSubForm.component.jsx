@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import { Slider } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CustomHeading from "./CustomHeading.component";
 const MealWeightingSubForm = (props) => {
-  const { onUpdateWeightsFn } = props;
+  const { onUpdateWeightsFn, changesCancelled, toggleChangesCancelled } = props;
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
@@ -48,6 +48,7 @@ const MealWeightingSubForm = (props) => {
       dinnerWeight +
       dessertWeight
   );
+  // const [localChangesCancelled,toggleChangesCancelled]=useState(changesCancelled);
   const typeOfRecordToChange = "weekMealPlan";
   function applyChange(e) {
     setSubFrmUnChngdOrInvld(true);
@@ -303,6 +304,24 @@ const MealWeightingSubForm = (props) => {
       );
     }
   }
+  useEffect(() => {
+    setSubFrmUnChngdOrInvld(true);
+    breakfastWeightUpdate(breakfastWeight);
+    snack1WeightUpdate(snack1Weight);
+    lunchWeightUpdate(lunchWeight);
+    snack2WeightUpdate(snack2Weight);
+    dinnerWeightUpdate(dinnerWeight);
+    dessertWeightUpdate(dessertWeight);
+    changeMlWghtPrcntProgress(
+      breakfastWeight +
+        snack1Weight +
+        lunchWeight +
+        snack2Weight +
+        dinnerWeight +
+        dessertWeight
+    );
+    toggleChangesCancelled(false);
+  }, [changesCancelled]);
   return (
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">

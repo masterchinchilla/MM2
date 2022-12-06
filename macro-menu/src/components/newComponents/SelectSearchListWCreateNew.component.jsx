@@ -35,7 +35,7 @@ const SelectSearchListWCreateNew = (props) => {
   function setStateOnLoad() {
     let newArray = [];
     options.forEach((element) => {
-      newArray.push({ label: element.name, value: element._id });
+      newArray.push({ label: element.name, value: element });
     });
     updateLocalOptionsStateFn(newArray);
   }
@@ -68,7 +68,7 @@ const SelectSearchListWCreateNew = (props) => {
         thisMealTypeCode,
         propToUpdate,
         arrayIndex,
-        "select",
+        "objRef",
         eObj,
         options
       );
