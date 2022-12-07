@@ -40,10 +40,15 @@ const rcrdOrFldNameSntncCaseAndPropTypForVal = {
       defaultMealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef"},
       defaultPrepInstructions: {nameSntncCase:"Prep Instructions",propTypeForVal:"textBox"},
       calories: {nameSntncCase:"Calories",propTypeForVal:"float"},
+      calsBudget:{nameSntncCase:"Calories Budget",propTypeForVal:"float"},
       carbs: {nameSntncCase:"Carbs",propTypeForVal:"float"},
+      carbsBudget: {nameSntncCase:"Carbs Budget",propTypeForVal:"float"},
       protein: {nameSntncCase:"Protein",propTypeForVal:"float"},
+      proteinBudget: {nameSntncCase:"Protein Budget",propTypeForVal:"float"},
       fat: {nameSntncCase:"Fat",propTypeForVal:"float"},
+      fatBudget: {nameSntncCase:"Fat Budget",propTypeForVal:"float"},
       fiber: {nameSntncCase:"Fiber",propTypeForVal:"float"},
+      fiberBudget: {nameSntncCase:"Fiber Budget",propTypeForVal:"float"},
       createdAt: {nameSntncCase:"Date Created",propTypeForVal:null},
       updatedAt: {nameSntncCase:"Last Update",propTypeForVal:null},
       _id:{nameSntncCase:"ID",propTypeForVal:null}
@@ -69,6 +74,7 @@ export async function csValidateObj(typeOfRecordToChange,
     let propsArray=[];
     let recordKeys = Object.keys(recordToUpdate);
     for(let i=0;i<recordKeys.length;i++){
+        console.log(recordKeys[i]);
         let thisPropObj={
             thisPropsName: recordKeys[i],
             thisPropNameSentenceCase: rcrdOrFldNameSntncCaseAndPropTypForVal[recordKeys[i]]["nameSntncCase"],

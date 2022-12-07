@@ -420,7 +420,7 @@ class NewWeekMealPlan extends Component {
     );
     return thisObjsValErrsObjNew;
   };
-  handleUpdatePropFn2 = async (
+  handleUpdatePropFn = async (
     typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
@@ -432,146 +432,155 @@ class NewWeekMealPlan extends Component {
   ) => {
     let newValue = e.target.value;
     let state = this.state;
-    // const typeOfRcrdToChngSntncCase =
-    //   state.rcrdOrFldNameSnctncCase[typeOfRecordToChange];
-    // const prpToUpdtSntncCase = state.rcrdOrFldNameSnctncCase[propToUpdate];
-    // const propsArray = [
-    //   {
-    //     thisPropsName: propToUpdate,
-    //     thisPropNameSentenceCase: prpToUpdtSntncCase,
-    //     thisPropsValue: newValue,
-    //     thisPropTypeForVal: propType,
-    //   },
-    // ];
     let stateObjToUpdate;
     let recordToUpdate;
     let thisDay;
     let thisMeal;
+    let thisMealIngrdnt;
     let thisObjsValErrsObj;
-    const getCSValResult2 = async (thisObjsValErrsObj, thisRecordId) => {
-      // const csValResult = await csValidate(
-      //   typeOfRecordToChange,
-      //   typeOfRcrdToChngSntncCase,
-      //   thisRecordId,
-      //   propsArray
-      // );
-      const csValResult2 = await csValidateObj(
+    if (typeOfRecordToChange !== "weekMealPlan") {
+      thisDay = state.thisWeeksDays[thisDayOfWeekCode];
+      if (typeOfRecordToChange === "thisWeeksDays") {
+        thisDay.thisRecord = newValue;
+        thisDay = this.resetRecordStateObjFn(thisDay, newValue, "day");
+        stateObjToUpdate = thisDay;
+      } else {
+        if (typeOfRecordToChange !== "day") {
+          thisMeal = thisDay.thisDaysMeals[thisMealTypeCode];
+          if (typeOfRecordToChange === "thisDaysMeals") {
+            thisMeal.thisRecord = newValue;
+            thisMeal = this.resetRecordStateObjFn(thisMeal, newValue, "meal");
+            stateObjToUpdate = thisMeal;
+          } else {
+            if (
+              typeOfRecordToChange !== "meal" &&
+              typeOfRecordToChange !== "genRecipe" &&
+              typeOfRecordToChange !== "thisMealsIngrdnts"
+            ) {
+              thisMealIngrdnt = thisMeal.thisMealsIngrdnts[arrayIndex];
+              stateObjToUpdate = thisMealIngrdnt;
+            } else {
+              if (typeOfRecordToChange === "thisMealsIngrdnts") {
+                thisMealIngrdnt = { thisRecord: newValue };
+                thisMealIngrdnt = this.resetRecordStateObjFn(
+                  thisMealIngrdnt,
+                  newValue,
+                  "mealIngredient"
+                );
+                thisMealIngrdnt.recordsJustCreated.mealIngredient = true;
+                thisMeal.thisMealsIngrdnts.push(thisMealIngrdnt);
+              }
+              stateObjToUpdate = thisMeal;
+            }
+          }
+        } else {
+          stateObjToUpdate = thisDay;
+        }
+      }
+    } else {
+      stateObjToUpdate = state.thisWMPStateObj;
+    }
+    console.log(typeOfRecordToChange);
+    switch (typeOfRecordToChange) {
+      case "weekMealPlan":
+      case "day":
+      case "meal":
+      case "mealIngredient":
+        recordToUpdate = stateObjToUpdate.thisRecord;
+        recordToUpdate[propToUpdate] = newValue;
+        break;
+      case "genRecipe":
+      case "genRecipeIngredient":
+        recordToUpdate = stateObjToUpdate.thisRecord[typeOfRecordToChange];
+        recordToUpdate[propToUpdate] = newValue;
+        break;
+      case "ingredient":
+        recordToUpdate =
+          stateObjToUpdate.thisRecord.genRecipeIngredient[typeOfRecordToChange];
+        recordToUpdate[propToUpdate] = newValue;
+    }
+    const getCSValResult = async (thisObjsValErrsObj) => {
+      const csValResult = await csValidateObj(
         typeOfRecordToChange,
         (recordToUpdate = { [propToUpdate]: newValue })
       );
-      // const thisObjsValErrsObjNew = this.updateThisObjsValErrs(
-      //   thisObjsValErrsObj,
-      //   csValResult
-      // );
-      const thisObjsValErrsObjNew2 = this.updateThisObjsValErrs(
+      const newThisObjsValErrsObj = this.updateThisObjsValErrs(
         thisObjsValErrsObj,
-        csValResult2
+        csValResult
       );
-      return thisObjsValErrsObjNew2;
+      return newThisObjsValErrsObj;
     };
-
-    switch (typeOfRecordToChange) {
-      case "thisWeeksDays" || "thisDaysMeals" || "thisMealsIngrdnts":
-        recordToUpdate = null;
-      case "thisWeeksDays":
-        stateObjToUpdate = state.thisWeeksDays;
-        break;
-      case !"weekMealPlan":
-        thisDay = state.thisWeeksDays[thisDayOfWeekCode];
-      case !"day":
-        thisMeal = thisDay.thisDaysMeals[thisMealTypeCode];
-      case "thisDaysMeals":
-        thisDay = state.thisWeeksDays[thisDayOfWeekCode];
-        stateObjToUpdate = thisDay;
-        break;
-      case "thisMealsIngrdnts":
-        stateObjToUpdate = thisMeal;
-        break;
-      default:
-        switch (typeOfRecordToChange) {
-          case "weekMealPlan":
-            stateObjToUpdate = state.thisWMPStateObj;
-            stateObjToUpdate.thisRecord = recordToUpdate;
-          case "day":
-            stateObjToUpdate = thisDay;
-          case "meal" || "genRecipe":
-            stateObjToUpdate = thisMeal;
-          case "weekMealPlan" || "day" || "meal":
-            recordToUpdate = stateObjToUpdate.thisRecord;
-            recordToUpdate[propToUpdate] = newValue;
-          case "weekMealPlan" || "day":
-            stateObjToUpdate.thisRecord = recordToUpdate;
-            stateObjToUpdate.recordChanged = true;
-            stateObjToUpdate.valErrors = getCSValResult2(
-              stateObjToUpdate.valErrors,
-              recordToUpdate._id
-            );
-          case "weekMealPlan":
-            state.thisWMPStateObj = stateObjToUpdate;
-            break;
-          case "day":
-            state.thisWeeksDays[thisDayOfWeekCode] = stateObjToUpdate;
-            break;
-          case "meal" || "genRecipe":
-            stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
-            thisObjsValErrsObj =
-              stateObjToUpdate.valErrors[typeOfRecordToChange];
-
-          case "meal":
-            stateObjToUpdate.thisRecord = recordToUpdate;
-            stateObjToUpdate.valErrors[typeOfRecordToChange] = getCSValResult2(
-              thisObjsValErrsObj,
-              recordToUpdate._id
-            );
-          case "genRecipe":
-            let recordToUpdateId = stateObjToUpdate.thisRecord.genRecipe._id;
-            stateObjToUpdate.thisRecord.genRecipe[propToUpdate] = newValue;
-            stateObjToUpdate.valErrors[typeOfRecordToChange] = getCSValResult2(
-              thisObjsValErrsObj,
-              recordToUpdateId
-            );
-          case "meal" || "genRecipe":
-            thisDay.thisDaysMeals[thisMealTypeCode] = stateObjToUpdate;
-            state.thisWeeksDays[thisDayOfWeekCode] = thisDay;
-            break;
-          default:
-            stateObjToUpdate = thisMeal.thisMealsIngrdnts[arrayIndex];
-            stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
-            recordToUpdate = stateObjToUpdate.thisRecord;
-            thisObjsValErrsObj =
-              stateObjToUpdate.valErrors[typeOfRecordToChange];
-            switch (typeOfRecordToChange) {
-              case "mealIngredient":
-                recordToUpdate[propToUpdate] = newValue;
-                stateObjToUpdate.thisRecord = recordToUpdate;
-                stateObjToUpdate.valErrors[typeOfRecordToChange] =
-                  getCSValResult2(thisObjsValErrsObj, recordToUpdate._id);
-                break;
-              case !"mealIngredient":
-                recordToUpdate = recordToUpdate.genRecipeIngredient;
-              case "genRecipeIngredient":
-                recordToUpdate[propToUpdate] = newValue;
-                stateObjToUpdate.thisRecord.genRecipeIngredient =
-                  recordToUpdate;
-                stateObjToUpdate.valErrors[typeOfRecordToChange] =
-                  getCSValResult2(thisObjsValErrsObj, recordToUpdate._id);
-                break;
-              default:
-                recordToUpdate = recordToUpdate.ingredient;
-                recordToUpdate[propToUpdate] = newValue;
-                stateObjToUpdate.thisRecord.genRecipeIngredient.ingredient =
-                  recordToUpdate;
-                stateObjToUpdate.valErrors[typeOfRecordToChange] =
-                  getCSValResult2(thisObjsValErrsObj, recordToUpdate._id);
-            }
-            thisMeal.thisMealsIngrdnts[arrayIndex] = stateObjToUpdate;
-            thisDay.thisDaysMeals[thisMealTypeCode] = thisMeal;
-            state.thisWeeksDays[thisDayOfWeekCode] = thisDay;
-        }
+    if (
+      typeOfRecordToChange !== "thisWeeksDays" &&
+      typeOfRecordToChange !== "thisDaysMeals" &&
+      typeOfRecordToChange !== "thisMealsIngrdnts"
+    ) {
+      if (
+        typeOfRecordToChange === "weekMealPlan" ||
+        typeOfRecordToChange === "day"
+      ) {
+        stateObjToUpdate.recordChanged = true;
+        thisObjsValErrsObj = stateObjToUpdate.valErrors;
+        thisObjsValErrsObj = await getCSValResult(thisObjsValErrsObj);
+        stateObjToUpdate.valErrors = thisObjsValErrsObj;
+      } else {
+        stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
+        thisObjsValErrsObj = stateObjToUpdate.valErrors[typeOfRecordToChange];
+        thisObjsValErrsObj = await getCSValResult(thisObjsValErrsObj);
+        stateObjToUpdate.valErrors[typeOfRecordToChange] = thisObjsValErrsObj;
+      }
     }
+    if (!thisDay) {
+      state.thisWMPStateObj = stateObjToUpdate;
+    } else {
+      if (
+        typeOfRecordToChange === "thisWeeksDays" ||
+        typeOfRecordToChange === "day"
+      ) {
+        thisDay = stateObjToUpdate;
+      }
+      if (thisMeal) {
+        if (
+          typeOfRecordToChange === "thisDaysMeals" ||
+          typeOfRecordToChange === "meal" ||
+          typeOfRecordToChange === "genRecipe"
+        ) {
+          thisMeal = stateObjToUpdate;
+        }
+        if (thisMealIngrdnt) {
+          thisMeal.thisMealsIngrdnts[arrayIndex] = stateObjToUpdate;
+        }
+        thisDay.thisDaysMeals[thisMealTypeCode] = thisMeal;
+      }
+      state.thisWeeksDays[thisDayOfWeekCode] = thisDay;
+    }
+    console.log(state);
     this.setState(state);
   };
-  handleUpdatePropFn = async (
+  // switch(typeOfRecordToChange){
+  //     case"weekMealPlan":
+  //       state.thisWMPStateObj=stateObjToUpdate;
+  //       break;
+  //     case "thisWeeksDays":
+  //       state.thisWeeksDays[thisDayOfWeekCode]=thisDay;
+  //       break;
+  //     case "day":
+  //       state.thisWeeksDays[thisDayOfWeekCode]=stateObjToUpdate;
+  //       break;
+  //     case "thisDaysMeals"||"thisMealsIngrdnts":
+  //       state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealTypeCode]=thisMeal;
+  //       break;
+  //     case "meal"||"genRecipe":
+  //       state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+  //         thisMealTypeCode
+  //       ] = stateObjToUpdate;
+  //       break;
+  //     default:
+  //       state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
+  //         thisMealTypeCode
+  //       ]["thisMealsIngrdnts"][arrayIndex]=stateObjToUpdate;
+  //   }
+  handleUpdatePropFn2 = async (
     typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
