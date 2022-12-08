@@ -480,7 +480,6 @@ class NewWeekMealPlan extends Component {
     } else {
       stateObjToUpdate = state.thisWMPStateObj;
     }
-    console.log(typeOfRecordToChange);
     switch (typeOfRecordToChange) {
       case "weekMealPlan":
       case "day":
@@ -488,16 +487,20 @@ class NewWeekMealPlan extends Component {
       case "mealIngredient":
         recordToUpdate = stateObjToUpdate.thisRecord;
         recordToUpdate[propToUpdate] = newValue;
+        stateObjToUpdate.thisRecord = recordToUpdate;
         break;
       case "genRecipe":
       case "genRecipeIngredient":
         recordToUpdate = stateObjToUpdate.thisRecord[typeOfRecordToChange];
         recordToUpdate[propToUpdate] = newValue;
+        stateObjToUpdate.thisRecord[typeOfRecordToChange] = recordToUpdate;
         break;
       case "ingredient":
         recordToUpdate =
           stateObjToUpdate.thisRecord.genRecipeIngredient[typeOfRecordToChange];
         recordToUpdate[propToUpdate] = newValue;
+        stateObjToUpdate.thisRecord.genRecipeIngredient[typeOfRecordToChange] =
+          recordToUpdate;
     }
     const getCSValResult = async (thisObjsValErrsObj) => {
       const csValResult = await csValidateObj(
@@ -553,33 +556,108 @@ class NewWeekMealPlan extends Component {
         thisDay.thisDaysMeals[thisMealTypeCode] = thisMeal;
       }
       state.thisWeeksDays[thisDayOfWeekCode] = thisDay;
+      if (
+        typeOfRecordToChange === "genRecipe" ||
+        typeOfRecordToChange === "genRecipeIngredient" ||
+        typeOfRecordToChange === "ingredient"
+      ) {
+        console.log("beginning cycle");
+        state.thisWeeksDays = this.updtAllRecipeAndIngrdntInstncs(
+          thisMeal,
+          arrayIndex,
+          typeOfRecordToChange,
+          state,
+          newValue,
+          propToUpdate
+        );
+      }
     }
-    console.log(state);
     this.setState(state);
   };
-  // switch(typeOfRecordToChange){
-  //     case"weekMealPlan":
-  //       state.thisWMPStateObj=stateObjToUpdate;
-  //       break;
-  //     case "thisWeeksDays":
-  //       state.thisWeeksDays[thisDayOfWeekCode]=thisDay;
-  //       break;
-  //     case "day":
-  //       state.thisWeeksDays[thisDayOfWeekCode]=stateObjToUpdate;
-  //       break;
-  //     case "thisDaysMeals"||"thisMealsIngrdnts":
-  //       state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealTypeCode]=thisMeal;
-  //       break;
-  //     case "meal"||"genRecipe":
-  //       state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
-  //         thisMealTypeCode
-  //       ] = stateObjToUpdate;
-  //       break;
-  //     default:
-  //       state.thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][
-  //         thisMealTypeCode
-  //       ]["thisMealsIngrdnts"][arrayIndex]=stateObjToUpdate;
-  //   }
+  updtAllRecipeAndIngrdntInstncs = (
+    thisMealStateObj,
+    arrayIndex,
+    typeOfRecordToChange,
+    state,
+    newValue,
+    propToUpdate
+  ) => {
+    let dayOfWeekCodes = state.dayOfWeekCodes;
+    let thisWeeksDays = state.thisWeeksDays;
+    let pattern = /missing/;
+    for (let i = 0; i < dayOfWeekCodes.length; i++) {
+      let thisLocalDayStateObj = thisWeeksDays[dayOfWeekCodes[i]];
+      console.log(dayOfWeekCodes[i]);
+      let thisLocalDayStateObjId = thisLocalDayStateObj.thisRecord._id;
+      let mealTypeCodes = state.mealTypeCodes;
+      let testResult = pattern.test(thisLocalDayStateObjId);
+      if (!testResult) {
+        for (let i = 0; i < mealTypeCodes.length; i++) {
+          let thisLocalMealStateObj =
+            thisLocalDayStateObj.thisDaysMeals[mealTypeCodes[i]];
+          console.log(mealTypeCodes[i]);
+          let thisMealRecord = thisLocalMealStateObj.thisRecord;
+          let thisMealsId = thisMealRecord._id;
+          let testResult = pattern.test(thisMealsId);
+          if (!testResult) {
+            let thisMealsGenRecipeIdLocal = thisMealRecord.genRecipe._id;
+            let mealStateObjsRecipeId =
+              thisMealStateObj.thisRecord.genRecipe._id;
+            if (
+              typeOfRecordToChange === "genRecipe" &&
+              thisMealsGenRecipeIdLocal === mealStateObjsRecipeId
+            ) {
+              thisLocalMealStateObj.thisRecord.genRecipe[propToUpdate] =
+                newValue;
+            }
+            let thisMealsIngrdntsLocal =
+              thisLocalMealStateObj.thisMealsIngrdnts;
+            for (let i = 0; i < thisMealsIngrdntsLocal.length; i++) {
+              let thisMealIngrdntLocal = thisMealsIngrdntsLocal[i];
+              console.log(thisMealsIngrdntsLocal[i]);
+              let thisGenRecipeIngrdntLocal =
+                thisMealIngrdntLocal.thisRecord.genRecipeIngredient;
+              let thisIngredientLocal = thisGenRecipeIngrdntLocal.ingredient;
+              let thisIngrdntIdLocal = thisIngredientLocal._id;
+              if (
+                typeOfRecordToChange === "genRecipe" ||
+                typeOfRecordToChange === "genRecipeIngredient"
+              ) {
+                console.log("genRecipe or genRecipeIngredient modified");
+                if (thisMealsGenRecipeIdLocal === mealStateObjsRecipeId) {
+                  if (typeOfRecordToChange === "genRecipe") {
+                    thisGenRecipeIngrdntLocal.genRecipe[propToUpdate] =
+                      newValue;
+                  } else if (typeOfRecordToChange === "genRecipeIngredient") {
+                    thisGenRecipeIngrdntLocal[propToUpdate] = newValue;
+                  }
+                }
+              } else {
+                let thisMealIngrdntStateObj =
+                  thisMealStateObj.thisMealsIngrdnts[arrayIndex];
+                let thisIngrdntStateObj =
+                  thisMealIngrdntStateObj.thisRecord.genRecipeIngredient
+                    .ingredient;
+                let thisIngrdntStateObjId = thisIngrdntStateObj._id;
+                if (thisIngrdntIdLocal === thisIngrdntStateObjId) {
+                  thisIngredientLocal[propToUpdate] = newValue;
+                }
+              }
+              thisGenRecipeIngrdntLocal.ingredient = thisIngredientLocal;
+              thisMealIngrdntLocal.thisRecord.genRecipeIngredient =
+                thisGenRecipeIngrdntLocal;
+              thisMealsIngrdntsLocal[i] = thisMealIngrdntLocal;
+            }
+            thisLocalMealStateObj.thisMealsIngrdnts = thisMealsIngrdntsLocal;
+          }
+          thisLocalDayStateObj.thisDaysMeals[mealTypeCodes[i]] =
+            thisLocalMealStateObj;
+        }
+        thisWeeksDays[dayOfWeekCodes[i]] = thisLocalDayStateObj;
+      }
+    }
+    return thisWeeksDays;
+  };
   handleUpdatePropFn2 = async (
     typeOfRecordToChange,
     thisDayOfWeekCode,
