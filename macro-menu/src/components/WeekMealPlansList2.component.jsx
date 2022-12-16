@@ -221,6 +221,18 @@ class WMPListForUser extends Component {
                                 >
                                   {wmp.name}
                                 </Link>
+                                <Link
+                                  className="nav-link"
+                                  to={{
+                                    pathname: `/weekMealPlansNewNew/edit/${wmp._id}/`,
+                                    state: {
+                                      currentGRFUser: this.state.thisGRFUser,
+                                    },
+                                  }}
+                                  key={"myWMPLinkNewNew" + wmp._id}
+                                >
+                                  {wmp.name}
+                                </Link>
                               </td>
                               <td key={"myWMPsAuthorTd" + wmp._id}>
                                 {wmp.GRFUser === undefined

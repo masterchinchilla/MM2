@@ -2,7 +2,7 @@ import React from "react";
 import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 const IngrdntDisabledFieldsSubForm = (props) => {
   const { thisRecordId, getRndIntegerFn } = props;
-  const thisStateObj = props.thisStateObj.recordLoaded
+  const thisStateObj = props.thisStateObj
     ? props.thisStateObj
     : {
         thisRecord: {

@@ -142,12 +142,7 @@ const MealIngredients = (props) => {
                 type="submit"
                 className="btn btn-primary"
                 onClick={() => {
-                  populateMealIngrdntsFn(
-                    userType.meal,
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    genRecipe
-                  );
+                  populateMealIngrdntsFn(thisDayOfWeekCode, thisMealTypeCode);
                 }}
               >
                 Populate Ingredients

@@ -153,13 +153,13 @@ const IngredientForm = (props) => {
             key={`ingrdntMacrosSubFormFor${typeOfRecordToChange}${thisRecordId}`}
             thisRecordId={thisRecordId}
             onUpdatePropFn={onUpdatePropFn}
-            thisStateObj={thisStateObj}
+            // thisStateObj={thisStateObj}
             getRndIntegerFn={getRndIntegerFn}
           />
           <IngrdntDisabledFieldsSubForm
             key={`IngrdntDisabledFieldsSubFormFor${typeOfRecordToChange}${thisRecordId}`}
             thisRecordId={thisRecordId}
-            thisStateObj={thisStateObj}
+            // thisStateObj={thisStateObj}
           />
         </div>
       </div>

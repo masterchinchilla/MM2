@@ -2,7 +2,7 @@ import React from "react";
 import InputCore from "./InputCore.component";
 const IngrdntMacrosSubForm = (props) => {
   const { thisRecordId, onUpdatePropFn, getRndIntegerFn } = props;
-  const thisStateObj = props.thisStateObj.recordLoaded
+  const thisStateObj = props.thisStateObj
     ? props.thisStateObj
     : {
         thisRecord: {

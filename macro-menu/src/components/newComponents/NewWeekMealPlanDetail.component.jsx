@@ -3,6 +3,7 @@ import Joi from "joi";
 import _ from "lodash";
 import httpService from "../../services/httpService";
 import authService from "../../services/authService";
+import rcrdOrFldNameSnctncCase from "../../staticRefs/rcrdOrFldNameSnctncCase";
 import {
   csValidateProp,
   csValidate,
@@ -37,34 +38,7 @@ class NewWeekMealPlan extends Component {
       "friday",
       "saturday",
     ];
-    const rcrdOrFldNameSnctncCase = {
-      GRFUser: "Author",
-      weekMealPlan: "Week Meal Plan",
-      day: "Day",
-      meal: "Meal",
-      genRecipe: "Recipe",
-      mealIngredient: "Meal Ingredient",
-      genRecipeIngredient: "Recipe Ingredient",
-      ingredient: "Base Ingredient",
-      unitOfMeasure: "UOM",
-      weightType: "Weight Type",
-      brand: "Brand",
-      name: "Name",
-      qty: "Qty",
-      defaultQty: "Default Qty",
-      photoURL: "Photo URL",
-      dayOfWeek: "Day of Week",
-      mealType: "Meal Type",
-      defaultMealType: "Meal Type",
-      defaultPrepInstructions: "Prep Instructions",
-      calories: "Calories",
-      carbs: "Carbs",
-      protein: "Protein",
-      fat: "Fat",
-      fiber: "Fiber",
-      createdAt: "Date Created",
-      updatedAt: "Last Update",
-    };
+    const rcrdOrFldNameSnctncCase = this.rcrdOrFldNameSnctncCase;
     this.state = {
       rcrdOrFldNameSnctncCase: rcrdOrFldNameSnctncCase,
       dayOfWeekCodes: dayOfWeekCodes,
@@ -280,6 +254,8 @@ class NewWeekMealPlan extends Component {
     // objRefPropsJustCreatedArray
   ) => {
     let createRecordUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
+    let typOfRcrdToCreateSntncCase =
+      this.state.rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
     // ${
     //   objRefPropsJustCreatedArray.length > 0
     //     ? `/${objRefPropsJustCreatedArray}`
@@ -290,11 +266,11 @@ class NewWeekMealPlan extends Component {
       .then((response) => {
         newRecord._id = response.data._id;
         this.notifyFn(
-          `New ${typeOfRecordToCreateSentenceCase} successfully created`,
+          `New ${typOfRcrdToCreateSntncCase} successfully created`,
           "success"
         );
         if (!thisDayOfWeekCode) {
-          let thisStateObjToUpdate = `all${typeOfRecordToCreateSentenceCase}s`;
+          let thisStateObjToUpdate = `all${typOfRcrdToCreateSntncCase}s`;
           let allTypeOfRecord = this.state[thisStateObjToUpdate];
           allTypeOfRecord.push(newRecord);
           this.setState({ [thisStateObjToUpdate]: allTypeOfRecord });
@@ -375,11 +351,55 @@ class NewWeekMealPlan extends Component {
       thisObjsValErrsObj[thisValuesValErrsArrayKey] =
         valErrsNestedArray[i][thisValuesValErrsArrayKey];
     }
+    console.log(valErrsNestedArray);
+    console.log(thisObjsValErrsObj);
     this.notifyOfErrors(valErrsNestedArray);
     return thisObjsValErrsObj;
   };
-  populateMealIngrdntsFn = () => {
+  populateMealIngrdntsFn = async (thisDayOfWeekCode, thisMealTypeCode) => {
     console.log("populating meal Ingredients");
+    let thisWeeksDays = this.state.thisWeeksDays;
+    let thisMealStateObj =
+      thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealTypeCode];
+    let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+    let selectedRecipeId = thisMealStateObj.thisRecord.genRecipe._id;
+    let thisMealIngrdntTmpltRcrd = {
+      _id: `tempId${this.getRndIntegerFn(10000000, 99999999)}`,
+      qty: 1,
+      genRecipeIngredient: null,
+      meal: thisMealStateObj.thisMeal,
+    };
+    let getRecipesIngrdntsUrl = `${this.props.backEndHtmlRoot}/thisGenRecipesGenRecipeIngredients/${selectedRecipeId}`;
+    try {
+      const slctdRcpsIngrdntsArry = await httpService.get(
+        getRecipesIngrdntsUrl
+      );
+      for (let i = 0; i < slctdRcpsIngrdntsArry.length; i++) {
+        let thisGenRcpIngrdnt = slctdRcpsIngrdntsArry[i];
+        let thisGenRcpIngrdntsId = thisGenRcpIngrdnt._id;
+        let mealIngrdntsWThisGRI = thisMealsIngrdnts.filter(
+          (mealIngrdnt) =>
+            mealIngrdnt.thisRecord.genRecipeIngredient._id ===
+            thisGenRcpIngrdntsId
+        );
+        if (mealIngrdntsWThisGRI.length < 1) {
+          thisMealIngrdntTmpltRcrd.genRecipeIngredient = thisGenRcpIngrdnt;
+          let thisNewMealIngrdntStateObj = this.resetRecordStateObjFn(
+            thisMealIngrdntTmpltRcrd,
+            "mealIngredient"
+          );
+          thisMealsIngrdnts.push(thisNewMealIngrdntStateObj);
+        }
+      }
+      thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+      thisMealStateObj.userChangedThisMealsRecipe = true;
+      thisWeeksDays[thisDayOfWeekCode]["thisDaysMeals"][thisMealTypeCode] =
+        thisMealStateObj;
+      this.setState({ thisWeeksDays: thisWeeksDays });
+      return;
+    } catch (error) {
+      console.log(error);
+    }
   };
   handleTrimEnteredValueFn = (untrimmedValue) => {
     let trimmedValue = untrimmedValue.trim();
@@ -511,6 +531,7 @@ class NewWeekMealPlan extends Component {
         thisObjsValErrsObj,
         csValResult
       );
+      console.log(newThisObjsValErrsObj);
       return newThisObjsValErrsObj;
     };
     if (
@@ -523,11 +544,16 @@ class NewWeekMealPlan extends Component {
         typeOfRecordToChange === "day"
       ) {
         stateObjToUpdate.recordChanged = true;
+        stateObjToUpdate.thisRecordJustCreated = thisRecordJustCreated
+          ? true
+          : false;
         thisObjsValErrsObj = stateObjToUpdate.valErrors;
         thisObjsValErrsObj = await getCSValResult(thisObjsValErrsObj);
         stateObjToUpdate.valErrors = thisObjsValErrsObj;
       } else {
         stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
+        stateObjToUpdate.recordsJustCreated[typeOfRecordToChange] =
+          thisRecordJustCreated ? true : false;
         thisObjsValErrsObj = stateObjToUpdate.valErrors[typeOfRecordToChange];
         thisObjsValErrsObj = await getCSValResult(thisObjsValErrsObj);
         stateObjToUpdate.valErrors[typeOfRecordToChange] = thisObjsValErrsObj;
@@ -629,6 +655,7 @@ class NewWeekMealPlan extends Component {
                     thisGenRecipeIngrdntLocal.genRecipe[propToUpdate] =
                       newValue;
                   } else if (typeOfRecordToChange === "genRecipeIngredient") {
+                    console.log(thisGenRecipeIngrdntLocal);
                     thisGenRecipeIngrdntLocal[propToUpdate] = newValue;
                   }
                 }
