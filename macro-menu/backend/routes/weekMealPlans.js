@@ -54,9 +54,14 @@ router.route('/add').post((req, res) => {
         .then(() => res.json(newWeekMealPlan))
         .catch(err => res.status(400).json('Error: ' + err));
 })
+// router.route('/:id').get((req, res) => {
+//     WeekMealPlan.findById(req.params.id).populate("GRFUser")
+//         .then(weekMealPlan => res.json(weekMealPlan))
+//         .catch(err => res.status(400).json('Error: ' + err));
+// });
 router.route('/:id').get((req, res) => {
-    WeekMealPlan.findById(req.params.id).populate("GRFUser")
-        .then(weekMealPlan => res.json(weekMealPlan))
+    WeekMealPlan.find({_id:req.params.id}).populate("GRFUser")
+        .then(weekMealPlans => res.json(weekMealPlans))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 router.route('/update/:id').get((req, res) => {

@@ -16,6 +16,8 @@ import WeekMealPlanCard from "../WeekMealPlanCard.component";
 import DaysCard from "../DaysCard.component";
 import valSchema from "../../universalJoiValSchemaCS";
 import rcrdOrFldNameSnctncCase from "../../../staticRefs/rcrdOrFldNameSnctncCase";
+import daysOfWeek from "../../../staticRefs/daysOfWeek";
+import mealTypes from "../../../staticRefs/mealTypes";
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,8 @@ class NewNewWeekMealPlan extends Component {
     const pgReqParams = match.params;
     this.state = {
       rcrdOrFldNameSnctncCase: rcrdOrFldNameSnctncCase,
+      daysOfWeek: daysOfWeek,
+      mealTypes: mealTypes,
       typeOfRecordToChange: "weekMealPlan",
       pgReqParams: pgReqParams,
       backEndHtmlRoot: backEndHtmlRoot,
@@ -163,9 +167,10 @@ class NewNewWeekMealPlan extends Component {
       thisStateObj.recordLoaded = this.updateStateObjMetaKeyValue(
         thisStateObj.recordLoaded,
         recordTypesArray[i],
-        false
+        true
       );
     }
+
     return thisStateObj;
   };
   notifyOfErrors = (valErrsNestedArray) => {
@@ -213,13 +218,17 @@ class NewNewWeekMealPlan extends Component {
           }
           break;
         case 401:
-          errMsgs.push("You must be logged-in to access this record");
+          errMsgs.push(
+            "You must be logged-in to access the requested record(s)"
+          );
           break;
         case 403:
-          errMsgs.push("You do not have permission to access this record");
+          errMsgs.push(
+            "You do not have permission to access the requested record(s)"
+          );
           break;
         case 404:
-          errMsgs.push("Record not found: ID may be invalid");
+          errMsgs.push("Records not found: IDs/names may be invalid");
           break;
         default:
           if (resStatus >= 500) {
@@ -230,43 +239,153 @@ class NewNewWeekMealPlan extends Component {
     let valErrsNestedArray = [{ [propToDisplayErrs]: errMsgs }];
     return valErrsNestedArray;
   };
-  getThisWMPFn = async () => {
-    const {
-      pgReqParams,
-      backEndHtmlRoot,
-      typeOfRecordToChange,
-      thisWMPStateObj,
-    } = this.state;
-    const thisWMPId = thisWMPStateObj.thisRecord._id;
-    const thisRecordJustCreated = pgReqParams.isNewWMP ? true : false;
-    const backEndReqUrl = `${backEndHtmlRoot}${typeOfRecordToChange}s/${thisWMPId}1`;
-    let stateObjWUpdatedRecord;
-    let valErrsObj;
+  getRecordsFromBackEnd = async (
+    backEndReqUrl,
+    typeOfRecordToGet,
+    recordTypesForStateObj
+  ) => {
+    let valErrors;
+    let stateObjsArray = [];
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
-      stateObjWUpdatedRecord = this.replaceThisRecordInStateObj(
-        thisWMPStateObj,
-        backEndReqResponse.data,
-        typeOfRecordToChange
-      );
+      const recordsArray = backEndReqResponse.data;
+      for (let i = 0; i < recordsArray.length; i++) {
+        let stateObjWUpdatedRecord = this.replaceThisRecordInStateObj(
+          {},
+          recordsArray[i],
+          typeOfRecordToGet
+        );
+        stateObjWUpdatedRecord = this.buildInitialStateObj(
+          stateObjWUpdatedRecord,
+          recordTypesForStateObj,
+          recordsArray[i]
+        );
+        stateObjsArray.push(stateObjWUpdatedRecord);
+      }
     } catch (errs) {
-      const valErrsNestedArray = this.parseHTTPResErrs(errs, "name");
-      stateObjWUpdatedRecord = thisWMPStateObj;
-      let emptyValErrsObj = { weekMealPlan: { name: [] } };
-      valErrsObj = this.updateThisObjsValErrs =
-        (emptyValErrsObj, valErrsNestedArray);
+      //valErrorsNestedArray shape:
+      //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
     }
-    stateObjWUpdatedRecord = this.buildInitialStateObj(
-      stateObjWUpdatedRecord,
-      ["weekMealPlan"],
-      stateObjWUpdatedRecord.thisRecord
+    return { stateObjsArray, valErrors };
+  };
+  getThisMealsIngrdnts = async (thisMealsId) => {
+    const backEndHtmlRoot = this.state.backEndHtmlRoot;
+    const backEndReqUrl = `${backEndHtmlRoot}mealIngredients/thisMealsMealIngredients/${thisMealsId}`;
+    let thisMlsIngrdntsReqResult = await this.getRecordsFromBackEnd(
+      backEndReqUrl,
+      "mealIngredient",
+      ["mealIngredient", "genRecipeIngredient", "ingredient"]
     );
-    if (valErrsObj) {
-      stateObjWUpdatedRecord.valErrors = valErrsObj;
+    return thisMlsIngrdntsReqResult.stateObjsArray;
+  };
+  getThisDaysMealsFn = async (thisDaysId) => {
+    const { mealTypes, backEndHtmlRoot } = this.state;
+    const backEndReqUrl = `${backEndHtmlRoot}meals/mealsOfThisDay/${thisDaysId}`;
+    let thisDaysMeals = {};
+    let daysMealsReqResult = await this.getRecordsFromBackEnd(
+      backEndReqUrl,
+      "meal",
+      ["meal", "genRecipe"]
+    );
+    if (daysMealsReqResult.valErrors) {
+      return {};
+    } else {
+      for (let i = 0; i < mealTypes.length; i++) {
+        let thisMealType = mealTypes[i];
+        let thisMealsFromBackEndArray =
+          daysMealsReqResult.stateObjsArray.filter(
+            (meal) => meal.thisRecord.mealType._id === thisMealType._id
+          );
+        if (thisMealsFromBackEndArray.length > 0) {
+          let thisMealStateObjToUpdate = thisMealsFromBackEndArray[0];
+          let thisMealGenRecipeId =
+            thisMealStateObjToUpdate.thisRecord.genRecipe._id;
+          let recipeIngrdntsReqURL = `${backEndHtmlRoot}genRecipeIngredients/thisGenRecipesGenRecipeIngredients/${thisMealGenRecipeId}`;
+          let thisGenRcpsGenRcpIngrdnts;
+          try {
+            let genRcpsIngrdntsReqResult = await httpService.get(
+              recipeIngrdntsReqURL
+            );
+            thisGenRcpsGenRcpIngrdnts = genRcpsIngrdntsReqResult.data;
+          } catch (errs) {
+            //valErrorsNestedArray shape:
+            //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+            let valErrors = this.parseHTTPResErrs(errs, "all");
+            this.notifyOfErrors(valErrors);
+            thisGenRcpsGenRcpIngrdnts = [];
+          }
+          let thisMealsId = thisMealStateObjToUpdate.thisRecord._id;
+          thisMealStateObjToUpdate.thisGenRcpsGenRcpIngrdnts =
+            thisGenRcpsGenRcpIngrdnts;
+          thisMealStateObjToUpdate.thisMealsIngrdnts =
+            await this.getThisMealsIngrdnts(thisMealsId);
+          thisDaysMeals[mealTypes[i].code] = thisMealStateObjToUpdate;
+        } else {
+          thisDaysMeals[mealTypes[i].code] = {
+            thisRecord: {
+              _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
+            },
+          };
+        }
+      }
+      return thisDaysMeals;
     }
-    stateObjWUpdatedRecord.justCreated.weekMealPlan = thisRecordJustCreated;
-    stateObjWUpdatedRecord.recordLoaded.weekMealPlan = true;
-    console.log(stateObjWUpdatedRecord);
+  };
+  getThisWeeksDaysFn = async (state, thisWMPId) => {
+    const daysOfWeek = state.daysOfWeek;
+    const backEndReqUrl = `${state.backEndHtmlRoot}days/daysofthiswmp/${thisWMPId}`;
+    let wmpsDaysReqResult = await this.getRecordsFromBackEnd(
+      backEndReqUrl,
+      "day",
+      ["day"]
+    );
+    if (wmpsDaysReqResult.valErrors) {
+      return;
+    } else {
+      for (let i = 0; i < daysOfWeek.length; i++) {
+        let thisDayOfWeek = daysOfWeek[i];
+        let thisDOWFromBackEndArray = wmpsDaysReqResult.stateObjsArray.filter(
+          (day) => day.thisRecord.dayOfWeek._id === thisDayOfWeek._id
+        );
+        if (thisDOWFromBackEndArray.length > 0) {
+          let thisDayStateObjToUpdate = thisDOWFromBackEndArray[0];
+          thisDayStateObjToUpdate.thisDaysMeals = await this.getThisDaysMealsFn(
+            thisDayStateObjToUpdate.thisRecord._id
+          );
+          state[thisDayOfWeek.code] = thisDayStateObjToUpdate;
+        } else {
+          state[thisDayOfWeek.code] = {
+            thisRecord: {
+              _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
+            },
+          };
+        }
+      }
+      this.setState(state);
+    }
+  };
+  getThisWMPFn = async () => {
+    let state = this.state;
+    let { thisWMPStateObj, backEndHtmlRoot, pgReqParams } = state;
+    let thisWMPId = thisWMPStateObj.thisRecord._id;
+    const backEndReqUrl = `${backEndHtmlRoot}weekMealPlans/${thisWMPId}`;
+    let wmpReqResult = await this.getRecordsFromBackEnd(
+      backEndReqUrl,
+      "weekMealPlan",
+      ["weekMealPlan"]
+    );
+    if (wmpReqResult.valErrors) {
+      return;
+    } else {
+      const thisRecordJustCreated = pgReqParams.isNewWMP ? true : false;
+      thisWMPStateObj = wmpReqResult.stateObjsArray[0];
+
+      thisWMPStateObj.justCreated.weekMealPlan = thisRecordJustCreated;
+      state.thisWMPStateObj = thisWMPStateObj;
+      this.getThisWeeksDaysFn(state, thisWMPId);
+    }
   };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();
