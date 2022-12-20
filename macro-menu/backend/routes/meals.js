@@ -59,6 +59,11 @@ router.route('/mealsofthisday/:id').get((req, res)=>{
         .then(meals => res.json(meals))
         .catch(err => res.status(400).json('Error: '+err));
 });
+router.route('/mealsPerGenRcp/:id').get((req, res)=>{
+    Meal.find({genRecipe:req.params.id})
+        .then(meals=>res.json(meals.length))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 // router.route('/add').post((req, res)=>{
 //     const meal=new Meal(req.body);
 //     meal.save()

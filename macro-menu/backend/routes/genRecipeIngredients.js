@@ -58,6 +58,11 @@ router.route('/').get((req, res)=>{
         .then(genRecipeIngredients=>res.json(genRecipeIngredients))
         .catch(err=>res.status(400).json('Error: '+err));
 });
+router.route('/genRcpIngrdntsPerIngrdnt/:id').get((req, res)=>{
+    GenRecipeIngredient.find({ingredient:req.params.id})
+        .then(genRecipeIngredients=>res.json(genRecipeIngredients.length))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 router.route('/thisGenRecipesGenRecipeIngredients/:id').get((req, res)=>{
     GenRecipeIngredient.find({genRecipe: req.params.id})
         .populate({

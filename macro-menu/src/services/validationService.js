@@ -74,7 +74,6 @@ export async function csValidateObj(typeOfRecordToChange,
     let propsArray=[];
     let recordKeys = Object.keys(recordToUpdate);
     for(let i=0;i<recordKeys.length;i++){
-        console.log(recordKeys[i]);
         let thisPropObj={
             thisPropsName: recordKeys[i],
             thisPropNameSentenceCase: rcrdOrFldNameSntncCaseAndPropTypForVal[recordKeys[i]]["nameSntncCase"],

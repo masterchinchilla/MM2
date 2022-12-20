@@ -145,6 +145,11 @@ router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
             .then(mealIngredients=>res.json(mealIngredients))
             .catch(err=>res.status(400).json('Error: '+err));
     })
+router.route('/mealIngrdntsPerGenRcpIngrdnt/:id').get((req, res)=>{
+    MealIngredient.find({genRecipeIngredient:req.params.id})
+        .then(mealIngredients=>res.json(mealIngredients.length))
+        .catch(err=>res.status(400).json('Error: '+err));
+})
 // router.route('/add').post((req,res)=>{
 //     const qty=req.body.qty;
 //     const genRecipeIngredient=req.body.genRecipeIngredient;

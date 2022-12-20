@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 const ReadOnlyInputCore = (props) => {
   const {
     formGroupClasses,
@@ -11,6 +12,16 @@ const ReadOnlyInputCore = (props) => {
     valErrors,
     getRndIntegerFn,
   } = props;
+  let formatedPropValue;
+  if (!propValue) {
+    formatedPropValue = propValue;
+  } else {
+    if (label === "Created " || label === "Last Update ") {
+      formatedPropValue = dayjs(propValue).format("dddd, MMMM D, YYYY h:mm A");
+    } else {
+      formatedPropValue = propValue;
+    }
+  }
   if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
@@ -19,7 +30,7 @@ const ReadOnlyInputCore = (props) => {
           className={inputClasses}
           type={propType}
           disabled={true}
-          value={propValue}
+          value={formatedPropValue}
           onChange={() => {}}
         />
         {!valErrors ? (
