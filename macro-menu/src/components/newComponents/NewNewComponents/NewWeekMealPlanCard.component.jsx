@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomHeading from "../CustomHeading.component";
 import NewMacroBudgetSubForm from "./NewMacroBudgetSubForm.component";
+import NewMealWeightingSubForm from "./NewMealWeightingSubForm.component";
 import NewWMPNameAndDisabledFieldsSubForm from "./NewWMPNameAndDisabledFieldsSubForm.component";
 const NewWeekMealPlanCard = (props) => {
   const { commonProps, specificProps } = props;
@@ -15,6 +16,7 @@ const NewWeekMealPlanCard = (props) => {
     onDeleteObjFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
+  const { onUpdateWeightsFn } = specificMethods;
   let thisStateObj = specificData.thisStateObj.recordLoaded
     ? specificData.thisStateObj
     : {
@@ -29,6 +31,12 @@ const NewWeekMealPlanCard = (props) => {
           proteinBudget: 0,
           fatBudget: 0,
           fiberBudget: 0,
+          breakfastWeight: 0,
+          snack1Weight: 0,
+          lunchWeight: 0,
+          snack2Weight: 0,
+          dinnerWeight: 0,
+          dessertWeight: 0,
         },
         recordLoaded: false,
         editingForm: { weekMealPlan: false },
@@ -42,6 +50,12 @@ const NewWeekMealPlanCard = (props) => {
   const { _id } = thisRecord;
   const thisRecordId = _id;
   const typeOfRecordToChange = "weekMealPlan";
+  const [changesCancelled, toggleChangesCancelled] = useState(false);
+  function handleCancelEditFn() {
+    toggleChangesCancelled(true);
+    onCancelEditFn();
+  }
+
   return (
     <div className="card">
       <div className="card-header">
@@ -91,7 +105,7 @@ const NewWeekMealPlanCard = (props) => {
                       onUpdatePropFn: onUpdatePropFn,
                       onSaveChangesFn: onSaveChangesFn,
                       onStartEditingFn: onStartEditingFn,
-                      onCancelEditFn: onCancelEditFn,
+                      onCancelEditFn: handleCancelEditFn,
                       onDeleteObjFn: onDeleteObjFn,
                     },
                   }}
@@ -115,13 +129,27 @@ const NewWeekMealPlanCard = (props) => {
                     specificMethods: {},
                   }}
                 />
-                {/* <MealWeightingSubForm
-                    key={`mealWghtngSubFormFor${typeOfRecordToChange}${thisRecordId}`}
-                    thisStateObj={thisStateObj}
-                    onUpdateWeightsFn={onUpdateWeightsFn}
-                    changesCancelled={changesCancelled}
-                    toggleChangesCancelled={toggleChangesCancelled}
-                  /> */}
+                <NewMealWeightingSubForm
+                  key={`mealWghtngSubFormFor${typeOfRecordToChange}${thisRecordId}`}
+                  commonProps={{
+                    commonData: {},
+                    commonMethods: {
+                      getRndIntegerFn: getRndIntegerFn,
+                      returnElementKey: returnElementKey,
+                      onUpdatePropFn: onUpdatePropFn,
+                    },
+                  }}
+                  specificProps={{
+                    specificData: {
+                      thisStateObj: thisStateObj,
+                      changesCancelled: changesCancelled,
+                    },
+                    specificMethods: {
+                      onUpdateWeightsFn: onUpdateWeightsFn,
+                      toggleChangesCancelled: toggleChangesCancelled,
+                    },
+                  }}
+                />
               </form>
             </div>
           </div>

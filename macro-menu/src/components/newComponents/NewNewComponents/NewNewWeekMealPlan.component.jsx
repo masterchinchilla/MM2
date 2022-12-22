@@ -710,6 +710,22 @@ class NewNewWeekMealPlan extends Component {
     }
     this.setState(state);
   };
+  handleUpdateWeightsFn = (weightsObj, e) => {
+    e.preventDefault();
+    let state = this.state;
+    let thisWMPStateObj = state.thisWMPStateObj;
+    let thisRecord = thisWMPStateObj.thisRecord;
+    thisRecord.breakfastWeight = weightsObj.breakfast;
+    thisRecord.snack1Weight = weightsObj.snack1;
+    thisRecord.lunchWeight = weightsObj.lunch;
+    thisRecord.snack2Weight = weightsObj.snack2;
+    thisRecord.dinnerWeight = weightsObj.dinner;
+    thisRecord.dessertWeight = weightsObj.dessert;
+    thisWMPStateObj.thisRecord = thisRecord;
+    thisWMPStateObj.recordChanged.weekMealPlan = true;
+    state.thisWMPStateObj = thisWMPStateObj;
+    this.setState(state);
+  };
   handleCancelEditFn = () => {
     let pattern = /missing/;
     let state = this.state;
@@ -818,7 +834,7 @@ class NewNewWeekMealPlan extends Component {
           }}
           specificProps={{
             specificData: { thisStateObj: this.state.thisWMPStateObj },
-            specificMethods: {},
+            specificMethods: { onUpdateWeightsFn: this.handleUpdateWeightsFn },
           }}
         />
         <div className="card mt-3 mb-3">
