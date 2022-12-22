@@ -69,6 +69,7 @@ export function csValidateProp(propName, value, propTypeForVal) {
 };
 export async function csValidateObj(typeOfRecordToChange,
         recordToUpdate){
+            console.log(recordToUpdate)
     let typeOfRcrdToChngSntncCase=rcrdOrFldNameSntncCaseAndPropTypForVal[typeOfRecordToChange]["nameSntncCase"];
     let recordId=recordToUpdate._id;
     let propsArray=[];
@@ -82,6 +83,7 @@ export async function csValidateObj(typeOfRecordToChange,
         };
         propsArray.push(thisPropObj)
     };
+    console.log(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray)
     const valErrorsArray=csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray);
     return valErrorsArray;
 }

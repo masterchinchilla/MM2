@@ -447,16 +447,16 @@ class NewNewWeekMealPlan extends Component {
   ) => {
     console.log("create new record");
   };
-  getCSValResult = async (
+  getCSValResultForProp = async (
     typeOfRecordToChange,
-    recordToUpdate,
     propToUpdate,
     newValue,
     thisObjsValErrsObj
   ) => {
+    const recordToUpdate = { [propToUpdate]: newValue };
     const csValResult = await csValidateObj(
       typeOfRecordToChange,
-      (recordToUpdate = { [propToUpdate]: newValue })
+      recordToUpdate
     );
     const newThisObjsValErrsObj = this.updateThisObjsValErrs(
       thisObjsValErrsObj,
@@ -468,9 +468,8 @@ class NewNewWeekMealPlan extends Component {
     let thisWMPStateObj = this.state.thisWMPStateObj;
     thisWMPStateObj.thisRecord[propToUpdate] = newValue;
     let thisValErrsObj = thisWMPStateObj.valErrors.weekMealPlan;
-    let updatedValErrsObj = await this.getCSValResult(
+    let updatedValErrsObj = await this.getCSValResultForProp(
       "weekMealPlan",
-      thisWMPStateObj.thisRecord,
       propToUpdate,
       newValue,
       thisValErrsObj
@@ -479,13 +478,30 @@ class NewNewWeekMealPlan extends Component {
     thisWMPStateObj.recordChanged.weekMealPlan = true;
     this.setState({ thisWMPStateObj: thisWMPStateObj });
   };
+  returnElementKey = (
+    indexOfObj,
+    thisObjName,
+    propToUpdate,
+    typeOfRecordToChange,
+    arrayIndex,
+    thisMealTypeCode,
+    thisDayOfWeekCode
+  ) => {
+    return `${thisObjName ? thisObjName : "Null"}${
+      indexOfObj ? indexOfObj : "Null"
+    }ForProp${propToUpdate ? propToUpdate : "Null"}For${
+      typeOfRecordToChange ? typeOfRecordToChange : "Null"
+    }Num${arrayIndex ? arrayIndex : "Null"}ForMeal${
+      thisMealTypeCode ? thisMealTypeCode : "Null"
+    }ForDay${thisDayOfWeekCode ? thisDayOfWeekCode : "Null"}ForThisWMP`;
+  };
   handleUpdateMealOrChildPropFn = async (
+    propToUpdate,
+    newValue,
     typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
-    arrayIndex,
-    propToUpdate,
-    newValue
+    arrayIndex
   ) => {
     let state = this.state;
     const daysOfWeek = state.daysOfWeek;
@@ -731,6 +747,7 @@ class NewNewWeekMealPlan extends Component {
             commonProps={{
               commonData: {},
               commonMethods: {
+                returnElementKey: this.returnElementKey,
                 onCreateNewRecordFn: this.handleCreateNewRecordFn,
               },
             }}
@@ -757,6 +774,7 @@ class NewNewWeekMealPlan extends Component {
             commonData: {},
             commonMethods: {
               getRndIntegerFn: this.getRndIntegerFn,
+              returnElementKey: this.returnElementKey,
               onCreateNewRecordFn: this.handleCreateNewRecordFn,
               onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
               onSaveChangesFn: this.handleSaveChangesFn,
@@ -789,8 +807,9 @@ class NewNewWeekMealPlan extends Component {
             commonData: {},
             commonMethods: {
               getRndIntegerFn: this.getRndIntegerFn,
+              returnElementKey: this.returnElementKey,
               onCreateNewRecordFn: this.handleCreateNewRecordFn,
-              onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
+              onUpdatePropFn: this.handleUpdateWMPPropFn,
               onSaveChangesFn: this.handleSaveChangesFn,
               onStartEditingFn: this.handleStartEditingFn,
               onCancelEditFn: this.handleCancelEditFn,

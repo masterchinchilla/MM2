@@ -1,12 +1,13 @@
 import React from "react";
 import CustomHeading from "../CustomHeading.component";
+import NewMacroBudgetSubForm from "./NewMacroBudgetSubForm.component";
 import NewWMPNameAndDisabledFieldsSubForm from "./NewWMPNameAndDisabledFieldsSubForm.component";
 const NewWeekMealPlanCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const {
     getRndIntegerFn,
-    onCreateNewRecordFn,
+    returnElementKey,
     onUpdatePropFn,
     onSaveChangesFn,
     onStartEditingFn,
@@ -23,6 +24,11 @@ const NewWeekMealPlanCard = (props) => {
           name: "",
           createdAt: "",
           updatedAt: "",
+          calsBudget: 0,
+          carbsBudget: 0,
+          proteinBudget: 0,
+          fatBudget: 0,
+          fiberBudget: 0,
         },
         recordLoaded: false,
         editingForm: { weekMealPlan: false },
@@ -94,13 +100,22 @@ const NewWeekMealPlanCard = (props) => {
                     specificMethods: {},
                   }}
                 />
-                {/* <MacroBudgetSubForm
-                    key={`macroBdgtSubFormFor${typeOfRecordToChange}${thisRecordId}`}
-                    thisStateObj={thisStateObj}
-                    onUpdatePropFn={onUpdatePropFn}
-                    getRndIntegerFn={getRndIntegerFn}
-                  />
-                  <MealWeightingSubForm
+                <NewMacroBudgetSubForm
+                  key={`macroBdgtSubFormFor${typeOfRecordToChange}${thisRecordId}`}
+                  commonProps={{
+                    commonData: {},
+                    commonMethods: {
+                      getRndIntegerFn: getRndIntegerFn,
+                      returnElementKey: returnElementKey,
+                      onUpdatePropFn: onUpdatePropFn,
+                    },
+                  }}
+                  specificProps={{
+                    specificData: { thisStateObj: thisStateObj },
+                    specificMethods: {},
+                  }}
+                />
+                {/* <MealWeightingSubForm
                     key={`mealWghtngSubFormFor${typeOfRecordToChange}${thisRecordId}`}
                     thisStateObj={thisStateObj}
                     onUpdateWeightsFn={onUpdateWeightsFn}
