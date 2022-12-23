@@ -6,6 +6,7 @@ import NewWMPNameAndDisabledFieldsSubForm from "./NewWMPNameAndDisabledFieldsSub
 const NewWeekMealPlanCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { backEndHtmlRoot } = commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -14,9 +15,11 @@ const NewWeekMealPlanCard = (props) => {
     onStartEditingFn,
     onCancelEditFn,
     onDeleteObjFn,
+    trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { onUpdateWeightsFn } = specificMethods;
+  const { thisStateObjBackup } = specificData;
   let thisStateObj = specificData.thisStateObj.recordLoaded
     ? specificData.thisStateObj
     : {
@@ -41,7 +44,22 @@ const NewWeekMealPlanCard = (props) => {
         recordLoaded: false,
         editingForm: { weekMealPlan: false },
         recordChanged: { weekMealPlan: false },
-        valErrors: { weekMealPlan: {} },
+        valErrors: {
+          weekMealPlan: {
+            name: [],
+            calsBudget: [],
+            carbsBudget: [],
+            proteinBudget: [],
+            fatBudget: [],
+            fiberBudget: [],
+            breakfastWeight: [],
+            snack1Weight: [],
+            lunchWeight: [],
+            snack2Weight: [],
+            dinnerWeight: [],
+            dessertWeight: [],
+          },
+        },
         justCreated: { weekMealPlan: false },
         userType: { weekMealPlan: "viewer" },
         hasChildren: { weekMealPlan: false },
@@ -99,7 +117,7 @@ const NewWeekMealPlanCard = (props) => {
               <form className="card">
                 <NewWMPNameAndDisabledFieldsSubForm
                   commonProps={{
-                    commonData: {},
+                    commonData: { backEndHtmlRoot: backEndHtmlRoot },
                     commonMethods: {
                       getRndIntegerFn: getRndIntegerFn,
                       onUpdatePropFn: onUpdatePropFn,
@@ -107,10 +125,15 @@ const NewWeekMealPlanCard = (props) => {
                       onStartEditingFn: onStartEditingFn,
                       onCancelEditFn: handleCancelEditFn,
                       onDeleteObjFn: onDeleteObjFn,
+                      returnElementKey: returnElementKey,
+                      trimEnteredValueFn: trimEnteredValueFn,
                     },
                   }}
                   specificProps={{
-                    specificData: { thisStateObj: thisStateObj },
+                    specificData: {
+                      thisStateObj: thisStateObj,
+                      thisStateObjBackup: thisStateObjBackup,
+                    },
                     specificMethods: {},
                   }}
                 />

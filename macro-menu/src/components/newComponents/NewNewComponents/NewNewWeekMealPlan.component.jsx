@@ -749,6 +749,11 @@ class NewNewWeekMealPlan extends Component {
   handleDeleteObjFn = () => {
     console.log("delete obj");
   };
+  handleTrimEnteredValueFn = (untrimmedValue) => {
+    let trimmedValue = untrimmedValue.trim();
+    let trimmedValueWNoDblSpcs = trimmedValue.replace(/  +/g, " ");
+    return trimmedValueWNoDblSpcs;
+  };
   renderDay = (thisDayOfWeekCode, thisDayOfWeekName) => {
     let { thisWMPStateObj } = this.state;
     let wmpUserType = thisWMPStateObj.userType.weekMealPlan;
@@ -820,7 +825,7 @@ class NewNewWeekMealPlan extends Component {
         />
         <NewWeekMealPlanCard
           commonProps={{
-            commonData: {},
+            commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
             commonMethods: {
               getRndIntegerFn: this.getRndIntegerFn,
               returnElementKey: this.returnElementKey,
@@ -830,10 +835,14 @@ class NewNewWeekMealPlan extends Component {
               onStartEditingFn: this.handleStartEditingFn,
               onCancelEditFn: this.handleCancelEditFn,
               onDeleteObjFn: this.handleDeleteObjFn,
+              trimEnteredValueFn: this.handleTrimEnteredValueFn,
             },
           }}
           specificProps={{
-            specificData: { thisStateObj: this.state.thisWMPStateObj },
+            specificData: {
+              thisStateObj: this.state.thisWMPStateObj,
+              thisStateObjBackup: this.state.thisWMPStateBackup,
+            },
             specificMethods: { onUpdateWeightsFn: this.handleUpdateWeightsFn },
           }}
         />

@@ -7,9 +7,8 @@ const NewMealWeightingSubForm = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj } = specificData;
-  const { onUpdateWeightsFn, changesCancelled, toggleChangesCancelled } =
-    specificMethods;
+  const { thisStateObj, changesCancelled } = specificData;
+  const { onUpdateWeightsFn, toggleChangesCancelled } = specificMethods;
   const { editingForm, thisRecord, recordLoaded } = thisStateObj;
   const fieldsDisabled = !editingForm.weekMealPlan ? true : false;
   const {

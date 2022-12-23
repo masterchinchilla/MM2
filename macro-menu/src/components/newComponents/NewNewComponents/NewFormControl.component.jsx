@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const FormControl = (props) => {
+const NewFormControl = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const {
@@ -343,4 +343,4 @@ const FormControl = (props) => {
   }
 };
 
-export default FormControl;
+export default NewFormControl;

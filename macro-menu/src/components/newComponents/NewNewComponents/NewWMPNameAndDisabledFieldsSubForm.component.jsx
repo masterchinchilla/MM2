@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReadOnlyInputCore from "../ReadOnlyInputCore.component";
 import NewFormControl from "./NewFormControl.component";
+import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
 const NewWMPNameAndDisabledFieldsSubForm = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { backEndHtmlRoot } = commonData;
   const {
     getRndIntegerFn,
     onUpdatePropFn,
@@ -11,9 +13,11 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
     onStartEditingFn,
     onCancelEditFn,
     onDeleteObjFn,
+    trimEnteredValueFn,
+    returnElementKey,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj } = specificData;
+  const { thisStateObj, thisStateObjBackup } = specificData;
   const {
     editingForm,
     thisRecord,
@@ -24,9 +28,62 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
     hasChildren,
     recordLoaded,
   } = thisStateObj;
+  // const valErrors = thisStateObj.valErrors
+  //   ? thisStateObj.valErrors
+  //   : {
+  //       weekMealPlan: {
+  //         name: [],
+  //         calsBudget: [],
+  //         carbsBudget: [],
+  //         proteinBudget: [],
+  //         fatBudget: [],
+  //         fiberBudget: [],
+  //         breakfastWeight: [],
+  //         snack1Weight: [],
+  //         lunchWeight: [],
+  //         snack2Weight: [],
+  //         dinnerWeight: [],
+  //         dessertWeight: [],
+  //       },
+  //     };
   const { _id, GRFUser, name, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id;
   const typeOfRecordToChange = "weekMealPlan";
+  const [localName, updateNameStateFn] = useState(name);
+  const [nameValErrors, updateNameValErrorsStateFn] = useState(
+    valErrors.weekMealPlan.name
+  );
+  const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
+  const origName = thisStateObjBackup.thisRecord
+    ? thisStateObjBackup.thisRecord.name
+    : name;
+  function handleCancelEditFn() {
+    updateNameValErrorsStateFn(valErrors.weekMealPlan.name);
+    onCancelEditFn();
+  }
+  useEffect(() => {
+    if (
+      nameValErrors.length > 0 ||
+      valErrors.weekMealPlan.breakfastWeight.length > 0 ||
+      valErrors.weekMealPlan.snack1Weight.length > 0 ||
+      valErrors.weekMealPlan.lunchWeight.length > 0 ||
+      valErrors.weekMealPlan.snack2Weight.length > 0 ||
+      valErrors.weekMealPlan.dinnerWeight.length > 0 ||
+      valErrors.weekMealPlan.dessertWeight.length > 0 ||
+      valErrors.weekMealPlan.calsBudget.length > 0 ||
+      valErrors.weekMealPlan.carbsBudget.length > 0 ||
+      valErrors.weekMealPlan.proteinBudget.length > 0 ||
+      valErrors.weekMealPlan.fatBudget.length > 0 ||
+      valErrors.weekMealPlan.fiberBudget.length > 0
+    ) {
+      toggleSaveDisabledStateFn(true);
+    } else {
+      toggleSaveDisabledStateFn(false);
+    }
+  });
+  useEffect(() => {
+    updateNameStateFn(name);
+  }, [recordLoaded]);
   return (
     <React.Fragment>
       <div
@@ -36,44 +93,48 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
             : "card-header wmpCardHeader"
         }
       >
-        {/* <InputWSearchUniqueNew
-            key={`inputWSrchUniqueForNameFor${typeOfRecordToChange}${thisRecordId}`}
-            formGroupClasses="form-group wmpNameFrmGroup"
-            label="Week Meal Plan Name"
-            propType="name"
-            localPropValue={localName}
-            changeLocalPropFn={updateNameStateFn}
-            origPropValue={
-              backupOfRecordToChange ? backupOfRecordToChange.name : ""
-            }
-            typeOfRecordToChange={typeOfRecordToChange}
-            thisDayOfWeekCode={thisDayOfWeekCode}
-            thisMealTypeCode={thisMealTypeCode}
-            propToUpdate="name"
-            arrayIndex={arrayIndex}
-            selectedFrom={[]}
-            fieldDisabled={fieldsDisabled}
-            inputClasses="form-control"
-            isRequired={true}
-            backEndHtmlRoot={backEndHtmlRoot}
-            propNameSentenceCase="Name"
-            valErrors={nameValErrors}
-            changeParentPropFn={onUpdatePropFn}
-            getRndIntegerFn={getRndIntegerFn}
-            recordLoaded={recordLoaded}
-            thisRecordId={thisRecordId}
-            trimEnteredValueFn={trimEnteredValueFn}
-            excludeLabel={false}
-            validatePropFn={validatePropFn}
-            updatePropValErrorsStateFn={updateNameValErrorsStateFn}
-          /> */}
+        <NewInputWSearchUniqueNew
+          commonProps={{
+            commonData: { backEndHtmlRoot: backEndHtmlRoot },
+            commonMethods: {
+              onUpdatePropFn: onUpdatePropFn,
+              returnElementKey: returnElementKey,
+              getRndIntegerFn: getRndIntegerFn,
+              trimEnteredValueFn: trimEnteredValueFn,
+            },
+          }}
+          specificProps={{
+            specificData: {
+              typeOfRecordToChange: typeOfRecordToChange,
+              formGroupClasses: "form-group wmpNameFrmGroup",
+              label: "Week Meal Plan Name",
+              thisDayOfWeekCode: "",
+              thisMealTypeCode: "",
+              propToUpdate: "name",
+              arrayIndex: null,
+              fieldDisabled: editingForm.weekMealPlan ? false : true,
+              valErrors: nameValErrors,
+              inputClasses: "form-control",
+              isRequired: true,
+              recordLoaded: recordLoaded,
+              propNameSentenceCase: "Name",
+              localPropValue: localName,
+
+              origPropValue: origName,
+            },
+            specificMethods: {
+              changeLocalPropFn: updateNameStateFn,
+              updatePropValErrorsStateFn: updateNameValErrorsStateFn,
+            },
+          }}
+        />
         <NewFormControl
           key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
           commonProps={{
             commonData: {},
             commonMethods: {
               onStartEditingFn: onStartEditingFn,
-              onCancelEditFn: onCancelEditFn,
+              onCancelEditFn: handleCancelEditFn,
               onSaveChangesFn: onSaveChangesFn,
               onDeleteObjFn: onDeleteObjFn,
               onCopyWMPFn: () => {},
@@ -88,7 +149,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
               arrayIndex: null,
               userType: userType.weekMealPlan,
               editingForm: editingForm.weekMealPlan,
-              saveDisabled: true,
+              saveDisabled: saveDisabled,
               hasChildren: hasChildren.weekMealPlan,
               saveWarning: null,
               deleteWarning:
