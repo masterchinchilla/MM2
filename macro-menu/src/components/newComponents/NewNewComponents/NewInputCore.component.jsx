@@ -1,5 +1,5 @@
 import React from "react";
-const InputCore = (props) => {
+const NewInputCore = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { onUpdatePropFn, returnElementKey } = commonMethods;
@@ -109,4 +109,4 @@ const InputCore = (props) => {
   }
 };
 
-export default InputCore;
+export default NewInputCore;

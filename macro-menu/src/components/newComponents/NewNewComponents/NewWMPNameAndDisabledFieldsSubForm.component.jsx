@@ -17,7 +17,9 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
     returnElementKey,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj, thisStateObjBackup } = specificData;
+  const { thisStateObj, localName, nameValErrors, saveDisabled, origName } =
+    specificData;
+  const { updateNameStateFn, updateNameValErrorsStateFn } = specificMethods;
   const {
     editingForm,
     thisRecord,
@@ -28,62 +30,9 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
     hasChildren,
     recordLoaded,
   } = thisStateObj;
-  // const valErrors = thisStateObj.valErrors
-  //   ? thisStateObj.valErrors
-  //   : {
-  //       weekMealPlan: {
-  //         name: [],
-  //         calsBudget: [],
-  //         carbsBudget: [],
-  //         proteinBudget: [],
-  //         fatBudget: [],
-  //         fiberBudget: [],
-  //         breakfastWeight: [],
-  //         snack1Weight: [],
-  //         lunchWeight: [],
-  //         snack2Weight: [],
-  //         dinnerWeight: [],
-  //         dessertWeight: [],
-  //       },
-  //     };
   const { _id, GRFUser, name, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id;
   const typeOfRecordToChange = "weekMealPlan";
-  const [localName, updateNameStateFn] = useState(name);
-  const [nameValErrors, updateNameValErrorsStateFn] = useState(
-    valErrors.weekMealPlan.name
-  );
-  const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
-  const origName = thisStateObjBackup.thisRecord
-    ? thisStateObjBackup.thisRecord.name
-    : name;
-  function handleCancelEditFn() {
-    updateNameValErrorsStateFn(valErrors.weekMealPlan.name);
-    onCancelEditFn();
-  }
-  useEffect(() => {
-    if (
-      nameValErrors.length > 0 ||
-      valErrors.weekMealPlan.breakfastWeight.length > 0 ||
-      valErrors.weekMealPlan.snack1Weight.length > 0 ||
-      valErrors.weekMealPlan.lunchWeight.length > 0 ||
-      valErrors.weekMealPlan.snack2Weight.length > 0 ||
-      valErrors.weekMealPlan.dinnerWeight.length > 0 ||
-      valErrors.weekMealPlan.dessertWeight.length > 0 ||
-      valErrors.weekMealPlan.calsBudget.length > 0 ||
-      valErrors.weekMealPlan.carbsBudget.length > 0 ||
-      valErrors.weekMealPlan.proteinBudget.length > 0 ||
-      valErrors.weekMealPlan.fatBudget.length > 0 ||
-      valErrors.weekMealPlan.fiberBudget.length > 0
-    ) {
-      toggleSaveDisabledStateFn(true);
-    } else {
-      toggleSaveDisabledStateFn(false);
-    }
-  });
-  useEffect(() => {
-    updateNameStateFn(name);
-  }, [recordLoaded]);
   return (
     <React.Fragment>
       <div
@@ -134,7 +83,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
             commonData: {},
             commonMethods: {
               onStartEditingFn: onStartEditingFn,
-              onCancelEditFn: handleCancelEditFn,
+              onCancelEditFn: onCancelEditFn,
               onSaveChangesFn: onSaveChangesFn,
               onDeleteObjFn: onDeleteObjFn,
               onCopyWMPFn: () => {},

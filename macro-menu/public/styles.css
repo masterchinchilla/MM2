@@ -960,7 +960,7 @@ margin: 0.5rem;
 .wmpNameFrmGroup input.placeholder {
   width:90%;
 }
-td span.placeholder{
+span.placeholder{
   width: 3rem;
 }
 .selectPlaceholderFormGrp{
@@ -1002,4 +1002,11 @@ text-align: left;}
 }
 .topValErrors{
   margin: 0.5rem 0.5rem -0.5rem !important;
+}
+div.emptyPlaceholder{
+margin: 1rem auto 2rem;
+}
+div.emptyPlaceholder span{
+  width:50vw;
+  height:2rem;
 }

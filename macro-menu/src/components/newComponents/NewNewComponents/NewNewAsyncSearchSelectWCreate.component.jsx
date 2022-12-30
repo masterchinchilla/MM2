@@ -1,47 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AsyncCreatableSelect from "react-select/async-creatable";
-import httpService from "../../services/httpService";
-const AsyncSearchSelectWCreateNew = (props) => {
+import httpService from "../../../services/httpService";
+import { csValidateProp } from "../../../services/validationService";
+const NewNewAsyncSearchSelectWCreate = (props) => {
+  const { commonProps, specificProps } = props;
+  const { commonData, commonMethods } = commonProps;
+  const { specificData, specificMethods } = specificProps;
+  const {} = commonData;
   const {
-    formGroupClasses,
+    getRndIntegerFn,
+    returnElementKey,
+    onUpdatePropFn,
+    onCreateNewRecordFn,
+    trimEnteredValueFn,
+  } = commonMethods;
+  const {
     typeOfRecordToChange,
+    formGroupClasses,
+    label,
     thisDayOfWeekCode,
     thisMealTypeCode,
     arrayIndex,
-    // recordToSelect,
-    propType,
-    propToUpdateSentenceCase,
     propToUpdate,
-    trimEnteredValueFn,
-    fetchDataUrl,
-    validatePropFn,
-    valErrors,
-    onUpdatePropFn,
-    onCreateNewRecordFn,
     fieldDisabled,
+    initialFieldValErrs,
     inputClasses,
-    recordLoaded,
-    getRndIntegerFn,
-    excludeLabel,
     isRequired,
-  } = props;
-  // let valErrors = ["error 1", "error 2 with more text", "error 3"];
-  const recordToSelect = props.recordToSelect
-    ? props.recordToSelect
-    : { name: "", _id: "" };
-  const selectedFrom = [];
-  const [localValErrors, setLclValErrsStateFn] = useState(valErrors);
-  const [localName, updateLocalName] = useState(recordToSelect.name);
-  const thisRecordId = recordToSelect
-    ? recordToSelect._id
+    recordLoaded,
+    excludeLabel,
+    selectedRecord,
+    fetchDataUrl,
+  } = specificData;
+  const {} = specificMethods;
+  const selectedObj = selectedRecord
+    ? { label: selectedRecord.name, value: selectedRecord }
+    : { label: "", value: { _id: "", name: "" } };
+  const [localNameValErrs, setLclNmValErrsStateFn] =
+    useState(initialFieldValErrs);
+  const [localName, updateLocalName] = useState(selectedObj.value.name);
+  const thisRecordId = selectedRecord
+    ? selectedRecord._id
     : getRndIntegerFn(10000000, 99999999);
   function handleValEnteredTextFn(trimmedValueWNoDblSpcs) {
-    const newValErrors = validatePropFn(
-      "name",
+    const newValErrors = csValidateProp(
       propToUpdate,
-      trimmedValueWNoDblSpcs
+      trimmedValueWNoDblSpcs,
+      "name"
     );
-    setLclValErrsStateFn(newValErrors);
+    setLclNmValErrsStateFn(newValErrors);
     return newValErrors.length > 0 ? false : true;
   }
   function fetchData(inputValue, callback) {
@@ -58,7 +64,6 @@ const AsyncSearchSelectWCreateNew = (props) => {
               tempArray.push({
                 label: `${element.name}`,
                 value: element,
-                // value: JSON.stringify(element),
               });
             });
           } else {
@@ -66,7 +71,7 @@ const AsyncSearchSelectWCreateNew = (props) => {
               trimmedValueWNoDblSpcs
             );
             if (isValidNewOption) {
-              setLclValErrsStateFn([]);
+              setLclNmValErrsStateFn([]);
               updateLocalName(trimmedValueWNoDblSpcs);
             } else {
               updateLocalName("");
@@ -75,27 +80,26 @@ const AsyncSearchSelectWCreateNew = (props) => {
           callback(tempArray);
         })
         .catch((err) => {
-          setLclValErrsStateFn([JSON.stringify(err.message)]);
+          setLclNmValErrsStateFn([JSON.stringify(err.message)]);
         });
     }
   }
-  function onSearchChange(e) {
-    let eObj = { target: { value: e.value } };
-    if (e) {
+  function onSearchChange(selectedObj) {
+    let newValue = selectedObj.value;
+    if (newValue) {
       onUpdatePropFn(
+        propToUpdate,
+        newValue,
         typeOfRecordToChange,
         thisDayOfWeekCode,
         thisMealTypeCode,
-        propToUpdate,
-        arrayIndex,
-        "objRef",
-        eObj
+        arrayIndex
       );
     }
   }
   function resetLocalState() {
-    setLclValErrsStateFn(valErrors);
-    updateLocalName(recordToSelect.name);
+    setLclNmValErrsStateFn(initialFieldValErrs);
+    updateLocalName(selectedObj.value.name);
   }
   if (recordLoaded) {
     return (
@@ -107,20 +111,20 @@ const AsyncSearchSelectWCreateNew = (props) => {
             ) : (
               ""
             )}
-            {propToUpdateSentenceCase}
+            {label}
           </label>
         ) : (
           ""
         )}
         <div
           className="alert alert-danger valErrorsListDiv topValErrors"
-          hidden={localValErrors.length > 0 ? false : true}
+          hidden={localNameValErrs.length > 0 ? false : true}
         >
-          {localValErrors.length < 1 ? (
+          {localNameValErrs.length < 1 ? (
             ""
           ) : (
             <ul>
-              {localValErrors.map((valError) => (
+              {localNameValErrs.map((valError) => (
                 <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
               ))}
             </ul>
@@ -128,20 +132,17 @@ const AsyncSearchSelectWCreateNew = (props) => {
         </div>
         <AsyncCreatableSelect
           key={`AsyncCreateableFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
-          value={{
-            label: recordToSelect.name,
-            value: recordToSelect,
-          }}
+          value={selectedObj}
           loadOptions={fetchData}
-          placeholder={propToUpdateSentenceCase}
+          placeholder={label}
           onChange={onSearchChange}
           defaultOptions={true}
           isDisabled={fieldDisabled}
           className={inputClasses}
           onCreateOption={() => onCreateNewRecordFn(localName)}
           allowCreateWhileLoading={false}
-          isValidNewOption={(e) => {
-            let trimmedNameWNoDblSpcs = trimEnteredValueFn(e);
+          isValidNewOption={(newValue) => {
+            let trimmedNameWNoDblSpcs = trimEnteredValueFn(newValue);
             let nameLength = trimmedNameWNoDblSpcs.length;
             if (nameLength >= 3 && nameLength <= 255) {
               return true;
@@ -174,4 +175,4 @@ const AsyncSearchSelectWCreateNew = (props) => {
   }
 };
 
-export default AsyncSearchSelectWCreateNew;
+export default NewNewAsyncSearchSelectWCreate;

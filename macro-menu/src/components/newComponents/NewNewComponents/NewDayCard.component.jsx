@@ -4,6 +4,7 @@ import NewDayMealsAndMacros from "./NewDayMealsAndMacros.component";
 const NewDayCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { daysOfWeek, mealTypes, backEndHtmlRoot } = commonData;
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
@@ -12,15 +13,19 @@ const NewDayCard = (props) => {
     onStartEditingFn,
     onCancelEditFn,
     onDeleteObjFn,
+    returnElementKey,
+    trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
+  const { thisStateObjBackup } = specificData;
   let thisStateObj = specificData.thisStateObj;
   if (!thisStateObj.recordLoaded) {
     thisStateObj = {
       thisRecord: {
         _id: getRndIntegerFn(10000000, 99999999),
-        dayOfWeek: { name: "Day" },
+        dayOfWeek: daysOfWeek[0],
         name: "Day",
+        weekMealPlan: { GRFUser: { handle: "" } },
       },
       editingForm: { day: false },
       valErrors: {
@@ -61,7 +66,10 @@ const NewDayCard = (props) => {
       />
       <NewDayMealsAndMacros
         commonProps={{
-          commonData: {},
+          commonData: {
+            mealTypes: mealTypes,
+            backEndHtmlRoot: backEndHtmlRoot,
+          },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
             onCreateNewRecordFn: onCreateNewRecordFn,
@@ -70,10 +78,15 @@ const NewDayCard = (props) => {
             onStartEditingFn: onStartEditingFn,
             onCancelEditFn: onCancelEditFn,
             onDeleteObjFn: onDeleteObjFn,
+            returnElementKey: returnElementKey,
+            trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
         specificProps={{
-          specificData: { thisStateObj: thisStateObj },
+          specificData: {
+            thisStateObj: thisStateObj,
+            thisStateObjBackup: thisStateObjBackup,
+          },
           specificMethods: {},
         }}
       />

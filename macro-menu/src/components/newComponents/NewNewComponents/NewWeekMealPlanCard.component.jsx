@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomHeading from "../CustomHeading.component";
 import NewMacroBudgetSubForm from "./NewMacroBudgetSubForm.component";
 import NewMealWeightingSubForm from "./NewMealWeightingSubForm.component";
@@ -62,18 +62,50 @@ const NewWeekMealPlanCard = (props) => {
         },
         justCreated: { weekMealPlan: false },
         userType: { weekMealPlan: "viewer" },
-        hasChildren: { weekMealPlan: false },
+        hasChildren: { weekMealPlan: true },
       };
-  const { thisRecord, recordLoaded } = thisStateObj;
-  const { _id } = thisRecord;
+  const { thisRecord, recordLoaded, valErrors, recordChanged } = thisStateObj;
+  const { _id, name } = thisRecord;
   const thisRecordId = _id;
   const typeOfRecordToChange = "weekMealPlan";
+  const [localName, updateNameStateFn] = useState(name);
+  const [nameValErrors, updateNameValErrorsStateFn] = useState(
+    valErrors.weekMealPlan.name
+  );
+  const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
   const [changesCancelled, toggleChangesCancelled] = useState(false);
+  const origName = thisStateObjBackup.thisRecord
+    ? thisStateObjBackup.thisRecord.name
+    : name;
   function handleCancelEditFn() {
+    updateNameValErrorsStateFn(valErrors.weekMealPlan.name);
     toggleChangesCancelled(true);
     onCancelEditFn();
   }
-
+  useEffect(() => {
+    if (
+      nameValErrors.length > 0 ||
+      valErrors.weekMealPlan.breakfastWeight.length > 0 ||
+      valErrors.weekMealPlan.snack1Weight.length > 0 ||
+      valErrors.weekMealPlan.lunchWeight.length > 0 ||
+      valErrors.weekMealPlan.snack2Weight.length > 0 ||
+      valErrors.weekMealPlan.dinnerWeight.length > 0 ||
+      valErrors.weekMealPlan.dessertWeight.length > 0 ||
+      valErrors.weekMealPlan.calsBudget.length > 0 ||
+      valErrors.weekMealPlan.carbsBudget.length > 0 ||
+      valErrors.weekMealPlan.proteinBudget.length > 0 ||
+      valErrors.weekMealPlan.fatBudget.length > 0 ||
+      valErrors.weekMealPlan.fiberBudget.length > 0
+    ) {
+      toggleSaveDisabledStateFn(true);
+    } else {
+      toggleSaveDisabledStateFn(false);
+    }
+  });
+  useEffect(() => {
+    updateNameStateFn(name);
+    updateNameValErrorsStateFn(valErrors.weekMealPlan.name);
+  }, [recordLoaded]);
   return (
     <div className="card">
       <div className="card-header">
@@ -132,9 +164,16 @@ const NewWeekMealPlanCard = (props) => {
                   specificProps={{
                     specificData: {
                       thisStateObj: thisStateObj,
-                      thisStateObjBackup: thisStateObjBackup,
+                      // thisStateObjBackup: thisStateObjBackup,
+                      localName: localName,
+                      nameValErrors: nameValErrors,
+                      saveDisabled: saveDisabled,
+                      origName: origName,
                     },
-                    specificMethods: {},
+                    specificMethods: {
+                      updateNameStateFn: updateNameStateFn,
+                      updateNameValErrorsStateFn: updateNameValErrorsStateFn,
+                    },
                   }}
                 />
                 <NewMacroBudgetSubForm

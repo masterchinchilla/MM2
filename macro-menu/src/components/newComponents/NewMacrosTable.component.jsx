@@ -1,5 +1,6 @@
 import React from "react";
 import CustomHeading from "./CustomHeading.component";
+import TableCell from "./TableCell.component";
 const NewMacrosTable = (props) => {
   const {
     tableType,
@@ -83,109 +84,181 @@ const NewMacrosTable = (props) => {
         </tr>
         <tr>
           <th scope="col" className="perpendicularTextCell"></th>
-          <th scope="col" className="perpendicularTextCell">
-            Cals
-          </th>
-          <th scope="col" className="perpendicularTextCell">
-            Carbs
-          </th>
-          <th scope="col" className="perpendicularTextCell">
-            Protein
-          </th>
-          <th scope="col" className="perpendicularTextCell">
-            Fat
-          </th>
-          <th scope="col" className="perpendicularTextCell">
-            Fiber
-          </th>
+          <TableCell
+            tCellType="th"
+            data={localCalsBudget ? "Cals" : null}
+            tCellClasses="perpendicularTextCell"
+            scope="col"
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="th"
+            data={localCarbsBudget ? "Carbs" : null}
+            tCellClasses="perpendicularTextCell"
+            scope="col"
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="th"
+            data={localProteinBudget ? "Protein" : null}
+            tCellClasses="perpendicularTextCell"
+            scope="col"
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="th"
+            data={localFatBudget ? "Fat" : null}
+            tCellClasses="perpendicularTextCell"
+            scope="col"
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="th"
+            data={localFiberBudget ? "Fiber" : null}
+            tCellClasses="perpendicularTextCell"
+            scope="col"
+            recordLoaded={recordLoaded}
+          />
         </tr>
       </thead>
-      {props.thisWMPRecord ? (
-        <tbody>
-          <tr>
-            <th scope="row">Bdgt</th>
-
-            <td>{localCalsBudget.toFixed(2)}</td>
-            <td>{localCarbsBudget.toFixed(2)}</td>
-            <td>{localProteinBudget.toFixed(2)}</td>
-            <td>{localFatBudget.toFixed(2)}</td>
-            <td>{localFiberBudget.toFixed(2)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Crrnt</th>
-            <td>{calsCurrent.toFixed(2)}</td>
-            <td>{carbsCurrent.toFixed(2)}</td>
-            <td>{proteinCurrent.toFixed(2)}</td>
-            <td>{fatCurrent.toFixed(2)}</td>
-            <td>{fiberCurrent.toFixed(2)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Left</th>
-            <td>{(calsBudget - calsCurrent).toFixed(2)}</td>
-            <td>{(carbsBudget - carbsCurrent).toFixed(2)}</td>
-            <td>{(proteinBudget - proteinCurrent).toFixed(2)}</td>
-            <td>{(fatBudget - fatCurrent).toFixed(2)}</td>
-            <td>{(fiberBudget - fiberCurrent).toFixed(2)}</td>
-          </tr>
-        </tbody>
-      ) : (
-        <tbody>
-          <tr>
-            <th scope="row">Bdgt</th>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Crrnt</th>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">Left</th>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-            <td className="placeholder-glow">
-              <span className="placeholder"></span>
-            </td>
-          </tr>
-        </tbody>
-      )}
+      <tbody>
+        <tr>
+          <TableCell
+            tCellType="th"
+            data={localCalsBudget ? "Bdgt" : null}
+            tCellClasses=""
+            scope="row"
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={localCalsBudget ? localCalsBudget.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={localCarbsBudget ? localCarbsBudget.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={localProteinBudget ? localProteinBudget.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={localFatBudget ? localFatBudget.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={localFiberBudget ? localFiberBudget.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+        </tr>
+        <tr>
+          <TableCell
+            tCellType="th"
+            data={calsCurrent ? "Crrnt" : null}
+            tCellClasses=""
+            scope="row"
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={calsCurrent ? calsCurrent.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={carbsCurrent ? carbsCurrent.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={proteinCurrent ? proteinCurrent.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={fatCurrent ? fatCurrent.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={fiberCurrent ? fiberCurrent.toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+        </tr>
+        <tr>
+          <TableCell
+            tCellType="th"
+            data={calsCurrent ? "Left" : null}
+            tCellClasses=""
+            scope="row"
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={calsCurrent ? (calsBudget - calsCurrent).toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={carbsCurrent ? (carbsBudget - carbsCurrent).toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={
+              proteinCurrent
+                ? (proteinBudget - proteinCurrent).toFixed(2)
+                : null
+            }
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={fatCurrent ? (fatBudget - fatCurrent).toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+          <TableCell
+            tCellType="td"
+            data={fiberCurrent ? (fiberBudget - fiberCurrent).toFixed(2) : null}
+            tCellClasses=""
+            scope=""
+            recordLoaded={recordLoaded}
+          />
+        </tr>
+      </tbody>
     </table>
   );
 };

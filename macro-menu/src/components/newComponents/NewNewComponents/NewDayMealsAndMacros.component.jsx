@@ -3,9 +3,11 @@ import StickyBox from "react-sticky-box";
 import CustomHeading from "../CustomHeading.component";
 import NewMacrosTable from "../NewMacrosTable.component";
 import NewCreateMealButton from "./NewCreateMealButton.component";
+import NewMealParentCard from "./NewMealParentCard.component";
 const NewDayMealsAndMacros = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { mealTypes, backEndHtmlRoot } = commonData;
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
@@ -14,9 +16,11 @@ const NewDayMealsAndMacros = (props) => {
     onStartEditingFn,
     onCancelEditFn,
     onDeleteObjFn,
+    returnElementKey,
+    trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj } = specificData;
+  const { thisStateObj, thisStateObjBackup } = specificData;
   const {
     thisRecord,
     recordLoaded,
@@ -46,19 +50,53 @@ const NewDayMealsAndMacros = (props) => {
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   const typeOfRecordToChange = "day";
   const childTypeOfRecordToChange = "meal";
-  function renderMeal(thisMealTypeCode, thisMealTypeName) {
-    let thisDaysMealStateObj = thisStateObj[thisMealTypeCode];
+  function renderMeal(thisMealType) {
+    let thisDaysMealStateObj = thisStateObj[thisMealType.code];
+    let thisDaysMealStateObjBackup = thisStateObjBackup
+      ? thisStateObjBackup[thisMealType.code]
+      : {};
     let thisMealStateObj;
     if (thisDaysMealStateObj.recordLoaded) {
       thisMealStateObj = thisDaysMealStateObj;
     } else {
       thisMealStateObj = {
+        recordLoaded: false,
         thisRecord: {
           _id: getRndIntegerFn(10000000, 99999999),
-          mealType: { code: thisMealTypeCode },
-          day: { dayOfWeek: dayOfWeek },
+          createdAt: "",
+          updatedAt: "",
+          day: thisRecord,
+          genRecipe: {
+            _id: getRndIntegerFn(10000000, 99999999),
+            name: "",
+            availableMealType: thisMealType,
+            GRFUser: weekMealPlan.GRFUser,
+            defaultPrepInstructions: "",
+            photoURL: "",
+            createdAt: "",
+            updatedAt: "",
+          },
+          mealType: thisMealType,
         },
-        recordLoaded: false,
+        editingForm: { meal: false, genRecipe: false },
+        valErrors: {
+          meal: { _id: [], createdAt: [], updatedAt: [], genRecipe: [] },
+          genRecipe: {
+            _id: [],
+            createdAt: [],
+            updatedAt: [],
+            name: [],
+            defaultPrepInstructions: [],
+            photoURL: [],
+          },
+        },
+        recordChanged: { meal: false, genRecipe: false },
+        justCreated: { meal: false, genRecipe: false },
+        userType: { meal: "viewer", genRecipe: "viewer" },
+        hasChildren: { meal: true, genRecipe: true },
+        userChangedThisMealsRecipe: false,
+        thisMealsIngrdnts: [],
+        thisGenRcpsGenRcpIngrdnts: [],
       };
     }
     let thisMealRecord = thisMealStateObj.thisRecord;
@@ -87,34 +125,37 @@ const NewDayMealsAndMacros = (props) => {
         return (
           <div className="alert alert-secondary" role="alert">
             <em>
-              <span>No {thisMealTypeName}</span> Meal Plan added to this day...
+              <span>No {thisMealType.name}</span> Meal Plan added to this day...
             </em>
           </div>
         );
       }
     } else {
       return (
-        <div>Empty</div>
-        // <MealParentCard
-        //   key={`mealPrntCardFor${childTypeOfRecordToChange}${mealRecordId}`}
-        //   thisStateObj={thisMealStateObj}
-        //   thisStateObjBackup={thisStateObjBackup}
-        //   currentGRFUser={currentGRFUser}
-        //   backEndHtmlRoot={backEndHtmlRoot}
-        //   validatePropFn={validatePropFn}
-        //   onUpdatePropFn={onUpdatePropFn}
-        //   getRndIntegerFn={getRndIntegerFn}
-        //   onCreateNewRecordFn={onCreateNewRecordFn}
-        //   populateMealIngrdntsFn={populateMealIngrdntsFn}
-        //   trimEnteredValueFn={trimEnteredValueFn}
-        //   allUnitOfMeasures={allUnitOfMeasures}
-        //   allWeightTypes={allWeightTypes}
-        //   allBrands={allBrands}
-        //   onClickEditFn={onClickEditFn}
-        //   onClickCancelFn={onClickCancelFn}
-        //   onClickSaveFn={onClickSaveFn}
-        //   onClickDeleteFn={onClickDeleteFn}
-        // />
+        <NewMealParentCard
+          commonProps={{
+            commonData: { backEndHtmlRoot: backEndHtmlRoot },
+            commonMethods: {
+              getRndIntegerFn: getRndIntegerFn,
+              onUpdatePropFn: onUpdatePropFn,
+              onSaveChangesFn: onSaveChangesFn,
+              onStartEditingFn: onStartEditingFn,
+              onCancelEditFn: onCancelEditFn,
+              onDeleteObjFn: onDeleteObjFn,
+              onCreateNewRecordFn: onCreateNewRecordFn,
+              returnElementKey: returnElementKey,
+              trimEnteredValueFn: trimEnteredValueFn,
+            },
+          }}
+          specificProps={{
+            specificData: {
+              thisStateObj: thisMealStateObj,
+              nestedMealIngrdntArray: thisDaysMealsIngrdnts,
+              thisStateObjBackup: thisDaysMealStateObjBackup,
+            },
+            specificMethods: {},
+          }}
+        />
       );
     }
   }
@@ -202,12 +243,12 @@ const NewDayMealsAndMacros = (props) => {
                       data-bs-parent={"#daysMealsAccordionFull" + thisRecordId}
                     >
                       <div className="accordion-body wkDaysAccrdnBdy">
-                        {renderMeal("breakfast", "Breakfast")}
-                        {renderMeal("snack1", "Snack 1")}
-                        {renderMeal("lunch", "Lunch")}
-                        {renderMeal("snack2", "Snack 2")}
-                        {renderMeal("dinner", "Dinner")}
-                        {renderMeal("dessert", "Dessert")}
+                        {renderMeal(mealTypes[0])}
+                        {renderMeal(mealTypes[1])}
+                        {renderMeal(mealTypes[2])}
+                        {renderMeal(mealTypes[3])}
+                        {renderMeal(mealTypes[4])}
+                        {renderMeal(mealTypes[5])}
                       </div>
                     </div>
                   </div>
