@@ -25,6 +25,7 @@ const NewDayCard = (props) => {
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObjBackup } = specificData;
+  const { populateMissingMealIngrdnts } = specificMethods;
   let thisStateObj = specificData.thisStateObj;
   if (!thisStateObj.recordLoaded) {
     thisStateObj = {
@@ -97,7 +98,9 @@ const NewDayCard = (props) => {
             thisStateObj: thisStateObj,
             thisStateObjBackup: thisStateObjBackup,
           },
-          specificMethods: {},
+          specificMethods: {
+            populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+          },
         }}
       />
     </div>

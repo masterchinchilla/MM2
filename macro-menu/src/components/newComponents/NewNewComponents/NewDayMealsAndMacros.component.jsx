@@ -27,6 +27,7 @@ const NewDayMealsAndMacros = (props) => {
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj, thisStateObjBackup } = specificData;
+  const { populateMissingMealIngrdnts } = specificMethods;
   const {
     thisRecord,
     recordLoaded,
@@ -164,7 +165,9 @@ const NewDayMealsAndMacros = (props) => {
               nestedMealIngrdntArray: thisDaysMealsIngrdnts,
               thisStateObjBackup: thisDaysMealStateObjBackup,
             },
-            specificMethods: {},
+            specificMethods: {
+              populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+            },
           }}
         />
       );

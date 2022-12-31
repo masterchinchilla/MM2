@@ -61,6 +61,20 @@ router.route('/:id').get((req, res)=>{
         .populate({
             path: 'meal',
             populate:{
+                path: 'genRecipe',
+                populate:{path:'GRFUser'}
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
+                path: 'genRecipe',
+                populate:{path:'availableMealType'}
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
                 path: 'day',
                 populate:{path:'dayOfWeek'}
             }
@@ -127,6 +141,20 @@ router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
                     path:'weekMealPlan',
                     populate:'GRFUser'
                 }
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
+                path: 'genRecipe',
+                populate:{path:'GRFUser'}
+            }
+        })
+        .populate({
+            path: 'meal',
+            populate:{
+                path: 'genRecipe',
+                populate:{path:'availableMealType'}
             }
         })
         .populate({

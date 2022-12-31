@@ -18,7 +18,7 @@ const MealIngredientsList = (props) => {
     onCreateNewRecordFn,
   } = commonMethods;
   const { mealStateObj, mealBackup } = specificData;
-  const {} = specificMethods;
+  const { populateMissingMealIngrdnts } = specificMethods;
   const {
     userType,
     thisMealsIngrdnts,
@@ -209,21 +209,21 @@ const MealIngredientsList = (props) => {
             </div>
           );
         } else {
-          if (thisGenRcpsGenRcpIngrdnts.length > 0) {
-            return (
-              <div className="form-group mb-3">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={() => {
-                    populateMealIngrdntsFn();
-                  }}
-                >
-                  Populate Ingredients
-                </button>
-              </div>
-            );
-          } else {
+          if (thisGenRcpsGenRcpIngrdnts.length < 1) {
+            //   return (
+            //     <div className="form-group mb-3">
+            //       <button
+            //         type="submit"
+            //         className="btn btn-primary"
+            //         onClick={() => {
+            //           populateMealIngrdntsFn();
+            //         }}
+            //       >
+            //         Populate Ingredients
+            //       </button>
+            //     </div>
+            //   );
+            // } else {
             return (
               <div className="alert alert-secondary" role="alert">
                 This Recipe does not have any ingredients...
@@ -243,6 +243,23 @@ const MealIngredientsList = (props) => {
   return (
     <React.Fragment>
       <div className="mlIngrdntsCntnr">{renderMealIngrdntsFn()}</div>
+      {allowPopulateIngrdnts ? (
+        <div className="form-group mb-3">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={() => {
+              populateMissingMealIngrdnts(
+                mealStateObj,
+                thisDayOfWeekCode,
+                thisMealTypeCode
+              );
+            }}
+          >
+            Populate Ingredients
+          </button>
+        </div>
+      ) : null}
       {userCanEditRecipe && !allowPopulateIngrdnts ? (
         <div className="form-group mt-4 mb-4">
           <button

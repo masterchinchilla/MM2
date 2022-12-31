@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import newRecordTemplates from "../../../staticRefs/newRecordTemplates";
 import CustomHeading from "../CustomHeading.component";
 import NewFormControl from "./NewFormControl.component";
@@ -56,6 +56,11 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const origName = thisStateObjBackup.thisRecord
     ? thisStateObjBackup.thisRecord.genRecipeIngredient.ingredient.name
     : name;
+
+  const currentGenRecipe = thisStateObj.thisRecord.meal.genRecipe;
+  const origGenRecipe = thisStateObjBackup.thisRecord
+    ? thisStateObjBackup.thisRecord.meal.genRecipe
+    : currentGenRecipe;
   function handleCreateNewRecordFn(typeOfRecordToCreate, newName) {
     onCreateNewRecordFn(
       typeOfRecordToCreate,
@@ -69,6 +74,9 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     updateNameStateFn(origName);
     onCancelEditFn();
   }
+  useEffect(() => {
+    updateNameStateFn(name);
+  }, [origGenRecipe._id !== currentGenRecipe._id]);
   return (
     <div className="ingrdntFrmHdr">
       <CustomHeading

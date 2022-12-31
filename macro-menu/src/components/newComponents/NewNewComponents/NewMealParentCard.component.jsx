@@ -22,7 +22,7 @@ const NewMealParentCard = (props) => {
     trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const {} = specificMethods;
+  const { populateMissingMealIngrdnts } = specificMethods;
   const { thisStateObj, thisStateObjBackup, nestedMealIngrdntArray } =
     specificData;
   const {
@@ -163,7 +163,9 @@ const NewMealParentCard = (props) => {
                 mealStateObj: thisStateObj,
                 mealBackup: thisStateObjBackup,
               },
-              specificMethods: {},
+              specificMethods: {
+                populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+              },
             }}
           />
         </div>
