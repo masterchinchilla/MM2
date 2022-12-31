@@ -1,4 +1,5 @@
 import React from "react";
+// import rcrdOrFldNameSntncCaseAndPropTypForVal from "../../../staticRefs/rcrdOrFldNameSntncCaseAndPropTypForVal";
 const NewInputCore = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -37,11 +38,10 @@ const NewInputCore = (props) => {
         ) : (
           ""
         )}
-
         <input
           type={inputTypeForHtml}
           className={inputClasses}
-          value={propValue ? propValue : ""}
+          value={propValue}
           onChange={(e) =>
             onUpdatePropFn(
               propToUpdate,

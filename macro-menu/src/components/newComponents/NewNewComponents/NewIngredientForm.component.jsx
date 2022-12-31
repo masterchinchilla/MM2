@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
+import NewIngrdntDisabledFieldsSubForm from "./NewIngrdntDisabledFieldsSubForm.component";
 import NewIngrdntFormCtrlAndKeyFldsSubForm from "./NewIngrdntFormCtrlAndKeyFldsSubForm.component";
+import NewIngrdntMacrosSubForm from "./NewIngrdntMacrosSubForm.component";
 
 const NewIngredientForm = (props) => {
   const typeOfRecordToChange = "ingredient";
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { specificData, specificMethods } = specificProps;
-  const { backEndHtmlRoot } = commonData;
+  const {
+    backEndHtmlRoot,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex,
+    allUnitOfMeasures,
+
+    allWeightTypes,
+    allBrands,
+  } = commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -18,13 +29,7 @@ const NewIngredientForm = (props) => {
     trimEnteredValueFn,
     onCreateNewRecordFn,
   } = commonMethods;
-  const {
-    thisStateObj,
-    thisStateObjBackup,
-    thisGRFUser,
-    thisDayOfWeekCode,
-    thisMealTypeCode,
-  } = specificData;
+  const { thisStateObj, thisStateObjBackup, thisGRFUser } = specificData;
   //   thisStateObj.recordLoaded = false;
   if (!thisStateObj.recordLoaded) {
     thisStateObj.thisRecord.genRecipeIngredient.ingredient = {
@@ -82,7 +87,6 @@ const NewIngredientForm = (props) => {
   const {} = specificMethods;
   const {
     recordLoaded,
-    thisRecord,
     editingForm,
     valErrors,
     recordChanged,
@@ -90,7 +94,14 @@ const NewIngredientForm = (props) => {
     userType,
     hasChildren,
   } = thisStateObj;
+  const thisRecord = thisStateObj.thisRecord.genRecipeIngredient.ingredient;
   const { _id, createdAt, updatedAt, photoURL } = thisRecord;
+  if (!thisRecord.weightType) {
+    valErrors.ingredient.weightType = [];
+  }
+  if (!thisRecord.brand) {
+    valErrors.ingredient.brand = [];
+  }
   const thisRecordId = _id;
   const [nameValErrors, updateNameValErrorsStateFn] = useState(
     valErrors.ingredient.name
@@ -105,7 +116,8 @@ const NewIngredientForm = (props) => {
       valErrors.ingredient.carbs.length > 0 ||
       valErrors.ingredient.protein.length > 0 ||
       valErrors.ingredient.fat.length > 0 ||
-      valErrors.ingredient.fiber.length > 0
+      valErrors.ingredient.fiber.length > 0 ||
+      valErrors.ingredient.unitOfMeasure.length > 0
     ) {
       toggleSaveDisabledStateFn(true);
     } else {
@@ -130,6 +142,10 @@ const NewIngredientForm = (props) => {
             backEndHtmlRoot: backEndHtmlRoot,
             thisDayOfWeekCode: thisDayOfWeekCode,
             thisMealTypeCode: thisMealTypeCode,
+            arrayIndex: arrayIndex,
+            allUnitOfMeasures: allUnitOfMeasures,
+            allWeightTypes: allWeightTypes,
+            allBrands: allBrands,
           },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
@@ -186,22 +202,60 @@ const NewIngredientForm = (props) => {
           aria-labelledby={"#ingrdntAccrdnHdr" + thisRecordId}
           data-bs-parent={"#ingrdntAccrdnFull" + thisRecordId}
         >
-          <br />
-          Empty IngrdntMacrosSubForm
-          {/* <IngrdntMacrosSubForm
-            key={`ingrdntMacrosSubFormFor${typeOfRecordToChange}${thisRecordId}`}
-            thisRecordId={thisRecordId}
-            onUpdatePropFn={onUpdatePropFn}
-            // thisStateObj={thisStateObj}
-            getRndIntegerFn={getRndIntegerFn}
-          /> */}
-          <br />
-          Empty IngrdntDisabledFieldsSubForm
-          {/* <IngrdntDisabledFieldsSubForm
-            key={`IngrdntDisabledFieldsSubFormFor${typeOfRecordToChange}${thisRecordId}`}
-            thisRecordId={thisRecordId}
-            // thisStateObj={thisStateObj}
-          /> */}
+          <NewIngrdntMacrosSubForm
+            commonProps={{
+              commonData: {
+                backEndHtmlRoot: backEndHtmlRoot,
+                thisDayOfWeekCode: thisDayOfWeekCode,
+                thisMealTypeCode: thisMealTypeCode,
+                arrayIndex: arrayIndex,
+              },
+              commonMethods: {
+                getRndIntegerFn: getRndIntegerFn,
+                returnElementKey: returnElementKey,
+                onUpdatePropFn: onUpdatePropFn,
+                onSaveChangesFn: onSaveChangesFn,
+                onStartEditingFn: onStartEditingFn,
+                onCancelEditFn: onCancelEditFn,
+                onDeleteObjFn: onDeleteObjFn,
+                trimEnteredValueFn: trimEnteredValueFn,
+              },
+            }}
+            specificProps={{
+              specificData: {
+                thisStateObj: thisStateObj,
+                thisStateObjBackup: thisStateObjBackup,
+              },
+              specificMethods: {},
+            }}
+          />
+          <NewIngrdntDisabledFieldsSubForm
+            commonProps={{
+              commonData: {
+                backEndHtmlRoot: backEndHtmlRoot,
+                thisDayOfWeekCode: thisDayOfWeekCode,
+                thisMealTypeCode: thisMealTypeCode,
+                arrayIndex: arrayIndex,
+              },
+              commonMethods: {
+                getRndIntegerFn: getRndIntegerFn,
+                returnElementKey: returnElementKey,
+                onUpdatePropFn: onUpdatePropFn,
+                onSaveChangesFn: onSaveChangesFn,
+                onStartEditingFn: onStartEditingFn,
+                onCancelEditFn: onCancelEditFn,
+                onDeleteObjFn: onDeleteObjFn,
+                trimEnteredValueFn: trimEnteredValueFn,
+              },
+            }}
+            specificProps={{
+              specificData: {
+                thisStateObj: thisStateObj,
+                thisStateObjBackup: thisStateObjBackup,
+              },
+              specificMethods: {},
+            }}
+          />
         </div>
       </div>
     </form>

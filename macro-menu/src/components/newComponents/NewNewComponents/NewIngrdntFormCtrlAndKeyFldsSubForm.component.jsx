@@ -1,13 +1,22 @@
 import React, { useState } from "react";
+import newRecordTemplates from "../../../staticRefs/newRecordTemplates";
 import CustomHeading from "../CustomHeading.component";
 import NewFormControl from "./NewFormControl.component";
 import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
+import NewNewSelectSearchListWCreate from "./NewNewSelectSearchListWCreate.component";
 const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const typeOfRecordToChange = "ingredient";
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { specificData, specificMethods } = specificProps;
-  const { backEndHtmlRoot, thisDayOfWeekCode, thisMealTypeCode } = commonData;
+  const {
+    backEndHtmlRoot,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+  } = commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -24,7 +33,6 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const { updateNameValErrorsStateFn } = specificMethods;
   const {
     recordLoaded,
-    // thisRecord,
     editingForm,
     valErrors,
     recordChanged,
@@ -34,12 +42,17 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     arrayIndex,
   } = thisStateObj;
   const thisRecord = thisStateObj.thisRecord.genRecipeIngredient.ingredient;
-  const { _id, createdAt, updatedAt, name, photoURL } = thisRecord;
+  const { _id, createdAt, updatedAt, name, photoURL, unitOfMeasure } =
+    thisRecord;
+  const weightType = thisRecord.weightType
+    ? thisRecord.weightType
+    : newRecordTemplates.defaultWeightType;
+  const brand = thisRecord.brand
+    ? thisRecord.brand
+    : newRecordTemplates.defaultBrand;
   const thisRecordId = _id;
   const fieldsDisabled = editingForm.ingredient ? false : true;
   const [localName, updateNameStateFn] = useState(name);
-  //   console.log(thisStateObjBackup);
-  //   const origName = "";
   const origName = thisStateObjBackup.thisRecord
     ? thisStateObjBackup.thisRecord.genRecipeIngredient.ingredient.name
     : name;
@@ -101,59 +114,72 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
           specificMethods: {},
         }}
       />
-      Empty SlctSrchLstWCreateForUOM
-      <br />
-      {/* <SelectSearchListWCreateNew
-        key={`SlctSrchLstWCreateForUOMFor${typeOfRecordToChange}${thisRecordId}`}
-        options={allUnitOfMeasures}
-        recordToSelect={unitOfMeasure}
-        typeOfRecordToChange={typeOfRecordToChange}
-        propNameSentenceCase={"UOM"}
-        thisDayOfWeekCode={thisDayOfWeekCode}
-        thisMealTypeCode={thisMealTypeCode}
-        propToUpdate={"unitOfMeasure"}
-        propType={"reactSelect"}
-        arrayIndex={arrayIndex}
-        currentGRFUser={currentGRFUser}
-        inputClasses={"recipeSelect"}
-        formGroupClasses="form-group mealIngrdntInputs ingrdntUOM"
-        fieldDisabled={fieldsDisabled}
-        valErrors={valErrors.ingredient.unitOfMeasure}
-        validatePropFn={validatePropFn}
-        onUpdatePropFn={onUpdatePropFn}
-        onCreateNewRecordFn={handleCreateNewUOMWghtTypOrBrndFn}
-        trimEnteredValueFn={trimEnteredValueFn}
-        isRequired={true}
-        recordLoaded={recordLoaded}
-        label="UOM"
-        getRndIntegerFn={getRndIntegerFn}
-      /> */}
-      Empty SlctSrchLstWCreateForWghtType
-      <br />
-      {/* <SelectSearchListWCreateNew
-        key={`SlctSrchLstWCreateForWghtTypeFor${typeOfRecordToChange}${thisRecordId}`}
-        options={allWeightTypes}
-        recordToSelect={weightType}
-        typeOfRecordToChange={typeOfRecordToChange}
-        propNameSentenceCase={"Weight Type"}
-        thisDayOfWeekCode={thisDayOfWeekCode}
-        thisMealTypeCode={thisMealTypeCode}
-        propToUpdate={"weightType"}
-        propType={"reactSelect"}
-        arrayIndex={arrayIndex}
-        currentGRFUser={currentGRFUser}
-        inputClasses={"recipeSelect"}
-        formGroupClasses="form-group mealIngrdntInputs ingrdntWghtType"
-        fieldDisabled={fieldsDisabled}
-        valErrors={valErrors.ingredient.weightType}
-        validatePropFn={validatePropFn}
-        onUpdatePropFn={onUpdatePropFn}
-        onCreateNewRecordFn={handleCreateNewUOMWghtTypOrBrndFn}
-        trimEnteredValueFn={trimEnteredValueFn}
-        isRequired={false}
-        recordLoaded={recordLoaded}
-        getRndIntegerFn={getRndIntegerFn}
-      /> */}
+      <NewNewSelectSearchListWCreate
+        commonProps={{
+          commonData: {
+            thisDayOfWeekCode: thisDayOfWeekCode,
+            thisMealTypeCode: thisMealTypeCode,
+            arrayIndex: arrayIndex,
+          },
+          commonMethods: {
+            getRndIntegerFn: getRndIntegerFn,
+            returnElementKey: returnElementKey,
+            onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
+            onCreateNewRecordFn: onCreateNewRecordFn,
+          },
+        }}
+        specificProps={{
+          specificData: {
+            formGroupClasses: "form-group mealIngrdntInputs ingrdntUOM",
+            defaultOptions: allUnitOfMeasures,
+            valErrors: valErrors.ingredient.unitOfMeasure,
+            propToUpdate: "unitOfMeasure",
+            selectedRecord: unitOfMeasure,
+            label: "UOM",
+            excludeLabel: false,
+            fieldDisabled: fieldsDisabled,
+            isRequired: true,
+            inputClasses: "recipeSelect",
+            recordLoaded: recordLoaded,
+            typeOfRecordToChange: typeOfRecordToChange,
+          },
+          specificMethods: {},
+        }}
+      />
+      <NewNewSelectSearchListWCreate
+        commonProps={{
+          commonData: {
+            thisDayOfWeekCode: thisDayOfWeekCode,
+            thisMealTypeCode: thisMealTypeCode,
+            arrayIndex: arrayIndex,
+          },
+          commonMethods: {
+            getRndIntegerFn: getRndIntegerFn,
+            returnElementKey: returnElementKey,
+            onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
+            onCreateNewRecordFn: onCreateNewRecordFn,
+          },
+        }}
+        specificProps={{
+          specificData: {
+            formGroupClasses: "form-group mealIngrdntInputs ingrdntWghtType",
+            defaultOptions: allWeightTypes,
+            valErrors: valErrors.ingredient.weightType,
+            propToUpdate: "weightType",
+            selectedRecord: weightType,
+            label: "Weight Type",
+            excludeLabel: false,
+            fieldDisabled: fieldsDisabled,
+            isRequired: false,
+            inputClasses: "recipeSelect",
+            recordLoaded: recordLoaded,
+            typeOfRecordToChange: typeOfRecordToChange,
+          },
+          specificMethods: {},
+        }}
+      />
       <div
         className="ingrdntPicDiv"
         style={
@@ -166,62 +192,39 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
               }
         }
       ></div>
-      Empty SlctSrchLstWCreateForBrand
-      {/* <SelectSearchListWCreateNew
-        key={`SlctSrchLstWCreateForBrandFor${typeOfRecordToChange}${thisRecordId}`}
-        options={allBrands}
-        recordToSelect={brand}
-        typeOfRecordToChange={typeOfRecordToChange}
-        propNameSentenceCase={"Brand"}
-        thisDayOfWeekCode={thisDayOfWeekCode}
-        thisMealTypeCode={thisMealTypeCode}
-        propToUpdate={"brand"}
-        propType={"reactSelect"}
-        arrayIndex={arrayIndex}
-        currentGRFUser={currentGRFUser}
-        inputClasses={"recipeSelect"}
-        formGroupClasses="form-group mealIngrdntInputs ingrdntBrnd"
-        fieldDisabled={fieldsDisabled}
-        valErrors={valErrors.ingredient.brand}
-        validatePropFn={validatePropFn}
-        onUpdatePropFn={onUpdatePropFn}
-        onCreateNewRecordFn={handleCreateNewUOMWghtTypOrBrndFn}
-        trimEnteredValueFn={trimEnteredValueFn}
-        isRequired={false}
-        recordLoaded={recordLoaded}
-        getRndIntegerFn={getRndIntegerFn}
-      /> */}
-      {/* <InputWSearchUniqueNew
-        key={`inputWSrchUniqueForNameFor${typeOfRecordToChange}${thisRecordId}`}
-        formGroupClasses="form-group mealIngrdntInputs ingrdntName badge bg-primary"
-        label="Ingredient Name"
-        propType="name"
-        localPropValue={localName}
-        changeLocalPropFn={updateNameStateFn}
-        origPropValue={
-          backupOfRecordToChange ? backupOfRecordToChange.name : ""
-        }
-        typeOfRecordToChange={typeOfRecordToChange}
-        thisDayOfWeekCode={thisDayOfWeekCode}
-        thisMealTypeCode={thisMealTypeCode}
-        propToUpdate="name"
-        arrayIndex={arrayIndex}
-        selectedFrom={[]}
-        fieldDisabled={fieldsDisabled}
-        inputClasses="form-control"
-        isRequired={true}
-        backEndHtmlRoot={backEndHtmlRoot}
-        propNameSentenceCase="Name"
-        valErrors={nameValErrors}
-        changeParentPropFn={onUpdatePropFn}
-        getRndIntegerFn={getRndIntegerFn}
-        recordLoaded={recordLoaded}
-        thisRecordId={thisRecordId}
-        trimEnteredValueFn={trimEnteredValueFn}
-        excludeLabel={false}
-        validatePropFn={validatePropFn}
-        updatePropValErrorsStateFn={updateNameValErrorsStateFn}
-      /> */}
+      <NewNewSelectSearchListWCreate
+        commonProps={{
+          commonData: {
+            thisDayOfWeekCode: thisDayOfWeekCode,
+            thisMealTypeCode: thisMealTypeCode,
+            arrayIndex: arrayIndex,
+          },
+          commonMethods: {
+            getRndIntegerFn: getRndIntegerFn,
+            returnElementKey: returnElementKey,
+            onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
+            onCreateNewRecordFn: onCreateNewRecordFn,
+          },
+        }}
+        specificProps={{
+          specificData: {
+            formGroupClasses: "form-group mealIngrdntInputs ingrdntBrnd",
+            defaultOptions: allBrands,
+            valErrors: valErrors.ingredient.brand,
+            propToUpdate: "brand",
+            selectedRecord: brand,
+            label: "Brand",
+            excludeLabel: false,
+            fieldDisabled: fieldsDisabled,
+            isRequired: false,
+            inputClasses: "recipeSelect",
+            recordLoaded: recordLoaded,
+            typeOfRecordToChange: typeOfRecordToChange,
+          },
+          specificMethods: {},
+        }}
+      />
       <NewInputWSearchUniqueNew
         commonProps={{
           commonData: { backEndHtmlRoot: backEndHtmlRoot },

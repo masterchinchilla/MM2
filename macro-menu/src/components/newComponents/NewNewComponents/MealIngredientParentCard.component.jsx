@@ -7,7 +7,15 @@ const MealIngredientParentCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { specificData, specificMethods } = specificProps;
-  const { backEndHtmlRoot, thisDayOfWeekCode, thisMealTypeCode } = commonData;
+  const {
+    backEndHtmlRoot,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+  } = commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -39,7 +47,12 @@ const MealIngredientParentCard = (props) => {
       <div className="card-header mlIngrdntCrdBttmSctn">
         <MealIngredientChildForm
           commonProps={{
-            commonData: { backEndHtmlRoot: backEndHtmlRoot },
+            commonData: {
+              backEndHtmlRoot: backEndHtmlRoot,
+              thisDayOfWeekCode: thisDayOfWeekCode,
+              thisMealTypeCode: thisMealTypeCode,
+              arrayIndex: arrayIndex,
+            },
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,
               returnElementKey: returnElementKey,
@@ -61,7 +74,12 @@ const MealIngredientParentCard = (props) => {
         />
         <NewGenRecipeIngredientForm
           commonProps={{
-            commonData: { backEndHtmlRoot: backEndHtmlRoot },
+            commonData: {
+              backEndHtmlRoot: backEndHtmlRoot,
+              thisDayOfWeekCode: thisDayOfWeekCode,
+              thisMealTypeCode: thisMealTypeCode,
+              arrayIndex: arrayIndex,
+            },
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,
               returnElementKey: returnElementKey,
@@ -91,6 +109,10 @@ const MealIngredientParentCard = (props) => {
               backEndHtmlRoot: backEndHtmlRoot,
               thisDayOfWeekCode: thisDayOfWeekCode,
               thisMealTypeCode: thisMealTypeCode,
+              arrayIndex: arrayIndex,
+              allUnitOfMeasures: allUnitOfMeasures,
+              allWeightTypes: allWeightTypes,
+              allBrands: allBrands,
             },
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,

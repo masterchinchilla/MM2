@@ -8,7 +8,8 @@ import NewRecipeCard from "./NewRecipeCard.component";
 const NewMealParentCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { backEndHtmlRoot } = commonData;
+  const { backEndHtmlRoot, allUnitOfMeasures, allWeightTypes, allBrands } =
+    commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -139,7 +140,12 @@ const NewMealParentCard = (props) => {
           />
           <MealIngredientsList
             commonProps={{
-              commonData: { backEndHtmlRoot: backEndHtmlRoot },
+              commonData: {
+                backEndHtmlRoot: backEndHtmlRoot,
+                allUnitOfMeasures: allUnitOfMeasures,
+                allWeightTypes: allWeightTypes,
+                allBrands: allBrands,
+              },
               commonMethods: {
                 getRndIntegerFn: getRndIntegerFn,
                 returnElementKey: returnElementKey,

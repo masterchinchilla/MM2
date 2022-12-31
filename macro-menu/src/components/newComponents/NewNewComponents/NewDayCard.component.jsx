@@ -4,7 +4,14 @@ import NewDayMealsAndMacros from "./NewDayMealsAndMacros.component";
 const NewDayCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { daysOfWeek, mealTypes, backEndHtmlRoot } = commonData;
+  const {
+    daysOfWeek,
+    mealTypes,
+    backEndHtmlRoot,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+  } = commonData;
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
@@ -69,6 +76,9 @@ const NewDayCard = (props) => {
           commonData: {
             mealTypes: mealTypes,
             backEndHtmlRoot: backEndHtmlRoot,
+            allUnitOfMeasures: allUnitOfMeasures,
+            allWeightTypes: allWeightTypes,
+            allBrands: allBrands,
           },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,

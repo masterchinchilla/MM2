@@ -1,6 +1,7 @@
 import httpService from "./httpService";
 import config from "../config.json";
 import valSchema from"../components/universalJoiValSchemaCS";
+import rcrdOrFldNameSntncCaseAndPropTypForVal from "../staticRefs/rcrdOrFldNameSntncCaseAndPropTypForVal";
 const Joi =require("joi");
 const backEndHtmlRoot=config.backEndHtmlRoot;
 const propNamesForLookup={
@@ -19,40 +20,40 @@ const propNamesForLookup={
     weekMealPlan:"weekMealPlan",
     weightType:"weightType"
 }
-const rcrdOrFldNameSntncCaseAndPropTypForVal = {
-      GRFUser: {nameSntncCase:"Author",propTypeForVal:"objRef"},
-      weekMealPlan: {nameSntncCase:"Week Meal Plan",propTypeForVal:"objRef"},
-      day: {nameSntncCase:"Day",propTypeForVal:"objRef"},
-      meal: {nameSntncCase:"Meal",propTypeForVal:"objRef"},
-      genRecipe: {nameSntncCase:"Recipe",propTypeForVal:"objRef"},
-      mealIngredient: {nameSntncCase:"Meal Ingredient",propTypeForVal:"objRef"},
-      genRecipeIngredient: {nameSntncCase:"Recipe Ingredient",propTypeForVal:"objRef"},
-      ingredient: {nameSntncCase:"Base Ingredient",propTypeForVal:"objRef"},
-      unitOfMeasure: {nameSntncCase:"UOM",propTypeForVal:"objRef"},
-      weightType: {nameSntncCase:"Weight Type",propTypeForVal:"objRef"},
-      brand: {nameSntncCase:"Brand",propTypeForVal:"objRef"},
-      name: {nameSntncCase:"Name",propTypeForVal:"name"},
-      qty: {nameSntncCase:"Qty",propTypeForVal:"float"},
-      defaultQty: {nameSntncCase:"Default Qty",propTypeForVal:"float"},
-      photoURL: {nameSntncCase:"Photo URL",propTypeForVal:"url"},
-      dayOfWeek: {nameSntncCase:"Day of Week",propTypeForVal:"objRef"},
-      mealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef"},
-      defaultMealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef"},
-      defaultPrepInstructions: {nameSntncCase:"Prep Instructions",propTypeForVal:"textBox"},
-      calories: {nameSntncCase:"Calories",propTypeForVal:"float"},
-      calsBudget:{nameSntncCase:"Calories Budget",propTypeForVal:"float"},
-      carbs: {nameSntncCase:"Carbs",propTypeForVal:"float"},
-      carbsBudget: {nameSntncCase:"Carbs Budget",propTypeForVal:"float"},
-      protein: {nameSntncCase:"Protein",propTypeForVal:"float"},
-      proteinBudget: {nameSntncCase:"Protein Budget",propTypeForVal:"float"},
-      fat: {nameSntncCase:"Fat",propTypeForVal:"float"},
-      fatBudget: {nameSntncCase:"Fat Budget",propTypeForVal:"float"},
-      fiber: {nameSntncCase:"Fiber",propTypeForVal:"float"},
-      fiberBudget: {nameSntncCase:"Fiber Budget",propTypeForVal:"float"},
-      createdAt: {nameSntncCase:"Date Created",propTypeForVal:null},
-      updatedAt: {nameSntncCase:"Last Update",propTypeForVal:null},
-      _id:{nameSntncCase:"ID",propTypeForVal:null}
-    };
+// const rcrdOrFldNameSntncCaseAndPropTypForVal = {
+//       GRFUser: {nameSntncCase:"Author",propTypeForVal:"objRef"},
+//       weekMealPlan: {nameSntncCase:"Week Meal Plan",propTypeForVal:"objRef"},
+//       day: {nameSntncCase:"Day",propTypeForVal:"objRef"},
+//       meal: {nameSntncCase:"Meal",propTypeForVal:"objRef"},
+//       genRecipe: {nameSntncCase:"Recipe",propTypeForVal:"objRef"},
+//       mealIngredient: {nameSntncCase:"Meal Ingredient",propTypeForVal:"objRef"},
+//       genRecipeIngredient: {nameSntncCase:"Recipe Ingredient",propTypeForVal:"objRef"},
+//       ingredient: {nameSntncCase:"Base Ingredient",propTypeForVal:"objRef"},
+//       unitOfMeasure: {nameSntncCase:"UOM",propTypeForVal:"objRef"},
+//       weightType: {nameSntncCase:"Weight Type",propTypeForVal:"objRef"},
+//       brand: {nameSntncCase:"Brand",propTypeForVal:"objRef"},
+//       name: {nameSntncCase:"Name",propTypeForVal:"name"},
+//       qty: {nameSntncCase:"Qty",propTypeForVal:"float"},
+//       defaultQty: {nameSntncCase:"Default Qty",propTypeForVal:"float"},
+//       photoURL: {nameSntncCase:"Photo URL",propTypeForVal:"url"},
+//       dayOfWeek: {nameSntncCase:"Day of Week",propTypeForVal:"objRef"},
+//       mealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef"},
+//       defaultMealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef"},
+//       defaultPrepInstructions: {nameSntncCase:"Prep Instructions",propTypeForVal:"textBox"},
+//       calories: {nameSntncCase:"Calories",propTypeForVal:"float"},
+//       calsBudget:{nameSntncCase:"Calories Budget",propTypeForVal:"float"},
+//       carbs: {nameSntncCase:"Carbs",propTypeForVal:"float"},
+//       carbsBudget: {nameSntncCase:"Carbs Budget",propTypeForVal:"float"},
+//       protein: {nameSntncCase:"Protein",propTypeForVal:"float"},
+//       proteinBudget: {nameSntncCase:"Protein Budget",propTypeForVal:"float"},
+//       fat: {nameSntncCase:"Fat",propTypeForVal:"float"},
+//       fatBudget: {nameSntncCase:"Fat Budget",propTypeForVal:"float"},
+//       fiber: {nameSntncCase:"Fiber",propTypeForVal:"float"},
+//       fiberBudget: {nameSntncCase:"Fiber Budget",propTypeForVal:"float"},
+//       createdAt: {nameSntncCase:"Date Created",propTypeForVal:null},
+//       updatedAt: {nameSntncCase:"Last Update",propTypeForVal:null},
+//       _id:{nameSntncCase:"ID",propTypeForVal:null}
+//     };
 export function csValidateProp(propName, value, propTypeForVal) {
     const rule = valSchema.extract(propTypeForVal);
     const subSchema = Joi.object({ [propName]: rule });

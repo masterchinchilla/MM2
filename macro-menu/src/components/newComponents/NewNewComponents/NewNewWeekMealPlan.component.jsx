@@ -16,6 +16,7 @@ import NewWeekMealPlanCard from "./NewWeekMealPlanCard.component";
 import DaysCard from "../DaysCard.component";
 import valSchema from "../../universalJoiValSchemaCS";
 import rcrdOrFldNameSnctncCase from "../../../staticRefs/rcrdOrFldNameSnctncCase";
+import rcrdOrFldNameSntncCaseAndPropTypForVal from "../../../staticRefs/rcrdOrFldNameSntncCaseAndPropTypForVal";
 import daysOfWeek from "../../../staticRefs/daysOfWeek";
 import mealTypes from "../../../staticRefs/mealTypes";
 import * as newRecordTemplates from "../../../staticRefs/newRecordTemplates";
@@ -557,12 +558,23 @@ class NewNewWeekMealPlan extends Component {
   };
   handleUpdateMealOrChildPropFn = async (
     propToUpdate,
-    newValue,
+    updatedValue,
     typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
     arrayIndex
   ) => {
+    let newValue;
+    const propTypeForVal =
+      rcrdOrFldNameSntncCaseAndPropTypForVal[propToUpdate]["propTypeForVal"];
+    if (propTypeForVal === "float") {
+      let newValueAsNumber = JSON.parse(updatedValue);
+      let newValueAsFloat =
+        Math.round((newValueAsNumber + Number.EPSILON) * 100) / 100;
+      newValue = newValueAsFloat;
+    } else {
+      newValue = updatedValue;
+    }
     let pattern = /missing/;
     let state = this.state;
     const daysOfWeek = state.daysOfWeek;
@@ -878,6 +890,9 @@ class NewNewWeekMealPlan extends Component {
               daysOfWeek: this.state.daysOfWeek,
               mealTypes: this.state.mealTypes,
               backEndHtmlRoot: this.state.backEndHtmlRoot,
+              allUnitOfMeasures: this.state.allUnitOfMeasures,
+              allWeightTypes: this.state.allWeightTypes,
+              allBrands: this.state.allBrands,
             },
             commonMethods: {
               getRndIntegerFn: this.getRndIntegerFn,

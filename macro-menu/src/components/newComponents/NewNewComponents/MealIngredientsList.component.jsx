@@ -4,7 +4,8 @@ const MealIngredientsList = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { specificData, specificMethods } = specificProps;
-  const { backEndHtmlRoot } = commonData;
+  const { backEndHtmlRoot, allUnitOfMeasures, allWeightTypes, allBrands } =
+    commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -171,6 +172,10 @@ const MealIngredientsList = (props) => {
                   backEndHtmlRoot: backEndHtmlRoot,
                   thisDayOfWeekCode: thisDayOfWeekCode,
                   thisMealTypeCode: thisMealTypeCode,
+                  arrayIndex: index,
+                  allUnitOfMeasures: allUnitOfMeasures,
+                  allWeightTypes: allWeightTypes,
+                  allBrands: allBrands,
                 },
                 commonMethods: {
                   getRndIntegerFn: getRndIntegerFn,

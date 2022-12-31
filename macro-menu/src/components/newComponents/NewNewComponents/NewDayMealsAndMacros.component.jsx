@@ -7,7 +7,13 @@ import NewMealParentCard from "./NewMealParentCard.component";
 const NewDayMealsAndMacros = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { mealTypes, backEndHtmlRoot } = commonData;
+  const {
+    mealTypes,
+    backEndHtmlRoot,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+  } = commonData;
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
@@ -134,7 +140,12 @@ const NewDayMealsAndMacros = (props) => {
       return (
         <NewMealParentCard
           commonProps={{
-            commonData: { backEndHtmlRoot: backEndHtmlRoot },
+            commonData: {
+              backEndHtmlRoot: backEndHtmlRoot,
+              allUnitOfMeasures: allUnitOfMeasures,
+              allWeightTypes: allWeightTypes,
+              allBrands: allBrands,
+            },
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,
               onUpdatePropFn: onUpdatePropFn,
