@@ -87,7 +87,6 @@ const MealIngredientParentCard = (props) => {
               onSaveChangesFn: onSaveChangesFn,
               onStartEditingFn: onStartEditingFn,
               onCancelEditFn: onCancelEditFn,
-              onDeleteObjFn: onDeleteObjFn,
               trimEnteredValueFn: trimEnteredValueFn,
               onCreateNewRecordFn: onCreateNewRecordFn,
             },
@@ -121,7 +120,6 @@ const MealIngredientParentCard = (props) => {
               onSaveChangesFn: onSaveChangesFn,
               onStartEditingFn: onStartEditingFn,
               onCancelEditFn: onCancelEditFn,
-              onDeleteObjFn: onDeleteObjFn,
               trimEnteredValueFn: trimEnteredValueFn,
             },
           }}

@@ -11,10 +11,6 @@ const NewIngrdntMacrosSubForm = (props) => {
     getRndIntegerFn,
     returnElementKey,
     onUpdatePropFn,
-    onSaveChangesFn,
-    onStartEditingFn,
-    onCancelEditFn,
-    onDeleteObjFn,
     trimEnteredValueFn,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup } = specificData;

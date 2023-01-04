@@ -24,7 +24,6 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     onSaveChangesFn,
     onStartEditingFn,
     onCancelEditFn,
-    onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
   } = commonMethods;
@@ -96,7 +95,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             onStartEditingFn: onStartEditingFn,
             onCancelEditFn: handleCancelEditFn,
             onSaveChangesFn: onSaveChangesFn,
-            onDeleteObjFn: onDeleteObjFn,
+            onDeleteObjFn: () => {},
             onCopyWMPFn: () => {},
           },
         }}

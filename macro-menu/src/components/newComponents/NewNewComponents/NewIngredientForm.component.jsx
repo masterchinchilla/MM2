@@ -154,7 +154,6 @@ const NewIngredientForm = (props) => {
             onSaveChangesFn: onSaveChangesFn,
             onStartEditingFn: onStartEditingFn,
             onCancelEditFn: handleCancelEditFn,
-            onDeleteObjFn: onDeleteObjFn,
             trimEnteredValueFn: trimEnteredValueFn,
             onCreateNewRecordFn: onCreateNewRecordFn,
           },
@@ -214,10 +213,6 @@ const NewIngredientForm = (props) => {
                 getRndIntegerFn: getRndIntegerFn,
                 returnElementKey: returnElementKey,
                 onUpdatePropFn: onUpdatePropFn,
-                onSaveChangesFn: onSaveChangesFn,
-                onStartEditingFn: onStartEditingFn,
-                onCancelEditFn: onCancelEditFn,
-                onDeleteObjFn: onDeleteObjFn,
                 trimEnteredValueFn: trimEnteredValueFn,
               },
             }}
@@ -244,7 +239,6 @@ const NewIngredientForm = (props) => {
                 onSaveChangesFn: onSaveChangesFn,
                 onStartEditingFn: onStartEditingFn,
                 onCancelEditFn: onCancelEditFn,
-                onDeleteObjFn: onDeleteObjFn,
                 trimEnteredValueFn: trimEnteredValueFn,
               },
             }}

@@ -3,6 +3,7 @@ import Joi from "joi";
 import _ from "lodash";
 import httpService from "../../../services/httpService";
 import authService from "../../../services/authService";
+import { useHistory } from "react-router-dom";
 import {
   csValidateProp,
   csValidate,
@@ -19,10 +20,11 @@ import rcrdOrFldNameSnctncCase from "../../../staticRefs/rcrdOrFldNameSnctncCase
 import rcrdOrFldNameSntncCaseAndPropTypForVal from "../../../staticRefs/rcrdOrFldNameSntncCaseAndPropTypForVal";
 import daysOfWeek from "../../../staticRefs/daysOfWeek";
 import mealTypes from "../../../staticRefs/mealTypes";
-import * as newRecordTemplates from "../../../staticRefs/newRecordTemplates";
+import newRecordTemplates from "../../../staticRefs/newRecordTemplates";
 import NewCreateDayButton from "./NewCreateDayButton.component";
 import NewDayCard from "./NewDayCard.component";
 import CustomHeading from "../CustomHeading.component";
+console.log(newRecordTemplates);
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -206,10 +208,15 @@ class NewNewWeekMealPlan extends Component {
       //   recordTypesArray[i],
       //   true
       // );
+      let hasChildrenBoolValue =
+        recordTypesArray[i] === "genRecipeIngredient" ||
+        recordTypesArray[i] === "ingredient"
+          ? true
+          : false;
       thisStateObj.hasChildren = this.updateStateObjMetaKeyValue(
         thisStateObj.hasChildren,
         recordTypesArray[i],
-        true
+        hasChildrenBoolValue
       );
     }
     return thisStateObj;
@@ -522,6 +529,7 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   componentDidMount() {
+    console.log(this.props.history);
     const currentGRFUser = authService.getCurrentUser();
     this.setState({ currentGRFUser: currentGRFUser });
     this.getThisWMPFn();
@@ -626,11 +634,27 @@ class NewNewWeekMealPlan extends Component {
       newMealIngrdntsArray.push(newMealIngrdntRecord);
       console.log(newMealIngrdntsArray);
     }
+    let recordTypesArray = [
+      "mealIngredient",
+      "genRecipeIngredient",
+      "ingredient",
+    ];
     let newStateObjsArray = this.assembleStateObjWNewRcrd(
       newMealIngrdntsArray,
       "mealIngredient",
-      ["mealIngredient", "genRecipeIngredient", "ingredient"]
+      recordTypesArray
     );
+    for (let i = 0; i < newStateObjsArray.length; i++) {
+      let thisMealIngrdntStateObj = newStateObjsArray[i];
+      for (let i = 0; i < recordTypesArray.length; i++) {
+        thisMealIngrdntStateObj.userType = this.updateStateObjMetaKeyValue(
+          thisMealIngrdntStateObj.userType,
+          recordTypesArray[i],
+          "viewer"
+        );
+      }
+      newStateObjsArray[i] = thisMealIngrdntStateObj;
+    }
     console.log(newStateObjsArray);
     thisMealStateObj.thisMealsIngrdnts = newStateObjsArray;
     console.log(thisMealStateObj);
@@ -864,7 +888,7 @@ class NewNewWeekMealPlan extends Component {
       console.log(thisMealStateObj);
     }
     if (typeOfRecordToChange === "meal" && propToUpdate === "genRecipe") {
-      let thisMealStateObj = await this.populateMissingMealIngrdnts(
+      thisMealStateObj = await this.populateMissingMealIngrdnts(
         thisMealStateObj
       );
       thisMealStateObj.userChangedThisMealsRecipe = true;
@@ -997,8 +1021,204 @@ class NewNewWeekMealPlan extends Component {
     }
     this.setState(state);
   };
-  handleDeleteObjFn = () => {
-    console.log("delete obj");
+  handleSaveUpdateToRecord = async (
+    typeOfRecordToUpdate,
+    updatedRecordFromState
+  ) => {
+    const url = `${this.state.backEndHtmlRoot}${typeOfRecordToUpdate}s/add`;
+    let saveOk;
+    try {
+      const reqRes = await httpService.post(url, updatedRecordFromState);
+      saveOk = true;
+      this.notifyFn("Record updated successfully", "success");
+    } catch (errs) {
+      // valErrorsNestedArray shape:
+      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      let valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+      saveOk = false;
+    }
+    return saveOk;
+  };
+  handleDeleteRecordFn = async (typeOfRecordToDelete, idOfRecordToDelete) => {
+    const url = `${this.state.backEndHtmlRoot}${typeOfRecordToDelete}s/${idOfRecordToDelete}`;
+    let deleteOk;
+    try {
+      console.log("attempting deletion in DB");
+      const reqRes = await httpService.delete(url, idOfRecordToDelete);
+      deleteOk = true;
+      this.notifyFn("Record deleted successfully", "success");
+    } catch (errs) {
+      //valErrorsNestedArray shape:
+      //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      let valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+      deleteOk = false;
+    }
+    return deleteOk;
+  };
+  handleExitFormEdit = (state) => {
+    let pattern = /missing/;
+    let thisWMPStateObj = state.thisWMPStateObj;
+    let thisWMPStateBackup = state.thisWMPStateBackup;
+    thisWMPStateObj.editingForm.weekMealPlan = false;
+    thisWMPStateObj.userType.weekMealPlan =
+      thisWMPStateBackup.userType.weekMealPlan;
+    state.thisWMPStateObj = thisWMPStateObj;
+    state.thisWMPStateBackup = {};
+    let daysOfWeek = state.daysOfWeek;
+    for (let i = 0; i < daysOfWeek.length; i++) {
+      let thisDayOfWeekCode = daysOfWeek[i].code;
+      let thisDayStateObj = state[thisDayOfWeekCode];
+      console.log(thisDayStateObj);
+      let thisDayRecordId = thisDayStateObj.thisRecord._id;
+      let testResult = pattern.test(thisDayRecordId);
+      if (!testResult) {
+        let thisDayStateObjBackup = state[`${thisDayOfWeekCode}Backup`];
+        thisDayStateObj.editingForm.day = false;
+        thisDayStateObj.userType.day = thisDayStateObjBackup.userType.day;
+        let mealTypes = state.mealTypes;
+        for (let i = 0; i < mealTypes.length; i++) {
+          let thisMealTypeCode = mealTypes[i].code;
+          let thisMealStateObj = thisDayStateObj[thisMealTypeCode];
+          console.log(thisMealStateObj);
+          let thisMealRecordId = thisMealStateObj.thisRecord._id;
+          let testResult = pattern.test(thisMealRecordId);
+          if (!testResult) {
+            let thisMealStateObjBackup =
+              thisDayStateObjBackup[thisMealTypeCode];
+            thisMealStateObj.editingForm = { meal: false, genRecipe: false };
+            let thisMealUserType = thisMealStateObjBackup.userType.meal;
+            let thisGenRecipeUserType =
+              thisMealStateObjBackup.userType.genRecipe;
+            thisMealStateObj.userType = {
+              meal: thisMealUserType,
+              genRecipe: thisGenRecipeUserType,
+            };
+            let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+            for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+              let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+              let thisMealIngrdntStateObjBackup =
+                thisMealStateObjBackup.thisMealsIngrdnts[i];
+              thisMealIngrdntStateObj.editingForm = {
+                mealIngredient: false,
+                genRecipeIngredient: false,
+                ingredient: false,
+              };
+              let thisMealIngrdntUserType =
+                thisMealIngrdntStateObjBackup.userType.mealIngredient;
+              let thisGenRecipeIngrdntUserType =
+                thisMealIngrdntStateObjBackup.userType.genRecipeIngredient;
+              let thisIngrdntUserType =
+                thisMealIngrdntStateObjBackup.userType.ingredient;
+              thisMealIngrdntStateObj.userType = {
+                mealIngredient: thisMealIngrdntUserType,
+                genRecipeIngredient: thisGenRecipeIngrdntUserType,
+                ingredient: thisIngrdntUserType,
+              };
+              thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+            }
+            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+          }
+          thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
+        }
+      }
+      state[thisDayOfWeekCode] = thisDayStateObj;
+      state[`${thisDayOfWeekCode}Backup`] = {};
+    }
+    return state;
+  };
+  handleDeleteObjFn = async (
+    typeOfRecordToDelete,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex
+  ) => {
+    let state = this.state;
+    let thisDayOfWeek = thisDayOfWeekCode
+      ? state.daysOfWeek.filter(
+          (dayOfWeek) => dayOfWeek.code === thisDayOfWeekCode
+        )
+      : null;
+    let thisMealType = thisMealTypeCode
+      ? state.mealTypes.filter((mealType) => mealType.code === thisMealTypeCode)
+      : null;
+    let thisDayStateObj = thisDayOfWeekCode ? state[thisDayOfWeekCode] : null;
+    let thisMealStateObj = thisMealTypeCode
+      ? thisDayStateObj[thisMealTypeCode]
+      : null;
+    let thisMealsIngrdnts = arrayIndex
+      ? thisMealStateObj.thisMealsIngrdnts
+      : null;
+    let thisMealIngrdntStateObj = arrayIndex
+      ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
+      : null;
+    let idOfRecordToDelete;
+    let rplcmntPlchldrStateObj;
+    let rplcmentPlchldrRcrd;
+    switch (typeOfRecordToDelete) {
+      case "day":
+        idOfRecordToDelete = thisDayStateObj.thisRecord._id;
+        rplcmentPlchldrRcrd = {
+          name: "",
+          dayOfWeek: thisDayOfWeek,
+          weekMealPlan: state.thisWMPStateObj.thisRecord,
+        };
+        break;
+      case "meal":
+        idOfRecordToDelete = thisMealStateObj.thisRecord._id;
+        rplcmentPlchldrRcrd = {
+          mealType: thisMealType,
+          day: thisDayStateObj.thisRecord,
+        };
+        break;
+      default:
+        idOfRecordToDelete = thisMealIngrdntStateObj.thisRecord._id;
+    }
+    console.log(idOfRecordToDelete);
+    let deleteOk = await this.handleDeleteRecordFn(
+      typeOfRecordToDelete,
+      idOfRecordToDelete
+    );
+    if (!deleteOk) {
+      return;
+    } else {
+      if (typeOfRecordToDelete === "day" || typeOfRecordToDelete === "meal") {
+        rplcmentPlchldrRcrd._id = `missing${this.getRndIntegerFn(
+          10000000,
+          99999999
+        )}`;
+        let recordTypesForStateObj =
+          typeOfRecordToDelete === "meal"
+            ? ["meal", "genRecipe"]
+            : [typeOfRecordToDelete];
+        rplcmntPlchldrStateObj = this.assembleStateObjWNewRcrd(
+          [rplcmentPlchldrRcrd],
+          typeOfRecordToDelete,
+          recordTypesForStateObj
+        );
+      }
+      switch (typeOfRecordToDelete) {
+        case "day":
+          state[thisDayOfWeekCode] = rplcmntPlchldrStateObj;
+          break;
+        case "meal":
+          thisDayStateObj[thisMealTypeCode] = rplcmntPlchldrStateObj;
+          state[thisDayOfWeekCode] = thisDayStateObj;
+          break;
+        default:
+          console.log(thisMealsIngrdnts);
+          let filteredMealIngrdnts = thisMealsIngrdnts.filter(
+            (mealIngrdnt) => mealIngrdnt.thisRecord._id !== idOfRecordToDelete
+          );
+          console.log(filteredMealIngrdnts);
+          thisMealStateObj.thisMealsIngrdnts = filteredMealIngrdnts;
+          thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
+          state[thisDayOfWeekCode] = thisDayStateObj;
+      }
+      state = this.handleExitFormEdit(state);
+      this.setState(state);
+    }
   };
   handleTrimEnteredValueFn = (untrimmedValue) => {
     let trimmedValue = untrimmedValue.trim();

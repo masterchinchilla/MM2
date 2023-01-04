@@ -66,7 +66,12 @@ const NewFormControl = (props) => {
         }
         break;
       case "delete":
-        if (!editingForm) {
+        if (
+          !editingForm ||
+          typeOfRecordToChange === "ingredient" ||
+          typeOfRecordToChange === "genRecipeIngredient" ||
+          typeOfRecordToChange === "genRecipe"
+        ) {
           iconHidden = true;
         } else {
           iconHidden = false;

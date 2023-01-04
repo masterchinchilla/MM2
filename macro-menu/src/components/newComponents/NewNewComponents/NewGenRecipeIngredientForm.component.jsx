@@ -102,7 +102,7 @@ const NewGenRecipeIngredientForm = (props) => {
               onStartEditingFn: onStartEditingFn,
               onCancelEditFn: onCancelEditFn,
               onSaveChangesFn: onSaveChangesFn,
-              onDeleteObjFn: onDeleteObjFn,
+              onDeleteObjFn: () => {},
               onCopyWMPFn: () => {},
             },
           }}

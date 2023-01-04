@@ -126,7 +126,6 @@ const NewMealParentCard = (props) => {
                 onSaveChangesFn: onSaveChangesFn,
                 onStartEditingFn: onStartEditingFn,
                 onCancelEditFn: onCancelEditFn,
-                onDeleteObjFn: onDeleteObjFn,
                 trimEnteredValueFn: trimEnteredValueFn,
               },
             }}

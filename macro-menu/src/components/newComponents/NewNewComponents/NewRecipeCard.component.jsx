@@ -18,7 +18,6 @@ const NewRecipeCard = (props) => {
     onSaveChangesFn,
     onStartEditingFn,
     onCancelEditFn,
-    onDeleteObjFn,
     trimEnteredValueFn,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup } = specificData;
@@ -126,7 +125,7 @@ const NewRecipeCard = (props) => {
                 onStartEditingFn: onStartEditingFn,
                 onCancelEditFn: handleCancelEditFn,
                 onSaveChangesFn: handleSaveChangesFn,
-                onDeleteObjFn: onDeleteObjFn,
+                onDeleteObjFn: () => {},
                 onCopyWMPFn: () => {},
               },
             }}
