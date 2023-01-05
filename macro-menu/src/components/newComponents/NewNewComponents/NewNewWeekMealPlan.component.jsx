@@ -24,7 +24,6 @@ import newRecordTemplates from "../../../staticRefs/newRecordTemplates";
 import NewCreateDayButton from "./NewCreateDayButton.component";
 import NewDayCard from "./NewDayCard.component";
 import CustomHeading from "../CustomHeading.component";
-console.log(newRecordTemplates);
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +34,7 @@ class NewNewWeekMealPlan extends Component {
       rcrdOrFldNameSnctncCase: rcrdOrFldNameSnctncCase,
       daysOfWeek: daysOfWeek,
       mealTypes: mealTypes,
-      newRecordTemplates: newRecordTemplates.default,
+      newRecordTemplates: newRecordTemplates,
       typeOfRecordToChange: "weekMealPlan",
       pgReqParams: pgReqParams,
       backEndHtmlRoot: backEndHtmlRoot,
@@ -89,7 +88,6 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   setAllKeysToSameValue = (keysSourceObj, objToUpdate, keyValue) => {
-    console.log(keysSourceObj, objToUpdate, keyValue);
     const objKeys = Object.keys(keysSourceObj);
     for (let i = 0; i < objKeys.length; i++) {
       objToUpdate[objKeys[i]] = keyValue;
@@ -292,18 +290,12 @@ class NewNewWeekMealPlan extends Component {
     typeOfRecord,
     recordTypesForStateObj
   ) => {
-    console.log(recordsArray, typeOfRecord, recordTypesForStateObj);
     let stateObjsArray = [];
     for (let i = 0; i < recordsArray.length; i++) {
       let stateObjWUpdatedRecord = this.replaceThisRecordInStateObj(
         {},
         recordsArray[i],
         typeOfRecord
-      );
-      console.log(
-        stateObjWUpdatedRecord,
-        recordTypesForStateObj,
-        recordsArray[i]
       );
       stateObjWUpdatedRecord = this.buildInitialStateObj(
         stateObjWUpdatedRecord,
@@ -366,14 +358,11 @@ class NewNewWeekMealPlan extends Component {
   };
   updateMealWGenRcpsGenRcpIngrdnts = async (thisMealStateObjToUpdate) => {
     let thisMealGenRecipeId = thisMealStateObjToUpdate.thisRecord.genRecipe._id;
-    console.log(thisMealGenRecipeId);
     let thisGenRcpsGenRcpIngrdnts = await this.getThisGenRcpsGenRcpIngrdnts(
       thisMealGenRecipeId
     );
-    console.log(thisGenRcpsGenRcpIngrdnts);
     thisMealStateObjToUpdate.thisGenRcpsGenRcpIngrdnts =
       thisGenRcpsGenRcpIngrdnts;
-    console.log(thisMealStateObjToUpdate);
     thisMealStateObjToUpdate.hasChildren.genRecipe =
       thisGenRcpsGenRcpIngrdnts.length > 0 ? true : false;
     return thisMealStateObjToUpdate;
@@ -529,7 +518,6 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   componentDidMount() {
-    console.log(this.props.history);
     const currentGRFUser = authService.getCurrentUser();
     this.setState({ currentGRFUser: currentGRFUser });
     this.getThisWMPFn();
@@ -595,31 +583,24 @@ class NewNewWeekMealPlan extends Component {
     }ForDay${thisDayOfWeekCode ? thisDayOfWeekCode : "Null"}ForThisWMP`;
   };
   populateMissingMealIngrdnts = async (thisMealStateObj) => {
-    console.log(thisMealStateObj);
     let thisMealWUpdtdGenRcpIngrdnts =
       await this.updateMealWGenRcpsGenRcpIngrdnts(thisMealStateObj);
-    console.log(thisMealStateObj);
-    console.log(thisMealWUpdtdGenRcpIngrdnts);
     const thisMealsGenRcpIngrdnts =
       thisMealWUpdtdGenRcpIngrdnts.thisGenRcpsGenRcpIngrdnts;
     const thisMealsExistingIngrdnts =
       thisMealWUpdtdGenRcpIngrdnts.thisMealsIngrdnts;
-    console.log(thisMealsExistingIngrdnts);
     let newMealIngrdntsArray = [];
     for (let i = 0; i < thisMealsGenRcpIngrdnts.length; i++) {
       let thisGenRcpIngrdnt = thisMealsGenRcpIngrdnts[i];
-      console.log(thisGenRcpIngrdnt);
       let oldMealIngrdntMatchingGenRcpIngrdnt =
         thisMealsExistingIngrdnts.filter(
           (mealIngrdnt) =>
             mealIngrdnt.thisRecord.genRecipeIngredient._id ===
             thisGenRcpIngrdnt._id
         );
-      console.log(oldMealIngrdntMatchingGenRcpIngrdnt);
       let newMealIngrdntRecord;
       if (oldMealIngrdntMatchingGenRcpIngrdnt.length > 0) {
         newMealIngrdntRecord = oldMealIngrdntMatchingGenRcpIngrdnt[0];
-        console.log(newMealIngrdntRecord);
       } else {
         newMealIngrdntRecord = {
           _id: `new${this.getRndIntegerFn(10000000, 99999999)}`,
@@ -629,10 +610,8 @@ class NewNewWeekMealPlan extends Component {
           createdAt: "",
           updatedAt: "",
         };
-        console.log(newMealIngrdntRecord);
       }
       newMealIngrdntsArray.push(newMealIngrdntRecord);
-      console.log(newMealIngrdntsArray);
     }
     let recordTypesArray = [
       "mealIngredient",
@@ -655,9 +634,7 @@ class NewNewWeekMealPlan extends Component {
       }
       newStateObjsArray[i] = thisMealIngrdntStateObj;
     }
-    console.log(newStateObjsArray);
     thisMealStateObj.thisMealsIngrdnts = newStateObjsArray;
-    console.log(thisMealStateObj);
     return thisMealStateObj;
   };
   handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
@@ -685,7 +662,6 @@ class NewNewWeekMealPlan extends Component {
     thisMealTypeCode
   ) => {
     let thisMealsIngrdntStateObjsArray = mealStateObj.thisMealsIngrdnts;
-    console.log(mealStateObj);
     for (let i = 0; i < thisMealsIngrdntStateObjsArray.length; i++) {
       let thisMealIngrdntStateObj = thisMealsIngrdntStateObjsArray[i];
       let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
@@ -711,9 +687,7 @@ class NewNewWeekMealPlan extends Component {
     thisDayOfWeekCode,
     thisMealTypeCode
   ) => {
-    console.log(mealStateObj, thisDayOfWeekCode, thisMealTypeCode);
     mealStateObj = await this.populateMissingMealIngrdnts(mealStateObj);
-    console.log(mealStateObj);
     this.handleSaveNewMealIngrdntsToDB(
       mealStateObj,
       thisDayOfWeekCode,
@@ -728,14 +702,6 @@ class NewNewWeekMealPlan extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
-    console.log(
-      propToUpdate,
-      updatedValue,
-      typeOfRecordToChange,
-      thisDayOfWeekCode,
-      thisMealTypeCode,
-      arrayIndex
-    );
     let newValue;
     const propTypeForVal =
       rcrdOrFldNameSntncCaseAndPropTypForVal[propToUpdate]["propTypeForVal"];
@@ -766,7 +732,6 @@ class NewNewWeekMealPlan extends Component {
       case "meal":
         stateObjToUpdate = thisMealStateObj;
         updatedRecord = stateObjToUpdate.thisRecord;
-        console.log(updatedRecord);
         break;
       case "genRecipe":
         stateObjToUpdate = thisMealStateObj;
@@ -789,7 +754,6 @@ class NewNewWeekMealPlan extends Component {
         }
     }
     updatedRecord[propToUpdate] = newValue;
-    console.log(updatedRecord);
     if (
       typeOfRecordToChange === "meal" ||
       typeOfRecordToChange === "mealIngredient"
@@ -855,7 +819,6 @@ class NewNewWeekMealPlan extends Component {
     switch (typeOfRecordToChange) {
       case "meal":
         stateObjToUpdate.thisRecord = updatedRecord;
-        console.log(stateObjToUpdate);
         break;
       case "mealIngredient":
         stateObjToUpdate.thisRecord = updatedRecord;
@@ -885,7 +848,6 @@ class NewNewWeekMealPlan extends Component {
       thisMealStateObj.thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
     } else {
       thisMealStateObj = stateObjToUpdate;
-      console.log(thisMealStateObj);
     }
     if (typeOfRecordToChange === "meal" && propToUpdate === "genRecipe") {
       thisMealStateObj = await this.populateMissingMealIngrdnts(
@@ -1044,7 +1006,6 @@ class NewNewWeekMealPlan extends Component {
     const url = `${this.state.backEndHtmlRoot}${typeOfRecordToDelete}s/${idOfRecordToDelete}`;
     let deleteOk;
     try {
-      console.log("attempting deletion in DB");
       const reqRes = await httpService.delete(url, idOfRecordToDelete);
       deleteOk = true;
       this.notifyFn("Record deleted successfully", "success");
@@ -1068,9 +1029,9 @@ class NewNewWeekMealPlan extends Component {
     state.thisWMPStateBackup = {};
     let daysOfWeek = state.daysOfWeek;
     for (let i = 0; i < daysOfWeek.length; i++) {
-      let thisDayOfWeekCode = daysOfWeek[i].code;
+      let thisDayOfWeek = daysOfWeek[i];
+      let thisDayOfWeekCode = thisDayOfWeek.code;
       let thisDayStateObj = state[thisDayOfWeekCode];
-      console.log(thisDayStateObj);
       let thisDayRecordId = thisDayStateObj.thisRecord._id;
       let testResult = pattern.test(thisDayRecordId);
       if (!testResult) {
@@ -1079,9 +1040,9 @@ class NewNewWeekMealPlan extends Component {
         thisDayStateObj.userType.day = thisDayStateObjBackup.userType.day;
         let mealTypes = state.mealTypes;
         for (let i = 0; i < mealTypes.length; i++) {
-          let thisMealTypeCode = mealTypes[i].code;
+          let thisMealType = mealTypes[i];
+          let thisMealTypeCode = thisMealType.code;
           let thisMealStateObj = thisDayStateObj[thisMealTypeCode];
-          console.log(thisMealStateObj);
           let thisMealRecordId = thisMealStateObj.thisRecord._id;
           let testResult = pattern.test(thisMealRecordId);
           if (!testResult) {
@@ -1135,14 +1096,24 @@ class NewNewWeekMealPlan extends Component {
     arrayIndex
   ) => {
     let state = this.state;
-    let thisDayOfWeek = thisDayOfWeekCode
-      ? state.daysOfWeek.filter(
-          (dayOfWeek) => dayOfWeek.code === thisDayOfWeekCode
-        )
-      : null;
-    let thisMealType = thisMealTypeCode
-      ? state.mealTypes.filter((mealType) => mealType.code === thisMealTypeCode)
-      : null;
+    let thisDayOfWeek;
+    if (thisDayOfWeekCode) {
+      let matchingDaysOfWeek = state.daysOfWeek.filter(
+        (dayOfWeek) => dayOfWeek.code === thisDayOfWeekCode
+      );
+      thisDayOfWeek = matchingDaysOfWeek[0];
+    } else {
+      thisDayOfWeek = null;
+    }
+    let thisMealType;
+    if (thisMealTypeCode) {
+      let matchingMealTypes = state.mealTypes.filter(
+        (mealType) => mealType.code === thisMealTypeCode
+      );
+      thisMealType = matchingMealTypes[0];
+    } else {
+      thisMealType = null;
+    }
     let thisDayStateObj = thisDayOfWeekCode ? state[thisDayOfWeekCode] : null;
     let thisMealStateObj = thisMealTypeCode
       ? thisDayStateObj[thisMealTypeCode]
@@ -1154,7 +1125,7 @@ class NewNewWeekMealPlan extends Component {
       ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
       : null;
     let idOfRecordToDelete;
-    let rplcmntPlchldrStateObj;
+    let rplcmntPlchldrStateObj = {};
     let rplcmentPlchldrRcrd;
     switch (typeOfRecordToDelete) {
       case "day":
@@ -1170,12 +1141,15 @@ class NewNewWeekMealPlan extends Component {
         rplcmentPlchldrRcrd = {
           mealType: thisMealType,
           day: thisDayStateObj.thisRecord,
+          genRecipe:
+            state.newRecordTemplates.defaultGenRecipesByMealType[
+              thisMealTypeCode
+            ],
         };
         break;
       default:
         idOfRecordToDelete = thisMealIngrdntStateObj.thisRecord._id;
     }
-    console.log(idOfRecordToDelete);
     let deleteOk = await this.handleDeleteRecordFn(
       typeOfRecordToDelete,
       idOfRecordToDelete
@@ -1192,10 +1166,11 @@ class NewNewWeekMealPlan extends Component {
           typeOfRecordToDelete === "meal"
             ? ["meal", "genRecipe"]
             : [typeOfRecordToDelete];
-        rplcmntPlchldrStateObj = this.assembleStateObjWNewRcrd(
-          [rplcmentPlchldrRcrd],
-          typeOfRecordToDelete,
-          recordTypesForStateObj
+        rplcmntPlchldrStateObj.thisRecord = rplcmentPlchldrRcrd;
+        rplcmntPlchldrStateObj = this.buildInitialStateObj(
+          rplcmntPlchldrStateObj,
+          recordTypesForStateObj,
+          rplcmentPlchldrRcrd
         );
       }
       switch (typeOfRecordToDelete) {
@@ -1207,11 +1182,9 @@ class NewNewWeekMealPlan extends Component {
           state[thisDayOfWeekCode] = thisDayStateObj;
           break;
         default:
-          console.log(thisMealsIngrdnts);
           let filteredMealIngrdnts = thisMealsIngrdnts.filter(
             (mealIngrdnt) => mealIngrdnt.thisRecord._id !== idOfRecordToDelete
           );
-          console.log(filteredMealIngrdnts);
           thisMealStateObj.thisMealsIngrdnts = filteredMealIngrdnts;
           thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
           state[thisDayOfWeekCode] = thisDayStateObj;
