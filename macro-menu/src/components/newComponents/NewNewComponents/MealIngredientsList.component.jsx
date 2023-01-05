@@ -24,9 +24,10 @@ const MealIngredientsList = (props) => {
     thisMealsIngrdnts,
     thisGenRcpsGenRcpIngrdnts,
     recordLoaded,
+    editingForm,
   } = mealStateObj;
   const userCanEditRecipe =
-    userType.meal === "author" || userType.meal === "admin";
+    userType.genRecipe === "author" || userType.genRecipe === "admin";
   const allowPopulateIngrdnts =
     thisMealsIngrdnts.length < thisGenRcpsGenRcpIngrdnts.length;
   const thisMealRecord = mealStateObj.thisRecord;
@@ -35,7 +36,6 @@ const MealIngredientsList = (props) => {
   const thisMealTypeCode = mealType.code;
   const thisDayOfWeekCode = dayOfWeek.code;
   function handleCreateMealIngrdntFn() {}
-  function populateMealIngrdntsFn() {}
   function renderMealIngrdntsFn() {
     if (recordLoaded) {
       if (thisMealsIngrdnts.length > 0) {
@@ -49,48 +49,7 @@ const MealIngredientsList = (props) => {
                   createdAt: "",
                   updatedAt: "",
                   meal: thisMealRecord,
-                  genRecipeIngredient: {
-                    // _id: getRndIntegerFn(10000000, 99999999),
-                    // createdAt: "",
-                    // updatedAt: "",
-                    // defaultQty: 0.0,
-                    // genRecipe: genRecipe,
-                    // ingredient: {
-                    //   name: "",
-                    //   _id: getRndIntegerFn(10000000, 99999999),
-                    //   createdAt: "",
-                    //   updatedAt: "",
-                    //   calories: 0.0,
-                    //   carbs: 0.0,
-                    //   protein: 0.0,
-                    //   fat: 0.0,
-                    //   fiber: 0.0,
-                    //   unitOfMeasure: {
-                    //     name: "",
-                    //     _id: getRndIntegerFn(10000000, 99999999),
-                    //     createdAt: "",
-                    //     updatedAt: "",
-                    //     GRFUser: weekMealPlan.GRFUser,
-                    //   },
-                    //   weightType: {
-                    //     name: "",
-                    //     _id: getRndIntegerFn(10000000, 99999999),
-                    //     createdAt: "",
-                    //     updatedAt: "",
-                    //     GRFUser: weekMealPlan.GRFUser,
-                    //   },
-                    //   photoURL: "",
-                    //   GRFUser: weekMealPlan.GRFUser,
-                    //   brand: {
-                    //     name: "",
-                    //     _id: getRndIntegerFn(10000000, 99999999),
-                    //     createdAt: "",
-                    //     updatedAt: "",
-                    //     GRFUser: weekMealPlan.GRFUser,
-                    //   },
-                    // },
-                  },
-                  // qty: 0.0,
+                  genRecipeIngredient: {},
                 },
                 editingForm: {
                   mealIngredient: false,
@@ -98,38 +57,9 @@ const MealIngredientsList = (props) => {
                   ingredient: false,
                 },
                 valErrors: {
-                  mealIngredient: {
-                    // _id: [],
-                    // createdAt: [],
-                    // updatedAt: [],
-                    // meal: [],
-                    // qty: [],
-                    // genRecipeIngredient: [],
-                  },
-                  genRecipeIngredient: {
-                    // _id: [],
-                    // createdAt: [],
-                    // updatedAt: [],
-                    // defaultQty: [],
-                    // ingredient: [],
-                    // genRecipe: [],
-                  },
-                  ingredient: {
-                    // _id: [],
-                    // createdAt: [],
-                    // updatedAt: [],
-                    // name: [],
-                    // calories: [],
-                    // carbs: [],
-                    // protein: [],
-                    // fat: [],
-                    // fiber: [],
-                    // unitOfMeasure: [],
-                    // weightType: [],
-                    // photoURL: [],
-                    // GRFUser: [],
-                    // brand: [],
-                  },
+                  mealIngredient: {},
+                  genRecipeIngredient: {},
+                  ingredient: {},
                 },
                 recordChanged: {
                   mealIngredient: false,
@@ -210,20 +140,6 @@ const MealIngredientsList = (props) => {
           );
         } else {
           if (thisGenRcpsGenRcpIngrdnts.length < 1) {
-            //   return (
-            //     <div className="form-group mb-3">
-            //       <button
-            //         type="submit"
-            //         className="btn btn-primary"
-            //         onClick={() => {
-            //           populateMealIngrdntsFn();
-            //         }}
-            //       >
-            //         Populate Ingredients
-            //       </button>
-            //     </div>
-            //   );
-            // } else {
             return (
               <div className="alert alert-secondary" role="alert">
                 This Recipe does not have any ingredients...
@@ -248,6 +164,9 @@ const MealIngredientsList = (props) => {
           <button
             type="submit"
             className="btn btn-primary"
+            disabled={
+              userType.meal === "viewer" || editingForm.meal ? true : false
+            }
             onClick={() => {
               populateMissingMealIngrdnts(
                 mealStateObj,
@@ -266,6 +185,9 @@ const MealIngredientsList = (props) => {
             type="submit"
             className="btn btn-primary"
             onClick={() => handleCreateMealIngrdntFn()}
+            disabled={
+              userType.meal === "viewer" || editingForm.meal ? true : false
+            }
           >
             Add Ingredient to Your Recipe
           </button>
