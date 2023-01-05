@@ -657,21 +657,27 @@ class NewNewWeekMealPlan extends Component {
     return { savedRecord, valErrors };
   };
   handleSaveNewMealIngrdntsToDB = async (mealStateObj) => {
+    let pattern = /new/;
     let thisMealsIngrdntStateObjsArray = mealStateObj.thisMealsIngrdnts;
     for (let i = 0; i < thisMealsIngrdntStateObjsArray.length; i++) {
       let thisMealIngrdntStateObj = thisMealsIngrdntStateObjsArray[i];
       let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
-      let mealIngrdntRcrdToSave = _.pick(thisMealIngrdntRecord, [
-        "qty",
-        "genRecipeIngredient",
-        "meal",
-      ]);
-      let createMealIngrdntResult = await this.handleCreateNewRecordInDb(
-        "mealIngredient",
-        mealIngrdntRcrdToSave
-      );
-      thisMealIngrdntStateObj.thisRecord._id =
-        createMealIngrdntResult.savedRecord._id;
+      let testResult = pattern.test(thisMealIngrdntRecord._id);
+      console.log(testResult);
+      if (testResult) {
+        let mealIngrdntRcrdToSave = _.pick(thisMealIngrdntRecord, [
+          "qty",
+          "genRecipeIngredient",
+          "meal",
+        ]);
+        console.log(`Saving new mealIngredient ${thisMealIngrdntRecord._id}`);
+        let createMealIngrdntResult = await this.handleCreateNewRecordInDb(
+          "mealIngredient",
+          mealIngrdntRcrdToSave
+        );
+        thisMealIngrdntStateObj.thisRecord._id =
+          createMealIngrdntResult.savedRecord._id;
+      }
       thisMealsIngrdntStateObjsArray[i] = thisMealIngrdntStateObj;
     }
     mealStateObj.thisMealsIngrdnts = thisMealsIngrdntStateObjsArray;
@@ -1137,12 +1143,14 @@ class NewNewWeekMealPlan extends Component {
     let thisMealStateObj = thisMealTypeCode
       ? thisDayStateObj[thisMealTypeCode]
       : null;
-    let thisMealsIngrdnts = arrayIndex
-      ? thisMealStateObj.thisMealsIngrdnts
-      : null;
-    let thisMealIngrdntStateObj = arrayIndex
-      ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
-      : null;
+    let thisMealsIngrdnts =
+      arrayIndex || arrayIndex === 0
+        ? thisMealStateObj.thisMealsIngrdnts
+        : null;
+    let thisMealIngrdntStateObj =
+      arrayIndex || arrayIndex === 0
+        ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
+        : null;
     let idOfRecordToDelete;
     let rplcmntPlchldrStateObj = {};
     let rplcmentPlchldrRcrd;
