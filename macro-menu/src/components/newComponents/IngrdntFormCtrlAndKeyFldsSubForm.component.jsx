@@ -130,6 +130,9 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
       arrayIndex
     );
   }
+  useEffect(() => {
+    updateNameStateFn(name);
+  }, [!editingForm.ingredient]);
   return (
     <div className="ingrdntFrmHdr">
       <CustomHeading

@@ -15,6 +15,7 @@ const NewDayCard = (props) => {
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
+    onCreateNewDayOrMealFn,
     onUpdatePropFn,
     onSaveChangesFn,
     onStartEditingFn,
@@ -84,6 +85,7 @@ const NewDayCard = (props) => {
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
             onCreateNewRecordFn: onCreateNewRecordFn,
+            onCreateNewDayOrMealFn: onCreateNewDayOrMealFn,
             onUpdatePropFn: onUpdatePropFn,
             onSaveChangesFn: onSaveChangesFn,
             onStartEditingFn: onStartEditingFn,

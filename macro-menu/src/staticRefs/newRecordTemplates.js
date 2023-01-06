@@ -93,7 +93,7 @@ const defaultGenRecipesByMealType={
     snack1:{
         _id:"62577a7d93011a9b47306e6f",
         name:"",
-        availableMealType: mealTypes.filter(mealType=>mealType.code==="snack1"),
+        availableMealType: mealTypes.filter(mealType=>mealType.code==="snack1")[0],
         GRFUser:defaultGRFUser,
         defaultPrepInstructions:"",
         photoURL:""
@@ -101,7 +101,7 @@ const defaultGenRecipesByMealType={
     breakfast:{
         _id:"62577f516682e3955e98b1d0",
         name:"  ",
-        availableMealType: mealTypes.filter(mealType=>mealType.code==="breakfast"),
+        availableMealType: mealTypes.filter(mealType=>mealType.code==="breakfast")[0],
         GRFUser:defaultGRFUser,
         defaultPrepInstructions:"",
         photoURL:""
@@ -109,7 +109,7 @@ const defaultGenRecipesByMealType={
     lunch:{
         _id:"62577f666682e3955e98b1d1",
         name:"   ",
-        availableMealType: mealTypes.filter(mealType=>mealType.code==="lunch"),
+        availableMealType: mealTypes.filter(mealType=>mealType.code==="lunch")[0],
         GRFUser:defaultGRFUser,
         defaultPrepInstructions:"",
         photoURL:""
@@ -117,7 +117,7 @@ const defaultGenRecipesByMealType={
     snack2:{
         _id:"62577f786682e3955e98b1d2",
         name:"    ",
-        availableMealType: mealTypes.filter(mealType=>mealType.code==="snack2"),
+        availableMealType: mealTypes.filter(mealType=>mealType.code==="snack2")[0],
         GRFUser:defaultGRFUser,
         defaultPrepInstructions:"",
         photoURL:""
@@ -125,7 +125,7 @@ const defaultGenRecipesByMealType={
     dinner:{
         _id:"62577f8b6682e3955e98b1d3",
         name:"     ",
-        availableMealType: mealTypes.filter(mealType=>mealType.code==="dinner"),
+        availableMealType: mealTypes.filter(mealType=>mealType.code==="dinner")[0],
         GRFUser:defaultGRFUser,
         defaultPrepInstructions:"",
         photoURL:""
@@ -133,7 +133,7 @@ const defaultGenRecipesByMealType={
     dessert:{
         _id:"62577f9c6682e3955e98b1d4",
         name:"      ",
-        availableMealType: mealTypes.filter(mealType=>mealType.code==="dessert"),
+        availableMealType: mealTypes.filter(mealType=>mealType.code==="dessert")[0],
         GRFUser:defaultGRFUser,
         defaultPrepInstructions:"",
         photoURL:""
@@ -190,37 +190,37 @@ const newWeekMealPlan={
 const newDayByDayOfWeek={
     sunday:{
         name:"",
-        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="sunday"),
+        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="sunday")[0],
         weekMealPlan:{},
     },
     monday:{
         name:"",
-        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="monday"),
+        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="monday")[0],
         weekMealPlan:{},
     },
     tuesday:{
         name:"",
-        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="tuesday"),
+        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="tuesday")[0],
         weekMealPlan:{},
     },
     wednesday:{
         name:"",
-        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="wednesday"),
+        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="wednesday")[0],
         weekMealPlan:{},
     },
     thursday:{
         name:"",
-        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="thursday"),
+        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="thursday")[0],
         weekMealPlan:{},
     },
     friday:{
         name:"",
-        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="friday"),
+        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="friday")[0],
         weekMealPlan:{},
     },
     saturday:{
         name:"",
-        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="saturday"),
+        dayOfWeek: daysOfWeek.filter(dayOfWeek=>dayOfWeek.code==="saturday")[0],
         weekMealPlan:{},
     },
 }

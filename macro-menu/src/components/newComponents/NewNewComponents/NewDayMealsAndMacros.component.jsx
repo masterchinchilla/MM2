@@ -17,6 +17,7 @@ const NewDayMealsAndMacros = (props) => {
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
+    onCreateNewDayOrMealFn,
     onUpdatePropFn,
     onSaveChangesFn,
     onStartEditingFn,
@@ -119,7 +120,7 @@ const NewDayMealsAndMacros = (props) => {
             commonProps={{
               commonData: {},
               commonMethods: {
-                onCreateNewRecordFn: onCreateNewRecordFn,
+                onCreateNewRecordFn: onCreateNewDayOrMealFn,
               },
             }}
             specificProps={{
