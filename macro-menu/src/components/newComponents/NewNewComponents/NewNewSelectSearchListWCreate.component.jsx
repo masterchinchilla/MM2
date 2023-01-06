@@ -56,7 +56,7 @@ const NewNewSelectSearchListWCreate = (props) => {
       newArray.push({ label: element.name, value: element });
     });
     updateLocalOptionsStateFn(newArray);
-  }, []);
+  }, [defaultOptions.length !== localOptions.length]);
   if (recordLoaded) {
     return (
       <div className={formGroupClasses}>

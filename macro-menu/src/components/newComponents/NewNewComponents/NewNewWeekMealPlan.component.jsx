@@ -11,6 +11,7 @@ import {
 } from "../../../services/validationService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import Bootstrap from "bootstrap";
 import Popper from "popper.js";
 import NewWeekMealPlanCard from "./NewWeekMealPlanCard.component";
@@ -30,6 +31,7 @@ class NewNewWeekMealPlan extends Component {
     const { backEndHtmlRoot, thisGRFUser, match } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
+    this.player = React.createRef();
     this.state = {
       thisGRFUser: thisGRFUser,
       rcrdOrFldNameSnctncCase: rcrdOrFldNameSnctncCase,
@@ -62,6 +64,7 @@ class NewNewWeekMealPlan extends Component {
       allUnitOfMeasures: [],
       allWeightTypes: [],
       allBrands: [],
+      allGenRecipes: [],
     };
   }
   getRndIntegerFn = (min, max) => {
@@ -474,14 +477,16 @@ class NewNewWeekMealPlan extends Component {
       return [];
     }
   };
-  getAllUOMsWTsAndBrands = async () => {
+  getAllUOMsWTsBrndsNRecipes = async () => {
     let allUnitOfMeasures = await this.getFullRecordSet("unitOfMeasure");
     let allWeightTypes = await this.getFullRecordSet("weightType");
     let allBrands = await this.getFullRecordSet("brand");
+    let allGenRecipes = await this.getFullRecordSet("genRecipe");
     return {
       allUnitOfMeasures: allUnitOfMeasures,
       allWeightTypes: allWeightTypes,
       allBrands: allBrands,
+      allGenRecipes: allGenRecipes,
     };
   };
   getThisWMPFn = async () => {
@@ -510,11 +515,13 @@ class NewNewWeekMealPlan extends Component {
       let countOfLinkedDays = getWeeksDaysResult.countOfLinkedDays;
       updatedState.thisWMPStateObj.hasChildren.weekMealPlan =
         countOfLinkedDays > 0 ? true : false;
-      const { allUnitOfMeasures, allWeightTypes, allBrands } =
-        await this.getAllUOMsWTsAndBrands();
+      const { allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes } =
+        await this.getAllUOMsWTsBrndsNRecipes();
       updatedState.allUnitOfMeasures = allUnitOfMeasures;
       updatedState.allWeightTypes = allWeightTypes;
       updatedState.allBrands = allBrands;
+      updatedState.allGenRecipes = allGenRecipes;
+      this.player.current.stop();
       this.setState(updatedState);
     }
   };
@@ -1396,6 +1403,7 @@ class NewNewWeekMealPlan extends Component {
               allUnitOfMeasures: this.state.allUnitOfMeasures,
               allWeightTypes: this.state.allWeightTypes,
               allBrands: this.state.allBrands,
+              allGenRecipes: this.state.allGenRecipes,
             },
             commonMethods: {
               getRndIntegerFn: this.getRndIntegerFn,
@@ -1434,6 +1442,24 @@ class NewNewWeekMealPlan extends Component {
           key={`toastCntnrFor${typeOfRecordToChange}${thisWMPRecordId}`}
           autoClose={2000}
         />
+        <div
+          className="lottieCont"
+          hidden={this.state.thisWMPStateObj.recordLoaded}
+        >
+          <div className="lottieSubCont">
+            <span className="lottieText">Loading...</span>
+            <Player
+              autoplay
+              loop
+              src={
+                "https://assets2.lottiefiles.com/packages/lf20_6yhhrbk6.json"
+              }
+              className="lottiePlayer"
+              ref={this.player}
+            />
+          </div>
+        </div>
+
         <NewWeekMealPlanCard
           commonProps={{
             commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },

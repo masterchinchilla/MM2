@@ -13,6 +13,7 @@ const NewDayMealsAndMacros = (props) => {
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
+    allGenRecipes,
   } = commonData;
   const {
     getRndIntegerFn,
@@ -147,6 +148,9 @@ const NewDayMealsAndMacros = (props) => {
               allUnitOfMeasures: allUnitOfMeasures,
               allWeightTypes: allWeightTypes,
               allBrands: allBrands,
+              allThisMealTypesRecipes: allGenRecipes.filter(
+                (recipe) => recipe.availableMealType.code === thisMealType.code
+              ),
             },
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,

@@ -11,6 +11,7 @@ const NewDayCard = (props) => {
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
+    allGenRecipes,
   } = commonData;
   const {
     getRndIntegerFn,
@@ -81,6 +82,7 @@ const NewDayCard = (props) => {
             allUnitOfMeasures: allUnitOfMeasures,
             allWeightTypes: allWeightTypes,
             allBrands: allBrands,
+            allGenRecipes: allGenRecipes,
           },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,

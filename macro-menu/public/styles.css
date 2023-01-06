@@ -1010,3 +1010,36 @@ div.emptyPlaceholder span{
   width:50vw;
   height:2rem;
 }
+.lottieCont{
+  position: fixed;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  
+}
+.lottieSubCont{
+  background: rgb(255 255 255 / 95%) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:50%;
+  height:fit-content;
+  margin-top:-10rem;
+  border-radius: 1rem;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+.lottiePlayer {
+  margin: -7rem !important;
+  width: 20rem;
+}
+.lottieText {
+  font-size: 24pt;
+  font-weight: bold;
+}
+.slctSrchRcpsLstWCreate{
+  margin: 7px 5px 5px 0px !important;
+}

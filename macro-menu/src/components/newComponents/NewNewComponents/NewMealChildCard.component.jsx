@@ -3,12 +3,16 @@ import CustomHeading from "../CustomHeading.component";
 import ReadOnlyInputCore from "../ReadOnlyInputCore.component";
 import NewFormControl from "./NewFormControl.component";
 import NewNewAsyncSearchSelectWCreate from "./NewNewAsyncSearchSelectWCreate.component";
+import NewNewSelectSearchListWCreate from "./NewNewSelectSearchListWCreate.component";
 const NewMealChildCard = (props) => {
   const typeOfRecordToChange = "meal";
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { specificData, specificMethods } = specificProps;
   const { backEndHtmlRoot } = commonData;
+  const allThisMealTypesRecipes = commonData.allThisMealTypesRecipes
+    ? commonData.allThisMealTypesRecipes
+    : [];
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -112,7 +116,7 @@ const NewMealChildCard = (props) => {
             editingForm={editingForm.meal}
             headingClasses="recipeSelectHeader"
           />
-          <NewNewAsyncSearchSelectWCreate
+          {/* <NewNewAsyncSearchSelectWCreate
             commonProps={{
               commonData: {},
               commonMethods: {
@@ -140,6 +144,39 @@ const NewMealChildCard = (props) => {
                 excludeLabel: true,
                 selectedRecord: genRecipe,
                 fetchDataUrl: `${backEndHtmlRoot}genRecipes/genRecipesByMealTypeAndName/${mealType._id}`,
+              },
+              specificMethods: {},
+            }}
+          /> */}
+          <NewNewSelectSearchListWCreate
+            commonProps={{
+              commonData: {
+                thisDayOfWeekCode: thisDayOfWeekCode,
+                thisMealTypeCode: thisMealTypeCode,
+                arrayIndex: arrayIndex,
+              },
+              commonMethods: {
+                getRndIntegerFn: getRndIntegerFn,
+                returnElementKey: returnElementKey,
+                onUpdatePropFn: onUpdatePropFn,
+                trimEnteredValueFn: trimEnteredValueFn,
+                onCreateNewRecordFn: handleCreateNewRecordFn,
+              },
+            }}
+            specificProps={{
+              specificData: {
+                formGroupClasses: "slctSrchRcpsLstWCreate",
+                defaultOptions: allThisMealTypesRecipes,
+                valErrors: valErrors.meal.genRecipe,
+                propToUpdate: "genRecipe",
+                selectedRecord: genRecipe,
+                label: "Recipe",
+                excludeLabel: true,
+                fieldDisabled: fieldsDisabled,
+                isRequired: true,
+                inputClasses: "recipeSelect",
+                recordLoaded: recordLoaded,
+                typeOfRecordToChange: typeOfRecordToChange,
               },
               specificMethods: {},
             }}
