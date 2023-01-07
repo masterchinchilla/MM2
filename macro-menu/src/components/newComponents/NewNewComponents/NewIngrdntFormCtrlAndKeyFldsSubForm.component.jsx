@@ -61,6 +61,13 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     ? thisStateObjBackup.thisRecord.meal.genRecipe
     : currentGenRecipe;
   function handleCreateNewRecordFn(typeOfRecordToCreate, newName) {
+    console.log(
+      typeOfRecordToCreate,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex,
+      newName
+    );
     onCreateNewRecordFn(
       typeOfRecordToCreate,
       thisDayOfWeekCode,
@@ -133,7 +140,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
             trimEnteredValueFn: trimEnteredValueFn,
-            onCreateNewRecordFn: onCreateNewRecordFn,
+            onCreateNewRecordFn: handleCreateNewRecordFn,
           },
         }}
         specificProps={{
@@ -166,7 +173,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
             trimEnteredValueFn: trimEnteredValueFn,
-            onCreateNewRecordFn: onCreateNewRecordFn,
+            onCreateNewRecordFn: handleCreateNewRecordFn,
           },
         }}
         specificProps={{
@@ -211,7 +218,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
             trimEnteredValueFn: trimEnteredValueFn,
-            onCreateNewRecordFn: onCreateNewRecordFn,
+            onCreateNewRecordFn: handleCreateNewRecordFn,
           },
         }}
         specificProps={{

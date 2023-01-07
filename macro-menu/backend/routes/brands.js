@@ -45,7 +45,7 @@ router.post('/add',auth,async(req,res)=>{
             {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Brand,justCreated:null},
             {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null}
         ];
-        const ssValResult=await ssValidate("Unit of Measure", null, propsArray, nameOfObjRefPropJustCreated, req, res);
+        const ssValResult=await ssValidate("Unit of Measure", null, propsArray, req, res);
         if(ssValResult){
             const newBrand=new Brand({
                 name,

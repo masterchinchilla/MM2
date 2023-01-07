@@ -31,6 +31,7 @@ const NewNewSelectSearchListWCreate = (props) => {
     { label: "", value: "" },
   ]);
   const handleCreateNewRecordFn = (inputValue) => {
+    console.log(propToUpdate, inputValue);
     onCreateNewRecordFn(propToUpdate, inputValue);
   };
   function validateNewOptionFn(newValue) {

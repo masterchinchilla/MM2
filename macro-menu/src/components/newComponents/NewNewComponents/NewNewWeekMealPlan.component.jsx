@@ -33,7 +33,7 @@ class NewNewWeekMealPlan extends Component {
     const thisWMPId = pgReqParams.id;
     this.player = React.createRef();
     this.state = {
-      thisGRFUser: thisGRFUser,
+      currentGRFUser: thisGRFUser,
       rcrdOrFldNameSnctncCase: rcrdOrFldNameSnctncCase,
       daysOfWeek: daysOfWeek,
       mealTypes: mealTypes,
@@ -533,7 +533,6 @@ class NewNewWeekMealPlan extends Component {
   handleCopyWMPFn = () => {
     console.log("copy wmp");
   };
-
   getCSValResultForProp = async (
     typeOfRecordToChange,
     propToUpdate,
@@ -666,6 +665,12 @@ class NewNewWeekMealPlan extends Component {
     thisMealTypeCode,
     newName
   ) => {
+    console.log(
+      typeOfRecordToCreate,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      newName
+    );
     let state = this.state;
     let newRecordToSave = {};
     let recordTypesForStateObj = [];
@@ -702,7 +707,7 @@ class NewNewWeekMealPlan extends Component {
         newRecordToSave = {
           name: newName,
           availableMealType: thisMealType,
-          GRFUser: state.thisGRFUser,
+          GRFUser: state.currentGRFUser,
           defaultPrepInstructions: "",
           photoURL: "",
         };
@@ -717,10 +722,10 @@ class NewNewWeekMealPlan extends Component {
       case "ingredient":
         newRecordToSave = state.newRecordTemplates.newIngredient;
         newRecordToSave.name = newName;
-        newRecordToSave.GRFUser = state.thisGRFUser;
+        newRecordToSave.GRFUser = state.currentGRFUser;
         break;
       default:
-        newRecordToSave = { name: newName, GRFUser: state.thisGRFUser };
+        newRecordToSave = { name: newName, GRFUser: state.currentGRFUser };
     }
     let createNewRecordResult = await this.handleCreateNewRecordInDb(
       typeOfRecordToCreate,
@@ -814,6 +819,52 @@ class NewNewWeekMealPlan extends Component {
     }
     mealStateObj.thisMealsIngrdnts = thisMealsIngrdntStateObjsArray;
     return mealStateObj;
+  };
+  hndleCreateNewUOMWtTypOrBrnd = async (
+    typeOfRecordToCreate,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex,
+    newName
+  ) => {
+    console.log(
+      typeOfRecordToCreate,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex,
+      newName
+    );
+    let createNewRecordResult = await this.handleCreateNewRecordFn(
+      typeOfRecordToCreate,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      newName
+    );
+    console.log(createNewRecordResult);
+    const capitalRecordType =
+      typeOfRecordToCreate.charAt(0).toUpperCase() +
+      typeOfRecordToCreate.slice(1);
+    console.log(capitalRecordType);
+    if (!createNewRecordResult.valErrors) {
+      let state = this.state;
+      console.log(`all${capitalRecordType}`);
+      let fullRecordSet = state[`all${capitalRecordType}s`];
+      console.log(fullRecordSet);
+      let savedRecord = createNewRecordResult.savedRecord;
+      fullRecordSet.push(savedRecord);
+      let thisDayStateObj = state[thisDayOfWeekCode];
+      let thisMealIngrdntStateObj =
+        thisDayStateObj[thisMealTypeCode]["thisMealsIngrdnts"][arrayIndex];
+      thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient[
+        typeOfRecordToCreate
+      ] = savedRecord;
+      thisDayStateObj[thisMealTypeCode]["thisMealsIngrdnts"][arrayIndex] =
+        thisMealIngrdntStateObj;
+      this.setState({
+        [thisDayOfWeekCode]: thisDayStateObj,
+        [`all${capitalRecordType}`]: fullRecordSet,
+      });
+    }
   };
   handleRestoreMissingMealIngrdnts = async (
     mealStateObj,
@@ -1410,6 +1461,7 @@ class NewNewWeekMealPlan extends Component {
               returnElementKey: this.returnElementKey,
               onCreateNewRecordFn: this.handleCreateNewRecordFn,
               onCreateNewDayOrMealFn: this.handleCreateNewDayOrMealFn,
+              onCreateNewUOMWtTypOrBrnd: this.hndleCreateNewUOMWtTypOrBrnd,
               onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
               onSaveChangesFn: this.handleSaveChangesFn,
               onStartEditingFn: this.handleStartEditingFn,

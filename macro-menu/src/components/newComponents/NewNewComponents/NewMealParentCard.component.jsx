@@ -24,6 +24,7 @@ const NewMealParentCard = (props) => {
     onCancelEditFn,
     onDeleteObjFn,
     onCreateNewRecordFn,
+    onCreateNewUOMWtTypOrBrnd,
     trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
@@ -163,6 +164,7 @@ const NewMealParentCard = (props) => {
                 onDeleteObjFn: onDeleteObjFn,
                 trimEnteredValueFn: trimEnteredValueFn,
                 onCreateNewRecordFn: onCreateNewRecordFn,
+                onCreateNewUOMWtTypOrBrnd: onCreateNewUOMWtTypOrBrnd,
               },
             }}
             specificProps={{

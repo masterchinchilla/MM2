@@ -14,7 +14,6 @@ const NewIngredientForm = (props) => {
     thisMealTypeCode,
     arrayIndex,
     allUnitOfMeasures,
-
     allWeightTypes,
     allBrands,
   } = commonData;
@@ -28,6 +27,7 @@ const NewIngredientForm = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
+    onCreateNewUOMWtTypOrBrnd,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup, thisGRFUser } = specificData;
   //   thisStateObj.recordLoaded = false;
@@ -155,7 +155,7 @@ const NewIngredientForm = (props) => {
             onStartEditingFn: onStartEditingFn,
             onCancelEditFn: handleCancelEditFn,
             trimEnteredValueFn: trimEnteredValueFn,
-            onCreateNewRecordFn: onCreateNewRecordFn,
+            onCreateNewRecordFn: onCreateNewUOMWtTypOrBrnd,
           },
         }}
         specificProps={{

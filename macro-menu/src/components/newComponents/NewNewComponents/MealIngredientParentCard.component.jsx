@@ -26,6 +26,7 @@ const MealIngredientParentCard = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
+    onCreateNewUOMWtTypOrBrnd,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup, thisGenRecipe, thisGRFUser } =
     specificData;
@@ -121,6 +122,7 @@ const MealIngredientParentCard = (props) => {
               onStartEditingFn: onStartEditingFn,
               onCancelEditFn: onCancelEditFn,
               trimEnteredValueFn: trimEnteredValueFn,
+              onCreateNewUOMWtTypOrBrnd: onCreateNewUOMWtTypOrBrnd,
             },
           }}
           specificProps={{
