@@ -640,7 +640,7 @@ class NewNewWeekMealPlan extends Component {
     const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
     // let savedRecord = null;
     let savedRecord = newRecordToSave;
-    let valErrors = [];
+    let valErrors = [{ name: ["name too long", "name too short"] }];
     // try {
     //   let reqRes = await httpService.post(reqUrl, newRecordToSave);
     //   savedRecord = reqRes.data;
@@ -746,6 +746,13 @@ class NewNewWeekMealPlan extends Component {
     arrayIndex,
     newName
   ) => {
+    console.log(
+      typeOfRecordToCreate,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex,
+      newName
+    );
     let state = this.state;
     let thisDayStateObj = state[thisDayOfWeekCode];
     let thisMealStateObj = thisMealTypeCode
@@ -783,14 +790,24 @@ class NewNewWeekMealPlan extends Component {
             typeOfRecordToCreate
           ];
     }
+    console.log(
+      thisDayStateObj,
+      thisMealStateObj,
+      thisMealIngrdntStateObj,
+      typeOfRecordToChange,
+      existingValue
+    );
     let createNewRecordResult = await this.handleCreateNewRecordFn(
       typeOfRecordToCreate,
       thisDayOfWeekCode,
       thisMealTypeCode,
       newName
     );
+    console.log(createNewRecordResult);
     let savedRecord = createNewRecordResult.savedRecord;
+    console.log(savedRecord);
     let createNewValErrs = createNewRecordResult.valErrors;
+    console.log(createNewValErrs);
     //valErrorsNestedArray shape:
     //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
     let valueToSaveToState;
@@ -801,6 +818,7 @@ class NewNewWeekMealPlan extends Component {
       valueToSaveToState = savedRecord;
       justCreated = true;
     }
+    console.log(valueToSaveToState, justCreated);
     if (typeOfRecordToChange) {
       this.handleUpdateMealOrChildPropFn(
         typeOfRecordToCreate,
@@ -1011,8 +1029,11 @@ class NewNewWeekMealPlan extends Component {
     this.setState({ [thisDayOfWeekCode]: thisDayStateObj });
   };
   hndlDraftMlIngrdntsForRcpChnge = async (mealStateObj) => {
+    console.log(mealStateObj);
     mealStateObj = await this.populateMissingMealIngrdnts(mealStateObj);
+    console.log(mealStateObj);
     let thisMealsNewMlMlIngrdnts = mealStateObj.thisMealsIngrdnts;
+    console.log(thisMealsNewMlMlIngrdnts);
     let recordTypesArray = [
       "mealIngredient",
       "genRecipeIngredient",
@@ -1032,6 +1053,7 @@ class NewNewWeekMealPlan extends Component {
       thisMealsNewMlMlIngrdnts[i] = thisMealIngrdntStateObj;
     }
     mealStateObj.thisMealsIngrdnts = thisMealsNewMlMlIngrdnts;
+    console.log(mealStateObj);
     return mealStateObj;
   };
   handleUpdateMealOrChildPropFn = async (
@@ -1044,9 +1066,20 @@ class NewNewWeekMealPlan extends Component {
     createNewValErrs,
     justCreated
   ) => {
+    console.log(
+      propToUpdate,
+      updatedValue,
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex,
+      createNewValErrs,
+      justCreated
+    );
     let newValue;
     const propTypeForVal =
       rcrdOrFldNameSntncCaseAndPropTypForVal[propToUpdate]["propTypeForVal"];
+    console.log(propTypeForVal);
     if (propTypeForVal === "float") {
       let newValueAsNumber = JSON.parse(updatedValue);
       let newValueAsFloat =
@@ -1055,10 +1088,12 @@ class NewNewWeekMealPlan extends Component {
     } else {
       newValue = updatedValue;
     }
+    console.log(newValue);
     let pattern = /missing/;
     let state = this.state;
     const daysOfWeek = state.daysOfWeek;
     const mealTypes = state.mealTypes;
+    console.log(daysOfWeek, mealTypes);
     let thisDayStateObj = state[thisDayOfWeekCode];
     let thisMealStateObj = thisMealTypeCode
       ? thisDayStateObj[thisMealTypeCode]
@@ -1068,6 +1103,7 @@ class NewNewWeekMealPlan extends Component {
       arrayIndex === 0 || arrayIndex
         ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
         : null;
+    console.log(thisDayStateObj, thisMealStateObj, thisMealIngrdntStateObj);
     let stateObjToUpdate;
     let updatedRecord;
     switch (typeOfRecordToChange) {
@@ -1095,7 +1131,9 @@ class NewNewWeekMealPlan extends Component {
               ];
         }
     }
+    console.log(stateObjToUpdate, updatedRecord);
     updatedRecord[propToUpdate] = newValue;
+    console.log(updatedRecord);
     if (
       typeOfRecordToChange === "meal" ||
       typeOfRecordToChange === "mealIngredient"
@@ -1158,70 +1196,93 @@ class NewNewWeekMealPlan extends Component {
         state[localDayOfWeekCode] = localDayStateObj;
       }
     }
-    switch (typeOfRecordToChange) {
-      case "meal":
-        stateObjToUpdate.thisRecord = updatedRecord;
-        break;
-      case "mealIngredient":
-        stateObjToUpdate.thisRecord = updatedRecord;
-        break;
-      case "genRecipe":
-        stateObjToUpdate.thisRecord[typeOfRecordToChange] = updatedRecord;
-        break;
-      case "genRecipeIngredient":
-        stateObjToUpdate.thisRecord[typeOfRecordToChange] = updatedRecord;
-        break;
-      default:
-        stateObjToUpdate.thisRecord["genRecipeIngredient"][
-          typeOfRecordToChange
-        ] = updatedRecord;
-    }
-    stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
-    if (
-      justCreated &&
-      propToUpdate !== "unitOfMeasure" &&
-      propToUpdate !== "weightType" &&
-      propToUpdate !== "brand"
-    ) {
-      stateObjToUpdate.justCreated[propToUpdate] = true;
-    } else {
-      state = this.handleAddNewToFullRcrdSet(state, propToUpdate, newValue);
-    }
     let thisValErrsObj = stateObjToUpdate.valErrors[typeOfRecordToChange];
+    console.log(thisValErrsObj);
     let updatedValErrsObj;
+    let okToUpdateProp;
     if (createNewValErrs) {
+      updatedValErrsObj = thisValErrsObj;
+      console.log(updatedValErrsObj);
       if (createNewValErrs.length > 0) {
-        updatedValErrsObj = this.updateThisObjsValErrs(
-          thisValErrsObj,
-          createNewValErrs
-        );
+        okToUpdateProp = false;
+      } else {
+        okToUpdateProp = true;
       }
     } else {
+      okToUpdateProp = true;
+    }
+    if (okToUpdateProp) {
+      switch (typeOfRecordToChange) {
+        case "meal":
+          stateObjToUpdate.thisRecord = updatedRecord;
+          if (propToUpdate === "genRecipe" && !justCreated) {
+            stateObjToUpdate = await this.hndlDraftMlIngrdntsForRcpChnge(
+              stateObjToUpdate
+            );
+          }
+          break;
+        case "mealIngredient":
+          stateObjToUpdate.thisRecord = updatedRecord;
+          break;
+        case "genRecipe":
+          stateObjToUpdate.thisRecord[typeOfRecordToChange] = updatedRecord;
+          break;
+        case "genRecipeIngredient":
+          stateObjToUpdate.thisRecord[typeOfRecordToChange] = updatedRecord;
+          break;
+        default:
+          stateObjToUpdate.thisRecord["genRecipeIngredient"][
+            typeOfRecordToChange
+          ] = updatedRecord;
+      }
+      stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
+      if (
+        justCreated &&
+        propToUpdate !== "unitOfMeasure" &&
+        propToUpdate !== "weightType" &&
+        propToUpdate !== "brand"
+      ) {
+        stateObjToUpdate.justCreated[propToUpdate] = true;
+      } else {
+        state = this.handleAddNewToFullRcrdSet(state, propToUpdate, newValue);
+      }
       updatedValErrsObj = await this.getCSValResultForProp(
         typeOfRecordToChange,
         propToUpdate,
         newValue,
         thisValErrsObj
       );
+    } else {
+      console.log(createNewValErrs);
+      let combinedValErrsArray = [];
+      for (let i = 0; i < createNewValErrs.length; i++) {
+        let thisValErrObj = createNewValErrs[i];
+        console.log(thisValErrObj);
+        let thisValErrObjKeys = Object.keys(thisValErrObj);
+        console.log(thisValErrObjKeys);
+        let thisValErrObjSubArray = thisValErrObj[thisValErrObjKeys[i]];
+        console.log(thisValErrObjSubArray);
+        for (let i = 0; i < thisValErrObjSubArray.length; i++) {
+          let thisValErr = thisValErrObjSubArray[i];
+          console.log(thisValErr);
+          combinedValErrsArray.push(thisValErr);
+        }
+        console.log(combinedValErrsArray);
+
+        updatedValErrsObj[propToUpdate] = combinedValErrsArray;
+        console.log(updatedValErrsObj);
+      }
     }
+
     stateObjToUpdate.valErrors[typeOfRecordToChange] = updatedValErrsObj;
+    console.log(stateObjToUpdate);
     if (thisMealIngrdntStateObj) {
       thisMealIngrdntStateObj = stateObjToUpdate;
       thisMealStateObj.thisMealsIngrdnts[arrayIndex] = thisMealIngrdntStateObj;
     } else {
       thisMealStateObj = stateObjToUpdate;
     }
-    if (typeOfRecordToChange === "meal" && propToUpdate === "genRecipe") {
-      if (justCreated) {
-        state = this.handleAddNewToFullRcrdSet(state, propToUpdate, newValue);
-      } else {
-        thisMealStateObj = await this.hndlDraftMlIngrdntsForRcpChnge(
-          thisMealStateObj
-        );
-      }
 
-      thisMealStateObj.userChangedThisMealsRecipe = true;
-    }
     thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
     state[thisDayOfWeekCode] = thisDayStateObj;
     this.setState(state);
