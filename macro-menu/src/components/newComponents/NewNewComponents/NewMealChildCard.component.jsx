@@ -44,9 +44,9 @@ const NewMealChildCard = (props) => {
   const arrayIndex = null;
   const thisRecordId = _id;
   const fieldsDisabled = !editingForm.meal;
-  function handleCreateNewRecordFn(newName) {
+  function handleCreateNewRecordFn(typeOfRecordToCreate, newName) {
     onCreateNewRecordFn(
-      "ingredient",
+      typeOfRecordToCreate,
       thisDayOfWeekCode,
       thisMealTypeCode,
       arrayIndex,

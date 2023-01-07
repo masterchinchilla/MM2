@@ -16,8 +16,6 @@ const NewDayCard = (props) => {
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
-    onCreateNewDayOrMealFn,
-    onCreateNewUOMWtTypOrBrnd,
     onUpdatePropFn,
     onSaveChangesFn,
     onStartEditingFn,
@@ -28,7 +26,8 @@ const NewDayCard = (props) => {
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObjBackup } = specificData;
-  const { populateMissingMealIngrdnts } = specificMethods;
+  const { populateMissingMealIngrdnts, onClickAddIngrdntToRcpBttn } =
+    specificMethods;
   let thisStateObj = specificData.thisStateObj;
   if (!thisStateObj.recordLoaded) {
     thisStateObj = {
@@ -88,8 +87,6 @@ const NewDayCard = (props) => {
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
             onCreateNewRecordFn: onCreateNewRecordFn,
-            onCreateNewDayOrMealFn: onCreateNewDayOrMealFn,
-            onCreateNewUOMWtTypOrBrnd: onCreateNewUOMWtTypOrBrnd,
             onUpdatePropFn: onUpdatePropFn,
             onSaveChangesFn: onSaveChangesFn,
             onStartEditingFn: onStartEditingFn,
@@ -106,6 +103,7 @@ const NewDayCard = (props) => {
           },
           specificMethods: {
             populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+            onClickAddIngrdntToRcpBttn: onClickAddIngrdntToRcpBttn,
           },
         }}
       />

@@ -36,9 +36,15 @@ const NewCreateMealButton = (props) => {
               type="button"
               value="Create Meal"
               className="btn btn-primary"
-              onClick={() => {
-                onCreateNewRecordFn("meal", dayOfWeek.code, mealType.code);
-              }}
+              onClick={() =>
+                onCreateNewRecordFn(
+                  "meal",
+                  dayOfWeek.code,
+                  mealType.code,
+                  null,
+                  null
+                )
+              }
             >
               Create Meal
             </button>

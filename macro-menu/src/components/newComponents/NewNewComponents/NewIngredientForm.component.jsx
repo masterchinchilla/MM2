@@ -27,7 +27,6 @@ const NewIngredientForm = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
-    onCreateNewUOMWtTypOrBrnd,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup, thisGRFUser } = specificData;
   //   thisStateObj.recordLoaded = false;
@@ -155,7 +154,7 @@ const NewIngredientForm = (props) => {
             onStartEditingFn: onStartEditingFn,
             onCancelEditFn: handleCancelEditFn,
             trimEnteredValueFn: trimEnteredValueFn,
-            onCreateNewRecordFn: onCreateNewUOMWtTypOrBrnd,
+            onCreateNewRecordFn: onCreateNewRecordFn,
           },
         }}
         specificProps={{

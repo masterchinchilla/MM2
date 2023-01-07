@@ -24,11 +24,11 @@ const NewMealParentCard = (props) => {
     onCancelEditFn,
     onDeleteObjFn,
     onCreateNewRecordFn,
-    onCreateNewUOMWtTypOrBrnd,
     trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { populateMissingMealIngrdnts } = specificMethods;
+  const { populateMissingMealIngrdnts, onClickAddIngrdntToRcpBttn } =
+    specificMethods;
   const { thisStateObj, thisStateObjBackup, nestedMealIngrdntArray } =
     specificData;
   const {
@@ -164,7 +164,6 @@ const NewMealParentCard = (props) => {
                 onDeleteObjFn: onDeleteObjFn,
                 trimEnteredValueFn: trimEnteredValueFn,
                 onCreateNewRecordFn: onCreateNewRecordFn,
-                onCreateNewUOMWtTypOrBrnd: onCreateNewUOMWtTypOrBrnd,
               },
             }}
             specificProps={{
@@ -174,6 +173,7 @@ const NewMealParentCard = (props) => {
               },
               specificMethods: {
                 populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+                onClickAddIngrdntToRcpBttn: onClickAddIngrdntToRcpBttn,
               },
             }}
           />

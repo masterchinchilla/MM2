@@ -45,6 +45,13 @@ const NewCreateDayButton = (props) => {
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
+                        onCreateNewRecordFn(
+                          "day",
+                          dayOfWeek.code,
+                          null,
+                          null,
+                          null
+                        );
                         onCreateNewRecordFn("day", dayOfWeek.code, null);
                       }}
                     >

@@ -16,10 +16,10 @@ const MealIngredientsList = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
-    onCreateNewUOMWtTypOrBrnd,
   } = commonMethods;
   const { mealStateObj, mealBackup } = specificData;
-  const { populateMissingMealIngrdnts } = specificMethods;
+  const { populateMissingMealIngrdnts, onClickAddIngrdntToRcpBttn } =
+    specificMethods;
   const {
     userType,
     thisMealsIngrdnts,
@@ -36,7 +36,6 @@ const MealIngredientsList = (props) => {
   const { dayOfWeek, weekMealPlan } = day;
   const thisMealTypeCode = mealType.code;
   const thisDayOfWeekCode = dayOfWeek.code;
-  function handleCreateMealIngrdntFn() {}
   function renderMealIngrdntsFn() {
     if (recordLoaded) {
       if (thisMealsIngrdnts.length > 0) {
@@ -118,7 +117,6 @@ const MealIngredientsList = (props) => {
                   onDeleteObjFn: onDeleteObjFn,
                   trimEnteredValueFn: trimEnteredValueFn,
                   onCreateNewRecordFn: onCreateNewRecordFn,
-                  onCreateNewUOMWtTypOrBrnd: onCreateNewUOMWtTypOrBrnd,
                 },
               }}
               specificProps={{
@@ -186,7 +184,7 @@ const MealIngredientsList = (props) => {
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={() => handleCreateMealIngrdntFn()}
+            onClick={onClickAddIngrdntToRcpBttn}
             disabled={
               userType.meal === "viewer" || editingForm.meal ? true : false
             }

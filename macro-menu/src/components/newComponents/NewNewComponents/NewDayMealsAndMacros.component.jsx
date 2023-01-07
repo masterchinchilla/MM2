@@ -18,8 +18,6 @@ const NewDayMealsAndMacros = (props) => {
   const {
     getRndIntegerFn,
     onCreateNewRecordFn,
-    onCreateNewDayOrMealFn,
-    onCreateNewUOMWtTypOrBrnd,
     onUpdatePropFn,
     onSaveChangesFn,
     onStartEditingFn,
@@ -30,7 +28,8 @@ const NewDayMealsAndMacros = (props) => {
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj, thisStateObjBackup } = specificData;
-  const { populateMissingMealIngrdnts } = specificMethods;
+  const { populateMissingMealIngrdnts, onClickAddIngrdntToRcpBttn } =
+    specificMethods;
   const {
     thisRecord,
     recordLoaded,
@@ -122,7 +121,7 @@ const NewDayMealsAndMacros = (props) => {
             commonProps={{
               commonData: {},
               commonMethods: {
-                onCreateNewRecordFn: onCreateNewDayOrMealFn,
+                onCreateNewRecordFn: onCreateNewRecordFn,
               },
             }}
             specificProps={{
@@ -161,7 +160,6 @@ const NewDayMealsAndMacros = (props) => {
               onCancelEditFn: onCancelEditFn,
               onDeleteObjFn: onDeleteObjFn,
               onCreateNewRecordFn: onCreateNewRecordFn,
-              onCreateNewUOMWtTypOrBrnd: onCreateNewUOMWtTypOrBrnd,
               returnElementKey: returnElementKey,
               trimEnteredValueFn: trimEnteredValueFn,
             },
@@ -174,6 +172,7 @@ const NewDayMealsAndMacros = (props) => {
             },
             specificMethods: {
               populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+              onClickAddIngrdntToRcpBttn: onClickAddIngrdntToRcpBttn,
             },
           }}
         />
