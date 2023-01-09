@@ -27,8 +27,13 @@ const MealIngredientParentCard = (props) => {
     trimEnteredValueFn,
     onCreateNewRecordFn,
   } = commonMethods;
-  const { thisStateObj, thisStateObjBackup, thisGenRecipe, thisGRFUser } =
-    specificData;
+  const {
+    thisStateObj,
+    thisStateObjBackup,
+    thisGenRecipe,
+    thisGRFUser,
+    userChangedThisMealRecipe,
+  } = specificData;
   const {} = specificMethods;
   const {
     recordLoaded,
@@ -68,6 +73,7 @@ const MealIngredientParentCard = (props) => {
             specificData: {
               thisStateObj: thisStateObj,
               thisStateObjBackup: thisStateObjBackup,
+              userChangedThisMealRecipe: userChangedThisMealRecipe,
             },
             specificMethods: {},
           }}

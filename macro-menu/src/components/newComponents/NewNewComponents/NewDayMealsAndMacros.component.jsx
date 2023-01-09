@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 import StickyBox from "react-sticky-box";
 import CustomHeading from "../CustomHeading.component";
@@ -61,9 +62,9 @@ const NewDayMealsAndMacros = (props) => {
   const childTypeOfRecordToChange = "meal";
   function renderMeal(thisMealType) {
     let thisDaysMealStateObj = thisStateObj[thisMealType.code];
-    let thisDaysMealStateObjBackup = thisStateObjBackup
+    let thisDaysMealStateObjBackup = thisStateObjBackup[thisMealType.code]
       ? thisStateObjBackup[thisMealType.code]
-      : {};
+      : _.cloneDeep(thisDaysMealStateObj);
     let thisMealStateObj;
     if (thisDaysMealStateObj.recordLoaded) {
       thisMealStateObj = thisDaysMealStateObj;

@@ -116,7 +116,7 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                 }
             };
         }else{
-            let validationResults=csValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
+            let validationResults=thisPropTypeForVal?csValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal):[];
             if(validationResults.length>0){
                 for(let i=0;i<validationResults.length;i++){
                   thisPropsValErrsArray.push(validationResults[i])

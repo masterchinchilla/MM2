@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 import MealIngredientParentCard from "./MealIngredientParentCard.component";
 const MealIngredientsList = (props) => {
   const { commonProps, specificProps } = props;
@@ -26,6 +27,7 @@ const MealIngredientsList = (props) => {
     thisGenRcpsGenRcpIngrdnts,
     recordLoaded,
     editingForm,
+    userChangedThisMealRecipe,
   } = mealStateObj;
   const userCanEditRecipe =
     userType.genRecipe === "author" || userType.genRecipe === "admin";
@@ -82,10 +84,17 @@ const MealIngredientsList = (props) => {
                   ingredient: true,
                 },
               };
+          let thisStateObjBackup;
+          let pattern = /new/;
+          let testResult = pattern.test(thisStateObj.thisRecord._id);
+          if (testResult) {
+            thisStateObjBackup = _.cloneDeep(thisStateObj);
+          } else {
+            thisStateObjBackup = mealBackup
+              ? mealBackup.thisMealsIngrdnts[index]
+              : { thisRecord: { meal: { genRecipe: { _id: "" } } } };
+          }
           thisStateObj.arrayIndex = index;
-          const thisStateObjBackup = mealBackup
-            ? mealBackup.thisMealsIngrdnts[index]
-            : {};
           return (
             <MealIngredientParentCard
               key={returnElementKey(
@@ -125,6 +134,7 @@ const MealIngredientsList = (props) => {
                   thisStateObjBackup: thisStateObjBackup,
                   thisGenRecipe: genRecipe,
                   thisGRFUser: weekMealPlan.GRFUser,
+                  userChangedThisMealRecipe: userChangedThisMealRecipe,
                 },
                 specificMethods: {},
               }}

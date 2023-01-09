@@ -27,8 +27,13 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     trimEnteredValueFn,
     onCreateNewRecordFn,
   } = commonMethods;
-  const { thisStateObj, thisStateObjBackup, nameValErrors, saveDisabled } =
-    specificData;
+  const {
+    thisStateObj,
+    thisStateObjBackup,
+    nameValErrors,
+    saveDisabled,
+    userChangedThisMealRecipe,
+  } = specificData;
   const { updateNameValErrorsStateFn } = specificMethods;
   const {
     recordLoaded,
@@ -52,14 +57,10 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const thisRecordId = _id;
   const fieldsDisabled = editingForm.ingredient ? false : true;
   const [localName, updateNameStateFn] = useState(name);
-  const origName = thisStateObjBackup.thisRecord
-    ? thisStateObjBackup.thisRecord.genRecipeIngredient.ingredient.name
-    : name;
-
-  const currentGenRecipe = thisStateObj.thisRecord.meal.genRecipe;
-  const origGenRecipe = thisStateObjBackup.thisRecord
-    ? thisStateObjBackup.thisRecord.meal.genRecipe
-    : currentGenRecipe;
+  const origName =
+    thisStateObjBackup.thisRecord.genRecipeIngredient.ingredient.name;
+  // const currentGenRecipe = thisStateObj.thisRecord.meal.genRecipe;
+  // const origGenRecipe = thisStateObjBackup.thisRecord.meal.genRecipe;
   function handleCreateNewRecordFn(typeOfRecordToCreate, newName) {
     console.log(
       typeOfRecordToCreate,
@@ -80,9 +81,20 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     updateNameStateFn(origName);
     onCancelEditFn();
   }
-  useEffect(() => {
-    updateNameStateFn(name);
-  }, [origGenRecipe._id !== currentGenRecipe._id]);
+  useEffect(
+    () => {
+      console.log(props.thisStateObjBackup);
+      updateNameStateFn(name);
+    },
+    // );
+    [
+      props.thisStateObjBackup
+        ? props.thisStateObjBackup.thisRecord
+          ? props.thisStateObjBackup.thisRecord.meal.genRecipe._id
+          : "" !== props.thisStateObj.thisRecord.meal.genRecipe._id
+        : "" || userChangedThisMealRecipe,
+    ]
+  );
   return (
     <div className="ingrdntFrmHdr">
       <CustomHeading

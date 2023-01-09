@@ -4,6 +4,7 @@ import FormControl from "./FormControl.component";
 import InputWLocalStateAndVal from "./InputWLocalStateAndVal.component";
 import CustomHeading from "./CustomHeading.component";
 import InputWSearchUniqueNew from "./InputWSearchUniqueNew.component";
+import _ from "lodash";
 const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
   const {
     thisRecordId,
@@ -26,9 +27,10 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     updateNameValErrorsStateFn,
     nameValErrors,
   } = props;
+  console.log(thisStateObjBackup);
   const backupOfRecordToChange = thisStateObjBackup.thisRecord
     ? thisStateObjBackup.thisRecord.genRecipeIngredient.ingredient
-    : {};
+    : _.cloneDeep(thisStateObj);
   const thisStateObj = props.thisStateObj.recordLoaded
     ? props.thisStateObj
     : {
@@ -258,9 +260,7 @@ const IngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         propType="name"
         localPropValue={localName}
         changeLocalPropFn={updateNameStateFn}
-        origPropValue={
-          backupOfRecordToChange ? backupOfRecordToChange.name : ""
-        }
+        origPropValue={backupOfRecordToChange.name}
         typeOfRecordToChange={typeOfRecordToChange}
         thisDayOfWeekCode={thisDayOfWeekCode}
         thisMealTypeCode={thisMealTypeCode}

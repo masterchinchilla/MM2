@@ -537,9 +537,10 @@ class NewNewWeekMealPlan extends Component {
     typeOfRecordToChange,
     propToUpdate,
     newValue,
-    thisObjsValErrsObj
+    thisObjsValErrsObj,
+    parentRecordId
   ) => {
-    const recordToUpdate = { [propToUpdate]: newValue };
+    const recordToUpdate = { [propToUpdate]: newValue, _id: parentRecordId };
     const csValResult = await csValidateObj(
       typeOfRecordToChange,
       recordToUpdate
@@ -558,7 +559,8 @@ class NewNewWeekMealPlan extends Component {
       "weekMealPlan",
       propToUpdate,
       newValue,
-      thisValErrsObj
+      thisValErrsObj,
+      thisWMPStateObj.thisRecord._id
     );
     thisWMPStateObj.valErrors.weekMealPlan = updatedValErrsObj;
     thisWMPStateObj.recordChanged.weekMealPlan = true;
@@ -962,13 +964,17 @@ class NewNewWeekMealPlan extends Component {
     console.log("clicked AddIngrdntToRcpBttn");
   };
   handleAddNewToFullRcrdSet = (state, typeOfCreatedRecord, newRecord) => {
+    console.log(state, typeOfCreatedRecord, newRecord);
     const capitalRecordType =
       typeOfCreatedRecord.charAt(0).toUpperCase() +
       typeOfCreatedRecord.slice(1);
     let fullRecordSet = state[`all${capitalRecordType}s`];
+    console.log(fullRecordSet);
     fullRecordSet.push(newRecord);
-    let updatedState = (state[`all${capitalRecordType}`] = fullRecordSet);
-    return updatedState;
+    console.log(fullRecordSet);
+    state[`all${capitalRecordType}s`] = fullRecordSet;
+    console.log(state);
+    return state;
   };
   // hndleCreateNewUOMWtTypOrBrnd = async (
   //   typeOfRecordToCreate,
@@ -1236,21 +1242,29 @@ class NewNewWeekMealPlan extends Component {
           ] = updatedRecord;
       }
       stateObjToUpdate.recordChanged[typeOfRecordToChange] = true;
-      if (
-        justCreated &&
-        propToUpdate !== "unitOfMeasure" &&
-        propToUpdate !== "weightType" &&
-        propToUpdate !== "brand"
-      ) {
-        stateObjToUpdate.justCreated[propToUpdate] = true;
-      } else {
-        state = this.handleAddNewToFullRcrdSet(state, propToUpdate, newValue);
+      if (justCreated) {
+        if (
+          propToUpdate !== "unitOfMeasure" &&
+          propToUpdate !== "weightType" &&
+          propToUpdate !== "brand"
+        ) {
+          stateObjToUpdate.justCreated[propToUpdate] = true;
+        }
+        if (
+          propToUpdate === "unitOfMeasure" ||
+          propToUpdate === "weightType" ||
+          propToUpdate === "brand" ||
+          propToUpdate === "genRecipe"
+        ) {
+          state = this.handleAddNewToFullRcrdSet(state, propToUpdate, newValue);
+        }
       }
       updatedValErrsObj = await this.getCSValResultForProp(
         typeOfRecordToChange,
         propToUpdate,
         newValue,
-        thisValErrsObj
+        thisValErrsObj,
+        updatedRecord._id
       );
     } else {
       console.log(createNewValErrs);
@@ -1285,6 +1299,7 @@ class NewNewWeekMealPlan extends Component {
 
     thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
     state[thisDayOfWeekCode] = thisDayStateObj;
+    console.log(state);
     this.setState(state);
   };
   handleSaveChangesFn = () => {

@@ -61,10 +61,10 @@ const NewRecipeCard = (props) => {
     valErrors.genRecipe.name
   );
   const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
-  const origName = thisStateObjBackup
+  const origName = thisStateObjBackup.recordLoaded
     ? thisStateObjBackup.thisRecord[typeOfRecordToChange]["name"]
     : name;
-  const origPrepInstr = thisStateObjBackup
+  const origPrepInstr = thisStateObjBackup.recordLoaded
     ? thisStateObjBackup.thisRecord[typeOfRecordToChange][
         "defaultPrepInstructions"
       ]

@@ -28,7 +28,12 @@ const NewIngredientForm = (props) => {
     trimEnteredValueFn,
     onCreateNewRecordFn,
   } = commonMethods;
-  const { thisStateObj, thisStateObjBackup, thisGRFUser } = specificData;
+  const {
+    thisStateObj,
+    thisStateObjBackup,
+    thisGRFUser,
+    userChangedThisMealRecipe,
+  } = specificData;
   //   thisStateObj.recordLoaded = false;
   if (!thisStateObj.recordLoaded) {
     thisStateObj.thisRecord.genRecipeIngredient.ingredient = {
@@ -163,6 +168,7 @@ const NewIngredientForm = (props) => {
             thisStateObjBackup: thisStateObjBackup,
             nameValErrors: nameValErrors,
             saveDisabled: localSaveDisabled,
+            userChangedThisMealRecipe: userChangedThisMealRecipe,
           },
           specificMethods: {
             updateNameValErrorsStateFn: updateNameValErrorsStateFn,

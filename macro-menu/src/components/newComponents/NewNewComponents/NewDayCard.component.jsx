@@ -44,12 +44,36 @@ const NewDayCard = (props) => {
       recordChanged: { day: false },
       userType: { day: "viewer" },
       hasChildren: { day: false },
-      breakfast: { recordLoaded: false, thisMealsIngrdnts: [] },
-      snack1: { recordLoaded: false, thisMealsIngrdnts: [] },
-      lunch: { recordLoaded: false, thisMealsIngrdnts: [] },
-      snack2: { recordLoaded: false, thisMealsIngrdnts: [] },
-      dinner: { recordLoaded: false, thisMealsIngrdnts: [] },
-      dessert: { recordLoaded: false, thisMealsIngrdnts: [] },
+      breakfast: {
+        recordLoaded: false,
+        thisMealsIngrdnts: [],
+        thisRecord: { genRecipe: { _id: "" } },
+      },
+      snack1: {
+        recordLoaded: false,
+        thisMealsIngrdnts: [],
+        thisRecord: { genRecipe: { _id: "" } },
+      },
+      lunch: {
+        recordLoaded: false,
+        thisMealsIngrdnts: [],
+        thisRecord: { genRecipe: { _id: "" } },
+      },
+      snack2: {
+        recordLoaded: false,
+        thisMealsIngrdnts: [],
+        thisRecord: { genRecipe: { _id: "" } },
+      },
+      dinner: {
+        recordLoaded: false,
+        thisMealsIngrdnts: [],
+        thisRecord: { genRecipe: { _id: "" } },
+      },
+      dessert: {
+        recordLoaded: false,
+        thisMealsIngrdnts: [],
+        thisRecord: { genRecipe: { _id: "" } },
+      },
     };
   }
   const thisRecord = thisStateObj.thisRecord;
