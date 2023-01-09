@@ -135,6 +135,7 @@ const MealIngredientParentCard = (props) => {
               thisStateObj: thisStateObj,
               thisStateObjBackup: thisStateObjBackup,
               thisGRFUser: thisGRFUser,
+              userChangedThisMealRecipe: userChangedThisMealRecipe,
             },
             specificMethods: {},
           }}

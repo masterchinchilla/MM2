@@ -81,20 +81,11 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     updateNameStateFn(origName);
     onCancelEditFn();
   }
-  useEffect(
-    () => {
-      console.log(props.thisStateObjBackup);
+  useEffect(() => {
+    if (!editingForm.ingredient) {
       updateNameStateFn(name);
-    },
-    // );
-    [
-      props.thisStateObjBackup
-        ? props.thisStateObjBackup.thisRecord
-          ? props.thisStateObjBackup.thisRecord.meal.genRecipe._id
-          : "" !== props.thisStateObj.thisRecord.meal.genRecipe._id
-        : "" || userChangedThisMealRecipe,
-    ]
-  );
+    }
+  });
   return (
     <div className="ingrdntFrmHdr">
       <CustomHeading

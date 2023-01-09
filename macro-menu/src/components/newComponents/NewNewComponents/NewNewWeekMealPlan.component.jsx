@@ -1221,10 +1221,13 @@ class NewNewWeekMealPlan extends Component {
       switch (typeOfRecordToChange) {
         case "meal":
           stateObjToUpdate.thisRecord = updatedRecord;
-          if (propToUpdate === "genRecipe" && !justCreated) {
-            stateObjToUpdate = await this.hndlDraftMlIngrdntsForRcpChnge(
-              stateObjToUpdate
-            );
+          if (propToUpdate === "genRecipe") {
+            stateObjToUpdate.userChangedThisMealRecipe = true;
+            if (!justCreated) {
+              stateObjToUpdate = await this.hndlDraftMlIngrdntsForRcpChnge(
+                stateObjToUpdate
+              );
+            }
           }
           break;
         case "mealIngredient":
