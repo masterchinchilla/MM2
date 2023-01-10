@@ -640,25 +640,26 @@ class NewNewWeekMealPlan extends Component {
   };
   handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
     const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
-    // let savedRecord = null;
-    let savedRecord = newRecordToSave;
-    let valErrors = [{ name: ["name too long", "name too short"] }];
-    // try {
-    //   let reqRes = await httpService.post(reqUrl, newRecordToSave);
-    //   savedRecord = reqRes.data;
-    savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
-    savedRecord.createdAt = "";
-    savedRecord.updatedAt = "";
-    let typeOfRcrdToCreateSntcCase =
-      rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
-    let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
-    this.notifyFn(successMsg, "success");
-    // } catch (errs) {
-    //valErrorsNestedArray shape:
-    //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-    //   valErrors = this.parseHTTPResErrs(errs, "all");
-    //   this.notifyOfErrors(valErrors);
-    // }
+    let savedRecord = null;
+    // let savedRecord = newRecordToSave;
+    let valErrors = [];
+    //  = [{ name: ["name too long", "name too short"] }];
+    try {
+      let reqRes = await httpService.post(reqUrl, newRecordToSave);
+      savedRecord = reqRes.data;
+      // savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
+      // savedRecord.createdAt = "";
+      // savedRecord.updatedAt = "";
+      let typeOfRcrdToCreateSntcCase =
+        rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
+      let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
+      this.notifyFn(successMsg, "success");
+    } catch (errs) {
+      // valErrorsNestedArray shape:
+      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+    }
     return { savedRecord, valErrors };
   };
   handleCreateNewRecordFn = async (
@@ -768,9 +769,11 @@ class NewNewWeekMealPlan extends Component {
     switch (typeOfRecordToCreate) {
       case "day":
         typeOfRecordToChange = null;
+        existingValue = thisDayStateObj.thisRecord;
         break;
       case "meal":
         typeOfRecordToChange = null;
+        existingValue = thisMealStateObj.thisRecord;
         break;
       case "genRecipe":
         typeOfRecordToChange = "meal";
@@ -820,7 +823,7 @@ class NewNewWeekMealPlan extends Component {
       valueToSaveToState = savedRecord;
       justCreated = true;
     }
-    console.log(valueToSaveToState, justCreated);
+    console.log(valueToSaveToState, justCreated, typeOfRecordToChange);
     if (typeOfRecordToChange) {
       this.handleUpdateMealOrChildPropFn(
         typeOfRecordToCreate,
@@ -832,13 +835,16 @@ class NewNewWeekMealPlan extends Component {
         createNewValErrs,
         justCreated
       );
-    } else {
+    } else if (createNewValErrs.length < 1) {
       this.handleCreateNewDayOrMealFn(
         typeOfRecordToCreate,
         thisDayOfWeekCode,
         thisMealTypeCode,
         valueToSaveToState
       );
+    } else {
+      console.log("errors creating record");
+      return;
     }
   };
   handleCreateNewDayOrMealFn = async (
@@ -879,58 +885,6 @@ class NewNewWeekMealPlan extends Component {
     console.log(thisDayStateObj);
     this.setState({ [thisDayOfWeekCode]: thisDayStateObj });
   };
-  // handleCreateNewDayOrMealFn = async (
-  //   typeOfRecordToCreate,
-  //   thisDayOfWeekCode,
-  //   thisMealTypeCode
-  // ) => {
-  //   let recordTypesForStateObj =
-  //     typeOfRecordToCreate === "day" ? ["day"] : ["meal", "genRecipe"];
-  //   let createNewRecordResult = await this.handleCreateNewRecordFn(
-  //     typeOfRecordToCreate,
-  //     thisDayOfWeekCode,
-  //     thisMealTypeCode,
-  //     null
-  //   );
-  //   if (createNewRecordResult.valErrors.length < 1) {
-  //     let newRecord = createNewRecordResult.savedRecord;
-  //     let newStateObj = { thisRecord: newRecord };
-  //     newStateObj = this.buildInitialStateObj(
-  //       newStateObj,
-  //       recordTypesForStateObj,
-  //       newRecord
-  //     );
-  //     newStateObj.recordLoaded = true;
-  //     let thisDayStateObj;
-  //     if (typeOfRecordToCreate === "day") {
-  //       let mealTypes = this.state.mealTypes;
-  //       // let getDaysMealsResults = await this.getThisDaysMealsFn(newStateObj);
-  //       // newStateObj = getDaysMealsResults.thisDayStateObj;
-  //       // let countOfLinkedMeals = getDaysMealsResults.countOfLinkedMeals;
-  //       // newStateObj.hasChildren.day = countOfLinkedMeals > 0 ? true : false;
-  //       for (let i = 0; i < mealTypes.length; i++) {
-  //         newStateObj[mealTypes[i].code] = {
-  //           thisRecord: {
-  //             _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
-  //             mealType: mealTypes[i],
-  //             day: newRecord,
-  //           },
-  //           recordLoaded: true,
-  //         };
-  //       }
-  //       thisDayStateObj = newStateObj;
-  //     } else {
-  //       newStateObj.thisGenRcpsGenRcpIngrdnts = [];
-  //       newStateObj.thisMealsIngrdnts = [];
-  //       thisDayStateObj = this.state[thisDayOfWeekCode];
-  //       thisDayStateObj[thisMealTypeCode] = newStateObj;
-  //     }
-  //     console.log(thisDayStateObj);
-  //     this.setState({ [thisDayOfWeekCode]: thisDayStateObj });
-  //   } else {
-  //     return;
-  //   }
-  // };
   handleSaveNewMealIngrdntsToDB = async (mealStateObj) => {
     let pattern = /new/;
     let thisMealsIngrdntStateObjsArray = mealStateObj.thisMealsIngrdnts;
@@ -976,52 +930,6 @@ class NewNewWeekMealPlan extends Component {
     console.log(state);
     return state;
   };
-  // hndleCreateNewUOMWtTypOrBrnd = async (
-  //   typeOfRecordToCreate,
-  //   thisDayOfWeekCode,
-  //   thisMealTypeCode,
-  //   arrayIndex,
-  //   newName
-  // ) => {
-  //   console.log(
-  //     typeOfRecordToCreate,
-  //     thisDayOfWeekCode,
-  //     thisMealTypeCode,
-  //     arrayIndex,
-  //     newName
-  //   );
-  //   let createNewRecordResult = await this.handleCreateNewRecordFn(
-  //     typeOfRecordToCreate,
-  //     thisDayOfWeekCode,
-  //     thisMealTypeCode,
-  //     newName
-  //   );
-  //   console.log(createNewRecordResult);
-  //   const capitalRecordType =
-  //     typeOfRecordToCreate.charAt(0).toUpperCase() +
-  //     typeOfRecordToCreate.slice(1);
-  //   console.log(capitalRecordType);
-  //   if (createNewRecordResult.valErrors.length < 1) {
-  //     let state = this.state;
-  //     console.log(`all${capitalRecordType}`);
-  //     let fullRecordSet = state[`all${capitalRecordType}s`];
-  //     console.log(fullRecordSet);
-  //     let savedRecord = createNewRecordResult.savedRecord;
-  //     fullRecordSet.push(savedRecord);
-  //     let thisDayStateObj = state[thisDayOfWeekCode];
-  //     let thisMealIngrdntStateObj =
-  //       thisDayStateObj[thisMealTypeCode]["thisMealsIngrdnts"][arrayIndex];
-  //     thisMealIngrdntStateObj.thisRecord.genRecipeIngredient.ingredient[
-  //       typeOfRecordToCreate
-  //     ] = savedRecord;
-  //     thisDayStateObj[thisMealTypeCode]["thisMealsIngrdnts"][arrayIndex] =
-  //       thisMealIngrdntStateObj;
-  //     this.setState({
-  //       [thisDayOfWeekCode]: thisDayStateObj,
-  //       [`all${capitalRecordType}`]: fullRecordSet,
-  //     });
-  //   }
-  // };
   handleRestoreMissingMealIngrdnts = async (
     mealStateObj,
     thisDayOfWeekCode,

@@ -52,7 +52,6 @@ const NewCreateDayButton = (props) => {
                           null,
                           null
                         );
-                        onCreateNewRecordFn("day", dayOfWeek.code, null);
                       }}
                     >
                       Create Day
