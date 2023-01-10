@@ -97,6 +97,10 @@ const NewRecipeCard = (props) => {
     } else {
       toggleSaveDisabledStateFn(false);
     }
+    if (!editingForm.genRecipe) {
+      updateNameStateFn(name);
+      updatePrepInstrStateFn(defaultPrepInstructions);
+    }
   });
   useEffect(() => {
     updateNameStateFn(name);
@@ -192,7 +196,12 @@ const NewRecipeCard = (props) => {
               id={"genRecipeInnerAccordionHeader" + thisRecordId}
             >
               <button
-                className="accordion-button collapsed mealInnerAccrdnBttn"
+                className={
+                  justCreated.genRecipe
+                    ? "accordion-button mealInnerAccrdnBttn show"
+                    : "accordion-button mealInnerAccrdnBttn collapsed"
+                }
+                // className="accordion-button collapsed mealInnerAccrdnBttn"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target={"#genRecipeInnerAccrdn" + thisRecordId}
@@ -203,11 +212,23 @@ const NewRecipeCard = (props) => {
           </div>
           <div
             id={"genRecipeInnerAccrdn" + thisRecordId}
-            className="accordion-collapse collapse"
+            className={
+              justCreated.genRecipe
+                ? "accordion-collapse show"
+                : "accordion-collapse collapse"
+            }
+            // className="accordion-collapse collapse"
             aria-labelledby={"#genRecipeInnerAccordionHeader" + thisRecordId}
             data-bs-parent={"#genRecipeInnerAccordionFull" + thisRecordId}
           >
-            <div className="accordion-body mealInnerAccordion">
+            <div
+              className={
+                justCreated.genRecipe
+                  ? "accordion-body mealInnerAccordion cardHeaderFocused"
+                  : "accordion-body mealInnerAccordion"
+              }
+              // className="accordion-body mealInnerAccordion"
+            >
               <div className="form-group mealInputs">
                 <NewInputWSearchUniqueNew
                   commonProps={{

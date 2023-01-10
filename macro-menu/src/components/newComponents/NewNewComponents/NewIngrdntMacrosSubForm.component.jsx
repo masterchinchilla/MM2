@@ -40,7 +40,14 @@ const NewIngrdntMacrosSubForm = (props) => {
   const thisRecordId = _id;
   function inputOnKeyUpFn() {}
   return (
-    <div className="accordion-body ingrdntInnrAccrdn">
+    <div
+      className={
+        justCreated.ingredient
+          ? "accordion-body ingrdntInnrAccrdn cardHeaderFocused"
+          : "accordion-body ingrdntInnrAccrdn"
+      }
+      // className="accordion-body ingrdntInnrAccrdn"
+    >
       <NewInputCore
         commonProps={{
           commonData: {},

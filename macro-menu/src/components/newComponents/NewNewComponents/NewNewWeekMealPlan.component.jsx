@@ -761,9 +761,8 @@ class NewNewWeekMealPlan extends Component {
     let thisMealStateObj = thisMealTypeCode
       ? thisDayStateObj[thisMealTypeCode]
       : null;
-    let thisMealIngrdntStateObj = arrayIndex
-      ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
-      : null;
+    let thisMealIngrdntStateObj =
+      arrayIndex >= 0 ? thisMealStateObj.thisMealsIngrdnts[arrayIndex] : null;
     let typeOfRecordToChange;
     let existingValue;
     switch (typeOfRecordToCreate) {
@@ -1135,6 +1134,9 @@ class NewNewWeekMealPlan extends Component {
               stateObjToUpdate = await this.hndlDraftMlIngrdntsForRcpChnge(
                 stateObjToUpdate
               );
+            } else {
+              stateObjToUpdate.thisMealsIngrdnts = [];
+              stateObjToUpdate.thisGenRcpsGenRcpIngrdnts = [];
             }
           }
           break;

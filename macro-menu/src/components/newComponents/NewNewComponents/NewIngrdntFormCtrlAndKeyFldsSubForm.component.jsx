@@ -87,7 +87,14 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     }
   });
   return (
-    <div className="ingrdntFrmHdr">
+    <div
+      className={
+        justCreated.ingredient
+          ? "ingrdntFrmHdr cardHeaderFocused"
+          : "ingrdntFrmHdr"
+      }
+      // className="ingrdntFrmHdr"
+    >
       <CustomHeading
         key={`custonBaseIngrdntHeadingFor${typeOfRecordToChange}${thisRecordId}`}
         headingLvl={6}

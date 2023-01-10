@@ -420,10 +420,7 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 .doubleHeightLabel{
   min-height: 3.25rem;
 }
-.ingrdntInnrAccrdn {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
+
 
 .ingrdntInnrAccrdn label{
   min-height: unset;
@@ -435,8 +432,13 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 .mlIngrdntsCard div.accordion-body{
   padding: 0 !important;
 }
+.mlIngrdntsCard div.ingrdntInnrAccrdn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 0.5rem !important;
+}
 .ingrdntAdminMenu{
-  margin-top:0.5rem;
+  /* margin-top:0.5rem; */
 }
 .ingrdntFrmGrpWBttmPddng{
   padding-bottom:0.5rem !important;

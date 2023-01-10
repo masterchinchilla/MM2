@@ -133,13 +133,7 @@ const NewIngredientForm = (props) => {
     onCancelEditFn();
   }
   return (
-    <form
-      className={
-        justCreated.ingredient
-          ? "ingrdntFrm subCardHeaderFocused"
-          : "ingrdntFrm"
-      }
-    >
+    <form className={"ingrdntFrm"}>
       <NewIngrdntFormCtrlAndKeyFldsSubForm
         commonProps={{
           commonData: {
