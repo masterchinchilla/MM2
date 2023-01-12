@@ -27,7 +27,7 @@ const NewMealParentCard = (props) => {
     trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { populateMissingMealIngrdnts, onClickAddIngrdntToRcpBttn } =
+  const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
   const { thisStateObj, thisStateObjBackup, nestedMealIngrdntArray } =
     specificData;
@@ -173,7 +173,7 @@ const NewMealParentCard = (props) => {
               },
               specificMethods: {
                 populateMissingMealIngrdnts: populateMissingMealIngrdnts,
-                onClickAddIngrdntToRcpBttn: onClickAddIngrdntToRcpBttn,
+                onAddIngrdntToRecipeFn: onAddIngrdntToRecipeFn,
               },
             }}
           />

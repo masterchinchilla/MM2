@@ -29,7 +29,7 @@ const NewDayMealsAndMacros = (props) => {
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj, thisStateObjBackup } = specificData;
-  const { populateMissingMealIngrdnts, onClickAddIngrdntToRcpBttn } =
+  const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
   const {
     thisRecord,
@@ -173,7 +173,7 @@ const NewDayMealsAndMacros = (props) => {
             },
             specificMethods: {
               populateMissingMealIngrdnts: populateMissingMealIngrdnts,
-              onClickAddIngrdntToRcpBttn: onClickAddIngrdntToRcpBttn,
+              onAddIngrdntToRecipeFn: onAddIngrdntToRecipeFn,
             },
           }}
         />

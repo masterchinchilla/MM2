@@ -83,7 +83,14 @@ const NewGenRecipeIngredientForm = (props) => {
   }
   function inputOnKeyUpFn() {}
   return (
-    <form className="gnRcpIngrdntFrm">
+    <form
+      // className="gnRcpIngrdntFrm"
+      className={
+        justCreated.genRecipeIngredient
+          ? "gnRcpIngrdntFrm cardHeaderFocused"
+          : "gnRcpIngrdntFrm"
+      }
+    >
       <div className="gnRcpIngrdntFrmHdr">
         <CustomHeading
           key={`custonDfltQtyHeadingFor${typeOfRecordToChange}${thisRecordId}`}
@@ -189,18 +196,19 @@ const NewGenRecipeIngredientForm = (props) => {
         >
           <div className="accordion-body">
             <div
-              className={
-                justCreated.genRecipeIngredient
-                  ? "form-group mealIngrdntInputs subCardHeaderFocused"
-                  : "form-group mealIngrdntInputs"
-              }
+              className="form-group mealIngrdntInputs"
+              // {
+              //   justCreated.genRecipeIngredient
+              //     ? "form-group mealIngrdntInputs subCardHeaderFocused"
+              //     :
+              // }
             >
               <CustomHeading
                 key={`custonRecipeIngrdntHeadingFor${typeOfRecordToChange}${thisRecordId}`}
                 headingLvl={6}
                 recordLoaded={recordLoaded}
                 headingText="Recipe Ingredient"
-                hdngIsReqFormLbl={true}
+                hdngIsReqFormLbl={false}
                 editingForm={editingForm.genRecipeIngredient}
                 headingClasses="genRecipeIngrdntHdr"
               />

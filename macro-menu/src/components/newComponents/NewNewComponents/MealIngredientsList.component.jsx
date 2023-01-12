@@ -19,7 +19,7 @@ const MealIngredientsList = (props) => {
     onCreateNewRecordFn,
   } = commonMethods;
   const { mealStateObj, mealBackup } = specificData;
-  const { populateMissingMealIngrdnts, onClickAddIngrdntToRcpBttn } =
+  const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
   const {
     userType,
@@ -194,7 +194,9 @@ const MealIngredientsList = (props) => {
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={onClickAddIngrdntToRcpBttn}
+            onClick={() =>
+              onAddIngrdntToRecipeFn(thisDayOfWeekCode, thisMealTypeCode)
+            }
             disabled={
               userType.meal === "viewer" || editingForm.meal ? true : false
             }
