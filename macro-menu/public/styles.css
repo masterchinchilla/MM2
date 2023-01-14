@@ -151,6 +151,8 @@ button.accordion-button {
   margin: 0 0.25rem 0 0.5rem;
   font-size: 12pt;
   grid-area: recipeLabel;
+  display:flex;
+  align-items: center;
 }
 .formSctnTitle {
   padding: 0.5rem 0 0.5rem 1rem;
@@ -452,19 +454,22 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
     font-size: small !important;
     padding: 0 0 2px 5px !important;
   }
+  label {
+    font-size: 0.75rem;
+    margin-bottom: 0.1rem;
+  }
   .ingrdntFrm div.recipeSelect {
     font-size: small !important;
-      margin:2px !important;
-padding:0 !important;
+    margin:2px !important;
+    padding:0 !important;
   }
-    .recipeSelect * {
-      font-size: small !important;
-      /* margin: 2px !important; */
-      padding: 0 !important;
-    }
-    .css-3iigni-container *{
-      
-    }
+  .recipeSelect * {
+    font-size: small !important;
+    /* margin: 2px !important; */
+    padding: 0 !important;
+  }
+  .css-3iigni-container *{
+  }
   .mlIngrdntsCard *{
     white-space: normal;
     margin-right: 0;
@@ -484,19 +489,56 @@ padding:0 !important;
   }.dayMacTable {
     margin-left: -12px !important;
   }
-    .mealMacTable {
-      margin-left: -30px !important;
-    }
-        nav.navbar {
-          padding-left: 0.5rem !important;
-          padding-right: 0.5rem !important;
-        }
-                .profileDDBttn{
-                  padding:0 0 0 0.5rem !important;
-                }
-                                /* .lottieCont {
-                                  margin-left: -1.7rem;
-                                } */
+  .mealMacTable {
+    margin-left: -30px !important;
+  }
+  nav.navbar {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  .profileDDBttn{
+    padding:0 0 0 0.5rem !important;
+  }
+  .lottieCont {
+    margin-left: -0.87rem;
+  }
+  .mealImgNTblRow {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: minmax(10vw, 100px) 2rem minmax(10vw, 100px);
+    grid-template-areas:
+      "mealImg mealImg"
+      "mealPrepInst mealPrepInst"
+      "mealTextArea mealTextArea";
+    margin: -0.75px -0.75px auto -0.75px;
+  }
+  .mealInnerAccordion {
+    padding-top: 0.25rem !important;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    column-gap: 1rem;
+  }
+  .ingrdntFrmHdr {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-areas:
+      "ingrdntHdr ingrdntHdr ingrdntFrmIcns"
+      "ingrdntPicDiv ingrdntPicDiv ingrdntPicDiv"
+      "ingrdntUOM ingrdntUOM ingrdntUOM"
+      "ingrdntWghtType ingrdntWghtType ingrdntWghtType"
+      "ingrdntBrnd ingrdntBrnd ingrdntBrnd"
+      "ingrdntName ingrdntName ingrdntName";
+  }
+  .ingrdntFrmHdr div.ingrdntName {
+    margin-top: 1rem !important;
+  }
+  .reactSelectValContainer{
+    font-size: 10pt;
+    line-height: 1rem;
+    height: 1.5rem;
+  }
 }
 .mlIngrdntsCntnr{
   display: flex;

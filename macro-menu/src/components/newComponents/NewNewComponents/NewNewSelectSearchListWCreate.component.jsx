@@ -113,16 +113,42 @@ const NewNewSelectSearchListWCreate = (props) => {
               padding: 0,
               margin: 0,
             }),
+            control: (baseStyles) => ({
+              ...baseStyles,
+              minHeight: "unset",
+            }),
             valueContainer: (baseStyles) => ({
               ...baseStyles,
               // backgroundColor: "orange",
               padding: "0 0 0 2px",
-              fontSize: "10pt",
+              margin: "0",
+              "@media only screen and (max-width: 529px)": {
+                ...baseStyles["@media only screen and (max-width: 529px)"],
+                fontSize: "10pt",
+                lineHeight: "1rem",
+                height: "1.5rem",
+              },
+            }),
+            option: (baseStyles) => ({
+              ...baseStyles,
+              "@media only screen and (max-width: 529px)": {
+                ...baseStyles["@media only screen and (max-width: 529px)"],
+                fontSize: "10pt",
+                lineHeight: "1rem",
+                height: "1.5rem",
+                padding: "3px 0 0 4px",
+                // margin: 0,
+                // alignItems: "center",
+                // verticalAlign: "center",
+              },
             }),
             singleValue: (baseStyles) => ({
               ...baseStyles,
               // backgroundColor: "red",
             }),
+          }}
+          classNames={{
+            valueContainer: "reactSelectValContainer",
           }}
         />
       </div>
