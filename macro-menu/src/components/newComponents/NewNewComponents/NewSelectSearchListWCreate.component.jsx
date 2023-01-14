@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { csValidateProp } from "../../../services/validationService";
-import CreatableSelect from "react-select/creatable";
+import CreatableSelect, { StylesConfig } from "react-select/creatable";
 const NewSelectSearchListWCreate = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;

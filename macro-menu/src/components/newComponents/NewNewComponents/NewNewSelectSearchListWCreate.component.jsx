@@ -106,6 +106,24 @@ const NewNewSelectSearchListWCreate = (props) => {
           options={localOptions}
           value={selectedOption}
           isValidNewOption={validateNewOptionFn}
+          styles={{
+            dropdownIndicator: (baseStyles) => ({
+              ...baseStyles,
+              // backgroundColor: "red",
+              padding: 0,
+              margin: 0,
+            }),
+            valueContainer: (baseStyles) => ({
+              ...baseStyles,
+              // backgroundColor: "orange",
+              padding: "0 0 0 2px",
+              fontSize: "10pt",
+            }),
+            singleValue: (baseStyles) => ({
+              ...baseStyles,
+              // backgroundColor: "red",
+            }),
+          }}
         />
       </div>
     );

@@ -148,7 +148,8 @@ button.accordion-button {
   margin-bottom: -1px;
 }
 .recipeSelectHeader {
-  margin: auto 1rem;
+  margin: 0 0.25rem 0 0.5rem;
+  font-size: 12pt;
   grid-area: recipeLabel;
 }
 .formSctnTitle {
@@ -493,6 +494,9 @@ padding:0 !important;
                 .profileDDBttn{
                   padding:0 0 0 0.5rem !important;
                 }
+                                /* .lottieCont {
+                                  margin-left: -1.7rem;
+                                } */
 }
 .mlIngrdntsCntnr{
   display: flex;
@@ -1021,14 +1025,14 @@ div.emptyPlaceholder span{
   width: 100%;
   height: 100%;
   z-index: 9;
-  
+  /* margin-left: -1.7rem; */
 }
 .lottieSubCont{
   background: rgb(255 255 255 / 95%) !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  width:50%;
+  /* width:50%; */
   height:fit-content;
   margin-top:-10rem;
   border-radius: 1rem;
@@ -1041,6 +1045,7 @@ div.emptyPlaceholder span{
 .lottieText {
   font-size: 24pt;
   font-weight: bold;
+  margin-left: 1rem;
 }
 .slctSrchRcpsLstWCreate{
   margin: 7px 5px 5px 0px !important;

@@ -145,6 +145,7 @@ class NewNewWeekMealPlan extends Component {
     return keyValue;
   };
   buildInitialStateObj = (thisStateObj, recordTypesArray, thisRecord) => {
+    console.log(thisRecord);
     thisStateObj.recordChanged = {};
     thisStateObj.editingForm = {};
     thisStateObj.valErrors = {};
@@ -172,7 +173,9 @@ class NewNewWeekMealPlan extends Component {
           break;
         case "genRecipeIngredient":
           recordForKeys = thisRecord[recordTypesArray[i]];
+          console.log(recordForKeys);
           relevantUserId = recordForKeys.genRecipe.GRFUser._id;
+          console.log(relevantUserId);
           break;
         case "genRecipe":
           recordForKeys = thisRecord[recordTypesArray[i]];
@@ -194,6 +197,7 @@ class NewNewWeekMealPlan extends Component {
       );
       let relevantRecordUserType =
         this.determineThisRecordsUserTypeFn(relevantUserId);
+      console.log(relevantRecordUserType);
       thisStateObj.userType = this.updateStateObjMetaKeyValue(
         thisStateObj.userType,
         recordTypesArray[i],
@@ -896,11 +900,14 @@ class NewNewWeekMealPlan extends Component {
   handleSaveNewMealIngrdntsToDB = async (mealStateObj) => {
     let pattern = /new/;
     let thisMealsIngrdntStateObjsArray = mealStateObj.thisMealsIngrdnts;
+    let valErrors = [];
     for (let i = 0; i < thisMealsIngrdntStateObjsArray.length; i++) {
       let thisMealIngrdntStateObj = thisMealsIngrdntStateObjsArray[i];
       let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
       let testResult = pattern.test(thisMealIngrdntRecord._id);
       console.log(testResult);
+      let theseValErrors;
+      let createMealIngrdntResult;
       if (testResult) {
         let mealIngrdntRcrdToSave = _.pick(thisMealIngrdntRecord, [
           "qty",
@@ -908,19 +915,29 @@ class NewNewWeekMealPlan extends Component {
           "meal",
         ]);
         console.log(`Saving new mealIngredient ${thisMealIngrdntRecord._id}`);
-        let createMealIngrdntResult = await this.handleCreateNewRecordInDb(
+        createMealIngrdntResult = await this.handleCreateNewRecordInDb(
           "mealIngredient",
           mealIngrdntRcrdToSave
         );
-        if (!createMealIngrdntResult.valErrors) {
+        theseValErrors = createMealIngrdntResult.valErrors;
+        if (theseValErrors.length > 0) {
+          theseValErrors.map((valErr) => {
+            valErrors.push(valErr);
+          });
+          thisMealsIngrdntStateObjsArray.splice(i, 1);
+          this.notifyFn(
+            "A Meal Ingredient save failed, refresh and try 'Populate Ingredients' again",
+            "error"
+          );
+        } else {
           thisMealIngrdntStateObj.thisRecord._id =
             createMealIngrdntResult.savedRecord._id;
+          thisMealsIngrdntStateObjsArray[i] = thisMealIngrdntStateObj;
         }
       }
-      thisMealsIngrdntStateObjsArray[i] = thisMealIngrdntStateObj;
     }
     mealStateObj.thisMealsIngrdnts = thisMealsIngrdntStateObjsArray;
-    return mealStateObj;
+    return { valErrors, mealStateObj };
   };
   handleAddNewToFullRcrdSet = (state, typeOfCreatedRecord, newRecord) => {
     console.log(state, typeOfCreatedRecord, newRecord);
@@ -935,6 +952,34 @@ class NewNewWeekMealPlan extends Component {
     console.log(state);
     return state;
   };
+  handleDeleteOldMealIngrdntsFrmDb = async (
+    mealStateObjBackup,
+    mealStateObj
+  ) => {
+    let newMealIngrdntsArray = mealStateObj.thisMealsIngrdnts;
+    let oldMealIngrdntsArray = mealStateObjBackup.thisMealsIngrdnts;
+    let valErrors = [];
+    for (let i = 0; i < oldMealIngrdntsArray.length; i++) {
+      let thisMealIngrdntStateObj = oldMealIngrdntsArray[i];
+      let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
+      let thisMealInrdntId = thisMealIngrdntRecord._id;
+      let deleteMealIngrdntOk = await this.handleDeleteRecordFn(
+        "mealIngredient",
+        thisMealInrdntId
+      );
+      if (!deleteMealIngrdntOk) {
+        let errorMsg = `Meal Ingredient with ID ${thisMealInrdntId} could not be deleted`;
+        newMealIngrdntsArray.push(thisMealIngrdntStateObj);
+        valErrors.push({ all: [errorMsg] });
+        this.notifyFn(
+          `${errorMsg}, it has been restored to this meal's ingredients list so you can try manually deleting it from there.`,
+          "error"
+        );
+      }
+    }
+    mealStateObj.thisMealsIngrdnts = newMealIngrdntsArray;
+    return { valErrors, mealStateObj };
+  };
   handleRestoreMissingMealIngrdnts = async (
     mealStateObj,
     thisDayOfWeekCode,
@@ -942,10 +987,36 @@ class NewNewWeekMealPlan extends Component {
   ) => {
     mealStateObj = await this.populateMissingMealIngrdnts(mealStateObj);
     console.log(mealStateObj);
-    mealStateObj = await this.handleSaveNewMealIngrdntsToDB(mealStateObj);
+    let saveMealIngrdntsResult = await this.handleSaveNewMealIngrdntsToDB(
+      mealStateObj
+    );
+    // if(saveMealIngrdntsResult.valErrors.length>0){return}else{
+    mealStateObj = saveMealIngrdntsResult.mealStateObj;
     let thisDayStateObj = this.state[thisDayOfWeekCode];
     thisDayStateObj[thisMealTypeCode] = mealStateObj;
     this.setState({ [thisDayOfWeekCode]: thisDayStateObj });
+  };
+  hndlSaveNewIngrdntsAndDltOldOnes = async (
+    stateObjToUpdate,
+    thisMealStateObjBackup
+  ) => {
+    // let stateObjPriorMlIngrdntsSaveToDb = _.cloneDeep(stateObjToUpdate);
+    let saveMealIngrdntsResult = await this.handleSaveNewMealIngrdntsToDB(
+      stateObjToUpdate
+    );
+    stateObjToUpdate = saveMealIngrdntsResult.mealStateObj;
+    // if (
+    //   stateObjPriorMlIngrdntsSaveToDb.thisMealsIngrdnts.length ===
+    //   saveMealIngrdntsResult.mealStateObj.thisMealsIngrdnts.length
+    // ) {
+    let deleteMealIngrdntsResult = await this.handleDeleteOldMealIngrdntsFrmDb(
+      thisMealStateObjBackup,
+      stateObjToUpdate
+    );
+    if (deleteMealIngrdntsResult.valErrors.length > 0) {
+      stateObjToUpdate = deleteMealIngrdntsResult.mealStateObj;
+    }
+    return stateObjToUpdate;
   };
   hndlDraftMlIngrdntsForRcpChnge = async (mealStateObj) => {
     console.log(mealStateObj);
@@ -1222,7 +1293,6 @@ class NewNewWeekMealPlan extends Component {
     console.log(state);
     this.setState(state);
   };
-
   handleStartEditingFn = (
     typeOfRecordToChange,
     thisDayOfWeekCode,
@@ -1675,9 +1745,18 @@ class NewNewWeekMealPlan extends Component {
       newGenRecipeIngredient
     );
     if (createNewGenRcpIngrdntResult.valErrors.length < 1) {
+      let savedGenRcpIngrdnt = createNewGenRcpIngrdntResult.savedRecord;
+      let updatedNewGenRcpIngrdnt = {
+        _id: savedGenRcpIngrdnt._id,
+        defaultQty: savedGenRcpIngrdnt._id,
+        ingredient: newGenRecipeIngredient.ingredient,
+        genRecipe: newGenRecipeIngredient.genRecipe,
+        createdAt: savedGenRcpIngrdnt.createdAt,
+        updatedAt: savedGenRcpIngrdnt.updatedAt,
+      };
       let newMealIngredient = {
         qty: 0,
-        genRecipeIngredient: createNewGenRcpIngrdntResult.savedRecord,
+        genRecipeIngredient: updatedNewGenRcpIngrdnt,
         meal: thisMealRecord,
       };
       let createNewMealIngrdntResult = await this.handleCreateNewRecordInDb(
@@ -1695,7 +1774,15 @@ class NewNewWeekMealPlan extends Component {
           "genRecipeIngredient",
           "ingredient",
         ];
-        let newRecord = createNewMealIngrdntResult.savedRecord;
+        let savedMealIngrdnt = createNewMealIngrdntResult.savedRecord;
+        let newRecord = {
+          _id: savedMealIngrdnt._id,
+          qty: savedMealIngrdnt.qty,
+          genRecipeIngredient: updatedNewGenRcpIngrdnt,
+          meal: thisMealRecord,
+          createdAt: savedMealIngrdnt.createdAt,
+          updatedAt: savedMealIngrdnt.updatedAt,
+        };
         let newStateObj = { thisRecord: newRecord };
         newStateObj = this.buildInitialStateObj(
           newStateObj,
@@ -1755,7 +1842,17 @@ class NewNewWeekMealPlan extends Component {
     } else {
       recordToSave = stateObjToUpdate.thisRecord;
     }
-
+    if (
+      typeOfRecordToSave === "meal" &&
+      stateObjToUpdate.userChangedThisMealRecipe
+    ) {
+      let thisDayStateObjBackup = state[`${thisDayOfWeekCode}Backup`];
+      let thisMealStateObjBackup = thisDayStateObjBackup[thisMealTypeCode];
+      stateObjToUpdate = await this.hndlSaveNewIngrdntsAndDltOldOnes(
+        stateObjToUpdate,
+        thisMealStateObjBackup
+      );
+    }
     let valErrors = await this.handleSaveUpdateToDbFn(
       typeOfRecordToSave,
       recordToSave
@@ -1878,11 +1975,7 @@ class NewNewWeekMealPlan extends Component {
     const typeOfRecordToChange = this.state.typeOfRecordToChange;
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
     return (
-      <div className="container-fluid pl-4 pr-4">
-        <ToastContainer
-          key={`toastCntnrFor${typeOfRecordToChange}${thisWMPRecordId}`}
-          autoClose={2000}
-        />
+      <React.Fragment>
         <div
           className="lottieCont"
           hidden={this.state.thisWMPStateObj.recordLoaded}
@@ -1900,89 +1993,97 @@ class NewNewWeekMealPlan extends Component {
             />
           </div>
         </div>
+        <div className="container-fluid pl-4 pr-4">
+          <ToastContainer
+            key={`toastCntnrFor${typeOfRecordToChange}${thisWMPRecordId}`}
+            autoClose={2000}
+          />
 
-        <NewWeekMealPlanCard
-          commonProps={{
-            commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
-            commonMethods: {
-              getRndIntegerFn: this.getRndIntegerFn,
-              returnElementKey: this.returnElementKey,
-              onCreateNewRecordFn: this.handleCreateNewRecordFn,
-              onUpdatePropFn: this.handleUpdateWMPPropFn,
-              onSaveChangesFn: this.handleSaveChangesFn,
-              onStartEditingFn: this.handleStartEditingFn,
-              onCancelEditFn: this.handleCancelEditFn,
-              onDeleteObjFn: this.handleDeleteObjFn,
-              trimEnteredValueFn: this.handleTrimEnteredValueFn,
-            },
-          }}
-          specificProps={{
-            specificData: {
-              thisStateObj: this.state.thisWMPStateObj,
-              thisStateObjBackup: this.state.thisWMPStateBackup,
-            },
-            specificMethods: { onUpdateWeightsFn: this.handleUpdateWeightsFn },
-          }}
-        />
-        <div className="card mt-3 mb-3">
-          <div className="card-header">
-            <CustomHeading
-              key={`customDayMealPlnsHeadingFor${typeOfRecordToChange}${thisWMPRecordId}`}
-              headingLvl={2}
-              recordLoaded={wmpRecordLoaded}
-              headingText="Day Meal Plans"
-              hdngIsReqFormLbl={false}
-              editingForm={false}
-              headingClasses="card-title"
-            />
-          </div>
-          <div className="card-body">
-            <div
-              className="accordion accordion-flush"
-              id={"accordionFull" + thisWMPRecordId}
-            >
-              <div className="accordion-item">
-                <h2
-                  className="accordion-header"
-                  id={"accordionHeader" + thisWMPRecordId}
-                >
-                  <button
-                    className="accordion-button"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={"#dayAccrdn" + thisWMPRecordId}
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                  ></button>
-                </h2>
-              </div>
+          <NewWeekMealPlanCard
+            commonProps={{
+              commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
+              commonMethods: {
+                getRndIntegerFn: this.getRndIntegerFn,
+                returnElementKey: this.returnElementKey,
+                onCreateNewRecordFn: this.handleCreateNewRecordFn,
+                onUpdatePropFn: this.handleUpdateWMPPropFn,
+                onSaveChangesFn: this.handleSaveChangesFn,
+                onStartEditingFn: this.handleStartEditingFn,
+                onCancelEditFn: this.handleCancelEditFn,
+                onDeleteObjFn: this.handleDeleteObjFn,
+                trimEnteredValueFn: this.handleTrimEnteredValueFn,
+              },
+            }}
+            specificProps={{
+              specificData: {
+                thisStateObj: this.state.thisWMPStateObj,
+                thisStateObjBackup: this.state.thisWMPStateBackup,
+              },
+              specificMethods: {
+                onUpdateWeightsFn: this.handleUpdateWeightsFn,
+              },
+            }}
+          />
+          <div className="card mt-3 mb-3">
+            <div className="card-header">
+              <CustomHeading
+                key={`customDayMealPlnsHeadingFor${typeOfRecordToChange}${thisWMPRecordId}`}
+                headingLvl={2}
+                recordLoaded={wmpRecordLoaded}
+                headingText="Day Meal Plans"
+                hdngIsReqFormLbl={false}
+                editingForm={false}
+                headingClasses="card-title"
+              />
+            </div>
+            <div className="card-body">
               <div
-                id={"dayAccrdn" + thisWMPRecordId}
-                className="accordion-collapse collapse show"
-                aria-labelledby={"#accordionHeader" + thisWMPRecordId}
-                data-bs-parent={"#accordionFull" + thisWMPRecordId}
+                className="accordion accordion-flush"
+                id={"accordionFull" + thisWMPRecordId}
               >
-                <div className="accordion-body wkDaysAccrdnBdy">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={this.getThisWMPFn}
+                <div className="accordion-item">
+                  <h2
+                    className="accordion-header"
+                    id={"accordionHeader" + thisWMPRecordId}
                   >
-                    Reload
-                  </button>
-                  {this.renderDay("sunday", "Sunday")}
-                  {this.renderDay("monday", "Monday")}
-                  {this.renderDay("tuesday", "Tuesday")}
-                  {this.renderDay("wednesday", "Wednesday")}
-                  {this.renderDay("thursday", "Thursday")}
-                  {this.renderDay("friday", "Friday")}
-                  {this.renderDay("saturday", "Saturday")}
+                    <button
+                      className="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={"#dayAccrdn" + thisWMPRecordId}
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    ></button>
+                  </h2>
+                </div>
+                <div
+                  id={"dayAccrdn" + thisWMPRecordId}
+                  className="accordion-collapse collapse show"
+                  aria-labelledby={"#accordionHeader" + thisWMPRecordId}
+                  data-bs-parent={"#accordionFull" + thisWMPRecordId}
+                >
+                  <div className="accordion-body wkDaysAccrdnBdy">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={this.getThisWMPFn}
+                    >
+                      Reload
+                    </button>
+                    {this.renderDay("sunday", "Sunday")}
+                    {this.renderDay("monday", "Monday")}
+                    {this.renderDay("tuesday", "Tuesday")}
+                    {this.renderDay("wednesday", "Wednesday")}
+                    {this.renderDay("thursday", "Thursday")}
+                    {this.renderDay("friday", "Friday")}
+                    {this.renderDay("saturday", "Saturday")}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

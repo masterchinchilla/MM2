@@ -201,15 +201,16 @@ router.post('/add',auth,async(req,res)=>{
                 }else{return};
             })
             .catch((err)=>{res.status(404).json({ok:false,errorMsg:"Base Recipe not found"})}); 
-    }else{return};
-    // const newGenRecipeIngredient=new GenRecipeIngredient({
-    //     defaultQty,
-    //     ingredient,
-    //     genRecipe
-    // });
-    // newGenRecipeIngredient.save()
-    //     .then(()=>res.json(newGenRecipeIngredient))
-    //     .catch(err=>res.status(400).json('Error: '+err));
+    }else{
+    const newGenRecipeIngredient=new GenRecipeIngredient({
+        defaultQty:defaultQty,
+        ingredient:ingredientId,
+        genRecipe:genRecipeId
+    });
+    newGenRecipeIngredient.save()
+        .then(()=>res.json(newGenRecipeIngredient))
+        .catch(err=>res.status(400).json('Error: '+err));
+}
 });
 router.route('/:id').delete((req, res)=>{
     GenRecipeIngredient.findByIdAndDelete(req.params.id)
