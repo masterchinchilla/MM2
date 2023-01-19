@@ -4,7 +4,12 @@ import NewInputCore from "./NewInputCore.component";
 const NewMacroBudgetSubForm = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { getRndIntegerFn, returnElementKey, onUpdatePropFn } = commonMethods;
+  const {
+    getRndIntegerFn,
+    returnElementKey,
+    onUpdatePropFn,
+    trimEnteredValueFn,
+  } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj } = specificData;
   const { editingForm, thisRecord, valErrors, recordLoaded } = thisStateObj;
@@ -69,6 +74,7 @@ const NewMacroBudgetSubForm = (props) => {
                     getRndIntegerFn: getRndIntegerFn,
                     returnElementKey: returnElementKey,
                     onUpdatePropFn: onUpdatePropFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
                   },
                 }}
                 specificProps={{
@@ -129,6 +135,7 @@ const NewMacroBudgetSubForm = (props) => {
                     getRndIntegerFn: getRndIntegerFn,
                     returnElementKey: returnElementKey,
                     onUpdatePropFn: onUpdatePropFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
                   },
                 }}
                 specificProps={{
@@ -159,6 +166,7 @@ const NewMacroBudgetSubForm = (props) => {
                     getRndIntegerFn: getRndIntegerFn,
                     returnElementKey: returnElementKey,
                     onUpdatePropFn: onUpdatePropFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
                   },
                 }}
                 specificProps={{
@@ -189,6 +197,7 @@ const NewMacroBudgetSubForm = (props) => {
                     getRndIntegerFn: getRndIntegerFn,
                     returnElementKey: returnElementKey,
                     onUpdatePropFn: onUpdatePropFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
                   },
                 }}
                 specificProps={{
@@ -219,6 +228,7 @@ const NewMacroBudgetSubForm = (props) => {
                     getRndIntegerFn: getRndIntegerFn,
                     returnElementKey: returnElementKey,
                     onUpdatePropFn: onUpdatePropFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
                   },
                 }}
                 specificProps={{

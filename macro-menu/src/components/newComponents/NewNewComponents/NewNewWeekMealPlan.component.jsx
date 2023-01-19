@@ -1009,7 +1009,7 @@ class NewNewWeekMealPlan extends Component {
     let newValue;
     const propTypeForVal =
       rcrdOrFldNameSntncCaseAndPropTypForVal[propToUpdate]["propTypeForVal"];
-    if (propTypeForVal === "float") {
+    if (propTypeForVal === "float" && updatedValue !== "") {
       let newValueAsNumber = JSON.parse(updatedValue);
       let newValueAsFloat =
         Math.round((newValueAsNumber + Number.EPSILON) * 100) / 100;
@@ -1017,6 +1017,7 @@ class NewNewWeekMealPlan extends Component {
     } else {
       newValue = updatedValue;
     }
+    console.log(newValue);
     let pattern = /missing/;
     let state = this.state;
     const daysOfWeek = state.daysOfWeek;
@@ -1341,6 +1342,7 @@ class NewNewWeekMealPlan extends Component {
     typeOfRecordToUpdate,
     updatedRecordFromState
   ) => {
+    console.log(updatedRecordFromState);
     const url = `${this.state.backEndHtmlRoot}${typeOfRecordToUpdate}s/update/${updatedRecordFromState._id}`;
     let valErrors = [];
     try {
@@ -1724,7 +1726,7 @@ class NewNewWeekMealPlan extends Component {
     arrayIndex
   ) => {
     let state = this.state;
-    console.log(state);
+    console.log(typeOfRecordToSave);
     let thisDayStateObj = thisDayOfWeekCode ? state[thisDayOfWeekCode] : null;
     let thisMealStateObj = thisMealTypeCode
       ? thisDayStateObj[thisMealTypeCode]

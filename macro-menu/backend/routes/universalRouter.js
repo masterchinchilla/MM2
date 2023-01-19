@@ -1,0 +1,19 @@
+const router = require('express').Router();
+const auth = require('../middleware/auth');
+const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
+const {ssValidate2}=require('../backendServices/ssValidation');
+let UnitOfMeasure=require('../models/unitOfMeasure.model');
+let WeightType=require('../models/weightType.model');
+let Brand=require('../models/brand.model');
+let GRFUserModel=require('../models/GRFUser.model');
+let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
+let GenRecipe=require('../models/genRecipe.model');
+let Ingredient=require('../models/ingredient.model');
+let Meal=require('../models/meal.model');
+let Day=require('../models/day.model');
+let WeekMealPlan=require('../models/weekMealPlan.model');
+let MealIngredient=require('../models/mealIngredient.model');
+let DayOfWeek=require('../models/dayOfWeek.model');
+let MealType=require('../models/mealType.model');
+router.get("")
+module.exports=router;

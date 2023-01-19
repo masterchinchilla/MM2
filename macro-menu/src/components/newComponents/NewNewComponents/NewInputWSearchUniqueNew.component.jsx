@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import httpService from "../../../services/httpService";
 import { csValidateProp } from "../../../services/validationService";
-import NewInputCore from "./NewInputCore.component";
+import InputCoreWithoutLocalState from "./InputCoreWithoutLocalState.component";
 const NewInputWSearchUniqueNew = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -101,7 +101,7 @@ const NewInputWSearchUniqueNew = (props) => {
     setLclValErrsStateFn(valErrors);
   });
   return (
-    <NewInputCore
+    <InputCoreWithoutLocalState
       commonProps={{
         commonData: {},
         commonMethods: {

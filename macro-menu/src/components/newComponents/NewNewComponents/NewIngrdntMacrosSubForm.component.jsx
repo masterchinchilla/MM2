@@ -55,6 +55,7 @@ const NewIngrdntMacrosSubForm = (props) => {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
         specificProps={{
@@ -85,6 +86,7 @@ const NewIngrdntMacrosSubForm = (props) => {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
         specificProps={{
@@ -115,6 +117,7 @@ const NewIngrdntMacrosSubForm = (props) => {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
         specificProps={{
@@ -145,6 +148,7 @@ const NewIngrdntMacrosSubForm = (props) => {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
         specificProps={{
@@ -175,6 +179,7 @@ const NewIngrdntMacrosSubForm = (props) => {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
         specificProps={{
@@ -205,6 +210,7 @@ const NewIngrdntMacrosSubForm = (props) => {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
             onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
         specificProps={{

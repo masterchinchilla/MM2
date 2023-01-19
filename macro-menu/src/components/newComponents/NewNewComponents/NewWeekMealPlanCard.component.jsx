@@ -184,6 +184,7 @@ const NewWeekMealPlanCard = (props) => {
                       getRndIntegerFn: getRndIntegerFn,
                       returnElementKey: returnElementKey,
                       onUpdatePropFn: onUpdatePropFn,
+                      trimEnteredValueFn: trimEnteredValueFn,
                     },
                   }}
                   specificProps={{

@@ -31,6 +31,7 @@ const rcrdOrFldNameCaseValPrpTypNPropObjMod={
       dayOfWeek: {nameSntncCase:"Day of Week",propTypeForVal:"objRef",PropObjModel:DayOfWeek},
       mealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef",PropObjModel:MealType},
       defaultMealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef",PropObjModel:MealType},
+      availableMealType:{nameSntncCase:"Meal Type",propTypeForVal:"objRef",PropObjModel:MealType},
       defaultPrepInstructions: {nameSntncCase:"Prep Instructions",propTypeForVal:"textBox",PropObjModel:null},
       calories: {nameSntncCase:"Calories",propTypeForVal:"float",PropObjModel:null},
       calsBudget:{nameSntncCase:"Calories Budget",propTypeForVal:"float",PropObjModel:null},

@@ -38,27 +38,29 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
             };
         }else if(
             thisPropsName==="createdAt"||
-      thisPropsName==="updatedAt"||
-      thisPropsName==="_id"||
-      thisPropsName==="__v"
-        ){}else if(thisPropsName==="name"){
-            PropObjModel.find({name:new RegExp(thisPropsValue,"i")})
-            .then(matchingRecords=>{
+            thisPropsName==="updatedAt"||
+            thisPropsName==="_id"||
+            thisPropsName==="__v"
+        ){}else{
+            let thisPropsErrs=[];
+            let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
+            if(thisPropsValError){thisPropsErrs.push(thisPropsValError)};
+            if(thisPropsName==="name"){
+                let matchingRecords=[];
+                try {
+                    matchingRecords=await PropObjModel.find({name:new RegExp(thisPropsValue,"i")});
+                } catch (error) {
+                    res.status(500).json({ok:false,valErrorsArray:[{all:"Server error - please try again in a moment"}]})
+                }
                 let nameError;
                 for(let i=0;i<matchingRecords.length;i++){
-                    // if(matchingRecords[i].name===thisPropsValue){
                         if(!(matchingRecords[i]._id.equals(recordId))){
                             nameError=`Another ${objTypeSnglrSntncCase} is already using that name`}
                     }
-                // };
-                if(nameError){valErrorsArray.push({name:[nameError]})};
-            })
+                if(nameError){thisPropsErrs.push(nameError)};
+            };
+            valErrorsArray.push({[thisPropsName]:thisPropsErrs})
         }
-        else{
-            let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
-            if(thisPropsValError){valErrorsArray.push({[thisPropsName]:[thisPropsValError]})};
-        }
-        
     };
     if(valErrorsArray.length>0){  
         res.status(400).json({ok:false,valErrorsArray:valErrorsArray});

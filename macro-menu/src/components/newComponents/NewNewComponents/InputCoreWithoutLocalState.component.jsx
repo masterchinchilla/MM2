@@ -1,8 +1,8 @@
 import React from "react";
-const NewInputSubCore = (props) => {
+const InputCoreWithoutLocalState = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { returnElementKey } = commonMethods;
+  const { onUpdatePropFn, returnElementKey } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const {
     typeOfRecordToChange,
@@ -21,7 +21,7 @@ const NewInputSubCore = (props) => {
     inputTypeForHtml,
     propValue,
   } = specificData;
-  const { updateParentValue, updateChildValue } = specificMethods;
+  const { inputOnKeyUpFn } = specificMethods;
   if (recordLoaded) {
     return (
       <div className={formGroupClasses}>
@@ -41,11 +41,17 @@ const NewInputSubCore = (props) => {
           type={inputTypeForHtml}
           className={inputClasses}
           value={propValue}
-          onChange={(e) => {
-            updateChildValue(e.target.value);
-            updateParentValue(e.target.value);
-          }}
-          // onKeyUp={inputOnKeyUpFn}
+          onChange={(e) =>
+            onUpdatePropFn(
+              propToUpdate,
+              e.target.value,
+              typeOfRecordToChange,
+              thisDayOfWeekCode,
+              thisMealTypeCode,
+              arrayIndex
+            )
+          }
+          onKeyUp={inputOnKeyUpFn}
           disabled={fieldDisabled}
         />
         {!valErrors ? (
@@ -102,4 +108,4 @@ const NewInputSubCore = (props) => {
   }
 };
 
-export default NewInputSubCore;
+export default InputCoreWithoutLocalState;

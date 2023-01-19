@@ -105,6 +105,7 @@ const MealIngredientChildForm = (props) => {
               getRndIntegerFn: getRndIntegerFn,
               returnElementKey: returnElementKey,
               onUpdatePropFn: onUpdatePropFn,
+              trimEnteredValueFn: trimEnteredValueFn,
             },
           }}
           specificProps={{

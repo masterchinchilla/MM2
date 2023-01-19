@@ -5,6 +5,7 @@ import ReadOnlyInputCore from "../ReadOnlyInputCore.component";
 import NewFormControl from "./NewFormControl.component";
 import NewInputCore from "./NewInputCore.component";
 import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
+import InputCoreWLocalState from "./NewInputCore.component";
 const NewRecipeCard = (props) => {
   const typeOfRecordToChange = "genRecipe";
   const { commonProps, specificProps } = props;
@@ -84,7 +85,12 @@ const NewRecipeCard = (props) => {
   function handleSaveChangesFn() {
     const updatedRecordForState = _.cloneDeep(thisRecord);
     updatedRecordForState.defaultPrepInstructions = prepInstr;
-    onSaveChangesFn();
+    onSaveChangesFn(
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex
+    );
   }
   useEffect(() => {
     let photoURLValErrors = photoURL ? valErrors.genRecipe.photoURL : [];
@@ -265,6 +271,36 @@ const NewRecipeCard = (props) => {
                   }}
                 />
               </div>
+              {/* <NewInputCore
+                commonProps={{
+                  commonData: {},
+                  commonMethods: {
+                    getRndIntegerFn: getRndIntegerFn,
+                    returnElementKey: returnElementKey,
+                    onUpdatePropFn: onUpdatePropFn,
+                  },
+                }}
+                specificProps={{
+                  specificData: {
+                    typeOfRecordToChange: typeOfRecordToChange,
+                    formGroupClasses: "form-group mealInputs",
+                    label: "Photo URL",
+                    thisDayOfWeekCode: thisDayOfWeekCode,
+                    thisMealTypeCode: thisMealTypeCode,
+                    propToUpdate: "photoURL",
+                    arrayIndex: arrayIndex,
+                    fieldDisabled: fieldsDisabled,
+                    valErrors: valErrors.genRecipe.photoURL,
+                    inputClasses: "form-control",
+                    isRequired: false,
+                    recordLoaded: recordLoaded,
+                    excludeLabel: false,
+                    inputTypeForHtml: "url",
+                    propValue: photoURL,
+                  },
+                  specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
+                }}
+              /> */}
               <NewInputCore
                 commonProps={{
                   commonData: {},
@@ -272,6 +308,7 @@ const NewRecipeCard = (props) => {
                     getRndIntegerFn: getRndIntegerFn,
                     returnElementKey: returnElementKey,
                     onUpdatePropFn: onUpdatePropFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
                   },
                 }}
                 specificProps={{
