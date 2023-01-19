@@ -6,6 +6,7 @@ function ssValidateProp(propName, value, propTypeForVal) {
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
     const { error } = subSchema.validate(objToValidate);
+    console.log(error);
     return error ? error.details[0].message : null;
 };
 
@@ -18,7 +19,9 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
             if(thisPropsName==="GRFUser"){
                 const foundAuthor=await PropObjModel.findById(thisPropsValueId);
                 if(!foundAuthor){
-                    res.status(404).json({ok:false,errorMsg:"Invalid author"});
+                    valErrorsArray.push({GRFUser:["Invalid author"]})
+                    // res.status(404).json({ok:false,errorMsg:"Invalid author"});
+                    res.status(404).json({ok:false,valErrorsArray:valErrorsArray});
                     return false;
                 };
             }
@@ -26,7 +29,9 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
                 if(!justCreated){
                     const foundRecord=await PropObjModel.findById(thisPropsValueId);
                     if(!foundRecord){
-                        res.status(404).json({ok:false,errorMsg:`${thisPropNameSentenceCase} not found`});
+                        valErrorsArray.push({thisPropsName:[`${thisPropNameSentenceCase} not found`]})
+                        // res.status(404).json({ok:false,errorMsg:`${thisPropNameSentenceCase} not found`});
+                        res.status(404).json({ok:false,valErrorsArray:valErrorsArray});
                         return false;
                     };
                 }; 
@@ -36,25 +41,24 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
       thisPropsName==="updatedAt"||
       thisPropsName==="_id"||
       thisPropsName==="__v"
-        ){}
+        ){}else if(thisPropsName==="name"){
+            PropObjModel.find({name:new RegExp(thisPropsValue,"i")})
+            .then(matchingRecords=>{
+                let nameError;
+                for(let i=0;i<matchingRecords.length;i++){
+                    // if(matchingRecords[i].name===thisPropsValue){
+                        if(!(matchingRecords[i]._id.equals(recordId))){
+                            nameError=`Another ${objTypeSnglrSntncCase} is already using that name`}
+                    }
+                // };
+                if(nameError){valErrorsArray.push({name:[nameError]})};
+            })
+        }
         else{
             let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
-            if(thisPropsValError){valErrorsArray.push({[thisPropsName]:thisPropsValError})};
+            if(thisPropsValError){valErrorsArray.push({[thisPropsName]:[thisPropsValError]})};
         }
-        if(thisPropsName==="name"){
-            console.log(PropObjModel);
-            // PropObjModel.find({name:new RegExp(thisPropsValue,"i")})
-            // .then(matchingRecords=>{
-            //     let nameError;
-            //     for(let i=0;i<matchingRecords.length;i++){
-            //         // if(matchingRecords[i].name===thisPropsValue){
-            //             if(!(matchingRecords[i]._id.equals(recordId))){
-            //                 nameError=`Another ${objTypeSnglrSntncCase} is already using that name`}
-            //         }
-            //     // };
-            //     if(nameError){valErrorsArray.push({name:nameError})};
-            // })
-        }
+        
     };
     if(valErrorsArray.length>0){  
         res.status(400).json({ok:false,valErrorsArray:valErrorsArray});

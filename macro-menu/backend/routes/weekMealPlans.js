@@ -103,45 +103,45 @@ router.route('/:id').delete((req, res) => {
 //         .catch(err => res.status(400).json('Error: ' + err));
 // });
 router.put('/update/:id',auth,async(req,res)=>{
-    // const record=req.body;
-    const record = {
-      _id: "609f3e444ee536749c75c72a",
-      name: "JD Hypertrophy Week Alpha F",
-      GRFUser: {
-        userGroups: "GRFUser",
-        _id: "609f3e444ee536749c75c729",
-        givenName: "John",
-        familyName: "Doe",
-        email: "johndoe@gmail.com",
-        password:
-          "$2b$10$qgJS0TaXFGkrgv6AbU5.WeA3HsHzuuhJgZd7WOuUdGHrOmhlO8iHG",
-        handle: "uAdmin@GRF2022",
-        __v: 0,
-        updatedAt: "2022-08-26T03:19:48.481Z",
-        verified: false,
-        photoURL: "https://i.pravatar.cc/300",
-        certName: "",
-        certURL: "",
-        middleName: "D",
-        namePrefix: "",
-        nameSuffix: "",
-        isAdmin: true,
-      },
-      createdAt: "2021-05-15T03:21:40.285Z",
-      updatedAt: "2023-01-14T04:16:08.251Z",
-      __v: 0,
-      breakfastWeight: 200,
-      calsBudget: 2499,
-      carbsBudget: -9,
-      dessertWeight: 6,
-      dinnerWeight: 11,
-      fatBudget: 997.99,
-      fiberBudget: 98.99,
-      lunchWeight: 19,
-      proteinBudget: 201,
-      snack1Weight: 21,
-      snack2Weight: 22,
-    };
+    const record=req.body;
+    // const record = {
+    //   _id: "609f3e444ee536749c75c72a",
+    //   name: "JD Hypertrophy Week Alpha F",
+    //   GRFUser: {
+    //     userGroups: "GRFUser",
+    //     _id: "609f3e444ee536749c75c729",
+    //     givenName: "John",
+    //     familyName: "Doe",
+    //     email: "johndoe@gmail.com",
+    //     password:
+    //       "$2b$10$qgJS0TaXFGkrgv6AbU5.WeA3HsHzuuhJgZd7WOuUdGHrOmhlO8iHG",
+    //     handle: "uAdmin@GRF2022",
+    //     __v: 0,
+    //     updatedAt: "2022-08-26T03:19:48.481Z",
+    //     verified: false,
+    //     photoURL: "https://i.pravatar.cc/300",
+    //     certName: "",
+    //     certURL: "",
+    //     middleName: "D",
+    //     namePrefix: "",
+    //     nameSuffix: "",
+    //     isAdmin: true,
+    //   },
+    //   createdAt: "2021-05-15T03:21:40.285Z",
+    //   updatedAt: "2023-01-14T04:16:08.251Z",
+    //   __v: 0,
+    //   breakfastWeight: 200,
+    //   calsBudget: 2499,
+    //   carbsBudget: -9,
+    //   dessertWeight: 6,
+    //   dinnerWeight: 11,
+    //   fatBudget: 997.99,
+    //   fiberBudget: 98.99,
+    //   lunchWeight: 19,
+    //   proteinBudget: 201,
+    //   snack1Weight: 21,
+    //   snack2Weight: 22,
+    // };
     const {
         name,
         GRFUser,
@@ -157,6 +157,7 @@ router.put('/update/:id',auth,async(req,res)=>{
         fatBudget,
         fiberBudget}=record;
     const recordId=req.params.id;
+    // const recordId="12345";
     const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
     if(ssValResult){WeekMealPlan.findById(recordId)
         .populate("GRFUser")
@@ -180,13 +181,13 @@ router.put('/update/:id',auth,async(req,res)=>{
                 foundRecord.save()
                     .then(()=>res.json({ok:true,msg:"success"}))
                     .catch((err)=>{
-                        res.status(500).json({ok:false,errorMsg:"Server error - please try again in a moment"})
+                        res.status(500).json({ok:false,valErrorsArray:[{all:"Server error - please try again in a moment"}]})
                     });
             }else{return}
         })
         .catch((err)=>{
             console.log(err);
-            res.status(404).json({ok:false,errorMsg:`${typeOfRecordToChange}not found, it might have already been deleted`})
+            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange}not found, it might have already been deleted`}]})
         });
     }else{return};
 })

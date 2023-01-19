@@ -73,10 +73,12 @@ class NewNewWeekMealPlan extends Component {
   notifyFn = (notice, noticeType) => {
     switch (noticeType) {
       case "success":
-        toast.success(notice);
+        // toast.success(notice);
+        toast(notice, { type: "success", autoClose: 2000 });
         break;
       default:
-        toast.error(notice);
+        // toast.error(notice);
+        toast(notice, { type: "error", autoClose: 5000 });
     }
   };
   determineThisRecordsUserTypeFn = (recordAuthorId) => {
@@ -251,22 +253,15 @@ class NewNewWeekMealPlan extends Component {
     this.notifyOfErrors(valErrsNestedArray);
     return thisObjsValErrsObj;
   };
-  parseHTTPResErrs = (errs, propToDisplayErrs) => {
+  parseHTTPResErrs = (errs) => {
     let svrErrMsg = errs.response.data;
+    let valErrsNestedArray;
+    // = [{ [propToDisplayErrs]: errMsgs }];
     let errMsgs = [];
     let pattern = /castError/;
     let resStatus = errs.response.status;
-    if (resStatus >= 400) {
+    if (resStatus > 400) {
       switch (resStatus) {
-        case 400:
-          if (pattern.test(svrErrMsg)) {
-            errMsgs.push("Bad request: URL may be invalid");
-          } else {
-            errMsgs.push(
-              "Something went wrong: Refresh, wait a moment and try again"
-            );
-          }
-          break;
         case 401:
           errMsgs.push(
             "You must be logged-in to access the requested record(s)"
@@ -285,8 +280,16 @@ class NewNewWeekMealPlan extends Component {
             errMsgs.push("Server error: Refresh, wait a moment and try again");
           }
       }
+      valErrsNestedArray = [{ all: errMsgs }];
+    } else if (resStatus === 400) {
+      if (pattern.test(svrErrMsg)) {
+        errMsgs.push("Bad request: URL may be invalid");
+        valErrsNestedArray = [{ all: errMsgs }];
+      } else {
+        console.log(errs.response.data.valErrorsArray);
+        valErrsNestedArray = errs.response.data.valErrorsArray;
+      }
     }
-    let valErrsNestedArray = [{ [propToDisplayErrs]: errMsgs }];
     return valErrsNestedArray;
   };
   assembleStateObjWNewRcrd = (
@@ -1346,8 +1349,8 @@ class NewNewWeekMealPlan extends Component {
     } catch (errs) {
       // valErrorsNestedArray shape:
       // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs, "all");
-      this.notifyOfErrors(valErrors);
+      valErrors = this.parseHTTPResErrs(errs);
+      // this.notifyOfErrors(valErrors);
     }
     return valErrors;
   };
@@ -1768,25 +1771,30 @@ class NewNewWeekMealPlan extends Component {
       typeOfRecordToSave,
       recordToSave
     );
+    console.log(valErrors);
     if (valErrors.length > 0) {
       let valErrObjToUpdate = stateObjToUpdate.valErrors[typeOfRecordToSave];
-      for (let i = 0; i < valErrors.length; i++) {
-        let thisValErrObj = valErrors[i];
-        let thisValErrObjKeys = Object.keys(thisValErrObj);
-        for (let i = 0; i < thisValErrObjKeys.length; i++) {
-          let thisValErrObjKey = thisValErrObjKeys[i];
-          if (thisValErrObjKey === "all") {
-            return;
-          }
-          let thisValErrObjSubArray = thisValErrObj[thisValErrObjKey];
-          let thisPropErrArrayToUpdate = valErrObjToUpdate[thisValErrObjKey];
-          for (let i = 0; i < thisValErrObjSubArray.length; i++) {
-            let thisValErr = thisValErrObjSubArray[i];
-            thisPropErrArrayToUpdate.push(thisValErr);
-          }
-          valErrObjToUpdate[thisValErrObjKey] = thisPropErrArrayToUpdate;
-        }
-      }
+      valErrObjToUpdate = this.updateThisObjsValErrs(
+        valErrObjToUpdate,
+        valErrors
+      );
+      // for (let i = 0; i < valErrors.length; i++) {
+      //   let thisValErrObj = valErrors[i];
+      //   let thisValErrObjKeys = Object.keys(thisValErrObj);
+      //   for (let i = 0; i < thisValErrObjKeys.length; i++) {
+      //     let thisValErrObjKey = thisValErrObjKeys[i];
+      //     if (thisValErrObjKey === "all") {
+      //       return;
+      //     }
+      //     let thisValErrObjSubArray = thisValErrObj[thisValErrObjKey];
+      //     let thisPropErrArrayToUpdate = valErrObjToUpdate[thisValErrObjKey];
+      //     for (let i = 0; i < thisValErrObjSubArray.length; i++) {
+      //       let thisValErr = thisValErrObjSubArray[i];
+      //       thisPropErrArrayToUpdate.push(thisValErr);
+      //     }
+      //     valErrObjToUpdate[thisValErrObjKey] = thisPropErrArrayToUpdate;
+      //   }
+      // }
       stateObjToUpdate.valErrors[typeOfRecordToSave] = valErrObjToUpdate;
       if (typeOfRecordToSave === "weekMealPlan") {
         state.thisWMPStateObj = stateObjToUpdate;
@@ -1906,7 +1914,6 @@ class NewNewWeekMealPlan extends Component {
         <div className="container-fluid pl-4 pr-4">
           <ToastContainer
             key={`toastCntnrFor${typeOfRecordToChange}${thisWMPRecordId}`}
-            autoClose={2000}
           />
 
           <NewWeekMealPlanCard
