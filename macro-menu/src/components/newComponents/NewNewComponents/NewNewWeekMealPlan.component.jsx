@@ -528,14 +528,148 @@ class NewNewWeekMealPlan extends Component {
       this.setState(updatedState);
     }
   };
+  handleCopyWMPFn = () => {
+    let state = this.state;
+    let thisWMPRecord = state.thisWMPStateObj.thisRecord;
+    const pattern = /missing/;
+    const newWMP = _.pick(thisWMPRecord, [
+      "name",
+      "breakfastWeight",
+      "snack1Weight",
+      "lunchWeight",
+      "snack2Weight",
+      "dinnerWeight",
+      "dessertWeight",
+      "calsBudget",
+      "carbsBudget",
+      "proteinBudget",
+      "fatBudget",
+      "fiberBudget",
+    ]);
+    let currentGRFUser = state.currentGRFUser;
+    newWMP.GRFUser = currentGRFUser;
+    newWMP.name = `${currentGRFUser.handle}s copy of ${thisWMPRecord.name}`;
+    const newWMPToSave = _.cloneDeep(newWMP);
+    newWMPToSave.GRFUser = newWMP.GRFUser;
+    httpService
+      .post("http://localhost:5000/weekMealPlans/add", newWMPToSave)
+      .then((response) => {
+        newWMP._id = response.data._id;
+        let numOfDays = 7;
+        let numOfMeals = 42;
+        let numOfMealIngrdnts = 0;
+        let daysOfWeek = state.daysOfWeek;
+        for (let i = 0; i < daysOfWeek.length; i++) {
+          let thisDayOfWeek = daysOfWeek[i];
+          let thisDayStateObj = state[thisDayOfWeek.code];
+          let thisDay = thisDayStateObj.thisRecord;
+          let thisDayId = thisDay._id;
+          let testResult = pattern.test(thisDayId);
+          if (!testResult) {
+            const newDay = {
+              name: newWMP.name + " - " + thisDayOfWeek.name,
+              dayOfWeek: thisDayOfWeek,
+              weekMealPlan: newWMP,
+            };
+            httpService
+              .post("http://localhost:5000/days/add", newDay)
+              .then((response) => {
+                numOfDays--;
+                newDay._id = response.data._id;
+                let mealTypes = state.mealTypes;
+                for (let i = 0; i < mealTypes.length; i++) {
+                  let thisMealType = mealTypes[i];
+                  let thisMealStateObj = thisDayStateObj[thisMealType.code];
+                  let thisMeal = thisMealStateObj.thisRecord;
+                  let thisMealId = thisMeal._id;
+                  let testResult = pattern.test(thisMealId);
+                  if (!testResult) {
+                    const newMeal = {
+                      day: newDay,
+                      genRecipe: thisMeal.genRecipe,
+                      prepInstructions: "",
+                      mealType: thisMealType,
+                    };
+                    httpService
+                      .post("http://localhost:5000/meals/add", newMeal)
+                      .then((response) => {
+                        newMeal._id = response.data._id;
+                        let thisMealsIngrdnts =
+                          thisMealStateObj.thisMealsIngrdnts;
+                        let mealIngrdntsLength = thisMealsIngrdnts.length;
+                        numOfMealIngrdnts += mealIngrdntsLength;
+                        if (numOfMealIngrdnts === 0) {
+                          numOfMeals--;
+                          if (
+                            numOfDays === 0 &&
+                            numOfMeals === 0 &&
+                            numOfMealIngrdnts === 0
+                          ) {
+                            window.location =
+                              "/weekMealPlans/edit/" + newWMP._id;
+                          }
+                        } else {
+                          numOfMeals--;
+                          for (let i = 0; i < mealIngrdntsLength; i++) {
+                            let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+                            let thisMealIngrdnt =
+                              thisMealIngrdntStateObj.thisRecord;
+                            const newMealIngrdnt = _.pick(thisMealIngrdnt, [
+                              "qty",
+                              "genRecipeIngredient",
+                            ]);
+                            newMealIngrdnt.meal = newMeal;
+                            httpService
+                              .post(
+                                "http://localhost:5000/mealIngredients/add",
+                                newMealIngrdnt
+                              )
+                              .then((response) => {
+                                newMealIngrdnt._id = response.data._id;
+                                numOfMealIngrdnts--;
+                                if (
+                                  numOfDays === 0 &&
+                                  numOfMeals === 0 &&
+                                  numOfMealIngrdnts === 0
+                                ) {
+                                  window.location =
+                                    "/weekMealPlans/edit/" + newWMP._id;
+                                }
+                              });
+                          }
+                        }
+                      });
+                  } else {
+                    numOfMeals--;
+                    if (
+                      numOfDays === 0 &&
+                      numOfMeals === 0 &&
+                      numOfMealIngrdnts === 0
+                    ) {
+                      window.location = "/weekMealPlans/edit/" + newWMP._id;
+                    }
+                  }
+                }
+              });
+          } else {
+            numOfMeals -= 6;
+            numOfDays--;
+            if (
+              numOfDays === 0 &&
+              numOfMeals === 0 &&
+              numOfMealIngrdnts === 0
+            ) {
+              window.location = "/weekMealPlans/edit/" + newWMP._id;
+            }
+          }
+        }
+      });
+  };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();
     this.setState({ currentGRFUser: currentGRFUser });
     this.getThisWMPFn();
   }
-  handleCopyWMPFn = () => {
-    console.log("copy wmp");
-  };
   getCSValResultForProp = async (
     typeOfRecordToChange,
     propToUpdate,
@@ -1931,6 +2065,7 @@ class NewNewWeekMealPlan extends Component {
                 onCancelEditFn: this.handleCancelEditFn,
                 onDeleteObjFn: this.handleDeleteObjFn,
                 trimEnteredValueFn: this.handleTrimEnteredValueFn,
+                onCopyWMPFn: this.handleCopyWMPFn,
               },
             }}
             specificProps={{

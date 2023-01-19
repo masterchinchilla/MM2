@@ -25,7 +25,7 @@ router.route('/wmpsofthisuser/:id').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const name = req.body.name;
-    const GRFUser = req.body.GRFUser;
+    const GRFUser = req.body.GRFUser._id;
     const breakfastWeight=req.body.breakfastWeight;
     const snack1Weight=req.body.snack1Weight;
     const lunchWeight=req.body.lunchWeight;

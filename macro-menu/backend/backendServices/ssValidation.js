@@ -45,7 +45,7 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
             let thisPropsErrs=[];
             let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
             if(thisPropsValError){thisPropsErrs.push(thisPropsValError)};
-            if(thisPropsName==="name"){
+            if(thisPropsName==="name"&&objTypeSnglrSntncCase!=="Day"){
                 let matchingRecords=[];
                 try {
                     matchingRecords=await PropObjModel.find({name:new RegExp(thisPropsValue,"i")});

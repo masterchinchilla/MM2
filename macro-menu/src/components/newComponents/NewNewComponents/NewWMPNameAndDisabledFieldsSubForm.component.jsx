@@ -15,6 +15,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     returnElementKey,
+    onCopyWMPFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj, localName, nameValErrors, saveDisabled, origName } =
@@ -86,7 +87,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
               onCancelEditFn: onCancelEditFn,
               onSaveChangesFn: onSaveChangesFn,
               onDeleteObjFn: onDeleteObjFn,
-              onCopyWMPFn: () => {},
+              onCopyWMPFn: onCopyWMPFn,
             },
           }}
           specificProps={{
