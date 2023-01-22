@@ -1092,3 +1092,33 @@ div.emptyPlaceholder span{
 .slctSrchRcpsLstWCreate{
   margin: 7px 5px 5px 0px !important;
 }
+.wmpCopyProgressCont{
+  position: fixed;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+}
+.wmpCopyProgressSubCont{
+  background: rgb(255 255 255 / 95%) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:75vw;
+    height: fit-content;
+    margin-top: -10rem;
+    padding:1rem;
+    border-radius: 1rem;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+.wmpCopyProgressSubCont label{
+  margin-bottom: 0.5rem;
+}
+.wmpCopyProgressSubCont div.progress{
+  align-self: center;
+  width:90%;
+}

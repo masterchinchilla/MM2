@@ -25,6 +25,8 @@ import newRecordTemplates from "../../../staticRefs/newRecordTemplates";
 import NewCreateDayButton from "./NewCreateDayButton.component";
 import NewDayCard from "./NewDayCard.component";
 import CustomHeading from "../CustomHeading.component";
+import WMPCopyLoadingBar from "./WMPCopyLoadingBar.component";
+import WMPCopier from "./WMPCopier.component";
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +35,9 @@ class NewNewWeekMealPlan extends Component {
     const thisWMPId = pgReqParams.id;
     this.player = React.createRef();
     this.state = {
+      copyingWMP: false,
+      showWMPCopyProgressBar: false,
+      numOfWMPItemsToCopy: 0,
       currentGRFUser: thisGRFUser,
       rcrdOrFldNameSnctncCase: rcrdOrFldNameSnctncCase,
       daysOfWeek: daysOfWeek,
@@ -385,6 +390,7 @@ class NewNewWeekMealPlan extends Component {
       ["meal", "genRecipe"]
     );
     let countOfLinkedMeals = 0;
+    let countOfLinkedMealIngrdnts = 0;
     if (daysMealsReqResult.valErrors) {
       return {};
     } else {
@@ -407,6 +413,7 @@ class NewNewWeekMealPlan extends Component {
           thisMealStateObjToUpdate.thisMealsIngrdnts = getMealsIngrdntsResult
             ? getMealsIngrdntsResult
             : [];
+          countOfLinkedMealIngrdnts += getMealsIngrdntsResult.length;
           thisMealStateObjToUpdate.hasChildren.meal =
             getMealsIngrdntsResult.length > 0 ? true : false;
           thisDayStateObj[mealTypes[i].code] = thisMealStateObjToUpdate;
@@ -422,7 +429,11 @@ class NewNewWeekMealPlan extends Component {
           };
         }
       }
-      return { thisDayStateObj: thisDayStateObj, countOfLinkedMeals };
+      return {
+        thisDayStateObj: thisDayStateObj,
+        countOfLinkedMeals: countOfLinkedMeals,
+        countOfLinkedMealIngrdnts: countOfLinkedMealIngrdnts,
+      };
     }
   };
   getThisWeeksDaysFn = async (state, thisWMPRecord) => {
@@ -436,6 +447,8 @@ class NewNewWeekMealPlan extends Component {
     );
 
     let countOfLinkedDays = 0;
+    let countOfLinkedMeals = 0;
+    let countOfLinkedMealIngrdnts = 0;
     if (wmpsDaysReqResult.valErrors) {
       return;
     } else {
@@ -450,7 +463,9 @@ class NewNewWeekMealPlan extends Component {
             thisDayStateObjToUpdate
           );
           thisDayStateObjToUpdate = getDaysMealsResults.thisDayStateObj;
-          let countOfLinkedMeals = getDaysMealsResults.countOfLinkedMeals;
+          countOfLinkedMeals += getDaysMealsResults.countOfLinkedMeals;
+          countOfLinkedMealIngrdnts +=
+            getDaysMealsResults.countOfLinkedMealIngrdnts;
           thisDayStateObjToUpdate.hasChildren.day =
             countOfLinkedMeals > 0 ? true : false;
           state[thisDayOfWeek.code] = thisDayStateObjToUpdate;
@@ -465,7 +480,12 @@ class NewNewWeekMealPlan extends Component {
           };
         }
       }
-      return { state: state, countOfLinkedDays: countOfLinkedDays };
+      return {
+        state: state,
+        countOfLinkedDays: countOfLinkedDays,
+        countOfLinkedMeals: countOfLinkedMeals,
+        countOfLinkedMealIngrdnts: countOfLinkedMealIngrdnts,
+      };
     }
   };
   getFullRecordSet = async (typeOfRecordToChange) => {
@@ -516,6 +536,9 @@ class NewNewWeekMealPlan extends Component {
       );
       let updatedState = getWeeksDaysResult.state;
       let countOfLinkedDays = getWeeksDaysResult.countOfLinkedDays;
+      let countOfLinkedMeals = getWeeksDaysResult.countOfLinkedMeals;
+      let countOfLinkedMealIngrdnts =
+        getWeeksDaysResult.countOfLinkedMealIngrdnts;
       updatedState.thisWMPStateObj.hasChildren.weekMealPlan =
         countOfLinkedDays > 0 ? true : false;
       const { allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes } =
@@ -524,147 +547,288 @@ class NewNewWeekMealPlan extends Component {
       updatedState.allWeightTypes = allWeightTypes;
       updatedState.allBrands = allBrands;
       updatedState.allGenRecipes = allGenRecipes;
+      updatedState.countOfLinkedDays = countOfLinkedDays;
+      updatedState.countOfLinkedMeals = countOfLinkedMeals;
+      updatedState.countOfLinkedMealIngrdnts = countOfLinkedMealIngrdnts;
       this.player.current.stop();
       this.setState(updatedState);
     }
   };
-  handleCopyWMPFn = () => {
-    let state = this.state;
-    let thisWMPRecord = state.thisWMPStateObj.thisRecord;
-    const pattern = /missing/;
-    const newWMP = _.pick(thisWMPRecord, [
-      "name",
-      "breakfastWeight",
-      "snack1Weight",
-      "lunchWeight",
-      "snack2Weight",
-      "dinnerWeight",
-      "dessertWeight",
-      "calsBudget",
-      "carbsBudget",
-      "proteinBudget",
-      "fatBudget",
-      "fiberBudget",
-    ]);
-    let currentGRFUser = state.currentGRFUser;
-    newWMP.GRFUser = currentGRFUser;
-    newWMP.name = `${currentGRFUser.handle}s copy of ${thisWMPRecord.name}`;
-    const newWMPToSave = _.cloneDeep(newWMP);
-    newWMPToSave.GRFUser = newWMP.GRFUser;
-    httpService
-      .post("http://localhost:5000/weekMealPlans/add", newWMPToSave)
-      .then((response) => {
-        newWMP._id = response.data._id;
-        let numOfDays = 7;
-        let numOfMeals = 42;
-        let numOfMealIngrdnts = 0;
-        let daysOfWeek = state.daysOfWeek;
-        for (let i = 0; i < daysOfWeek.length; i++) {
-          let thisDayOfWeek = daysOfWeek[i];
-          let thisDayStateObj = state[thisDayOfWeek.code];
-          let thisDay = thisDayStateObj.thisRecord;
-          let thisDayId = thisDay._id;
-          let testResult = pattern.test(thisDayId);
-          if (!testResult) {
-            const newDay = {
-              name: newWMP.name + " - " + thisDayOfWeek.name,
-              dayOfWeek: thisDayOfWeek,
-              weekMealPlan: newWMP,
-            };
-            httpService
-              .post("http://localhost:5000/days/add", newDay)
-              .then((response) => {
-                numOfDays--;
-                newDay._id = response.data._id;
-                let mealTypes = state.mealTypes;
-                for (let i = 0; i < mealTypes.length; i++) {
-                  let thisMealType = mealTypes[i];
-                  let thisMealStateObj = thisDayStateObj[thisMealType.code];
-                  let thisMeal = thisMealStateObj.thisRecord;
-                  let thisMealId = thisMeal._id;
-                  let testResult = pattern.test(thisMealId);
-                  if (!testResult) {
-                    const newMeal = {
-                      day: newDay,
-                      genRecipe: thisMeal.genRecipe,
-                      prepInstructions: "",
-                      mealType: thisMealType,
-                    };
-                    httpService
-                      .post("http://localhost:5000/meals/add", newMeal)
-                      .then((response) => {
-                        newMeal._id = response.data._id;
-                        let thisMealsIngrdnts =
-                          thisMealStateObj.thisMealsIngrdnts;
-                        let mealIngrdntsLength = thisMealsIngrdnts.length;
-                        numOfMealIngrdnts += mealIngrdntsLength;
-                        if (numOfMealIngrdnts === 0) {
-                          numOfMeals--;
-                          if (
-                            numOfDays === 0 &&
-                            numOfMeals === 0 &&
-                            numOfMealIngrdnts === 0
-                          ) {
-                            window.location =
-                              "/weekMealPlans/edit/" + newWMP._id;
-                          }
-                        } else {
-                          numOfMeals--;
-                          for (let i = 0; i < mealIngrdntsLength; i++) {
-                            let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
-                            let thisMealIngrdnt =
-                              thisMealIngrdntStateObj.thisRecord;
-                            const newMealIngrdnt = _.pick(thisMealIngrdnt, [
-                              "qty",
-                              "genRecipeIngredient",
-                            ]);
-                            newMealIngrdnt.meal = newMeal;
-                            httpService
-                              .post(
-                                "http://localhost:5000/mealIngredients/add",
-                                newMealIngrdnt
-                              )
-                              .then((response) => {
-                                newMealIngrdnt._id = response.data._id;
-                                numOfMealIngrdnts--;
-                                if (
-                                  numOfDays === 0 &&
-                                  numOfMeals === 0 &&
-                                  numOfMealIngrdnts === 0
-                                ) {
-                                  window.location =
-                                    "/weekMealPlans/edit/" + newWMP._id;
-                                }
-                              });
-                          }
-                        }
-                      });
-                  } else {
-                    numOfMeals--;
-                    if (
-                      numOfDays === 0 &&
-                      numOfMeals === 0 &&
-                      numOfMealIngrdnts === 0
-                    ) {
-                      window.location = "/weekMealPlans/edit/" + newWMP._id;
-                    }
-                  }
-                }
-              });
-          } else {
-            numOfMeals -= 6;
-            numOfDays--;
-            if (
-              numOfDays === 0 &&
-              numOfMeals === 0 &&
-              numOfMealIngrdnts === 0
-            ) {
-              window.location = "/weekMealPlans/edit/" + newWMP._id;
-            }
-          }
-        }
-      });
+  handleCopyWMPFn = async () => {
+    const origWMPId = this.state.thisWMPStateObj.thisRecord._id;
+    const backEndReqUrl = `${this.state.backEndHtmlRoot}weekMealPlans/copy/${origWMPId}`;
+    let wmpCopyReqResult;
+    try {
+      wmpCopyReqResult = await httpService.post(backEndReqUrl);
+      console.log(wmpCopyReqResult);
+    } catch (errs) {
+      console.log(errs);
+      this.notifyFn("WMP copy failed, refresh and try again.", "error");
+      return;
+    }
+    if (!wmpCopyReqResult.data.ok) {
+      this.notifyFn("WMP copy failed, refresh and try again.", "error");
+    } else {
+      const savedWMPCopyId = wmpCopyReqResult.data.wmpCopy._id;
+      window.location = `/weekMealPlans/edit/${savedWMPCopyId}`;
+    }
   };
+  // toggleCopyingWMP = () => {
+  //   this.setState({ copyingWMP: true });
+  // };
+  // handleCopyWMPFn = async () => {
+  //   let numOfDays = 7;
+  //   let numOfMeals = 42;
+  //   let numOfMealIngrdnts = 0;
+  //   let state = this.state;
+  //   let numOfItemsToCopy =
+  //     1 +
+  //     state.countOfLinkedDays +
+  //     state.countOfLinkedMeals +
+  //     state.countOfLinkedMealIngrdnts;
+  //   this.setState(
+  //     {
+  //       showWMPCopyProgressBar: true,
+  //       numOfWMPItemsToCopy: numOfItemsToCopy,
+  //     },
+  //     async () => {
+  //       let thisWMPRecord = state.thisWMPStateObj.thisRecord;
+  //       const pattern = /missing/;
+  //       const newWMPToSave = _.pick(thisWMPRecord, [
+  //         "name",
+  //         "breakfastWeight",
+  //         "snack1Weight",
+  //         "lunchWeight",
+  //         "snack2Weight",
+  //         "dinnerWeight",
+  //         "dessertWeight",
+  //         "calsBudget",
+  //         "carbsBudget",
+  //         "proteinBudget",
+  //         "fatBudget",
+  //         "fiberBudget",
+  //       ]);
+  //       let currentGRFUser = state.currentGRFUser;
+  //       newWMPToSave.GRFUser = currentGRFUser;
+  //       newWMPToSave.name = `${currentGRFUser.handle}'s copy of ${thisWMPRecord.name}`;
+  //       let createNewRecordResult = await this.handleCreateNewRecordInDb(
+  //         "weekMealPlan",
+  //         newWMPToSave
+  //       );
+  //       if (createNewRecordResult.valErrors.length > 0) {
+  //         this.setState({
+  //           showWMPCopyProgressBar: false,
+  //           numOfWMPItemsToCopy: 0,
+  //         });
+  //         return;
+  //       } else {
+  //         newWMPToSave._id = createNewRecordResult.savedRecord._id;
+  //         numOfItemsToCopy--;
+  //         this.setState({ numOfWMPItemsToCopy: numOfItemsToCopy }, async () => {
+  //           // httpService
+  //           //   .post("http://localhost:5000/weekMealPlans/add", newWMPToSave)
+  //           //   .then((response) => {
+  //           //     numOfItemsToCopy--;
+  //           //     this.setState({ numOfWMPItemsToCopy: numOfItemsToCopy });
+  //           //     newWMPToSave._id = response.data._id;
+
+  //           let daysOfWeek = state.daysOfWeek;
+  //           for (let i = 0; i < daysOfWeek.length; i++) {
+  //             let thisDayOfWeek = daysOfWeek[i];
+  //             let thisDayStateObj = state[thisDayOfWeek.code];
+  //             let thisDay = thisDayStateObj.thisRecord;
+  //             let thisDayId = thisDay._id;
+  //             let testResult = pattern.test(thisDayId);
+  //             if (!testResult) {
+  //               const newDay = {
+  //                 name: newWMPToSave.name + " - " + thisDayOfWeek.name,
+  //                 dayOfWeek: thisDayOfWeek,
+  //                 weekMealPlan: newWMPToSave,
+  //               };
+  //               let createNewRecordResult =
+  //                 await this.handleCreateNewRecordInDb("day", newDay);
+  //               if (createNewRecordResult.valErrors.length > 0) {
+  //                 this.setState({
+  //                   showWMPCopyProgressBar: false,
+  //                   numOfWMPItemsToCopy: 0,
+  //                 });
+  //                 return;
+  //               } else {
+  //                 newDay._id = createNewRecordResult.savedRecord._id;
+  //                 numOfItemsToCopy--;
+  //                 numOfDays--;
+  //                 this.setState(
+  //                   { numOfWMPItemsToCopy: numOfItemsToCopy },
+  //                   async () => {
+  //                     //     // httpService
+  //                     //     //   .post("http://localhost:5000/days/add", newDay)
+  //                     //     //   .then((response) => {
+  //                     //     //     numOfDays--;
+  //                     //     //     numOfItemsToCopy--;
+  //                     //     //     this.setState({ numOfWMPItemsToCopy: numOfItemsToCopy });
+  //                     //     //     newDay._id = response.data._id;
+  //                     let mealTypes = state.mealTypes;
+  //                     for (let i = 0; i < mealTypes.length; i++) {
+  //                       let thisMealType = mealTypes[i];
+  //                       let thisMealStateObj =
+  //                         thisDayStateObj[thisMealType.code];
+  //                       let thisMeal = thisMealStateObj.thisRecord;
+  //                       let thisMealId = thisMeal._id;
+  //                       let testResult = pattern.test(thisMealId);
+  //                       if (!testResult) {
+  //                         const newMeal = {
+  //                           day: newDay,
+  //                           genRecipe: thisMeal.genRecipe,
+  //                           prepInstructions: "",
+  //                           mealType: thisMealType,
+  //                         };
+  //                         let createNewRecordResult =
+  //                           await this.handleCreateNewRecordInDb(
+  //                             "meal",
+  //                             newMeal
+  //                           );
+  //                         if (createNewRecordResult.valErrors.length > 0) {
+  //                           this.setState({
+  //                             showWMPCopyProgressBar: false,
+  //                             numOfWMPItemsToCopy: 0,
+  //                           });
+  //                           return;
+  //                         } else {
+  //                           newMeal._id = createNewRecordResult.savedRecord._id;
+  //                           numOfItemsToCopy--;
+  //                           this.setState(
+  //                             {
+  //                               numOfWMPItemsToCopy: numOfItemsToCopy,
+  //                             },
+  //                             async () => {
+  //                               //         // httpService
+  //                               //         //   .post("http://localhost:5000/meals/add", newMeal)
+  //                               //         //   .then((response) => {
+  //                               //         //     numOfItemsToCopy--;
+  //                               //         //     this.setState({
+  //                               //         //       numOfWMPItemsToCopy: numOfItemsToCopy,
+  //                               //         //     });
+  //                               //         //     newMeal._id = response.data._id;
+  //                               let thisMealsIngrdnts =
+  //                                 thisMealStateObj.thisMealsIngrdnts;
+  //                               let mealIngrdntsLength =
+  //                                 thisMealsIngrdnts.length;
+  //                               numOfMealIngrdnts += mealIngrdntsLength;
+  //                               if (numOfMealIngrdnts === 0) {
+  //                                 numOfMeals--;
+  //                                 if (
+  //                                   numOfDays === 0 &&
+  //                                   numOfMeals === 0 &&
+  //                                   numOfMealIngrdnts === 0
+  //                                 ) {
+  //                                   // window.location =
+  //                                   //   "/weekMealPlans/edit/" + newWMPToSave._id;
+  //                                   console.log("navigating to new WMP");
+  //                                 }
+  //                               } else {
+  //                                 numOfMeals--;
+  //                                 for (let i = 0; i < mealIngrdntsLength; i++) {
+  //                                   let thisMealIngrdntStateObj =
+  //                                     thisMealsIngrdnts[i];
+  //                                   let thisMealIngrdnt =
+  //                                     thisMealIngrdntStateObj.thisRecord;
+  //                                   const newMealIngrdnt = _.pick(
+  //                                     thisMealIngrdnt,
+  //                                     ["qty", "genRecipeIngredient"]
+  //                                   );
+  //                                   newMealIngrdnt.meal = newMeal;
+  //                                   let createNewRecordResult =
+  //                                     await this.handleCreateNewRecordInDb(
+  //                                       "mealIngredient",
+  //                                       newMealIngrdnt
+  //                                     );
+  //                                   if (
+  //                                     createNewRecordResult.valErrors.length > 0
+  //                                   ) {
+  //                                     this.setState({
+  //                                       showWMPCopyProgressBar: false,
+  //                                       numOfWMPItemsToCopy: 0,
+  //                                     });
+  //                                     return;
+  //                                   } else {
+  //                                     newMealIngrdnt._id =
+  //                                       createNewRecordResult.savedRecord._id;
+  //                                     numOfItemsToCopy--;
+  //                                     this.setState(
+  //                                       {
+  //                                         numOfWMPItemsToCopy: numOfItemsToCopy,
+  //                                       },
+  //                                       async () => {
+  //                                         //               // httpService
+  //                                         //               //   .post(
+  //                                         //               //     "http://localhost:5000/mealIngredients/add",
+  //                                         //               //     newMealIngrdnt
+  //                                         //               //   )
+  //                                         //               //   .then((response) => {
+  //                                         //               //     numOfItemsToCopy--;
+  //                                         //               //     this.setState({
+  //                                         //               //       numOfWMPItemsToCopy: numOfItemsToCopy,
+  //                                         //               //     });
+  //                                         //               //     newMealIngrdnt._id = response.data._id;
+  //                                         numOfMealIngrdnts--;
+
+  //                                         if (
+  //                                           numOfDays === 0 &&
+  //                                           numOfMeals === 0 &&
+  //                                           numOfMealIngrdnts === 0
+  //                                         ) {
+  //                                           // window.location =
+  //                                           //   "/weekMealPlans/edit/" + newWMPToSave._id;
+  //                                           console.log(
+  //                                             "navigating to new WMP"
+  //                                           );
+  //                                         }
+  //                                         // });
+  //                                       }
+  //                                     );
+  //                                   }
+  //                                 }
+  //                               }
+  //                               // });
+  //                             }
+  //                           );
+  //                         }
+  //                       } else {
+  //                         numOfMeals--;
+  //                         if (
+  //                           numOfDays === 0 &&
+  //                           numOfMeals === 0 &&
+  //                           numOfMealIngrdnts === 0
+  //                         ) {
+  //                           // window.location =
+  //                           //   "/weekMealPlans/edit/" + newWMPToSave._id;
+  //                           console.log("navigating to new WMP");
+  //                         }
+  //                       }
+  //                     }
+  //                     // });
+  //                   }
+  //                 );
+  //               }
+  //             } else {
+  //               numOfMeals -= 6;
+  //               numOfDays--;
+  //               if (
+  //                 numOfDays === 0 &&
+  //                 numOfMeals === 0 &&
+  //                 numOfMealIngrdnts === 0
+  //               ) {
+  //                 // window.location = "/weekMealPlans/edit/" + newWMPToSave._id;
+  //                 console.log("navigating to new WMP");
+  //               }
+  //             }
+  //           }
+  //           // });
+  //         });
+  //       }
+  //     }
+  //   );
+  // };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();
     this.setState({ currentGRFUser: currentGRFUser });
@@ -767,26 +931,26 @@ class NewNewWeekMealPlan extends Component {
   };
   handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
     const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
-    let savedRecord = null;
-    // let savedRecord = newRecordToSave;
+    // let savedRecord = null;
+    let savedRecord = newRecordToSave;
     let valErrors = [];
     //  = [{ name: ["name too long", "name too short"] }];
-    try {
-      let reqRes = await httpService.post(reqUrl, newRecordToSave);
-      savedRecord = reqRes.data;
-      // savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
-      // savedRecord.createdAt = "";
-      // savedRecord.updatedAt = "";
-      let typeOfRcrdToCreateSntcCase =
-        rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
-      let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
-      this.notifyFn(successMsg, "success");
-    } catch (errs) {
-      // valErrorsNestedArray shape:
-      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs, "all");
-      this.notifyOfErrors(valErrors);
-    }
+    // try {
+    //   let reqRes = await httpService.post(reqUrl, newRecordToSave);
+    //   savedRecord = reqRes.data;
+    savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
+    savedRecord.createdAt = "";
+    savedRecord.updatedAt = "";
+    let typeOfRcrdToCreateSntcCase =
+      rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
+    let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
+    this.notifyFn(successMsg, "success");
+    // } catch (errs) {
+    // valErrorsNestedArray shape:
+    // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+    //   valErrors = this.parseHTTPResErrs(errs, "all");
+    //   this.notifyOfErrors(valErrors);
+    // }
     return { savedRecord, valErrors };
   };
   handleCreateNewRecordFn = async (
@@ -955,7 +1119,10 @@ class NewNewWeekMealPlan extends Component {
     thisMealTypeCode,
     newRecord
   ) => {
-    let thisWMPStateObj = this.state.thisWMPStateObj;
+    let state = this.state;
+    let countOfLinkedDays = state.countOfLinkedDays;
+    let countOfLinkedMeals = state.countOfLinkedMeals;
+    let thisWMPStateObj = state.thisWMPStateObj;
     let recordTypesForStateObj =
       typeOfRecordToCreate === "day" ? ["day"] : ["meal", "genRecipe"];
     let newStateObj = { thisRecord: newRecord };
@@ -967,6 +1134,7 @@ class NewNewWeekMealPlan extends Component {
     newStateObj.recordLoaded = true;
     let thisDayStateObj;
     if (typeOfRecordToCreate === "day") {
+      countOfLinkedDays++;
       let mealTypes = this.state.mealTypes;
       for (let i = 0; i < mealTypes.length; i++) {
         newStateObj[mealTypes[i].code] = {
@@ -982,6 +1150,7 @@ class NewNewWeekMealPlan extends Component {
 
       thisWMPStateObj.hasChildren.weekMealPlan = true;
     } else {
+      countOfLinkedMeals++;
       newStateObj.thisGenRcpsGenRcpIngrdnts = [];
       newStateObj.thisMealsIngrdnts = [];
       thisDayStateObj = this.state[thisDayOfWeekCode];
@@ -991,6 +1160,8 @@ class NewNewWeekMealPlan extends Component {
     this.setState({
       thisWMPStateObj: thisWMPStateObj,
       [thisDayOfWeekCode]: thisDayStateObj,
+      countOfLinkedDays: countOfLinkedDays,
+      countOfLinkedMeals: countOfLinkedMeals,
     });
   };
   handleSaveNewMealIngrdntsToDB = async (mealStateObj) => {
@@ -1082,9 +1253,15 @@ class NewNewWeekMealPlan extends Component {
     );
     // if(saveMealIngrdntsResult.valErrors.length>0){return}else{
     mealStateObj = saveMealIngrdntsResult.mealStateObj;
-    let thisDayStateObj = this.state[thisDayOfWeekCode];
+    let state = this.state;
+    let thisDayStateObj = state[thisDayOfWeekCode];
+    let countOfLinkedMealIngrdnts = state.countOfLinkedMealIngrdnts;
+    countOfLinkedMealIngrdnts++;
     thisDayStateObj[thisMealTypeCode] = mealStateObj;
-    this.setState({ [thisDayOfWeekCode]: thisDayStateObj });
+    this.setState({
+      [thisDayOfWeekCode]: thisDayStateObj,
+      countOfLinkedMealIngrdnts: countOfLinkedMealIngrdnts,
+    });
   };
   hndlSaveNewIngrdntsAndDltOldOnes = async (
     stateObjToUpdate,
@@ -1750,6 +1927,7 @@ class NewNewWeekMealPlan extends Component {
           state[thisDayOfWeekCode] = rplcmntPlchldrStateObj;
           state.thisWMPStateObj.hasChildren.weekMealPlan =
             this.handleDetermineIfHasChildrenFn(state, null, null);
+          state.countOfLinkedDays--;
           break;
         case "meal":
           thisDayStateObj[thisMealTypeCode] = rplcmntPlchldrStateObj;
@@ -1759,6 +1937,7 @@ class NewNewWeekMealPlan extends Component {
             null
           );
           state[thisDayOfWeekCode] = thisDayStateObj;
+          state.countOfLinkedMeals--;
           break;
         default:
           let filteredMealIngrdnts = thisMealsIngrdnts.filter(
@@ -1769,6 +1948,7 @@ class NewNewWeekMealPlan extends Component {
             filteredMealIngrdnts.length > 0 ? true : false;
           thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
           state[thisDayOfWeekCode] = thisDayStateObj;
+          state.countOfLinkedMealIngrdnts--;
       }
       state = this.handleExitFormEdit(state, false);
       this.setState(state);
@@ -1843,7 +2023,12 @@ class NewNewWeekMealPlan extends Component {
         thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
         thisMealStateObj.hasChildren.meal = true;
         thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
-        this.setState({ [thisDayOfWeekCode]: thisDayStateObj });
+        let countOfLinkedMealIngrdnts = state.countOfLinkedMealIngrdnts;
+        countOfLinkedMealIngrdnts++;
+        this.setState({
+          [thisDayOfWeekCode]: thisDayStateObj,
+          countOfLinkedMealIngrdnts: countOfLinkedMealIngrdnts,
+        });
         this.handleStartEditingFn(
           "genRecipeIngredient",
           thisDayOfWeekCode,
@@ -1860,6 +2045,7 @@ class NewNewWeekMealPlan extends Component {
     arrayIndex
   ) => {
     let state = this.state;
+    let countOfLinkedMealIngrdnts = state.countOfLinkedMealIngrdnts;
     console.log(typeOfRecordToSave);
     let thisDayStateObj = thisDayOfWeekCode ? state[thisDayOfWeekCode] : null;
     let thisMealStateObj = thisMealTypeCode
@@ -1898,10 +2084,17 @@ class NewNewWeekMealPlan extends Component {
     ) {
       let thisDayStateObjBackup = state[`${thisDayOfWeekCode}Backup`];
       let thisMealStateObjBackup = thisDayStateObjBackup[thisMealTypeCode];
+      let lengthOfOldMealIngrdnts =
+        thisMealStateObjBackup.thisMealsIngrdnts.length;
       stateObjToUpdate = await this.hndlSaveNewIngrdntsAndDltOldOnes(
         stateObjToUpdate,
         thisMealStateObjBackup
       );
+      let lengthOfNewMealIngrdnts = stateObjToUpdate.thisMealsIngrdnts.length;
+      if (lengthOfOldMealIngrdnts !== lengthOfNewMealIngrdnts) {
+        countOfLinkedMealIngrdnts -= lengthOfOldMealIngrdnts;
+        countOfLinkedMealIngrdnts += lengthOfNewMealIngrdnts;
+      }
     }
     let valErrors = await this.handleSaveUpdateToDbFn(
       typeOfRecordToSave,
@@ -1946,6 +2139,7 @@ class NewNewWeekMealPlan extends Component {
       }
     } else {
       state = this.handleExitFormEdit(state, false);
+      state.countOfLinkedMealIngrdnts = countOfLinkedMealIngrdnts;
       this.setState(state);
     }
   };
@@ -2028,6 +2222,16 @@ class NewNewWeekMealPlan extends Component {
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;
     const typeOfRecordToChange = this.state.typeOfRecordToChange;
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
+    // const totalNumOfWMPItemsToCopy =
+    //   1 +
+    //   this.state.countOfLinkedDays +
+    //   this.state.countOfLinkedMeals +
+    //   this.state.countOfLinkedMealIngrdnts;
+    // const remainingNumOfWMPItemsToCopy = this.state.numOfWMPItemsToCopy;
+    // const remainingPercentToCopy = (
+    //   (remainingNumOfWMPItemsToCopy / totalNumOfWMPItemsToCopy) *
+    //   100
+    // ).toFixed(2);
     return (
       <React.Fragment>
         <div
@@ -2047,11 +2251,51 @@ class NewNewWeekMealPlan extends Component {
             />
           </div>
         </div>
+        {/* <WMPCopyLoadingBar
+          showWMPCopyProgressBar={this.state.showWMPCopyProgressBar}
+          countOfLinkedDays={this.state.countOfLinkedDays}
+          countOfLinkedMeals={this.state.countOfLinkedMeals}
+          countOfLinkedMealIngrdnts={this.state.countOfLinkedMealIngrdnts}
+          remainingNumOfWMPItemsToCopy={this.state.numOfWMPItemsToCopy}
+        /> */}
+        {/* <WMPCopier
+          weekMealPlanState={this.state}
+          copyingWMP={this.state.copyingWMP}
+          toggleCopyingWMP={this.toggleCopyingWMP}
+          handleCreateNewRecordInDb={this.handleCreateNewRecordInDb}
+        /> */}
+        {/* <div
+          className="wmpCopyProgressCont"
+          hidden={!this.state.showWMPCopyProgressBar}
+        >
+          <div className="wmpCopyProgressSubCont">
+            <label>Copying WMP...</label>
+            <div
+              className="progress"
+              role="progressbar"
+              aria-label="Animated striped example"
+              aria-valuenow={`${remainingPercentToCopy}%`}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div
+                className="progress-bar progress-bar-striped progress-bar-animated"
+                style={{ width: `${remainingPercentToCopy}%` }}
+              >
+                {`${remainingPercentToCopy}%`}
+              </div>
+            </div>
+          </div>
+          {/* <label>Copying WMP...</label>
+          <progress
+            value={remainingNumOfWMPItemsToCopy}
+            max={totalNumOfWMPItemsToCopy}
+          >{`${remainingPercentToCopy}%`}</progress>
+        </div> */}
         <div className="container-fluid pl-4 pr-4">
           <ToastContainer
             key={`toastCntnrFor${typeOfRecordToChange}${thisWMPRecordId}`}
           />
-
           <NewWeekMealPlanCard
             commonProps={{
               commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
