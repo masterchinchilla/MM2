@@ -6,7 +6,7 @@ function ssValidateProp(propName, value, propTypeForVal) {
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
     const { error } = subSchema.validate(objToValidate);
-    console.log(error);
+    // console.log(error);
     return error ? error.details[0].message : null;
 };
 
@@ -45,6 +45,7 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
             let thisPropsErrs=[];
             let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
             if(thisPropsValError){thisPropsErrs.push(thisPropsValError)};
+            // console.log(thisPropsErrs);
             if(thisPropsName==="name"&&objTypeSnglrSntncCase!=="Day"){
                 let matchingRecords=[];
                 try {
@@ -59,7 +60,7 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
                     }
                 if(nameError){thisPropsErrs.push(nameError)};
             };
-            valErrorsArray.push({[thisPropsName]:thisPropsErrs})
+            if(thisPropsErrs.length>0){valErrorsArray.push({[thisPropsName]:thisPropsErrs})};
         }
     };
     if(valErrorsArray.length>0){  

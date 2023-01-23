@@ -9,6 +9,9 @@ const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRe
 const {ssValidate2}=require('../backendServices/ssValidation');
 const {logSSError}=require('../backendServices/ssLogger');
 const typeOfRecordToChange="weekMealPlan";
+const typesOfChildRecords="days";
+const thisRecordObjModel=WeekMealPlan;
+const ChildRecordObjModel=Day;
 router.route('/').get((req, res) => {
     WeekMealPlan.find().populate("GRFUser")
         .then(weekMealPlans => res.json(weekMealPlans))
@@ -61,51 +64,41 @@ router.route('/add').post((req, res) => {
         .then(() => res.json(newWeekMealPlan))
         .catch(err => res.status(400).json('Error: ' + err));
 })
-// router.route('/:id').get((req, res) => {
-//     WeekMealPlan.findById(req.params.id).populate("GRFUser")
-//         .then(weekMealPlan => res.json(weekMealPlan))
-//         .catch(err => res.status(400).json('Error: ' + err));
-// });
 router.route('/:id').get((req, res) => {
     WeekMealPlan.find({_id:req.params.id}).populate("GRFUser")
         .then(weekMealPlans => res.json(weekMealPlans))
         .catch(err => res.status(400).json('Error: ' + err));
 });
-router.route('/update/:id').get((req, res) => {
-    WeekMealPlan.findById(req.params.id).populate("GRFUser")
-        .then(weekMealPlan => res.json(weekMealPlan))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/:id').delete((req, res) => {
-    WeekMealPlan.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Week Meal Plan deleted.'))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-// router.route('/update/:id').put((req, res) => {
-//     WeekMealPlan.findById(req.params.id)
-//         .then(weekMealPlan => {
-//             weekMealPlan.name = req.body.name.trim();
-//             weekMealPlan.GRFUser = req.body.GRFUser;
-//             weekMealPlan.breakfastWeight=req.body.breakfastWeight;
-//             weekMealPlan.snack1Weight=req.body.snack1Weight;
-//             weekMealPlan.lunchWeight=req.body.lunchWeight;
-//             weekMealPlan.snack2Weight=req.body.snack2Weight;
-//             weekMealPlan.dinnerWeight=req.body.dinnerWeight;
-//             weekMealPlan.dessertWeight=req.body.dessertWeight;
-//             weekMealPlan.calsBudget=req.body.calsBudget;
-//             weekMealPlan.carbsBudget=req.body.carbsBudget;
-//             weekMealPlan.proteinBudget=req.body.proteinBudget;
-//             weekMealPlan.fatBudget=req.body.fatBudget;
-//             weekMealPlan.fiberBudget=req.body.fiberBudget;
-//             weekMealPlan.save()
-//                 .then(() => 
-//                 res.json(weekMealPlan))
-//                 .catch(err => res.status(400).json('Error: ' + err));
-//         })
+// router.route('/:id').delete((req, res) => {
+//     WeekMealPlan.findByIdAndDelete(req.params.id)
+//         .then(() => res.json('Week Meal Plan deleted.'))
 //         .catch(err => res.status(400).json('Error: ' + err));
 // });
+router.delete('/:id',auth,async(req,res)=>{
+    const recordId=req.params.id;
+    try {
+        const [thisRecord,connectedRecords]=Promise.all([
+            await thisRecordObjModel.findById(recordId),
+            await ChildRecordObjModel.find({[typeOfRecordToChange]:recordId})
+        ]);
+        if(connectedRecords.length>0){
+            res.status(400).json({ok:false,valErrorsArray:[{all:`Cannot delete: Remove connected children (${typesOfChildRecords}) before attempting to delete ${typeOfRecordToChange}`}]});
+        }else{
+            const authorId=thisRecord.GRFUser;
+            const userCanEdit=authEditThisRecord(req,res,authorId);
+            if(userCanEdit){
+                try {
+                    await thisRecordObjModel.findByIdAndDelete(recordId);
+                    res.status(200).json({ok:true,message:`Record successfully deleted`});
+                } catch (errs) {
+                    res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+                }
+            }
+        }
+    } catch (errs) {
+        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+    }
+});
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
     // const record = {
