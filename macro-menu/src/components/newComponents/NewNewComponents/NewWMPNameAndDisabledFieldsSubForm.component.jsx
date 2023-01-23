@@ -30,6 +30,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
     userType,
     hasChildren,
     recordLoaded,
+    allowCopy,
   } = thisStateObj;
   const { _id, GRFUser, name, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id;
@@ -107,6 +108,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
               deleteChildrenWarning:
                 "You must delete all this week's days before you can delete this Week Meal Plan",
               recordLoaded: recordLoaded,
+              allowCopy: allowCopy.weekMealPlan,
             },
             specificMethods: {},
           }}

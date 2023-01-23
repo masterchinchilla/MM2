@@ -188,6 +188,9 @@ class NewNewWeekMealPlan extends Component {
         default:
           recordForKeys = thisRecord;
           relevantUserId = this.state.currentGRFUser._id;
+          if (recordTypesArray[i] === "weekMealPlan") {
+            thisStateObj.allowCopy.weekMealPlan = true;
+          }
       }
       let updatedValErrorsObj = this.setAllKeysToSameValue(
         recordForKeys,
@@ -555,8 +558,13 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   handleCopyWMPFn = async () => {
-    const origWMPId = this.state.thisWMPStateObj.thisRecord._id;
-    const backEndReqUrl = `${this.state.backEndHtmlRoot}weekMealPlans/copy/${origWMPId}`;
+    let state = this.state;
+    state = this.handleLockAllFromEditing(state);
+    state.copyingWMP = true;
+    this.setState(state);
+    let thisWMPStateObj = state.thisWMPStateObj;
+    const origWMPId = thisWMPStateObj.thisRecord._id;
+    const backEndReqUrl = `${state.backEndHtmlRoot}weekMealPlans/copy/${origWMPId}`;
     let wmpCopyReqResult;
     try {
       wmpCopyReqResult = await httpService.post(backEndReqUrl);
@@ -564,13 +572,18 @@ class NewNewWeekMealPlan extends Component {
     } catch (errs) {
       console.log(errs);
       this.notifyFn("WMP copy failed, refresh and try again.", "error");
-      return;
+      state = this.handleExitFormEdit(state, false);
+      state.copyingWMP = false;
+      this.setState(state);
     }
     if (!wmpCopyReqResult.data.ok) {
       this.notifyFn("WMP copy failed, refresh and try again.", "error");
+      state = this.handleExitFormEdit(state, false);
+      state.copyingWMP = false;
+      this.setState(state);
     } else {
       const savedWMPCopyId = wmpCopyReqResult.data.wmpCopy._id;
-      window.location = `/weekMealPlans/edit/${savedWMPCopyId}`;
+      window.location = `/weekMealPlansNewNew/edit/${savedWMPCopyId}/true`;
     }
   };
   // toggleCopyingWMP = () => {
@@ -1527,20 +1540,56 @@ class NewNewWeekMealPlan extends Component {
     state[thisDayOfWeekCode] = thisDayStateObj;
     this.setState(state);
   };
-  handleStartEditingFn = (
-    typeOfRecordToChange,
-    thisDayOfWeekCode,
-    thisMealTypeCode,
-    arrayIndex
-  ) => {
+  handleLockAllFromEditing = (state) => {
     let pattern = /missing/;
-    let state = this.state;
     let { daysOfWeek, mealTypes } = state;
-    state.thisWMPStateBackup = _.cloneDeep(state.thisWMPStateObj);
+    state.thisWMPStateObj.editingForm.weekMealPlan = false;
     state.thisWMPStateObj.userType.weekMealPlan = "viewer";
-    if (typeOfRecordToChange === "weekMealPlan") {
-      state.thisWMPStateObj.editingForm.weekMealPlan = true;
+    state.thisWMPStateObj.allowCopy.weekMealPlan = false;
+    for (let i = 0; i < daysOfWeek.length; i++) {
+      let localDayOfWeekCode = daysOfWeek[i].code;
+      let thisDayStateObj = state[localDayOfWeekCode];
+      let thisDayId = thisDayStateObj.thisRecord._id;
+      let testResult = pattern.test(thisDayId);
+      if (!testResult) {
+        thisDayStateObj.editingForm.day = false;
+        thisDayStateObj.userType.day = "viewer";
+      }
+      for (let i = 0; i < mealTypes.length; i++) {
+        let localMealTypeCode = mealTypes[i].code;
+        let thisMealStateObj = thisDayStateObj[localMealTypeCode];
+        let thisMealId = thisMealStateObj.thisRecord._id;
+        let testResult = pattern.test(thisMealId);
+        if (!testResult) {
+          thisMealStateObj.editingForm = { meal: false, genRecipe: false };
+          thisMealStateObj.userType = { meal: "viewer", genRecipe: "viewer" };
+          let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+          for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+            let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+            thisMealIngrdntStateObj.editingForm = {
+              mealIngredient: false,
+              genRecipeIngredient: false,
+              ingredient: false,
+            };
+            thisMealIngrdntStateObj.userType = {
+              mealIngredient: "viewer",
+              genRecipeIngredient: "viewer",
+              ingredient: "viewer",
+            };
+            thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+          }
+          thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+          thisDayStateObj[localMealTypeCode] = thisMealStateObj;
+        }
+      }
+      state[localDayOfWeekCode] = thisDayStateObj;
     }
+    return state;
+  };
+  handleBackupStateObjs = (state) => {
+    let pattern = /missing/;
+    let { daysOfWeek } = state;
+    state.thisWMPStateBackup = _.cloneDeep(state.thisWMPStateObj);
     for (let i = 0; i < daysOfWeek.length; i++) {
       let localDayOfWeekCode = daysOfWeek[i].code;
       let thisDayStateObj = state[localDayOfWeekCode];
@@ -1549,69 +1598,172 @@ class NewNewWeekMealPlan extends Component {
       if (!testResult) {
         let thisDayStateObjBackup = _.cloneDeep(thisDayStateObj);
         state[`${localDayOfWeekCode}Backup`] = thisDayStateObjBackup;
-        if (
-          thisDayOfWeekCode === localDayOfWeekCode &&
-          typeOfRecordToChange === "day"
-        ) {
-          thisDayStateObj.editingForm.day = true;
-        } else {
-          thisDayStateObj.userType.day = "viewer";
-        }
-        for (let i = 0; i < mealTypes.length; i++) {
-          let localMealTypeCode = mealTypes[i].code;
-          let thisMealStateObj = thisDayStateObj[localMealTypeCode];
-          let thisMealId = thisMealStateObj.thisRecord._id;
-          let testResult = pattern.test(thisMealId);
-          if (!testResult) {
-            let thisMealStateObjBackup =
-              thisDayStateObjBackup[localMealTypeCode];
-            thisMealStateObj.userType = { meal: "viewer", genRecipe: "viewer" };
-            if (thisMealTypeCode === localMealTypeCode) {
-              if (
-                typeOfRecordToChange === "meal" ||
-                typeOfRecordToChange === "genRecipe"
-              ) {
-                thisMealStateObj.editingForm[typeOfRecordToChange] = true;
-                thisMealStateObj.userType[typeOfRecordToChange] =
-                  thisMealStateObjBackup.userType[typeOfRecordToChange];
-              }
-            }
-            let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-            for (let i = 0; i < thisMealsIngrdnts.length; i++) {
-              let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
-              let thisMealIngrdntStateObjBackup =
-                thisMealStateObjBackup.thisMealsIngrdnts[i];
-              thisMealIngrdntStateObj.userType = {
-                mealIngredient: "viewer",
-                genRecipeIngredient: "viewer",
-                ingredient: "viewer",
-              };
-              if (arrayIndex === i) {
-                if (
-                  typeOfRecordToChange === "mealIngredient" ||
-                  typeOfRecordToChange === "genRecipeIngredient" ||
-                  typeOfRecordToChange === "ingredient"
-                ) {
-                  thisMealIngrdntStateObj.editingForm[
-                    typeOfRecordToChange
-                  ] = true;
-                  thisMealIngrdntStateObj.userType[typeOfRecordToChange] =
-                    thisMealIngrdntStateObjBackup.userType[
-                      typeOfRecordToChange
-                    ];
+      }
+    }
+    return state;
+  };
+  handleStartEditingFn = (
+    typeOfRecordToChange,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex
+  ) => {
+    let pattern = /missing/;
+    let state = this.state;
+    state = this.handleLockAllFromEditing(state);
+    state = this.handleBackupStateObjs(state);
+    let { daysOfWeek, mealTypes } = state;
+    if (typeOfRecordToChange === "weekMealPlan") {
+      state.thisWMPStateObj.editingForm.weekMealPlan = true;
+      let prevWMPUserType = state.thisWMPStateBackup.userType.weekMealPlan;
+      state.thisWMPStateObj.userType.weekMealPlan = prevWMPUserType;
+    } else {
+      for (let i = 0; i < daysOfWeek.length; i++) {
+        let localDayOfWeekCode = daysOfWeek[i].code;
+        let thisDayStateObj = state[localDayOfWeekCode];
+        let thisDayId = thisDayStateObj.thisRecord._id;
+        let testResult = pattern.test(thisDayId);
+        if (!testResult) {
+          let thisDayStateObjBackup = state[`${localDayOfWeekCode}Backup`];
+          if (
+            thisDayOfWeekCode === localDayOfWeekCode &&
+            typeOfRecordToChange === "day"
+          ) {
+            thisDayStateObj.editingForm.day = true;
+            let prevDayUserType = thisDayStateObjBackup.userType.day;
+            thisDayStateObj.userType.day = prevDayUserType;
+          } else {
+            for (let i = 0; i < mealTypes.length; i++) {
+              let localMealTypeCode = mealTypes[i].code;
+              let thisMealStateObj = thisDayStateObj[localMealTypeCode];
+              let thisMealId = thisMealStateObj.thisRecord._id;
+              let testResult = pattern.test(thisMealId);
+              if (!testResult) {
+                let thisMealStateObjBackup =
+                  thisDayStateObjBackup[localMealTypeCode];
+                if (thisMealTypeCode === localMealTypeCode) {
+                  if (
+                    typeOfRecordToChange === "meal" ||
+                    typeOfRecordToChange === "genRecipe"
+                  ) {
+                    thisMealStateObj.editingForm[typeOfRecordToChange] = true;
+                    thisMealStateObj.userType[typeOfRecordToChange] =
+                      thisMealStateObjBackup.userType[typeOfRecordToChange];
+                  } else {
+                    let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+                    for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+                      let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+                      let thisMealIngrdntStateObjBackup =
+                        thisMealStateObjBackup.thisMealsIngrdnts[i];
+                      if (arrayIndex === i) {
+                        thisMealIngrdntStateObj.editingForm[
+                          typeOfRecordToChange
+                        ] = true;
+                        thisMealIngrdntStateObj.userType[typeOfRecordToChange] =
+                          thisMealIngrdntStateObjBackup.userType[
+                            typeOfRecordToChange
+                          ];
+                      }
+                      thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+                    }
+                    thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+                  }
+                  thisDayStateObj[localMealTypeCode] = thisMealStateObj;
                 }
               }
-              thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
             }
-            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
-            thisDayStateObj[localMealTypeCode] = thisMealStateObj;
           }
+          state[localDayOfWeekCode] = thisDayStateObj;
         }
-        state[localDayOfWeekCode] = thisDayStateObj;
       }
     }
     this.setState(state);
   };
+  // handleStartEditingFn = (
+  //   typeOfRecordToChange,
+  //   thisDayOfWeekCode,
+  //   thisMealTypeCode,
+  //   arrayIndex
+  // ) => {
+  //   let pattern = /missing/;
+  //   let state = this.state;
+  //   let { daysOfWeek, mealTypes } = state;
+  //   state.thisWMPStateBackup = _.cloneDeep(state.thisWMPStateObj);
+  //   state.thisWMPStateObj.userType.weekMealPlan = "viewer";
+  //   if (typeOfRecordToChange === "weekMealPlan") {
+  //     state.thisWMPStateObj.editingForm.weekMealPlan = true;
+  //   }
+  //   for (let i = 0; i < daysOfWeek.length; i++) {
+  //     let localDayOfWeekCode = daysOfWeek[i].code;
+  //     let thisDayStateObj = state[localDayOfWeekCode];
+  //     let thisDayId = thisDayStateObj.thisRecord._id;
+  //     let testResult = pattern.test(thisDayId);
+  //     if (!testResult) {
+  //       let thisDayStateObjBackup = _.cloneDeep(thisDayStateObj);
+  //       state[`${localDayOfWeekCode}Backup`] = thisDayStateObjBackup;
+  //       if (
+  //         thisDayOfWeekCode === localDayOfWeekCode &&
+  //         typeOfRecordToChange === "day"
+  //       ) {
+  //         thisDayStateObj.editingForm.day = true;
+  //       } else {
+  //         thisDayStateObj.userType.day = "viewer";
+  //       }
+  //       for (let i = 0; i < mealTypes.length; i++) {
+  //         let localMealTypeCode = mealTypes[i].code;
+  //         let thisMealStateObj = thisDayStateObj[localMealTypeCode];
+  //         let thisMealId = thisMealStateObj.thisRecord._id;
+  //         let testResult = pattern.test(thisMealId);
+  //         if (!testResult) {
+  //           let thisMealStateObjBackup =
+  //             thisDayStateObjBackup[localMealTypeCode];
+  //           thisMealStateObj.userType = { meal: "viewer", genRecipe: "viewer" };
+  //           if (thisMealTypeCode === localMealTypeCode) {
+  //             if (
+  //               typeOfRecordToChange === "meal" ||
+  //               typeOfRecordToChange === "genRecipe"
+  //             ) {
+  //               thisMealStateObj.editingForm[typeOfRecordToChange] = true;
+  //               thisMealStateObj.userType[typeOfRecordToChange] =
+  //                 thisMealStateObjBackup.userType[typeOfRecordToChange];
+  //             }
+  //           }
+  //           let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+  //           for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+  //             let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+  //             let thisMealIngrdntStateObjBackup =
+  //               thisMealStateObjBackup.thisMealsIngrdnts[i];
+  //             thisMealIngrdntStateObj.userType = {
+  //               mealIngredient: "viewer",
+  //               genRecipeIngredient: "viewer",
+  //               ingredient: "viewer",
+  //             };
+  //             if (arrayIndex === i) {
+  //               if (
+  //                 typeOfRecordToChange === "mealIngredient" ||
+  //                 typeOfRecordToChange === "genRecipeIngredient" ||
+  //                 typeOfRecordToChange === "ingredient"
+  //               ) {
+  //                 thisMealIngrdntStateObj.editingForm[
+  //                   typeOfRecordToChange
+  //                 ] = true;
+  //                 thisMealIngrdntStateObj.userType[typeOfRecordToChange] =
+  //                   thisMealIngrdntStateObjBackup.userType[
+  //                     typeOfRecordToChange
+  //                   ];
+  //               }
+  //             }
+  //             thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+  //           }
+  //           thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+  //           thisDayStateObj[localMealTypeCode] = thisMealStateObj;
+  //         }
+  //       }
+  //       state[localDayOfWeekCode] = thisDayStateObj;
+  //     }
+  //   }
+  //   this.setState(state);
+  // };
   handleUpdateWeightsFn = (weightsObj, e) => {
     e.preventDefault();
     let state = this.state;
@@ -2246,6 +2398,18 @@ class NewNewWeekMealPlan extends Component {
               src={
                 "https://assets2.lottiefiles.com/packages/lf20_6yhhrbk6.json"
               }
+              className="lottiePlayer"
+              ref={this.player}
+            />
+          </div>
+        </div>
+        <div className="lottieCont" hidden={!this.state.copyingWMP}>
+          <div className="lottieSubCont">
+            <span className="lottieText">Copying WMP...</span>
+            <Player
+              autoplay
+              loop
+              src={"https://assets5.lottiefiles.com/packages/lf20_7PhD2J.json"}
               className="lottiePlayer"
               ref={this.player}
             />

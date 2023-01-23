@@ -25,6 +25,7 @@ const NewFormControl = (props) => {
     deleteWarning,
     deleteChildrenWarning,
     recordLoaded,
+    allowCopy,
   } = specificData;
   const localUserType = userType ? userType : "";
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
@@ -35,7 +36,11 @@ const NewFormControl = (props) => {
     let iconHidden = false;
     switch (icon) {
       case "copy":
-        if (!editingForm && typeOfRecordToChange === "weekMealPlan") {
+        if (
+          !editingForm &&
+          typeOfRecordToChange === "weekMealPlan" &&
+          allowCopy
+        ) {
           iconHidden = false;
         } else {
           iconHidden = true;

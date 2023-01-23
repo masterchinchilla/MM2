@@ -64,6 +64,7 @@ const NewWeekMealPlanCard = (props) => {
         justCreated: { weekMealPlan: false },
         userType: { weekMealPlan: "viewer" },
         hasChildren: { weekMealPlan: true },
+        allowCopy: { weekMealPlan: false },
       };
   const { thisRecord, recordLoaded, valErrors, recordChanged } = thisStateObj;
   const { _id, name } = thisRecord;

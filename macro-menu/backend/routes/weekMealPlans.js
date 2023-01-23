@@ -257,6 +257,7 @@ router.post('/copy/:id',auth,async(req,res)=>{
     let origWMPsDays;
     try {
         origWMPsDays=await Day.find({weekMealPlan:origWMPId}).populate("dayOfWeek");
+        console.log(origWMPsDays);
     } catch (errs) {
         logSSError(errs);
         return;
@@ -280,40 +281,50 @@ router.post('/copy/:id',auth,async(req,res)=>{
         let thisOrigWMPDayId=thisOrigWMPDay._id;
         let thisOrigDaysMeals;
         try {
-            thisOrigDaysMeals=Meal.find({day:thisOrigWMPDayId}).populate("mealType");
+            thisOrigDaysMeals=await Meal.find({day:thisOrigWMPDayId}).populate("mealType");
+            console.log(thisOrigDaysMeals);
         } catch (errs) {
             logSSError(errs);
             return;
         }
         for(let i=0;i<thisOrigDaysMeals.length;i++){
             let thisOrigMeal=thisOrigDaysMeals[i];
+            console.log(thisOrigMeal);
             // let thisOrigMealsType=thisOrigMeal.mealType;
             let thisOrigMealId=thisOrigMeal._id;
+            console.log(thisOrigMealId);
             let thisMealCopy=_.pick(thisOrigMeal,["genRecipe","mealType"]);
             thisMealCopy.day=savedDayCopyId;
+            console.log(thisMealCopy);
             let savedCopyOfThisMeal;
             try {
                 savedCopyOfThisMeal=await Meal.create(thisMealCopy);
+                console.log(savedCopyOfThisMeal);
             } catch (errs) {
                 logSSError(errs);
                 return;
             }
             let savedMealCopyId=savedCopyOfThisMeal._id;
+            console.log(savedMealCopyId);
             let origMealsIngrdnts;
             try {
                 origMealsIngrdnts=await MealIngredient.find({meal:thisOrigMealId});
+                console.log(origMealsIngrdnts);
             } catch (errs) {
                 logSSError(errs);
                 return;
             };
             for(let i=0;i<origMealsIngrdnts.length;i++){
                 let thisOrigMealIngrdnt=origMealsIngrdnts[i];
+                console.log(thisOrigMealIngrdnt);
                 // let thisOrigMealIngrdntId=thisOrigMealIngrdnt._id;
                 let thisMealIngrdntCopy=_.pick(thisOrigMealIngrdnt,["qty","genRecipeIngredient"]);
                 thisMealIngrdntCopy.meal=savedMealCopyId;
+                console.log(thisMealIngrdntCopy);
                 let savedMealIngrdntCopy;
                 try {
                     savedMealIngrdntCopy=await MealIngredient.create(thisMealIngrdntCopy);
+                    console.log(savedMealIngrdntCopy);
                 } catch (errs) {
                     logSSError(errs);
                     return;
