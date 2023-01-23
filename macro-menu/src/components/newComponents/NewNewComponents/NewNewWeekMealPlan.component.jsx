@@ -159,6 +159,7 @@ class NewNewWeekMealPlan extends Component {
     thisStateObj.justCreated = {};
     thisStateObj.recordLoaded = {};
     thisStateObj.hasChildren = {};
+    thisStateObj.allowCopy = {};
     for (let i = 0; i < recordTypesArray.length; i++) {
       thisStateObj.recordChanged = this.updateStateObjMetaKeyValue(
         thisStateObj.recordChanged,
@@ -326,10 +327,12 @@ class NewNewWeekMealPlan extends Component {
     typeOfRecordToGet,
     recordTypesForStateObj
   ) => {
+    console.log(backEndReqUrl, typeOfRecordToGet, recordTypesForStateObj);
     let valErrors;
     let stateObjsArray = [];
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
+      console.log(backEndReqResponse);
       const recordsArray = backEndReqResponse.data;
       stateObjsArray = this.assembleStateObjWNewRcrd(
         recordsArray,
@@ -337,6 +340,7 @@ class NewNewWeekMealPlan extends Component {
         recordTypesForStateObj
       );
     } catch (errs) {
+      console.log(errs);
       //valErrorsNestedArray shape:
       //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
       valErrors = this.parseHTTPResErrs(errs, "all");
@@ -526,6 +530,7 @@ class NewNewWeekMealPlan extends Component {
       "weekMealPlan",
       ["weekMealPlan"]
     );
+    console.log(wmpReqResult);
     if (wmpReqResult.valErrors) {
       return;
     } else {
@@ -944,26 +949,26 @@ class NewNewWeekMealPlan extends Component {
   };
   handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
     const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
-    // let savedRecord = null;
-    let savedRecord = newRecordToSave;
+    let savedRecord = null;
+    // let savedRecord = newRecordToSave;
     let valErrors = [];
     //  = [{ name: ["name too long", "name too short"] }];
-    // try {
-    //   let reqRes = await httpService.post(reqUrl, newRecordToSave);
-    //   savedRecord = reqRes.data;
-    savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
-    savedRecord.createdAt = "";
-    savedRecord.updatedAt = "";
-    let typeOfRcrdToCreateSntcCase =
-      rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
-    let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
-    this.notifyFn(successMsg, "success");
-    // } catch (errs) {
-    // valErrorsNestedArray shape:
-    // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-    //   valErrors = this.parseHTTPResErrs(errs, "all");
-    //   this.notifyOfErrors(valErrors);
-    // }
+    try {
+      let reqRes = await httpService.post(reqUrl, newRecordToSave);
+      savedRecord = reqRes.data;
+      // savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
+      // savedRecord.createdAt = "";
+      // savedRecord.updatedAt = "";
+      let typeOfRcrdToCreateSntcCase =
+        rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
+      let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
+      this.notifyFn(successMsg, "success");
+    } catch (errs) {
+      // valErrorsNestedArray shape:
+      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+    }
     return { savedRecord, valErrors };
   };
   handleCreateNewRecordFn = async (
@@ -1543,6 +1548,7 @@ class NewNewWeekMealPlan extends Component {
   handleLockAllFromEditing = (state) => {
     let pattern = /missing/;
     let { daysOfWeek, mealTypes } = state;
+    console.log(daysOfWeek, mealTypes);
     state.thisWMPStateObj.editingForm.weekMealPlan = false;
     state.thisWMPStateObj.userType.weekMealPlan = "viewer";
     state.thisWMPStateObj.allowCopy.weekMealPlan = false;
@@ -1554,35 +1560,36 @@ class NewNewWeekMealPlan extends Component {
       if (!testResult) {
         thisDayStateObj.editingForm.day = false;
         thisDayStateObj.userType.day = "viewer";
-      }
-      for (let i = 0; i < mealTypes.length; i++) {
-        let localMealTypeCode = mealTypes[i].code;
-        let thisMealStateObj = thisDayStateObj[localMealTypeCode];
-        let thisMealId = thisMealStateObj.thisRecord._id;
-        let testResult = pattern.test(thisMealId);
-        if (!testResult) {
-          thisMealStateObj.editingForm = { meal: false, genRecipe: false };
-          thisMealStateObj.userType = { meal: "viewer", genRecipe: "viewer" };
-          let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-          for (let i = 0; i < thisMealsIngrdnts.length; i++) {
-            let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
-            thisMealIngrdntStateObj.editingForm = {
-              mealIngredient: false,
-              genRecipeIngredient: false,
-              ingredient: false,
-            };
-            thisMealIngrdntStateObj.userType = {
-              mealIngredient: "viewer",
-              genRecipeIngredient: "viewer",
-              ingredient: "viewer",
-            };
-            thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+
+        for (let i = 0; i < mealTypes.length; i++) {
+          let localMealTypeCode = mealTypes[i].code;
+          let thisMealStateObj = thisDayStateObj[localMealTypeCode];
+          let thisMealId = thisMealStateObj.thisRecord._id;
+          let testResult = pattern.test(thisMealId);
+          if (!testResult) {
+            thisMealStateObj.editingForm = { meal: false, genRecipe: false };
+            thisMealStateObj.userType = { meal: "viewer", genRecipe: "viewer" };
+            let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+            for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+              let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+              thisMealIngrdntStateObj.editingForm = {
+                mealIngredient: false,
+                genRecipeIngredient: false,
+                ingredient: false,
+              };
+              thisMealIngrdntStateObj.userType = {
+                mealIngredient: "viewer",
+                genRecipeIngredient: "viewer",
+                ingredient: "viewer",
+              };
+              thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+            }
+            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+            thisDayStateObj[localMealTypeCode] = thisMealStateObj;
           }
-          thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
-          thisDayStateObj[localMealTypeCode] = thisMealStateObj;
         }
+        state[localDayOfWeekCode] = thisDayStateObj;
       }
-      state[localDayOfWeekCode] = thisDayStateObj;
     }
     return state;
   };
@@ -1610,8 +1617,8 @@ class NewNewWeekMealPlan extends Component {
   ) => {
     let pattern = /missing/;
     let state = this.state;
-    state = this.handleLockAllFromEditing(state);
     state = this.handleBackupStateObjs(state);
+    state = this.handleLockAllFromEditing(state);
     let { daysOfWeek, mealTypes } = state;
     if (typeOfRecordToChange === "weekMealPlan") {
       state.thisWMPStateObj.editingForm.weekMealPlan = true;
@@ -1846,6 +1853,7 @@ class NewNewWeekMealPlan extends Component {
           ["weekMealPlan"],
           state.thisWMPStateObj.thisRecord
         );
+    state.thisWMPStateObj.justCreated.weekMealPlan = false;
     state.thisWMPStateBackup = {};
     // let thisWMPStateBackup = state.thisWMPStateBackup;
     // thisWMPStateObj.editingForm.weekMealPlan = false;
@@ -2403,16 +2411,18 @@ class NewNewWeekMealPlan extends Component {
             />
           </div>
         </div>
-        <div className="lottieCont" hidden={!this.state.copyingWMP}>
-          <div className="lottieSubCont">
-            <span className="lottieText">Copying WMP...</span>
-            <Player
+        <div className="wmpCopyCont" hidden={!this.state.copyingWMP}>
+          {/* <div className="wmpCopyCont" hidden={false}> */}
+          <div className="wmpCopySubCont">
+            <span className="wmpCopyText">Copying WMP...</span>
+            <div className="spinner-border text-primary" role="status"></div>
+            {/* <Player
               autoplay
               loop
               src={"https://assets5.lottiefiles.com/packages/lf20_7PhD2J.json"}
               className="lottiePlayer"
               ref={this.player}
-            />
+            /> */}
           </div>
         </div>
         {/* <WMPCopyLoadingBar
