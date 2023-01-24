@@ -76,15 +76,16 @@ class NewNewWeekMealPlan extends Component {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
   notifyFn = (notice, noticeType) => {
-    switch (noticeType) {
-      case "success":
-        // toast.success(notice);
-        toast(notice, { type: "success", autoClose: 2000 });
-        break;
-      default:
-        // toast.error(notice);
-        toast(notice, { type: "error", autoClose: 5000 });
-    }
+    this.props.notifyFn(notice, noticeType);
+    // switch (noticeType) {
+    //   case "success":
+    //     // toast.success(notice);
+    //     toast(notice, { type: "success", autoClose: 2000 });
+    //     break;
+    //   default:
+    //     // toast.error(notice);
+    //     toast(notice, { type: "error", autoClose: 5000 });
+    // }
   };
   determineThisRecordsUserTypeFn = (recordAuthorId) => {
     const thisUser = this.state.currentGRFUser;
@@ -2037,6 +2038,9 @@ class NewNewWeekMealPlan extends Component {
     let rplcmntPlchldrStateObj = {};
     let rplcmentPlchldrRcrd;
     switch (typeOfRecordToDelete) {
+      case "weekMealPlan":
+        idOfRecordToDelete = state.thisWMPStateObj.thisRecord._id;
+        break;
       case "day":
         idOfRecordToDelete = thisDayStateObj.thisRecord._id;
         rplcmentPlchldrRcrd = {
@@ -2066,52 +2070,57 @@ class NewNewWeekMealPlan extends Component {
     if (!deleteOk) {
       return;
     } else {
-      if (typeOfRecordToDelete === "day" || typeOfRecordToDelete === "meal") {
-        rplcmentPlchldrRcrd._id = `missing${this.getRndIntegerFn(
-          10000000,
-          99999999
-        )}`;
-        let recordTypesForStateObj =
-          typeOfRecordToDelete === "meal"
-            ? ["meal", "genRecipe"]
-            : [typeOfRecordToDelete];
-        rplcmntPlchldrStateObj.thisRecord = rplcmentPlchldrRcrd;
-        rplcmntPlchldrStateObj = this.buildInitialStateObj(
-          rplcmntPlchldrStateObj,
-          recordTypesForStateObj,
-          rplcmentPlchldrRcrd
-        );
-      }
-      switch (typeOfRecordToDelete) {
-        case "day":
-          state[thisDayOfWeekCode] = rplcmntPlchldrStateObj;
-          state.thisWMPStateObj.hasChildren.weekMealPlan =
-            this.handleDetermineIfHasChildrenFn(state, null, null);
-          state.countOfLinkedDays--;
-          break;
-        case "meal":
-          thisDayStateObj[thisMealTypeCode] = rplcmntPlchldrStateObj;
-          thisDayStateObj.hasChildren.day = this.handleDetermineIfHasChildrenFn(
-            state,
-            thisDayOfWeekCode,
-            null
+      if (typeOfRecordToDelete === "weekMealPlan") {
+        window.location = `/`;
+      } else {
+        if (typeOfRecordToDelete === "day" || typeOfRecordToDelete === "meal") {
+          rplcmentPlchldrRcrd._id = `missing${this.getRndIntegerFn(
+            10000000,
+            99999999
+          )}`;
+          let recordTypesForStateObj =
+            typeOfRecordToDelete === "meal"
+              ? ["meal", "genRecipe"]
+              : [typeOfRecordToDelete];
+          rplcmntPlchldrStateObj.thisRecord = rplcmentPlchldrRcrd;
+          rplcmntPlchldrStateObj = this.buildInitialStateObj(
+            rplcmntPlchldrStateObj,
+            recordTypesForStateObj,
+            rplcmentPlchldrRcrd
           );
-          state[thisDayOfWeekCode] = thisDayStateObj;
-          state.countOfLinkedMeals--;
-          break;
-        default:
-          let filteredMealIngrdnts = thisMealsIngrdnts.filter(
-            (mealIngrdnt) => mealIngrdnt.thisRecord._id !== idOfRecordToDelete
-          );
-          thisMealStateObj.thisMealsIngrdnts = filteredMealIngrdnts;
-          thisMealStateObj.hasChildren.meal =
-            filteredMealIngrdnts.length > 0 ? true : false;
-          thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
-          state[thisDayOfWeekCode] = thisDayStateObj;
-          state.countOfLinkedMealIngrdnts--;
+        }
+        switch (typeOfRecordToDelete) {
+          case "day":
+            state[thisDayOfWeekCode] = rplcmntPlchldrStateObj;
+            state.thisWMPStateObj.hasChildren.weekMealPlan =
+              this.handleDetermineIfHasChildrenFn(state, null, null);
+            state.countOfLinkedDays--;
+            break;
+          case "meal":
+            thisDayStateObj[thisMealTypeCode] = rplcmntPlchldrStateObj;
+            thisDayStateObj.hasChildren.day =
+              this.handleDetermineIfHasChildrenFn(
+                state,
+                thisDayOfWeekCode,
+                null
+              );
+            state[thisDayOfWeekCode] = thisDayStateObj;
+            state.countOfLinkedMeals--;
+            break;
+          default:
+            let filteredMealIngrdnts = thisMealsIngrdnts.filter(
+              (mealIngrdnt) => mealIngrdnt.thisRecord._id !== idOfRecordToDelete
+            );
+            thisMealStateObj.thisMealsIngrdnts = filteredMealIngrdnts;
+            thisMealStateObj.hasChildren.meal =
+              filteredMealIngrdnts.length > 0 ? true : false;
+            thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
+            state[thisDayOfWeekCode] = thisDayStateObj;
+            state.countOfLinkedMealIngrdnts--;
+        }
+        state = this.handleExitFormEdit(state, false);
+        this.setState(state);
       }
-      state = this.handleExitFormEdit(state, false);
-      this.setState(state);
     }
   };
   handleTrimEnteredValueFn = (untrimmedValue) => {
@@ -2467,9 +2476,9 @@ class NewNewWeekMealPlan extends Component {
           >{`${remainingPercentToCopy}%`}</progress>
         </div> */}
         <div className="container-fluid pl-4 pr-4">
-          <ToastContainer
+          {/* <ToastContainer
             key={`toastCntnrFor${typeOfRecordToChange}${thisWMPRecordId}`}
-          />
+          /> */}
           <NewWeekMealPlanCard
             commonProps={{
               commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },

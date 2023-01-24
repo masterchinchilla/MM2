@@ -60,6 +60,7 @@ class RouterWrapper extends Component {
     ///methods
     const getCurrentUser = this.props.getCurrentUser;
     const createNewUser = this.props.createNewUser;
+    const notifyFn = this.props.notifyFn;
     return (
       <BrowserRouter
         getCurrentUser={getCurrentUser}
@@ -67,6 +68,7 @@ class RouterWrapper extends Component {
         backEndHtmlRoot={backEndHtmlRoot}
         frontEndHtmlRoot={frontEndHtmlRoot}
         axiosCallConfig={axiosCallConfig}
+        notifyFn={notifyFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -79,6 +81,7 @@ class RouterWrapper extends Component {
           backEndHtmlRoot={backEndHtmlRoot}
           frontEndHtmlRoot={frontEndHtmlRoot}
           axiosCallConfig={axiosCallConfig}
+          notifyFn={notifyFn}
         >
           <Route exact path="/grfusers" component={GRFUsersList} />
           <Route exact path="/create" component={CreateWeekMealPlan} />
@@ -131,6 +134,7 @@ class RouterWrapper extends Component {
                 backEndHtmlRoot={backEndHtmlRoot}
                 frontEndHtmlRoot={frontEndHtmlRoot}
                 axiosCallConfig={axiosCallConfig}
+                notifyFn={notifyFn}
               />
             )}
           />

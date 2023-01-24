@@ -6,7 +6,6 @@ function ssValidateProp(propName, value, propTypeForVal) {
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
     const { error } = subSchema.validate(objToValidate);
-    // console.log(error);
     return error ? error.details[0].message : null;
 };
 
@@ -16,26 +15,19 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
         let {thisPropsName,thisPropNameSentenceCase,thisPropsValue,thisPropTypeForVal,PropObjModel,justCreated}=propsArray[i];
         if(thisPropTypeForVal==="objRef"){
             let thisPropsValueId=thisPropsValue._id;
-            if(thisPropsName==="GRFUser"){
-                const foundAuthor=await PropObjModel.findById(thisPropsValueId);
-                if(!foundAuthor){
-                    valErrorsArray.push({GRFUser:["Invalid author"]})
-                    // res.status(404).json({ok:false,errorMsg:"Invalid author"});
-                    res.status(404).json({ok:false,valErrorsArray:valErrorsArray});
-                    return false;
-                };
-            }
-            else{
                 if(!justCreated){
-                    const foundRecord=await PropObjModel.findById(thisPropsValueId);
-                    if(!foundRecord){
-                        valErrorsArray.push({thisPropsName:[`${thisPropNameSentenceCase} not found`]})
-                        // res.status(404).json({ok:false,errorMsg:`${thisPropNameSentenceCase} not found`});
-                        res.status(404).json({ok:false,valErrorsArray:valErrorsArray});
-                        return false;
-                    };
+                    try {
+                        const foundRecord=await PropObjModel.findById(thisPropsValueId);
+                        if(!foundRecord){
+                            const errMsg=thisPropsName==="GRFUser"?"Invalid author":`${thisPropNameSentenceCase} not found`;
+                            valErrorsArray.push({[thisPropsName]:[errMsg]})
+                            res.status(404).json({ok:false,valErrorsArray:valErrorsArray});
+                            return false;
+                        };
+                    } catch (errs) {
+                        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+                    }
                 }; 
-            };
         }else if(
             thisPropsName==="createdAt"||
             thisPropsName==="updatedAt"||
@@ -45,16 +37,17 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
             let thisPropsErrs=[];
             let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
             if(thisPropsValError){thisPropsErrs.push(thisPropsValError)};
-            // console.log(thisPropsErrs);
             if(thisPropsName==="name"&&objTypeSnglrSntncCase!=="Day"){
                 let matchingRecords=[];
                 try {
-                    matchingRecords=await PropObjModel.find({name:new RegExp(thisPropsValue,"i")});
+                    // matchingRecords=await PropObjModel.find({name:new RegExp(thisPropsValue,"i")});
+                    matchingRecords=await PropObjModel.find({name:thisPropsValue});
                 } catch (error) {
                     res.status(500).json({ok:false,valErrorsArray:[{all:"Server error - please try again in a moment"}]})
                 }
                 let nameError;
                 for(let i=0;i<matchingRecords.length;i++){
+                    console.log(matchingRecords[i]._id.equals(recordId));
                         if(!(matchingRecords[i]._id.equals(recordId))){
                             nameError=`Another ${objTypeSnglrSntncCase} is already using that name`}
                     }
@@ -71,13 +64,11 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
     };
 };
 async function ssValidate2(typeOfRecordToChange, recordToUpdate, req, res){
-    
     let typeOfRcrdToChngSntncCase= rcrdOrFldNameCaseValPrpTypNPropObjMod[typeOfRecordToChange]["nameSntncCase"];
     let recordId=recordToUpdate._id;
     let propsArray=[];
     let recordKeys = Object.keys(recordToUpdate);
     for(let i=0;i<recordKeys.length;i++){
-        // console.log(recordKeys[i])
         let thisRecordKey=recordKeys[i];
         let PropObjModel;
         if(thisRecordKey==="name"){
@@ -94,7 +85,6 @@ async function ssValidate2(typeOfRecordToChange, recordToUpdate, req, res){
         propsArray.push(thisPropObj)
     };
 return await ssValidateObject(typeOfRcrdToChngSntncCase, recordId, propsArray, req, res);
-// return true;
 }
 async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, req, res){
 return await ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req, res)

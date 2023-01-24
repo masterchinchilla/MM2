@@ -9,6 +9,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import RouterWrapper from "./components/RouterWrapper.component";
 import auth from "./services/authService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 library.add(fas);
 const App = () => {
   // Mosh recommends using ComponentDidMount to run getCurrentUser from auth service, but there is a reason (I don't remember) why we went with a functional component here and not a class component...
@@ -30,14 +32,29 @@ const App = () => {
     const usersId = decodedToken.currentGRFUser._id;
     window.location = "/weekMealPlans/usersWMPs/" + usersId;
   }
+  function notifyFn(notice, noticeType) {
+    switch (noticeType) {
+      case "success":
+        // toast.success(notice);
+        toast(notice, { type: "success", autoClose: 2000 });
+        break;
+      default:
+        // toast.error(notice);
+        toast(notice, { type: "error", autoClose: 5000 });
+    }
+  }
   return (
-    <RouterWrapper
-      serverAuthErrors={serverAuthErrors}
-      frontEndHtmlRoot={frontEndHtmlRoot}
-      backEndHtmlRoot={backEndHtmlRoot}
-      getCurrentUser={getCurrentUser}
-      createNewUser={createNewUser}
-    />
+    <React.Fragment>
+      <ToastContainer />
+      <RouterWrapper
+        serverAuthErrors={serverAuthErrors}
+        frontEndHtmlRoot={frontEndHtmlRoot}
+        backEndHtmlRoot={backEndHtmlRoot}
+        getCurrentUser={getCurrentUser}
+        createNewUser={createNewUser}
+        notifyFn={notifyFn}
+      />
+    </React.Fragment>
   );
 };
 
