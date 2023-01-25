@@ -1,309 +1,190 @@
 const router = require('express').Router();
-let UnitOfMeasure=require('../models/unitOfMeasure.model');
-let WeightType=require('../models/weightType.model');
-let Brand=require('../models/brand.model');
-let GRFUser=require('../models/GRFUser.model');
-let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
-let GenRecipe=require('../models/genRecipe.model');
-let Ingredient=require('../models/ingredient.model');
-let Meal=require('../models/meal.model');
-let Day=require('../models/day.model');
-let WeekMealPlan=require('../models/weekMealPlan.model');
-let MealIngredient=require('../models/mealIngredient.model');
-let DayOfWeek=require('../models/dayOfWeek.model')
+
+const MealIngredient=require('../models/mealIngredient.model');
+
 const auth = require('../middleware/auth');
+
 const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
-const {ssValidate}=require('../backendServices/ssValidation');
-router.route('/:id').get((req, res)=>{
-    MealIngredient.findById(req.params.id)
-        .populate({
-            path: 'genRecipeIngredient',
-            populate:{
-                path: 'genRecipe',
-                populate:{path:'availableMealType'}
-            }
-        })
-        .populate({
-            path: 'genRecipeIngredient',
-            populate:{
-                path: 'ingredient',
-                populate:{path: 'unitOfMeasure'}
-            }
-        })
-        .populate({
-            path:'genRecipeIngredient',
-            populate:{
-                path:'ingredient',
-                populate:{path:'weightType'}
-            }
-        })
-        .populate({
-            path:'genRecipeIngredient',
-            populate:{
-                path:'ingredient',
-                populate:{path:'brand'}
-            }
-        })
-        .populate({
-            path:'genRecipeIngredient',
-            populate:{
-                path:'ingredient',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'day',
-                populate:{path:'weekMealPlan'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'genRecipe',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'genRecipe',
-                populate:{path:'availableMealType'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'day',
-                populate:{path:'dayOfWeek'}
-            }
-        })
-            .then(mealIngredient=>res.json(mealIngredient))
-            .catch(err=>res.status(400).json('Error: '+err));
-    });
-router.route('/thisMealsMealIngredients/:id').get((req, res)=>{
-    MealIngredient.find({meal:req.params.id})
-        .populate({
-            path: 'genRecipeIngredient',
-            populate:{
-                path: 'genRecipe',
-                populate:{path:'availableMealType'}
-            }
-        })
-        .populate({
-            path: 'genRecipeIngredient',
-            populate:{
-                path: 'genRecipe',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .populate({
-            path: 'genRecipeIngredient',
-            populate:{
-                path: 'ingredient',
-                populate:{path: 'unitOfMeasure'}
-            }
-        })
-        .populate({
-            path:'genRecipeIngredient',
-            populate:{
-                path:'ingredient',
-                populate:{path:'weightType'}
-            }
-        })
-        .populate({
-            path:'genRecipeIngredient',
-            populate:{
-                path:'ingredient',
-                populate:{path:'brand'}
-            }
-        })
-        .populate({
-            path:'genRecipeIngredient',
-            populate:{
-                path:'ingredient',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'day',
-                populate:{path:'weekMealPlan'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'day',
+const {ssValidate2}=require('../backendServices/ssValidation');
+
+const typeOfRecordToChange="mealIngredient";
+const parentTypeOfRecord="meal";
+
+const ThisRecordObjModel=MealIngredient;
+
+router.get('/thisMealsMealIngredients/:id',async(req, res)=>{
+    try {
+        const matchingRecords=await ThisRecordObjModel.find({[parentTypeOfRecord]: req.params.id})
+            .populate({
+                path: 'genRecipeIngredient',
                 populate:{
-                    path:'weekMealPlan',
-                    populate:'GRFUser'
+                    path: 'genRecipe',
+                    populate:{path:'availableMealType'}
                 }
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'genRecipe',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'genRecipe',
-                populate:{path:'availableMealType'}
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'mealType',
-            }
-        })
-        .populate({
-            path: 'meal',
-            populate:{
-                path: 'day',
-                populate:{path:'dayOfWeek'}
-            }
-        })
-            .then(mealIngredients=>res.json(mealIngredients))
-            .catch(err=>res.status(400).json('Error: '+err));
-    })
-router.route('/mealIngrdntsPerGenRcpIngrdnt/:id').get((req, res)=>{
-    MealIngredient.find({genRecipeIngredient:req.params.id})
-        .then(mealIngredients=>res.json(mealIngredients.length))
-        .catch(err=>res.status(400).json('Error: '+err));
-})
-// router.route('/add').post((req,res)=>{
-//     const qty=req.body.qty;
-//     const genRecipeIngredient=req.body.genRecipeIngredient;
-//     const meal=req.body.meal;
-//     const newMealIngredient = new MealIngredient({
-//         qty,
-//         genRecipeIngredient,
-//         meal
-//     });
-//     newMealIngredient.save()
-//         .then(()=>res.json(newMealIngredient))
-//         .catch(err=>res.status(400).json('Error: '+err));
-// });
-router.route('/:id').delete((req, res)=>{
-    MealIngredient.findByIdAndDelete(req.params.id)
-        .then(()=>res.json('Meal Ingredient successfully deleted.'))
-        .catch(err=>res.status(400).json('Error: '+err));
-});
-// router.route('/update/:id').put((req, res)=>{
-//     MealIngredient.findById(req.params.id)
-//         .then(mealIngredient=>{
-//             mealIngredient.qty=req.body.qty;
-//             mealIngredient.genRecipeIngredient=req.body.genRecipeIngredient._id;
-//             mealIngredient.meal=req.body.meal._id;
-//             mealIngredient.save()
-//                 .then(()=>res.json(mealIngredient))
-//                 .catch(err=>res.status(400).json('Error: '+err));
-//         })
-//         .catch(err=>res.status(400).json('Error: '+err));
-// });
-router.put('/update/:id',auth,async(req,res)=>{
-// /:justCreated?
-    const {
-        qty,
-        genRecipeIngredient,
-        meal,
-    }=req.body;
-    const mealIngredientId=req.params.id
-    // const nameOfObjRefPropJustCreated=req.params.justCreated;
-    const genRecipeIngredientId=genRecipeIngredient._id;
-    const mealId=meal._id;
-    const propsArray=[
-        {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient,justCreated:null},
-        {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal,justCreated:null},
-    ];
-    const ssValResult=await ssValidate("Meal Ingredient", mealIngredientId, propsArray,req, res);
-    if(ssValResult){
-        MealIngredient.findById(mealIngredientId)
+            })
+            .populate({
+                path: 'genRecipeIngredient',
+                populate:{
+                    path: 'genRecipe',
+                    populate:{path:'GRFUser'}
+                }
+            })
+            .populate({
+                path: 'genRecipeIngredient',
+                populate:{
+                    path: 'ingredient',
+                    populate:{path: 'unitOfMeasure'}
+                }
+            })
+            .populate({
+                path:'genRecipeIngredient',
+                populate:{
+                    path:'ingredient',
+                    populate:{path:'weightType'}
+                }
+            })
+            .populate({
+                path:'genRecipeIngredient',
+                populate:{
+                    path:'ingredient',
+                    populate:{path:'brand'}
+                }
+            })
+            .populate({
+                path:'genRecipeIngredient',
+                populate:{
+                    path:'ingredient',
+                    populate:{path:'GRFUser'}
+                }
+            })
             .populate({
                 path: 'meal',
                 populate:{
                     path: 'day',
                     populate:{
                         path:'weekMealPlan',
+                        populate:'GRFUser'
                     }
                 }
             })
-            .then(mealIngredient=>{
-                let authorId=mealIngredient.meal.day.weekMealPlan.GRFUser._id;
-                const userCanEdit=authEditThisRecord(req,res,authorId)
-                if(userCanEdit){
-                    mealIngredient.qty=qty;
-                    mealIngredient.genRecipeIngredient=genRecipeIngredientId;
-                    mealIngredient.meal=mealId;
-                    mealIngredient.save()
-                        .then(()=>res.json({ok:true,msg:"success"}))
-                        .catch((err)=>{
-                            res.status(500).json({ok:false,errorMsg:"Server error - please try again in a moment"})
-                        });
-                }else{return}
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'genRecipe',
+                    populate:{path:'GRFUser'}
+                }
             })
-            .catch((err)=>{
-                console.log(err);
-                res.status(404).json({ok:false,errorMsg:"Meal Ingredient not found, it might have already been deleted"})
-            });
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'genRecipe',
+                    populate:{path:'availableMealType'}
+                }
+            })
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'mealType',
+                }
+            })
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'day',
+                    populate:{path:'dayOfWeek'}
+                }
+            })
+        res.json(matchingRecords);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
+router.put('/update/:id',auth,async(req,res)=>{
+    const record=req.body;
+    const recordId=req.params.id;
+    const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+    if(ssValResult){
+        try {
+            const foundRecord=await ThisRecordObjModel.findById(recordId)
+                .populate({
+                    path: 'meal',
+                    populate:{
+                        path: 'day',
+                        populate:{
+                            path:'weekMealPlan',
+                            populate:'GRFUser'
+                        }
+                    }
+                })
+            const authorId=foundRecord.meal.day.weekMealPlan.GRFUser._id;
+            const userCanEdit=authEditThisRecord(req,res,authorId)
+            if(userCanEdit){
+                foundRecord.qty=record.qty;
+                foundRecord.genRecipeIngredient=record.genRecipeIngredient._id;
+                foundRecord.meal=record.meal._id;
+                try {
+                    await foundRecord.save();
+                    res.json({ok:true,msg:"success"});
+                } catch (errs) {
+                    res.status(500).json({ok:false,valErrorsArray:[{all:`Record save to DB failed, refresh, wait a moment and try again`}]})
+                }
+            }else{return}
+        } catch (errs) {
+            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange} not found, it might have already been deleted`}]})
+        }
     }else{return};
 });
 router.post('/add',auth,async(req,res)=>{
-// /:justCreated?
-    const {
-        qty,
+    const {qty,
         genRecipeIngredient,
-        meal,
-    }=req.body;
-    // const nameOfObjRefPropJustCreated=req.params.justCreated;
-    const genRecipeIngredientId=genRecipeIngredient._id;
-    const mealId=meal._id;
-    let authorId;
-    const propsArray=[
-        {thisPropsName:"qty",thisPropNameSentenceCase:"Qty",thisPropsValue:qty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"genRecipeIngredient",thisPropNameSentenceCase:"Recipe Ingredient",thisPropsValue:genRecipeIngredient,thisPropTypeForVal:"objRef",PropObjModel:GenRecipeIngredient,justCreated:null},
-        {thisPropsName:"meal",thisPropNameSentenceCase:"Meal",thisPropsValue:meal,thisPropTypeForVal:"objRef",PropObjModel:Meal,justCreated:null},
-    ];
-    const ssValResult=await ssValidate("Meal Ingredient", null, propsArray, req, res);
-    if(ssValResult){
-        Meal.findById(mealId)
-            .populate('day')
-            .populate({
-                path:'day',
-                populate:{path:'weekMealPlan'}
-            })
-            .populate({
-                path:'day',
-                populate:{
-                    path:'weekMealPlan',
-                    populate:'GRFUser'
+        meal}=req.body;
+    const parentRecordAuthorId=meal.day.weekMealPlan.GRFUser._id;
+    const authorId=req.currentGRFUser._id;
+    if(parentRecordAuthorId===authorId){
+        const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
+        if(ssValResult){
+            const newRecord=new ThisRecordObjModel({
+                qty:qty,
+                genRecipeIngredient:genRecipeIngredient._id,
+                meal:meal._id,
+            });
+            try {
+                await newRecord.save();
+                res.json(newRecord);
+            } catch (errs) {
+                res.status(400).json('Error: '+errs)
+            }
+        }else{return}; 
+    }else{
+        res.status(401).json({ok:false,errorMsg:"You do not have access to add Meal Ingredients to this Meal"});
+    }
+});
+router.delete('/:id',auth,async(req,res)=>{
+    const recordId=req.params.id;
+        try {
+            const thisRecord=await ThisRecordObjModel.findById(recordId)
+                .populate({
+                    path: 'meal',
+                    populate:{
+                        path: 'day',
+                        populate:{
+                            path:'weekMealPlan',
+                            populate:'GRFUser'
+                        }
+                    }
+                })
+            const authorId=thisRecord.meal.day.weekMealPlan.GRFUser._id;
+            const userCanEdit=authEditThisRecord(req,res,authorId);
+            if(userCanEdit){
+                try {
+                    await ThisRecordObjModel.findByIdAndDelete(recordId);
+                    res.status(200).json({ok:true,message:`Record successfully deleted`});
+                } catch (errs) {
+                    res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
                 }
-            })
-            .then(meal=>{
-                authorId=meal.day.weekMealPlan.GRFUser._id;
-                const userCanEdit=authEditThisRecord(req,res,authorId);
-                if(userCanEdit){
-                    const newMealIngredient=new MealIngredient({
-                        qty,
-                        genRecipeIngredient:genRecipeIngredientId,
-                        meal:mealId,
-                    });
-                    newMealIngredient.save()
-                        .then(()=>res.json(newMealIngredient))
-                        .catch(err=>res.status(400).json('Error: '+err));
-                }else{return};
-            })
-            .catch((err)=>{
-                res.status(404).json({ok:false,errorMsg:"Meal not found"})
-            });   
-    }else{return};
+            }
+        } catch (errs) {
+            res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+        }
 });
 module.exports=router;

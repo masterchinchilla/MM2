@@ -850,8 +850,9 @@ class NewNewWeekMealPlan extends Component {
   // };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();
-    this.setState({ currentGRFUser: currentGRFUser });
-    this.getThisWMPFn();
+    this.setState({ currentGRFUser: currentGRFUser }, () =>
+      this.getThisWMPFn()
+    );
   }
   getCSValResultForProp = async (
     typeOfRecordToChange,

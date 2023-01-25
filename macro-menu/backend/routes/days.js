@@ -1,125 +1,91 @@
 const router = require('express').Router();
-const { response } = require('express');
-let Day = require('../models/day.model');
-let WeekMealPlan = require('../models/weekMealPlan.model');
-let DayOfWeek=require('../models/dayOfWeek.model');
+
+const Day = require('../models/day.model');
+const Meal=require('../models/meal.model');
+
 const auth = require('../middleware/auth');
+
 const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
-const {ssValidate}=require('../backendServices/ssValidation');
-router.route('/').get((req, res) => {
-    Day.find()
-        .populate("dayOfWeek")
-        .populate("weekMealPlan")
-        .populate({
-            path:'weekMealPlan',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .then(days => res.json(days))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
+const {ssValidate2}=require('../backendServices/ssValidation');
 
-router.route('/daysofthiswmp/:id').get((req, res) => {
-    Day.find({weekMealPlan: req.params.id})
+const typeOfRecordToChange="day";
+const parentTypeOfRecord="weekMealPlan";
+const typesOfChildRecords="meal";
+
+const ThisRecordObjModel=Day;
+const ChildRecordObjModel=Meal;
+
+router.get('/daysofthiswmp/:id',async(req, res)=>{
+    try {
+        const matchingRecords=await ThisRecordObjModel.find({[parentTypeOfRecord]: req.params.id})
         .populate("dayOfWeek")
-        .populate("weekMealPlan")
         .populate({
             path:'weekMealPlan',
             populate:{
                 path:'GRFUser',
             }
         })
-        .then(days => res.json(days))
-        .catch(err => res.status(400).json('Error: ' + err));
+        res.json(matchingRecords);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
 });
-// router.route('/add').post((req, res) => {
-//     const dayOfWeek = req.body.dayOfWeek;
-//     const name = req.body.name;
-//     const weekMealPlan = req.body.weekMealPlan;
-//     const newDay = new Day({
-//         dayOfWeek,
-//         name,
-//         weekMealPlan
-//     });
-//     newDay.save()
-//         .then(() => res.json(newDay))
-//         .catch(err => res.status(400).json('Error: ' + err));
-// })
 router.post('/add',auth,async(req,res)=>{
-// /:objRefPropsJustCreatedArray?
-    const requestorUser=req.currentGRFUser;
-    if(requestorUser){
-        const {
-            name,
-      dayOfWeek,
-      weekMealPlan,
-        }=req.body;
-        
-        DayOfWeek.findOne({name:dayOfWeek.name})
-        .then(async(dayOfWeek)  => {
-            const dayOfWeekId=dayOfWeek._id;
-            const wmpId=weekMealPlan._id;
-            // const objRefPropsJustCreatedArray=req.params.objRefPropsJustCreatedArray?objRefPropsJustCreatedArray:[];
-            // const wmpJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weekMealPlan");
-            const propsArray=[
-            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Day,justCreated:null},
-            {thisPropsName:"weekMealPlan",thisPropNameSentenceCase:"Week Meal Plan",thisPropsValue:weekMealPlan,thisPropTypeForVal:"objRef",PropObjModel:WeekMealPlan,justCreated:null},
-        ];
-        const ssValResult=await ssValidate("Day", null, propsArray, req, res);
+    const {name,dayOfWeek,weekMealPlan}=req.body;
+    const parentRecordAuthorId=weekMealPlan.GRFUser._id;
+    const authorId=req.currentGRFUser._id;
+    if(parentRecordAuthorId===authorId){
+        const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
         if(ssValResult){
-            const newDay=new Day({
-                name,
-                dayOfWeek:dayOfWeekId,
-                weekMealPlan:wmpId
+            const newRecord=new ThisRecordObjModel({
+                name:name,
+                dayOfWeek:dayOfWeek._id,
+                weekMealPlan:weekMealPlan._id,
             });
-            newDay.save()
-                .then(()=>res.json(newDay))
-                .catch(err=>res.status(400).json('Error: '+err));
-        }else{return};
-        })
-        .catch(err=>res.status(404).json({ok:false,errorMsg:"Day of Week not found"}))
-        
-    }else{
-        res.status(401).json({ok:false,errorMsg:"You must be logged-in to create new records"});
-        return};
-    
-});
-router.route('/:id').get((req, res) => {
-    Day.findById(req.params.id).populate("weekMealPlan").populate("dayOfWeek").populate({
-            path:'weekMealPlan',
-            populate:{
-                path:'GRFUser',
+            try {
+                await newRecord.save();
+                res.json(newRecord);
+            } catch (errs) {
+                res.status(400).json('Error: '+errs)
             }
-        })
-        .then(day => res.json(day))
-        .catch(err => res.status(400).json('Error: ' + err));
+        }else{return}; 
+    }else{
+        res.status(401).json({ok:false,errorMsg:"You do not have access to add Days to this Week Meal Plan"});
+    }
 });
-
-// router.route('/update/:id').get((req, res) => {
-//     Day.findById(req.params.id).populate("GRFUser")
-//         .then(day => res.json(day))
-//         .catch(err => res.status(400).json('Error: ' + err));
-// });
-
-router.route('/:id').delete((req, res) => {
-    console.log(req.params);
-    Day.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Day deleted.'))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/update/:id').post((req, res) => {
-    Day.findById(req.params.id)
-        .then(day => {
-            day.weekMealPlan = req.body.weekMealPlan;
-            day.dayOfWeek = req.body.dayOfWeek;
-
-            day.save()
-                .then(() => res.json('Day updated!'))
-                .catch(err => res.status(400).json('Error: ' + err));
-        })
-        .catch(err => res.status(400).json('Error: ' + err));
+router.delete('/:id',auth,async(req,res)=>{
+    const recordId=req.params.id;
+    try {
+        const connectedRecords=await ChildRecordObjModel.find({[typeOfRecordToChange]:recordId});
+        if(connectedRecords.length>0){
+            res.status(400).json({ok:false,valErrorsArray:[{all:`Cannot delete: Remove connected children (${typesOfChildRecords}) before attempting to delete ${typeOfRecordToChange}`}]});
+        }else{
+            try {
+                const thisRecord=await ThisRecordObjModel.findById(recordId)
+                    .populate({
+                        path:'weekMealPlan',
+                        populate:{
+                            path:'GRFUser',
+                        }
+                    })
+                const authorId=thisRecord.weekMealPlan.GRFUser._id;
+                const userCanEdit=authEditThisRecord(req,res,authorId);
+                if(userCanEdit){
+                    try {
+                        await ThisRecordObjModel.findByIdAndDelete(recordId);
+                        res.status(200).json({ok:true,message:`Record successfully deleted`});
+                    } catch (errs) {
+                        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+                    }
+                }
+            } catch (errs) {
+                res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+            }
+        }
+    } catch (errs) {
+        console.log(errs);
+        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+    }
 });
 
 module.exports = router;

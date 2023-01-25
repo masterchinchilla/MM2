@@ -1,164 +1,136 @@
 const router = require('express').Router();
-const { response } = require('express');
-let UnitOfMeasure=require('../models/unitOfMeasure.model');
-let WeightType=require('../models/weightType.model');
-let Brand=require('../models/brand.model');
-let GRFUserModel=require('../models/GRFUser.model');
-let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
-let GenRecipe=require('../models/genRecipe.model');
-let Ingredient=require('../models/ingredient.model');
-let Meal=require('../models/meal.model');
-let Day=require('../models/day.model');
-let WeekMealPlan=require('../models/weekMealPlan.model');
-let MealIngredient=require('../models/mealIngredient.model');
-let DayOfWeek=require('../models/dayOfWeek.model');
-let MealType=require('../models/mealType.model');
+
+const Meal=require('../models/meal.model');
+const MealIngredient=require('../models/mealIngredient.model');
+
 const auth = require('../middleware/auth');
+
 const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
-const {ssValidate}=require('../backendServices/ssValidation');
-router.route('/').get((req, res)=>{
-    Meal.find().populate('day')
-        .populate({
-            path: 'genRecipe',
-            populate: { path: 'GRFUser' }
-        }).populate('mealType')
-        .populate({
-            path: 'day',
-            populate: { path: 'dayOfWeek' }
-        })
-        .then(meals=>res.json(meals))
-        .catch(err=>res.status(400).json('Error: '+err));
-});
-router.route('/mealsofthisday/:id').get((req, res)=>{   
-    Meal.find({day: req.params.id})
-        .populate('day')
-        .populate({
-            path:'day',
-            populate:{path:'weekMealPlan'}
-        })
-        .populate({
-            path:'day',
-            populate:{
-                path:'weekMealPlan',
-                populate:'GRFUser'
-            }
-        })
-        .populate('mealType')
-        .populate({
-            path: 'genRecipe',
-            populate: { path: 'GRFUser' }
-        })
-        .populate({
-            path: 'genRecipe',
-            populate: { path: 'availableMealType' }
-        })
-        .populate({
-            path: 'day',
-            populate: { path: 'dayOfWeek' }
-        })
-        .then(meals => res.json(meals))
-        .catch(err => res.status(400).json('Error: '+err));
-});
-router.route('/mealsPerGenRcp/:id').get((req, res)=>{
-    Meal.find({genRecipe:req.params.id})
-        .then(meals=>res.json(meals.length))
-        .catch(err=>res.status(400).json('Error: '+err));
-})
-// router.route('/add').post((req, res)=>{
-//     const meal=new Meal(req.body);
-//     meal.save()
-//         .then((meal)=>res.json(meal))
-//         .catch(err=>res.status(400).json('Error: '+err));
-// });
-// router.route('/update/:id').put((req, res)=>{
-//     Meal.findById(req.params.id)
-//         .then(meal=>{
-//             meal.day = req.body.day;
-//             meal.genRecipe = req.body.genRecipe;
-//             meal.mealType = req.body.mealType;
-//             meal.save()
-//                 .then(()=>res.json(meal))
-//                 .catch(err=>res.status(400).json('Error: '+err));
-//         })
-//         .catch(err=>res.status(400).json('Error: '+err));
-// });
-router.put('/update/:id',auth,async(req,res)=>{
-// /:justCreated?
-    const {
-        day,
-        genRecipe,
-        mealType
-    }=req.body;
-    const mealId=req.params.id;
-    // const nameOfObjRefPropJustCreated=req.params.justCreated;
-    const dayId=day._id;
-    const genRecipeId=genRecipe._id;
-    const mealTypeId=mealType._id;
-    const authorId=day.weekMealPlan.GRFUser._id;
-    const propsArray=[
-        {thisPropsName:"day",thisPropNameSentenceCase:"Day",thisPropsValue:day,thisPropTypeForVal:"objRef",PropObjModel:Day,justCreated:null},
-        {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe,justCreated:null},
-        {thisPropsName:"mealType",thisPropNameSentenceCase:"Meal Type",thisPropsValue:mealType,thisPropTypeForVal:"objRef",PropObjModel:MealType,justCreated:null},
-    ];
-    const ssValResult=await ssValidate("Meal", mealId, propsArray, req, res);
-    if(ssValResult){
-        const userCanEdit=authEditThisRecord(req,res,authorId)
-        if(userCanEdit){
-            Meal.findById(mealId)
-                .then(meal=>{
-                    meal.day = dayId;
-                    meal.genRecipe = genRecipeId;
-                    meal.mealType = mealTypeId;
-                    meal.save()
-                        .then(()=>res.json({ok:true,msg:"success"}))
-                        .catch((err)=>{
-                            res.status(500).json({ok:false,errorMsg:"Server error - please try again in a moment"})
-                        });
-                }).catch((err)=>{
-                    res.status(404).json({ok:false,errorMsg:"Meal not found, it might have already been deleted"})
-                });
-        }else{
-            return;
-        }
-    }else{
-        return;
+const {ssValidate2}=require('../backendServices/ssValidation');
+
+const typeOfRecordToChange="meal";
+const parentTypeOfRecord="day";
+const typesOfChildRecords="mealIngredient";
+
+const ThisRecordObjModel=Meal;
+const ChildRecordObjModel=MealIngredient;
+
+router.get('/mealsofthisday/:id',async(req, res)=>{
+    try {
+        const matchingRecords=await ThisRecordObjModel.find({[parentTypeOfRecord]: req.params.id})
+            .populate({
+                path:'day',
+                populate:{
+                    path:'weekMealPlan',
+                    populate:'GRFUser'
+                }
+            })
+            .populate({
+                path: 'day',
+                populate: { path: 'dayOfWeek' }
+            })
+            .populate('mealType')
+            .populate({
+                path: 'genRecipe',
+                populate: { path: 'GRFUser' }
+            })
+            .populate({
+                path: 'genRecipe',
+                populate: { path: 'availableMealType' }
+            })
+        res.json(matchingRecords);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
     }
 });
-router.route('/:id').delete((req, res)=>{
-    Meal.findByIdAndDelete(req.params.id)
-        .then(()=>res.json('Meal successfully deleted.'))
-        .catch(err=>res.status(400).json('Error :'+err));
+router.put('/update/:id',auth,async(req,res)=>{
+    const record=req.body;
+    const recordId=req.params.id;
+    const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+    if(ssValResult){
+        try {
+            const foundRecord=await ThisRecordObjModel.findById(recordId)
+                .populate({
+                    path:'day',
+                    populate:{
+                        path:'weekMealPlan',
+                        populate:'GRFUser'
+                    }
+                });
+            const authorId=foundRecord.day.weekMealPlan.GRFUser._id;
+            const userCanEdit=authEditThisRecord(req,res,authorId)
+            if(userCanEdit){
+                foundRecord.day=record.day._id;
+                foundRecord.genRecipe=record.genRecipe._id;
+                foundRecord.mealType=record.mealType._id;
+                try {
+                    await foundRecord.save();
+                    res.json({ok:true,msg:"success"});
+                } catch (errs) {
+                    res.status(500).json({ok:false,valErrorsArray:[{all:`Record save to DB failed, refresh, wait a moment and try again`}]})
+                }
+            }else{return}
+        } catch (errs) {
+            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange} not found, it might have already been deleted`}]})
+        }
+    }else{return};
+});
+router.delete('/:id',auth,async(req,res)=>{
+    const recordId=req.params.id;
+    try {
+        const connectedRecords=await ChildRecordObjModel.find({[typeOfRecordToChange]:recordId});
+        if(connectedRecords.length>0){
+            res.status(400).json({ok:false,valErrorsArray:[{all:`Cannot delete: Remove connected children (${typesOfChildRecords}) before attempting to delete ${typeOfRecordToChange}`}]});
+        }else{
+            try {
+                const thisRecord=await ThisRecordObjModel.findById(recordId)
+                    .populate({
+                        path:'day',
+                        populate:{
+                            path:'weekMealPlan',
+                            populate:'GRFUser'
+                        }
+                    });
+                const authorId=thisRecord.day.weekMealPlan.GRFUser._id;
+                const userCanEdit=authEditThisRecord(req,res,authorId);
+                if(userCanEdit){
+                    try {
+                        await ThisRecordObjModel.findByIdAndDelete(recordId);
+                        res.status(200).json({ok:true,message:`Record successfully deleted`});
+                    } catch (errs) {
+                        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+                    }
+                }
+            } catch (errs) {
+                res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+            }
+        }
+    } catch (errs) {
+        console.log(errs);
+        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+    }
 });
 router.post('/add',auth,async(req,res)=>{
-    const requestorUser=req.currentGRFUser;
-    if(requestorUser){
-        const {
-            day,
-            genRecipe,
-            mealType
-        }=req.body;
-        const dayId=day._id;
-        const genRecipeId=genRecipe._id;
-        const mealTypeId=mealType._id;
-        const propsArray=[
-            {thisPropsName:"day",thisPropNameSentenceCase:"Day",thisPropsValue:day,thisPropTypeForVal:"objRef",PropObjModel:Day,justCreated:null},
-            {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe,justCreated:null},
-            {thisPropsName:"mealType",thisPropNameSentenceCase:"Meal Type",thisPropsValue:mealType,thisPropTypeForVal:"objRef",PropObjModel:MealType,justCreated:null},
-        ];
-        const ssValResult=await ssValidate("meal", null, propsArray, req, res);
+    const {day,genRecipe,mealType}=req.body;
+    const parentRecordAuthorId=day.weekMealPlan.GRFUser._id;
+    const authorId=req.currentGRFUser._id;
+    if(parentRecordAuthorId===authorId){
+        const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
         if(ssValResult){
-            const newMeal=new Meal({
-                day: dayId,
-                genRecipe: genRecipeId,
-                mealType: mealTypeId
+            const newRecord=new ThisRecordObjModel({
+                day:day._id,
+                genRecipe:genRecipe._id,
+                mealType:mealType._id,
             });
-            newMeal.save()
-                .then(()=>res.json(newMeal))
-                .catch(err=>res.status(400).json('Error: '+err));
-        }else{return};
+            try {
+                await newRecord.save();
+                res.json(newRecord);
+            } catch (errs) {
+                res.status(400).json('Error: '+errs)
+            }
+        }else{return}; 
     }else{
-        res.status(401).json({ok:false,errorMsg:"You must be logged-in to create new records"});
-        return};
-    
+        res.status(401).json({ok:false,errorMsg:"You do not have access to add Meals to this Day"});
+    }
 });
 module.exports=router;
