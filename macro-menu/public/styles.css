@@ -1153,3 +1153,6 @@ div.emptyPlaceholder span{
   margin:1rem;
   padding: 0;
 }
+.loginCard{
+  max-width: 400px;
+}

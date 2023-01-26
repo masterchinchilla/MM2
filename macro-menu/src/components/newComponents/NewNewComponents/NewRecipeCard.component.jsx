@@ -5,7 +5,7 @@ import ReadOnlyInputCore from "../ReadOnlyInputCore.component";
 import NewFormControl from "./NewFormControl.component";
 import NewInputCore from "./NewInputCore.component";
 import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
-import InputCoreWLocalState from "./NewInputCore.component";
+import TextAreaSubInputCore from "./TextAreaSubInputCore.component";
 const NewRecipeCard = (props) => {
   const typeOfRecordToChange = "genRecipe";
   const { commonProps, specificProps } = props;
@@ -22,7 +22,6 @@ const NewRecipeCard = (props) => {
     trimEnteredValueFn,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup } = specificData;
-
   const {} = specificMethods;
   const {
     recordLoaded,
@@ -58,8 +57,12 @@ const NewRecipeCard = (props) => {
   );
   const [localName, updateNameStateFn] = useState(name);
   const [prepInstr, updatePrepInstrStateFn] = useState(defaultPrepInstructions);
+  const [timer, setTimerStateFn] = useState(null);
   const [nameValErrors, updateNameValErrorsStateFn] = useState(
     valErrors.genRecipe.name
+  );
+  const [prepInstValErrors, updatePrepInstValErrsStateFn] = useState(
+    valErrors.genRecipe.defaultPrepInstructions
   );
   const [saveDisabled, toggleSaveDisabledStateFn] = useState(true);
   const origName = thisStateObjBackup.recordLoaded
@@ -71,15 +74,29 @@ const NewRecipeCard = (props) => {
       ]
     : defaultPrepInstructions;
   function inputOnKeyUpFn() {}
-  function handleUpdatePrepInst(e) {
-    let newPrepInst = e.target.value;
+  function handleUpdatePrepInst(newPrepInst) {
+    updatePrepInstValErrsStateFn(["Err"]);
     updatePrepInstrStateFn(newPrepInst);
     updateLocalRecordChangedStateFn(true);
+    clearTimeout(timer);
+    const newTimer = setTimeout(() => {
+      onUpdatePropFn(
+        "defaultPrepInstructions",
+        newPrepInst,
+        typeOfRecordToChange,
+        thisDayOfWeekCode,
+        thisMealTypeCode,
+        arrayIndex
+      );
+      updatePrepInstValErrsStateFn(valErrors.genRecipe.defaultPrepInstructions);
+    }, 1000);
+    setTimerStateFn(newTimer);
   }
   function handleCancelEditFn() {
     updateNameStateFn(origName);
     updatePrepInstrStateFn(origPrepInstr);
     updateNameValErrorsStateFn([]);
+    updatePrepInstValErrsStateFn([]);
     onCancelEditFn();
   }
   function handleSaveChangesFn() {
@@ -96,7 +113,7 @@ const NewRecipeCard = (props) => {
     let photoURLValErrors = photoURL ? valErrors.genRecipe.photoURL : [];
     if (
       nameValErrors.length > 0 ||
-      valErrors.genRecipe.defaultPrepInstructions.length > 0 ||
+      prepInstValErrors.length > 0 ||
       photoURLValErrors.length > 0
     ) {
       toggleSaveDisabledStateFn(true);
@@ -112,6 +129,7 @@ const NewRecipeCard = (props) => {
     updateNameStateFn(name);
     updatePrepInstrStateFn(defaultPrepInstructions);
     updateNameValErrorsStateFn(valErrors.genRecipe.name);
+    updatePrepInstValErrsStateFn(valErrors.genRecipe.defaultPrepInstructions);
     updateLocalRecordChangedStateFn(recordChanged.genRecipe);
   }, [recordLoaded]);
   return (
@@ -188,7 +206,7 @@ const NewRecipeCard = (props) => {
           <textarea
             className="form-control mealTextArea"
             disabled={fieldsDisabled}
-            onChange={(e) => handleUpdatePrepInst(e)}
+            onChange={(e) => handleUpdatePrepInst(e.target.value)}
             value={prepInstr}
           ></textarea>
         </div>
@@ -207,7 +225,6 @@ const NewRecipeCard = (props) => {
                     ? "accordion-button mealInnerAccrdnBttn show"
                     : "accordion-button mealInnerAccrdnBttn collapsed"
                 }
-                // className="accordion-button collapsed mealInnerAccrdnBttn"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target={"#genRecipeInnerAccrdn" + thisRecordId}
@@ -223,7 +240,6 @@ const NewRecipeCard = (props) => {
                 ? "accordion-collapse show"
                 : "accordion-collapse collapse"
             }
-            // className="accordion-collapse collapse"
             aria-labelledby={"#genRecipeInnerAccordionHeader" + thisRecordId}
             data-bs-parent={"#genRecipeInnerAccordionFull" + thisRecordId}
           >
@@ -233,7 +249,6 @@ const NewRecipeCard = (props) => {
                   ? "accordion-body mealInnerAccordion cardHeaderFocused"
                   : "accordion-body mealInnerAccordion"
               }
-              // className="accordion-body mealInnerAccordion"
             >
               <div className="form-group mealInputs">
                 <NewInputWSearchUniqueNew
@@ -271,36 +286,6 @@ const NewRecipeCard = (props) => {
                   }}
                 />
               </div>
-              {/* <NewInputCore
-                commonProps={{
-                  commonData: {},
-                  commonMethods: {
-                    getRndIntegerFn: getRndIntegerFn,
-                    returnElementKey: returnElementKey,
-                    onUpdatePropFn: onUpdatePropFn,
-                  },
-                }}
-                specificProps={{
-                  specificData: {
-                    typeOfRecordToChange: typeOfRecordToChange,
-                    formGroupClasses: "form-group mealInputs",
-                    label: "Photo URL",
-                    thisDayOfWeekCode: thisDayOfWeekCode,
-                    thisMealTypeCode: thisMealTypeCode,
-                    propToUpdate: "photoURL",
-                    arrayIndex: arrayIndex,
-                    fieldDisabled: fieldsDisabled,
-                    valErrors: valErrors.genRecipe.photoURL,
-                    inputClasses: "form-control",
-                    isRequired: false,
-                    recordLoaded: recordLoaded,
-                    excludeLabel: false,
-                    inputTypeForHtml: "url",
-                    propValue: photoURL,
-                  },
-                  specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
-                }}
-              /> */}
               <NewInputCore
                 commonProps={{
                   commonData: {},

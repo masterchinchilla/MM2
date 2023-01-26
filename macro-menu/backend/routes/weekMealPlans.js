@@ -19,44 +19,6 @@ const typesOfChildRecords="days";
 const ThisRecordObjModel=WeekMealPlan;
 const ChildRecordObjModel=Day;
 
-// const record = {
-    //   _id: "609f3e444ee536749c75c72a",
-    //   name: "JD Hypertrophy Week Alpha F",
-    //   GRFUser: {
-    //     userGroups: "GRFUser",
-    //     _id: "609f3e444ee536749c75c729",
-    //     givenName: "John",
-    //     familyName: "Doe",
-    //     email: "johndoe@gmail.com",
-    //     password:
-    //       "$2b$10$qgJS0TaXFGkrgv6AbU5.WeA3HsHzuuhJgZd7WOuUdGHrOmhlO8iHG",
-    //     handle: "uAdmin@GRF2022",
-    //     __v: 0,
-    //     updatedAt: "2022-08-26T03:19:48.481Z",
-    //     verified: false,
-    //     photoURL: "https://i.pravatar.cc/300",
-    //     certName: "",
-    //     certURL: "",
-    //     middleName: "D",
-    //     namePrefix: "",
-    //     nameSuffix: "",
-    //     isAdmin: true,
-    //   },
-    //   createdAt: "2021-05-15T03:21:40.285Z",
-    //   updatedAt: "2023-01-14T04:16:08.251Z",
-    //   __v: 0,
-    //   breakfastWeight: 200,
-    //   calsBudget: 2499,
-    //   carbsBudget: -9,
-    //   dessertWeight: 6,
-    //   dinnerWeight: 11,
-    //   fatBudget: 997.99,
-    //   fiberBudget: 98.99,
-    //   lunchWeight: 19,
-    //   proteinBudget: 201,
-    //   snack1Weight: 21,
-    //   snack2Weight: 22,
-    // };
 router.get('/',async(req, res)=>{
     try {
         const matchingRecords=await ThisRecordObjModel.find().populate("GRFUser");
@@ -312,3 +274,42 @@ router.post('/copy/:id',auth,async(req,res)=>{
 })
 
 module.exports = router;
+
+// const record = {
+//   _id: "609f3e444ee536749c75c72a",
+//   name: "JD Hypertrophy Week Alpha F",
+//   GRFUser: {
+//     userGroups: "GRFUser",
+//     _id: "609f3e444ee536749c75c729",
+//     givenName: "John",
+//     familyName: "Doe",
+//     email: "johndoe@gmail.com",
+//     password:
+//       "$2b$10$qgJS0TaXFGkrgv6AbU5.WeA3HsHzuuhJgZd7WOuUdGHrOmhlO8iHG",
+//     handle: "uAdmin@GRF2022",
+//     __v: 0,
+//     updatedAt: "2022-08-26T03:19:48.481Z",
+//     verified: false,
+//     photoURL: "https://i.pravatar.cc/300",
+//     certName: "",
+//     certURL: "",
+//     middleName: "D",
+//     namePrefix: "",
+//     nameSuffix: "",
+//     isAdmin: true,
+//   },
+//   createdAt: "2021-05-15T03:21:40.285Z",
+//   updatedAt: "2023-01-14T04:16:08.251Z",
+//   __v: 0,
+//   breakfastWeight: 200,
+//   calsBudget: 2499,
+//   carbsBudget: -9,
+//   dessertWeight: 6,
+//   dinnerWeight: 11,
+//   fatBudget: 997.99,
+//   fiberBudget: 98.99,
+//   lunchWeight: 19,
+//   proteinBudget: 201,
+//   snack1Weight: 21,
+//   snack2Weight: 22,
+// };

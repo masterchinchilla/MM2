@@ -103,7 +103,7 @@ class Login extends Component {
   };
   render() {
     return (
-      <div className="card m-5">
+      <div className="card m-5 loginCard">
         <div className="card-header">
           <h3 className="card-title">Login</h3>
         </div>
