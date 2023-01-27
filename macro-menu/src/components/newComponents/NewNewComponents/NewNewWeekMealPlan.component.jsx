@@ -1042,6 +1042,16 @@ class NewNewWeekMealPlan extends Component {
     createNewValErrs,
     justCreated
   ) => {
+    console.log(
+      propToUpdate,
+      updatedValue,
+      typeOfRecordToChange,
+      thisDayOfWeekCode,
+      thisMealTypeCode,
+      arrayIndex,
+      createNewValErrs,
+      justCreated
+    );
     let newValue;
     const propTypeForVal =
       rcrdOrFldNameSntncCaseAndPropTypForVal[propToUpdate]["propTypeForVal"];
@@ -1218,13 +1228,15 @@ class NewNewWeekMealPlan extends Component {
           state = this.handleAddNewToFullRcrdSet(state, propToUpdate, newValue);
         }
       }
-      updatedValErrsObj = await this.getCSValResultForProp(
-        typeOfRecordToChange,
-        propToUpdate,
-        newValue,
-        thisValErrsObj,
-        updatedRecord._id
-      );
+      if (!justCreated) {
+        updatedValErrsObj = await this.getCSValResultForProp(
+          typeOfRecordToChange,
+          propToUpdate,
+          newValue,
+          thisValErrsObj,
+          updatedRecord._id
+        );
+      }
     } else {
       let combinedValErrsArray = [];
       for (let i = 0; i < createNewValErrs.length; i++) {

@@ -63,41 +63,24 @@ router.put('/update/:id',auth,async(req,res)=>{
     }else{return};
 });
 router.post('/add',auth,async(req,res)=>{
-    const requestorUser=req.currentGRFUser;
-    if(requestorUser){
-        const {
-            name,
-            availableMealType,
-            GRFUser,
-            defaultPrepInstructions,
-            photoURL
-        }=req.body;
-        const availableMealTypeId=availableMealType._id;
-        const authorId=GRFUser._id;
-        const propsArray=[
-            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:GenRecipe,justCreated:null},
-            {thisPropsName:"availableMealType",thisPropNameSentenceCase:"Meal Type",thisPropsValue:availableMealType,thisPropTypeForVal:"objRef",PropObjModel:MealType,justCreated:null},
-            {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null},
-            {thisPropsName:"defaultPrepInstructions",thisPropNameSentenceCase:"Default Prep Instructions",thisPropsValue:defaultPrepInstructions,thisPropTypeForVal:"textBox",PropObjModel:null,justCreated:null},
-            {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null,justCreated:null},
-        ];
-        const ssValResult=await ssValidate("Recipe", null, propsArray, req, res);
-        if(ssValResult){
-            const newGenRecipe=new GenRecipe({
-                name,
-                availableMealType:availableMealTypeId,
-                GRFUser: authorId,
-                defaultPrepInstructions,
-                photoURL
-            });
-            newGenRecipe.save()
-                .then(()=>res.json(newGenRecipe))
-                .catch(err=>res.status(400).json('Error: '+err));
-        }else{return};
-    }else{
-        res.status(401).json({ok:false,errorMsg:"You must be logged-in to create new records"});
-        return};
-    
+    const authorId=req.currentGRFUser._id;
+    const record=req.body;
+    const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
+    if(ssValResult){
+        const newRecord=new ThisRecordObjModel({
+            name:record.name,
+            availableMealType:record.availableMealType._id,
+            GRFUser: authorId,
+            defaultPrepInstructions:record.defaultPrepInstructions,
+            photoURL:record.photoURL
+        });
+        try {
+            await newRecord.save();
+            res.json(newRecord);
+        } catch (errs) {
+            res.status(400).json('Error: '+errs)
+        }
+    }else{return}; 
 });
 module.exports=router;
 
