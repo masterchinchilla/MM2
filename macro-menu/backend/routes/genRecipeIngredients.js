@@ -1,220 +1,166 @@
 const router = require('express').Router();
-let UnitOfMeasure=require('../models/unitOfMeasure.model');
-let WeightType=require('../models/weightType.model');
-let Brand=require('../models/brand.model');
-let GRFUser=require('../models/GRFUser.model');
-let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
-let GenRecipe=require('../models/genRecipe.model');
-let Ingredient=require('../models/ingredient.model');
-let Meal=require('../models/meal.model');
-let Day=require('../models/day.model');
-let WeekMealPlan=require('../models/weekMealPlan.model');
-let MealIngredient=require('../models/mealIngredient.model');
-const auth = require('../middleware/auth');
-const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
-const {ssValidate}=require('../backendServices/ssValidation');
 
-router.route('/').get((req, res)=>{
-    GenRecipeIngredient.find()
-        .populate({
-            path: 'genRecipe',
-            populate:{
-                path: 'GRFUser',
-            }
-        })
-        .populate({
-            path: 'genRecipe',
-            populate:{
-                path: 'availableMealType',
-            }
-        })
-        .populate({
-            path: 'ingredient',
-            populate:{
-                path: 'GRFUser',
-            }
-        })
-        .populate({
-            path: 'ingredient',
-            populate:{
-                path: 'unitOfMeasure',
-                populate:{path: 'GRFUser'}
-            }
-        })
-        .populate({
-            path:'ingredient',
-            populate:{
-                path:'weightType',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .populate({
-            path:'ingredient',
-            populate:{
-                path:'brand',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .then(genRecipeIngredients=>res.json(genRecipeIngredients))
-        .catch(err=>res.status(400).json('Error: '+err));
-});
-router.route('/genRcpIngrdntsPerIngrdnt/:id').get((req, res)=>{
-    GenRecipeIngredient.find({ingredient:req.params.id})
-        .then(genRecipeIngredients=>res.json(genRecipeIngredients.length))
-        .catch(err=>res.status(400).json('Error: '+err));
-})
-router.route('/thisGenRecipesGenRecipeIngredients/:id').get((req, res)=>{
-    GenRecipeIngredient.find({genRecipe: req.params.id})
-        .populate({
-            path: 'genRecipe',
-            populate:{
-                path: 'GRFUser',
-            }
-        })
-        .populate({
-            path: 'genRecipe',
-            populate:{
-                path: 'availableMealType',
-            }
-        })
-        .populate({
-            path: 'ingredient',
-            populate:{
-                path: 'GRFUser',
-            }
-        })
-        .populate({
-            path: 'ingredient',
-            populate:{
-                path: 'unitOfMeasure',
-                populate:{path: 'GRFUser'}
-            }
-        })
-        .populate({
-            path:'ingredient',
-            populate:{
-                path:'weightType',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .populate({
-            path:'ingredient',
-            populate:{
-                path:'brand',
-                populate:{path:'GRFUser'}
-            }
-        })
-        .then(genRecipeIngredients=>res.json(genRecipeIngredients))
-        .catch(err=>res.status(400).json('Error: '+err));
-});
-// router.route('/update/:id').put((req, res)=>{
-router.put('/update/:id',auth,async(req,res)=>{
-    const {
-        defaultQty,
-        ingredient,
-        genRecipe
-    }=req.body;
-    const genRecipeIngredientId=req.params.id
-    const ingredientId=ingredient._id
-    const genRecipeId=genRecipe._id;
-    
-    let authorId;
-    const propsArray=[
-        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient,justCreated:null},
-        {thisPropsName:"genRecipe",thisPropNameSentenceCase:"Base Recipe",thisPropsValue:genRecipe,thisPropTypeForVal:"objRef",PropObjModel:GenRecipe,justCreated:null},
-    ]
-    const ssValResult=await ssValidate("Recipe Ingredient", genRecipeIngredientId, propsArray, null, req, res);
-    
-    if(ssValResult){
-        GenRecipeIngredient.findById(genRecipeIngredientId)
+let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
+
+const auth = require('../middleware/auth');
+
+const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
+const {ssValidate2}=require('../backendServices/ssValidation');
+
+const parentTypeOfRecord="genRecipe";
+const typeOfRecordToChange="genRecipeIngredient"
+
+const ThisRecordObjModel=GenRecipeIngredient;
+
+router.get('/:id',async(req, res)=>{
+    try {
+        const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
             .populate({
                 path: 'genRecipe',
                 populate:{
                     path: 'GRFUser',
                 }
             })
-            .then(genRecipeIngredient=>{
-                authorId=genRecipeIngredient.genRecipe.GRFUser._id;
-                console.log(authorId);
-                const userCanEdit=authEditThisRecord(req,res,authorId)
-                if(userCanEdit){
-                    genRecipeIngredient.defaultQty=defaultQty;genRecipeIngredient.ingredient=ingredientId;
-                    genRecipeIngredient.genRecipe=genRecipeId;
-                    genRecipeIngredient.save()
-                        .then(()=>res.json({ok:true,msg:"success"}))
-                        .catch((err)=>{
-                            res.status(500).json({ok:false,errorMsg:"Server error - please try again in a moment"})
-                        });
-                }else{return}
+            .populate({
+                path: 'genRecipe',
+                populate:{
+                    path: 'availableMealType',
+                }
             })
-            .catch((err)=>{
-                console.log(err);
-                res.status(404).json({ok:false,errorMsg:"Recipe Ingredient not found, it might have already been deleted"})
-            });
-    }else{return};
-    // GenRecipeIngredient.findById(req.params.id)
-    //     .then(genRecipeIngredient=>{
-    //         genRecipeIngredient.defaultQty=req.body.defaultQty;
-    //         genRecipeIngredient.ingredient=req.body.ingredient._id;
-    //         genRecipeIngredient.genRecipe=req.body.genRecipe._id;
-    //         genRecipeIngredient.defaultPrepInstructions="";
-    //         genRecipeIngredient.save()
-    //             .then(()=>res.json(genRecipeIngredient))
-    //             .catch(err=>res.status(400).json('Error: '+err));
-    //     })
-    //     .catch(err=>res.status(400).json('Error: '+err));
-})
-// router.route('/add').post((req,res)=>{
-router.post('/add',auth,async(req,res)=>{
-// /:justCreated?
-    const {
-        defaultQty,
-        ingredient,
-        genRecipe
-    }=req.body;
-    // const nameOfObjRefPropJustCreated=req.params.justCreated;
-    const genRecipeIngredientId=req.params.id
-    const ingredientId=ingredient._id
-    const genRecipeId=genRecipe._id;
-    let authorId;
-    const propsArray=[
-        {thisPropsName:"defaultQty",thisPropNameSentenceCase:"Default Qty",thisPropsValue:defaultQty,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"ingredient",thisPropNameSentenceCase:"Ingredient",thisPropsValue:ingredient,thisPropTypeForVal:"objRef",PropObjModel:Ingredient,justCreated:null},
-    ];
-    const ssValResult=await ssValidate("Recipe Ingredient", genRecipeIngredientId, propsArray, req, res);
-    if(ssValResult){
-        GenRecipe.findById(genRecipeId)
-            .populate('GRFUser')
-            .then(genRecipe=>{
-                authorId=genRecipe.GRFUser._id;
-                const userCanEdit=authEditThisRecord(req,res,authorId);
-                if(userCanEdit){
-                    const newGenRecipeIngredient=new GenRecipeIngredient({
-                        defaultQty,
-                        ingredient:ingredientId,
-                        genRecipe:genRecipeId
-                    });
-                    newGenRecipeIngredient.save()
-                        .then(()=>res.json(newGenRecipeIngredient))
-                        .catch(err=>res.status(400).json('Error: '+err));
-                }else{return};
+            .populate({
+                path: 'ingredient',
+                populate:{
+                    path: 'GRFUser',
+                }
             })
-            .catch((err)=>{res.status(404).json({ok:false,errorMsg:"Base Recipe not found"})}); 
-    }else{
-    const newGenRecipeIngredient=new GenRecipeIngredient({
-        defaultQty:defaultQty,
-        ingredient:ingredientId,
-        genRecipe:genRecipeId
-    });
-    newGenRecipeIngredient.save()
-        .then(()=>res.json(newGenRecipeIngredient))
-        .catch(err=>res.status(400).json('Error: '+err));
-}
+            .populate({
+                path: 'ingredient',
+                populate:{
+                    path: 'unitOfMeasure',
+                    populate:{path: 'GRFUser'}
+                }
+            })
+            .populate({
+                path:'ingredient',
+                populate:{
+                    path:'weightType',
+                    populate:{path:'GRFUser'}
+                }
+            })
+            .populate({
+                path:'ingredient',
+                populate:{
+                    path:'brand',
+                    populate:{path:'GRFUser'}
+                }
+            })
+        res.json(matchingRecord);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
 });
-router.route('/:id').delete((req, res)=>{
-    GenRecipeIngredient.findByIdAndDelete(req.params.id)
-        .then(()=>{res.json("GenRecipeIngredient successfully deleted")})
-        .catch(err=>res.status(400).json('Error: '+err));
-})
+router.get('/thisGenRecipesGenRecipeIngredients/:id',async(req, res)=>{
+    try {
+        const matchingRecords=await ThisRecordObjModel.find({[parentTypeOfRecord]:req.params.id})
+            .populate({
+                path: 'genRecipe',
+                populate:{
+                    path: 'GRFUser',
+                }
+            })
+            .populate({
+                path: 'genRecipe',
+                populate:{
+                    path: 'availableMealType',
+                }
+            })
+            .populate({
+                path: 'ingredient',
+                populate:{
+                    path: 'GRFUser',
+                }
+            })
+            .populate({
+                path: 'ingredient',
+                populate:{
+                    path: 'unitOfMeasure',
+                    populate:{path: 'GRFUser'}
+                }
+            })
+            .populate({
+                path:'ingredient',
+                populate:{
+                    path:'weightType',
+                    populate:{path:'GRFUser'}
+                }
+            })
+            .populate({
+                path:'ingredient',
+                populate:{
+                    path:'brand',
+                    populate:{path:'GRFUser'}
+                }
+            })
+        res.json(matchingRecords);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
+router.put('/update/:id',auth,async(req,res)=>{
+    const record=req.body;
+    const recordId=req.params.id;
+    const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+    if(ssValResult){
+        try {
+            const foundRecord=await ThisRecordObjModel.findById(recordId)
+                .populate({
+                    path: 'genRecipe',
+                    populate:{
+                        path: 'GRFUser',
+                    }
+                })
+            const authorId=foundRecord.genRecipe.GRFUser._id;
+            const userCanEdit=authEditThisRecord(req,res,authorId)
+            if(userCanEdit){
+                foundRecord.defaultQty=record.defaultQty,
+                foundRecord.ingredient=record.ingredient._id,
+                foundRecord.genRecipe=record.genRecipe._id
+                try {
+                    await foundRecord.save();
+                    res.json({ok:true,msg:"success"});
+                } catch (errs) {
+                    res.status(500).json({ok:false,valErrorsArray:[{all:`Record save to DB failed, refresh, wait a moment and try again`}]})
+                }
+            }else{return}
+        } catch (errs) {
+            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange} not found, it might have already been deleted`}]})
+        }
+    }else{return};
+});
+router.post('/add',auth,async(req,res)=>{
+    const {defaultQty,
+        ingredient,
+        genRecipe}=req.body;
+    const parentRecordAuthorId=genRecipe.GRFUser._id;
+    const authorId=req.currentGRFUser._id;
+    if(parentRecordAuthorId===authorId){
+        const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
+        if(ssValResult){
+            const newRecord=new ThisRecordObjModel({
+                defaultQty:defaultQty,
+                ingredient:ingredient._id,
+                genRecipe:genRecipe._id,
+            });
+            try {
+                await newRecord.save();
+                res.json(newRecord);
+            } catch (errs) {
+                res.status(400).json('Error: '+errs)
+            }
+        }else{return}; 
+    }else{
+        res.status(401).json({ok:false,errorMsg:"You do not have access to add Ingredients to this Recipe"});
+    }
+});
+
 module.exports=router;

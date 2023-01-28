@@ -43,6 +43,34 @@ router.get('/mealsofthisday/:id',async(req, res)=>{
         res.status(400).json('Errors: ' + errs)
     }
 });
+router.get('/:id',async(req, res)=>{
+    try {
+        const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
+            .populate({
+                path:'day',
+                populate:{
+                    path:'weekMealPlan',
+                    populate:'GRFUser'
+                }
+            })
+            .populate({
+                path: 'day',
+                populate: { path: 'dayOfWeek' }
+            })
+            .populate('mealType')
+            .populate({
+                path: 'genRecipe',
+                populate: { path: 'GRFUser' }
+            })
+            .populate({
+                path: 'genRecipe',
+                populate: { path: 'availableMealType' }
+            })
+        res.json(matchingRecord);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
     const recordId=req.params.id;

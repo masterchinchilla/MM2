@@ -30,6 +30,21 @@ router.get('/daysofthiswmp/:id',async(req, res)=>{
         res.status(400).json('Errors: ' + errs)
     }
 });
+router.get('/:id',async(req, res)=>{
+    try {
+        const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
+            .populate("dayOfWeek")
+            .populate({
+                path:'weekMealPlan',
+                populate:{
+                    path:'GRFUser',
+                }
+            })
+        res.json(matchingRecord);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
 router.post('/add',auth,async(req,res)=>{
     const {name,dayOfWeek,weekMealPlan}=req.body;
     const parentRecordAuthorId=weekMealPlan.GRFUser._id;

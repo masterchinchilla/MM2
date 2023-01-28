@@ -1,20 +1,15 @@
 const router = require('express').Router();
 
 const GenRecipe = require('../models/genRecipe.model');
-const GenRecipeIngredient=require('../models/genRecipeIngredient.model');
-const MealType=require('../models/mealType.model');
-const GRFUserModel=require('../models/GRFUser.model');
 
 const auth = require('../middleware/auth');
 
 const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
-const {ssValidate,ssValidate2}=require('../backendServices/ssValidation');
+const {ssValidate2}=require('../backendServices/ssValidation');
 
 const typeOfRecordToChange="genRecipe"
-const typesOfChildRecords="genRecipeIngredient";
 
 const ThisRecordObjModel=GenRecipe;
-const ChildRecordObjModel=GenRecipeIngredient;
 
 router.get('/',async(req, res)=>{
     try {
@@ -22,6 +17,16 @@ router.get('/',async(req, res)=>{
             .populate('GRFUser')
             .populate('availableMealType')
         res.json(matchingRecords);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
+router.get('/:id',async(req, res)=>{
+    try {
+        const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
+            .populate('GRFUser')
+            .populate('availableMealType')
+        res.json(matchingRecord);
     } catch (errs) {
         res.status(400).json('Errors: ' + errs)
     }
@@ -41,7 +46,8 @@ router.put('/update/:id',auth,async(req,res)=>{
     const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
     if(ssValResult){
         try {
-            const foundRecord=await ThisRecordObjModel.findById(recordId).populate('GRFUser')
+            const foundRecord=await ThisRecordObjModel.findById(recordId)
+                .populate('GRFUser')
             const authorId=foundRecord.GRFUser._id;
             const userCanEdit=authEditThisRecord(req,res,authorId)
             if(userCanEdit){

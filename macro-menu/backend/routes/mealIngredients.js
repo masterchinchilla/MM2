@@ -99,6 +99,93 @@ router.get('/thisMealsMealIngredients/:id',async(req, res)=>{
         res.status(400).json('Errors: ' + errs)
     }
 });
+router.get('/:id',async(req, res)=>{
+    try {
+        const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
+            .populate({
+                path: 'genRecipeIngredient',
+                populate:{
+                    path: 'genRecipe',
+                    populate:{path:'availableMealType'}
+                }
+            })
+            .populate({
+                path: 'genRecipeIngredient',
+                populate:{
+                    path: 'genRecipe',
+                    populate:{path:'GRFUser'}
+                }
+            })
+            .populate({
+                path: 'genRecipeIngredient',
+                populate:{
+                    path: 'ingredient',
+                    populate:{path: 'unitOfMeasure'}
+                }
+            })
+            .populate({
+                path:'genRecipeIngredient',
+                populate:{
+                    path:'ingredient',
+                    populate:{path:'weightType'}
+                }
+            })
+            .populate({
+                path:'genRecipeIngredient',
+                populate:{
+                    path:'ingredient',
+                    populate:{path:'brand'}
+                }
+            })
+            .populate({
+                path:'genRecipeIngredient',
+                populate:{
+                    path:'ingredient',
+                    populate:{path:'GRFUser'}
+                }
+            })
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'day',
+                    populate:{
+                        path:'weekMealPlan',
+                        populate:'GRFUser'
+                    }
+                }
+            })
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'genRecipe',
+                    populate:{path:'GRFUser'}
+                }
+            })
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'genRecipe',
+                    populate:{path:'availableMealType'}
+                }
+            })
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'mealType',
+                }
+            })
+            .populate({
+                path: 'meal',
+                populate:{
+                    path: 'day',
+                    populate:{path:'dayOfWeek'}
+                }
+            })
+        res.json(matchingRecord);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
     const recordId=req.params.id;
