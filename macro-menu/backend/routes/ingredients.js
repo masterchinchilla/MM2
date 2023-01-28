@@ -1,220 +1,137 @@
 const router = require('express').Router();
-let UnitOfMeasure=require('../models/unitOfMeasure.model');
-let WeightType=require('../models/weightType.model');
-let Brand=require('../models/brand.model');
-let GRFUserModel=require('../models/GRFUser.model');
-let GenRecipeIngredient=require('../models/genRecipeIngredient.model');
-let GenRecipe=require('../models/genRecipe.model');
+
 let Ingredient=require('../models/ingredient.model');
-let Meal=require('../models/meal.model');
-let Day=require('../models/day.model');
-let WeekMealPlan=require('../models/weekMealPlan.model');
-let MealIngredient=require('../models/mealIngredient.model');
+
 const auth = require('../middleware/auth');
+
 const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
-const {ssValidate}=require('../backendServices/ssValidation');
-router.route('/').get((req, res)=>{
-    Ingredient.find()
-        .populate('GRFUser')
-        .populate({
-            path:'unitOfMeasure',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .populate({
-            path:'weightType',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .populate({
-            path:'brand',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .then(ingredients=>res.json(ingredients))
-        .catch(err=>res.status(400).json('Error: '+err));
-});
-router.route('/:id').get((req,res)=>{
-    Ingredient.findById(req.params.id)
-        .populate('GRFUser')
-        .populate({
-            path:'unitOfMeasure',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .populate({
-            path:'weightType',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .populate({
-            path:'brand',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .then(ingredient=>res.json(ingredient))
-        .catch(err=>res.status(400).json('Error: '+err));
-})
-router.route('/ingredientsByName/:name').get((req, res)=>{
-    Ingredient.find({name:new RegExp(req.params.name,"i")})
-        .populate('GRFUser')
-        .populate({
-            path:'unitOfMeasure',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .populate({
-            path:'weightType',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .populate({
-            path:'brand',
-            populate:{
-                path:'GRFUser',
-            }
-        })
-        .then(ingredients=>res.json(ingredients))
-        .catch(err=>res.status(400).json('Error: '+err));
-});
-router.route('/findbyname/:name').get((req, res)=>{
-    Ingredient.findOne({name:req.params.name})
-        .then((ingredient)=>{
-            if(ingredient){res.json("exists")}else{res.json("ok")}
-        })
-        .catch(err=>res.status(404).json('Error:'+err));
-});
-router.put('/update/:id',auth,async(req,res)=>{
-// /:objRefPropsJustCreatedArray?
-    const {
-        name,
-        calories,
-        carbs,
-        protein,
-        fat,
-        fiber,
-        photoURL,
-        unitOfMeasure,
-        weightType,
-        GRFUser,
-        brand
-    }=req.body;
-    const ingredientId=req.params.id
-    const unitOfMeasureId=unitOfMeasure._id;
-    const weightTypeId=weightType._id;
-    const brandId=brand._id;
-    const authorId=GRFUser._id;
-    // const uomJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="unitOfMeasure");
-    // const weightTypeJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="weightType");
-    // const brandJustCreated=objRefPropsJustCreatedArray.filter(objRefProp=>objRefProp==="brand");
-    const propsArray=[
-        {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Ingredient,justCreated:null},
-        {thisPropsName:"calories",thisPropNameSentenceCase:"Calories",thisPropsValue:calories,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"carbs",thisPropNameSentenceCase:"Carbs",thisPropsValue:carbs,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"protein",thisPropNameSentenceCase:"Protein",thisPropsValue:protein,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"fat",thisPropNameSentenceCase:"Fat",thisPropsValue:fat,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"fiber",thisPropNameSentenceCase:"Fiber",thisPropsValue:fiber,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-        {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null,justCreated:null},
-        {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure,justCreated:null},
-        {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType,justCreated:null},
-        {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null},
-        {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand,justCreated:null},
-    ];
-    const ssValResult=await ssValidate("Ingredient", ingredientId, propsArray, null, req, res);
-    if(ssValResult){
-        const userCanEdit=authEditThisRecord(req,res,authorId)
-        if(userCanEdit){
-            Ingredient.findById(ingredientId)
-                .then(ingredient=>{
-                    ingredient.name=name;
-                    ingredient.calories=calories;
-                    ingredient.carbs=carbs;
-                    ingredient.protein=protein;
-                    ingredient.fat=fat;
-                    ingredient.fiber=fiber;
-                    ingredient.photoURL=photoURL;
-                    ingredient.unitOfMeasure=unitOfMeasureId;
-                    ingredient.weightType=weightTypeId;
-                    ingredient.GRFuser=authorId;
-                    ingredient.brand=brandId;
-                    ingredient.save()
-                        .then(()=>res.json({ok:true,msg:"success"}))
-                        .catch((err)=>{
-                            res.status(500).json({ok:false,errorMsg:"Server error - please try again in a moment"})
-                        });
-                }).catch((err)=>{
-                    res.status(404).json({ok:false,errorMsg:"Ingredient not found, it might have already been deleted"})
-                });
-        }else{
-            return;
-        }
-    }else{
-        return;
+const {ssValidate2}=require('../backendServices/ssValidation');
+
+const typeOfRecordToChange="ingredient";
+
+const ThisRecordObjModel=Ingredient;
+
+router.get('/:id',async(req, res)=>{
+    try {
+        const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
+            .populate('GRFUser')
+            .populate({
+                path:'unitOfMeasure',
+                populate:{
+                    path:'GRFUser',
+                }
+            })
+            .populate({
+                path:'weightType',
+                populate:{
+                    path:'GRFUser',
+                }
+            })
+            .populate({
+                path:'brand',
+                populate:{
+                    path:'GRFUser',
+                }
+            })
+        res.json(matchingRecord);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
     }
 });
+router.get('/ingredientsByName/:name',async(req,res)=>{
+    try {
+        const matchingRecords=await ThisRecordObjModel.find({name:new RegExp(req.params.name,"i")})
+            .populate('GRFUser')
+            .populate({
+                path:'unitOfMeasure',
+                populate:{
+                    path:'GRFUser',
+                }
+            })
+            .populate({
+                path:'weightType',
+                populate:{
+                    path:'GRFUser',
+                }
+            })
+            .populate({
+                path:'brand',
+                populate:{
+                    path:'GRFUser',
+                }
+            })
+        res.json(matchingRecords);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
+router.get('/findbyname/:name',async(req, res)=>{
+    try {
+        const matchingRecord=await ThisRecordObjModel.findOne({name:req.params.name});
+        const searchByNameResult=matchingRecord?"exists":"ok";
+        res.json(searchByNameResult);
+    } catch (errs) {
+        res.status(400).json('Errors: ' + errs)
+    }
+});
+router.put('/update/:id',auth,async(req,res)=>{
+    const record=req.body;
+    const recordId=req.params.id;
+    const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+    if(ssValResult){
+        try {
+            const foundRecord=await ThisRecordObjModel.findById(recordId)
+                .populate('GRFUser')
+            const authorId=foundRecord.GRFUser._id;
+            const userCanEdit=authEditThisRecord(req,res,authorId)
+            if(userCanEdit){
+                foundRecord.name=record.name;
+                foundRecord.calories=record.calories;
+                foundRecord.carbs=record.carbs;
+                foundRecord.protein=record.protein;
+                foundRecord.fat=record.fat;
+                foundRecord.fiber=record.fiber;
+                foundRecord.unitOfMeasure=record.unitOfMeasure._id;
+                foundRecord.weightType=record.weightType._id;
+                foundRecord.photoURL=record.photoURL;
+                foundRecord.GRFUser=record.GRFUser._id;
+                foundRecord.brand=record.brand._id;
+                try {
+                    await foundRecord.save();
+                    res.json({ok:true,msg:"success"});
+                } catch (errs) {
+                    res.status(500).json({ok:false,valErrorsArray:[{all:`Record save to DB failed, refresh, wait a moment and try again`}]})
+                }
+            }else{return}
+        } catch (errs) {
+            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange} not found, it might have already been deleted`}]})
+        }
+    }else{return};
+});
 router.post('/add',auth,async(req,res)=>{
-    const requestorUser=req.currentGRFUser;
-    if(requestorUser){
-        const {
-            name,
-            calories,
-            carbs,
-            protein,
-            fat,
-            fiber,
-            photoURL,
-            unitOfMeasure,
-            weightType,
-            GRFUser,
-            brand
-        }=req.body;
-        const unitOfMeasureId=unitOfMeasure._id;
-        const weightTypeId=weightType._id;
-        const brandId=brand._id;
-        const authorId=GRFUser._id;
-        const propsArray=[
-            {thisPropsName:"name",thisPropNameSentenceCase:"Name",thisPropsValue:name,thisPropTypeForVal:"name",PropObjModel:Ingredient,justCreated:null},
-            {thisPropsName:"calories",thisPropNameSentenceCase:"Calories",thisPropsValue:calories,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-            {thisPropsName:"carbs",thisPropNameSentenceCase:"Carbs",thisPropsValue:carbs,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-            {thisPropsName:"protein",thisPropNameSentenceCase:"Protein",thisPropsValue:protein,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-            {thisPropsName:"fat",thisPropNameSentenceCase:"Fat",thisPropsValue:fat,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-            {thisPropsName:"fiber",thisPropNameSentenceCase:"Fiber",thisPropsValue:fiber,thisPropTypeForVal:"float",PropObjModel:null,justCreated:null},
-            {thisPropsName:"photoURL",thisPropNameSentenceCase:"Photo URL",thisPropsValue:photoURL,thisPropTypeForVal:"url",PropObjModel:null,justCreated:null},
-            {thisPropsName:"unitOfMeasure",thisPropNameSentenceCase:"Unit Of Measure",thisPropsValue:unitOfMeasure,thisPropTypeForVal:"objRef",PropObjModel:UnitOfMeasure,justCreated:null},
-            {thisPropsName:"weightType",thisPropNameSentenceCase:"Weight Type",thisPropsValue:weightType,thisPropTypeForVal:"objRef",PropObjModel:WeightType,justCreated:null},
-            {thisPropsName:"GRFUser",thisPropNameSentenceCase:"User",thisPropsValue:GRFUser,thisPropTypeForVal:"objRef",PropObjModel:GRFUserModel,justCreated:null},
-            {thisPropsName:"brand",thisPropNameSentenceCase:"Brand",thisPropsValue:brand,thisPropTypeForVal:"objRef",PropObjModel:Brand,justCreated:null},
-        ];
-        const ssValResult=await ssValidate("Ingredient", null, propsArray, req, res);
-        if(ssValResult){
-            const newIngredient=new Ingredient({
-                name,
-                calories,
-                carbs,
-                protein,
-                fat,
-                fiber,
-                unitOfMeasure: unitOfMeasureId,
-                weightType: weightTypeId,
-                photoURL,
-                GRFUser: authorId,
-                brand: brandId
-            });
-            newIngredient.save()
-                .then(()=>res.json(newIngredient))
-                .catch(err=>res.status(400).json('Error: '+err));
-        }else{return};
-    }else{
-        res.status(401).json({ok:false,errorMsg:"You must be logged-in to create new records"});
-        return};
-    
+    const authorId=req.currentGRFUser._id;
+    const record=req.body;
+    const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
+    if(ssValResult){
+        const newRecord=new ThisRecordObjModel({
+            name:record.name,
+            calories:record.calories,
+            carbs:record.carbs,
+            protein:record.protein,
+            fat:record.fat,
+            fiber:record.fiber,
+            unitOfMeasure:record.unitOfMeasure._id,
+            weightType:record.weightType._id,
+            photoURL:record.photoURL,
+            GRFUser: authorId,
+            brand:record.brand._id
+        });
+        try {
+            await newRecord.save();
+            res.json(newRecord);
+        } catch (errs) {
+            res.status(400).json('Error: '+errs)
+        }
+    }else{return}; 
 });
 module.exports=router;
