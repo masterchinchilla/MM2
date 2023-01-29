@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NewInputSubCore from "./NewInputSubCore.component";
 const NewInputCore = (props) => {
   const { commonProps, specificProps } = props;
-  const { onUpdatePropFn } = commonProps.commonMethods;
+  const { onUpdatePropFn, returnElementKey } = commonProps.commonMethods;
   const { specificData } = specificProps;
   const {
     typeOfRecordToChange,
@@ -40,11 +40,20 @@ const NewInputCore = (props) => {
   }, [recordLoaded]);
   return (
     <NewInputSubCore
+      key={returnElementKey(
+        null,
+        "NewInputSubCore",
+        propToUpdate,
+        typeOfRecordToChange,
+        arrayIndex,
+        thisMealTypeCode,
+        thisDayOfWeekCode
+      )}
       commonProps={commonProps}
       specificProps={{
         specificData: {
-          propValue: localValue,
           ...specificData,
+          propValue: localValue,
         },
         specificMethods: {
           updateParentValue: updateParentValue,

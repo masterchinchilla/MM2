@@ -49,6 +49,15 @@ const NewIngrdntMacrosSubForm = (props) => {
       // className="accordion-body ingrdntInnrAccrdn"
     >
       <NewInputCore
+        key={returnElementKey(
+          null,
+          "NewInputCore",
+          "calories",
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -80,6 +89,15 @@ const NewIngrdntMacrosSubForm = (props) => {
         }}
       />
       <NewInputCore
+        key={returnElementKey(
+          null,
+          "NewInputCore",
+          "carbs",
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -111,6 +129,15 @@ const NewIngrdntMacrosSubForm = (props) => {
         }}
       />
       <NewInputCore
+        key={returnElementKey(
+          null,
+          "NewInputCore",
+          "protein",
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -142,6 +169,15 @@ const NewIngrdntMacrosSubForm = (props) => {
         }}
       />
       <NewInputCore
+        key={returnElementKey(
+          null,
+          "NewInputCore",
+          "fat",
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -173,6 +209,15 @@ const NewIngrdntMacrosSubForm = (props) => {
         }}
       />
       <NewInputCore
+        key={returnElementKey(
+          null,
+          "NewInputCore",
+          "fiber",
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -204,6 +249,15 @@ const NewIngrdntMacrosSubForm = (props) => {
         }}
       />
       <NewInputCore
+        key={returnElementKey(
+          null,
+          "NewInputCore",
+          "photoURL",
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
         commonProps={{
           commonData: {},
           commonMethods: {

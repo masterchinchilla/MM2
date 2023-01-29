@@ -135,6 +135,15 @@ const NewGenRecipeIngredientForm = (props) => {
           }}
         />
         <NewInputCore
+          key={returnElementKey(
+            null,
+            "NewInputCore",
+            "defaultQty",
+            typeOfRecordToChange,
+            arrayIndex,
+            thisMealTypeCode,
+            thisDayOfWeekCode
+          )}
           commonProps={{
             commonData: {},
             commonMethods: {

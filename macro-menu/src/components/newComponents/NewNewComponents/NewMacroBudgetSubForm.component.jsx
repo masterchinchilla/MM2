@@ -68,6 +68,15 @@ const NewMacroBudgetSubForm = (props) => {
           >
             <div className="accordion-body accrdnWeekMealPlanMacroBdy">
               <NewInputCore
+                key={returnElementKey(
+                  null,
+                  "NewInputCore",
+                  "calsBudget",
+                  typeOfRecordToChange,
+                  arrayIndex,
+                  thisMealTypeCode,
+                  thisDayOfWeekCode
+                )}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -98,37 +107,16 @@ const NewMacroBudgetSubForm = (props) => {
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
               />
-              {/* <NewInputCore
-                commonProps={{
-                  commonData: {},
-                  commonMethods: {
-                    getRndIntegerFn: getRndIntegerFn,
-                    returnElementKey: returnElementKey,
-                    onUpdatePropFn: onUpdatePropFn,
-                  },
-                }}
-                specificProps={{
-                  specificData: {
-                    typeOfRecordToChange: typeOfRecordToChange,
-                    formGroupClasses: formGroupClasses,
-                    label: label,
-                    thisDayOfWeekCode: thisDayOfWeekCode,
-                    thisMealTypeCode: thisMealTypeCode,
-                    propToUpdate: propToUpdate,
-                    arrayIndex: arrayIndex,
-                    fieldDisabled: fieldDisabled,
-                    valErrors: valErrors,
-                    inputClasses: inputClasses,
-                    isRequired: isRequired,
-                    recordLoaded: recordLoaded,
-                    excludeLabel: excludeLabel,
-                    inputTypeForHtml: inputTypeForHtml,
-                    propValue: propValue,
-                  },
-                  specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
-                }}
-              /> */}
               <NewInputCore
+                key={returnElementKey(
+                  null,
+                  "NewInputCore",
+                  "carbsBudget",
+                  typeOfRecordToChange,
+                  arrayIndex,
+                  thisMealTypeCode,
+                  thisDayOfWeekCode
+                )}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -160,6 +148,15 @@ const NewMacroBudgetSubForm = (props) => {
                 }}
               />
               <NewInputCore
+                key={returnElementKey(
+                  null,
+                  "NewInputCore",
+                  "proteinBudget",
+                  typeOfRecordToChange,
+                  arrayIndex,
+                  thisMealTypeCode,
+                  thisDayOfWeekCode
+                )}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -191,6 +188,15 @@ const NewMacroBudgetSubForm = (props) => {
                 }}
               />
               <NewInputCore
+                key={returnElementKey(
+                  null,
+                  "NewInputCore",
+                  "fatBudget",
+                  typeOfRecordToChange,
+                  arrayIndex,
+                  thisMealTypeCode,
+                  thisDayOfWeekCode
+                )}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -222,6 +228,15 @@ const NewMacroBudgetSubForm = (props) => {
                 }}
               />
               <NewInputCore
+                key={returnElementKey(
+                  null,
+                  "NewInputCore",
+                  "fiberBudget",
+                  typeOfRecordToChange,
+                  arrayIndex,
+                  thisMealTypeCode,
+                  thisDayOfWeekCode
+                )}
                 commonProps={{
                   commonData: {},
                   commonMethods: {

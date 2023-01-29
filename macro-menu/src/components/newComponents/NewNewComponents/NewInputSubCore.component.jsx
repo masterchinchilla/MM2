@@ -1,8 +1,6 @@
 import React from "react";
 const NewInputSubCore = (props) => {
   const { commonProps, specificProps } = props;
-  const { commonData, commonMethods } = commonProps;
-  const { returnElementKey } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const {
     typeOfRecordToChange,
@@ -62,7 +60,7 @@ const NewInputSubCore = (props) => {
               <ul>
                 {valErrors.map((valError, index) => (
                   <li
-                    key={returnElementKey(
+                    key={commonProps.commonMethods.returnElementKey(
                       index,
                       "valErr",
                       propToUpdate,

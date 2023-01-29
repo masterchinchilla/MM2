@@ -287,6 +287,15 @@ const NewRecipeCard = (props) => {
                 />
               </div>
               <NewInputCore
+                key={returnElementKey(
+                  null,
+                  "NewInputCore",
+                  "photoURL",
+                  typeOfRecordToChange,
+                  arrayIndex,
+                  thisMealTypeCode,
+                  thisDayOfWeekCode
+                )}
                 commonProps={{
                   commonData: {},
                   commonMethods: {

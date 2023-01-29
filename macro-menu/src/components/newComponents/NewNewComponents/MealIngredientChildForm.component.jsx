@@ -99,6 +99,15 @@ const MealIngredientChildForm = (props) => {
           }}
         />
         <NewInputCore
+          key={returnElementKey(
+            null,
+            "NewInputCore",
+            "qty",
+            typeOfRecordToChange,
+            arrayIndex,
+            thisMealTypeCode,
+            thisDayOfWeekCode
+          )}
           commonProps={{
             commonData: {},
             commonMethods: {
