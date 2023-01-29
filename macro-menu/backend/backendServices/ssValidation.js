@@ -1,5 +1,5 @@
 const Joi =require("joi");
-const valSchema=require("../universalJoiValSchemaSS");
+const valSchema=require("../ssStaticRefs/universalJoiValSchemaSS");
 const {rcrdOrFldNameCaseValPrpTypNPropObjMod} =require( "../ssStaticRefs/rcrdOrFldNameCaseValPrpTypNPropObjMod");
 function ssValidateProp(propName, value, propTypeForVal) {
     const rule = valSchema.extract(propTypeForVal);
