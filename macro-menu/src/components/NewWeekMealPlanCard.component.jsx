@@ -115,7 +115,7 @@ const NewWeekMealPlanCard = (props) => {
           key={`customCarddHeadingFor${typeOfRecordToChange}${thisRecordId}`}
           headingLvl={1}
           recordLoaded={recordLoaded}
-          headingText="Week Meal Plan Detail"
+          headingText="Week Meal Plan Builder"
           hdngIsReqFormLbl={false}
           editingForm={null}
           headingClasses="card-title"

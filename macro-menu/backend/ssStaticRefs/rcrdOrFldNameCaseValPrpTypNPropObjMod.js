@@ -11,6 +11,7 @@ let WeekMealPlan=require('../models/weekMealPlan.model');
 let MealIngredient=require('../models/mealIngredient.model');
 let DayOfWeek=require('../models/dayOfWeek.model');
 let MealType=require('../models/mealType.model');
+let PantryItem=require('../models/pantryItem.model');
 
 const rcrdOrFldNameCaseValPrpTypNPropObjMod={
       GRFUser: {nameSntncCase:"Author",propTypeForVal:"objRef",PropObjModel:GRFUser},
@@ -27,11 +28,13 @@ const rcrdOrFldNameCaseValPrpTypNPropObjMod={
       name: {nameSntncCase:"Name",propTypeForVal:"name",PropObjModel:null},
       qty: {nameSntncCase:"Qty",propTypeForVal:"float",PropObjModel:null},
       defaultQty: {nameSntncCase:"Default Qty",propTypeForVal:"float",PropObjModel:null},
+      qtyHave:{nameSntncCase:"Qty Have",propTypeForVal:"float",PropObjModel:null},
       photoURL: {nameSntncCase:"Photo URL",propTypeForVal:"url",PropObjModel:null},
       dayOfWeek: {nameSntncCase:"Day of Week",propTypeForVal:"objRef",PropObjModel:DayOfWeek},
       mealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef",PropObjModel:MealType},
       defaultMealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef",PropObjModel:MealType},
       availableMealType:{nameSntncCase:"Meal Type",propTypeForVal:"objRef",PropObjModel:MealType},
+      pantryItem:{nameSntncCase:"Pantry Item",propTypeForVal:"objRef",PropObjModel:PantryItem},
       defaultPrepInstructions: {nameSntncCase:"Prep Instructions",propTypeForVal:"textBox",PropObjModel:null},
       calories: {nameSntncCase:"Calories",propTypeForVal:"float",PropObjModel:null},
       calsBudget:{nameSntncCase:"Calories Budget",propTypeForVal:"float",PropObjModel:null},

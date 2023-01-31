@@ -8,7 +8,6 @@ function ssValidateProp(propName, value, propTypeForVal) {
     const { error } = subSchema.validate(objToValidate);
     return error ? error.details[0].message : null;
 };
-
 async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req, res){
     const valErrorsArray=[];
     for(let i=0;i<propsArray.length;i++){
@@ -40,7 +39,6 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
             if(thisPropsName==="name"&&objTypeSnglrSntncCase!=="Day"){
                 let matchingRecords=[];
                 try {
-                    // matchingRecords=await PropObjModel.find({name:new RegExp(thisPropsValue,"i")});
                     matchingRecords=await PropObjModel.find({name:thisPropsValue});
                 } catch (error) {
                     res.status(500).json({ok:false,valErrorsArray:[{all:"Server error - please try again in a moment"}]})

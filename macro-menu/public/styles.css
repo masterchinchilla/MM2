@@ -539,6 +539,15 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
     line-height: 1rem;
     height: 1.5rem;
   }
+  .nav-tabs{
+  margin: -0.75rem 0 1rem 0 !important;
+  justify-content: center;
+  color:inherit;
+}}
+@media only screen and (min-width: 530px) {
+  .tabLink:first-child{
+  margin-left: 2rem !important;
+}
 }
 .mlIngrdntsCntnr{
   display: flex;
@@ -1155,4 +1164,18 @@ div.emptyPlaceholder span{
 }
 .loginCard{
   max-width: 400px;
+}
+.nav-tabs{
+  margin: -0.75rem 0 1rem 0 !important;
+  color:inherit;
+}
+.tabLink{
+  padding: 0.5rem !important;
+  color:unset !important;
+}
+.tabLink span {
+  margin-left: 0.5rem;
+}
+a {
+  color:unset;
 }

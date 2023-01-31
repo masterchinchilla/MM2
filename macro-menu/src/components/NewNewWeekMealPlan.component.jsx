@@ -3,6 +3,7 @@ import _ from "lodash";
 import httpService from "../services/httpService";
 import authService from "../services/authService";
 import { csValidateObj } from "../services/validationService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "react-toastify/dist/ReactToastify.css";
 import { Player } from "@lottiefiles/react-lottie-player";
 import NewWeekMealPlanCard from "./NewWeekMealPlanCard.component";
@@ -14,6 +15,7 @@ import newRecordTemplates from "../staticRefs/newRecordTemplates";
 import NewCreateDayButton from "./NewCreateDayButton.component";
 import NewDayCard from "./NewDayCard.component";
 import CustomHeading from "./CustomHeading.component";
+import ShoppingList from "./ShoppingList.component";
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +24,7 @@ class NewNewWeekMealPlan extends Component {
     const thisWMPId = pgReqParams.id;
     this.player = React.createRef();
     this.state = {
+      mode: "builder",
       copyingWMP: false,
       showWMPCopyProgressBar: false,
       numOfWMPItemsToCopy: 0,
@@ -57,6 +60,7 @@ class NewNewWeekMealPlan extends Component {
       allWeightTypes: [],
       allBrands: [],
       allGenRecipes: [],
+      pantryItems: [],
     };
   }
   getRndIntegerFn = (min, max) => {
@@ -388,9 +392,10 @@ class NewNewWeekMealPlan extends Component {
           let getMealsIngrdntsResult = await this.getThisMealsIngrdnts(
             thisMealsId
           );
-          thisMealStateObjToUpdate.thisMealsIngrdnts = getMealsIngrdntsResult
+          let thisMealsIngrdnts = getMealsIngrdntsResult
             ? getMealsIngrdntsResult
             : [];
+          thisMealStateObjToUpdate.thisMealsIngrdnts = thisMealsIngrdnts;
           countOfLinkedMealIngrdnts += getMealsIngrdntsResult.length;
           thisMealStateObjToUpdate.hasChildren.meal =
             getMealsIngrdntsResult.length > 0 ? true : false;
@@ -423,7 +428,6 @@ class NewNewWeekMealPlan extends Component {
       "day",
       ["day"]
     );
-
     let countOfLinkedDays = 0;
     let countOfLinkedMeals = 0;
     let countOfLinkedMealIngrdnts = 0;
@@ -490,9 +494,45 @@ class NewNewWeekMealPlan extends Component {
       allGenRecipes: allGenRecipes,
     };
   };
+  handleGetUsersPantryItemsFn = async (backEndHtmlRoot, currentGRFUser) => {
+    const backEndReqUrl = `${backEndHtmlRoot}pantryItems/thisUsersPantry/${currentGRFUser._id}`;
+    let usersPantryItems;
+    try {
+      const backEndReqResponse = await httpService.get(backEndReqUrl);
+      usersPantryItems = backEndReqResponse.data;
+    } catch (errs) {
+      const valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+      usersPantryItems = [];
+    }
+    return usersPantryItems;
+  };
+  handleChangePantryItemFnQtyHave = (shoppingListItem, updatedValue) => {
+    console.log(shoppingListItem, updatedValue);
+    let newValueAsNumber = JSON.parse(updatedValue);
+    let newValueAsFloat =
+      Math.round((newValueAsNumber + Number.EPSILON) * 100) / 100;
+    let newValue = newValueAsFloat;
+    let pantryItemId = shoppingListItem.pantryItem._id;
+    console.log(pantryItemId);
+    let pantryItems = this.state.pantryItems;
+    console.log(pantryItems);
+    let matchingPantryItemIndex = pantryItems.findIndex(
+      (item) => item._id === pantryItemId
+    );
+    console.log(matchingPantryItemIndex);
+    let matchingPantryItem = pantryItems[matchingPantryItemIndex];
+    console.log(matchingPantryItem);
+    matchingPantryItem.qtyHave = newValue;
+    console.log(matchingPantryItem);
+    pantryItems[matchingPantryItemIndex] = matchingPantryItem;
+    console.log(pantryItems);
+    this.setState({ pantryItems: pantryItems });
+  };
   getThisWMPFn = async () => {
     let state = this.state;
-    let { thisWMPStateObj, backEndHtmlRoot, pgReqParams } = state;
+    let { thisWMPStateObj, backEndHtmlRoot, pgReqParams, currentGRFUser } =
+      state;
     let thisWMPRecord = thisWMPStateObj.thisRecord;
     let thisWMPId = thisWMPRecord._id;
     const backEndReqUrl = `${backEndHtmlRoot}weekMealPlans/${thisWMPId}`;
@@ -530,6 +570,10 @@ class NewNewWeekMealPlan extends Component {
       updatedState.countOfLinkedMeals = countOfLinkedMeals;
       updatedState.countOfLinkedMealIngrdnts = countOfLinkedMealIngrdnts;
       this.player.current.stop();
+      state.pantryItems = await this.handleGetUsersPantryItemsFn(
+        backEndHtmlRoot,
+        currentGRFUser
+      );
       this.setState(updatedState);
     }
   };
@@ -562,9 +606,9 @@ class NewNewWeekMealPlan extends Component {
   };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();
-    this.setState({ currentGRFUser: currentGRFUser }, () =>
-      this.getThisWMPFn()
-    );
+    this.setState({ currentGRFUser: currentGRFUser }, () => {
+      this.getThisWMPFn();
+    });
   }
   getCSValResultForProp = async (
     typeOfRecordToChange,
@@ -662,27 +706,28 @@ class NewNewWeekMealPlan extends Component {
     return thisMealStateObj;
   };
   handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
+    console.log(newRecordToSave);
     const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
-    let savedRecord = null;
-    // let savedRecord = newRecordToSave;
+    // let savedRecord = null;
+    let savedRecord = newRecordToSave;
     let valErrors = [];
     //  = [{ name: ["name too long", "name too short"] }];
-    try {
-      let reqRes = await httpService.post(reqUrl, newRecordToSave);
-      savedRecord = reqRes.data;
-      // savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
-      // savedRecord.createdAt = "";
-      // savedRecord.updatedAt = "";
-      let typeOfRcrdToCreateSntcCase =
-        rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
-      let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
-      this.notifyFn(successMsg, "success");
-    } catch (errs) {
-      // valErrorsNestedArray shape:
-      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs, "all");
-      this.notifyOfErrors(valErrors);
-    }
+    // try {
+    //   let reqRes = await httpService.post(reqUrl, newRecordToSave);
+    //   savedRecord = reqRes.data;
+    savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
+    savedRecord.createdAt = "";
+    savedRecord.updatedAt = "";
+    let typeOfRcrdToCreateSntcCase =
+      rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
+    let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
+    this.notifyFn(successMsg, "success");
+    // } catch (errs) {
+    // valErrorsNestedArray shape:
+    // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+    //   valErrors = this.parseHTTPResErrs(errs, "all");
+    //   this.notifyOfErrors(valErrors);
+    // }
     return { savedRecord, valErrors };
   };
   handleCreateNewRecordFn = async (
@@ -927,8 +972,10 @@ class NewNewWeekMealPlan extends Component {
             "error"
           );
         } else {
-          thisMealIngrdntStateObj.thisRecord._id =
-            createMealIngrdntResult.savedRecord._id;
+          thisMealIngrdntRecord._id = createMealIngrdntResult.savedRecord._id;
+          let thisIngrdntRecord =
+            thisMealIngrdntRecord.genRecipeIngredient.ingredient;
+          thisMealIngrdntStateObj.thisRecord = thisMealIngrdntRecord;
           thisMealsIngrdntStateObjsArray[i] = thisMealIngrdntStateObj;
         }
       }
@@ -978,12 +1025,12 @@ class NewNewWeekMealPlan extends Component {
     thisDayOfWeekCode,
     thisMealTypeCode
   ) => {
+    let state = this.state;
     mealStateObj = await this.populateMissingMealIngrdnts(mealStateObj);
     let saveMealIngrdntsResult = await this.handleSaveNewMealIngrdntsToDB(
       mealStateObj
     );
     mealStateObj = saveMealIngrdntsResult.mealStateObj;
-    let state = this.state;
     let thisDayStateObj = state[thisDayOfWeekCode];
     let countOfLinkedMealIngrdnts = state.countOfLinkedMealIngrdnts;
     countOfLinkedMealIngrdnts++;
@@ -1943,6 +1990,50 @@ class NewNewWeekMealPlan extends Component {
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
     return (
       <React.Fragment>
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <a
+              disabled={!wmpRecordLoaded}
+              className={
+                this.state.mode === "builder"
+                  ? "nav-link active tabLink"
+                  : "nav-link tabLink"
+              }
+              onClick={() => this.setState({ mode: "builder" })}
+            >
+              <FontAwesomeIcon icon="fa-solid fa-hammer" />
+              <span className="tabNavTitle">Builder</span>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              disabled={!wmpRecordLoaded}
+              className={
+                this.state.mode === "shoppingList"
+                  ? "nav-link active tabLink"
+                  : "nav-link tabLink"
+              }
+              onClick={() => this.setState({ mode: "shoppingList" })}
+            >
+              <FontAwesomeIcon icon="fa-solid fa-list-check" />
+              <span className="tabNavTitle">Shopping List</span>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              disabled={!wmpRecordLoaded}
+              className={
+                this.state.mode === "spreadsheet"
+                  ? "nav-link active tabLink"
+                  : "nav-link tabLink"
+              }
+              onClick={() => this.setState({ mode: "spreadsheet" })}
+            >
+              <FontAwesomeIcon icon="fa-solid fa-table" />
+              <span className="tabNavTitle">Spreadsheet</span>
+            </a>
+          </li>
+        </ul>
         <div
           className="lottieCont"
           hidden={this.state.thisWMPStateObj.recordLoaded}
@@ -1966,7 +2057,10 @@ class NewNewWeekMealPlan extends Component {
             <div className="spinner-border text-primary" role="status"></div>
           </div>
         </div>
-        <div className="container-fluid pl-4 pr-4">
+        <div
+          className="container-fluid pl-4 pr-4"
+          hidden={this.state.mode === "builder" ? false : true}
+        >
           <NewWeekMealPlanCard
             commonProps={{
               commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
@@ -2051,6 +2145,26 @@ class NewNewWeekMealPlan extends Component {
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="container-fluid pl-4 pr-4"
+          hidden={this.state.mode === "shoppingList" ? false : true}
+        >
+          <ShoppingList
+            currentGRFUser={this.state.currentGRFUser}
+            daysOfWeek={this.state.daysOfWeek}
+            mealTypes={this.state.mealTypes}
+            getRndIntegerFn={this.getRndIntegerFn}
+            onChangePantryItemFnQtyHaveFn={this.handleChangePantryItemFnQtyHave}
+            sunday={this.state.sunday}
+            monday={this.state.monday}
+            tuesday={this.state.tuesday}
+            wednesday={this.state.wednesday}
+            thursday={this.state.thursday}
+            friday={this.state.friday}
+            saturday={this.state.saturday}
+            pantryItems={this.state.pantryItems}
+          />
         </div>
       </React.Fragment>
     );

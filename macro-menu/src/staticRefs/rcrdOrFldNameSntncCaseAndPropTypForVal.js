@@ -13,10 +13,12 @@ GRFUser: {nameSntncCase:"Author",propTypeForVal:"objRef"},
       name: {nameSntncCase:"Name",propTypeForVal:"name"},
       qty: {nameSntncCase:"Qty",propTypeForVal:"float"},
       defaultQty: {nameSntncCase:"Default Qty",propTypeForVal:"float"},
+      qtyHave:{nameSntncCase:"Qty Have",propTypeForVal:"float"},
       photoURL: {nameSntncCase:"Photo URL",propTypeForVal:"url"},
       dayOfWeek: {nameSntncCase:"Day of Week",propTypeForVal:"objRef"},
       mealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef"},
       defaultMealType: {nameSntncCase:"Meal Type",propTypeForVal:"objRef"},
+      pantryItem:{nameSntncCase:"Pantry Item",propTypeForVal:"objRef"},
       defaultPrepInstructions: {nameSntncCase:"Prep Instructions",propTypeForVal:"textBox"},
       calories: {nameSntncCase:"Calories",propTypeForVal:"float"},
       calsBudget:{nameSntncCase:"Calories Budget",propTypeForVal:"float"},
@@ -30,6 +32,7 @@ GRFUser: {nameSntncCase:"Author",propTypeForVal:"objRef"},
       fiberBudget: {nameSntncCase:"Fiber Budget",propTypeForVal:"float"},
       createdAt: {nameSntncCase:"Date Created",propTypeForVal:null},
       updatedAt: {nameSntncCase:"Last Update",propTypeForVal:null},
-      _id:{nameSntncCase:"ID",propTypeForVal:null}
+      _id:{nameSntncCase:"ID",propTypeForVal:null},
+      __v:{nameSntncCase:"V",propTypeForVal:null}
 }
 export default rcrdOrFldNameSntncCaseAndPropTypForVal;
