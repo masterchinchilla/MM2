@@ -1,23 +1,27 @@
 import React from "react";
 import CustomHeading from "./CustomHeading.component";
-import NewInputCore from "./NewInputCore.component";
+import ShoppingListItem from "./ShoppingListItem.component";
 import TableCell from "./TableCell.component";
 const ShoppingList = (props) => {
+  console.log(props);
+  const { commonProps, specificProps } = props;
+  const { commonData, commonMethods } = commonProps;
+  const { currentGRFUser, daysOfWeek, mealTypes } = commonData;
   const {
-    currentGRFUser,
-    daysOfWeek,
-    mealTypes,
     getRndIntegerFn,
-    pantryItems,
-    onChangePantryItemFnQtyHaveFn,
-  } = props;
+    returnElementKey,
+    onUpdatePropFn,
+    trimEnteredValueFn,
+  } = commonMethods;
+  const { specificData, specificMethods } = specificProps;
+  const { pantryItems, recordLoaded } = specificData;
   function renderShoppingList() {
     let pattern = /missing/;
     let shoppingListItems = [];
     for (let i = 0; i < daysOfWeek.length; i++) {
-      let thisDayStateObj = props[daysOfWeek[i].code];
+      let thisDayStateObj = specificData[daysOfWeek[i].code];
       let thisDayRecordId = thisDayStateObj.thisRecord._id;
-      if (thisDayStateObj.recordLoaded && !pattern.test(thisDayRecordId)) {
+      if (!pattern.test(thisDayRecordId)) {
         for (let i = 0; i < mealTypes.length; i++) {
           let thisMealStateObj = thisDayStateObj[mealTypes[i].code];
           let thisMealRecordId = thisMealStateObj.thisRecord._id;
@@ -28,13 +32,14 @@ const ShoppingList = (props) => {
             let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
             for (let i = 0; i < thisMealsIngrdnts.length; i++) {
               let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
-              if (thisMealIngrdntStateObj.recordLoaded) {
+              let recordLoaded = thisMealIngrdntStateObj.recordLoaded;
+              if (recordLoaded) {
                 let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
                 let ingrdntQtyNeededForThisMealIngrdnt =
                   thisMealIngrdntRecord.qty;
-
                 let ingredient =
                   thisMealIngrdntRecord.genRecipeIngredient.ingredient;
+                console.log(ingredient);
                 let matchingPantryItems = pantryItems.filter(
                   (item) => item.ingredient._id === ingredient._id
                 );
@@ -72,12 +77,13 @@ const ShoppingList = (props) => {
                     qtyNeeded: qtyNeeded,
                     qtyHave: ingredientQtyHave,
                     qtyToBuy: qtyToBuy,
-                    ingredientName: ingredientName,
+                    ingredient: ingredient,
                     _id: getRndIntegerFn(10000000, 99999999),
                     createdAt: "",
                     updatedAt: "",
                     GRFUser: currentGRFUser,
                     pantryItem: matchingPantryItem ? matchingPantryItem : null,
+                    recordLoaded: recordLoaded,
                   };
                   shoppingListItems.push(thisShoppingListItem);
                 }
@@ -87,60 +93,29 @@ const ShoppingList = (props) => {
         }
       }
     }
-    // console.log(shoppingListItems[0].ingredient._id);
-    // console.log({
-    //   qtyHave: 0,
-    //   ingredient: shoppingListItems[0].ingredient._id,
-    //   GRFUser: currentGRFUser._id,
-    // });
     return shoppingListItems.map((item) => (
-      <tr>
-        <td>
-          <input type={"checkBox"} value={0}></input>
-        </td>
-        <TableCell
-          tCellType="td"
-          data={item.qtyNeeded.toFixed(2)}
-          tCellClasses=""
-          scope=""
-          recordLoaded={true}
-        />
-        {/* <TableCell
-          tCellType="td"
-          data={item.qtyHave.toFixed(2)}
-          tCellClasses=""
-          scope=""
-          recordLoaded={true}
-        /> */}
-        <input
-          className="form-control"
-          type={"number"}
-          value={item.qtyHave.toFixed(2)}
-          disabled={!item.pantryItem}
-          onChange={(e) => onChangePantryItemFnQtyHaveFn(item, e.target.value)}
-        />
-        <TableCell
-          tCellType="td"
-          data={item.qtyToBuy.toFixed(2)}
-          tCellClasses=""
-          scope=""
-          recordLoaded={true}
-        />
-        <TableCell
-          tCellType="td"
-          data={item.ingredientName}
-          tCellClasses=""
-          scope=""
-          recordLoaded={true}
-        />
-      </tr>
+      <ShoppingListItem
+        commonProps={{
+          commonData: {},
+          commonMethods: {
+            getRndIntegerFn: getRndIntegerFn,
+            returnElementKey: returnElementKey,
+            onUpdatePropFn: onUpdatePropFn,
+            trimEnteredValueFn: trimEnteredValueFn,
+          },
+        }}
+        specificProps={{
+          specificData: { shoppingListItem: item },
+          specificMethods: {},
+        }}
+      />
     ));
   }
   return (
     <table className="table table-bordered">
       <thead className="thead">
         <tr>
-          <th colSpan={5} scope="col">
+          <th colSpan={6} scope="col">
             <CustomHeading
               headingLvl={1}
               recordLoaded={true}
@@ -182,6 +157,13 @@ const ShoppingList = (props) => {
           />
           <TableCell
             tCellType="th"
+            data={"UOM"}
+            tCellClasses="perpendicularTextCell"
+            scope="col"
+            recordLoaded={true}
+          />
+          <TableCell
+            tCellType="th"
             data={"Ingredient"}
             tCellClasses="perpendicularTextCell"
             scope="col"
@@ -189,7 +171,7 @@ const ShoppingList = (props) => {
           />
         </tr>
       </thead>
-      <tbody>{renderShoppingList()}</tbody>
+      <tbody>{recordLoaded ? renderShoppingList() : ""}</tbody>
     </table>
   );
 };

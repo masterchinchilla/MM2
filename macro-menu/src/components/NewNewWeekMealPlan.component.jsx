@@ -507,12 +507,12 @@ class NewNewWeekMealPlan extends Component {
     }
     return usersPantryItems;
   };
-  handleChangePantryItemFnQtyHave = (shoppingListItem, updatedValue) => {
-    console.log(shoppingListItem, updatedValue);
-    let newValueAsNumber = JSON.parse(updatedValue);
-    let newValueAsFloat =
-      Math.round((newValueAsNumber + Number.EPSILON) * 100) / 100;
-    let newValue = newValueAsFloat;
+  handleChangePantryItemFnQtyHave = (shoppingListItem, newValue) => {
+    console.log(shoppingListItem, newValue);
+    // let newValueAsNumber = JSON.parse(updatedValue);
+    // let newValueAsFloat =
+    //   Math.round((newValueAsNumber + Number.EPSILON) * 100) / 100;
+    // let newValue = newValueAsFloat;
     let pantryItemId = shoppingListItem.pantryItem._id;
     console.log(pantryItemId);
     let pantryItems = this.state.pantryItems;
@@ -1081,7 +1081,7 @@ class NewNewWeekMealPlan extends Component {
   };
   handleUpdateMealOrChildPropFn = async (
     propToUpdate,
-    updatedValue,
+    updatedValueOrObj,
     typeOfRecordToChange,
     thisDayOfWeekCode,
     thisMealTypeCode,
@@ -1089,6 +1089,8 @@ class NewNewWeekMealPlan extends Component {
     createNewValErrs,
     justCreated
   ) => {
+    let updatedValue = updatedValueOrObj.updatedValue;
+    console.log(updatedValue);
     let newValue;
     const propTypeForVal =
       rcrdOrFldNameSntncCaseAndPropTypForVal[propToUpdate]["propTypeForVal"];
@@ -1102,6 +1104,13 @@ class NewNewWeekMealPlan extends Component {
     }
     let pattern = /missing/;
     let state = this.state;
+    if (typeOfRecordToChange === "pantryItem") {
+      this.handleChangePantryItemFnQtyHave(
+        updatedValueOrObj.shoppingListItem,
+        newValue
+      );
+      return;
+    }
     const daysOfWeek = state.daysOfWeek;
     const mealTypes = state.mealTypes;
     let thisDayStateObj = state[thisDayOfWeekCode];
@@ -2151,19 +2160,33 @@ class NewNewWeekMealPlan extends Component {
           hidden={this.state.mode === "shoppingList" ? false : true}
         >
           <ShoppingList
-            currentGRFUser={this.state.currentGRFUser}
-            daysOfWeek={this.state.daysOfWeek}
-            mealTypes={this.state.mealTypes}
-            getRndIntegerFn={this.getRndIntegerFn}
-            onChangePantryItemFnQtyHaveFn={this.handleChangePantryItemFnQtyHave}
-            sunday={this.state.sunday}
-            monday={this.state.monday}
-            tuesday={this.state.tuesday}
-            wednesday={this.state.wednesday}
-            thursday={this.state.thursday}
-            friday={this.state.friday}
-            saturday={this.state.saturday}
-            pantryItems={this.state.pantryItems}
+            commonProps={{
+              commonData: {
+                currentGRFUser: this.state.currentGRFUser,
+                daysOfWeek: this.state.daysOfWeek,
+                mealTypes: this.state.mealTypes,
+              },
+              commonMethods: {
+                getRndIntegerFn: this.getRndIntegerFn,
+                returnElementKey: this.returnElementKey,
+                onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
+                trimEnteredValueFn: this.handleTrimEnteredValueFn,
+              },
+            }}
+            specificProps={{
+              specificData: {
+                sunday: this.state.sunday,
+                monday: this.state.monday,
+                tuesday: this.state.tuesday,
+                wednesday: this.state.wednesday,
+                thursday: this.state.thursday,
+                friday: this.state.friday,
+                saturday: this.state.saturday,
+                pantryItems: this.state.pantryItems,
+                recordLoaded: wmpRecordLoaded,
+              },
+              specificMethods: {},
+            }}
           />
         </div>
       </React.Fragment>
