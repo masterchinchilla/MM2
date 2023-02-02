@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import TableCell from "./TableCell.component";
 import TableCellWNestedInput from "./TableCellWNestedInput.component";
 const ShoppingListItem = (props) => {
-  console.log(props);
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const {
@@ -13,7 +12,9 @@ const ShoppingListItem = (props) => {
     onUpdatePropFn,
     trimEnteredValueFn,
   } = commonMethods;
-  const { shoppingListItem } = specificProps.specificData;
+  const { specificData, specificMethods } = specificProps;
+  const { shoppingListItem } = specificData;
+  const { onCreatePantryItem, onSavePantryItemChangeFn } = specificMethods;
   const { qtyNeeded, pantryItem, qtyToBuy } = shoppingListItem;
   const {
     thisRecord,
@@ -144,7 +145,6 @@ const ShoppingListItem = (props) => {
             thisMealTypeCode: thisMealTypeCode,
             propToUpdate: propToUpdate,
             arrayIndex: arrayIndex,
-            fieldDisabled: false,
             valErrors: [],
             inputClasses: "",
             isRequired: false,
@@ -156,8 +156,14 @@ const ShoppingListItem = (props) => {
             tCellClassesToUse: "",
             scope: "",
             valueChangedExternal: checkBoxActive,
+            recordChanged: recordChanged.pantryItem,
+            shoppingListItem: shoppingListItem,
           },
-          specificMethods: { inputOnKeyUpFn: () => {} },
+          specificMethods: {
+            inputOnKeyUpFn: () => {},
+            onCreatePantryItem: onCreatePantryItem,
+            onSavePantryItemChangeFn: onSavePantryItemChangeFn,
+          },
         }}
       />
       <TableCell

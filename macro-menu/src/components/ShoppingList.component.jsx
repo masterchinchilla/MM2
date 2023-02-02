@@ -3,7 +3,6 @@ import CustomHeading from "./CustomHeading.component";
 import ShoppingListItem from "./ShoppingListItem.component";
 import TableCell from "./TableCell.component";
 const ShoppingList = (props) => {
-  console.log(props);
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { currentGRFUser, daysOfWeek, mealTypes } = commonData;
@@ -15,6 +14,7 @@ const ShoppingList = (props) => {
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { pantryItems, recordLoaded } = specificData;
+  const { onCreatePantryItem, onSavePantryItemChangeFn } = specificMethods;
   const typeOfRecordToChange = "pantryItem";
   const thisDayOfWeekCode = null;
   const thisMealTypeCode = null;
@@ -25,12 +25,10 @@ const ShoppingList = (props) => {
     let shoppingListItems = [];
     for (let i = 0; i < daysOfWeek.length; i++) {
       let thisDayStateObj = specificData[daysOfWeek[i].code];
-      console.log(thisDayStateObj);
       let thisDayRecordId = thisDayStateObj.thisRecord._id;
       if (!pattern.test(thisDayRecordId)) {
         for (let i = 0; i < mealTypes.length; i++) {
           let thisMealStateObj = thisDayStateObj[mealTypes[i].code];
-          console.log(thisMealStateObj);
           let thisMealRecordId = thisMealStateObj.thisRecord._id;
           if (
             thisMealStateObj.recordLoaded &&
@@ -49,7 +47,6 @@ const ShoppingList = (props) => {
                 let matchingPantryItems = pantryItems.filter(
                   (item) => item.thisRecord.ingredient._id === ingredient._id
                 );
-                console.log(matchingPantryItems);
                 let placeholderPantryItem = {
                   thisRecord: {
                     _id: `missing${getRndIntegerFn(10000000, 99999999)}`,
@@ -81,50 +78,38 @@ const ShoppingList = (props) => {
                   matchingPantryItems.length > 0
                     ? matchingPantryItems[0]
                     : placeholderPantryItem;
-                console.log(matchingPantryItem);
                 let ingredientQtyHave = matchingPantryItem.thisRecord.qtyHave;
-                console.log(ingredientQtyHave);
                 let ingredientName = ingredient.name;
-                console.log(ingredient.name);
-                console.log(shoppingListItems);
                 let matchingShoppingListItemIndex = shoppingListItems.findIndex(
                   (item) =>
                     item.pantryItem.thisRecord.ingredient.name ===
                     ingredientName
                 );
-                console.log(matchingShoppingListItemIndex);
                 let extantShoppingListItem =
                   matchingShoppingListItemIndex >= 0
                     ? shoppingListItems[matchingShoppingListItemIndex]
                     : null;
-                console.log(extantShoppingListItem);
                 let extantQtyNeeded = extantShoppingListItem
                   ? extantShoppingListItem.qtyNeeded
                   : 0;
-                console.log(extantQtyNeeded);
                 let qtyNeeded =
                   extantQtyNeeded + ingrdntQtyNeededForThisMealIngrdnt;
-                console.log(qtyNeeded);
                 let qtyToBuy =
                   qtyNeeded >= ingredientQtyHave
                     ? qtyNeeded - ingredientQtyHave
                     : 0;
-                console.log(qtyToBuy);
                 if (extantShoppingListItem) {
                   extantShoppingListItem.qtyNeeded = qtyNeeded;
                   extantShoppingListItem.qtyToBuy = qtyToBuy;
                   shoppingListItems[matchingShoppingListItemIndex] =
                     extantShoppingListItem;
-                  console.log(extantShoppingListItem);
                 } else if (qtyNeeded > 0) {
                   let thisShoppingListItem = {
                     qtyNeeded: qtyNeeded,
                     pantryItem: matchingPantryItem,
                     qtyToBuy: qtyToBuy,
                   };
-                  console.log(thisShoppingListItem);
                   shoppingListItems.push(thisShoppingListItem);
-                  console.log(shoppingListItems);
                 }
               }
             }
@@ -154,7 +139,10 @@ const ShoppingList = (props) => {
         }}
         specificProps={{
           specificData: { shoppingListItem: item },
-          specificMethods: {},
+          specificMethods: {
+            onCreatePantryItem: onCreatePantryItem,
+            onSavePantryItemChangeFn: onSavePantryItemChangeFn,
+          },
         }}
       />
     ));

@@ -21,7 +21,6 @@ const TableCellWNestedInput = (props) => {
     thisMealTypeCode,
     propToUpdate,
     arrayIndex,
-    fieldDisabled,
     valErrors,
     inputClasses,
     isRequired,
@@ -35,9 +34,11 @@ const TableCellWNestedInput = (props) => {
     valueChangedExternal,
     recordChanged,
     shoppingListItem,
-    exists,
   } = specificData;
-  const { inputOnKeyUpFn } = specificMethods;
+  const { inputOnKeyUpFn, onCreatePantryItem, onSavePantryItemChangeFn } =
+    specificMethods;
+  const pattern = /missing/;
+  const missing = pattern.test(shoppingListItem.pantryItem.thisRecord._id);
   const TCellType = tCellType;
   return (
     <TCellType scope={scope ? scope : ""} className={tCellClassesToUse}>
@@ -69,7 +70,7 @@ const TableCellWNestedInput = (props) => {
             thisMealTypeCode: thisMealTypeCode,
             propToUpdate: propToUpdate,
             arrayIndex: arrayIndex,
-            fieldDisabled: fieldDisabled,
+            fieldDisabled: missing,
             valErrors: valErrors,
             inputClasses: inputClasses,
             isRequired: isRequired,
@@ -83,11 +84,11 @@ const TableCellWNestedInput = (props) => {
         }}
       />
       <ShoppingListItemFormControl
-        onSaveChangesFn={onSaveChangesFn}
-        onStartEditingFn={onStartEditingFn}
+        onSaveChangesFn={onSavePantryItemChangeFn}
+        onStartEditingFn={onCreatePantryItem}
         recordChanged={recordChanged}
         shoppingListItem={shoppingListItem}
-        exists={exists}
+        exists={!missing}
       />
     </TCellType>
   );

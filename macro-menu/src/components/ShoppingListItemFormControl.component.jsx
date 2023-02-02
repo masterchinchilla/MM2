@@ -12,18 +12,19 @@ const ShoppingListItemFormControl = (props) => {
     let iconHidden = false;
     switch (icon) {
       case "edit":
-        iconHidden = exists ? true : false;
+        iconHidden = exists;
         break;
       default:
-        iconHidden = exists || !recordChanged ? true : false;
+        iconHidden = !exists || !recordChanged;
     }
+    return iconHidden;
   }
   return (
     <div className="iconGroup m-1">
       <button
         type="button"
         onClick={() => {
-          onStartEditingFn(shoppingListItem);
+          onStartEditingFn(shoppingListItem.pantryItem);
         }}
         className="iconBttn"
       >
@@ -37,7 +38,7 @@ const ShoppingListItemFormControl = (props) => {
       <button
         type="button"
         onClick={() => {
-          onSaveChangesFn(shoppingListItem);
+          onSaveChangesFn(shoppingListItem.pantryItem.thisRecord);
         }}
         className="iconBttn"
       >

@@ -701,26 +701,26 @@ class NewNewWeekMealPlan extends Component {
   handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
     console.log(newRecordToSave);
     const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
-    // let savedRecord = null;
-    let savedRecord = newRecordToSave;
+    let savedRecord = null;
+    // let savedRecord = newRecordToSave;
     let valErrors = [];
     //  = [{ name: ["name too long", "name too short"] }];
-    // try {
-    //   let reqRes = await httpService.post(reqUrl, newRecordToSave);
-    //   savedRecord = reqRes.data;
-    savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
-    savedRecord.createdAt = "";
-    savedRecord.updatedAt = "";
-    let typeOfRcrdToCreateSntcCase =
-      rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
-    let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
-    this.notifyFn(successMsg, "success");
-    // } catch (errs) {
-    // valErrorsNestedArray shape:
-    // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-    //   valErrors = this.parseHTTPResErrs(errs, "all");
-    //   this.notifyOfErrors(valErrors);
-    // }
+    try {
+      let reqRes = await httpService.post(reqUrl, newRecordToSave);
+      savedRecord = reqRes.data;
+      // savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
+      // savedRecord.createdAt = "";
+      // savedRecord.updatedAt = "";
+      let typeOfRcrdToCreateSntcCase =
+        rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
+      let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
+      this.notifyFn(successMsg, "success");
+    } catch (errs) {
+      // valErrorsNestedArray shape:
+      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+    }
     return { savedRecord, valErrors };
   };
   handleCreateNewRecordFn = async (
@@ -794,6 +794,35 @@ class NewNewWeekMealPlan extends Component {
       createNewRecordResult.savedRecord = newRecordToSave;
     }
     return createNewRecordResult;
+  };
+  handleCreatePantryItem = async (newPantryItem) => {
+    console.log(newPantryItem);
+    const newRecordToSave = _.pick(newPantryItem.thisRecord, [
+      "qtyHave",
+      "ingredient",
+      "GRFUser",
+    ]);
+    console.log(newRecordToSave);
+    const createNewRecordResult = await this.handleCreateNewRecordInDb(
+      "pantryItem",
+      newRecordToSave
+    );
+    console.log(createNewRecordResult);
+    const { savedRecord, valErrors } = createNewRecordResult;
+    console.log(savedRecord);
+    if (valErrors.length > 0) {
+      return;
+    } else {
+      savedRecord.ingredient = newRecordToSave.ingredient;
+      savedRecord.GRFUser = newRecordToSave.GRFUser;
+      console.log(savedRecord);
+      newPantryItem.thisRecord = savedRecord;
+      console.log(newPantryItem);
+      const pantryItems = this.state.pantryItems;
+      pantryItems.push(newPantryItem);
+      console.log(pantryItems);
+      this.setState({ pantryItems: pantryItems });
+    }
   };
   handleCreateNewObjFn = async (
     typeOfRecordToCreate,
@@ -1824,6 +1853,32 @@ class NewNewWeekMealPlan extends Component {
       }
     }
   };
+  handleSavePantryItemChangeFn = async (pantryItemRecord) => {
+    console.log(pantryItemRecord);
+    const valErrors = await this.handleSaveUpdateToDbFn(
+      "pantryItem",
+      pantryItemRecord
+    );
+    if (valErrors.length > 0) {
+      return;
+    } else {
+      const pantryItemId = pantryItemRecord._id;
+      console.log(pantryItemId);
+      const pantryItems = this.state.pantryItems;
+      console.log(pantryItems);
+      const thisPantryItemIndex = pantryItems.findIndex(
+        (item) => item.thisRecord._id === pantryItemId
+      );
+      console.log(thisPantryItemIndex);
+      const thisPantryItemFromState = pantryItems[thisPantryItemIndex];
+      console.log(thisPantryItemFromState);
+      thisPantryItemFromState.recordChanged.pantryItem = false;
+      console.log(thisPantryItemFromState);
+      pantryItems[thisPantryItemIndex] = thisPantryItemFromState;
+      console.log(pantryItems);
+      this.setState({ pantryItems: pantryItems });
+    }
+  };
   handleSaveChangesFn = async (
     typeOfRecordToSave,
     thisDayOfWeekCode,
@@ -2178,7 +2233,10 @@ class NewNewWeekMealPlan extends Component {
                 pantryItems: this.state.pantryItems,
                 recordLoaded: wmpRecordLoaded,
               },
-              specificMethods: {},
+              specificMethods: {
+                onCreatePantryItem: this.handleCreatePantryItem,
+                onSavePantryItemChangeFn: this.handleSavePantryItemChangeFn,
+              },
             }}
           />
         </div>
