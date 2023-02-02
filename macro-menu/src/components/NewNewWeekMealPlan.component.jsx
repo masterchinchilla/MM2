@@ -518,6 +518,7 @@ class NewNewWeekMealPlan extends Component {
     );
     let matchingPantryItem = pantryItems[matchingPantryItemIndex];
     matchingPantryItem.thisRecord.qtyHave = newValue;
+    matchingPantryItem.recordChanged.pantryItem = true;
     pantryItems[matchingPantryItemIndex] = matchingPantryItem;
     this.setState({ pantryItems: pantryItems });
   };

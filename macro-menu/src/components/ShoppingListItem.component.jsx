@@ -37,7 +37,9 @@ const ShoppingListItem = (props) => {
   const thisDayOfWeekCode = null;
   const inputTypeForHtml = "number";
   const excludeLabel = true;
-  const [boughtChecked, toggleBoughtChecked] = useState(false);
+  const [boughtChecked, toggleBoughtChecked] = useState(qtyToBuy <= 0);
+  const [checkBoxActive, toggleCheckBoxActive] = useState(false);
+  const [timer, setTimerStateFn] = useState(null);
   function handleUpdateQtyHavePropFn(
     propToUpdate,
     updatedValue,
@@ -51,6 +53,8 @@ const ShoppingListItem = (props) => {
     const newQtyToBuy = qtyNeeded - updatedValue;
     if (newQtyToBuy <= 0) {
       toggleBoughtChecked(true);
+    } else {
+      toggleBoughtChecked(false);
     }
     onUpdatePropFn(
       "qtyHave",
@@ -63,37 +67,47 @@ const ShoppingListItem = (props) => {
       null
     );
   }
-  function handleCheckUncheckBoughtBoxFn() {
-    // toggleBoughtChecked(boughtChecked ? false : true);
-    handleUpdateQtyHavePropFn(
-      null,
-      qtyNeeded,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    );
+  function handleCheckUncheckBoughtBoxFn(checkedUnchecked) {
+    clearTimeout(timer);
+    toggleCheckBoxActive(true);
+    const newTimer = setTimeout(() => {
+      toggleCheckBoxActive(false);
+    }, 500);
+    setTimerStateFn(newTimer);
+    if (checkedUnchecked && qtyToBuy > 0) {
+      toggleBoughtChecked(true);
+      const updatedValue = qtyNeeded;
+      handleUpdateQtyHavePropFn(
+        null,
+        updatedValue,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      );
+    }
   }
   useEffect(() => {
-    if (qtyToBuy >= 0) {
-      toggleBoughtChecked(false);
-    } else {
-      toggleBoughtChecked(true);
+    if (recordChanged.pantryItem) {
+      if (qtyToBuy <= 0) {
+        toggleBoughtChecked(true);
+      } else {
+        toggleBoughtChecked(false);
+      }
     }
-  }, []);
+  });
   return (
     <tr>
       <td>
         <input
           type={"checkBox"}
-          value={boughtChecked}
+          checked={boughtChecked}
           onChange={(e) => {
             handleCheckUncheckBoughtBoxFn(e.target.value);
           }}
-          disabled={qtyToBuy <= 0}
-        ></input>
+        />
       </td>
       <TableCell
         tCellType="td"
@@ -141,6 +155,7 @@ const ShoppingListItem = (props) => {
             tCellType: "td",
             tCellClassesToUse: "",
             scope: "",
+            valueChangedExternal: checkBoxActive,
           },
           specificMethods: { inputOnKeyUpFn: () => {} },
         }}

@@ -13,6 +13,7 @@ const NewInputCore = (props) => {
     fieldDisabled,
     recordLoaded,
     propValue,
+    valueChangedExternal,
   } = specificData;
   const [timer, setTimerStateFn] = useState(null);
   const [localValue, setLocalVal] = useState(propValue);
@@ -31,7 +32,7 @@ const NewInputCore = (props) => {
     setTimerStateFn(newTimer);
   }
   useEffect(() => {
-    if (fieldDisabled) {
+    if (fieldDisabled || valueChangedExternal) {
       setLocalVal(propValue);
     }
   });

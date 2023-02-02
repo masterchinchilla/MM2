@@ -29,6 +29,7 @@ const TableCellWNestedInput = (props) => {
     tCellType,
     tCellClassesToUse,
     scope,
+    valueChangedExternal,
   } = specificData;
   const { inputOnKeyUpFn } = specificMethods;
   const TCellType = tCellType;
@@ -70,6 +71,7 @@ const TableCellWNestedInput = (props) => {
             excludeLabel: excludeLabel,
             inputTypeForHtml: inputTypeForHtml,
             propValue: propValue,
+            valueChangedExternal: valueChangedExternal,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}

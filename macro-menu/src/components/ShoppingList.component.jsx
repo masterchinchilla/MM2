@@ -15,6 +15,11 @@ const ShoppingList = (props) => {
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { pantryItems, recordLoaded } = specificData;
+  const typeOfRecordToChange = "pantryItem";
+  const thisDayOfWeekCode = null;
+  const thisMealTypeCode = null;
+  const arrayIndex = null;
+
   function renderShoppingList() {
     let pattern = /missing/;
     let shoppingListItems = [];
@@ -111,7 +116,7 @@ const ShoppingList = (props) => {
                   shoppingListItems[matchingShoppingListItemIndex] =
                     extantShoppingListItem;
                   console.log(extantShoppingListItem);
-                } else {
+                } else if (qtyNeeded > 0) {
                   let thisShoppingListItem = {
                     qtyNeeded: qtyNeeded,
                     pantryItem: matchingPantryItem,
@@ -127,8 +132,17 @@ const ShoppingList = (props) => {
         }
       }
     }
-    return shoppingListItems.map((item) => (
+    return shoppingListItems.map((item, index) => (
       <ShoppingListItem
+        key={returnElementKey(
+          index,
+          "ShoppingListItem",
+          null,
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
         commonProps={{
           commonData: {},
           commonMethods: {
