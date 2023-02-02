@@ -14,8 +14,20 @@ const ShoppingListItem = (props) => {
     trimEnteredValueFn,
   } = commonMethods;
   const { shoppingListItem } = specificProps.specificData;
-  const { recordLoaded, qtyHave, qtyNeeded, qtyToBuy, ingredient } =
-    shoppingListItem;
+  const { qtyNeeded, pantryItem, qtyToBuy } = shoppingListItem;
+  const {
+    thisRecord,
+    recordChanged,
+    editingForm,
+    valErrors,
+    userType,
+    justCreated,
+    recordLoaded,
+    hasChildren,
+    allowCopy,
+  } = pantryItem;
+  const { _id, qtyHave, ingredient, GRFUser, createdAt, updatedAt } =
+    thisRecord;
   const { unitOfMeasure, name } = ingredient;
   const propValue = qtyHave;
   const propToUpdate = "qtyHave";

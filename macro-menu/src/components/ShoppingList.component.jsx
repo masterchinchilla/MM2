@@ -20,10 +20,12 @@ const ShoppingList = (props) => {
     let shoppingListItems = [];
     for (let i = 0; i < daysOfWeek.length; i++) {
       let thisDayStateObj = specificData[daysOfWeek[i].code];
+      console.log(thisDayStateObj);
       let thisDayRecordId = thisDayStateObj.thisRecord._id;
       if (!pattern.test(thisDayRecordId)) {
         for (let i = 0; i < mealTypes.length; i++) {
           let thisMealStateObj = thisDayStateObj[mealTypes[i].code];
+          console.log(thisMealStateObj);
           let thisMealRecordId = thisMealStateObj.thisRecord._id;
           if (
             thisMealStateObj.recordLoaded &&
@@ -39,53 +41,85 @@ const ShoppingList = (props) => {
                   thisMealIngrdntRecord.qty;
                 let ingredient =
                   thisMealIngrdntRecord.genRecipeIngredient.ingredient;
-                console.log(ingredient);
                 let matchingPantryItems = pantryItems.filter(
-                  (item) => item.ingredient._id === ingredient._id
+                  (item) => item.thisRecord.ingredient._id === ingredient._id
                 );
+                console.log(matchingPantryItems);
+                let placeholderPantryItem = {
+                  thisRecord: {
+                    _id: `missing${getRndIntegerFn(10000000, 99999999)}`,
+                    qtyHave: 0,
+                    ingredient: ingredient,
+                    GRFUser: currentGRFUser,
+                    createdAt: "",
+                    updatedAt: "",
+                  },
+                  recordChanged: { pantryItem: false },
+                  editingForm: { pantryItem: false },
+                  valErrors: {
+                    pantryItem: {
+                      _id: [],
+                      qtyHave: [],
+                      ingredient: [],
+                      GRFUser: [],
+                      createdAt: [],
+                      updatedAt: [],
+                    },
+                  },
+                  userType: { pantryItem: "author" },
+                  justCreated: { pantryItem: false },
+                  recordLoaded: true,
+                  hasChildren: { pantryItem: false },
+                  allowCopy: { pantryItem: false },
+                };
                 let matchingPantryItem =
                   matchingPantryItems.length > 0
                     ? matchingPantryItems[0]
-                    : null;
-                let ingredientQtyHave = matchingPantryItem
-                  ? matchingPantryItem.qtyHave
-                  : 0;
+                    : placeholderPantryItem;
+                console.log(matchingPantryItem);
+                let ingredientQtyHave = matchingPantryItem.thisRecord.qtyHave;
+                console.log(ingredientQtyHave);
                 let ingredientName = ingredient.name;
+                console.log(ingredient.name);
+                console.log(shoppingListItems);
                 let matchingShoppingListItemIndex = shoppingListItems.findIndex(
-                  (item) => item.ingredientName === ingredientName
+                  (item) =>
+                    item.pantryItem.thisRecord.ingredient.name ===
+                    ingredientName
                 );
+                console.log(matchingShoppingListItemIndex);
                 let extantShoppingListItem =
                   matchingShoppingListItemIndex >= 0
                     ? shoppingListItems[matchingShoppingListItemIndex]
                     : null;
+                console.log(extantShoppingListItem);
                 let extantQtyNeeded = extantShoppingListItem
                   ? extantShoppingListItem.qtyNeeded
                   : 0;
+                console.log(extantQtyNeeded);
                 let qtyNeeded =
                   extantQtyNeeded + ingrdntQtyNeededForThisMealIngrdnt;
+                console.log(qtyNeeded);
                 let qtyToBuy =
                   qtyNeeded >= ingredientQtyHave
                     ? qtyNeeded - ingredientQtyHave
                     : 0;
+                console.log(qtyToBuy);
                 if (extantShoppingListItem) {
                   extantShoppingListItem.qtyNeeded = qtyNeeded;
                   extantShoppingListItem.qtyToBuy = qtyToBuy;
                   shoppingListItems[matchingShoppingListItemIndex] =
                     extantShoppingListItem;
+                  console.log(extantShoppingListItem);
                 } else {
                   let thisShoppingListItem = {
                     qtyNeeded: qtyNeeded,
-                    qtyHave: ingredientQtyHave,
+                    pantryItem: matchingPantryItem,
                     qtyToBuy: qtyToBuy,
-                    ingredient: ingredient,
-                    _id: getRndIntegerFn(10000000, 99999999),
-                    createdAt: "",
-                    updatedAt: "",
-                    GRFUser: currentGRFUser,
-                    pantryItem: matchingPantryItem ? matchingPantryItem : null,
-                    recordLoaded: recordLoaded,
                   };
+                  console.log(thisShoppingListItem);
                   shoppingListItems.push(thisShoppingListItem);
+                  console.log(shoppingListItems);
                 }
               }
             }

@@ -496,37 +496,29 @@ class NewNewWeekMealPlan extends Component {
   };
   handleGetUsersPantryItemsFn = async (backEndHtmlRoot, currentGRFUser) => {
     const backEndReqUrl = `${backEndHtmlRoot}pantryItems/thisUsersPantry/${currentGRFUser._id}`;
-    let usersPantryItems;
-    try {
-      const backEndReqResponse = await httpService.get(backEndReqUrl);
-      usersPantryItems = backEndReqResponse.data;
-    } catch (errs) {
-      const valErrors = this.parseHTTPResErrs(errs, "all");
-      this.notifyOfErrors(valErrors);
-      usersPantryItems = [];
+    let pantryItemsReqResult = await this.getRecordsFromBackEnd(
+      backEndReqUrl,
+      "pantryItem",
+      ["pantryItem"]
+    );
+    console.log(pantryItemsReqResult);
+    if (pantryItemsReqResult.valErrors) {
+      this.notifyFn(
+        "Could not get user's Pantry Items, try refreshing the page."
+      );
+    } else {
+      return pantryItemsReqResult.stateObjsArray;
     }
-    return usersPantryItems;
   };
   handleChangePantryItemFnQtyHave = (shoppingListItem, newValue) => {
-    console.log(shoppingListItem, newValue);
-    // let newValueAsNumber = JSON.parse(updatedValue);
-    // let newValueAsFloat =
-    //   Math.round((newValueAsNumber + Number.EPSILON) * 100) / 100;
-    // let newValue = newValueAsFloat;
-    let pantryItemId = shoppingListItem.pantryItem._id;
-    console.log(pantryItemId);
+    let pantryItemId = shoppingListItem.pantryItem.thisRecord._id;
     let pantryItems = this.state.pantryItems;
-    console.log(pantryItems);
     let matchingPantryItemIndex = pantryItems.findIndex(
-      (item) => item._id === pantryItemId
+      (item) => item.thisRecord._id === pantryItemId
     );
-    console.log(matchingPantryItemIndex);
     let matchingPantryItem = pantryItems[matchingPantryItemIndex];
-    console.log(matchingPantryItem);
-    matchingPantryItem.qtyHave = newValue;
-    console.log(matchingPantryItem);
+    matchingPantryItem.thisRecord.qtyHave = newValue;
     pantryItems[matchingPantryItemIndex] = matchingPantryItem;
-    console.log(pantryItems);
     this.setState({ pantryItems: pantryItems });
   };
   getThisWMPFn = async () => {
