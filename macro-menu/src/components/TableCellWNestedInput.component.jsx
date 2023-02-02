@@ -1,5 +1,6 @@
 import React from "react";
 import NewInputCore from "./NewInputCore.component";
+import ShoppingListItemFormControl from "./ShoppingListItemFormControl.component";
 const TableCellWNestedInput = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -9,6 +10,8 @@ const TableCellWNestedInput = (props) => {
     returnElementKey,
     onUpdatePropFn,
     trimEnteredValueFn,
+    onSaveChangesFn,
+    onStartEditingFn,
   } = commonMethods;
   const {
     typeOfRecordToChange,
@@ -30,6 +33,9 @@ const TableCellWNestedInput = (props) => {
     tCellClassesToUse,
     scope,
     valueChangedExternal,
+    recordChanged,
+    shoppingListItem,
+    exists,
   } = specificData;
   const { inputOnKeyUpFn } = specificMethods;
   const TCellType = tCellType;
@@ -75,6 +81,13 @@ const TableCellWNestedInput = (props) => {
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}
+      />
+      <ShoppingListItemFormControl
+        onSaveChangesFn={onSaveChangesFn}
+        onStartEditingFn={onStartEditingFn}
+        recordChanged={recordChanged}
+        shoppingListItem={shoppingListItem}
+        exists={exists}
       />
     </TCellType>
   );
