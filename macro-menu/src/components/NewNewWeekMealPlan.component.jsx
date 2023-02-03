@@ -599,9 +599,14 @@ class NewNewWeekMealPlan extends Component {
   };
   componentDidMount() {
     const currentGRFUser = authService.getCurrentUser();
-    this.setState({ currentGRFUser: currentGRFUser }, () => {
-      this.getThisWMPFn();
-    });
+    if (!currentGRFUser) {
+      this.notifyFn("Your login session has expired", "error");
+      window.location = `/`;
+    } else {
+      this.setState({ currentGRFUser: currentGRFUser }, () => {
+        this.getThisWMPFn();
+      });
+    }
   }
   getCSValResultForProp = async (
     typeOfRecordToChange,

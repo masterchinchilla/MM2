@@ -446,7 +446,7 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
 .ingrdntFrmGrpWBttmPddng{
   padding-bottom:0.5rem !important;
 } 
-@media only screen and (max-width: 529px) {
+@media only screen and (max-width: 667px) {
   /* *{
     font-size: 85%;
   } */
@@ -543,7 +543,14 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   margin: -0.75rem 0 1rem 0 !important;
   justify-content: center;
   color:inherit;
-}}
+  }
+  .shopListTbl{
+    font-size: x-small;
+  }
+  .shopListThRow {
+    height: 4rem !important;
+  }
+}
 @media only screen and (min-width: 530px) {
   .tabLink:first-child{
   margin-left: 2rem !important;
@@ -1178,4 +1185,57 @@ div.emptyPlaceholder span{
 }
 a {
   color:unset;
+}
+.shopListThRow{
+  height:5rem;
+}
+.shopListTHPerpendicular {
+  rotate: -90deg;
+  vertical-align: middle;
+  max-width: 2rem;
+}
+.shopListTHSubSpan{
+  display: flex;
+  justify-content: center;
+  margin-top: -2px;
+}
+.shopListItemTr{
+  height: 100%;
+}
+.shopListItemCheckTd{
+}
+.shopListItemCheckTdSubDiv{
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.shopListItemCheckTdSubDiv input{
+        height: 1.5rem;
+        width: 1.5rem;}
+.shopListItemQtyHaveTd{
+  
+}
+.shopListItemQtyHaveTdSubDiv{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  max-width:7rem;
+}
+.shopListItemQtyHaveTdSubDiv input{
+  min-width:5rem;
+}
+.shopListItemQtyHaveTd input {
+}
+.shopListItemQtyHaveTd div.iconGroup{
+  margin: -2px -3px 0 0.2rem !important;
+}
+::-webkit-inner-spin-button {
+  margin-bottom: -2.2px;
+}
+.perpendicularTextCell{
+  rotate: -90;
 }

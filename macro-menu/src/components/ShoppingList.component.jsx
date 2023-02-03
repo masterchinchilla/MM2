@@ -148,7 +148,7 @@ const ShoppingList = (props) => {
     ));
   }
   return (
-    <table className="table table-bordered">
+    <table className="table table-bordered shopListTbl">
       <thead className="thead">
         <tr>
           <th colSpan={6} scope="col">
@@ -162,21 +162,27 @@ const ShoppingList = (props) => {
             />
           </th>
         </tr>
-        <tr>
-          <TableCell
+        <tr className="shopListThRow">
+          {/* <TableCell
             tCellType="th"
             data={"Bought"}
             tCellClasses="perpendicularTextCell"
             scope="col"
             recordLoaded={true}
-          />
-          <TableCell
+          /> */}
+          <th className="shopListTHPerpendicular" scope="col">
+            <span className="shopListTHSubSpan">Bought</span>
+          </th>
+          <th className="shopListTHPerpendicular" scope="col">
+            <span className="shopListTHSubSpan">Qty Needed</span>
+          </th>
+          {/* <TableCell
             tCellType="th"
             data={"Qty Needed"}
             tCellClasses="perpendicularTextCell"
             scope="col"
             recordLoaded={true}
-          />
+          /> */}
           <TableCell
             tCellType="th"
             data={"Qty Have"}

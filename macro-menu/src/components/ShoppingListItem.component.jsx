@@ -100,15 +100,17 @@ const ShoppingListItem = (props) => {
     }
   });
   return (
-    <tr>
-      <td>
-        <input
-          type={"checkBox"}
-          checked={boughtChecked}
-          onChange={(e) => {
-            handleCheckUncheckBoughtBoxFn(e.target.value);
-          }}
-        />
+    <tr className="shopListItemTr">
+      <td className="shopListItemCheckTd">
+        <div className="shopListItemCheckTdSubDiv">
+          <input
+            type={"checkBox"}
+            checked={boughtChecked}
+            onChange={(e) => {
+              handleCheckUncheckBoughtBoxFn(e.target.value);
+            }}
+          />
+        </div>
       </td>
       <TableCell
         tCellType="td"
@@ -146,14 +148,14 @@ const ShoppingListItem = (props) => {
             propToUpdate: propToUpdate,
             arrayIndex: arrayIndex,
             valErrors: [],
-            inputClasses: "",
+            inputClasses: "form-control",
             isRequired: false,
             recordLoaded: recordLoaded,
             excludeLabel: excludeLabel,
             inputTypeForHtml: inputTypeForHtml,
             propValue: propValue,
             tCellType: "td",
-            tCellClassesToUse: "",
+            tCellClassesToUse: "shopListItemQtyHaveTd",
             scope: "",
             valueChangedExternal: checkBoxActive,
             recordChanged: recordChanged.pantryItem,
