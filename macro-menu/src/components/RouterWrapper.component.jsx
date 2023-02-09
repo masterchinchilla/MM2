@@ -9,6 +9,7 @@ import GRFUsersList from "./GRFUsersList.component";
 import NewNewWeekMealPlan from "./NewNewWeekMealPlan.component";
 import Login from "./Login.component";
 import Logout from "./Logout.component";
+import HomePage from "./HomePage.component";
 class RouterWrapper extends Component {
   constructor(props) {
     super(props);
@@ -72,6 +73,7 @@ class RouterWrapper extends Component {
           axiosCallConfig={axiosCallConfig}
           notifyFn={notifyFn}
         >
+          <Route exact path="/" component={HomePage} />
           <Route exact path="/grfusers" component={GRFUsersList} />
           <Route
             exact
@@ -137,7 +139,7 @@ class RouterWrapper extends Component {
           />
           <Route
             exact
-            path="/"
+            path="/weekMealPlans"
             render={(props) => {
               if (userSignedIn) {
                 return (

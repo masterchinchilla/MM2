@@ -16,6 +16,7 @@ import NewCreateDayButton from "./NewCreateDayButton.component";
 import NewDayCard from "./NewDayCard.component";
 import CustomHeading from "./CustomHeading.component";
 import ShoppingList from "./ShoppingList.component";
+import LoadingForkSpoonSpinner from "../assets/lottieForkSpoonSpinner.json";
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -601,7 +602,7 @@ class NewNewWeekMealPlan extends Component {
     const currentGRFUser = authService.getCurrentUser();
     if (!currentGRFUser) {
       this.notifyFn("Your login session has expired", "error");
-      window.location = `/`;
+      window.location = `/weekMealPlans`;
     } else {
       this.setState({ currentGRFUser: currentGRFUser }, () => {
         this.getThisWMPFn();
@@ -1116,11 +1117,13 @@ class NewNewWeekMealPlan extends Component {
     createNewValErrs,
     justCreated
   ) => {
-    let updatedValue = updatedValueOrObj.updatedValue;
-    console.log(updatedValue);
     let newValue;
     const propTypeForVal =
       rcrdOrFldNameSntncCaseAndPropTypForVal[propToUpdate]["propTypeForVal"];
+    let updatedValue =
+      typeOfRecordToChange === "pantryItem"
+        ? updatedValueOrObj.updatedValue
+        : updatedValueOrObj;
     if (propTypeForVal === "float" && updatedValue !== "") {
       let newValueAsNumber = JSON.parse(updatedValue);
       let newValueAsFloat =
@@ -1722,7 +1725,7 @@ class NewNewWeekMealPlan extends Component {
       return;
     } else {
       if (typeOfRecordToDelete === "weekMealPlan") {
-        window.location = `/`;
+        window.location = `/weekMealPlans`;
       } else {
         if (typeOfRecordToDelete === "day" || typeOfRecordToDelete === "meal") {
           rplcmentPlchldrRcrd._id = `missing${this.getRndIntegerFn(
@@ -2105,9 +2108,7 @@ class NewNewWeekMealPlan extends Component {
             <Player
               autoplay
               loop
-              src={
-                "https://assets2.lottiefiles.com/packages/lf20_6yhhrbk6.json"
-              }
+              src={LoadingForkSpoonSpinner}
               className="lottiePlayer"
               ref={this.player}
             />

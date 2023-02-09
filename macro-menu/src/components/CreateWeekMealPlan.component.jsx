@@ -47,7 +47,7 @@ export default class CreateWeekMealPlan extends Component {
     console.log(weekMealPlan);
     axios
       .post("http://localhost:5000/weekMealPlans/add", weekMealPlan)
-      .then((window.location = "/"));
+      .then((window.location = "/weekMealPlans"));
   }
 
   render() {

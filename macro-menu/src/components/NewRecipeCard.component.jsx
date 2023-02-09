@@ -109,11 +109,15 @@ const NewRecipeCard = (props) => {
     );
   }
   useEffect(() => {
-    let photoURLValErrors = photoURL ? valErrors.genRecipe.photoURL : [];
+    let localPhotoURLValErrors = photoURL ? valErrors.genRecipe.photoURL : [];
+    let localPrepInstValErrors = valErrors.genRecipe.defaultPrepInstructions
+      ? valErrors.genRecipe.defaultPrepInstructions
+      : [];
+    let localNameValErrors = nameValErrors ? nameValErrors : [];
     if (
-      nameValErrors.length > 0 ||
-      prepInstValErrors.length > 0 ||
-      photoURLValErrors.length > 0
+      localNameValErrors.length > 0 ||
+      localPrepInstValErrors.length > 0 ||
+      localPhotoURLValErrors.length > 0
     ) {
       toggleSaveDisabledStateFn(true);
     } else {

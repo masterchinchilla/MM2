@@ -550,11 +550,22 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   .shopListThRow {
     height: 4rem !important;
   }
+  main,section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
 }
 @media only screen and (min-width: 530px) {
   .tabLink:first-child{
   margin-left: 2rem !important;
 }
+.homeWMPsLink {
+    justify-content: flex-start;
+    margin-left: 1rem;
+  }
 }
 .mlIngrdntsCntnr{
   display: flex;
@@ -1238,4 +1249,51 @@ a {
 }
 .perpendicularTextCell{
   rotate: -90;
+}
+.logoWWordsCrossBigHome{
+  max-width:40rem;
+}
+.primaryColorText{
+  color:#bc6bab
+}
+.homeWMPsLink{
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+  text-decoration: none;
+}
+.homeWMPsLink span{
+  
+  color:grey;
+  
+}
+.biggerIcon{
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+}
+.homePgScreenShot{
+  height:450px;
+}
+main{
+  padding: 1rem;
+}
+figure{
+  width:min-content;
+  text-align: center;
+  padding: 1rem;
+}
+figcaption{
+  margin-bottom: 1rem;
+}
+footer{
+  border: 1px solid rgba(0, 0, 0, .125);
+  background-color: rgba(0, 0, 0, .03);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer p{
+  margin:1rem !important;
 }

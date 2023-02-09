@@ -9,7 +9,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 class Navbar extends Component {
   state = {
     jwt: "",
-    currentGRFUser: { _id: "", userGroups: "GRFUser", handle: "Not Signed-In" },
+    currentGRFUser: {
+      _id: "",
+      userGroups: "GRFUser",
+      handle: "Register or Log-In >",
+    },
     backEndHtmlRoot: this.props.backEndHtmlRoot,
   };
   componentDidMount() {
@@ -54,19 +58,26 @@ class Navbar extends Component {
     const jwt = this.state.jwt;
     return (
       <nav className="navbar navbar-dark bg-dark ps-4 pe-2">
-        <Link
-          to={
-            !jwt
-              ? "/"
-              : {
-                  pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
-                  state: { currentGRFUser: currentGRFUser },
-                }
-          }
-          className="navbar-brand"
-        >
-          GRF Macro Menu
-        </Link>
+        <div>
+          <Link to={"/"} className="primaryColorText">
+            <FontAwesomeIcon icon="fa-solid fa-house" className="biggerIcon" />
+          </Link>
+          <Link
+            // to={
+            //   !jwt
+            //     ? "/"
+            //     : {
+            //         pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
+            //         state: { currentGRFUser: currentGRFUser },
+            //       }
+            // }
+            to={"/"}
+            className="navbar-brand"
+          >
+            HowChow
+          </Link>
+        </div>
+
         <ul className="navbar-nav mr-auto mb-lg-0" id="navbarNav">
           {!currentGRFUser ? (
             ""
@@ -89,7 +100,7 @@ class Navbar extends Component {
             className="btn btn-secondary dropdown-toggle profileDDBttn"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            disabled={window.location.pathname === "/" ? true : false}
+            // disabled={window.location.pathname === "/" ? true : false}
           >
             <Avatar
               alt={this.state.currentGRFUser.handle}
@@ -103,10 +114,10 @@ class Navbar extends Component {
                 <Link
                   className="nav-link"
                   to={{
-                    pathname: "/",
+                    pathname: "/weekMealPlans",
                   }}
                 >
-                  Login
+                  Register or Login
                 </Link>
               ) : (
                 <Link
@@ -120,7 +131,7 @@ class Navbar extends Component {
               )}
             </li>
             <li className="dropdown-item profileDDLi">
-              {!currentGRFUser ? (
+              {!currentGRFUser._id ? (
                 ""
               ) : (
                 <Link

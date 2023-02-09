@@ -7,6 +7,8 @@ const auth = require('../middleware/auth');
 const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
 const {ssValidate2}=require('../backendServices/ssValidation');
 
+const {defaultWeightType,defaultBrand}=require('../ssStaticRefs/newRecordTemplates');
+
 const typeOfRecordToChange="ingredient";
 
 const ThisRecordObjModel=Ingredient;
@@ -76,14 +78,20 @@ router.get('/findbyname/:name',async(req, res)=>{
 });
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
+    console.log(record)
     const recordId=req.params.id;
+    console.log(recordId)
     const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+    console.log(ssValResult)
     if(ssValResult){
         try {
             const foundRecord=await ThisRecordObjModel.findById(recordId)
                 .populate('GRFUser')
+                console.log(foundRecord);
             const authorId=foundRecord.GRFUser._id;
+            console.log(authorId)
             const userCanEdit=authEditThisRecord(req,res,authorId)
+            console.log(userCanEdit)
             if(userCanEdit){
                 foundRecord.name=record.name;
                 foundRecord.calories=record.calories;
@@ -91,11 +99,11 @@ router.put('/update/:id',auth,async(req,res)=>{
                 foundRecord.protein=record.protein;
                 foundRecord.fat=record.fat;
                 foundRecord.fiber=record.fiber;
-                foundRecord.unitOfMeasure=record.unitOfMeasure._id;
-                foundRecord.weightType=record.weightType._id;
-                foundRecord.photoURL=record.photoURL;
+                foundRecord.unitOfMeasure=record.unitOfMeasure;
+                foundRecord.weightType=record.weightType?record.weightType._id:defaultWeightType;
+                foundRecord.photoURL=record.photoURL?record.photoURL:"";
                 foundRecord.GRFUser=record.GRFUser._id;
-                foundRecord.brand=record.brand._id;
+                foundRecord.brand=record.brand?record.brand._id:defaultBrand;
                 try {
                     await foundRecord.save();
                     res.json({ok:true,msg:"success"});
