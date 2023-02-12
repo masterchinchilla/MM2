@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import HowChowHaloFork from "../assets/HowChowHaloForkWLayerNames020923.svg";
 import HowChowLogoWWordsCross from "../assets/HowChowLogoWWordsCross020323.svg";
 import HowChowCrossWrdsWHaloFrkNGreyIcons from "../assets/HowChowCrossWrdsWHaloFrkNGreyIcons020723.svg";
+import HowChowWMPScreenTopScrnSht from "../assets/howChowWMPScreenTopScrnSht.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import jwtDecode from "jwt-decode";
+import LogoAndWordsCrossWBG from "./LogoAndWordsCrossWBG.component";
 const thisYear = new Date().getFullYear();
 const ShoppingListItem = (props) => {
   const [currentGRFUser, updateCurrentGRFUser] = useState({
@@ -24,35 +27,37 @@ const ShoppingListItem = (props) => {
   return (
     <React.Fragment>
       <header>
-        <img
-          src={HowChowCrossWrdsWHaloFrkNGreyIcons}
-          alt="How Chow Logo with Words Cross"
-          className="logoWWordsCrossBigHome"
-        />
+        <LogoAndWordsCrossWBG />
         <br />
-        <Link
-          to={
-            !currentGRFUser.handle !== 1
-              ? "/weekMealPlans"
-              : {
-                  pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
-                  state: { currentGRFUser: currentGRFUser },
-                }
-          }
-          className="homeWMPsLink"
-        >
-          <FontAwesomeIcon
-            icon="fa-solid fa-table-list"
-            className="primaryColorText biggerIcon"
-          />
-          <span style={{ textDecoration: "none" }}>
-            Go to Week Meal Plans &gt;
-          </span>
-        </Link>
+        <div className="homeWMPsLinkCont">
+          <Link
+            to={
+              !currentGRFUser.handle !== 1
+                ? "/weekMealPlans"
+                : {
+                    pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
+                    state: { currentGRFUser: currentGRFUser },
+                  }
+            }
+            className="homeWMPsLink"
+          >
+            <FontAwesomeIcon
+              icon="fa-solid fa-table-list"
+              className="biggerIcon"
+            />
+            <span style={{ textDecoration: "none" }}>
+              Go to Week Meal Plans &gt;
+            </span>
+          </Link>
+        </div>
       </header>
       <main>
         <section>
           <h1>A better way to meal plan for macros.</h1>
+          <img
+            src="https://lh3.googleusercontent.com/W6eoKE-ULEbupFbSk5fmL_KjKHRW2p4664cdidJKmnCuB9Dfl6G3MlsNKERoS-ONyfVOADyedc_EPIJsCnzwBmPepLaoAxYYh6obtxtZazSZYOGWtoJFUzED2I6aqG34_K4AT7741A=w2400"
+            className="bigHomeStockPic"
+          />
           <em>Budget your macros like you budget your money!</em>
           <p>
             Build your meal plan to fit your macros budget - get the most out of
@@ -63,10 +68,30 @@ const ShoppingListItem = (props) => {
               Build your meal plan to fit your macros budget - get the most out
               of your meals.
             </figcaption>
-            <img
+
+            <div
+              className="screenshot"
+              style={{
+                backgroundImage: `url(${HowChowWMPScreenTopScrnSht})`,
+              }}
+            >
+              <div className="screenshotFrame">
+                <div
+                  className="screenshotAnnotation"
+                  style={{
+                    width: "5.25rem",
+                    height: "3.65rem",
+                    top: "25rem",
+                    left: "5.25rem",
+                  }}
+                ></div>
+              </div>
+            </div>
+
+            {/* <img
               className="homePgScreenShot figure-img"
               src="https://lh3.googleusercontent.com/QjWTI_skEwRWHqQ7uQwTz9Ek6ybShJ34LUQgexZv1TpyGzDjXvOl1UUeyDlTukiVEaCTxUaF4n5-GydZ_vYrWAf7haE3n4LoCHfVDE6g94Nd5sf8QkTOUsk6sJZVK_JSfo2vaWjemQ=w2400"
-            />
+            /> */}
           </figure>
           <figure className="figure card">
             <figcaption className="figure-caption">

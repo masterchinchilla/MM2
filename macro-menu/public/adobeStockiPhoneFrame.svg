@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 915.6946401553 1750.4548109845">
+  <defs>
+    <style>
+      .adobeStockiPhoneFrame-1 {
+        fill: url(#linear-gradient-7);
+      }
+
+      .adobeStockiPhoneFrame-1, .adobeStockiPhoneFrame-2, .adobeStockiPhoneFrame-3, .adobeStockiPhoneFrame-4, .adobeStockiPhoneFrame-5, .adobeStockiPhoneFrame-6, .adobeStockiPhoneFrame-7, .adobeStockiPhoneFrame-8, .adobeStockiPhoneFrame-9, .adobeStockiPhoneFrame-10, .adobeStockiPhoneFrame-11, .adobeStockiPhoneFrame-12, .adobeStockiPhoneFrame-13, .adobeStockiPhoneFrame-14, .adobeStockiPhoneFrame-15, .adobeStockiPhoneFrame-16, .adobeStockiPhoneFrame-17, .adobeStockiPhoneFrame-18, .adobeStockiPhoneFrame-19, .adobeStockiPhoneFrame-20, .adobeStockiPhoneFrame-21, .adobeStockiPhoneFrame-22, .adobeStockiPhoneFrame-23, .adobeStockiPhoneFrame-24 {
+        mix-blend-mode: multiply;
+      }
+
+      .adobeStockiPhoneFrame-1, .adobeStockiPhoneFrame-5, .adobeStockiPhoneFrame-10, .adobeStockiPhoneFrame-13, .adobeStockiPhoneFrame-19, .adobeStockiPhoneFrame-22, .adobeStockiPhoneFrame-23, .adobeStockiPhoneFrame-24 {
+        opacity: .5;
+      }
+
+      .adobeStockiPhoneFrame-2 {
+        fill: url(#linear-gradient-3);
+      }
+
+      .adobeStockiPhoneFrame-3 {
+        fill: url(#linear-gradient-31);
+      }
+
+      .adobeStockiPhoneFrame-4 {
+        fill: url(#linear-gradient-29);
+      }
+
+      .adobeStockiPhoneFrame-25 {
+        fill: url(#radial-gradient-7);
+      }
+
+      .adobeStockiPhoneFrame-26 {
+        fill: url(#radial-gradient-10);
+      }
+
+      .adobeStockiPhoneFrame-5 {
+        fill: url(#linear-gradient-14);
+      }
+
+      .adobeStockiPhoneFrame-6 {
+        fill: url(#linear-gradient-13);
+      }
+
+      .adobeStockiPhoneFrame-7 {
+        fill: url(#linear-gradient-4);
+      }
+
+      .adobeStockiPhoneFrame-27 {
+        fill: url(#linear-gradient);
+      }
+
+      .adobeStockiPhoneFrame-27, .adobeStockiPhoneFrame-28 {
+        opacity: .8;
+      }
+
+      .adobeStockiPhoneFrame-8 {
+        fill: url(#linear-gradient-16);
+      }
+
+      .adobeStockiPhoneFrame-29 {
+        fill: #e2e2e2;
+      }
+
+      .adobeStockiPhoneFrame-30 {
+        fill: url(#radial-gradient-11);
+      }
+
+      .adobeStockiPhoneFrame-30, .adobeStockiPhoneFrame-31, .adobeStockiPhoneFrame-32, .adobeStockiPhoneFrame-33 {
+        opacity: .7;
+      }
+
+      .adobeStockiPhoneFrame-34 {
+        fill: url(#radial-gradient-16);
+      }
+
+      .adobeStockiPhoneFrame-35 {
+        fill: url(#linear-gradient-30);
+      }
+
+      .adobeStockiPhoneFrame-35, .adobeStockiPhoneFrame-31, .adobeStockiPhoneFrame-36 {
+        mix-blend-mode: screen;
+      }
+
+      .adobeStockiPhoneFrame-37 {
+        fill: url(#radial-gradient-20);
+      }
+
+      .adobeStockiPhoneFrame-38 {
+        fill: url(#radial-gradient-21);
+      }
+
+      .adobeStockiPhoneFrame-39 {
+        fill: url(#radial-gradient-8);
+      }
+
+      .adobeStockiPhoneFrame-9 {
+        fill: url(#linear-gradient-17);
+      }
+
+      .adobeStockiPhoneFrame-10 {
+        fill: url(#linear-gradient-6);
+      }
+
+      .adobeStockiPhoneFrame-40 {
+        fill: url(#linear-gradient-20);
+      }
+
+      .adobeStockiPhoneFrame-41 {
+        fill: url(#radial-gradient-5);
+      }
+
+      .adobeStockiPhoneFrame-42 {
+        fill: url(#radial-gradient-4);
+      }
+
+      .adobeStockiPhoneFrame-43 {
+        isolation: isolate;
+      }
+
+      .adobeStockiPhoneFrame-11 {
+        fill: url(#linear-gradient-37);
+      }
+
+      .adobeStockiPhoneFrame-12 {
+        fill: url(#linear-gradient-28);
+      }
+
+      .adobeStockiPhoneFrame-31 {
+        fill: url(#linear-gradient-33);
+      }
+
+      .adobeStockiPhoneFrame-13 {
+        fill: url(#linear-gradient-11);
+      }
+
+      .adobeStockiPhoneFrame-14 {
+        fill: url(#linear-gradient-26);
+      }
+
+      .adobeStockiPhoneFrame-44 {
+        fill: url(#radial-gradient-22);
+      }
+
+      .adobeStockiPhoneFrame-45 {
+        fill: url(#radial-gradient-6);
+      }
+
+      .adobeStockiPhoneFrame-46 {
+        fill: url(#radial-gradient-19);
+      }
+
+      .adobeStockiPhoneFrame-47 {
+        fill: url(#radial-gradient-12);
+      }
+
+      .adobeStockiPhoneFrame-28 {
+        fill: url(#linear-gradient-35);
+      }
+
+      .adobeStockiPhoneFrame-28, .adobeStockiPhoneFrame-48 {
+        mix-blend-mode: lighten;
+      }
+
+      .adobeStockiPhoneFrame-49 {
+        fill: url(#radial-gradient);
+      }
+
+      .adobeStockiPhoneFrame-15 {
+        fill: url(#linear-gradient-5);
+      }
+
+      .adobeStockiPhoneFrame-32 {
+        fill: url(#linear-gradient-24);
+      }
+
+      .adobeStockiPhoneFrame-16 {
+        fill: url(#linear-gradient-32);
+      }
+
+      .adobeStockiPhoneFrame-50 {
+        fill: url(#radial-gradient-13);
+      }
+
+      .adobeStockiPhoneFrame-17 {
+        fill: url(#linear-gradient-9);
+      }
+
+      .adobeStockiPhoneFrame-18 {
+        fill: url(#linear-gradient-8);
+      }
+
+      .adobeStockiPhoneFrame-33 {
+        fill: url(#linear-gradient-21);
+      }
+
+      .adobeStockiPhoneFrame-51 {
+        fill: url(#linear-gradient-25);
+      }
+
+      .adobeStockiPhoneFrame-52 {
+        fill: url(#radial-gradient-24);
+      }
+
+      .adobeStockiPhoneFrame-53 {
+        fill: url(#radial-gradient-15);
+      }
+
+      .adobeStockiPhoneFrame-48 {
+        fill: url(#linear-gradient-34);
+      }
+
+      .adobeStockiPhoneFrame-48, .adobeStockiPhoneFrame-54 {
+        opacity: .4;
+      }
+
+      .adobeStockiPhoneFrame-55 {
+        fill: url(#radial-gradient-2);
+      }
+
+      .adobeStockiPhoneFrame-19 {
+        fill: url(#linear-gradient-15);
+      }
+
+      .adobeStockiPhoneFrame-56 {
+        fill: none;
+      }
+
+      .adobeStockiPhoneFrame-20 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .adobeStockiPhoneFrame-57 {
+        fill: url(#radial-gradient-3);
+      }
+
+      .adobeStockiPhoneFrame-21 {
+        fill: url(#linear-gradient-12);
+      }
+
+      .adobeStockiPhoneFrame-54 {
+        fill: url(#linear-gradient-36);
+      }
+
+      .adobeStockiPhoneFrame-58 {
+        fill: url(#radial-gradient-17);
+      }
+
+      .adobeStockiPhoneFrame-59 {
+        fill: url(#linear-gradient-22);
+      }
+
+      .adobeStockiPhoneFrame-60 {
+        fill: url(#radial-gradient-14);
+      }
+
+      .adobeStockiPhoneFrame-22 {
+        fill: url(#linear-gradient-10);
+      }
+
+      .adobeStockiPhoneFrame-23 {
+        fill: url(#linear-gradient-18);
+      }
+
+      .adobeStockiPhoneFrame-61 {
+        fill: url(#radial-gradient-23);
+      }
+
+      .adobeStockiPhoneFrame-36 {
+        fill: url(#linear-gradient-27);
+      }
+
+      .adobeStockiPhoneFrame-62 {
+        fill: url(#linear-gradient-23);
+      }
+
+      .adobeStockiPhoneFrame-63 {
+        fill: url(#radial-gradient-18);
+      }
+
+      .adobeStockiPhoneFrame-24 {
+        fill: url(#linear-gradient-19);
+      }
+
+      .adobeStockiPhoneFrame-64 {
+        fill: url(#radial-gradient-9);
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="-659.2055867036" cy="1677.5584109845" fx="-659.2055867036" fy="1677.5584109845" r="62.7060216267" gradientTransform="translate(178.6885523299) rotate(-180) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#414042"/>
+      <stop offset=".1802556757" stop-color="#444345"/>
+      <stop offset=".3446363861" stop-color="#4f4e50"/>
+      <stop offset=".5028100272" stop-color="#616163"/>
+      <stop offset=".6572046552" stop-color="#7b7b7c"/>
+      <stop offset=".8088999708" stop-color="#9c9c9e"/>
+      <stop offset=".9565086117" stop-color="#c3c5c6"/>
+      <stop offset="1" stop-color="#d1d3d4"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-2" cx="74.3815940741" cy="1678.0554109845" fx="74.3815940741" fy="1678.0554109845" r="62.7059397121" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" xlink:href="#radial-gradient"/>
+    <linearGradient id="linear-gradient" x1="454.1790261649" y1="300.1492109845" x2="454.1790261649" y2="250.7264109845" gradientTransform="translate(0 315.8609219691) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#414042"/>
+      <stop offset=".4874181469" stop-color="#424143"/>
+      <stop offset=".6629806026" stop-color="#49484a"/>
+      <stop offset=".7880882697" stop-color="#545456"/>
+      <stop offset=".889244403" stop-color="#646467"/>
+      <stop offset=".9748730652" stop-color="#787a7d"/>
+      <stop offset="1" stop-color="#808285"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="805.7779261649" y1="287.9192109845" x2="805.7779261649" y2="242.7049109845" gradientTransform="translate(0 315.8609219691) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".009651383" stop-color="#f1f1f1"/>
+      <stop offset=".0514799796" stop-color="#b9b9b9"/>
+      <stop offset=".0946768819" stop-color="#878787"/>
+      <stop offset=".1382586004" stop-color="#5e5e5e"/>
+      <stop offset=".1823326549" stop-color="#3c3c3c"/>
+      <stop offset=".2270719796" stop-color="#212121"/>
+      <stop offset=".2727508631" stop-color="#0e0e0e"/>
+      <stop offset=".3199305479" stop-color="#030303"/>
+      <stop offset=".370968" stop-color="#000"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="1323.2132261649" y1="287.5247109845" x2="1323.2132261649" y2="237.3890109845" gradientTransform="translate(1413.6534523299 315.8609219691) rotate(-180)" xlink:href="#linear-gradient-2"/>
+    <radialGradient id="radial-gradient-3" cx="456.2666261649" cy="1729.6320609845" fx="456.2666261649" fy="1729.6320609845" r="283.4298015661" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#58595b"/>
+      <stop offset=".4321327218" stop-color="#595a5c"/>
+      <stop offset=".5877989371" stop-color="#606163"/>
+      <stop offset=".6987654282" stop-color="#6c6d6f"/>
+      <stop offset=".7885179605" stop-color="#7d7e80"/>
+      <stop offset=".8653373687" stop-color="#929495"/>
+      <stop offset=".9326778536" stop-color="#adafb0"/>
+      <stop offset=".9927797438" stop-color="#cccecf"/>
+      <stop offset="1" stop-color="#d1d3d4"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-4" cx="456.0684261649" cy="1366.5447109845" fx="456.0684261649" fy="1366.5447109845" r="283.235015541" gradientTransform="translate(0 3094.2339219691) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6d6e71"/>
+      <stop offset=".1644136781" stop-color="#747578"/>
+      <stop offset=".4073337826" stop-color="#87898b"/>
+      <stop offset=".6989395484" stop-color="#a8a9ab"/>
+      <stop offset="1" stop-color="#d1d3d4"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-5" cx="-659.2941646456" cy="239.7083109845" fx="-659.2941646456" fy="239.7083109845" r="62.6811422338" gradientTransform="translate(178.6885523299 316.1265219691) rotate(-180)" xlink:href="#radial-gradient"/>
+    <radialGradient id="radial-gradient-6" cx="74.5721836672" cy="240.2046609845" fx="74.5721836672" fy="240.2046609845" r="62.6851511576" gradientTransform="translate(0 316.1265219691) scale(1 -1)" xlink:href="#radial-gradient"/>
+    <radialGradient id="radial-gradient-7" cx="456.4109261649" cy="291.7815609845" fx="456.4109261649" fy="291.7815609845" r="283.4293219758" gradientTransform="translate(0 316.1265219691) scale(1 -1)" xlink:href="#radial-gradient-3"/>
+    <radialGradient id="radial-gradient-8" cx="456.2136761649" cy="2804.394584773" fx="456.2136761649" fy="2804.394584773" r="283.2352220109" gradientTransform="translate(0 -2778.1074)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6d6e71"/>
+      <stop offset=".858660061" stop-color="#6d6e71"/>
+      <stop offset="1" stop-color="#6d6e71"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-9" cx="456.3149761649" cy="20.9781940716" fx="456.3149761649" fy="20.9781940716" r="279.0174546718" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#bcbec0"/>
+      <stop offset="1" stop-color="#e6e7e8"/>
+    </radialGradient>
+    <linearGradient id="linear-gradient-4" x1="905.4761761649" y1="523.8455109845" x2="915.6423951607" y2="523.8455109845" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#414042"/>
+      <stop offset=".0406676423" stop-color="#646365"/>
+      <stop offset=".090651007" stop-color="#888789"/>
+      <stop offset=".1468739962" stop-color="#a8a8a9"/>
+      <stop offset=".2090993272" stop-color="#c3c3c4"/>
+      <stop offset=".2793606352" stop-color="#d9d9d9"/>
+      <stop offset=".361403103" stop-color="#eaeaea"/>
+      <stop offset=".4628374244" stop-color="#f6f6f6"/>
+      <stop offset=".6050886048" stop-color="#fdfdfd"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="905.4761761649" y1="523.8455109845" x2="915.6423951607" y2="523.8455109845" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".3949113952" stop-color="#fdfdfd"/>
+      <stop offset=".5371625756" stop-color="#f6f6f6"/>
+      <stop offset=".638596897" stop-color="#eaeaea"/>
+      <stop offset=".7206393648" stop-color="#d9d9d9"/>
+      <stop offset=".7909006728" stop-color="#c3c3c4"/>
+      <stop offset=".8531260038" stop-color="#a8a8a9"/>
+      <stop offset=".909348993" stop-color="#888789"/>
+      <stop offset=".9593323577" stop-color="#646365"/>
+      <stop offset="1" stop-color="#414042"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-6" x1="910.5568610378" y1="442.4949109845" x2="910.5568610378" y2="426.2996109845" gradientUnits="userSpaceOnUse">
+      <stop offset=".00537634" stop-color="#fff"/>
+      <stop offset=".0419692345" stop-color="#efefef"/>
+      <stop offset=".2626610825" stop-color="#999797"/>
+      <stop offset=".4424763246" stop-color="#595657"/>
+      <stop offset=".5725417967" stop-color="#322e2f"/>
+      <stop offset=".639785" stop-color="#231f20"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-7" x1="910.5628192712" y1="-1345.7423890155" x2="910.5628192712" y2="-1361.9367890155" gradientTransform="translate(0 -740.5453780309) scale(1 -1)" xlink:href="#linear-gradient-6"/>
+    <linearGradient id="linear-gradient-8" x1="4629.9106761649" y1="445.2546609845" x2="4637.3269497655" y2="445.2546609845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-4"/>
+    <linearGradient id="linear-gradient-9" x1="4629.9106761649" y1="445.2546609845" x2="4637.3269497655" y2="445.2546609845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-5"/>
+    <linearGradient id="linear-gradient-10" x1="4633.6168735411" y1="396.7527109845" x2="4633.6168735411" y2="387.0984109845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-6"/>
+    <linearGradient id="linear-gradient-11" x1="4633.6212648101" y1="-1234.3019890155" x2="4633.6212648101" y2="-1243.9562890155" gradientTransform="translate(4637.3780523299 -740.5453780309) rotate(-180)" xlink:href="#linear-gradient-6"/>
+    <linearGradient id="linear-gradient-12" x1="4628.4819761649" y1="302.0608109845" x2="4634.8708121025" y2="302.0608109845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-4"/>
+    <linearGradient id="linear-gradient-13" x1="4628.4819761649" y1="302.0608109845" x2="4634.8708121025" y2="302.0608109845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-5"/>
+    <linearGradient id="linear-gradient-14" x1="4631.6747797248" y1="275.0374109845" x2="4631.6747797248" y2="269.6575109845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-6"/>
+    <linearGradient id="linear-gradient-15" x1="4631.6780104577" y1="-1069.6300890155" x2="4631.6780104577" y2="-1075.0094890155" gradientTransform="translate(4637.3780523299 -740.5453780309) rotate(-180)" xlink:href="#linear-gradient-6"/>
+    <linearGradient id="linear-gradient-16" x1="4629.9058761649" y1="600.9533609845" x2="4637.3400345873" y2="600.9533609845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-4"/>
+    <linearGradient id="linear-gradient-17" x1="4629.9058761649" y1="600.9533609845" x2="4637.3400345873" y2="600.9533609845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-5"/>
+    <linearGradient id="linear-gradient-18" x1="4633.6211735976" y1="552.4519109845" x2="4633.6211735976" y2="542.7966109845" gradientTransform="translate(4637.3780523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-6"/>
+    <linearGradient id="linear-gradient-19" x1="4633.6255531363" y1="-1390.0001890155" x2="4633.6255531363" y2="-1399.6554890155" gradientTransform="translate(4637.3780523299 -740.5453780309) rotate(-180)" xlink:href="#linear-gradient-6"/>
+    <linearGradient id="linear-gradient-20" x1="-1367.0302238351" y1="873.9210276512" x2="-1313.9243238351" y2="873.9210276512" gradientTransform="translate(1384.0469)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d1d3d4"/>
+      <stop offset=".0581005672" stop-color="#c6c7c9"/>
+      <stop offset=".4623991283" stop-color="#7e7f80"/>
+      <stop offset=".7524389891" stop-color="#525153"/>
+      <stop offset=".897849" stop-color="#414042"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-21" x1="-1360.3043687843" y1="870.5828793325" x2="-1287.7707630475" y2="870.5828793325" gradientTransform="translate(1384.0469)" gradientUnits="userSpaceOnUse">
+      <stop offset=".290322" stop-color="#231f20"/>
+      <stop offset=".5634319325" stop-color="#2b2829"/>
+      <stop offset="1" stop-color="#414042"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-22" x1="108.4858666296" y1="872.4044201908" x2="30.2280273388" y2="872.4044201908" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#231f20"/>
+      <stop offset=".3322082389" stop-color="#252122"/>
+      <stop offset=".4733647587" stop-color="#2c2829"/>
+      <stop offset=".57828505" stop-color="#383435"/>
+      <stop offset=".6653553397" stop-color="#494647"/>
+      <stop offset=".7412580034" stop-color="#605d5e"/>
+      <stop offset=".8094262855" stop-color="#7c797a"/>
+      <stop offset=".8718677287" stop-color="#9d9b9c"/>
+      <stop offset=".9297968838" stop-color="#c4c3c3"/>
+      <stop offset=".9820301184" stop-color="#eee"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-23" x1="-1529.9145238351" y1="873.6642276512" x2="-1464.5004238351" y2="873.6642276512" gradientTransform="translate(-635.3680476701) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-20"/>
+    <linearGradient id="linear-gradient-24" x1="-1523.1900701397" y1="875.2272186656" x2="-1450.6556814245" y2="875.2272186656" gradientTransform="translate(-635.3680476701) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-21"/>
+    <linearGradient id="linear-gradient-25" x1="-54.9320705344" y1="878.0876675397" x2="-133.1902864993" y2="878.0876675397" gradientTransform="translate(748.6788523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-22"/>
+    <linearGradient id="linear-gradient-26" x1="455.9348761649" y1="28.3362109845" x2="455.9348761649" y2="19.3690443179" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#231f20"/>
+      <stop offset=".0230308787" stop-color="#3a3637"/>
+      <stop offset=".0698102188" stop-color="#626060"/>
+      <stop offset=".122120358" stop-color="#888686"/>
+      <stop offset=".178962316" stop-color="#a8a7a7"/>
+      <stop offset=".2414956214" stop-color="#c3c2c2"/>
+      <stop offset=".3119235223" stop-color="#d9d9d9"/>
+      <stop offset=".3936807104" stop-color="#eaeaea"/>
+      <stop offset=".4939927823" stop-color="#f6f6f6"/>
+      <stop offset=".6330220609" stop-color="#fdfdfd"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-27" x1="458.6897261649" y1="1732.5203109845" x2="458.6897261649" y2="1678.2058109845" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#231f20"/>
+      <stop offset=".1052973862" stop-color="#2e2a2b"/>
+      <stop offset=".2933457997" stop-color="#4c494a"/>
+      <stop offset=".5423264968" stop-color="#7c7b7c"/>
+      <stop offset=".8393828232" stop-color="#bfbfc0"/>
+      <stop offset="1" stop-color="#e6e7e8"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-28" x1="812.2031761649" y1="1721.8816109845" x2="812.2031761649" y2="1669.0759109845" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" xlink:href="#linear-gradient-2"/>
+    <linearGradient id="linear-gradient-29" x1="1306.2251761649" y1="1721.5242109845" x2="1306.2251761649" y2="1669.4343109845" gradientTransform="translate(1413.6534523299) rotate(-180) scale(1 -1)" xlink:href="#linear-gradient-2"/>
+    <linearGradient id="linear-gradient-30" x1="453.2856761649" y1="1629.6428109845" x2="453.2856761649" y2="1575.3284109845" gradientTransform="translate(0 1646.9302219691) scale(1 -1)" xlink:href="#linear-gradient-27"/>
+    <linearGradient id="linear-gradient-31" x1="806.7988761649" y1="1619.0042109845" x2="806.7988761649" y2="1566.1985109845" gradientTransform="translate(0 1646.9302219691) scale(1 -1)" xlink:href="#linear-gradient-2"/>
+    <linearGradient id="linear-gradient-32" x1="1311.6294261649" y1="1618.6467109845" x2="1311.6294261649" y2="1566.5569109845" gradientTransform="translate(1413.6534523299 1646.9302219691) rotate(-180)" xlink:href="#linear-gradient-2"/>
+    <linearGradient id="linear-gradient-33" x1="539.1548042683" y1="62.5114953474" x2="558.0049980352" y2="81.3616891143" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#231f20"/>
+      <stop offset=".1940711901" stop-color="#262223"/>
+      <stop offset=".3817704345" stop-color="#302e2f"/>
+      <stop offset=".56626819" stop-color="#424142"/>
+      <stop offset=".731183" stop-color="#58595b"/>
+      <stop offset=".8464357493" stop-color="#5d5e60"/>
+      <stop offset=".9892051113" stop-color="#6b6c6f"/>
+      <stop offset="1" stop-color="#6d6e71"/>
+    </linearGradient>
+    <radialGradient id="radial-gradient-10" cx="457.4829261649" cy="71.9360609845" fx="457.4829261649" fy="71.9360609845" r="35.0648756155" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f0f0f"/>
+      <stop offset="1" stop-color="#020202"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-11" cx="548.5801261649" cy="71.9365109845" fx="548.5801261649" fy="71.9365109845" r="7.889025001" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#231f20"/>
+      <stop offset=".4200968589" stop-color="#231f20"/>
+      <stop offset=".489247" stop-color="#231f20"/>
+      <stop offset=".5714441254" stop-color="#231f25"/>
+      <stop offset=".6734897112" stop-color="#242234"/>
+      <stop offset=".7860052862" stop-color="#27264d"/>
+      <stop offset=".9052015291" stop-color="#2a2b70"/>
+      <stop offset="1" stop-color="#2e3192"/>
+    </radialGradient>
+    <linearGradient id="linear-gradient-34" x1="555.2129950888" y1="83.0153002466" x2="541.9462213789" y2="60.0365741284" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#231f20"/>
+      <stop offset=".2410619895" stop-color="#231f23"/>
+      <stop offset=".4219353047" stop-color="#24202c"/>
+      <stop offset=".5831258514" stop-color="#25233c"/>
+      <stop offset=".7329058142" stop-color="#272753"/>
+      <stop offset=".8734215347" stop-color="#2a2b70"/>
+      <stop offset="1" stop-color="#2e3192"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-35" x1="552.5034310446" y1="78.3219046327" x2="544.655806109" y2="64.7294195254" xlink:href="#linear-gradient-34"/>
+    <linearGradient id="linear-gradient-36" x1="457.3917255681" y1="76.5295109845" x2="457.3917255681" y2="74.8132368289" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6d6e71"/>
+      <stop offset=".2773796158" stop-color="#4e4d4f"/>
+      <stop offset=".5553633183" stop-color="#363335"/>
+      <stop offset=".8049297624" stop-color="#282425"/>
+      <stop offset="1" stop-color="#231f20"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-37" x1="457.401009947" y1="-1069.5983890155" x2="457.401009947" y2="-1071.9478114305" gradientTransform="translate(0 -1002.2875780309) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#414042"/>
+      <stop offset=".0299282927" stop-color="#484749"/>
+      <stop offset=".289549411" stop-color="#898889"/>
+      <stop offset=".5255294843" stop-color="#bbbbbc"/>
+      <stop offset=".730013619" stop-color="#e0e0e0"/>
+      <stop offset=".8950514656" stop-color="#f6f6f6"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <radialGradient id="radial-gradient-12" cx="456.0639761649" cy="71.9368109845" fx="456.0639761649" fy="71.9368109845" r="1.5202500206" gradientUnits="userSpaceOnUse">
+      <stop offset=".0107527" stop-color="#414042"/>
+      <stop offset=".4401286028" stop-color="#363436"/>
+      <stop offset="1" stop-color="#231f20"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-13" cx="463.0171761649" fx="463.0171761649" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-14" cx="469.6836761649" fx="469.6836761649" r="1.52" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-15" cx="476.1602261649" cy="71.9355609845" fx="476.1602261649" fy="71.9355609845" r="1.5201500033" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-16" cx="483.1123761649" cy="71.9355609845" fx="483.1123761649" fy="71.9355609845" r="1.5201250051" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-17" cx="490.3506261649" cy="71.9355609845" fx="490.3506261649" fy="71.9355609845" r="1.5201500033" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-18" cx="415.9692761649" fx="415.9692761649" r="1.5197500206" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-19" cx="422.9214761649" fx="422.9214761649" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-20" cx="429.5884261649" fx="429.5884261649" r="1.5202750249" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-21" cx="436.0639761649" cy="71.9355609845" fx="436.0639761649" fy="71.9355609845" r="1.5203750051" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-22" cx="443.0171761649" cy="71.9355609845" fx="443.0171761649" fy="71.9355609845" r="1.5203750051" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-23" cx="449.6836761649" cy="71.9355609845" fx="449.6836761649" fy="71.9355609845" r="1.5201250051" xlink:href="#radial-gradient-12"/>
+    <radialGradient id="radial-gradient-24" cx="497.5889261649" cy="71.9355609845" fx="497.5889261649" fy="71.9355609845" r="1.5201500033" xlink:href="#radial-gradient-12"/>
+  </defs>
+  <g class="adobeStockiPhoneFrame-43">
+    <g id="Layer_1" data-name="Layer 1">
+      <path class="adobeStockiPhoneFrame-56" d="m850.2417761649,134.7756109845c-.2871-66.0517-48.1651-81.6743-70.6387-85.3696-6.8984-1.1343-11.4033-1.145-11.4033-1.145H148.9360761649c-90.56,0-87.6284,92.3774-87.6284,92.3774v1467.8604c0,96.4228,83.7187,95.7724,83.7187,95.7724h617.6353c93.8184,0,87.5801-92.5136,87.5801-92.5136,0,0,.374-1390.6563,0-1476.982Z"/>
+      <path d="m898.4389761649,120.8391109845C881.4282761649-6.7409890155,752.1469761649.0632109845,752.1469761649.0632109845H160.4184761649S31.1372761649-6.7409890155,14.1260761649,120.8391109845c-17.0103,127.5791,0,1502.0357,0,1502.0357,0,0,3.4028,124.1777,130.9819,127.58h281.0322c.2949-.7441,1.1367-1.2851,2.1397-1.2851h55.9736c1.0039,0,1.8447.541,2.1387,1.2851h281.0654c127.5791-3.4023,130.9814-127.58,130.9814-127.58,0,0,17.0108-1374.4566,0-1502.0357Zm-135.7773,1583.4321H145.0263761649s-83.7187.6504-83.7187-95.7724V140.6384109845s-2.9316-92.3774,87.6284-92.3774h619.2637s4.5049.0107,11.4033,1.145c22.4736,3.6953,70.3516,19.3179,70.6387,85.3696.374,86.3257,0,1476.982,0,1476.982,0,0,6.2383,92.5136-87.5801,92.5136Z"/>
+      <path class="adobeStockiPhoneFrame-49" d="m894.6030761649,1609.4793109845s8.2705,122.6425-113.5361,136.1582v-10.1006s105.8281-2.9112,105.7002-126.0576h7.8359Z"/>
+      <path class="adobeStockiPhoneFrame-55" d="m17.6728761649,1609.9763109845s-8.2715,122.6406,113.5357,136.1582v-10.1015s-105.8282-2.9102-105.6997-126.0567h-7.836Z"/>
+      <path class="adobeStockiPhoneFrame-27" d="m449.9136761649,27.8445109845H153.9785761649s-60.9819-.0493-88.7119,37.29l23.4541-33.186s32.5024-15.7105,65.8247-15.8687l295.3682-.3535v-.0146l4.623.0053h.4785l2.7637-.0019v.0068l295.3711.356c49.834.3564,63.5156,13.2065,63.5156,13.2065l26.4258,35.8501c-29.2354-40.0678-89.376-37.29-89.376-37.29h-303.8017Z"/>
+      <polygon class="adobeStockiPhoneFrame-20" points="761.6382761649 28.0208109845 829.0971761649 27.9417109845 849.9175761649 73.1560109845 802.0307761649 38.6926109845 761.6382761649 28.0208109845"/>
+      <polygon class="adobeStockiPhoneFrame-2" points="122.7285761649 28.3362109845 80.0649761649 30.3186109845 35.2822761649 78.4719109845 145.5981761649 28.3953109845 122.7285761649 28.3362109845"/>
+      <path class="adobeStockiPhoneFrame-57" d="m829.5210761649,1722.3337109845s-14.6026,14.0323-55.4287,16.2999H138.4389761649c-40.8252-2.2676-55.4267-16.2999-55.4267-16.2999-18.7134,0-27.2178-9.6416-27.2178-9.6416,23.2676,26.6045,75.4141,33.4424,75.4141,33.4424l316.707.4375v-.0254h16.7031v.0254l316.7071-.4375s52.1464-6.8379,75.413-33.4424c0,0-8.5068,9.6416-27.2177,9.6416Z"/>
+      <path class="adobeStockiPhoneFrame-42" d="m460.6811761649,1742.6863109845H150.6416761649s-68.3228-1.4424-94.8472-29.9942c0,0,8.5068,9.6416,27.2178,9.6416,0,0,29.0727,10.1475,69.897,12.4151h617.2465c42.5274-2.2676,59.3653-12.4151,59.3653-12.4151,18.7109,0,26.8213-8.9902,26.8213-8.9902-27.458,29.3428-83.919,29.3428-83.919,29.3428h-311.7422Z"/>
+      <path class="adobeStockiPhoneFrame-41" d="m894.7475761649,144.4973109845s3.0274-127.5078-113.5371-136.1582v10.1006s105.8301,2.9116,105.7002,126.0576h7.8369Z"/>
+      <path class="adobeStockiPhoneFrame-45" d="m17.8178761649,144.0007109845S13.0141761649,19.0364109845,131.3535761649,7.8430109845v10.1006s-105.8286,2.9111-105.6997,126.0571h-7.836Z"/>
+      <path class="adobeStockiPhoneFrame-25" d="m829.6655761649,31.6438109845s-14.6016-14.0332-55.4277-16.2998H138.5835761649c-40.8247,2.2666-55.4263,16.2998-55.4263,16.2998-18.7134,0-27.2178,9.6416-27.2178,9.6416C79.2060761649,14.6804109845,131.3535761649,7.8430109845,131.3535761649,7.8430109845l316.7056-.4385v.0259h16.7041v-.0259l316.707.4385s52.1465,6.8374,75.4121,33.4424c0,0-8.5059-9.6416-27.2168-9.6416Z"/>
+      <path class="adobeStockiPhoneFrame-39" d="m460.8266761649,11.2908109845H150.7856761649s-68.3218,1.4419-94.8462,29.9946c0,0,8.5064-9.6416,27.2178-9.6416,0,0,29.0723-10.147,69.896-12.4141h617.2471c42.5263,2.2671,59.3652,12.4141,59.3652,12.4141,18.9199.8691,26.8223,9.1953,26.8223,9.1953-26.8223-30.3262-83.92-29.5483-83.92-29.5483h-311.7412Z"/>
+      <path class="adobeStockiPhoneFrame-64" d="m454.2563761649,6.3064109845H144.2163761649s-52.9165,2.4448-82.2188,29.3438c0,0,4.6026-4.7095,23.3145-4.7095,0,0,20.3467-14.4273,61.1719-16.6944h617.247c46.6875,2.8379,64.9541,16.8672,64.9541,16.8672,18.9961,1.0191,21.9473,4.1617,21.9473,4.1617-33.8545-29.3443-84.6348-28.9688-84.6348-28.9688h-311.7412Z"/>
+      <g>
+        <path class="adobeStockiPhoneFrame-29" d="m915.6421761649,616.2439109845c0,1.3525-.3174,2.6357-1.2325,2.8877l-7.4316,2.2598c-.8281,0-1.5019-1.0957-1.5019-2.4473v-190.1973c0-1.3515.6738-2.4472,1.5019-2.4472l7.7402,2.4472c.9629.4717.9239,3.1368.9239,4.4893v183.0078Z"/>
+        <path class="adobeStockiPhoneFrame-7" d="m915.6421761649,616.2439109845c0,1.3525-.3174,2.6357-1.2325,2.8877l-7.4316,2.2598c-.8281,0-1.5019-1.0957-1.5019-2.4473v-190.1973c0-1.3515.6738-2.4472,1.5019-2.4472l7.7402,2.4472c.9629.4717.9239,3.1368.9239,4.4893v183.0078Z"/>
+        <path class="adobeStockiPhoneFrame-15" d="m915.6421761649,616.2439109845c0,1.3525-.3174,2.6357-1.2325,2.8877l-7.4316,2.2598c-.8281,0-1.5019-1.0957-1.5019-2.4473v-190.1973c0-1.3515.6738-2.4472,1.5019-2.4472l7.7402,2.4472c.9629.4717.9239,3.1368.9239,4.4893v183.0078Z"/>
+        <path class="adobeStockiPhoneFrame-10" d="m912.0581761649,442.4949109845l3.584-.4707v-8.7881s.3984-4.1348-1.2285-4.585c-1.4766-.4072-7.4356-2.3515-7.4356-2.3515,0,0-1.3779.0459-1.4971,2.2597-.1181,2.2129,0,13.5821,0,13.5821l6.5772.3535Z"/>
+        <path class="adobeStockiPhoneFrame-1" d="m912.0610761649,605.1970109845l3.584.4698v8.788s.4209,4.4424-1.1904,4.6631c-1.4971.2071-7.4737,2.2735-7.4737,2.2735,0,0-1.3779-.0459-1.497-2.2588-.1192-2.2139,0-13.583,0-13.583l6.5771-.3526Z"/>
+      </g>
+      <g>
+        <path class="adobeStockiPhoneFrame-29" d="m.0512761649,500.3425109845c0,.8057.231,1.5713.8985,1.7207l5.4223,1.3477c.6055,0,1.0953-.6533,1.0953-1.459v-113.3955c0-.8057-.4898-1.458-1.0953-1.458l-5.6474,1.458c-.7027.2813-.6734,1.8701-.6734,2.6768v109.1093Z"/>
+        <path class="adobeStockiPhoneFrame-18" d="m.0512761649,500.3425109845c0,.8057.231,1.5713.8985,1.7207l5.4223,1.3477c.6055,0,1.0953-.6533,1.0953-1.459v-113.3955c0-.8057-.4898-1.458-1.0953-1.458l-5.6474,1.458c-.7027.2813-.6734,1.8701-.6734,2.6768v109.1093Z"/>
+        <path class="adobeStockiPhoneFrame-17" d="m.0512761649,500.3425109845c0,.8057.231,1.5713.8985,1.7207l5.4223,1.3477c.6055,0,1.0953-.6533,1.0953-1.459v-113.3955c0-.8057-.4898-1.458-1.0953-1.458l-5.6474,1.458c-.7027.2813-.6734,1.8701-.6734,2.6768v109.1093Z"/>
+        <path class="adobeStockiPhoneFrame-22" d="m2.6660761649,396.7527109845l-2.6148-.2813v-5.2382s-.2915-2.4659.8951-2.7334c1.0766-.2432,5.4257-1.4014,5.4257-1.4014,0,0,1.0054.0264,1.0918,1.3467.0874,1.3193,0,8.0967,0,8.0967l-4.7978.2109Z"/>
+        <path class="adobeStockiPhoneFrame-13" d="m2.6636761649,493.7566109845l-2.6148.2793v5.2393s-.3071,2.6484.8682,2.7802c1.0923.1231,5.4531,1.3555,5.4531,1.3555,0,0,1.0059-.0273,1.0923-1.3467.0864-1.3203,0-8.0986,0-8.0986l-4.7988-.209Z"/>
+      </g>
+      <g>
+        <path class="adobeStockiPhoneFrame-29" d="m2.5073761649,332.7542109845c0,.4487.2002.875.7749.9585l4.6699.7514c.522,0,.9439-.3647.9439-.8139v-63.1797c0-.4488-.4219-.813-.9439-.813l-4.8642.813c-.605.1562-.5806,1.042-.5806,1.4912v60.7925Z"/>
+        <path class="adobeStockiPhoneFrame-21" d="m2.5073761649,332.7542109845c0,.4487.2002.875.7749.9585l4.6699.7514c.522,0,.9439-.3647.9439-.8139v-63.1797c0-.4488-.4219-.813-.9439-.813l-4.8642.813c-.605.1562-.5806,1.042-.5806,1.4912v60.7925Z"/>
+        <path class="adobeStockiPhoneFrame-6" d="m2.5073761649,332.7542109845c0,.4487.2002.875.7749.9585l4.6699.7514c.522,0,.9439-.3647.9439-.8139v-63.1797c0-.4488-.4219-.813-.9439-.813l-4.8642.813c-.605.1562-.5806,1.042-.5806,1.4912v60.7925Z"/>
+        <path class="adobeStockiPhoneFrame-5" d="m4.7602761649,275.0374109845l-2.2529-.1568v-2.9189s-.2505-1.374.7715-1.523c.9287-.1357,4.6733-.7812,4.6733-.7812,0,0,.8667.0151.9409.7505.0747.7358,0,4.5117,0,4.5117l-4.1328.1177Z"/>
+        <path class="adobeStockiPhoneFrame-19" d="m4.7588761649,329.0847109845l-2.2525.1563v2.9184s-.2646,1.4751.7481,1.5489c.9404.0683,4.6963.7558,4.6963.7558,0,0,.8667-.0156.9409-.7514.0747-.7349,0-4.5108,0-4.5108l-4.1328-.1172Z"/>
+      </g>
+      <g>
+        <path class="adobeStockiPhoneFrame-29" d="m.0381761649,656.0408109845c0,.8076.2319,1.5713.9013,1.7217l5.4341,1.3476c.6074,0,1.0986-.6543,1.0986-1.4599v-113.3956c0-.8046-.4912-1.458-1.0986-1.458l-5.6601,1.458c-.7037.2813-.6753,1.8711-.6753,2.6768v109.1094Z"/>
+        <path class="adobeStockiPhoneFrame-8" d="m.0381761649,656.0408109845c0,.8076.2319,1.5713.9013,1.7217l5.4341,1.3476c.6074,0,1.0986-.6543,1.0986-1.4599v-113.3956c0-.8046-.4912-1.458-1.0986-1.458l-5.6601,1.458c-.7037.2813-.6753,1.8711-.6753,2.6768v109.1094Z"/>
+        <path class="adobeStockiPhoneFrame-9" d="m.0381761649,656.0408109845c0,.8076.2319,1.5713.9013,1.7217l5.4341,1.3476c.6074,0,1.0986-.6543,1.0986-1.4599v-113.3956c0-.8046-.4912-1.458-1.0986-1.458l-5.6601,1.458c-.7037.2813-.6753,1.8711-.6753,2.6768v109.1094Z"/>
+        <path class="adobeStockiPhoneFrame-23" d="m2.6592761649,552.4519109845l-2.6211-.2812v-5.2393s-.2915-2.4658.8979-2.7334c1.0791-.2432,5.4375-1.4014,5.4375-1.4014,0,0,1.0083.0264,1.0947,1.3467.0874,1.3194,0,8.0977,0,8.0977l-4.809.2109Z"/>
+        <path class="adobeStockiPhoneFrame-24" d="m2.6572761649,649.4548109845l-2.6211.2803v5.2383s-.3076,2.6484.8711,2.7812c1.0938.1221,5.4644,1.3555,5.4644,1.3555,0,0,1.0083-.0273,1.0947-1.3476.0869-1.3184,0-8.0977,0-8.0977l-4.8091-.21Z"/>
+      </g>
+      <g>
+        <path class="adobeStockiPhoneFrame-40" d="m70.1225761649,40.4231109845s-27.8154,18.9922-39.5166,70.1816c-5.894,22.8023-4.9521,33.396-4.9521,33.396l-.145,1465.9756c3.0449,60.9287,21.125,84.1074,37.0063,97.4405.0049.0048,0,0,0,0,0,0-44.5635-25.4356-45.4985-101.1329V137.4182109845s3.6157-78.5722,53.1059-96.9951Z"/>
+        <path class="adobeStockiPhoneFrame-33" d="m26.3589761649,139.1189109845c.8027-10.4775,2.2905-19.9551,4.247-28.5142,7.7251-29.8862,21.4829-68.4628,55.1827-79.9838,0,0-40.2476,28.7788-49.0625,123.1142-6.7442,72.1616,0,1438.9902,0,1438.9902,0,0,10.478,90.6094,57.0493,115.752,0,0,7.143,3.0361-2.7144,1.75-67.1929-9.7139-64.7021-110.749-64.7021-110.749,0,0-5.6045-1387.2144,0-1460.3594Z"/>
+      </g>
+      <path class="adobeStockiPhoneFrame-59" d="m95.2685761649,44.3704109845s-50.1919,14.4282-50.1919,98.4873v1470.6557s3.7466,65.1426,46.9278,94.8526c0,0,3.3423,1.5761-2.229.7529,0,0-51.6094-2.207-57.4429-93.5107-4.5059-70.5098-.3745-1450.814-.3745-1450.814,0,0-6.1826-94.1382,50.1548-123.4966,0,0,49.2407-15.0093,13.1557,3.0728Z"/>
+      <g>
+        <path class="adobeStockiPhoneFrame-62" d="m829.1323761649,32.9353109845s37.2529,22.7266,51.8252,84.6445c5.3965,22.9248,4.9531,33.396,4.9531,33.396l.1436,1465.9742c-3.044,60.9296-21.1231,84.1074-37.0059,97.4414-.0049.0039,0,0,0,0,0,0,44.5635-25.4356,45.4981-101.1328V144.3928109845s-12.2559-100.5405-65.4141-111.4575Z"/>
+        <path class="adobeStockiPhoneFrame-32" d="m885.2055761649,146.0935109845c-.8027-10.477-2.2919-19.9551-4.248-28.5137-7.7256-29.8867-18.125-73.1235-51.8252-84.6445,0,0,36.8906,33.4395,45.7051,127.7749,6.7441,72.1611,0,1438.9898,0,1438.9898,0,0-10.4785,90.6093-57.0488,115.7519,0,0-7.1436,3.0352,2.7138,1.75,67.1944-9.7148,64.7031-110.748,64.7031-110.748,0,0,5.6045-1387.2154,0-1460.3604Z"/>
+      </g>
+      <path class="adobeStockiPhoneFrame-51" d="m816.8276761649,50.0530109845s50.1934,14.4287,50.1934,98.4883v1470.6548s-3.7481,65.1425-46.9287,94.8525c0,0-3.3428,1.5762,2.2295.7539,0,0,51.6093-2.207,57.4433-93.5117,4.5049-70.5098.374-1450.813.374-1450.813,0,0,6.1827-94.1387-50.1552-123.4966,0,0-49.2403-15.0093-13.1563,3.0718Z"/>
+      <path class="adobeStockiPhoneFrame-14" d="m149.5967761649,28.3362109845h612.6762s-17.331-8.4995-38.2724-8.8233c-20.9405-.3237-529.0757,0-529.0757,0,0,0-30.2691,2.4244-45.3281,8.8233Z"/>
+      <g>
+        <path class="adobeStockiPhoneFrame-36" d="m454.4253761649,1719.1863109845H158.4897761649s-60.9829.0547-88.7134-40.9805l23.4546,36.4717s32.502,17.2646,65.8257,17.4385l295.3687.3896v.0147l4.6211-.0069h.4804l2.7627.0039v-.0078l295.3721-.3906c49.832-.3926,63.5146-14.5137,63.5146-14.5137l26.4268-39.3994c-29.2373,44.0342-89.3769,40.9805-89.3769,40.9805h-303.8008Z"/>
+        <polygon class="adobeStockiPhoneFrame-12" points="768.0639761649 1718.6794109845 821.7876761649 1721.8816109845 856.3423761649 1669.0759109845 808.4565761649 1706.9509109845 768.0639761649 1718.6794109845"/>
+        <polygon class="adobeStockiPhoneFrame-4" points="151.5678761649 1719.0369109845 96.0010761649 1721.5242109845 63.2886761649 1669.4343109845 111.1762761649 1707.3084109845 151.5678761649 1719.0369109845"/>
+      </g>
+      <g>
+        <path class="adobeStockiPhoneFrame-35" d="m449.0210761649,30.6213109845H153.0854761649s-60.9824-.0546-88.7129,40.9805l23.4541-36.4717s32.502-17.2646,65.8252-17.4384l295.3692-.3897v-.0146l4.6211.0068h.4804l2.7627-.0039v.0078l295.3721.3906c49.832.3926,63.5146,14.5137,63.5146,14.5137l26.4268,39.3994c-29.2373-44.0342-89.3769-40.9805-89.3769-40.9805h-303.8008Z"/>
+        <polygon class="adobeStockiPhoneFrame-3" points="762.6596761649 31.1282109845 816.3833761649 27.9260109845 850.9380761649 80.7317109845 803.0522761649 42.8567109845 762.6596761649 31.1282109845"/>
+        <polygon class="adobeStockiPhoneFrame-16" points="146.1636761649 30.7708109845 90.5971761649 28.2835109845 57.8843761649 80.3733109845 105.7719761649 42.4993109845 146.1636761649 30.7708109845"/>
+      </g>
+      <path d="m710.0180761649,35.0261109845h-22.0712l-20.8497-.0337H245.6386761649l-27.5488.105-19.2856-.3628s10.8188,12.7134,29.2441,12.7378,17.5903,16.6148,17.5903,16.6148h0v12.0029s-3.2641,34.0674,39.1744,41.0976h344.6191s31.3877-2.0927,37.665-38.7119v-14.6357h0s-.9335-16.2227,17.4913-16.2471c18.4257-.0244,25.4296-12.5669,25.4296-12.5669Z"/>
+      <g>
+        <path class="adobeStockiPhoneFrame-31" d="m561.9087761649,71.9368109845c0-7.3618-5.9668-13.3291-13.3291-13.3291s-13.3282,5.9673-13.3282,13.3291c0,7.3613,5.9659,13.3286,13.3282,13.3286s13.3291-5.9673,13.3291-13.3286Z"/>
+        <path class="adobeStockiPhoneFrame-26" d="m506.8559761649,71.9368109845c0,2.5537-2.1172,4.6245-4.7246,4.6245h-89.291c-2.6123,0-4.7305-2.0708-4.7305-4.6245h0c0-2.5547,2.1182-4.626,4.7305-4.626h89.291c2.6074,0,4.7246,2.0713,4.7246,4.626h0Z"/>
+        <path class="adobeStockiPhoneFrame-30" d="m556.4692761649,71.9368109845c0,4.3559-3.5312,7.8886-7.8896,7.8886-4.3575,0-7.8887-3.5327-7.8887-7.8886,0-4.3574,3.5312-7.8892,7.8887-7.8892,4.3584,0,7.8896,3.5318,7.8896,7.8892Z"/>
+      </g>
+      <path class="adobeStockiPhoneFrame-48" d="m561.8442761649,71.5261109845c0,7.3257-5.9385,13.2642-13.2646,13.2642-7.3262,0-13.2647-5.9385-13.2647-13.2642,0-7.3261,5.9385-13.2646,13.2647-13.2646,7.3261,0,13.2646,5.9385,13.2646,13.2646Z"/>
+      <path class="adobeStockiPhoneFrame-28" d="m556.4253761649,71.5261109845c0,4.333-3.5117,7.8457-7.8457,7.8457s-7.8457-3.5127-7.8457-7.8457c0-4.334,3.5117-7.8467,7.8457-7.8467s7.8457,3.5127,7.8457,7.8467Z"/>
+      <path class="adobeStockiPhoneFrame-54" d="m505.4780761649,75.2000109845c0-.4541-2.3281-.3169-2.7822-.3169l-93.0352.1318c-.4531,0-.3437-.4541-.3437.0005l.7343.6557c1.2168.6407,2.5977.8584,3.0518.8584h89.5928c.4541,0,1.0371-.2534,1.6982-.5336l1.084-.7959Z"/>
+      <path class="adobeStockiPhoneFrame-11" d="m505.8735761649,69.1140109845c-.6406.5459-3.0996.4507-3.5537.4507l-93.0342-.1807c-.4551,0-.3457.6221-.3457-.0009l.7363-.898c1.2159-.8765,2.5967-1.1743,3.0508-1.1743h89.5928c.4541,0,1.3301.2637,2.1963.6328l1.3574,1.1704Z"/>
+      <circle class="adobeStockiPhoneFrame-47" cx="456.0639761649" cy="71.9368109845" r="1.52025"/>
+      <circle class="adobeStockiPhoneFrame-50" cx="463.0171761649" cy="71.9368109845" r="1.52025"/>
+      <path class="adobeStockiPhoneFrame-60" d="m471.2036761649,71.9368109845c0,.8393-.6797,1.52-1.5205,1.52-.8389,0-1.5195-.6807-1.5195-1.52,0-.8394.6806-1.52,1.5195-1.52.8408,0,1.5205.6806,1.5205,1.52Z"/>
+      <path class="adobeStockiPhoneFrame-53" d="m477.6802761649,71.9358109845c0,.8398-.6807,1.52-1.5206,1.52-.8388,0-1.5195-.6802-1.5195-1.52,0-.8394.6807-1.5205,1.5195-1.5205.8399,0,1.5206.6811,1.5206,1.5205Z"/>
+      <path class="adobeStockiPhoneFrame-34" d="m484.6323761649,71.9358109845c0,.8398-.6797,1.52-1.5205,1.52-.8389,0-1.5195-.6802-1.5195-1.52,0-.8394.6806-1.5205,1.5195-1.5205.8408,0,1.5205.6811,1.5205,1.5205Z"/>
+      <path class="adobeStockiPhoneFrame-58" d="m491.8706761649,71.9358109845c0,.8398-.6807,1.52-1.5195,1.52-.8399,0-1.5206-.6802-1.5206-1.52,0-.8394.6807-1.5205,1.5206-1.5205.8388,0,1.5195.6811,1.5195,1.5205Z"/>
+      <circle class="adobeStockiPhoneFrame-63" cx="415.9692761649" cy="71.9368109845" r="1.51975"/>
+      <circle class="adobeStockiPhoneFrame-46" cx="422.9214761649" cy="71.9368109845" r="1.52025"/>
+      <path class="adobeStockiPhoneFrame-37" d="m431.1089761649,71.9368109845c0,.8393-.6807,1.52-1.5205,1.52-.8389,0-1.5206-.6807-1.5206-1.52,0-.8399.6817-1.52,1.5206-1.52.8398,0,1.5205.6801,1.5205,1.52Z"/>
+      <path class="adobeStockiPhoneFrame-38" d="m437.5844761649,71.9358109845c0,.8389-.6796,1.52-1.5205,1.52-.8388,0-1.5205-.6811-1.5205-1.52,0-.8394.6817-1.5205,1.5205-1.5205.8409,0,1.5205.6811,1.5205,1.5205Z"/>
+      <path class="adobeStockiPhoneFrame-44" d="m444.5376761649,71.9358109845c0,.8389-.6817,1.52-1.5205,1.52-.8389,0-1.5205-.6811-1.5205-1.52,0-.8394.6816-1.5205,1.5205-1.5205.8388,0,1.5205.6811,1.5205,1.5205Z"/>
+      <path class="adobeStockiPhoneFrame-61" d="m451.2036761649,71.9358109845c0,.8389-.6797,1.52-1.5195,1.52-.8399,0-1.5205-.6811-1.5205-1.52,0-.8394.6806-1.5205,1.5205-1.5205.8398,0,1.5195.6811,1.5195,1.5205Z"/>
+      <path class="adobeStockiPhoneFrame-52" d="m499.1089761649,71.9358109845c0,.8389-.6797,1.52-1.5205,1.52-.8389,0-1.5196-.6811-1.5196-1.52,0-.8394.6807-1.5205,1.5196-1.5205.8408,0,1.5205.6811,1.5205,1.5205Z"/>
+    </g>
+  </g>
+</svg>

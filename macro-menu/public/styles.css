@@ -1,3 +1,29 @@
+/* Color Definitions: */
+:root{
+  --brandColorPrimary:#bc6bab;
+  --brandColorSecondary:#52424E;
+  --offWhite:#fcf7fc;
+  --offBlack:#342b32;
+  --bootStrapCardBorderColor:rgba(0, 0, 0, .125);
+  --bootStrapCardBGColor: rgba(0, 0, 0, .03);
+}
+:root{
+  --bootStrapCardBorder:1px solid var(--bootStrapCardBorderColor);
+  --dominantColor:white;
+  --secondaryColor:var(--brandColorPrimary);
+  --textAndDarkColor:var(--brandColorSecondary);
+  --accentColor:#EC759D;
+}
+:root{
+  --scrnShtAnnttnShapeColor:var(--accentColor);
+}
+header,main,footer {
+  color:var(--textAndDarkColor);
+  
+}
+body{
+  background-color: var(--offWhite) !important;
+}
 .inputRowWRightIcons {
 }
 .wmpNameFrmGroup{
@@ -20,7 +46,12 @@ button.iconBttn {
   padding: unset;
   border-style: none;
 }
-.btn-primary {
+.btn-primary,div.bg-primary {
+  
+  background-color: var(--secondaryColor) !important;
+  border-color: var(--textAndDarkColor) !important;
+}
+.btn-primary{
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -492,9 +523,20 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
   .mealMacTable {
     margin-left: -30px !important;
   }
+  nav div,nav span,nav button{
+    background-color: var(--offBlack) ;
+    color:var(--offWhite)
+  }
+  nav path{
+    color:var(--offWhite)
+  }
   nav.navbar {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
+    /* background: rgb(188, 107, 171);
+      background: linear-gradient(0deg, rgba(188, 107, 171, 1) 0%, rgba(202, 138, 188, 1) 3%, rgba(222, 181, 213, 1) 10%, rgba(240, 222, 236, 1) 20%, rgba(249, 242, 248, 1) 39%, rgba(255, 255, 255, 1) 57%, rgba(255, 255, 255, 1) 67%); */
+    background-color: var(--offBlack) !important;
+    border-bottom-color: var(--bootStrapCardBorderColor);
   }
   .profileDDBttn{
     padding:0 0 0 0.5rem !important;
@@ -1195,7 +1237,7 @@ div.emptyPlaceholder span{
   margin-left: 0.5rem;
 }
 a {
-  color:unset;
+  color:unset !important;
 }
 .shopListThRow{
   height:5rem;
@@ -1256,18 +1298,25 @@ a {
 .primaryColorText{
   color:#bc6bab
 }
-.homeWMPsLink{
+.homeWMPsLinkCont, .homeWMPsLinkCont a {
   width:100%;
+  height:fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1rem 0;
+  margin:1rem 0 0 0;
+}
+a.homeWMPsLink{
+  width:fit-content;
+  margin: 1rem;
   text-decoration: none;
+  border-radius: 2.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accentColor);
+    color:var(--offWhite) !important;
+    
 }
 .homeWMPsLink span{
-  
-  color:grey;
-  
 }
 .biggerIcon{
   font-size: 1.5rem;
@@ -1296,4 +1345,59 @@ footer{
 }
 footer p{
   margin:1rem !important;
+}
+.bigHomeStockPic{
+  max-width: 800px;
+}
+.logoFork,.logoHalo{
+  fill:var(--brandColorPrimary);
+}
+.logoOuterRing{
+  stroke: var(--brandColorPrimary);
+}
+.hwChwLgCrssItemsWWhiteFill{
+  fill:var(--offWhite);
+}
+.hwChwLgCrssItemsWGreyStroke {
+  stroke: #7e8082;
+}
+.hwChwLgCrssItemsWGreyFill{
+  fill: #7e8082;
+}
+.hwChwLgCrssItmsWPrmryClrFill{
+  fill: var(--brandColorPrimary);
+}
+.hwChwLgCrssItmsWPrmryClrStroke {
+  stroke: var(--brandColorPrimary);
+}
+.hwChwLgCrssItmsWShadow{
+  mix-blend-mode: darken;
+  opacity: .65;
+}
+.screenshotFrame {
+  border-image-source: url("adobeStockiPhoneFrame.svg");
+  border-style: solid;
+  border-width: 3rem;
+  border-image-slice: 6.7% 12% 5%;
+  width: 22rem;
+  height: 44.2rem;
+  margin: -1.2rem -1rem -0.75rem -1rem;
+}
+.screenshot{
+  background-size: 18.5rem 41rem;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-color: currentColor;
+  border-radius: 3rem;
+  margin: 1rem;
+}
+.svg-inline--fa{
+  color:var(--textAndDarkColor) !important;
+}
+.screenshotAnnotation{
+  border-style: solid;
+  border-color: var(--scrnShtAnnttnShapeColor);
+  border-width: 0.25rem;
+  position: absolute;
+  border-radius: 0.5rem;
 }
