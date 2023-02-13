@@ -5,6 +5,8 @@ import axios from "axios";
 import { Avatar } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
+import HowChowHaloForkAltColor from "./HowChowHaloForkAltColor.component";
+import HowChowHaloFrkAltClrInvrtd from "./HowChowHaloFrkAltClrInvrtd.component";
 
 class Navbar extends Component {
   state = {
@@ -58,9 +60,11 @@ class Navbar extends Component {
     const jwt = this.state.jwt;
     return (
       <nav className="navbar ps-4 pe-2">
-        <div>
+        <div className="navbarBrandCont">
           <Link to={"/"}>
-            <FontAwesomeIcon icon="fa-solid fa-house" className="biggerIcon" />
+            {/* <HowChowHaloForkAltColor /> */}
+            <HowChowHaloFrkAltClrInvrtd />
+            {/* <FontAwesomeIcon icon="fa-solid fa-house" className="biggerIcon" /> */}
           </Link>
           <Link
             // to={

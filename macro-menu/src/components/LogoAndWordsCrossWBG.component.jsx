@@ -1,7 +1,7 @@
 import React from "react";
 const LogoAndWordsCrossWBG = () => {
   return (
-    <svg class="bigHomeStockPic" viewBox="0 0 1735.6508861023 1324">
+    <svg class="logoWWordsCrossBigHome" viewBox="0 0 1735.6508861023 1324">
       <defs>
         <style>{`
       .hwChwLgCrssImgIntrnlCss-cls-1, .hwChwLgCrssImgIntrnlCss-cls-3, .hwChwLgCrssImgIntrnlCss-cls-4, .hwChwLgCrssImgIntrnlCss-cls-5, .hwChwLgCrssImgIntrnlCss-cls-6, .hwChwLgCrssImgIntrnlCss-cls-10, .hwChwLgCrssImgIntrnlCss-cls-11, .hwChwLgCrssImgIntrnlCss-cls-7, .hwChwLgCrssImgIntrnlCss-cls-12, .hwChwLgCrssImgIntrnlCss-cls-13, .hwChwLgCrssImgIntrnlCss-cls-8, .hwChwLgCrssImgIntrnlCss-cls-15, .hwChwLgCrssImgIntrnlCss-cls-16, .hwChwLgCrssImgIntrnlCss-cls-9 {

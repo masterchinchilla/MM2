@@ -1,18 +1,24 @@
 /* Color Definitions: */
+/* pink colors: */
+/* --brandColorPrimary:#bc6bab; */
+/* --brandColorSecondary:#52424E;
+--offWhite:#fcf7fc;
+--offBlack:#342b32; */
+/* --accentColor:#EC759D; */
 :root{
-  --brandColorPrimary:#bc6bab;
-  --brandColorSecondary:#52424E;
-  --offWhite:#fcf7fc;
-  --offBlack:#342b32;
+  --brandColorPrimary: #399d15;
+  --brandColorSecondary:#005B6F;
+  --offWhite:#fefffd;
+  --offBlack:#222322;
   --bootStrapCardBorderColor:rgba(0, 0, 0, .125);
   --bootStrapCardBGColor: rgba(0, 0, 0, .03);
 }
 :root{
   --bootStrapCardBorder:1px solid var(--bootStrapCardBorderColor);
-  --dominantColor:white;
+  --dominantColor:var(--offWhite);
   --secondaryColor:var(--brandColorPrimary);
   --textAndDarkColor:var(--brandColorSecondary);
-  --accentColor:#EC759D;
+  --accentColor:#ff743b;
 }
 :root{
   --scrnShtAnnttnShapeColor:var(--accentColor);
@@ -47,8 +53,7 @@ button.iconBttn {
   border-style: none;
 }
 .btn-primary,div.bg-primary {
-  
-  background-color: var(--secondaryColor) !important;
+  background-color: var(--textAndDarkColor) !important;
   border-color: var(--textAndDarkColor) !important;
 }
 .btn-primary{
@@ -608,6 +613,9 @@ div.gnRcpIngrdntFrmHdr, div.ingrdntFrmHdr {
     justify-content: flex-start;
     margin-left: 1rem;
   }
+    .bigHomeStockPic {
+      max-width: 800px;
+    }
 }
 .mlIngrdntsCntnr{
   display: flex;
@@ -765,6 +773,11 @@ form fieldset{
 }
 .navbar-nav{
   display: flex;
+}
+.navbarBrandCont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .navUserLi{
       display: flex;
@@ -1293,7 +1306,7 @@ a {
   rotate: -90;
 }
 .logoWWordsCrossBigHome{
-  max-width:40rem;
+  max-width:95rem;
 }
 .primaryColorText{
   color:#bc6bab
@@ -1311,9 +1324,10 @@ a.homeWMPsLink{
   margin: 1rem;
   text-decoration: none;
   border-radius: 2.5rem;
-    padding: 0.5rem 1rem;
-    background-color: var(--accentColor);
-    color:var(--offWhite) !important;
+    padding: 0.25rem 1rem;
+    border: 3px solid var(--accentColor);
+    /* color:var(--offWhite) !important; */
+          font-size: 0.75rem;
     
 }
 .homeWMPsLink span{
@@ -1321,6 +1335,7 @@ a.homeWMPsLink{
 .biggerIcon{
   font-size: 1.5rem;
   margin-right: 0.75rem;
+  width:1.5rem;
 }
 .homePgScreenShot{
   height:450px;
@@ -1347,7 +1362,7 @@ footer p{
   margin:1rem !important;
 }
 .bigHomeStockPic{
-  max-width: 800px;
+  max-width: 90vw;
 }
 .logoFork,.logoHalo{
   fill:var(--brandColorPrimary);
@@ -1365,10 +1380,17 @@ footer p{
   fill: #7e8082;
 }
 .hwChwLgCrssItmsWPrmryClrFill{
-  fill: var(--brandColorPrimary);
+  fill: var(--accentColor);
 }
 .hwChwLgCrssItmsWPrmryClrStroke {
   stroke: var(--brandColorPrimary);
+}
+.hwChwLgCrssItmsWAccntClrFill,
+.accountingIcon,.adobeStockFatArrow{
+fill: var(--accentColor);
+}
+.hwChwLgCrssItmsWAccntClrStroke{
+stroke: var(--accentColor);
 }
 .hwChwLgCrssItmsWShadow{
   mix-blend-mode: darken;
@@ -1377,22 +1399,25 @@ footer p{
 .screenshotFrame {
   border-image-source: url("adobeStockiPhoneFrame.svg");
   border-style: solid;
-  border-width: 3rem;
+  border-width: 2.5rem;
   border-image-slice: 6.7% 12% 5%;
-  width: 22rem;
-  height: 44.2rem;
-  margin: -1.2rem -1rem -0.75rem -1rem;
+  width: 18rem;
+  height: 35.75rem;
+  margin: -1rem -1rem -0.75rem -1rem;
 }
 .screenshot{
-  background-size: 18.5rem 41rem;
+  background-size: 15.2rem 33rem;
   background-repeat: no-repeat;
   background-position: bottom;
   background-color: currentColor;
-  border-radius: 3rem;
+  border-radius: 2.25rem;
   margin: 1rem;
 }
 .svg-inline--fa{
   color:var(--textAndDarkColor) !important;
+}
+.nav-tabs .svg-inline--fa{
+  color: var(--accentColor) !important;
 }
 .screenshotAnnotation{
   border-style: solid;
@@ -1400,4 +1425,39 @@ footer p{
   border-width: 0.25rem;
   position: absolute;
   border-radius: 0.5rem;
+}
+.tagLineOverImg{
+  width:90vw;
+  height:auto;
+  display: flex;
+  justify-content: space-between;
+  color:var(--offWhite);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.tagLineOverImg div {
+  width:50%;
+  height:max-content;
+}
+.tagLineOverImg h1 {
+      width: 55%;
+        padding: 1rem 2rem 1rem 0;
+        font-size: 3rem;
+        font-weight: bold;
+        /* -webkit-text-stroke: 2px var(--offBlack); */
+        text-shadow: 2px 4px 8px var(--offBlack);
+        /* font-style: italic; */
+}
+.budgetVeggiesIllstrtn{
+  width:90vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.budgetVeggiesIllstrtn img,.budgetVeggiesIllstrtn svg{
+  max-width: 33%;
+}
+.adobeStockFatArrow{
+  width:3rem;
 }
