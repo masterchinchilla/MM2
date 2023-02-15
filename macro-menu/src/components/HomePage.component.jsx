@@ -57,19 +57,20 @@ const ShoppingListItem = (props) => {
         <section>
           <div
             className="tagLineOverImg"
-            style={{
-              backgroundImage: `url(${AdobeStockGreenPrdceCrateOnDrkGrnBG})`,
-            }}
+            // style={{
+            //   backgroundImage: `url(${AdobeStockGreenPrdceCrateOnDrkGrnBG})`,
+            // }}
           >
-            <div></div>
-            <h1>A better way to meal plan for macros.</h1>
+            <img
+              src={AdobeStockGreenPrdceCrateOnDrkGrnBG}
+              className="bigHomeStockPic"
+            />
+            <span>A better way to meal plan for macros.</span>
           </div>
-
-          {/* <img
-            src={AdobeStockGreenPrdceCrateOnDrkGrnBG}
-            className="bigHomeStockPic"
-          /> */}
-          <em>Budget your macros like you budget your money!</em>
+          <h1>
+            HowChow lets you budget your macros like you would budget your
+            money.
+          </h1>
           <div className="budgetVeggiesIllstrtn">
             <img src={AdobeStockVeggieHeart} />
             <svg viewBox="0 0 2247.6 1885.4" class="adobeStockFatArrow">
@@ -91,16 +92,12 @@ const ShoppingListItem = (props) => {
               </g>
             </svg>
           </div>
-          <p>
-            Build your meal plan to fit your macros budget - get the most out of
-            your meals.
-          </p>
+          {/* Build your meal plan to fit your macros budget - get the most out of
+          your meals. */}
           <figure className="figure card">
             <figcaption className="figure-caption">
-              Build your meal plan to fit your macros budget - get the most out
-              of your meals.
+              Start with a budget &#40;Cals, Carbs, Protein, Fat & Fiber&#41;
             </figcaption>
-
             <div
               className="screenshot"
               style={{
@@ -119,11 +116,30 @@ const ShoppingListItem = (props) => {
                 ></div>
               </div>
             </div>
-
-            {/* <img
-              className="homePgScreenShot figure-img"
-              src="https://lh3.googleusercontent.com/QjWTI_skEwRWHqQ7uQwTz9Ek6ybShJ34LUQgexZv1TpyGzDjXvOl1UUeyDlTukiVEaCTxUaF4n5-GydZ_vYrWAf7haE3n4LoCHfVDE6g94Nd5sf8QkTOUsk6sJZVK_JSfo2vaWjemQ=w2400"
-            /> */}
+          </figure>
+          <figure className="figure card">
+            <figcaption className="figure-caption">
+              Then watch your &quot;Current&quot; &amp; &quot;Remaining&quot;
+              change in real-time while you choose your Meals.
+            </figcaption>
+            <div
+              className="screenshot"
+              style={{
+                backgroundImage: `url(${HowChowWMPScreenTopScrnSht})`,
+              }}
+            >
+              <div className="screenshotFrame">
+                <div
+                  className="screenshotAnnotation"
+                  style={{
+                    width: "5.25rem",
+                    height: "3.65rem",
+                    top: "25rem",
+                    left: "5.25rem",
+                  }}
+                ></div>
+              </div>
+            </div>
           </figure>
           <figure className="figure card">
             <figcaption className="figure-caption">

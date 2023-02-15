@@ -1,7 +1,7 @@
 import React from "react";
 const LogoAndWordsCrossWBG = () => {
   return (
-    <svg class="logoWWordsCrossBigHome" viewBox="0 0 1735.6508861023 1324">
+    <svg className="logoWWordsCrossBigHome" viewBox="0 0 1735.6508861023 1324">
       <defs>
         <style>{`
       .hwChwLgCrssImgIntrnlCss-cls-1, .hwChwLgCrssImgIntrnlCss-cls-3, .hwChwLgCrssImgIntrnlCss-cls-4, .hwChwLgCrssImgIntrnlCss-cls-5, .hwChwLgCrssImgIntrnlCss-cls-6, .hwChwLgCrssImgIntrnlCss-cls-10, .hwChwLgCrssImgIntrnlCss-cls-11, .hwChwLgCrssImgIntrnlCss-cls-7, .hwChwLgCrssImgIntrnlCss-cls-12, .hwChwLgCrssImgIntrnlCss-cls-13, .hwChwLgCrssImgIntrnlCss-cls-8, .hwChwLgCrssImgIntrnlCss-cls-15, .hwChwLgCrssImgIntrnlCss-cls-16, .hwChwLgCrssImgIntrnlCss-cls-9 {
@@ -52,11 +52,11 @@ const LogoAndWordsCrossWBG = () => {
       }
     `}</style>
       </defs>
-      <g class="hwChwLgCrssImgIntrnlCss-cls-19">
+      <g className="hwChwLgCrssImgIntrnlCss-cls-19">
         <g id="backgroundIcons">
           <g id="downScaleIcon">
             <ellipse
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-15"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-15"
               cx="315.8593635894"
               cy="976.413170289"
               rx="58.2246199033"
@@ -65,7 +65,7 @@ const LogoAndWordsCrossWBG = () => {
             <g>
               <g>
                 <rect
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   x="202.6467496868"
                   y="994.8419665687"
                   width="120.5672857348"
@@ -74,19 +74,19 @@ const LogoAndWordsCrossWBG = () => {
                   ry="16.4233798494"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-7"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-7"
                   d="m241.4214293875,994.5538439478H89.0744203777c-11.5261898003,0-20.8700351219,9.3652276508-20.8700351219,20.9177938278v188.198347837c0,11.5526315702,9.3438453216,20.9177938278,20.8700351219,20.9177938278h213.2696451659c11.5261898003,0,20.869969878-9.3651622575,20.869969878-20.9177938278v-148.0126970511"
                 />
               </g>
               <line
-                class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-15"
+                className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-15"
                 x1="118.343111893"
                 y1="994.5538439478"
                 x2="118.343111893"
                 y2="1224.5877794403"
               />
               <line
-                class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-15"
+                className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-15"
                 x1="272.7312122559"
                 y1="1043.6973224915"
                 x2="272.7312122559"
@@ -94,35 +94,35 @@ const LogoAndWordsCrossWBG = () => {
               />
             </g>
             <rect
-              class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
+              className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
               x="150.991700367"
               y="994.8419665687"
               width="90.7078639277"
               height="60.8150604197"
             />
             <line
-              class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
+              className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
               x1="173.0557647964"
               y1="1024.9423447245"
               x2="189.6038457403"
               y2="1024.9423447245"
             />
             <line
-              class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
+              className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
               x1="204.3132220266"
               y1="1024.9423447245"
               x2="220.8613029706"
               y2="1024.9423447245"
             />
             <ellipse
-              class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
+              className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-1"
               cx="315.8593635894"
               cy="976.413170289"
               rx="58.2246199033"
               ry="58.3579093802"
             />
             <polyline
-              class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-7"
+              className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-7"
               points="307.2789212741 937.0983612967 307.2789212741 983.7846888009 288.736006929 983.7846888009 316.4722605003 1011.5844673366 344.208555977 983.7846888009 326.2785431845 983.7846888009 326.2785431845 937.0983612967"
             />
           </g>
@@ -130,7 +130,7 @@ const LogoAndWordsCrossWBG = () => {
             <g>
               <g>
                 <rect
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   x="74.660735568"
                   y="89.401347589"
                   width="211.3154946603"
@@ -139,24 +139,24 @@ const LogoAndWordsCrossWBG = () => {
                   ry="16.4233798494"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m223.7100347698,91.4901398841h-105.0776282393m2.5306552279,0h-37.0120854608c-5.2413445193,0-9.4902407296,4.418893779-9.4902407296,9.8699269245v254.6439573242c0,5.450967592,4.2488962103,9.8699269245,9.4902407296,9.8699269245h192.3350919734c5.2412656396,0,9.4901619573-4.4189593325,9.4901619573-9.8699269245v-151.0382731524m-18.8410871366,134.5884167961c0,5.2693189299-4.1071382762,9.5409140646-9.1738694485,9.5409140646H102.6757078939c-5.0666051092,0-9.1738694485-4.2715951346-9.1738694485-9.5409140646V117.809923165c0-5.2692533765,4.1072643393-9.5409140646,9.1738694485-9.5409140646h18.4872908329-1.1600963777"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m225.5596336891,108.2690091004h-122.8839257952c-5.0666051092,0-9.1738694485,4.2716606881-9.1738694485,9.5409140646v221.7442446114c0,5.2693189299,4.1072643393,9.5409140646,9.1738694485,9.5409140646h155.2855657493c5.0667311724,0,9.1738694485-4.2715951346,9.1738694485-9.5409140646v-144.3907580942"
                 />
               </g>
               <g>
                 <line
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   x1="177.4714484845"
                   y1="294.0472774955"
                   x2="246.433741666"
                   y2="294.0472774955"
                 />
                 <line
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   x1="177.4714484845"
                   y1="313.7871313445"
                   x2="213.5342782296"
@@ -164,14 +164,14 @@ const LogoAndWordsCrossWBG = () => {
                 />
                 <g>
                   <ellipse
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                     cx="134.8169013263"
                     cy="306.0569679722"
                     rx="21.9869306634"
                     ry="22.8666559814"
                   />
                   <polyline
-                    class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-12"
+                    className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-12"
                     points="125.0611242571 302.5271431139 134.9035067283 314.3482690375 160.3525734278 284.6459923195"
                   />
                 </g>
@@ -180,15 +180,15 @@ const LogoAndWordsCrossWBG = () => {
             <g>
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m242.1770294314,194.9613083378c0,26.9799067118-13.1175668169,42.0547135064-32.3923743107,42.0547135064-20.3456511429,0-32.1246791564-15.0748067946-32.1246791564-42.0547135064,0-25.0628610699,17.40081535-55.6481430128,32.1246791564-55.6481430128,14.7238007747,0,32.3923743107,31.1516639134,32.3923743107,55.6481430128Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m211.3887460045,162.2840840982c6.7307650964,7.6527775024,11.3980020638,19.592751865,12.2085252543,32.7446132055.7398017487,12.0040856551-2.1269379065,27.60482793-9.6663982774,37.5289675732"
                 />
                 <line
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   x1="203.5916755334"
                   y1="171.1997491773"
                   x2="203.5916755334"
@@ -197,19 +197,19 @@ const LogoAndWordsCrossWBG = () => {
               </g>
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m186.8652981753,185.6557312263c19.8862769293,19.0776982606,21.7220719307,38.6355101267,8.092688619,51.7106739087-14.3865187472,13.8015617699-33.8269102228,11.1324211803-53.7131871521-7.9452115268-18.4732978204-17.7221836325-28.7127162646-51.1531416565-18.3014106798-61.1410648249,10.4113055848-9.9879887218,45.8660696.0539505048,63.9219092129,17.3756024429Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m179.2926201575,232.9890722552c-9.9716602582-.4236065155-20.797902787-6.0868362395-31.6466475927-16.9607800923-8.6670954807-8.6872112402-11.4609706203-18.1566720238-14.7702550551-29.6101085409"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m157.8903705045,185.1311068154c15.9758602394,4.0105612218,30.5631345945,22.4367891094,32.5468017014,34.5685729217"
                 />
                 <line
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   x1="146.8727640744"
                   y1="190.8604799894"
                   x2="177.7225032997"
@@ -217,13 +217,13 @@ const LogoAndWordsCrossWBG = () => {
                 />
               </g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                 d="m220.2662409261,254.397065225c-10.7403304743,10.3035631207-21.7509403981,11.2547439531-29.1119583432,4.1929965255-7.7699668883-7.454019385-6.2673568612-17.5265065281,4.4729736131-27.8301352023,9.977207038-9.571461981,28.7981240664-14.8767697653,34.4211720347-9.4824403704,5.6229849367,5.3943949484-.030444257,23.7643779597-9.7821873046,33.1195790471Z"
               />
             </g>
             <g>
               <ellipse
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                 cx="308.6186894075"
                 cy="121.0999206576"
                 rx="60.1047162417"
@@ -231,11 +231,11 @@ const LogoAndWordsCrossWBG = () => {
               />
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   d="m360.699295398,107.4667001956h-90.3039064469c-2.4067351258,0-4.3578779334,2.029207627-4.3578779334,4.5323012801v22.2072208616c0,2.5030936531,1.9511428075,4.5323012801,4.3578779334,4.5323012801h95.7144749319s4.807293156-13.9792116704,1.1796992016-31.2718234218h-6.5902676867Z"
                 />
                 <rect
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   x="306.833697866"
                   y="85.5681706187"
                   width="22.3721166981"
@@ -244,7 +244,7 @@ const LogoAndWordsCrossWBG = () => {
                   ry="5.0362325929"
                 />
                 <rect
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-3"
                   x="284.4615811679"
                   y="93.78011921"
                   width="22.3721166981"
@@ -258,25 +258,25 @@ const LogoAndWordsCrossWBG = () => {
           <g id="broccoliMeatLeavesIcon">
             <g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m528.9445577478,105.7444849188c-3.7461649266-3.9774456073-9.8196031713-3.9774456073-13.5655193114,0l-7.2518155039,7.7000435922v-12.2788476988c0-7.6007197197-5.6124990561-14.0256666826-12.7681585775-14.2339562397-7.4242867453-.2161482944-13.5066191074,6.1096068757-13.5066191074,13.94364524v14.5475792919l-8.9525200207-9.5057700855c-3.6778108356-3.9050659768-9.6700359762-4.1943203395-13.4763449431-.4305795537-3.9958220788,3.9513598828-4.0798497172,10.5969458471-.2517097354,14.6616300418l8.5837718162,9.114154019c-3.0777999932-.6218308401-6.3869870731.3639453866-8.7301204714,2.960102352-3.6370719543,4.0301453747-3.4006003916,10.4786685494.3164564205,14.4254056456l15.5700077352,16.5320755478-2.1747671934-1.6387118167c-3.7459783367-3.9774456073-9.8194322618-3.9774456073-13.5653483072,0-3.7459782421,3.9773795674-3.7459782421,10.4261008616,0,14.4035464688l20.136981519,25.2871050863c-3.078670746-3.749872426-8.4318098754-4.1816406962-12.0056279538-.9456900627-3.597841676,3.2579418899-4.0271227716,8.9958767214-.9588231726,12.8159494641l20.3894842312,22.0613906232"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="494.702578977"
                 y1="110.766680302"
                 x2="494.702578977"
                 y2="158.4372521592"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="481.4282642644"
                 y1="130.2177154009"
                 x2="494.702578977"
                 y2="142.5252243767"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="506.3476530951"
                 y1="130.0983814663"
                 x2="494.702578977"
@@ -286,55 +286,55 @@ const LogoAndWordsCrossWBG = () => {
             <g>
               <g>
                 <ellipse
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   cx="636.9840294885"
                   cy="331.7429304548"
                   rx="24.2708622975"
                   ry="25.7705849252"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   d="m598.4506546263,273.0752280188c-1.4112414236-1.5266422611-3.0471370571-2.6771878109-4.7969769077-3.4507120919,2.0501251566-5.5171637505,1.0096378153-12.0381986354-3.1557323645-16.5441608328-5.6439705484-6.1054463677-14.8809157357-6.1968454632-20.6310559231-.2040630093s-5.8362203166,15.8003544658-.1921875716,21.9058668733c1.4112414236,1.5265762213,3.0470748604,2.6771878109,4.7969147111,3.4507120919-2.05006296,5.5170977107-1.0096378153,12.0381986354,3.1557323645,16.544094793,5.644032745,6.1055124076,14.880853539,6.196911503,20.6310559231.2041290491,5.7501401874-5.9927824538,5.8362203166-15.8004205056.1922497682-21.9058668733Z"
                 />
                 <polyline
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   points="578.2615057246 378.3441361973 615.8841820528 338.3967218653 647.2774931972 339.9651012857 645.8591613584 325.4054367087 614.3168892968 327.0402521767 637.2097876884 302.7327816149 620.2088999861 284.6814602645 600.4659496729 305.7941229938 607.3313997416 266.9156950476 593.1197196921 268.1579038521 587.6008265568 307.46757175 549.5552131778 347.8640567821"
                 />
                 <ellipse
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   cx="613.5148638161"
                   cy="230.9530732517"
                   rx="15.5686757247"
                   ry="16.5306943378"
                 />
                 <ellipse
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   cx="687.9355669696"
                   cy="298.0291292496"
                   rx="21.6779067458"
                   ry="23.0173987746"
                 />
                 <ellipse
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   cx="683.6537958059"
                   cy="327.7998915879"
                   rx="15.5686668"
                   ry="16.5306870456"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   d="m682.4366234018,303.61890377c2.9356185082-2.7753890066,5.5351264544-6.0578977054,7.6749391445-9.816883625,11.4851043983-20.1762182398,5.3914522504-46.4181268824-13.6106118646-58.6129719444-9.4656421778-6.0746718168-20.3484966552-7.5165850032-30.3076690532-4.9412305776-1.3280223392-1.5389917054-2.87808663-2.9085252613-4.6455903222-4.0428910578-9.7037308587-6.2274879345-22.2449961479-3.172222218-28.4600561079,6.7598348336-11.4083537629-6.2064212355-25.5584591536-2.0733858386-32.2911194278,9.7540797668-7.0374237372,12.3628503356-3.3035737424,28.442487153,8.3398210668,35.9148254843,6.1305969432,3.9343216121,13.2305282886,4.6943737721,19.6077348503,2.7310102551,1.1862762306,5.33079941,4.3078626479,10.1721117568,9.0716887544,13.2292926277.9799700251.6289631395,1.9918469189,1.1518003061,3.0226315868,1.5829081783-1.0877567764,8.1353119723,2.3723658713,16.5495100573,9.4133348161,21.0682179379,2.6663071215,1.7110914472,5.5598185146,2.6783765274,8.4670131652,2.9608948297.4011682319,8.2409096266,4.519704353,16.1314780673,11.6718186669,20.7214429016,11.4571781136,7.3528062773,26.3586187356,3.4516366492,33.2835287779-8.7134904987,5.2300520083-9.1877223661,4.4108602591-20.4593309003-1.2374640531-28.5950391115Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   d="m624.6126076333,257.389254502c.8766614308-9.266507858-3.2011980974-18.6789636936-11.2071476807-23.8168608219-11.084495936-7.1136761294-25.501487045-3.3393689742-32.2011831079,8.4300476392"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   d="m639.6656836272,295.6753053628c2.3212402455,3.5219690456,5.3565599438,6.5987637398,9.0443222394,8.9654323695,14.1584397385,9.0863512595,32.5733677125,4.2654452136,41.1309391638-10.7678568724"
                 />
                 <line
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                   x1="609.8201354985"
                   y1="296.0361468783"
                   x2="590.8190665295"
@@ -342,109 +342,109 @@ const LogoAndWordsCrossWBG = () => {
                 />
               </g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m660.7346659877,245.1379454035c-11.0139649631,0-19.9426014798,9.4802787193-19.9426014798,21.1748722292s8.9286365167,21.1748722292,19.9426014798,21.1748722292"
               />
             </g>
             <g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m635.0364510174,86.0383380384s42.9546064085-40.8764623628,78.854995991,11.9209779747c38.3289190063,56.3690052795,39.9985252106,124.1522650804,25.8928904068,134.4694662972-16.3760604065,11.9777061704-30.0267890943,1.2819647693-46.8607410548-26.4771424417-16.8338897639-27.7591072111-28.8318675328-23.9047598075-45.7380919717-25.5422829077-16.9062866355-1.6375231002-44.2974937411-27.1837683964-34.3756393181-61.9133774313,5.0868753773-17.805455142,22.2265859469-32.4576414911,22.2265859469-32.4576414911Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m745.0135186708,173.3500976339s-13.5311867743-25.7714410444-46.1727219879-27.0092251816"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m717.048485502,149.9495517669s1.0274882467-9.1788069919-4.2184860976-16.6056438949"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m625.9117085418,95.494644307s-1.0971484668,12.474325533,7.0632353366,22.3767967502c8.1603216068,9.9024051774,0,25.3748719923,0,25.3748719923"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m635.5509415003,122.4173573391s2.087069952,7.2131320815,10.2474537554,8.4509822586"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m733.2053650017,236.0814441376s-3.9991807975-48.4261333102-31.422419165-64.7510419777c-27.4232383675-16.3249086674-22.7602329902-41.6999127393-22.7602329902-41.6999127393"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m660.7346659877,181.3391314296s-2.1128815514-9.623386985,3.7159995634-18.2879419854"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m709.4830746144,197.9367845076s9.9430012755-3.0268025589,15.9710981805,5.1808890439"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m667.947919584,95.5909963881s1.2668208601-22.8205182259,19.5771341107-21.3126973103"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m684.8515939613,91.8775779367s-13.2227537104-3.3527090156-11.2744444291-11.8882222295"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m664.4506655511,136.4384672749s9.4263339108,6.7894867078,15.7879913162,8.3459129227"
               />
             </g>
             <path
-              class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+              className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
               d="m486.7338851722,235.1635568344l29.4433536525-24.2580392563,9.969217153-59.5s11.5054426947-31-9.969217153-23.3333333333c0,0,20.304140904-15.155398652,12.7673189231-22.327699326"
             />
             <g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 d="m589.5735791118,189.2416530757c-.6102110889-3.8171669912-2.9642911524-6.855394437-6.0472534655-8.3539697794l13.2251171822-2.382782343c5.7714114332-1.0399288699,9.6561504405-6.8506395708,8.6768645783-12.9788696726-.9795346487-6.128164062-6.4521534949-10.252878443-12.2235649281-9.2130156129l-11.1729395369,2.0133556523,7.396795837-11.0642435345c4.5786667536-6.8487904561,3.3918307534-16.4498559858-2.930518385-21.497278576-6.5596292631-5.2369568416-15.8509343008-3.6677189038-20.5702276237,3.3913423037l-8.7634422804,13.1084397775-2.3406455925-14.6455823683c-.9615598241-6.0164907452-6.186698299-10.3467210113-11.8837847652-9.5403089055-5.9808896665.8466963892-10.0598687341,6.7777976616-9.0590006429,13.040220655l2.2442408236,14.0421766348c-2.3987372404-2.6505737679-5.9744212175-4.009673034-9.6496819915-3.261706159-5.7049854376,1.1613760784-9.376514414,7.1325635147-8.4046921468,13.213310994l4.070769113,25.4710259539-.9724442335-2.9536304507c-.9794102555-6.1280319824-6.4520291017-10.2528124032-12.2234405349-9.2128835332-5.7713492366,1.0399288699-9.6560882439,6.8507056106-8.676740185,12.978737593l2.9119837907,36.4615690617c-.5151746457-5.4698132076-5.0786654228-9.4944112384-10.2483245081-9.0057166529-5.2044891954.4921946953-9.047867447,5.3708855739-8.5843160001,10.8969646987l5.0826460068,33.7264643385c-1.9593802806-2.5930530944-5.080780108-4.1048363985-8.4231023478-3.7107768591l-.0001243933.0001981194c-5.1932316062.6120569484-8.9356025387,5.5784486931-8.359039824,11.0924425328l5.7675552424,24.6123103195.4536621835-.044576871,23.3313845986-2.2937606807c5.0927218601-1.240954048,8.810960502-8.0575831173,6.6906153556-13.940541369-1.0601414749-2.9414791259-3.07269987-4.4583474953-6.2322884252-5.7685773028l32.2307887014-5.579175131c5.0659151147-1.3585709476,8.1357539399-6.8202612587,6.8562449682-12.1995338884-.9817115306-4.1272238937-4.2405037029-6.9971158668-7.9919553426-7.5001410908l29.38479553-9.3612089439c5.7714114332-1.0399288699,9.6560882439-6.8507056106,8.6766779884-12.978737593-.9795346487-6.1280980222-6.4521534949-10.252878443-12.2235649281-9.2130156129l-6.1861385294.5834617112,27.4902241327-4.9531177432c5.7715358264-1.0400609495,9.6562748338-6.8508376902,8.6768645783-12.9788696726Z"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="579.0048175912"
                 y1="135.6425554986"
                 x2="473.2880943641"
                 y2="293.7742834253"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="545.6533700986"
                 y1="144.7843801976"
                 x2="552.4168798988"
                 y2="175.4129171031"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="532.3197198056"
                 y1="164.7289307879"
                 x2="539.0832918025"
                 y2="195.3574676934"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="512.7954528263"
                 y1="193.9334512952"
                 x2="519.5590248231"
                 y2="224.5619882007"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="581.8794212102"
                 y1="172.0882089664"
                 x2="552.4168798988"
                 y2="175.4129171031"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="568.5457709172"
                 y1="192.0327595568"
                 x2="539.0832918025"
                 y2="195.3574676934"
               />
               <line
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-5"
                 x1="549.0215039378"
                 y1="221.2372800641"
                 x2="519.5590248231"
@@ -455,79 +455,79 @@ const LogoAndWordsCrossWBG = () => {
           <g id="heartPicIcon">
             <g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m460.4362074935,1089.4113559673v-108.2742803558c0-6.595210935,5.3492361164-11.9913575532,11.8872557502-11.9913575532h22.9279740257c6.5380196338,0,11.8872557502,5.3961466182,11.8872557502,11.9913575532v54.482708137"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m659.5241298085,1123.9923111131c.2197302001-10.2153941234-1.36711714-20.197313935-4.5410693418-29.662407996v-62.8593799054l-46.3828718975,10.3333333333-40,1v78.3333333333l84.2656386788.3333333333"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m599.3279051796,990.9344890198c-9.8498745864-18.0557797399-31.4657123073-27.4618395452-54.3767542959-24.883101159-15.0561219028,1.6946533218-27.9591711182,6.731204039-37.2357385168,14.559574983l-.7440439269,89.1928937013,92.3565367396-78.8693675253"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m507.7135453362,1198.2279851347c-37.602835382-21.999190091-58.0227433646-64.5415867969-47.1953172523-105.4916172578,9.3801554126-35.4766002735,39.6875361172-60.2076021729,75.8862356469-66.3062499402"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m559.7343644014,965.7062745109v-19.6595112157c0-2.8423467955,2.3053322605-5.1678678405,5.123003499-5.1678678405h13.7504236349c2.8176068582,0,5.1229391187,2.325521045,5.1229391187,5.1678678405v27.5982223142"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m583.8531177359,970.6265751535v-23.3235317227c0-2.8423467955,2.0222517771-5.1678678405,4.4938785312-5.1678678405h12.0617265507c2.4716267541,0,4.4938141508,2.325521045,4.4938141508,5.1678678405v42.2543043423"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m506.97136844,995.2965295277v-52.6567376919c0-2.6958976792,2.1743182091-4.9016616641,4.8318110891-4.9016616641h19.7706319592c2.6574284996,0,4.8317467088,2.2057639849,4.8317467088,4.9016616641v23.9552437201"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-4"
                 d="m609.2449928714,1039.4483078527c-37.5550007677,9.2061616324-38.0247199414,38.7172496989-15.3736458837,50.3555057686,0,0,40.6997242818,10.264037311,63.3106893696,31.9325316591,0,0,11.305514734,9.123617585,13.5666176809,46.758507651,1.5108141241,25.1471641775,11.1887287443,69.7637479683-31.3763523548,76.1249000939-13.1456344466,1.9645613162-44.1416275802-6.3611521256-78.8242981759-20.6737444082-44.4491082235-18.342962885-60.0224620125-28.059715627-79.7316107191-49.7489271672-12.4360340173-13.6854263775-2.2456516582-32.9463102424-2.2456516582-32.9463102424,5.6373382686-16.0930368606,31.5295132532-31.8058255722,39.4121812781-39.7573306734,7.8824105035-7.951440157,6.305799642-30.2155375408,6.305799642-30.2155375408,0,0-6.8658444738-33.5369125766,31.5297707746-62.021363113,30.7214752393-22.7913142025,51.5069993386-19.9577998148,62.5489408411-14.8977393061"
               />
             </g>
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
               d="m501.6875427787,1114.805437901s1.3649282075,25.3476468481,16.1639149157,47.4701659287c6.631693071,9.9134686504,15.9611167527,19.1793139802,29.0741747325,25.2263960719"
             />
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
               d="m546.9256324268,1162.464526437s-11.730811453,13.1889930981-25.2371691083,5.0677888657"
             />
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
               d="m617.5263685228,1097.8404605369s26.8635459951,60.9600453931-12.4853493801,100.0429308014"
             />
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
               d="m599.5927016381,1147.8084444088s17.958131425-.7161394259,25.929386838-19.2888098605"
             />
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
               d="m638.9415970133,1221.0887896053s-.808231155-34.2419465485-13.4195085372-64.7531749215"
             />
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-16"
               d="m652.8650750807,1198.4940614228s.4016047431-3.6862963593-17.3548873656-9.7818917503"
             />
             <ellipse
-              class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-9"
+              className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-9"
               cx="677.4845789268"
               cy="1027.3312995554"
               rx="66.4167846621"
               ry="66.9984412014"
             />
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-11"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-11"
               d="m733.406526464,991.1717300937h-111.8439594547c-6.6419295497,10.4310087869-10.4947727447,22.8412562736-10.4947727447,36.1596181698,0,11.0107004995,2.6336721434,21.4005996231,7.2993174996,30.5648722621.4491174556.8820717949.9180640648,1.7521938615,1.4043289934,2.6109506974h115.4263407186c.7837666147-1.3844799385,1.520728701-2.7994836395,2.2072165778-4.2436472755,4.1632209549-8.7583065964,6.4964942956-18.5701376118,6.4964942956-28.932175684,0-13.3183618962-3.8530363361-25.728609383-10.4949658858-36.1596181698Z"
             />
             <path
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-13"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-13"
               d="m737.4049980541,1051.988833356c-11.804398215-4.7127390569-24.6731970741-12.037467918-28.2406420924-14.9302113939-5.448381885-4.417892499-13.3181094557-30.92550727-25.4254816882-30.92550727-10.8966350092,0-18.7664269603,25.0348756977-24.8201130766,31.6617793904-4.2816164539,4.6870861075-30.0712335103,8.8943646446-40.5516494327,12.7549711716"
             />
             <ellipse
-              class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-11"
+              className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-11"
               cx="639.5297760664"
               cy="1020.8707016607"
               rx="10.8794454507"
@@ -537,15 +537,15 @@ const LogoAndWordsCrossWBG = () => {
           <g id="salmonSteakAcocadoIcon">
             <g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 d="m1627.0973204255,219.0595330004c0-29.3964208533-13.8534724083-50.7531648168-25.2636070024-80.9361034677-11.9272255522-31.550577428-13.0012652381-59.8932878591-40.3333774126-59.8932878591-27.6737300085,0-29.0865607362,28.4412019172-41.0560468314,60.8005690869-10.9831476365,29.6928144713-24.5408669137,49.6069727982-24.5408669137,80.0288222399,0,36.246068882,29.3687452648,65.629267978,65.5969137452,65.629267978,36.2282391502,0,65.596984415-29.383199096,65.596984415-65.629267978Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 d="m1612.7444245102,217.3578150616c0-22.964424805-10.8223031619-39.648232077-19.7358149094-63.2269383118-9.317460349-24.6472646197-10.1565936053-59.497200777-31.5082735902-59.497200777-21.6185998358,0-22.7223208395,34.9269334497-32.0727839871,60.2059435316-8.580020941,23.1959116145-19.1712338428,38.7526878103-19.1712338428,62.5181955572,0,28.3152063477,22.9427399591,51.2692375788,51.2440178299,51.2692375788,28.3013485406,0,51.2440884997-22.9540312311,51.2440884997-51.2692375788Z"
               />
               <ellipse
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 cx="1561.500353678"
                 cy="215.8122835499"
                 rx="26.6487528343"
@@ -554,87 +554,87 @@ const LogoAndWordsCrossWBG = () => {
             </g>
             <g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 d="m1488.7819554155,121.7663481455c-8.5791022336,40.0723181746-51.3760290243,31.8099925484-63.2679196744,28.8355920894-11.8919613199-2.9744711636-17.3423699771-11.89781395-17.3423699771-11.89781395l15.4607157676-9.8685216714,18.7556953935,7.9389935615,24.5267329529-2.1651864899,14.4275232287-6.4955594697,7.4396223089-6.3475040699Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 d="m1401.7301837711,130.2765640448s3.4684739954-1.9829807758,0-11.4020334037-6.9369479909-44.1208626808,35.6757426201-50.0697343035c42.6126906109-5.9488716227,55.4955839268,34.2060295066,51.0361072656,55.5228960845-4.4594059914,21.3167958733-41.6216879451,21.3167958733-51.5315732636,17.3509050264-9.9099559883-3.9659615515-13.3784299837-8.9233427863-29.729797295-3.9659615515l-5.450479327-7.4360718522Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 d="m1415.3402693733,125.7270068532s4.7131812587-8.1450267206,1.7138840941-16.7187353367c-2.9992971646-8.5736379116,5.479736626-25.0936226614,21.852163539-27.0071008306,16.1058604112-1.8822974475,21.1554299384,3.1698279305,28.3691915527,8.9436350021,5.6977529723,4.5603749931,15.1488499212,25.9822378789.3385790324,35.2108830609-14.8049706535,9.225251362-17.5674533039,4.7155008514-32.1355387733.4286818956-14.5681561392-4.2868896604-20.138279445-.8573637912-20.138279445-.8573637912Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 d="m1433.7315912558,112.957546786s11.542004449-3.6086205817,23.0840088979-11.5476848477"
               />
             </g>
             <g>
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                   d="m1418.1551183487,176.4419204898c-52.1481673062-34.7508790344-93.696641334.4479135426-99.6033649177,5.8907524543l-.0122965459-.0124440069s-.127841676.1238037274-.3534903612.3536643315c-.2339170523.2215174631-.3599919831.3471595097-.3599919831.3471595097l.012296546.0125147115c-5.5477209778,5.8087351363-41.4859312511,46.7247004127-7.7150225363,99.5275204284,40.6278584871,63.5241096803,63.009126851,42.4372451156,115.1560927705,86.4449097567,9.0196577936,7.6118434492,22.24183684,7.5965005543,31.1865139712-.1035115117.170808917-.1469948311.3428192207-.2961815043.5159602413-.4476307242,2.5590242838-2.2363860065,2.6369024081-6.1947114628.1794306331-8.5425278944-15.4420589393-14.7530064796-64.4326287192-64.309920432-46.5866657166-83.0919569524,19.0971718879-17.5070914535,67.7221667701,32.4090724925,82.1820567692,48.1267723225,2.3010794981,2.501386789,6.2582351903,2.4962253543,8.5401631714-.0227668762.154554862-.170327344.3067069507-.3395941192.4567389452-.5078003256,7.8591889371-8.8061852899,8.1172043926-22.0324676772.6758860084-31.194791959-43.0215154289-52.9714504497-21.5378242495-74.9729495189-84.2743069955-116.7798632641Z"
                 />
                 <g>
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1422.9540927498,322.8577517394s-43.2943715433,15.4287301933-79.1701097096-1.3747092356"
                   />
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1411.4039612734,308.4127344297s-78.652453393,19.7511135551-108.3756077264-38.2490590551"
                   />
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1436.6055908574,339.3173547741s-20.88038306,7.6337618704-45.8940309646,6.4077443758"
                   />
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1450.937073822,354.5266886418s-14.1740306406,6.110290189-33.3884437338,8.2577298282"
                   />
                 </g>
                 <g>
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1456.0597159268,290.3381679813s16.2132078439-43.0251537354.0792915204-79.2209516578"
                   />
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1441.836287093,278.519189643s21.181577766-78.3153673401-36.2347407722-109.1126581253"
                   />
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1472.2579417722,304.2961721133s8.011977054-20.7469876272,7.2458457055-45.7912584886"
                   />
                   <path
-                    class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                    className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                     d="m1487.1942169221,318.9115167669s6.3663599909-14.0665356691,8.8650322618-33.2477702734"
                   />
                 </g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                   d="m1389.7716514955,269.370864869c-.8474722933,7.4792723533,3.5385784413,15.637379422,8.370555641,20.5612466838,2.595772582,2.6451999138,5.8110366686,4.3130503566,9.1878519279,4.999379758"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                   d="m1428.5594096181,274.4693724544c-.5777256502-3.5109775505-2.2047565548-6.8847882072-4.885686251-9.6167426461-4.8316238507-4.9235137388-12.9029635403-9.4603441053-20.3923373914-8.7507528957"
                 />
                 <path
-                  class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-10"
+                  className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-10"
                   d="m1381.9262431703,311.4549405852c-56.0536633715-22.0282254022-76.4360363205-74.5102587182-61.2948187381-89.3834629914,16.8647834396-16.5661548435,48.6522027569,27.5124264958,48.6522027569,27.5124264958h0c1.7430000534,2.0326860986,3.0130071067,4.4237030313,3.7551813915,6.9969256781.97142713,3.3678714716,2.384540537,6.4152390618,4.2485272954,8.3146470187,5.8966178016,6.0088291103,15.545448863,6.0974219546,21.5512515123.1979021319,6.0058733191-5.8995198227,6.0944225839-15.5530995573.1978047823-21.5618579631-2.1872304433-2.2288913205-5.8352764115-3.9934656349-9.7525743341-5.1419909048-2.2347912216-.6552193842-4.3493024363-1.6667898741-6.2067875727-3.0721141948l-.1218347426-.0921280736s-42.6808869721-32.4488791736-24.9631896643-49.8528833429c15.9069955818-15.6253596427,67.7097995544,4.1345212809,87.8079385505,61.481666349"
                 />
                 <path
-                  class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-10"
+                  className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-10"
                   d="m1339.379063468,222.2321891143s-8.6157091922,57.7057587205,72.18213812,86.1054570467"
                 />
                 <path
-                  class="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-10"
+                  className="hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-10"
                   d="m1356.6069483621,205.3093296422s57.8257793843-7.5594513521,84.7237669509,73.7858195458"
                 />
               </g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-6"
                 d="m1403.533323828,265.903017115c6.2027593939-8.575264117,5.1666693929-21.4125298807-3.3649427321-27.5897066066-8.5315414553-6.1772474305-22.4001372016-5.9737596364-28.6028965955,2.6015044806-6.2027593939,8.575264117-3.2425426311,23.1531353409,5.2889988242,29.3303120668,8.5316121251,6.1771767259,20.4761517794,4.2332248808,26.6788405035-4.3421099408Z"
               />
             </g>
@@ -642,34 +642,34 @@ const LogoAndWordsCrossWBG = () => {
           <g id="fishCheeseAlmondsIcon">
             <g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 d="m1467.6729854326,924.4529302284h.0000427134c21.1027138531,0,38.2354400888,17.1327262356,38.2354400888,38.2354400888v53.7322779341h-42.7097923866v-87.4934084385c0-2.4694386838,2.0048709005-4.4743095844,4.4743095844-4.4743095844Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 d="m1463.1986758427,983.4901968304h42.7097924236v53.7322778878c0,21.1027138767-17.1327262548,38.2354401314-38.2354401314,38.2354401314h-.0000426979c-2.4694386893,0-4.4743095943-2.004870905-4.4743095943-4.4743095943v-87.4934084249h0Z"
               />
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1535.426213048,960.6405968771c-11.1726470374-5.2633055604-23.6580624135-8.9083860024-36.839462762-8.9083860024-47.6252377736,0-94.3682671974,47.5012157938-94.3682671974,47.5012157938,0,0,46.7430294238,47.5012845521,94.3682671974,47.5012845521,13.9997253561,0,27.2166393477-4.1085797207,38.9062606154-9.9046241049-9.8099397848-10.1581357264-15.8565324811-23.9810167506-15.8565324811-39.2252680595,0-14.1418504878,5.2066297825-27.0584979425,13.7897346277-36.9642221791Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1572.7500214516,986.6401492045c-8.7519492058-8.1916501352-21.7616888313-18.6684115339-37.3238084036-25.9995523275-8.5831048452,9.9057242367-13.7897346277,22.8223716913-13.7897346277,36.9642221791,0,15.2442513089,6.0465926963,29.0671323331,15.8565324811,39.2252680595,14.6474200171-7.2625200726,26.8951618831-17.1767703307,35.2570105502-25.003314225,7.2789916689-6.8129099579,7.2789916689-18.3737137282,0-25.1866236861Z"
                 />
               </g>
               <path
-                class="hwChwLgCrssItemsWGreyFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-14"
+                className="hwChwLgCrssItemsWGreyFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-14"
                 d="m1551.0588790639,996.1119402046c0-2.6984170288-2.1854285332-4.8858915951-4.8810995037-4.8858915951-2.6958083541,0-4.8811681955,2.1874745663-4.8811681955,4.8858915951s2.1853598414,4.8858228368,4.8811681955,4.8858228368c2.6956709705,0,4.8810995037-2.187405808,4.8810995037-4.8858228368Z"
               />
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1391.8701077855,964.4253252993c13.7227601559,10.1842638566,14.210471694,32.8004295938,14.210471694,32.8004295938,0,0-21.7612766807,6.1042875627-35.4840368366-4.0799762939-13.7227601559-10.1843326148-14.210471694-32.8005671103-14.210471694-32.8005671103,0,0,21.7612766807-6.1041500462,35.4840368366,4.0801138104Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1391.8701077855,1034.0415967958c13.7227601559-10.1843326148,14.210471694-32.8005671103,14.210471694-32.8005671103,0,0-21.7612766807-6.1042188045-35.4840368366,4.0801138104-13.7227601559,10.1842638566-14.210471694,32.8004295938-14.210471694,32.8004295938,0,0,21.7612766807,6.1042188045,35.4840368366-4.0799762939Z"
                 />
               </g>
@@ -677,30 +677,30 @@ const LogoAndWordsCrossWBG = () => {
             <g>
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1601.133871286,1064.8721028867c-26.3834769187-13.4141133026-54.4420712414-6.2878720567-54.4420712414-6.2878720567l-12.0306758856,11.3733000568c.7282701024,1.3568750579,1.1422753757,2.9078546201,1.1422753757,4.5559208135,0,5.3248441829-4.3124003736,9.6414175719-9.6320968028,9.6414175719-1.8431374635,0-3.5647591931-.518918418-5.0285807252-1.4176573398l-34.7559728095,32.8568801067,144.8995788206-15.5100018966s-3.769048505-21.7978739533-30.1524567319-35.2119872559Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1486.3867491973,1130.2657935048v1.6767383785c5.3196964292,0,9.632028111,4.316573389,9.632028111,9.6413488137,0,5.3248441829-4.3123316818,9.6414175719-9.632028111,9.6414175719v21.7978739533l93.8855701582-12.4939218108c-.0511753656-.509361023-.077759079-1.0260791775-.077759079-1.5489855733,0-8.4501811081,6.8436232564-15.3004267889,15.2857039062-15.3004267889,7.597378004,0,13.8971685496,5.5490647953,15.082376279,12.8184606916l20.7236875563-2.7578929042v-52.398727531l-144.8995788206,14.2524137336v14.6717014656Z"
                 />
               </g>
               <ellipse
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 cx="1587.7327088053"
                 cy="1083.3164828934"
                 rx="9.632079622"
                 ry="9.6414003903"
               />
               <ellipse
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 cx="1520.7271196499"
                 cy="1144.5182588071"
                 rx="9.632079622"
                 ry="9.6414003903"
               />
               <ellipse
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 cx="1565.5371112615"
                 cy="1132.1521241806"
                 rx="6.9166145806"
@@ -708,7 +708,7 @@ const LogoAndWordsCrossWBG = () => {
                 transform="translate(431.3589850189 2696.2220896797) rotate(-89.9258173001)"
               />
               <ellipse
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 cx="1554.4393210761"
                 cy="1090.6522992471"
                 rx="6.9099623184"
@@ -716,7 +716,7 @@ const LogoAndWordsCrossWBG = () => {
                 transform="translate(-1.3999344429 1.9979685496) rotate(-.073610866)"
               />
               <ellipse
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 cx="1612.2316442985"
                 cy="1125.4450847189"
                 rx="6.9099795023"
@@ -726,33 +726,33 @@ const LogoAndWordsCrossWBG = () => {
             <g>
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1453.5428803843,1139.6358910717c0,30.3557304612-15.3346124435,47.3167374428-37.8669541969,47.3167374428-23.7842491875,0-37.5539945113-16.9610069816-37.5539945113-47.3167374428,0-28.1987845524,20.3417613377-62.610907232,37.5539945113-62.610907232s37.8669541969,35.0493740244,37.8669541969,62.610907232Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1407.4646498713,1173.7928519322c-7.8775717173-7.947764667-11.9470093147-20.7161693617-11.5452311758-37.6474040265.2407646396-10.1447966283,3.1869544805-21.0556975383,7.654323478-30.78684461"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1427.8562127393,1105.2300941499c3.8967464979,7.5477979997,6.44933252,16.6507698142,7.0696191664,26.3380491305.8648293331,13.5061118243-2.4864358515,31.0588521974-11.3000702632,42.2247086518"
                 />
               </g>
               <g>
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1388.8830463438,1129.1660054968c23.2472169614,21.4647402929,25.393216421,43.4697140574,9.4604360797,58.180813993-16.8180111289,15.5284291042-39.5439262786,12.5254130836-62.79114324-8.9393272093-21.595386066-19.9395450697-33.5654071223-57.5535325928-21.3944626507-68.7911726471,12.1708757799-11.2377088126,53.6177700502.0607135237,74.725169811,19.5496858634Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1380.0305323927,1182.4218044576c-11.6569239872-.476632102-24.3129010181-6.8483892084-36.9951183036-19.0828861893-10.1319667835-9.7742584867-13.3979854865-20.4285536545-17.2666370522-33.3150162429"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   d="m1355.0111365619,1128.5757847865c18.6759173221,4.512328091,35.7285795233,25.2440368144,38.047407466,38.893853355"
                 />
                 <line
-                  class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                  className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                   x1="1342.1314991411"
                   y1="1135.022007064"
                   x2="1378.1950884069"
@@ -760,15 +760,15 @@ const LogoAndWordsCrossWBG = () => {
                 />
               </g>
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 d="m1366.6506128406,1080.1792679828c7.264291631,13.1647959336,4.9356407659,23.406335402-4.4501273642,27.6467934221-9.9072073253,4.4759549834-19.7018288463-.2883720479-26.9662578608-13.4532367397-6.7481417018-12.2294776296-6.5099186575-30.9815679385.65971572-34.2207685048,7.1697030693-3.2392005663,24.1609548319,8.0741423074,30.7566695051,20.0272118225Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 d="m1427.9290260112,1206.508433861c-12.5555496691,11.5927763508-25.4270814616,12.6629983167-34.0321676718,4.717640188-9.0831809012-8.3866484967-7.326526371-19.7195187099,5.2289546064-31.3122950606,11.663449705-10.7690526661,33.6652162582-16.7382302922,40.2386061075-10.6689406724,6.5733211575,6.0693583781-.0355823348,26.7378782812-11.4353930421,37.263595545Z"
               />
               <path
-                class="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
+                className="hwChwLgCrssItemsWWhiteFill hwChwLgCrssItemsWGreyStroke hwChwLgCrssImgIntrnlCss-cls-8"
                 d="m1483.8246837115,1230.9055067064c-17.0309556032-1.3129385441-26.5771190068-10.0213755921-26.6214251958-21.7395669679-.0468477844-12.3692631263,9.4418893029-18.7968519215,26.4728449061-17.4839133774,15.8208814546,1.2196336159,35.1677799463,13.2869105633,35.2017136786,22.2383392224.0338650406,8.9514286591-19.589792576,18.1772026856-35.0531333889,16.9851411229Z"
               />
             </g>
@@ -777,7 +777,7 @@ const LogoAndWordsCrossWBG = () => {
         <g id="howChowLettersCrossAndLogo">
           <circle
             id="howChowLogoBack"
-            class="hwChwLgCrssItemsWWhiteFill"
+            className="hwChwLgCrssItemsWWhiteFill"
             cx="1020.034302336"
             cy="656.5406703926"
             r="122.5852053232"
@@ -785,7 +785,7 @@ const LogoAndWordsCrossWBG = () => {
           <g id="howChowLettersCross">
             <g id="howW">
               <image
-                class="hwChwLgCrssItmsWShadow"
+                className="hwChwLgCrssItmsWShadow"
                 width="550"
                 height="470"
                 transform="translate(742.0744024336 854)"
@@ -793,18 +793,18 @@ const LogoAndWordsCrossWBG = () => {
               />
               <g>
                 <path
-                  class="hwChwLgCrssItmsWPrmryClrFill"
+                  className="hwChwLgCrssItmsWPrmryClrFill"
                   d="m1087.6373907149,1283.1301269531c-4.6293945312,0-8.6538085938-3.177734375-9.7275390625-7.6806640625-6.4790039062-27.1767578125-13.1733398438-55.0517578125-19.8979492188-82.849609375l-2.3471679688-9.6787109375c-2.8813476562-11.8759765625-7.9140625-32.62109375-13.1953125-54.43359375-17.8515625-73.7373046875-20.4497070312-85.0791015625-23.8076171875-101.5576171875-.998046875-4.8994140625-1.970703125-9.8154296875-2.9165039062-14.7421875-1.1938476562,5.271484375-2.4145507812,10.5087890625-3.6606445312,15.7060546875-3.9931640625,16.6552734375-6.6528320312,26.330078125-14.5493164062,55.0478515625-3.2426757812,11.79296875-7.37109375,26.806640625-12.8422851562,46.853515625-1.685546875,6.17578125-2.4838867188,9.125-3.6259765625,13.34375-1.638671875,6.0537109375-3.9838867188,14.7158203125-10.6586914062,39.22265625-8.6127929688,31.6240234375-17.201171875,63.052734375-25.5263671875,93.4130859375-1.19140625,4.34375-5.1396484375,7.35546875-9.6440429688,7.35546875h-49.70703125c-4.5756835938,0-8.5678710938-3.10546875-9.6928710938-7.541015625l-93.4067382812-368.15625c-.7587890625-2.990234375-.0947265625-6.1640625,1.8002929688-8.599609375,1.89453125-2.4345703125,4.8071289062-3.859375,7.892578125-3.859375h50.2216796875c4.6567382812,0,8.6967773438,3.2138671875,9.744140625,7.7509765625,10.4892578125,45.451171875,21.1098632812,90.6591796875,31.5668945312,134.3681640625l2.4106445312,10.06640625c7.1196289062,29.712890625,13.2685546875,55.3740234375,21.0361328125,91.138671875,2.3959960938,11.03125,4.7456054688,22.107421875,7.0375976562,33.1748046875,2.4213867188-10.970703125,4.9301757812-21.953125,7.515625-32.8955078125,8.2397460938-34.876953125,15.1010742188-60.1572265625,26.4682617188-102.041015625,2.9331054688-10.806640625,6.1772460938-22.7607421875,9.837890625-36.322265625,8.634765625-31.994140625,17.4111328125-64.896484375,26.0849609375-97.79296875,1.1577148438-4.390625,5.1284179688-7.4501953125,9.6694335938-7.4501953125h49.8427734375c4.6323242188,0,8.6586914062,3.181640625,9.7290039062,7.6884765625,9.3564453125,39.3818359375,18.830078125,78.783203125,28.1586914062,117.109375l3.7744140625,15.48828125c9.6440429688,39.552734375,16.0151367188,65.681640625,23.384765625,101.06640625,2.3286132812,11.1806640625,4.5747070312,22.40625,6.7294921875,33.6259765625,2.62109375-11.5654296875,5.2973632812-23.1318359375,8.015625-34.63671875,9.5888671875-40.591796875,17.5810546875-71.3740234375,28.6430664062-113.9775390625,10.1899414062-39.2451171875,20.8115234375-79.2763671875,31.5693359375-118.9814453125,1.181640625-4.3583984375,5.13671875-7.384765625,9.65234375-7.384765625l48.458984375-.0009765625c3.1337890625,0,6.0869140625,1.46875,7.9765625,3.9697265625,1.890625,2.5,2.4990234375,5.7412109375,1.64453125,8.7568359375l-104.3310546875,368.162109375c-1.2192382812,4.3037109375-5.1484375,7.2734375-9.62109375,7.2734375h-49.7075195312Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   d="m1241.6759038985,904.9680709839l-104.3309936523,368.1619949341h-49.7075500488c-4.4508666992-18.6692199707-11.3336486816-47.4442138672-19.9057617188-82.881652832-1.0511169434-4.345123291-8.047454834-33.1543426514-15.5429077148-64.1143341064-17.5295410156-72.4054489136-20.3542175293-84.6416702271-23.7279968262-101.2001190186-5.216217041-25.601442337-8.8616638184-47.3812208176-11.3434448242-63.5998878479-.3454284668-.0347776413-.6909790039-.0695552826-1.0365600586-.1043329239-5.1940002441,27.6661100388-10.2442016602,49.8316659927-13.7205505371,64.3328905106-5.587890625,23.308883667-8.5915527344,32.9978866577-27.3143310547,101.5999984741-4.1055603027,15.0431060791-2.9553222656,10.9717712402-14.2856750488,52.5714416504-10.9721069336,40.2842254639-19.8313293457,72.641998291-25.5222167969,93.3959960938h-49.7069854736l-93.4065551758-368.1558837891c16.7404327393-.0002212524,33.4809875488-.0004425049,50.2214355469-.0006637573,13.0145568848,56.3942203522,23.8636627197,102.1715545654,31.5857849121,134.4463348389,7.9869995117,33.3821105957,14.7744445801,61.2864456177,23.3999938965,100.9999923706,7.1104431152,32.7376708984,12.4951171875,59.8033447266,16.0285491943,78.0892333984l1.125-.0106658936c3.3537902832-16.8472290039,8.9886779785-44.1210021973,16.9035644531-77.6214447021,10.2995605469-43.5936737061,18.2465515137-71.4323425293,36.2285461426-138.0571174622,6.0367736816-22.3665561676,15.0964660645-56.1144447327,26.1000061035-97.8484458923,16.6143493652-.0002212524,33.2285461426-.0004425049,49.8428955078-.0006637573,11.7254333496,49.3535528183,21.438659668,89.5016651154,28.1714477539,117.1633300781,11.9794311523,49.2180023193,18.8441162109,76.6584396362,27.0856628418,116.228553772,7.0283203125,33.7449951172,11.9703369141,61.4868927002,15.0393371582,79.5975646973.3773193359.0198822021.7547607422.0397644043,1.1321105957.0596618652,4.1466674805-19.3956756592,10.2343139648-47.1315612793,18.0953369141-80.4082183838,9.37109375-39.669342041,16.8789978027-68.6581192017,28.5903320312-113.7632293701,7.9676513672-30.6865539551,18.5989990234-71.1088867188,31.5429077148-118.879776001l48.4586181641-.0005569458m.0001831055-20c-.0004272461,0,0,0-.0003662109,0l-48.4586791992.0005569458c-9.03125.0001144409-16.9417724609,6.0525588989-19.3036499023,14.7694473267-10.7660217285,39.7329978943-21.3967895508,79.798664093-31.5971374512,119.0841064453-10.1499938965,39.0914916992-17.7190551758,68.2429733276-26.30859375,104.1466140747-6.4455871582-30.102104187-12.4555358887-54.7499160767-21.070526123-90.0817222595-1.2015380859-4.9277801514-2.4563293457-10.0736694336-3.7728881836-15.4827804565-9.3126525879-38.2611093521-18.7821960449-77.6445541382-28.1457519531-117.0564460754-2.1414489746-9.0135574341-10.194152832-15.3771057129-19.4583129883-15.3771057129-.000579834,0,.0003051758,0-.0002441406,0l-24.9214477539.000328064-24.9214477539.0003356934c-9.0819091797.0001144409-17.0235595703,6.1193313599-19.3388977051,14.9011154175-8.6635437012,32.8587722778-17.4347839355,65.7418851852-26.0700073242,97.7357749939-3.6577758789,13.5526657104-6.9000854492,25.4991111755-9.8313293457,36.299331665-10.1858215332,37.5303916931-16.7618713379,61.760219574-23.9557495117,91.506816864-6.7108917236-30.4296875-12.3263244629-53.8659744263-18.7238006592-80.5657043457l-2.4146728516-10.0827789307c-10.439666748-43.6329994202-21.0543212891-88.814666748-31.5489959717-134.2897796631-2.0940856934-9.0741119385-10.1753692627-15.5026626587-19.4877624512-15.5026626587-.0005645752,0,.0003356934,0-.0002288818,0l-25.1107788086.000328064-25.1106719971.0003356934c-6.171005249.0001144409-11.9963302612,2.848777771-15.785446167,7.7194442749-3.7891082764,4.8705596924-5.1176605225,11.2175598145-3.6001052856,17.1990013123l93.4065475464,368.1558952332c2.2505645752,8.8703308105,10.2344512939,15.0815429688,19.3857879639,15.0815429688h49.7069854736c9.0087890625,0,16.905670166-6.0229797363,19.2879943848-14.7110900879,8.3311157227-30.3825683594,16.9211120605-61.8166809082,25.53125-93.4290161133,6.6935424805-24.5753326416,9.0346679688-33.2238922119,10.6746520996-39.2821044922,1.1338806152-4.1888885498,1.9313354492-7.1347808838,3.6083374023-13.2794494629,5.4715576172-20.0483398438,9.5587768555-34.9128875732,12.8428955078-46.8566665649,3.4079589844-12.394203186,5.844329834-21.2548065186,7.8348083496-28.6651382446,3.2987365723,14.1504516602,8.4658203125,35.6581268311,17.7323913574,73.9335784912,5.2046813965,21.4977874756,10.1686706543,41.9588928223,13.0694580078,53.9151153564,1.2755432129,5.2579956055,2.1516723633,8.8687744141,2.4725646973,10.1955566406,6.7229919434,27.7931060791,13.4151000977,55.6569976807,19.8903198242,82.8173370361,2.1472167969,9.006652832,10.1957702637,15.3618774414,19.4547729492,15.3618774414h49.7075500488c8.9455566406,0,16.8033447266-5.9403381348,19.2423400879-14.5471191406l104.3310241699-368.1619873047c1.708984375-6.0307769775.4916381836-12.513885498-3.2884521484-17.5141067505-3.7799072266-4.9998092651-9.6859741211-7.9387817383-15.9537353516-7.9387817383h0Zm-.0001831055,40h.0050048828-.0050048828Z"
                 />
               </g>
             </g>
             <g id="howH">
               <image
-                class="hwChwLgCrssItmsWShadow"
+                className="hwChwLgCrssItmsWShadow"
                 width="375"
                 height="469"
                 transform="translate(832.0744024336)"
@@ -812,18 +812,18 @@ const LogoAndWordsCrossWBG = () => {
               />
               <g>
                 <path
-                  class="hwChwLgCrssItmsWPrmryClrFill"
+                  className="hwChwLgCrssItmsWPrmryClrFill"
                   d="m1108.8810430586,428.7268066406c-5.5229492188,0-10-4.4770507812-10-10v-162.625h-158.6127929688v162.625c0,5.5229492188-4.4770507812,10-10,10h-47.5224609375c-5.5229492188,0-10-4.4770507812-10-10V50.5651855469c0-5.5229492188,4.4770507812-10,10-10h47.5224609375c5.5229492188,0,10,4.4770507812,10,10v143.3916015625h158.6127929688V50.5651855469c0-5.5229492188,4.4770507812-10,10-10h47.5224609375c5.5229492188,0,10,4.4770507812,10,10v368.1616210938c0,5.5229492188-4.4770507812,10-10,10h-47.5224609375Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   d="m1156.4035650313,50.5650634766v368.1616210938h-47.5224914551v-172.625h-178.6127929688v172.625h-47.5225067139V50.5650634766h47.5225067139v153.391784668h178.6127929688V50.5650634766h47.5224914551m0-20h-47.5224914551c-11.0456848145,0-20,8.954284668-20,20v133.391784668h-138.6127929688V50.5650634766c0-11.045715332-8.9543151855-20-20-20h-47.5225067139c-11.0457000732,0-20,8.954284668-20,20v368.1616210938c0,11.045715332,8.9542999268,20,20,20h47.5225067139c11.0456848145,0,20-8.954284668,20-20v-152.625h138.6127929688v152.625c0,11.045715332,8.9543151855,20,20,20h47.5224914551c11.045715332,0,20-8.954284668,20-20V50.5650634766c0-11.045715332-8.954284668-20-20-20h0Z"
                 />
               </g>
             </g>
             <g id="chowW">
               <image
-                class="hwChwLgCrssItmsWShadow"
+                className="hwChwLgCrssItmsWShadow"
                 width="559"
                 height="476"
                 transform="translate(1176.6508861023 418.5764836687)"
@@ -831,18 +831,18 @@ const LogoAndWordsCrossWBG = () => {
               />
               <g>
                 <path
-                  class="hwChwLgCrssItmsWPrmryClrFill"
+                  className="hwChwLgCrssItmsWPrmryClrFill"
                   d="m1527.6837774336,853.3527832031c-4.6943359375,0-8.775390625-3.22265625-9.8642578125-7.7880859375-6.6083984375-27.7001953125-13.3994140625-55.9619140625-20.1845703125-84l-2.8447265625-11.724609375c-2.9794921875-12.27734375-7.8369140625-32.2900390625-12.9208984375-53.27734375-18.1083984375-74.7626953125-20.744140625-86.26171875-24.1484375-102.966796875-1.013671875-4.9716796875-2.0009765625-9.9614257812-2.9609375-14.9599609375-1.2119140625,5.34765625-2.4521484375,10.6635742188-3.716796875,15.9370117188-4.048828125,16.8803710938-6.7451171875,26.6821289062-14.7490234375,55.7788085938-3.2900390625,11.9619140625-7.48046875,27.193359375-13.03515625,47.537109375-1.7109375,6.265625-2.5205078125,9.255859375-3.6806640625,13.5380859375-1.662109375,6.13671875-4.0419921875,14.923828125-10.8095703125,39.7578125-8.7578125,32.1376953125-17.46875,64.0029296875-25.892578125,94.708984375-1.208984375,4.4052734375-5.212890625,7.458984375-9.7802734375,7.458984375h-50.4208984375c-4.6396484375,0-8.6875-3.1494140625-9.8291015625-7.646484375l-94.7470703125-373.2651367188c-.7705078125-3.033203125-.0966796875-6.251953125,1.82421875-8.7216796875,1.921875-2.4697265625,4.8759765625-3.9145507812,8.0048828125-3.9145507812l50.9423828125-.0004882812c4.7216796875,0,8.8193359375,3.2587890625,9.880859375,7.8598632812,10.6533203125,46.1376953125,21.42578125,91.97265625,32.0205078125,136.2314453125l2.4482421875,10.21875c7.220703125,30.1220703125,13.45703125,56.1357421875,21.3349609375,92.390625,2.4306640625,11.1875,4.8154296875,22.4228515625,7.1416015625,33.650390625,2.4560546875-11.126953125,5.0029296875-22.2685546875,7.6259765625-33.3662109375,8.361328125-35.3740234375,15.3251953125-61.01953125,26.861328125-103.505859375,2.9716796875-10.9438476562,6.2578125-23.0483398438,9.96484375-36.77734375,8.73828125-32.357421875,17.6416015625-65.7158203125,26.4609375-99.1499023438,1.1748046875-4.4521484375,5.201171875-7.5541992188,9.8056640625-7.5541992188l50.5576171875-.0004882812c4.697265625,0,8.7802734375,3.2255859375,9.8662109375,7.7958984375,9.498046875,39.9580078125,19.1083984375,79.90625,28.5634765625,118.7348632812l3.8388671875,15.7490234375c9.7783203125,40.08203125,16.23828125,66.5615234375,23.7099609375,102.423828125,2.3623046875,11.3359375,4.642578125,22.7216796875,6.8291015625,34.103515625,2.658203125-11.7265625,5.3740234375-23.45703125,8.1328125-35.12890625,9.7294921875-41.16796875,17.8359375-72.3720703125,29.0546875-115.5595703125,10.3369140625-39.7939453125,21.111328125-80.3803710938,32.0234375-120.6328125,1.1982421875-4.4194335938,5.208984375-7.4877929688,9.7880859375-7.4877929688l49.154296875-.0009765625c3.1787109375,0,6.1728515625,1.490234375,8.08984375,4.0258789062s2.5341796875,5.8232421875,1.6669921875,8.8813476562l-105.8291015625,373.2719726562c-1.2373046875,4.36328125-5.2216796875,7.375-9.7568359375,7.375h-50.4208984375Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   d="m1683.9336553633,469.9399108887l-105.8289794922,373.2708816528h-50.4212646484c-4.5147705078-18.9283370972-11.4963989258-48.1026687622-20.1916503906-84.0318832397-1.0661010742-4.4053344727-8.162902832-33.6143341064-15.7659912109-65.0040130615-17.78125-73.4102172852-20.6463623047-85.8162231445-24.0685424805-102.6044311523-5.2912597656-25.9565734863-8.9888916016-48.0386657715-11.5064697266-64.4823303223-.3504638672-.0352172852-.7008666992-.0705566406-1.0513305664-.1057739258-5.2686767578,28.049987793-10.3913574219,50.5231018066-13.9176635742,65.2255554199-5.6680908203,23.6323242188-8.7149047852,33.4557800293-27.7064208984,103.0098876953-4.1644897461,15.2518920898-2.9979248047,11.1239929199-14.4909057617,53.300994873-11.1295776367,40.8431091309-20.116027832,73.649887085-25.8885498047,94.6919937134h-50.4206542969l-94.7478027344-373.2646560669c16.9807739258-.0002441406,33.9617919922-.0004577637,50.942565918-.0006713867,13.2013549805,57.1767578125,24.206237793,103.5893249512,32.0391845703,136.3118896484,8.1018066406,33.8454284668,14.9865722656,62.1369934082,23.7360229492,102.401550293,7.2125854492,33.1920013428,12.6745605469,60.6332244873,16.2586669922,79.1728820801.3804321289-.0035552979.7608032227-.0072174072,1.1412353516-.0108795166,3.4019775391-17.0808868408,9.1177978516-44.7332305908,17.1462402344-78.6984405518,10.4474487305-44.1986694336,18.5085449219-72.4235534668,36.7487792969-139.9730224609,6.1232910156-22.6768798828,15.3131103516-56.8929748535,26.474609375-99.2060852051,16.8529052734-.0002441406,33.7056884766-.0004577637,50.55859375-.0006713867,11.8937988281,50.0384521484,21.7464599609,90.743560791,28.5758666992,118.7890930176,12.1514892578,49.9009094238,19.1148071289,77.7222290039,27.4746704102,117.8414611816,7.1292114258,34.2132110596,12.1421508789,62.3399963379,15.2552490234,80.7021026611.3827514648.020111084.7655639648.040222168,1.1483154297.0604400635,4.206237793-19.6647644043,10.3813476562-47.7855529785,18.3551025391-81.5239868164,9.5056762695-40.2197875977,17.1213378906-69.6109008789,29.0010375977-115.3418884277,8.0819702148-31.1123352051,18.8658447266-72.0956726074,31.9956665039-120.5293273926l49.1544189453-.0006713867m.0001220703-20.2823181152h-.0003662109l-49.1544189453.0006713867c-9.1577758789.0000610352-17.1795654297,6.1368408203-19.5755615234,14.9755249023-10.9194335938,40.2799072266-21.7027587891,80.901550293-32.0506591797,120.7366638184-10.2969970703,39.6384277344-17.975769043,69.1978149414-26.6920166016,105.6145019531-6.5395507812-30.5275268555-12.6368408203-55.5220947266-21.3770141602-91.3501586914-1.2191162109-4.9974365234-2.4921875-10.2161254883-3.8280639648-15.7017822266-9.4471435547-38.7952270508-19.0526733398-78.7250976562-28.5498046875-118.6806640625-2.1724243164-9.1396789551-10.3383789062-15.592010498-19.7325439453-15.592010498-.0005493164,0,.0003662109,0-.0002441406,0l-25.279296875.0003662109-25.2792358398.0003051758c-9.2092285156.0001220703-17.2624511719,6.2045898438-19.611328125,15.1091003418-8.7828979492,33.2956848145-17.6799926758,66.6350097656-26.444152832,99.092010498-3.7105102539,13.7412414551-6.9995117188,25.8540039062-9.9728393555,36.8043518066-10.3341674805,38.05859375-17.0061035156,62.6304321289-24.3049926758,92.7981262207-6.8107910156-30.8689575195-12.5087890625-54.6383361816-19.000793457-81.719909668l-2.446105957-10.2090148926c-10.5894775391-44.2376708984-21.3564453125-90.0462036133-32.0018920898-136.1531066895-2.1244506836-9.2012329102-10.3193969727-15.7194213867-19.7624511719-15.7194213867-.0005493164,0,.0003662109,0-.0002441406,0l-25.4713134766.0003051758-25.4712524414.0003662109c-6.2584228516.0000610352-12.1664428711,2.8892822266-16.008972168,7.829284668-3.8425292969,4.9399108887-5.189453125,11.3770141602-3.6496582031,17.443145752l94.7477416992,373.2646560669c2.2831420898,8.9944458008,10.3792724609,15.2922210693,19.6589355469,15.2922210693h50.4206542969c9.1350708008,0,17.1428833008-6.1068878174,19.5596313477-14.9164428711,8.4632568359-30.850227356,17.1764526367-62.720451355,25.8977050781-94.725440979,6.7903442383-24.9191131592,9.164855957-33.6867828369,10.8285522461-39.8292236328,1.1499023438-4.2460174561,1.9588623047-7.2327728271,3.6596679688-13.4617767334,5.5501098633-20.3264465332,9.6959838867-35.3972167969,13.0272216797-47.5067749023,3.4603271484-12.5787963867,5.932800293-21.56640625,7.9529418945-29.0841674805,3.3458862305,14.3466186523,8.5869140625,36.1519775391,17.9918212891,74.9802856445,5.2575683594,21.7057647705,10.2728881836,42.3689880371,13.2203369141,54.5119781494,1.3137817383,5.4127807617,2.2161254883,9.1302337646,2.5446777344,10.4880065918,6.8236694336,28.1954498291,13.6117553711,56.4459991455,20.1760864258,83.9670028687,2.1783447266,9.1326675415,10.3400268555,15.5765533447,19.7288818359,15.5765533447h50.4212646484c9.0709838867,0,17.0390014648-6.0230026245,19.5131835938-14.75l105.8289794922-373.2708969116c1.7341308594-6.1160888672.5001220703-12.6914367676-3.3332519531-17.7627563477-3.8332519531-5.0711669922-9.8231201172-8.0518798828-16.1798095703-8.0518798828h0Zm-.0001220703,40.5646362305h.0050048828-.0050048828Z"
                 />
               </g>
             </g>
             <g id="circleO">
               <image
-                class="hwChwLgCrssItmsWShadow"
+                className="hwChwLgCrssItmsWShadow"
                 width="475"
                 height="475"
                 transform="translate(781.0744024336 419)"
@@ -850,18 +850,18 @@ const LogoAndWordsCrossWBG = () => {
               />
               <g>
                 <path
-                  class="hwChwLgCrssItmsWPrmryClrFill"
+                  className="hwChwLgCrssItmsWPrmryClrFill"
                   d="m1018.8639532149,853.7229003906c-108.7265625,0-197.1821289062-88.4560546875-197.1821289062-197.1826171875s88.4555664062-197.181640625,197.1821289062-197.181640625,197.1821289062,88.455078125,197.1821289062,197.181640625-88.4555664062,197.1826171875-197.1821289062,197.1826171875Zm.1704101562-329.5239257812c-72.7202148438,0-131.8823242188,59.162109375-131.8823242188,131.8823242188,0,72.7197265625,59.162109375,131.8818359375,131.8823242188,131.8818359375s131.8823242188-59.162109375,131.8823242188-131.8818359375c0-72.7202148438-59.162109375-131.8823242188-131.8823242188-131.8823242188Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   d="m1018.8637701094,469.358581543c103.3778076172,0,187.1821289062,83.8042907715,187.1821289062,187.1820983887s-83.8043212891,187.1820983887-187.1821289062,187.1820983887-187.1820983887-83.8042907715-187.1820983887-187.1820983887,83.8042907715-187.1820983887,187.1820983887-187.1820983887m.170501709,328.6047973633c78.3594970703,0,141.8823852539-63.5229034424,141.8823852539-141.8822937012,0-78.3594055176-63.5228881836-141.8822937012-141.8823852539-141.8822937012s-141.88230896,63.5228881836-141.88230896,141.8822937012c0,78.3593902588,63.5228118896,141.8822937012,141.88230896,141.8822937012m-.170501709-348.6047973633c-27.9606018066,0-55.0953979492,5.4805908203-80.6507873535,16.2896118164-24.6734008789,10.4359741211-46.8283081055,25.371887207-65.849105835,44.392578125-19.0207061768,19.0208129883-33.9566040039,41.1757202148-44.3926086426,65.8491210938-10.8090057373,25.5553894043-16.2895965576,52.6901855469-16.2895965576,80.6507873535s5.4805908203,55.0953979492,16.2895965576,80.6508026123c10.4360046387,24.6734008789,25.3719024658,46.8282928467,44.3926086426,65.8490905762,19.0207977295,19.0207061768,41.1757049561,33.9566040039,65.849105835,44.3926086426,25.5553894043,10.8089981079,52.6901855469,16.2895965576,80.6507873535,16.2895965576s55.0953979492-5.4805984497,80.6507873535-16.2895965576c24.6734008789-10.4360046387,46.8283081055-25.3719024658,65.8491210938-44.3926086426,19.0207214355-19.0207977295,33.9565734863-41.1756896973,44.3926086426-65.8490905762,10.8089599609-25.5554046631,16.2896118164-52.6902008057,16.2896118164-80.6508026123s-5.4806518555-55.0953979492-16.2896118164-80.6507873535c-10.4360351562-24.6734008789-25.371887207-46.8283081055-44.3926086426-65.8491210938-19.0208129883-19.020690918-41.1757202148-33.9566040039-65.8491210938-44.392578125-25.5553894043-10.8090209961-52.6901855469-16.2896118164-80.6507873535-16.2896118164h0Zm.170501709,328.6047973633c-67.2061157227,0-121.88230896-54.6761932373-121.88230896-121.8822937012,0-67.2061157227,54.6761932373-121.8822937012,121.88230896-121.8822937012,67.2062072754,0,121.8823852539,54.6761779785,121.8823852539,121.8822937012,0,67.2061004639-54.6761779785,121.8822937012-121.8823852539,121.8822937012h0Z"
                 />
               </g>
             </g>
             <g id="chowH">
               <image
-                class="hwChwLgCrssItmsWShadow"
+                className="hwChwLgCrssItmsWShadow"
                 width="380"
                 height="476"
                 transform="translate(441.6472910347 418.5728886011)"
@@ -869,18 +869,18 @@ const LogoAndWordsCrossWBG = () => {
               />
               <g>
                 <path
-                  class="hwChwLgCrssItmsWPrmryClrFill"
+                  className="hwChwLgCrssItmsWPrmryClrFill"
                   d="m722.0119024336,853.7502441406c-5.6015625,0-10.142578125-4.541015625-10.142578125-10.142578125v-164.9404296875h-160.8706054688v164.9404296875c0,5.6015625-4.541015625,10.142578125-10.142578125,10.142578125h-48.19921875c-5.6015625,0-10.142578125-4.541015625-10.142578125-10.142578125v-373.4038085938c0-5.6015625,4.541015625-10.142578125,10.142578125-10.142578125h48.19921875c5.6015625,0,10.142578125,4.541015625,10.142578125,10.142578125v145.4331054688h160.8706054688v-145.4331054688c0-5.6015625,4.541015625-10.142578125,10.142578125-10.142578125h48.1987304688c5.6015625,0,10.142578125,4.541015625,10.142578125,10.142578125v373.4038085938c0,5.6015625-4.541015625,10.142578125-10.142578125,10.142578125h-48.1987304688Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   d="m770.2107168257,470.2041015625v373.4031982422h-48.1989974976v-175.0827026367h-181.1558074951v175.0827026367h-48.1989898682v-373.4031982422h48.1989898682v155.5757141113h181.1558074951v-155.5757141113h48.1989974976m0-20.2847290039h-48.1989974976c-11.2030029297,0-20.284702301,9.0817260742-20.284702301,20.2847290039v135.2909851074h-140.5863990784v-135.2909851074c0-11.2030029297-9.081703186-20.2847290039-20.2847061157-20.2847290039h-48.1989898682c-11.2030029297,0-20.2847137451,9.0817260742-20.2847137451,20.2847290039v373.4031982422c0,11.2030029297,9.0817108154,20.2846984863,20.2847137451,20.2846984863h48.1989898682c11.2030029297,0,20.2847061157-9.0816955566,20.2847061157-20.2846984863v-154.7980041504h140.5863990784v154.7980041504c0,11.2030029297,9.0816993713,20.2846984863,20.284702301,20.2846984863h48.1989974976c11.2029953003,0,20.2847061157-9.0816955566,20.2847061157-20.2846984863v-373.4031982422c0-11.2030029297-9.0817108154-20.2847290039-20.2847061157-20.2847290039h0Z"
                 />
               </g>
             </g>
             <g id="pacManC">
               <image
-                class="hwChwLgCrssItmsWShadow"
+                className="hwChwLgCrssItmsWShadow"
                 width="481"
                 height="471"
                 transform="translate(0 420.9255975664)"
@@ -888,11 +888,11 @@ const LogoAndWordsCrossWBG = () => {
               />
               <g>
                 <path
-                  class="hwChwLgCrssItmsWPrmryClrFill"
+                  className="hwChwLgCrssItmsWPrmryClrFill"
                   d="m257.4328008711,853.2814941406c-120.765625,0-219.0161132812-88.7470703125-219.0161132812-197.8310546875,0-52.7998046875,22.9340820312-102.3793945312,64.5771484375-139.6049804688,41.34765625-36.9614257812,96.25390625-57.3168945312,154.603515625-57.3168945312,71.5830078125,0,136.4409179688,29.3481445312,182.6259765625,82.6391601562,1.6694335938,1.9262695312,2.4809570312,4.4506835938,2.2465820312,6.9887695312-.2338867188,2.5385742188-1.4936523438,4.8715820312-3.4877929688,6.4599609375l-130.779296875,104.1728515625,131.0913085938,114.064453125c2.0126953125,1.7509765625,3.1821289062,4.27734375,3.21484375,6.9453125.0327148438,2.6669921875-1.0747070312,5.2216796875-3.0434570312,7.021484375-25.423828125,23.2412109375-56.0009765625,40.78515625-90.8818359375,52.1435546875-28.7612304688,9.3662109375-60.2807617188,14.3173828125-91.1508789062,14.3173828125Zm1.5053710938-329.5341796875c-6.7250976562,0-13.576171875.3833007812-20.3618164062,1.1396484375-26.4150390625,2.943359375-64.689453125,12.953125-97.0209960938,43.9267578125-9.1782226562,8.7924804688-39.0546875,41.1796875-38.1499023438,88.7783203125.4809570312,25.3125,9.5673828125,49.6318359375,27.005859375,72.28125,15.0239257812,19.5146484375,31.9653320312,29.77734375,40.1069335938,34.7099609375,2.2788085938,1.380859375,23.0053710938,13.6533203125,49.173828125,19.513671875,11.8095703125,2.64453125,24.0776367188,3.9853515625,36.4633789062,3.9853515625,33.2299804688,0,60.0317382812-9.3076171875,74.7651367188-15.8505859375l-114.275390625-110.6474609375c-1.9345703125-1.873046875-2.9682617188-4.48828125-2.8374023438-7.1787109375.1313476562-2.689453125,1.4150390625-5.1923828125,3.5224609375-6.8681640625l127.595703125-101.4682617188c-18.375-10.3315429688-47.908203125-22.3217773438-85.9877929688-22.3217773438Z"
                 />
                 <path
-                  class="hwChwLgCrssItemsWWhiteFill"
+                  className="hwChwLgCrssItemsWWhiteFill"
                   d="m257.5975652754,467.8863220215c62.6148071289,0,127.5870056152,24.0638122559,175.5540924072,79.4105224609l-139.5699005127,111.1745910645,139.5699005127,121.4418945312c-52.9402923584,48.3948059082-121.729385376,64.0096054077-175.7190093994,64.0096054077-115.8818664551,0-209.6578063965-84.8843002319-209.6578063965-188.4728927612,0-103.5886230469,93.9407958984-187.5637207031,209.8227233887-187.5637207031m-1.441619873,329.5543670654c42.0545043945,0,76.2994995117-14.4828338623,90.7672119141-22.7412567139l-123.7680053711-119.8375854492,138.0191040039-109.7575073242c-15.7164001465-10.6344909668-51.8699645996-30.7168884277-102.2359313965-30.7153930664-6.8717346191.0001831055-14.0135498047.3742675781-21.3983764648,1.1971740723-18.9745788574,2.1143188477-64.2769775391,9.8928222656-102.4582824707,46.4697265625-8.8287963867,8.4579772949-42.0231323242,43.6231994629-41.0328369141,95.7141723633.7681274414,40.4071044922,21.8851318359,68.6393127441,28.9475097656,77.8124084473,15.768737793,20.4813079834,33.6188049316,31.5191040039,42.6731262207,37.0048065186,2.528503418,1.5318908691,24.1352844238,14.4057006836,51.9776916504,20.6412963867,13.3058166504,2.9799957275,26.2369384766,4.2121582031,38.5087890625,4.2121582031m1.441619873-348.2706451416c-30.5953063965,0-60.3009033203,5.3660888672-88.2917175293,15.9492797852-27.1471862793,10.2642211914-51.5562133789,24.9836120605-72.5488891602,43.7492980957-21.1437988281,18.9008178711-37.7681274414,40.9611206055-49.4111938477,65.5682067871-12.1345214844,25.6455993652-18.2872314453,52.9024047852-18.2872314453,81.0132141113,0,114.2444915771,102.4482421875,207.1891860962,228.3741149902,207.1891860962,31.842010498,0,64.363494873-5.1096954346,94.0484008789-14.7766952515,36.1573181152-11.774597168,67.8839111328-29.9882965088,94.2987060547-54.1349945068,3.9378051758-3.5997009277,6.1522064209-8.7088012695,6.086807251-14.0436096191-.0653991699-5.3347930908-2.4044036865-10.388092041-6.4293060303-13.8901977539l-122.6128540039-106.6873168945,121.9884490967-97.1700744629c3.9878997803-3.1765136719,6.50730896-7.8424987793,6.9759063721-12.9194030762.4685058594-5.0768127441-1.154296875-10.1250915527-4.4933929443-13.9779968262-24.8439025879-28.666015625-54.7984161377-50.6681213379-89.0315093994-65.3952026367-31.5791931152-13.5853271484-65.4482116699-20.4736938477-100.6662902832-20.4736938477h0Zm-1.441619873,329.5543823242c-11.6989746094,0-23.279083252-1.2648925781-34.4183959961-3.7596893311-24.7080993652-5.533706665-44.2256774902-17.0859985352-46.3699035645-18.3851013184-7.6558837891-4.6385040283-23.587097168-14.2907104492-37.5411682129-32.4150085449-16.1895141602-21.0279998779-24.6224975586-43.4860076904-25.0646972656-66.750289917-.8326416016-43.7939147949,26.7835693359-73.7157897949,35.267364502-81.8432922363,30.440612793-29.1614990234,66.6054077148-38.6005249023,91.5835266113-41.3838195801,6.4418945312-.7178039551,12.9441833496-1.0817871094,19.326171875-1.0820007324,28.321685791,0,51.6307373047,6.9901733398,68.7434387207,14.7202453613l-116.1764221191,92.3874511719c-4.2155151367,3.3522033691-6.7825012207,8.358001709-7.0447998047,13.7373962402-.2622070312,5.3795166016,1.8056030273,10.6112060547,5.6748962402,14.3577270508l103.8362121582,100.5387420654c-16.1773071289,5.5447845459-36.4520263672,9.8776397705-57.8162231445,9.8776397705h0Z"
                 />
               </g>
@@ -901,19 +901,19 @@ const LogoAndWordsCrossWBG = () => {
           <g id="howChowLogo">
             <path
               id="fork"
-              class="hwChwLgCrssItmsWPrmryClrFill hwChwLgCrssImgIntrnlCss-cls-17"
+              className="hwChwLgCrssItmsWPrmryClrFill hwChwLgCrssImgIntrnlCss-cls-17"
               d="m1003.6085691283,779.3936606523c-.0728461381-4.2597166179-.1665181668-8.5191057813-.2116096297-12.7791536175-.0325188324-3.0383526521-.0472659746-6.0776970774.0143023557-9.1153872928.0906375966-4.4822069104,2.7101728626-7.9787775907,7.6032291807-10.3503274478,1.7639934509-.8548557869,2.3151332965-1.7630170298,2.2730762656-3.2717642116-.1149130532-4.1355631297-.1027753249-8.2754269229-.0026094139-12.4116508426.03208393-1.3355900773-.5767298933-1.8845280635-2.2535649662-2.2785174868-15.3373837272-3.602848492-24.421880316-12.833782065-24.702006829-25.0517520264-.4626767606-20.1722411567-.0364230691-40.3332321804,1.2635889143-60.4859427449.4249588687-6.5845910321.6248656725-13.1784411232.8221630623-19.7699802134.0533348387-1.780893412.5767200091-2.7079284561,3.3094484874-2.5675520899,4.5474473539.2337423074,4.6515175016-.8452466904,4.8804639192,3.6842999815.9505086666,18.7922838145,1.9829865359,37.5822641557,3.0089408704,56.3725644238.1483016902,2.7109094214,2.5900607499,4.50670766,5.9801539647,4.5182927751,3.4308554229.0119163335,5.8856220156-1.7309057855,6.0516953959-4.4593622527.5064832849-8.3287342608.9665605158-16.6591170857,1.4066915449-24.990169875.5832336598-11.0422934291,1.1603885712-22.0845868582,1.659498285-33.1288525422.0693768037-1.5428527936.7063802045-2.1838280836,2.8151029308-2.1749002431,6.1605395849.0264974694,5.2776779969-.3800730765,5.5604040396,3.9296349318.9899661678,15.1036930495,2.0150605818,30.2060536979,3.0423295074,45.3080906556.2497723081,3.6773443958.4860922967,7.3566761018.8616205635,11.0270573842.2896548274,2.8324213961,2.8740717313,4.5639896183,6.3482888921,4.442808862,3.2777895755-.1142176429,5.5976969133-2.0209326322,5.7208533423-4.7652762895.7284910337-16.2790327176,1.4405052001-32.5584079451,2.1646669789-48.8374444266.132249841-2.9714728888.3958994866-5.9419521226.4024032531-8.9130937931.0039042367-1.7295771482.7592801409-2.381806335,3.1138808227-2.3248668866,6.3144752369.1529626642,5.2169695871-.6015828874,5.5582295281,3.9839246332,1.2241314131,16.4512022833,2.3931883783,32.9076965327,3.1997344937,49.373137442.499534732,10.2026586317.437096597,20.4258490384.3885259155,30.6391104217-.0524650341,11.076723202-9.9625841355,20.9847226346-23.9921572901,24.0247332605-2.6325526831.5704544771-3.4586002139,1.3925328191-3.3358885714,3.43863099.2311209291,3.871026218.1153479555,7.7562868277.0385975806,11.6345970269-.0251551454,1.2750029925.3703094389,2.0914543861,1.9461087962,2.8128846877,5.3622368452,2.453990297,8.0359866387,6.2329726244,8.1062332471,10.95952083.1062347751,7.1745756309.0021646274,14.351138572-.0121476124,21.5267059761-3.8016887214,1.058284086-10.0253978679,2.380541683-17.815635045,2.2200061625-6.4783938739-.1335035851-11.7154974615-1.2445492515-15.2146127798-2.2200061625Z"
             />
             <circle
               id="outerRing"
-              class="logoOuterRing hwChwLgCrssItmsWPrmryClrStroke hwChwLgCrssImgIntrnlCss-cls-20"
+              className="logoOuterRing hwChwLgCrssItmsWPrmryClrStroke hwChwLgCrssImgIntrnlCss-cls-20"
               cx="1020.034302336"
               cy="656.5406703926"
               r="122.5852053232"
             />
             <path
               id="halo"
-              class="hwChwLgCrssItmsWPrmryClrFill"
+              className="hwChwLgCrssItmsWPrmryClrFill"
               d="m1019.8085562322,612.8895745164c-35.0347581248,0-72.7419418282-9.2968804579-72.7419418282-29.7110836221s37.7071837033-29.7118981376,72.7419418282-29.7118981376c35.0339422956,0,72.7419395619,9.2976949734,72.7419395619,29.7118981376s-37.7079972663,29.7110836221-72.7419395619,29.7110836221Zm0-43.0300418529c-36.0268380866,0-55.1760990895,9.7888478485-56.3734369744,13.5071113223,1.1973378849,3.3419537662,20.3465988877,13.1308051394,56.3734369744,13.1308051394,35.4306113671,0,54.535889853-9.4646706606,56.2968706601-13.3189582309-1.7609808071-3.8542875702-20.866259293-13.3189582309-56.2968706601-13.3189582309Z"
             />
           </g>
