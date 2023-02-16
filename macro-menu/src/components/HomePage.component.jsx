@@ -5,17 +5,35 @@ import HowChowHaloFork from "../assets/HowChowHaloForkWLayerNames020923.svg";
 import HowChowLogoWWordsCross from "../assets/HowChowLogoWWordsCross020323.svg";
 import HowChowCrossWrdsWHaloFrkNGreyIcons from "../assets/HowChowCrossWrdsWHaloFrkNGreyIcons020723.svg";
 import HowChowWMPScreenTopScrnSht from "../assets/howChowWMPScreenTopScrnSht.png";
+import HowChowGifChngRcpUpdtsBdgt from "../assets/HowChowGifChngRcpUpdtsBdgt021523.gif";
+import HowChowGifChngIngrdntQtyUpdtsBdgt from "../assets/HowChowGifChngIngrdntQtyUpdtsBdgt021523.gif";
 import AdobeStockVeggieHeart from "../assets/adobeStockVeggieHeart.png";
 import AdobeStockGreenPrdceCrateOnDrkGrnBG from "../assets/adobeStockGreenPrdceCrateOnDrkGrnBG.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import jwtDecode from "jwt-decode";
 import LogoAndWordsCrossWBG from "./LogoAndWordsCrossWBG.component";
 const thisYear = new Date().getFullYear();
-const ShoppingListItem = (props) => {
+const HomePage = (props) => {
   const [currentGRFUser, updateCurrentGRFUser] = useState({
     _id: 1,
     handle: "",
   });
+  const [scrnShtCrsl1SlideNum, setscrnShtCrsl1SlideNum] = useState(1);
+  function handleClickCarouselNextPrev(next, finalSlideNum, whichCrsel) {
+    if (next) {
+      if (scrnShtCrsl1SlideNum === finalSlideNum) {
+        setscrnShtCrsl1SlideNum(1);
+      } else {
+        setscrnShtCrsl1SlideNum(scrnShtCrsl1SlideNum + 1);
+      }
+    } else {
+      if (scrnShtCrsl1SlideNum === 1) {
+        setscrnShtCrsl1SlideNum(finalSlideNum);
+      } else {
+        setscrnShtCrsl1SlideNum(scrnShtCrsl1SlideNum - 1);
+      }
+    }
+  }
   function getCurrentUser() {
     const jwt = localStorage.getItem("token");
     if (jwt) {
@@ -67,7 +85,7 @@ const ShoppingListItem = (props) => {
             />
             <span>A better way to meal plan for macros.</span>
           </div>
-          <h1>
+          <h1 className="h1HomePg">
             HowChow lets you budget your macros like you would budget your
             money.
           </h1>
@@ -94,62 +112,111 @@ const ShoppingListItem = (props) => {
           </div>
           {/* Build your meal plan to fit your macros budget - get the most out of
           your meals. */}
-          <figure className="figure card">
-            <figcaption className="figure-caption">
-              Start with a budget &#40;Cals, Carbs, Protein, Fat & Fiber&#41;
-            </figcaption>
-            <div
-              className="screenshot"
-              style={{
-                backgroundImage: `url(${HowChowWMPScreenTopScrnSht})`,
+          <div className="outerCarousel">
+            <button
+              onClick={() => {
+                handleClickCarouselNextPrev(false, 3);
               }}
             >
-              <div className="screenshotFrame">
+              <FontAwesomeIcon icon="fa-solid fa-chevron-left" />
+            </button>
+            <div className="innerCarousel">
+              <figure className="figure" hidden={scrnShtCrsl1SlideNum !== 1}>
+                <figcaption className="figure-caption">
+                  Start with a budget &#40;Cals, Carbs, Protein, Fat &
+                  Fiber&#41;
+                </figcaption>
                 <div
-                  className="screenshotAnnotation"
+                  className="screenshot"
                   style={{
-                    width: "5.25rem",
-                    height: "3.65rem",
-                    top: "25rem",
-                    left: "5.25rem",
+                    backgroundImage: `url(${HowChowWMPScreenTopScrnSht})`,
                   }}
-                ></div>
-              </div>
-            </div>
-          </figure>
-          <figure className="figure card">
-            <figcaption className="figure-caption">
-              Then watch your &quot;Current&quot; &amp; &quot;Remaining&quot;
-              change in real-time while you choose your Meals.
-            </figcaption>
-            <div
-              className="screenshot"
-              style={{
-                backgroundImage: `url(${HowChowWMPScreenTopScrnSht})`,
-              }}
-            >
-              <div className="screenshotFrame">
+                >
+                  <div className="screenshotFrame">
+                    <div
+                      className="screenshotAnnotation"
+                      style={{
+                        width: "9.75rem",
+                        height: "10rem",
+                        marginTop: "3.4rem",
+                        marginLeft: "0.5rem",
+                      }}
+                    ></div>
+                    <svg
+                      data-name="longOrangeArrow"
+                      viewBox="0 0 98.5991786958 790.2349186274"
+                      style={{
+                        marginTop: "13.2rem",
+                        height: "14rem",
+                      }}
+                    >
+                      <line
+                        class="longOrangeArrowCls-1"
+                        x1="49.0939977262"
+                        x2="49.0939977262"
+                        y2="787.2340425532"
+                      />
+                      <line
+                        class="longOrangeArrowCls-1"
+                        x1="2.6447576046"
+                        y1="744.5343465046"
+                        x2="51.0939977262"
+                        y2="787.2340425532"
+                      />
+                      <line
+                        class="longOrangeArrowCls-1"
+                        x1="95.9527424198"
+                        y1="744.1248419338"
+                        x2="47.0939977262"
+                        y2="787.2340425527"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </figure>
+              <figure className="figure" hidden={scrnShtCrsl1SlideNum !== 2}>
+                <figcaption className="figure-caption">
+                  Then watch your &quot;Current&quot; &amp;
+                  &quot;Remaining&quot; change in real-time while you choose
+                  your Meals.
+                </figcaption>
                 <div
-                  className="screenshotAnnotation"
+                  className="screenshot"
                   style={{
-                    width: "5.25rem",
-                    height: "3.65rem",
-                    top: "25rem",
-                    left: "5.25rem",
+                    backgroundImage: `url(${HowChowGifChngRcpUpdtsBdgt})`,
                   }}
-                ></div>
-              </div>
-            </div>
-          </figure>
-          <figure className="figure card">
-            <figcaption className="figure-caption">
-              ...Then, customize ingredient quantities to get a tighter match!
-            </figcaption>
-            <img
+                >
+                  <div className="screenshotFrame"></div>
+                </div>
+              </figure>
+              <figure className="figure" hidden={scrnShtCrsl1SlideNum !== 3}>
+                <figcaption className="figure-caption">
+                  ...Then, customize ingredient quantities to get a tighter
+                  match!
+                </figcaption>
+
+                <div
+                  className="screenshot"
+                  style={{
+                    backgroundImage: `url(${HowChowGifChngIngrdntQtyUpdtsBdgt})`,
+                  }}
+                >
+                  <div className="screenshotFrame"></div>
+                </div>
+                {/* <img
               className="homePgScreenShot figure-img"
               src="https://lh3.googleusercontent.com/0pCJWisjmyziTDw_TzcGhFEePgtC32GJVwECQLpLwkD4sLYrpxnQB1vRuKIkdY79sy5k2_x_z4m8Ez2KIAeVguBz8EM947BWGf4Kqq3tHZN6kgOwBPHTbZAdl2DHtZ6JtfC9QlDlcw=w2400"
-            />
-          </figure>
+            /> */}
+              </figure>
+            </div>
+            <button
+              onClick={() => {
+                handleClickCarouselNextPrev(true, 3);
+              }}
+            >
+              <FontAwesomeIcon icon="fa-solid fa-chevron-right" />
+            </button>
+          </div>
         </section>
         <section>
           <h1>You shouldn't have to be a gourmet chef to meet your macros!</h1>
@@ -210,4 +277,4 @@ const ShoppingListItem = (props) => {
   );
 };
 
-export default ShoppingListItem;
+export default HomePage;

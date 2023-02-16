@@ -35,7 +35,7 @@ const NewMealChildCard = (props) => {
     userType,
     hasChildren,
     thisMealsIngrdnts,
-    userChangedThisMealsRecipe,
+    userChangedThisMealRecipe,
   } = thisStateObj;
   const { _id, createdAt, updatedAt, day, genRecipe, mealType } = thisRecord;
   const thisMealTypeCode = mealType.code;
@@ -180,7 +180,7 @@ const NewMealChildCard = (props) => {
               specificMethods: {},
             }}
           />
-          {userChangedThisMealsRecipe && !justCreated.meal ? (
+          {userChangedThisMealRecipe && !justCreated.meal ? (
             <div className="alert alert-warning recipeWarning" role="alert">
               CAUTION: If you save a change to this Meal's Recipe, your meal
               ingredient custom qtys will be reset.

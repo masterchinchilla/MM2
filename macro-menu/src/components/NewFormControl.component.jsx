@@ -64,7 +64,7 @@ const NewFormControl = (props) => {
         }
         break;
       case "save":
-        if (!editingForm || saveDisabled === true) {
+        if (!recordChanged || saveDisabled === true) {
           iconHidden = true;
         } else {
           iconHidden = false;

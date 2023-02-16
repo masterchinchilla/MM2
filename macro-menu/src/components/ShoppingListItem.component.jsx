@@ -105,6 +105,7 @@ const ShoppingListItem = (props) => {
         <div className="shopListItemCheckTdSubDiv">
           <input
             type={"checkBox"}
+            className="form-check-input"
             checked={boughtChecked}
             onChange={(e) => {
               handleCheckUncheckBoughtBoxFn(e.target.value);

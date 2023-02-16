@@ -7,12 +7,17 @@
   /* --accentColor:#EC759D; */
   :root{
     --brandColorPrimary: #399d15;
-    --brandColorSecondary:rgba(0 91 111 / 100%);
+    --brandColorSecondary:#005b6f;
+    --brandColorSecondaryBright:#20c997;
+    --brandClrScndryDsbldElmnt:#6e919e;
     --offWhite:#fefffd;
     --offBlack:#222322;
     --bootStrapCardBorderColor:rgba(0, 0, 0, .125);
     --bootStrapCardBGColor: rgba(0, 0, 0, .03);
+    --bootStrapPlaceHolderColor:#212529;
+    --muiDisabled:#bdbdbd;
     --colorForBSAccrdnBttn:rgba(0 91 111 / 10%);
+    --bootStrapFocusedColor:#ffc107;
   }
   :root{
     --bootStrapCardBorder:1px solid var(--bootStrapCardBorderColor);
@@ -23,6 +28,7 @@
   }
   :root{
     --scrnShtAnnttnShapeColor:var(--accentColor);
+    --focusedColor:var(--accentColor);
   }
   body {
     color:var(--textAndDarkColor) !important;
@@ -62,7 +68,11 @@
     justify-content: center;
     align-items: center;
     margin: 1rem;
+    color:var(--offWhite) !important;
   }
+    .btn-primary:disabled{
+      background-color: var(--brandClrScndryDsbldElmnt) !important;
+    }
   .weekMealPlanFormCards {
   }
   .card-header {
@@ -101,7 +111,11 @@
   }
   button.accordion-button {
     padding: 3px 1rem 3px 1rem;
+    color: var(--textAndDarkColor) !important;
   }
+    .accordion-button::after {
+      background-image: url("./bootstapsAccrdnBttnInTxtDrkClr.svg") !important;
+    }
   .newItemButton {
     align-items: center;
     display: flex;
@@ -186,8 +200,9 @@
     background-color: var(--colorForBSAccrdnBttn) !important;
   }
   .accordion-button:not(.collapsed)::after {
-    background-image: url("./bootstapsAccrdnBttn.svg") !important;
+    background-image: url("./bootstapsAccrdnBttnInAccntClr.svg") !important;
   }
+
   .recipeSelectHeader {
     margin: 0 0.25rem 0 0.5rem;
     font-size: 12pt;
@@ -272,8 +287,12 @@
     display: flex;
     justify-content: center;
   }
+  .table{
+    color:unset !important;
+    border-color: var(--accentColor) !important;
+  }
   .macrosTable {
-    background-color: #fff;
+    background-color: var(--offWhite);
     border: solid 5px;
     min-width:300px;
   }
@@ -640,17 +659,13 @@
     width: fit-content;
     justify-self: end;
   }
-  .changingWarning{
-    color:#ffc107;
-    background-color: #fff;
-    border-radius: 0.25rem;
-  }
+  
   .cardHeaderFocused{
-    background-color: #ffc107 !important;
+    background-color: var(--focusedColor) !important;
   }
   .subCardHeaderFocused{
     padding:0.5rem !important;
-    background-color: #ffc107;
+    background-color: var(--focusedColor);
   }
   .modal-title{
     text-transform: capitalize;
@@ -890,24 +905,30 @@
       height: 3rem !important;
     margin: 0;
     z-index: 3;
+    background-color: var(--brandColorSecondaryBright) !important;
   }
-  .applyMlWghtChngBttn:disabled{
-    background-color: #649ff7 !important;
+  .applyMlWghtChngBttn:disabled,.subFrmBttnDisabled{
+    background-color: var(--brandClrScndryDsbldElmnt) !important;
     opacity: 1 !important;
   }
-
+.css-187mznn-MuiSlider-root{
+  color:var(--accentColor) !important;
+}
+.css-187mznn-MuiSlider-root.Mui-disabled{
+  color:var(--muiDisabled) !important;
+}
   .applyMlWghtChngBttn:active {height:3.45rem}
   .circleCheck{
     
   }
 
-  .subFrmBttnDisabled{
+  /* .subFrmBttnDisabled{
     color: #0d6dfd81;
-  }
+  } */
 
-  .subFrmBttnEnabled{
+  /* .subFrmBttnEnabled{
     color: #0d6efd;
-  }
+  } */
   .subFrmBttnHovered{
     height:3.5rem;
   }
@@ -915,7 +936,7 @@
     height: 3.25rem;
   }
   .applyMlWghtChngBttn svg {
-    color:#ffffff;
+    color: var(--offWhite) !important;
         margin: 0 !important;
           height: 2rem !important;
   }
@@ -939,7 +960,10 @@
     align-self: start;
   }
   .progress-bar{
+    background-color: var(--textAndDarkColor) !important;
     z-index: 2;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent) !important;
+    background-size: 1rem 1rem;
   }
   .labelOff{
     visibility: hidden;
@@ -1088,6 +1112,9 @@
           line-height: 1.2;
           font-size:1rem;
   }
+    .placeholder {
+      background-color: #222322 !important;
+    }
   .badge input.placeholder {
     margin-bottom: 0.5rem !important;
   }
@@ -1354,18 +1381,26 @@
   main{
   }
   figure{
-    width: 90vw;
+    /* width: 90vw; */
     text-align: center;
     margin: 0 5vw 5vw 5vw !important;
-    padding:5vw;
+    /* padding: 5vw; */
     border-radius: 1rem !important;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   figcaption{
-    margin-bottom: 1rem;
+    /* margin: 1rem 0 2rem 0; */
+    font-size: unset !important;
+    color: unset !important;
+    height: 7rem;
+    /* vertical-align: middle; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15.2rem;
   }
   footer{
     border: 1px solid rgba(0, 0, 0, .125);
@@ -1426,12 +1461,12 @@
     margin: -1rem -1rem -0.75rem -1rem;
   }
   .screenshot{
-    background-size: 15.2rem 33rem;
+    background-size: 15.2rem 32.5rem;
     background-repeat: no-repeat;
     background-position: bottom;
-    background-color: currentColor;
+    background-color: var(--offBlack);
     border-radius: 2.25rem;
-    margin: 1rem;
+    margin: 1rem 0;
   }
   .svg-inline--fa{
     color:var(--offBlack) !important;
@@ -1439,6 +1474,11 @@
   .nav-tabs .svg-inline--fa{
     color: var(--accentColor) !important;
   }
+    .changingWarning {
+      color: var(--focusedColor) !important;
+      background-color: var(--offWhite);
+      border-radius: 0.25rem;
+    }
   .screenshotAnnotation{
     border-style: solid;
     border-color: var(--scrnShtAnnttnShapeColor);
@@ -1446,42 +1486,82 @@
     position: absolute;
     border-radius: 0.5rem;
   }
-  .tagLineOverImg{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    color: var(--offWhite);
-    margin-left: -1rem;
-    width:90vw;
-    margin:5vw;
+  .longOrangeArrowCls-1{
+    fill:none;
+    stroke:var(--scrnShtAnnttnShapeColor);
+    stroke-width: 8px;
+        stroke-miterlimit: 10
   }
-  .tagLineOverImg img {
-    width: 100%;
-    border-radius: 1rem;
-  }
-  .tagLineOverImgInnerCont{
-  }
-  .tagLineOverImg span {
-    margin-left: -11rem;
-    width: 10rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-shadow: 2px 4px 8px var(--offBlack);
-  }
-  .budgetVeggiesIllstrtn{
-    width: 90vw;
-    text-align: center;
-    margin: 0 5vw 5vw 5vw !important;
-    padding: 5vw;
-    /* border-radius: 1rem !important; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .budgetVeggiesIllstrtn img,.budgetVeggiesIllstrtn svg{
-    max-width: 33%;
-  }
-  .adobeStockFatArrow{
-    width:3rem;
-  }
+.tagLineOverImg{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--offWhite);
+  margin-left: -1rem;
+  width:90vw;
+  margin:5vw;
+}
+.tagLineOverImg img {
+  width: 100%;
+  border-radius: 1rem;
+}
+.tagLineOverImgInnerCont{
+}
+.tagLineOverImg span {
+  margin-left: -11rem;
+  width: 10rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 2px 4px 8px var(--offBlack);
+}
+.budgetVeggiesIllstrtn{
+  width: 90vw;
+  text-align: center;
+  margin: 0 5vw 0 5vw !important;
+  padding: 5vw;
+  /* border-radius: 1rem !important; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.budgetVeggiesIllstrtn img,.budgetVeggiesIllstrtn svg{
+  max-width: 33%;
+}
+.adobeStockFatArrow{
+  width:3rem;
+}
+      .form-check-input:checked{
+    background-color: var(--accentColor) !important;
+    border-color:var(--textAndDarkColor)
+}
+.h1HomePg{
+  margin:2rem !important;
+}
+.outerCarousel {
+  border:1px solid var(--bootStrapCardBorderColor);
+  border-radius: 1rem;
+  background-color:var(--bootStrapCardBGColor);
+  width: 90vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-bottom:1rem;
+  margin:1rem 0;
+}
+.outerCarousel button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  z-index: 1;
+}
+.outerCarousel svg {
+  color: var(--accentColor) !important;
+}
+.outerCarousel button:first-child {
+  margin-left: 1rem;
+}
+.outerCarousel button:last-child {
+  margin-right: 1rem;
+}

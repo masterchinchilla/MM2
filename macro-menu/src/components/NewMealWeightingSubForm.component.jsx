@@ -109,7 +109,7 @@ const NewMealWeightingSubForm = (props) => {
     changeMlWghtPrcntProgress(consumed);
     if (difference >= 0) {
       console.log(`consumed is under or at 100`);
-      if ((difference = 0)) {
+      if (difference === 0) {
         console.log(`consumed is exactly 100`);
         setSubFrmUnChngdOrInvld(false);
         return;
