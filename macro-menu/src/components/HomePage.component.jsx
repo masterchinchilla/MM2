@@ -1,39 +1,150 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import dayjs from "dayjs";
-import HowChowHaloFork from "../assets/HowChowHaloForkWLayerNames020923.svg";
-import HowChowLogoWWordsCross from "../assets/HowChowLogoWWordsCross020323.svg";
-import HowChowCrossWrdsWHaloFrkNGreyIcons from "../assets/HowChowCrossWrdsWHaloFrkNGreyIcons020723.svg";
+//jpegs
+import AdobeStockGreenPrdceCrateOnDrkGrnBG from "../assets/adobeStockGreenPrdceCrateOnDrkGrnBG.jpeg";
+//jpgs
+import LadyCurlersKitchenCrazy from "../assets/ladyCurlersKitchenCrazy.jpg";
+import FoodAndPaperworkOnTable from "../assets/foodAndPaperworkOnTable.jpg";
+import GuyGroceryShppngStrssdLngLst from "../assets/guyGroceryShppngStrssdLngLst.jpg";
+//pngs
 import HowChowWMPScreenTopScrnSht from "../assets/howChowWMPScreenTopScrnSht.png";
+import HowChowCmmntyWMPsListSS from "../assets/howChowCmmntyWMPsListSS021623.png";
+import HowChowCopyWMPBttnSS from "../assets/howChowCopyWMPBttnSS021623.png";
+import HowChowShoppingListSS from "../assets/howChowShoppingListSS021723.png";
+import AdobeStockVeggieHeart from "../assets/adobeStockVeggieHeart.png";
+import FakeHealthyCkBk from "../assets/fakeHealthyCkBk.png";
+import ExtravagantIngredients from "../assets/extravagantIngredients.png";
+//gifs
 import HowChowGifChngRcpUpdtsBdgt from "../assets/HowChowGifChngRcpUpdtsBdgt021523.gif";
 import HowChowGifChngIngrdntQtyUpdtsBdgt from "../assets/HowChowGifChngIngrdntQtyUpdtsBdgt021523.gif";
-import AdobeStockVeggieHeart from "../assets/adobeStockVeggieHeart.png";
-import AdobeStockGreenPrdceCrateOnDrkGrnBG from "../assets/adobeStockGreenPrdceCrateOnDrkGrnBG.jpeg";
+import HowChowGifUpdtShppngLst from "../assets/howChowGifUpdtShppngLst021723.gif";
+//svgs
+import AdobeStockFatArrow from "../assets/adobeStockFatArrow.svg";
+//svg Components
+import LogoAndWordsCrossWBG from "./LogoAndWordsCrossWBG.component";
+import HowChowLogo from "./HowChowLogo.component";
+//third Party Libs
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import jwtDecode from "jwt-decode";
-import LogoAndWordsCrossWBG from "./LogoAndWordsCrossWBG.component";
+//my react components
+import MobileScreenShotAndFrame from "./MobileScreenShotAndFrame.component";
+import ScreenshotFigure from "./ScreenshotFigure.component";
+import ScreenshotCarousel from "./ScreenshotCarousel.component";
+
 const thisYear = new Date().getFullYear();
+const viewportWidth = window.visualViewport.width;
 const HomePage = (props) => {
+  const scrnshtCrsl1ObjsArry = [
+    {
+      screenshotType: "mobile",
+      description: `Start with a budget (Cals, Carbs, Protein, Fat &
+                  Fiber)`,
+      screenshotImg: HowChowWMPScreenTopScrnSht,
+      screenshotAnnotations: (
+        <div>
+          <div
+            className="screenshotAnnotation"
+            style={{
+              width: "9.75rem",
+              height: "10rem",
+              marginTop: "3.4rem",
+              marginLeft: "0.5rem",
+            }}
+          ></div>
+          <svg
+            data-name="longOrangeArrow"
+            viewBox="0 0 98.5991786958 790.2349186274"
+            style={{
+              marginTop: "13.2rem",
+              height: "14rem",
+            }}
+          >
+            <line
+              class="longOrangeArrowCls-1"
+              x1="49.0939977262"
+              x2="49.0939977262"
+              y2="787.2340425532"
+            />
+            <line
+              class="longOrangeArrowCls-1"
+              x1="2.6447576046"
+              y1="744.5343465046"
+              x2="51.0939977262"
+              y2="787.2340425532"
+            />
+            <line
+              class="longOrangeArrowCls-1"
+              x1="95.9527424198"
+              y1="744.1248419338"
+              x2="47.0939977262"
+              y2="787.2340425527"
+            />
+          </svg>
+        </div>
+      ),
+    },
+    {
+      screenshotType: "mobile",
+      description: `Watch "Current" & "Remaining" change in real-time while choosing Meals`,
+      screenshotImg: HowChowGifChngRcpUpdtsBdgt,
+      screenshotAnnotations: "",
+    },
+    {
+      screenshotType: "mobile",
+      description: `Customize ingredient quantities to get a tighter match`,
+      screenshotImg: HowChowGifChngIngrdntQtyUpdtsBdgt,
+      screenshotAnnotations: "",
+    },
+  ];
+  // {
+  //     screenshotType: "mobile",
+  //     description: ``,
+  //     screenshotImg: "",
+  //     screenshotAnnotations: "",
+  //   },
+  const scrnshtCrsl2ObjsArry = [
+    {
+      screenshotType: "desktop",
+      description: `Share meal plans with the community...`,
+      screenshotImg: HowChowCmmntyWMPsListSS,
+      screenshotAnnotations: "",
+    },
+    {
+      screenshotType: "mobile",
+      description: `Or copy one you like and
+              customize it for your budget!`,
+      screenshotImg: HowChowCopyWMPBttnSS,
+      screenshotAnnotations: (
+        <div
+          className="screenshotAnnotation"
+          style={{
+            width: "4.4rem",
+            height: "3.25rem",
+            marginTop: "8.2rem",
+            marginLeft: "8.3rem",
+          }}
+        ></div>
+      ),
+    },
+  ];
+  const scrnshtCrsl3ObjsArry = [
+    {
+      screenshotType: "mobile",
+      description: `HowChow automatically creates your shopping list as-you-go`,
+      screenshotImg: HowChowShoppingListSS,
+      screenshotAnnotations: "",
+    },
+    {
+      screenshotType: "mobile",
+      description: `Check-off items and update qtys in real-time`,
+      screenshotImg: HowChowGifUpdtShppngLst,
+      screenshotAnnotations: "",
+    },
+  ];
   const [currentGRFUser, updateCurrentGRFUser] = useState({
     _id: 1,
     handle: "",
   });
-  const [scrnShtCrsl1SlideNum, setscrnShtCrsl1SlideNum] = useState(1);
-  function handleClickCarouselNextPrev(next, finalSlideNum, whichCrsel) {
-    if (next) {
-      if (scrnShtCrsl1SlideNum === finalSlideNum) {
-        setscrnShtCrsl1SlideNum(1);
-      } else {
-        setscrnShtCrsl1SlideNum(scrnShtCrsl1SlideNum + 1);
-      }
-    } else {
-      if (scrnShtCrsl1SlideNum === 1) {
-        setscrnShtCrsl1SlideNum(finalSlideNum);
-      } else {
-        setscrnShtCrsl1SlideNum(scrnShtCrsl1SlideNum - 1);
-      }
-    }
-  }
   function getCurrentUser() {
     const jwt = localStorage.getItem("token");
     if (jwt) {
@@ -71,14 +182,9 @@ const HomePage = (props) => {
           </Link>
         </div>
       </header>
-      <main>
+      <main className="howChowHomePgMain">
         <section>
-          <div
-            className="tagLineOverImg"
-            // style={{
-            //   backgroundImage: `url(${AdobeStockGreenPrdceCrateOnDrkGrnBG})`,
-            // }}
-          >
+          <div className="tagLineOverImg">
             <img
               src={AdobeStockGreenPrdceCrateOnDrkGrnBG}
               className="bigHomeStockPic"
@@ -94,10 +200,10 @@ const HomePage = (props) => {
             <svg viewBox="0 0 2247.6 1885.4" class="adobeStockFatArrow">
               <path
                 d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2
-	c-4-1.9-8.5-1.3-12.2,1.4c-5.6,4.2-7.9,12.4-6.5,22.7v288.2H8c-4.4,0-8,3.6-8,8v1218.2c0,4.4,3.5,7.9,7.9,8
-	c162.5,2.6,331.7,1.2,495.3-0.1c263.3-2.2,535.4-4.4,786.6,9.9v320c0,3.1,1.8,6,4.7,7.3c1.1,0.5,2.2,0.7,3.3,0.7
-	c1.9,0,3.8-0.7,5.3-2c173.4-151.4,351.5-332.7,523.8-508.1c136.7-139.1,278-283,418.2-413.4C2248.2,958.9,2248.5,953.9,2245.5,950.7
-	z"
+              c-4-1.9-8.5-1.3-12.2,1.4c-5.6,4.2-7.9,12.4-6.5,22.7v288.2H8c-4.4,0-8,3.6-8,8v1218.2c0,4.4,3.5,7.9,7.9,8
+              c162.5,2.6,331.7,1.2,495.3-0.1c263.3-2.2,535.4-4.4,786.6,9.9v320c0,3.1,1.8,6,4.7,7.3c1.1,0.5,2.2,0.7,3.3,0.7
+              c1.9,0,3.8-0.7,5.3-2c173.4-151.4,351.5-332.7,523.8-508.1c136.7-139.1,278-283,418.2-413.4C2248.2,958.9,2248.5,953.9,2245.5,950.7
+              z"
               />
             </svg>
             <svg className="accountingIcon" viewBox="0 0 512 512">
@@ -110,119 +216,90 @@ const HomePage = (props) => {
               </g>
             </svg>
           </div>
-          {/* Build your meal plan to fit your macros budget - get the most out of
-          your meals. */}
-          <div className="outerCarousel">
-            <button
-              onClick={() => {
-                handleClickCarouselNextPrev(false, 3);
-              }}
-            >
-              <FontAwesomeIcon icon="fa-solid fa-chevron-left" />
-            </button>
-            <div className="innerCarousel">
-              <figure className="figure" hidden={scrnShtCrsl1SlideNum !== 1}>
-                <figcaption className="figure-caption">
-                  Start with a budget &#40;Cals, Carbs, Protein, Fat &
-                  Fiber&#41;
-                </figcaption>
-                <div
-                  className="screenshot"
-                  style={{
-                    backgroundImage: `url(${HowChowWMPScreenTopScrnSht})`,
-                  }}
-                >
-                  <div className="screenshotFrame">
-                    <div
-                      className="screenshotAnnotation"
-                      style={{
-                        width: "9.75rem",
-                        height: "10rem",
-                        marginTop: "3.4rem",
-                        marginLeft: "0.5rem",
-                      }}
-                    ></div>
-                    <svg
-                      data-name="longOrangeArrow"
-                      viewBox="0 0 98.5991786958 790.2349186274"
-                      style={{
-                        marginTop: "13.2rem",
-                        height: "14rem",
-                      }}
-                    >
-                      <line
-                        class="longOrangeArrowCls-1"
-                        x1="49.0939977262"
-                        x2="49.0939977262"
-                        y2="787.2340425532"
-                      />
-                      <line
-                        class="longOrangeArrowCls-1"
-                        x1="2.6447576046"
-                        y1="744.5343465046"
-                        x2="51.0939977262"
-                        y2="787.2340425532"
-                      />
-                      <line
-                        class="longOrangeArrowCls-1"
-                        x1="95.9527424198"
-                        y1="744.1248419338"
-                        x2="47.0939977262"
-                        y2="787.2340425527"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </figure>
-              <figure className="figure" hidden={scrnShtCrsl1SlideNum !== 2}>
-                <figcaption className="figure-caption">
-                  Then watch your &quot;Current&quot; &amp;
-                  &quot;Remaining&quot; change in real-time while you choose
-                  your Meals.
-                </figcaption>
-                <div
-                  className="screenshot"
-                  style={{
-                    backgroundImage: `url(${HowChowGifChngRcpUpdtsBdgt})`,
-                  }}
-                >
-                  <div className="screenshotFrame"></div>
-                </div>
-              </figure>
-              <figure className="figure" hidden={scrnShtCrsl1SlideNum !== 3}>
-                <figcaption className="figure-caption">
-                  ...Then, customize ingredient quantities to get a tighter
-                  match!
-                </figcaption>
-
-                <div
-                  className="screenshot"
-                  style={{
-                    backgroundImage: `url(${HowChowGifChngIngrdntQtyUpdtsBdgt})`,
-                  }}
-                >
-                  <div className="screenshotFrame"></div>
-                </div>
-                {/* <img
-              className="homePgScreenShot figure-img"
-              src="https://lh3.googleusercontent.com/0pCJWisjmyziTDw_TzcGhFEePgtC32GJVwECQLpLwkD4sLYrpxnQB1vRuKIkdY79sy5k2_x_z4m8Ez2KIAeVguBz8EM947BWGf4Kqq3tHZN6kgOwBPHTbZAdl2DHtZ6JtfC9QlDlcw=w2400"
-            /> */}
-              </figure>
-            </div>
-            <button
-              onClick={() => {
-                handleClickCarouselNextPrev(true, 3);
-              }}
-            >
-              <FontAwesomeIcon icon="fa-solid fa-chevron-right" />
-            </button>
-          </div>
+          <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl1ObjsArry} />
         </section>
         <section>
-          <h1>You shouldn't have to be a gourmet chef to meet your macros!</h1>
+          <h1 className="h1HomePg ckBkTooHrdSctnHdr">
+            <em>
+              You shouldn't have to be a gourmet chef to meet your macros...
+            </em>
+          </h1>
+          <div className="hlthyCkBkTooHrdFlxBox">
+            <div className="ckBkTooHrdCkBkCont">
+              <img src={FakeHealthyCkBk} className="ckBkTooHrdCookBook" />
+            </div>
+            <svg viewBox="0 0 2247.6 1885.4" class="adobeStockFatArrow">
+              <path
+                d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2
+              c-4-1.9-8.5-1.3-12.2,1.4c-5.6,4.2-7.9,12.4-6.5,22.7v288.2H8c-4.4,0-8,3.6-8,8v1218.2c0,4.4,3.5,7.9,7.9,8
+              c162.5,2.6,331.7,1.2,495.3-0.1c263.3-2.2,535.4-4.4,786.6,9.9v320c0,3.1,1.8,6,4.7,7.3c1.1,0.5,2.2,0.7,3.3,0.7
+              c1.9,0,3.8-0.7,5.3-2c173.4-151.4,351.5-332.7,523.8-508.1c136.7-139.1,278-283,418.2-413.4C2248.2,958.9,2248.5,953.9,2245.5,950.7
+              z"
+              />
+            </svg>
+            <div className="hlthyCkBkTooHrdGrid othersBad">
+              <div
+                style={{ backgroundImage: `url(${ExtravagantIngredients})` }}
+                className="ckBkTooHrdExImgTL"
+              />
+              <div
+                style={{ backgroundImage: `url(${FoodAndPaperworkOnTable})` }}
+                className="ckBkTooHrdExImgTR"
+              />
+              <div
+                style={{
+                  backgroundImage: `url(${GuyGroceryShppngStrssdLngLst})`,
+                }}
+                className="ckBkTooHrdExImgBL"
+              />
+              <div
+                style={{ backgroundImage: `url(${LadyCurlersKitchenCrazy})` }}
+                className="ckBkTooHrdExImgBR"
+              />
+            </div>
+          </div>
           <h2>
-            Create a <i>maintainable</i> meal plan you'll actually stick with!
+            Let <span className="howChowMaintainableHeading">HowChow</span> help
+            you create a{" "}
+            <span className="howChowMaintainableHeading">
+              <i>maintainable</i>
+            </span>{" "}
+            meal plan you'll actually stick with!
           </h2>
+          <div className="hlthyCkBkTooHrdFlxBox">
+            <div className="ckBkTooHrdCkBkCont">
+              <HowChowLogo />
+            </div>
+            <svg viewBox="0 0 2247.6 1885.4" class="adobeStockFatArrow">
+              <path
+                d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2
+              c-4-1.9-8.5-1.3-12.2,1.4c-5.6,4.2-7.9,12.4-6.5,22.7v288.2H8c-4.4,0-8,3.6-8,8v1218.2c0,4.4,3.5,7.9,7.9,8
+              c162.5,2.6,331.7,1.2,495.3-0.1c263.3-2.2,535.4-4.4,786.6,9.9v320c0,3.1,1.8,6,4.7,7.3c1.1,0.5,2.2,0.7,3.3,0.7
+              c1.9,0,3.8-0.7,5.3-2c173.4-151.4,351.5-332.7,523.8-508.1c136.7-139.1,278-283,418.2-413.4C2248.2,958.9,2248.5,953.9,2245.5,950.7
+              z"
+              />
+            </svg>
+            <div className="hlthyCkBkTooHrdGrid howChowGood">
+              <div
+                style={{ backgroundImage: `url(${ExtravagantIngredients})` }}
+                className="ckBkTooHrdExImgTL"
+              />
+              <div
+                style={{ backgroundImage: `url(${FoodAndPaperworkOnTable})` }}
+                className="ckBkTooHrdExImgTR"
+              />
+              <div
+                style={{
+                  backgroundImage: `url(${GuyGroceryShppngStrssdLngLst})`,
+                }}
+                className="ckBkTooHrdExImgBL"
+              />
+              <div
+                style={{ backgroundImage: `url(${LadyCurlersKitchenCrazy})` }}
+                className="ckBkTooHrdExImgBR"
+              />
+            </div>
+          </div>
           <section>
             <figure className="figure card">
               <figcaption className="figure-caption">
@@ -246,17 +323,12 @@ const HomePage = (props) => {
         </section>
         <section>
           <h1>Eat social!</h1>
-          <figure className="figure card">
-            <figcaption className="figure-caption">
-              Share meal plans with the community, or copy one you like and
-              customize it for your budget!
-            </figcaption>
-            <img />
-          </figure>
+          <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl2ObjsArry} />
         </section>
         <section>
           <h1>Shop efficiently</h1>
-          <figure className="figure card">
+          <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl3ObjsArry} />
+          {/* <figure className="figure card">
             <figcaption className="figure-caption">
               HowChow automatically creates your shopping list as you go.
             </figcaption>
@@ -267,7 +339,7 @@ const HomePage = (props) => {
               Check-off items and update qtys in real-time.
             </figcaption>
             <img />
-          </figure>
+          </figure> */}
         </section>
       </main>
       <footer className="footer">

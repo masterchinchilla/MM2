@@ -48,16 +48,17 @@ class Navbar extends Component {
     return color;
   };
   stringAvatar = (string) => {
+    let jwt = this.state.jwt;
     return {
       sx: {
-        bgcolor: this.stringToColor(string),
+        bgcolor: jwt ? this.stringToColor(string) : "#005b6f",
       },
       // children: `${string.split(" ")[0][0]}${string.split(" ")[1][0]}`,
     };
   };
   render() {
     const currentGRFUser = this.state.currentGRFUser;
-    const jwt = this.state.jwt;
+    let jwt = this.state.jwt;
     return (
       <nav className="navbar ps-4 pe-2">
         <div className="navbarBrandCont">
