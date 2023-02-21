@@ -68,6 +68,7 @@ async function ssValidate2(typeOfRecordToChange, recordToUpdate, req, res){
     let recordKeys = Object.keys(recordToUpdate);
     for(let i=0;i<recordKeys.length;i++){
         let thisRecordKey=recordKeys[i];
+        console.log(thisRecordKey);
         let PropObjModel;
         if(thisRecordKey==="name"){
             PropObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[typeOfRecordToChange]["PropObjModel"]

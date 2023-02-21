@@ -134,8 +134,8 @@ const NewNewSelectSearchListWCreate = (props) => {
               "@media only screen and (max-width: 529px)": {
                 ...baseStyles["@media only screen and (max-width: 529px)"],
                 fontSize: "10pt",
-                lineHeight: "1rem",
-                height: "1.5rem",
+                // lineHeight: "1rem",
+                // height: "1.5rem",
                 padding: "3px 0 0 4px",
                 // margin: 0,
                 // alignItems: "center",

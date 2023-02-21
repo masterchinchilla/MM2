@@ -1611,6 +1611,7 @@ class NewNewWeekMealPlan extends Component {
               );
               thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
             }
+            thisMealStateObj.userChangedThisMealRecipe = false;
             thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
           }
           thisDayStateObj[thisMealTypeCode] = thisMealStateObj;

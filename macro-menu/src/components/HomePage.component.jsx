@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-//jpegs
-import AdobeStockGreenPrdceCrateOnDrkGrnBG from "../assets/adobeStockGreenPrdceCrateOnDrkGrnBG.jpeg";
-//jpgs
-import LadyCurlersKitchenCrazy from "../assets/ladyCurlersKitchenCrazy.jpg";
-import FoodAndPaperworkOnTable from "../assets/foodAndPaperworkOnTable.jpg";
-import GuyGroceryShppngStrssdLngLst from "../assets/guyGroceryShppngStrssdLngLst.jpg";
-//pngs
-import HowChowWMPScreenTopScrnSht from "../assets/howChowWMPScreenTopScrnSht.png";
-import HowChowCmmntyWMPsListSS from "../assets/howChowCmmntyWMPsListSS021623.png";
-import HowChowCopyWMPBttnSS from "../assets/howChowCopyWMPBttnSS021623.png";
-import HowChowShoppingListSS from "../assets/howChowShoppingListSS021723.png";
-import AdobeStockVeggieHeart from "../assets/adobeStockVeggieHeart.png";
-import FakeHealthyCkBk from "../assets/fakeHealthyCkBk.png";
-import ExtravagantIngredients from "../assets/extravagantIngredients.png";
+//webps
+import AdobeStockGreenPrdceCrateOnDrkGrnBG from "../assets/adobeStockGreenPrdceCrateOnDrkGrnBG.webp";
+import LadyCurlersKitchenCrazy from "../assets/ladyCurlersKitchenCrazy.webp";
+import FoodAndPaperworkOnTable from "../assets/foodAndPaperworkOnTable.webp";
+import GuyGroceryShppngStrssdLngLst from "../assets/guyGroceryShppngStrssdLngLst.webp";
+import GuyPrppngFdInKtchnThumbsUp from "../assets/guyPrppngFdInKtchnThumbsUp.webp";
+import SimpleIngrdnts from "../assets/simpleIngrdnts.webp";
+import LadyPttngPrpdMealsInFridge from "../assets/ladyPttngPrpdMealsInFridge.webp";
+import TopViewManCookingWHowChowOnTablet from "../assets/topViewManCookingWHowChowOnTablet.webp";
+import HowChowWMPScreenTopScrnSht from "../assets/howChowWMPScreenTopScrnSht.webp";
+import HowChowCmmntyWMPsListSS from "../assets/howChowCmmntyWMPsListSS021623.webp";
+import HowChowCopyWMPBttnSS from "../assets/howChowCopyWMPBttnSS021623.webp";
+import HowChowShoppingListSS from "../assets/howChowShoppingListSS021723.webp";
+import AdobeStockVeggieHeart from "../assets/adobeStockVeggieHeart.webp";
+import FakeHealthyCkBk from "../assets/fakeHealthyCkBk.webp";
+import ExtravagantIngredients from "../assets/extravagantIngredients.webp";
+import RetroRecipeBoxInCircleOvrManyPrppdMeals from "../assets/retroRecipeBoxInCircleOvrManyPrppdMealsTall022023.webp";
 //gifs
 import HowChowGifChngRcpUpdtsBdgt from "../assets/HowChowGifChngRcpUpdtsBdgt021523.gif";
 import HowChowGifChngIngrdntQtyUpdtsBdgt from "../assets/HowChowGifChngIngrdntQtyUpdtsBdgt021523.gif";
 import HowChowGifUpdtShppngLst from "../assets/howChowGifUpdtShppngLst021723.gif";
+import HowChowGifCreateNewRecipeAndIngrdnt from "../assets/HowChowGifCreateNewRecipeAndIngrdnt022023.gif";
 //svgs
 import AdobeStockFatArrow from "../assets/adobeStockFatArrow.svg";
 //svg Components
@@ -141,6 +145,21 @@ const HomePage = (props) => {
       screenshotAnnotations: "",
     },
   ];
+  const scrnshtCrsl4ObjsArry = [
+    {
+      screenshotType: "desktop",
+      description: `Choose from hundreds of prebuilt, SIMPLE recipes made
+                with common ingredients`,
+      screenshotImg: RetroRecipeBoxInCircleOvrManyPrppdMeals,
+      screenshotAnnotations: "",
+    },
+    {
+      screenshotType: "mobile",
+      description: `...Or create your own! Easily add recipes and ingredients`,
+      screenshotImg: HowChowGifCreateNewRecipeAndIngrdnt,
+      screenshotAnnotations: "",
+    },
+  ];
   const [currentGRFUser, updateCurrentGRFUser] = useState({
     _id: 1,
     handle: "",
@@ -160,27 +179,25 @@ const HomePage = (props) => {
       <header>
         <LogoAndWordsCrossWBG />
         <br />
-        <div className="homeWMPsLinkCont">
-          <Link
-            to={
-              !currentGRFUser.handle !== 1
-                ? "/weekMealPlans"
-                : {
-                    pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
-                    state: { currentGRFUser: currentGRFUser },
-                  }
-            }
-            className="homeWMPsLink"
-          >
-            <FontAwesomeIcon
-              icon="fa-solid fa-table-list"
-              className="biggerIcon"
-            />
-            <span style={{ textDecoration: "none" }}>
-              Go to Week Meal Plans &gt;
-            </span>
-          </Link>
-        </div>
+        <Link
+          to={
+            !currentGRFUser.handle !== 1
+              ? "/weekMealPlans"
+              : {
+                  pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
+                  state: { currentGRFUser: currentGRFUser },
+                }
+          }
+          className="homeWMPsLink"
+        >
+          <FontAwesomeIcon
+            icon="fa-solid fa-table-list"
+            className="biggerIcon"
+          />
+          <span style={{ textDecoration: "none" }}>
+            Go to Week Meal Plans &gt;
+          </span>
+        </Link>
       </header>
       <main className="howChowHomePgMain">
         <section>
@@ -228,7 +245,10 @@ const HomePage = (props) => {
             <div className="ckBkTooHrdCkBkCont">
               <img src={FakeHealthyCkBk} className="ckBkTooHrdCookBook" />
             </div>
-            <svg viewBox="0 0 2247.6 1885.4" class="adobeStockFatArrow">
+            <svg
+              viewBox="0 0 2247.6 1885.4"
+              class="adobeStockFatArrow ckBkTooHrdArrow"
+            >
               <path
                 d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2
               c-4-1.9-8.5-1.3-12.2,1.4c-5.6,4.2-7.9,12.4-6.5,22.7v288.2H8c-4.4,0-8,3.6-8,8v1218.2c0,4.4,3.5,7.9,7.9,8
@@ -239,7 +259,10 @@ const HomePage = (props) => {
             </svg>
             <div className="hlthyCkBkTooHrdGrid othersBad">
               <div
-                style={{ backgroundImage: `url(${ExtravagantIngredients})` }}
+                style={{
+                  backgroundImage: `url(${ExtravagantIngredients})`,
+                  backgroundSize: `contain`,
+                }}
                 className="ckBkTooHrdExImgTL"
               />
               <div
@@ -259,8 +282,8 @@ const HomePage = (props) => {
             </div>
           </div>
           <h2>
-            Let <span className="howChowMaintainableHeading">HowChow</span> help
-            you create a{" "}
+            Use <span className="howChowMaintainableHeading">HowChow</span> to
+            create a{" "}
             <span className="howChowMaintainableHeading">
               <i>maintainable</i>
             </span>{" "}
@@ -270,7 +293,10 @@ const HomePage = (props) => {
             <div className="ckBkTooHrdCkBkCont">
               <HowChowLogo />
             </div>
-            <svg viewBox="0 0 2247.6 1885.4" class="adobeStockFatArrow">
+            <svg
+              viewBox="0 0 2247.6 1885.4"
+              class="adobeStockFatArrow ckBkTooHrdArrow"
+            >
               <path
                 d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2
               c-4-1.9-8.5-1.3-12.2,1.4c-5.6,4.2-7.9,12.4-6.5,22.7v288.2H8c-4.4,0-8,3.6-8,8v1218.2c0,4.4,3.5,7.9,7.9,8
@@ -281,44 +307,32 @@ const HomePage = (props) => {
             </svg>
             <div className="hlthyCkBkTooHrdGrid howChowGood">
               <div
-                style={{ backgroundImage: `url(${ExtravagantIngredients})` }}
+                style={{ backgroundImage: `url(${SimpleIngrdnts})` }}
                 className="ckBkTooHrdExImgTL"
               />
               <div
-                style={{ backgroundImage: `url(${FoodAndPaperworkOnTable})` }}
+                style={{
+                  backgroundImage: `url(${TopViewManCookingWHowChowOnTablet})`,
+                }}
                 className="ckBkTooHrdExImgTR"
               />
               <div
                 style={{
-                  backgroundImage: `url(${GuyGroceryShppngStrssdLngLst})`,
+                  backgroundImage: `url(${LadyPttngPrpdMealsInFridge})`,
                 }}
                 className="ckBkTooHrdExImgBL"
               />
               <div
-                style={{ backgroundImage: `url(${LadyCurlersKitchenCrazy})` }}
+                style={{
+                  backgroundImage: `url(${GuyPrppngFdInKtchnThumbsUp})`,
+                }}
                 className="ckBkTooHrdExImgBR"
               />
             </div>
           </div>
+          <br />
           <section>
-            <figure className="figure card">
-              <figcaption className="figure-caption">
-                Choose from hundreds of prebuilt, <i>simple</i> recipes made
-                with common ingredients.
-              </figcaption>
-              <img />
-            </figure>
-          </section>
-          <section>
-            <h2>
-              <em>...or</em> build your own!
-            </h2>
-            <figure className="figure card">
-              <figcaption className="figure-caption">
-                Easily add recipes / ingredients to our library.
-              </figcaption>
-              <img />
-            </figure>
+            <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl4ObjsArry} />
           </section>
         </section>
         <section>
@@ -326,21 +340,22 @@ const HomePage = (props) => {
           <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl2ObjsArry} />
         </section>
         <section>
-          <h1>Shop efficiently</h1>
+          <h1>Shop efficiently!</h1>
           <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl3ObjsArry} />
-          {/* <figure className="figure card">
-            <figcaption className="figure-caption">
-              HowChow automatically creates your shopping list as you go.
-            </figcaption>
-            <img />
-          </figure>
-          <figure className="figure card">
-            <figcaption className="figure-caption">
-              Check-off items and update qtys in real-time.
-            </figcaption>
-            <img />
-          </figure> */}
         </section>
+        <Link
+          to={
+            !currentGRFUser.handle !== 1
+              ? "/weekMealPlans"
+              : {
+                  pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
+                  state: { currentGRFUser: currentGRFUser },
+                }
+          }
+          className="getStartedLink"
+        >
+          Get started
+        </Link>
       </main>
       <footer className="footer">
         <p>Copyright &copy; {thisYear} by Catharta, Ltd.</p>
