@@ -1769,6 +1769,14 @@ margin: 2rem !important;
   /* .hlthyCkBkTooHrdGrid {
     grid-template-columns: 25vw 25vw
   } */
+  .outerCarousel{
+    margin:1rem 1rem;
+  }
+  .budgetVeggiesIllstrtn{
+    width: 40rem;
+    margin: 0 2rem 0 2rem !important;
+    padding: 2rem;
+  }
 }
 @media only screen and (min-width: 800px) {
   .desktopSSFrame {
@@ -1786,6 +1794,9 @@ margin: 2rem !important;
   .ckBkTooHrdArrow {
     transform: unset;
   }
+  .budgetVeggiesIllstrtn {
+    width: 50rem;
+  }
 }
 @media only screen and (min-width: 1110px) {
   .tagLineOverImg span {
@@ -1798,8 +1809,16 @@ margin: 2rem !important;
   .desktopScreenshot {
   }
 }
-@media only screen and (min-width: 1280px) {
-  
+@media only screen and (min-width: 1575px) {
+  .hlthyCkBkTooHrdGrid div{
+    max-width: unset;
+  }
+}
+@media only screen and (min-width: 2025px) {
+  .hlthyCkBkTooHrdGrid {
+    grid-template-columns: 30rem 30rem;
+    max-width: 1085px;
+  }
 }
 /* .navbarBrandCont svg{width:40px} */
 .biggerIcon,.MuiAvatar-root {
@@ -1876,7 +1895,7 @@ margin: 2rem !important;
   height:50px;
   background-color: var(--offBlack);
   margin-bottom: 3rem;
-  z-index: 1;
+  z-index: 7;
 }
 .myNavBar {
   display: flex;

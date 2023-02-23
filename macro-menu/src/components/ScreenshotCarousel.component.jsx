@@ -16,7 +16,7 @@ const ScreenshotCarousel = ({ screenshotObjsArray }) => {
     <div
       className="outerCarousel"
       style={{
-        margin: viewportWidth > 1000 ? "1rem" : "1rem 0",
+        // margin: viewportWidth > 1000 ? "1rem" : "1rem 0",
         padding: viewportWidth > 1000 ? "1rem" : "auto auto 1rem auto",
       }}
     >

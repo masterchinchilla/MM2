@@ -85,7 +85,7 @@ const NewMealParentCard = (props) => {
       >
         <StickyBox
           key={`macroTblStickyBoxFor${typeOfRecordToChange}${thisRecordId}`}
-          offsetTop={142}
+          offsetTop={172}
           offsetBottom={20}
           className={"mealMacTable"}
         >

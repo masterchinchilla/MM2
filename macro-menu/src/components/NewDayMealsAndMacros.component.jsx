@@ -209,7 +209,7 @@ const NewDayMealsAndMacros = (props) => {
             <div className="accordion-body">
               <StickyBox
                 key={`macroTblStickyBoxFor${typeOfRecordToChange}${thisRecordId}`}
-                offsetTop={20}
+                offsetTop={50}
                 offsetBottom={20}
                 className={"dayMacTable"}
               >
