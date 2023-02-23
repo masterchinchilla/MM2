@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HowChowHaloForkAltColor from "./HowChowHaloForkAltColor.component";
 import HowChowHaloFrkAltClrInvrtd from "./HowChowHaloFrkAltClrInvrtd.component";
+import HamburgerMenu from "./HamburgerMenu.component";
 
 class Navbar extends Component {
   state = {
@@ -60,101 +61,224 @@ class Navbar extends Component {
     const currentGRFUser = this.state.currentGRFUser;
     let jwt = this.state.jwt;
     return (
-      <nav className="navbar ps-4 pe-2">
-        <div className="navbarBrandCont">
-          <Link to={"/"}>
-            {/* <HowChowHaloForkAltColor /> */}
+      <div className="navbarCont">
+        <nav className="navbar">
+          <div className="bsNavCont">
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#bsNavLeftContent"
+              aria-controls="bsNavLeftContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="bsNavLeftContent">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <Link to={"/"} className="nav-link">
+                    <FontAwesomeIcon icon="fa-solid fa-earth-europe" />
+                    <span className="navTextWIcon">Catharta Home</span>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    to={"/"}
+                    className="nav-link active"
+                    aria-current="page"
+                  >
+                    <FontAwesomeIcon icon="fa-solid fa-house" />
+                    <span className="navTextWIcon">HowChow Home</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <nav className="myNavBar">
+          <Link to={"/"} className="myNavBrand">
             <HowChowHaloFrkAltClrInvrtd />
-            {/* <FontAwesomeIcon icon="fa-solid fa-house" className="biggerIcon" /> */}
+            <span>HowChow</span>
           </Link>
-          <Link
-            // to={
-            //   !jwt
-            //     ? "/"
-            //     : {
-            //         pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
-            //         state: { currentGRFUser: currentGRFUser },
-            //       }
-            // }
-            to={"/"}
-            className="navbar-brand"
-          >
-            HowChow
-          </Link>
-        </div>
 
-        <ul className="navbar-nav mr-auto mb-lg-0" id="navbarNav">
-          {!currentGRFUser ? (
-            ""
-          ) : currentGRFUser.userGroups !== "Admin" ? (
-            ""
-          ) : (
-            <li className="nav-item">
-              <Link to="/grfusers" className="nav-link">
-                GRF Users List
-              </Link>
-            </li>
-          )}
-        </ul>
-        <div className="btn-group dropstart usrHndlAndDrpDwn">
-          <span className="usrHndlOnNvBr">
-            {this.state.currentGRFUser.handle}
-          </span>
+          {/* <div className="btn-group dropstart usrHndlAndDrpDwn">
+            <span className="usrHndlOnNvBr">
+              {this.state.currentGRFUser.handle}
+            </span>
+            <button
+              type="button"
+              className="btn btn-secondary dropdown-toggle profileDDBttn"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              // disabled={window.location.pathname === "/" ? true : false}
+            >
+              <Avatar
+                alt={this.state.currentGRFUser.handle}
+                src={this.state.currentGRFUser.photoURL}
+                {...this.stringAvatar(this.state.currentGRFUser.handle)}
+              />
+            </button>
+            <ul className="dropdown-menu">
+              <li className="dropdown-item profileDDLi">
+                {!jwt ? (
+                  <Link
+                    className="nav-link"
+                    to={{
+                      pathname: "/weekMealPlans",
+                    }}
+                  >
+                    Register or Login
+                  </Link>
+                ) : (
+                  <Link
+                    className="nav-link"
+                    to={{
+                      pathname: "/logout",
+                    }}
+                  >
+                    Logout
+                  </Link>
+                )}
+              </li>
+              <li className="dropdown-item profileDDLi">
+                {!currentGRFUser._id ? (
+                  ""
+                ) : (
+                  <Link
+                    className="nav-link"
+                    to={{
+                      pathname: "/grfusers/edit/" + currentGRFUser._id,
+                      state: { currentGRFUser: currentGRFUser },
+                    }}
+                  >
+                    Profile
+                  </Link>
+                )}
+              </li>
+            </ul>
+          </div> */}
+        </nav>
+        <nav className="navbarRight">
+          {/* <div className=""> */}
           <button
+            className="navbar-toggler navTogglerRight"
             type="button"
-            className="btn btn-secondary dropdown-toggle profileDDBttn"
-            data-bs-toggle="dropdown"
+            data-bs-toggle="collapse"
+            data-bs-target="#bsNavRightContent"
+            aria-controls="bsNavRightContent"
             aria-expanded="false"
-            // disabled={window.location.pathname === "/" ? true : false}
+            aria-label="Toggle navigation"
           >
-            <Avatar
-              alt={this.state.currentGRFUser.handle}
-              src={this.state.currentGRFUser.photoURL}
-              {...this.stringAvatar(this.state.currentGRFUser.handle)}
-            />
+            <span className="usrHndlOnNvBr">
+              {this.state.currentGRFUser.handle}
+            </span>
+            <span className="navbar-toggler-icon">
+              <Avatar
+                alt={this.state.currentGRFUser.handle}
+                src={this.state.currentGRFUser.photoURL}
+                {...this.stringAvatar(this.state.currentGRFUser.handle)}
+              />
+            </span>
           </button>
-          <ul className="dropdown-menu">
-            <li className="dropdown-item profileDDLi">
-              {!jwt ? (
-                <Link
-                  className="nav-link"
-                  to={{
-                    pathname: "/weekMealPlans",
-                  }}
-                >
-                  Register or Login
-                </Link>
-              ) : (
-                <Link
-                  className="nav-link"
-                  to={{
-                    pathname: "/logout",
-                  }}
-                >
-                  Logout
-                </Link>
-              )}
-            </li>
-            <li className="dropdown-item profileDDLi">
-              {!currentGRFUser._id ? (
-                ""
-              ) : (
-                <Link
-                  className="nav-link"
-                  to={{
-                    pathname: "/grfusers/edit/" + currentGRFUser._id,
-                    state: { currentGRFUser: currentGRFUser },
-                  }}
-                >
-                  Profile
-                </Link>
-              )}
-            </li>
-          </ul>
-        </div>
-      </nav>
+          <div
+            className="collapse navbar-collapse rightNavDDown"
+            id="bsNavRightContent"
+          >
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                {!jwt ? (
+                  <Link
+                    className="nav-link"
+                    to={{
+                      pathname: "/weekMealPlans",
+                    }}
+                  >
+                    Register or Login
+                  </Link>
+                ) : (
+                  <Link
+                    className="nav-link"
+                    to={{
+                      pathname: "/logout",
+                    }}
+                  >
+                    Logout
+                  </Link>
+                )}
+              </li>
+              <li className="nav-item">
+                {!currentGRFUser._id ? (
+                  ""
+                ) : (
+                  <Link
+                    className="nav-link"
+                    to={{
+                      pathname: "/grfusers/edit/" + currentGRFUser._id,
+                      state: { currentGRFUser: currentGRFUser },
+                    }}
+                  >
+                    Profile
+                  </Link>
+                )}
+              </li>
+              {/* <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Link
+                  </a>
+                </li>
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Dropdown
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Action
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Another action
+                      </a>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link disabled">Disabled</a>
+                </li> */}
+            </ul>
+            {/* <form className="d-flex" role="search">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button className="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+              </form> */}
+          </div>
+          {/* </div> */}
+        </nav>
+      </div>
     );
   }
 }
-
 export default Navbar;

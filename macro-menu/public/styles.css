@@ -40,8 +40,18 @@
   body{
     background-color: var(--offWhite) !important;
   }
-  .container-fluid,header{
+  /* header{
     margin-top: 3rem;
+  } */
+  .bsNavCont{
+    /* display: flex; */
+    flex-wrap: inherit;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    /* width: unset; */
+    /* padding-right: 0; */
+    /* padding-left: 0; */
+    margin: 0.5rem;
   }
   .inputRowWRightIcons {
   }
@@ -608,6 +618,7 @@
     justify-content: center;
     color:inherit;
     }
+    
     .shopListTbl{
       font-size: x-small;
     }
@@ -653,14 +664,12 @@
   }
 
   nav.navbar {
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
-    /* background: rgb(188, 107, 171);
-        background: linear-gradient(0deg, rgba(188, 107, 171, 1) 0%, rgba(202, 138, 188, 1) 3%, rgba(222, 181, 213, 1) 10%, rgba(240, 222, 236, 1) 20%, rgba(249, 242, 248, 1) 39%, rgba(255, 255, 255, 1) 57%, rgba(255, 255, 255, 1) 67%); */
     background-color: var(--offBlack) !important;
     border-bottom-color: var(--bootStrapCardBorderColor);
     position:fixed;
-    width: 100%;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-radius: 0 0 1rem;
   }
   .mlIngrdntsCntnr{
     display: flex;
@@ -815,6 +824,10 @@
   }
   .navbar-nav{
     display: flex;
+  }
+  .navbar-collapse{
+    margin-top:1rem;
+    padding: 0 0.5rem 0.5rem 1rem;
   }
   .navbarBrandCont{
     display: flex;
@@ -1058,9 +1071,12 @@
   }
   .usrHndlAndDrpDwn{
     align-items: center;
+    margin-right: 3rem;
   }
   .usrHndlOnNvBr{
     color:#fff;
+    font-size: 1rem;
+    margin-right:0.5rem;
   }
   .userPhotoURLFrmGrp{
     display:grid;
@@ -1642,7 +1658,7 @@ margin: 2rem !important;
 .hlthyCkBkTooHrdGrid {
   display: grid;
   grid-template-columns: 42vw 42vw;
-  /* grid-template-rows: 20vh min-content min-content min-content; */
+  /* grid-template-columns: 25vw 25vw; */
   grid-template-rows: min-content min-content;
   grid-template-areas:
     "ckBkTooHrdExImgTL ckBkTooHrdExImgTR"
@@ -1692,7 +1708,7 @@ margin: 2rem !important;
 }
 .ckBkTooHrdCookBook {
   width: 20vw;
-  max-width: 12rem;
+  max-width: 7.5rem;
   box-shadow: var(--offBlack) 0.2rem 0.2rem 0.5rem;
 }
 @media only screen and (max-width: 409px) {
@@ -1726,52 +1742,72 @@ margin: 2rem !important;
   .desktopScreenshot {
   }
   .hlthyCkBkTooHrdGrid {
-    grid-template-columns: 25rem 25rem;
+    /* grid-template-columns: 25rem 25rem; */
     gap: 1rem;
     padding: 1.5rem;
     margin: 0 0 3vh;
     border-radius: 3rem;
   }
-  .hlthyCkBkTooHrdFlxBox {
+  /* .hlthyCkBkTooHrdFlxBox {
     flex-direction: row;
   }
   .ckBkTooHrdArrow {
     transform: unset;
-  }
+  } */
   .ckBkTooHrdCkBkCont {
     border-width: 10px;
-    height: 27rem;
-    width: 27rem;
+    height: 27vh;
+    width: 27vh;
   }
   .ckBkTooHrdCookBook {
     /* grid-area: ckBkTooHrdCookBook; */
     box-shadow: var(--offBlack) 0.2rem 0.2rem 0.7rem;
   }
+  .mobileSSFig {
+    margin: 0 1.95vw 1.5vw 1.95vw !important;
+  }
+  /* .hlthyCkBkTooHrdGrid {
+    grid-template-columns: 25vw 25vw
+  } */
 }
 @media only screen and (min-width: 800px) {
   .desktopSSFrame {
       height: 35vh;
     }
-  
-    .desktopScreenshot {
-    }
+  .desktopScreenshot {
+  }
+  .hlthyCkBkTooHrdGrid {
+    grid-template-columns: 25vw 25vw
+  }
+  .hlthyCkBkTooHrdFlxBox {
+    flex-direction: row;
+  }
+
+  .ckBkTooHrdArrow {
+    transform: unset;
+  }
 }
 @media only screen and (min-width: 1110px) {
   .tagLineOverImg span {
     font-size: 65px;
     margin-left: -33rem;
   }
-    .desktopSSFrame {
-      height: 45vh;
-    }
-        .desktopScreenshot {
-        }
+  .desktopSSFrame {
+    height: 45vh;
+  }
+  .desktopScreenshot {
+  }
 }
-.navbarBrandCont svg{width:40px}
-.biggerIcon {
+@media only screen and (min-width: 1280px) {
+  
+}
+/* .navbarBrandCont svg{width:40px} */
+.biggerIcon,.MuiAvatar-root {
+  height:32px !important;
+  width:32px !important;
   font-size: 1.5rem;
   margin-right: 0.75rem;
-  width: 1.5rem;
+  width: 2rem;
   color: var(--textAndDarkColor) !important
 }
 .hlthyCkBkTooHrdGrid img{
@@ -1804,6 +1840,10 @@ margin: 2rem !important;
 .howChowMaintainableHeading{
   color:var(--accentColor)
 }
+.callToAction{
+  display: flex;
+  justify-content: center;
+}
 .getStartedLink{
   display: flex;
   background-color: var(--accentColor);
@@ -1812,8 +1852,74 @@ margin: 2rem !important;
   margin: 1rem 2rem;
   border-radius: 2rem;
   text-decoration: none;
-  width: 15rem;
+  width: 20rem;
   font-weight: bold;
   justify-content: center;
   align-items: center;
+}
+.homeScrnLogoDrpDwnBttn{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.navbar-toggler{
+  padding:0 !important;
+  margin-top:0.1rem;
+}
+.navbar-toggler-icon{
+  background-image: url('./bootstrapsHamBttnIcon.svg');
+}
+.navbarCont{
+  position:fixed;
+  width:100%;
+  height:50px;
+  background-color: var(--offBlack);
+  margin-bottom: 3rem;
+  z-index: 1;
+}
+.myNavBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  /* width: 100%; */
+  height:100%;
+  margin-left: 3rem;
+  z-index: 1;
+  /* justify-content: space-between; */
+}
+.myNavBrand{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+}
+.navTextWIcon {
+  margin-left: 0.5rem;
+}
+.pageContent{
+  margin-top: 3rem;
+}
+.navbarRight,.navTogglerRight{
+  position:fixed;
+  right: 0;
+  top: 0;
+  z-index: 8;
+}
+.navbarRight{
+
+}
+.navTogglerRight{
+  position: fixed;
+  right: 0.5rem;
+  top: 0.5rem;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+}
+.rightNavDDown{
+  margin-top: 3rem;
+  padding-top:0.6rem;
+  border-radius: 0 0 0 0.5rem;
 }

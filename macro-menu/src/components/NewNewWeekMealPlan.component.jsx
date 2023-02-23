@@ -2055,7 +2055,7 @@ class NewNewWeekMealPlan extends Component {
     const typeOfRecordToChange = this.state.typeOfRecordToChange;
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
     return (
-      <React.Fragment>
+      <div className="pageContent">
         <ul className="nav nav-tabs">
           <li className="nav-item">
             <a
@@ -2247,7 +2247,7 @@ class NewNewWeekMealPlan extends Component {
             }}
           />
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

@@ -86,32 +86,30 @@ const HomePage = (props) => {
           </svg>
         </div>
       ),
+      screenshotStyles: ``,
     },
     {
       screenshotType: "mobile",
       description: `Watch "Current" & "Remaining" change in real-time while choosing Meals`,
       screenshotImg: HowChowGifChngRcpUpdtsBdgt,
       screenshotAnnotations: "",
+      screenshotStyles: ``,
     },
     {
       screenshotType: "mobile",
       description: `Customize ingredient quantities to get a tighter match`,
       screenshotImg: HowChowGifChngIngrdntQtyUpdtsBdgt,
       screenshotAnnotations: "",
+      screenshotStyles: ``,
     },
   ];
-  // {
-  //     screenshotType: "mobile",
-  //     description: ``,
-  //     screenshotImg: "",
-  //     screenshotAnnotations: "",
-  //   },
   const scrnshtCrsl2ObjsArry = [
     {
       screenshotType: "desktop",
       description: `Share meal plans with the community...`,
       screenshotImg: HowChowCmmntyWMPsListSS,
       screenshotAnnotations: "",
+      screenshotStyles: ``,
     },
     {
       screenshotType: "mobile",
@@ -129,6 +127,7 @@ const HomePage = (props) => {
           }}
         ></div>
       ),
+      screenshotStyles: ``,
     },
   ];
   const scrnshtCrsl3ObjsArry = [
@@ -137,12 +136,14 @@ const HomePage = (props) => {
       description: `HowChow automatically creates your shopping list as-you-go`,
       screenshotImg: HowChowShoppingListSS,
       screenshotAnnotations: "",
+      screenshotStyles: ``,
     },
     {
       screenshotType: "mobile",
       description: `Check-off items and update qtys in real-time`,
       screenshotImg: HowChowGifUpdtShppngLst,
       screenshotAnnotations: "",
+      screenshotStyles: ``,
     },
   ];
   const scrnshtCrsl4ObjsArry = [
@@ -152,12 +153,14 @@ const HomePage = (props) => {
                 with common ingredients`,
       screenshotImg: RetroRecipeBoxInCircleOvrManyPrppdMeals,
       screenshotAnnotations: "",
+      screenshotStyles: { backgroundSize: `cover` },
     },
     {
       screenshotType: "mobile",
       description: `...Or create your own! Easily add recipes and ingredients`,
       screenshotImg: HowChowGifCreateNewRecipeAndIngrdnt,
       screenshotAnnotations: "",
+      screenshotStyles: ``,
     },
   ];
   const [currentGRFUser, updateCurrentGRFUser] = useState({
@@ -175,7 +178,7 @@ const HomePage = (props) => {
     getCurrentUser();
   }, []);
   return (
-    <React.Fragment>
+    <div className="pageContent">
       <header>
         <LogoAndWordsCrossWBG />
         <br />
@@ -340,27 +343,29 @@ const HomePage = (props) => {
           <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl2ObjsArry} />
         </section>
         <section>
-          <h1>Shop efficiently!</h1>
+          <h1>Shop efficiently</h1>
           <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl3ObjsArry} />
         </section>
-        <Link
-          to={
-            !currentGRFUser.handle !== 1
-              ? "/weekMealPlans"
-              : {
-                  pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
-                  state: { currentGRFUser: currentGRFUser },
-                }
-          }
-          className="getStartedLink"
-        >
-          Get started
-        </Link>
+        <section className="callToAction">
+          <Link
+            to={
+              !currentGRFUser.handle !== 1
+                ? "/weekMealPlans"
+                : {
+                    pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
+                    state: { currentGRFUser: currentGRFUser },
+                  }
+            }
+            className="getStartedLink"
+          >
+            Get started
+          </Link>
+        </section>
       </main>
       <footer className="footer">
         <p>Copyright &copy; {thisYear} by Catharta, Ltd.</p>
       </footer>
-    </React.Fragment>
+    </div>
   );
 };
 

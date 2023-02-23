@@ -12,6 +12,7 @@ const ScreenshotFigure = (props) => {
     screenshot,
     screenshotAnnotations,
     figureClasses,
+    screenshotStyles,
   } = props;
   return (
     <figure
@@ -25,11 +26,13 @@ const ScreenshotFigure = (props) => {
         <MobileScreenShotAndFrame
           screenshot={screenshot}
           screenshotAnnotations={screenshotAnnotations}
+          screenshotStyles={screenshotStyles}
         />
       ) : (
         <DesktopScreenShotAndFrame
           screenshot={screenshot}
           screenshotAnnotations={screenshotAnnotations}
+          screenshotStyles={screenshotStyles}
         />
       )}
       <div></div>

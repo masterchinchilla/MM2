@@ -1,0 +1,236 @@
+:root{
+    --hamMenuIconBorderHoverColor:rgba(255, 0, 0, 1);
+    --hamMenuIconBorderColor: rgb(222 54 54 / 0%);
+    --hamMenuIconLineColor:#DE3636;
+    --hamMenuListBGColor:#FFF;
+    --hamMenuListBoxShadowColor:grey;
+    --hamMenuLinkTextShadowColor:black;
+    --hamMenuXIconLineColor:red;
+}
+div.hamMenu {
+    /* position: fixed;
+    top: 0;
+    left: 0; */
+    background: none;
+    box-shadow: none;
+}
+
+div.hamMenu * {
+    background: none;
+    box-shadow: none;
+    text-align: left;
+}
+
+#hamMenuIcon {
+    /* position: absolute;
+    left: -8px;
+    top: -8px; */
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    width: 38px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 10px;
+    border-color: var(--hamMenuIconBorderColor);
+    transition: border 0.25s;
+}
+
+#hamMenuIcon:hover {
+    height: 29px;
+    width: 37px;
+    border-radius: 5px;
+    border-style:solid;
+    border-width:4px;
+    border-color: var(--hamMenuIconBorderHoverColor);
+}
+
+#hamMenuList {
+    flex-direction: column;
+    background-color: var(--hamMenuListBGColor);
+    box-shadow:1px 1px 5px var(--hamMenuListBoxShadowColor)
+}
+
+#hamMenuList ul ul {
+    margin: 0.25rem 0 0 1rem;
+}
+
+h1.hamHeader {
+    text-align: center;
+}
+
+div.hamMenuPre1stClick {
+    display: none;
+}
+
+div.hamMenuVisible {
+    display: flex;
+    animation-name: fadeInWholeElement;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    z-index: 200;
+}
+
+div.hamMenuHidden {
+    animation-name: fadeOutWholeElement;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    z-index: -200;
+}
+
+div.hamMenuVisible a:hover {
+    text-shadow: 0.5px 0.5px var(--hamMenuLinkTextShadowColor);
+}
+
+#hamMenuIcon span {
+    display: block;
+    position: fixed;
+    height: 6px;
+    min-width: 0px;
+    width: 35px;
+    background: var(--hamMenuIconLineColor);
+    border-radius: 9px;
+    opacity: 1;
+    left: 5px;
+    z-index: 100;
+}
+
+#hamMenuIcon span:nth-child(1) {
+    top: 5px;
+}
+
+#hamMenuIcon span:nth-child(2) {
+    top: 15px;
+}
+
+#hamMenuIcon span:nth-child(3) {
+    top: 25px;
+}
+
+span.hamLine1Opening {
+    animation-name: hamOpenTop;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+span.hamLine1Closing {
+    animation-name: hamCloseTop;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+span.hamLine2Opening {
+    animation-name: hamOpenMiddle;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+span.hamLine2Closing {
+    animation-name: hamCloseMiddle;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+span.hamLine3Opening {
+    animation-name: hamOpenBottom;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+span.hamLine3Closing {
+    animation-name: hamCloseBottom;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hamOpenTop {
+    from {
+        transform: translateY(0px) rotate(0deg);
+        background-color: var(--hamMenuIconLineColor);
+    }
+
+    to {
+        transform: translateY(10px) rotate(135deg);
+        background-color: var(--hamMenuXIconLineColor);
+    }
+}
+
+@keyframes hamCloseTop {
+    from {
+        transform: translateY(10px) rotate(135deg);
+        background-color: var(--hamMenuXIconLineColor);
+    }
+
+    to {
+        transform: translateY(0px) rotate(0deg);
+        background-color: var(--hamMenuIconLineColor);
+    }
+}
+
+@keyframes hamOpenMiddle {
+    0% {
+        opacity: 1;
+        background-color: var(--hamMenuIconLineColor);
+    }
+
+    100% {
+        opacity: 0;
+        background-color: var(--hamMenuXIconLineColor);
+    }
+}
+
+@keyframes hamCloseMiddle {
+    0% {
+        opacity: 0;
+        background-color: var(--hamMenuXIconLineColor);
+    }
+
+    100% {
+        opacity: 1;
+        background-color: var(--hamMenuIconLineColor);
+    }
+}
+
+@keyframes hamOpenBottom {
+    from {
+        transform: translateY(0px) rotate(0deg);
+        background-color: var(--hamMenuIconLineColor);
+    }
+
+    to {
+        transform: translateY(-10px) rotate(-135deg);
+        background-color: var(--hamMenuXIconLineColor);
+    }
+}
+
+@keyframes hamCloseBottom {
+    from {
+        transform: translateY(-10px) rotate(-135deg);
+        background-color: var(--hamMenuXIconLineColor);
+    }
+
+    to {
+        transform: translateY(0px) rotate(-0deg);
+        background-color: var(--hamMenuIconLineColor);
+    }
+}
+
+@keyframes fadeInWholeElement {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutWholeElement {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

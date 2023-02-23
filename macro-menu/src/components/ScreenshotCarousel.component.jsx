@@ -53,6 +53,7 @@ const ScreenshotCarousel = ({ screenshotObjsArray }) => {
                 figureClasses={
                   screenshotType === "mobile" ? "mobileSSFig" : "desktopSSFig"
                 }
+                screenshotStyles={screenshotObj.screenshotStyles}
               />
               {index !== screenshotObjsArrayLength - 1 ? (
                 <FontAwesomeIcon
