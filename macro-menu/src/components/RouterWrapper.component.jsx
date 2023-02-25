@@ -10,33 +10,64 @@ import NewNewWeekMealPlan from "./NewNewWeekMealPlan.component";
 import Login from "./Login.component";
 import Logout from "./Logout.component";
 import HomePage from "./HomePage.component";
+import BackToTopButton from "./BackToTopButton.component";
+import UserProfileParent from "./UserProfileParent.component";
 class RouterWrapper extends Component {
   constructor(props) {
     super(props);
+    const {
+      serverAuthErrors,
+      frontEndHtmlRoot,
+      backEndHtmlRoot,
+      currentGRFUser,
+      // updateUser,
+      // notifyFn,
+      // notifyOfErrors,
+      // updateThisObjsValErrs,
+      // parseHTTPResErrs,
+    } = this.props;
     this.state = {
       userSignedIn: false,
-      serverAuthErrors: this.props.serverAuthErrors,
-      frontEndHtmlRoot: this.props.frontEndHtmlRoot,
-      backEndHtmlRoot: this.props.backEndHtmlRoot,
-      axiosCallConfig: {},
-      currentGRFUser: {},
-      thisUsersId: "",
+      serverAuthErrors: serverAuthErrors,
+      frontEndHtmlRoot: frontEndHtmlRoot,
+      backEndHtmlRoot: backEndHtmlRoot,
+      // axiosCallConfig: {},
+      currentGRFUser: currentGRFUser,
+      thisUsersId: currentGRFUser ? currentGRFUser._id : "",
+      scrollBttnVisible: false,
     };
   }
-  componentDidMount() {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return;
-    } else {
-      const decodedToken = jwtDecode(localStorage.token);
-      const currentGRFUser = decodedToken.currentGRFUser;
-      this.setState({
-        userSignedIn: true,
-        axiosCallConfig: { "x-auth-token": token },
-        currentGRFUser: currentGRFUser,
-        thisUsersId: currentGRFUser._id,
-      });
+  toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop;
+    if (scrolled > 300) {
+      this.setState({ scrollBttnVisible: true });
+    } else if (scrolled <= 300) {
+      this.setState({ scrollBttnVisible: false });
     }
+  };
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  componentDidMount() {
+    console.log(this.props.currentGRFUser);
+    window.addEventListener("scroll", this.toggleVisible);
+    // const token = localStorage.getItem("token");
+    // if (!token) {
+    //   return;
+    // } else {
+    //   const decodedToken = jwtDecode(localStorage.token);
+    //   const currentGRFUser = decodedToken.currentGRFUser;
+    this.setState({
+      userSignedIn: this.props.currentGRFUser ? true : false,
+      // axiosCallConfig: { "x-auth-token": token },
+      currentGRFUser: this.props.currentGRFUser,
+      // thisUsersId: currentGRFUser._id,
+    });
+    // }
   }
   render() {
     ///data
@@ -45,20 +76,30 @@ class RouterWrapper extends Component {
     const frontEndHtmlRoot = this.state.frontEndHtmlRoot;
     const backEndHtmlRoot = this.state.backEndHtmlRoot;
     const axiosCallConfig = this.state.axiosCallConfig;
-    const currentGRFUser = this.state.currentGRFUser;
-    const thisUsersId = currentGRFUser._id;
+    const currentGRFUser = this.props.currentGRFUser;
+    const thisUsersId = currentGRFUser ? currentGRFUser._id : "";
+    const scrollBttnVisible = this.state.scrollBttnVisible;
     ///methods
-    const getCurrentUser = this.props.getCurrentUser;
+    const decodeToken = this.props.decodeToken;
     const createNewUser = this.props.createNewUser;
+    const updateUser = this.props.updateUser;
     const notifyFn = this.props.notifyFn;
+    const notifyOfErrors = this.props.notifyOfErrors;
+    const updateThisObjsValErrs = this.props.updateThisObjsValErrs;
+    const parseHTTPResErrs = this.props.parseHTTPResErrs;
+    const scrollToTop = this.scrollToTop;
     return (
       <BrowserRouter
-        getCurrentUser={getCurrentUser}
+        decodeToken={decodeToken}
         thisGRFUser={currentGRFUser}
         backEndHtmlRoot={backEndHtmlRoot}
         frontEndHtmlRoot={frontEndHtmlRoot}
-        axiosCallConfig={axiosCallConfig}
+        // axiosCallConfig={axiosCallConfig}
+        updateUser={updateUser}
         notifyFn={notifyFn}
+        notifyOfErrors={notifyOfErrors}
+        updateThisObjsValErrs={updateThisObjsValErrs}
+        parseHTTPResErrs={parseHTTPResErrs}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -66,14 +107,31 @@ class RouterWrapper extends Component {
         />
         <br />
         <Switch
-          getCurrentUser={getCurrentUser}
+          decodeToken={decodeToken}
           thisGRFUser={currentGRFUser}
           backEndHtmlRoot={backEndHtmlRoot}
           frontEndHtmlRoot={frontEndHtmlRoot}
-          axiosCallConfig={axiosCallConfig}
+          // axiosCallConfig={axiosCallConfig}
+          updateUser={updateUser}
           notifyFn={notifyFn}
+          notifyOfErrors={notifyOfErrors}
+          updateThisObjsValErrs={updateThisObjsValErrs}
+          parseHTTPResErrs={parseHTTPResErrs}
         >
-          <Route exact path="/" component={HomePage} />
+          <Route
+            exact
+            path="/createOrEditUser"
+            // /:isNew?/:id?"
+            render={(props) => {
+              <UserProfileParent
+                {...props}
+                thisGRFUser={currentGRFUser}
+                updateThisObjsValErrs={updateThisObjsValErrs}
+                createNewUser={createNewUser}
+                updateUser={updateUser}
+              />;
+            }}
+          />
           <Route exact path="/grfusers" component={GRFUsersList} />
           <Route
             exact
@@ -81,11 +139,12 @@ class RouterWrapper extends Component {
             render={(props) => (
               <NewNewWeekMealPlan
                 {...props}
-                getCurrentUser={getCurrentUser}
+                // decodeToken={decodeToken}
                 thisGRFUser={currentGRFUser}
                 backEndHtmlRoot={backEndHtmlRoot}
-                frontEndHtmlRoot={frontEndHtmlRoot}
-                axiosCallConfig={axiosCallConfig}
+                parseHTTPResErrs={parseHTTPResErrs}
+                updateThisObjsValErrs={updateThisObjsValErrs}
+                notifyOfErrors={notifyOfErrors}
                 notifyFn={notifyFn}
               />
             )}
@@ -96,7 +155,8 @@ class RouterWrapper extends Component {
             render={(props) => (
               <GRFUserDetail
                 {...props}
-                getCurrentUser={getCurrentUser}
+                decodeToken={decodeToken}
+                updateUser={updateUser}
                 thisGRFUser={currentGRFUser}
                 backEndHtmlRoot={backEndHtmlRoot}
               />
@@ -108,7 +168,7 @@ class RouterWrapper extends Component {
             render={(props) => (
               <WeekMealPlansList2
                 {...props}
-                getCurrentUser={getCurrentUser}
+                decodeToken={decodeToken}
                 thisGRFUser={currentGRFUser}
                 backEndHtmlRoot={backEndHtmlRoot}
               />
@@ -153,7 +213,7 @@ class RouterWrapper extends Component {
                 return (
                   <Login
                     {...props}
-                    getCurrentUser={getCurrentUser}
+                    decodeToken={decodeToken}
                     thisGRFUser={currentGRFUser}
                     serverAuthErrors={serverAuthErrors}
                   />
@@ -180,7 +240,18 @@ class RouterWrapper extends Component {
               }
             }}
           />
+          <Route
+            path="/"
+            // component={HomePage}
+            render={(props) => {
+              return <HomePage currentGRFUser={currentGRFUser} />;
+            }}
+          />
         </Switch>
+        <BackToTopButton
+          scrollToTop={scrollToTop}
+          scrollBttnVisible={scrollBttnVisible}
+        />
       </BrowserRouter>
     );
   }

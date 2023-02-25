@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
-import http from "./services/httpService";
+import httpService from "./services/httpService";
 import Bootstrap from "bootstrap";
 import Popper from "popper.js";
 import "./App.css";
@@ -17,32 +17,128 @@ const App = () => {
   let serverAuthErrors = "";
   const frontEndHtmlRoot = "http://localhost:3000/";
   const backEndHtmlRoot = "http://localhost:5000/";
-  async function getCurrentUser(token) {
-    console.log(token);
+  const [currentGRFUser, setCurrentGRFUser] = useState();
+  // const [authToken,setAuthToken]=useState();
+  async function decodeToken(token) {
     const decodedToken = jwtDecode(token);
-    console.log(decodedToken);
     const usersId = decodedToken.currentGRFUser._id;
     window.location = "/weekMealPlans/usersWMPs/" + usersId;
   }
   async function createNewUser(newUser) {
-    const response = await http.post(backEndHtmlRoot + "GRFUsers/add", newUser);
-    const token = response.headers["x-auth-token"];
-    auth.loginWithJwt(token);
-    const decodedToken = jwtDecode(token);
-    const usersId = decodedToken.currentGRFUser._id;
-    window.location = "/weekMealPlans/usersWMPs/" + usersId;
+    const backEndReqUrl = `${backEndHtmlRoot}GRFUsers/add`;
+    let savedRecord = null;
+    let valErrors = [];
+    try {
+      let reqRes = await httpService.post(backEndReqUrl, newUser);
+      savedRecord = reqRes.data;
+      let successMsg = `New User saved successfully.`;
+      notifyFn(successMsg, "success");
+      const token = reqRes.headers["x-auth-token"];
+      auth.loginWithJwt(token);
+      const decodedToken = jwtDecode(token);
+      setCurrentGRFUser(decodedToken.currentGRFUser);
+      const usersId = decodedToken.currentGRFUser._id;
+      window.location = "/weekMealPlans/usersWMPs/" + usersId;
+    } catch (errs) {
+      //valErrorsNestedArray shape:
+      //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+    }
+    return { valErrors };
+  }
+  async function updateUser(updatedUser) {
+    let valErrors;
+    const backEndReqUrl = `${backEndHtmlRoot}GRFUsers/update/${updatedUser._id}`;
+    try {
+      await httpService.put(backEndReqUrl, updatedUser);
+      this.notifyFn("Record updated successfully", "success");
+    } catch (errs) {
+      //valErrorsNestedArray shape:
+      //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      valErrors = this.parseHTTPResErrs(errs, "all");
+      this.notifyOfErrors(valErrors);
+    }
+    return { valErrors };
   }
   function notifyFn(notice, noticeType) {
     switch (noticeType) {
       case "success":
-        // toast.success(notice);
         toast(notice, { type: "success", autoClose: 2000 });
         break;
       default:
-        // toast.error(notice);
         toast(notice, { type: "error", autoClose: 5000 });
     }
   }
+  function notifyOfErrors(valErrsNestedArray) {
+    for (let i = 0; i < valErrsNestedArray.length; i++) {
+      let thisValErrorObj = valErrsNestedArray[i];
+      let thisValErrorObjKeys = Object.keys(thisValErrorObj);
+      for (let i = 0; i < thisValErrorObjKeys.length; i++) {
+        let thisValErrorObjKey = thisValErrorObjKeys[i];
+        let thisValErrorObjSubArray = thisValErrorObj[thisValErrorObjKey];
+        for (let i = 0; i < thisValErrorObjSubArray.length; i++) {
+          let thisValError = thisValErrorObjSubArray[i];
+          notifyFn(thisValError, "error");
+        }
+      }
+    }
+  }
+  function updateThisObjsValErrs(thisObjsValErrsObj, valErrsNestedArray) {
+    //for valErrsNestedArray, fn expects to receive object with this shape:
+    //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+    //for thisObjsValErrsObj, fn expects to receive object with this shape:
+    //{prop1Name:[],prop2Name[]}
+    for (let i = 0; i < valErrsNestedArray.length; i++) {
+      let valErrsArrayKeys = Object.keys(valErrsNestedArray[i]);
+      let thisValuesValErrsArrayKey = valErrsArrayKeys[0];
+      thisObjsValErrsObj[thisValuesValErrsArrayKey] =
+        valErrsNestedArray[i][thisValuesValErrsArrayKey];
+    }
+    notifyOfErrors(valErrsNestedArray);
+    return thisObjsValErrsObj;
+  }
+  function parseHTTPResErrs(errs) {
+    let svrErrMsg = errs.response.data;
+    let valErrsNestedArray;
+    let errMsgs = [];
+    let pattern = /castError/;
+    let resStatus = errs.response.status;
+    if (resStatus > 400) {
+      switch (resStatus) {
+        case 401:
+          errMsgs.push(
+            "You must be logged-in to access the requested record(s)"
+          );
+          break;
+        case 403:
+          errMsgs.push(
+            "You do not have permission to access the requested record(s)"
+          );
+          break;
+        case 404:
+          errMsgs.push("Records not found: IDs/names may be invalid");
+          break;
+        default:
+          if (resStatus >= 500) {
+            errMsgs.push("Server error: Refresh, wait a moment and try again");
+          }
+      }
+      valErrsNestedArray = [{ all: errMsgs }];
+    } else if (resStatus === 400) {
+      if (pattern.test(svrErrMsg)) {
+        errMsgs.push("Bad request: URL may be invalid");
+        valErrsNestedArray = [{ all: errMsgs }];
+      } else {
+        valErrsNestedArray = errs.response.data.valErrorsArray;
+      }
+    }
+    return valErrsNestedArray;
+  }
+  useEffect(() => {
+    const currentUser = auth.getCurrentUser();
+    setCurrentGRFUser(currentUser);
+  }, []);
   return (
     <React.Fragment>
       <ToastContainer />
@@ -50,9 +146,14 @@ const App = () => {
         serverAuthErrors={serverAuthErrors}
         frontEndHtmlRoot={frontEndHtmlRoot}
         backEndHtmlRoot={backEndHtmlRoot}
-        getCurrentUser={getCurrentUser}
+        currentGRFUser={currentGRFUser}
+        decodeToken={decodeToken}
         createNewUser={createNewUser}
+        updateUser={updateUser}
         notifyFn={notifyFn}
+        notifyOfErrors={notifyOfErrors}
+        updateThisObjsValErrs={updateThisObjsValErrs}
+        parseHTTPResErrs={parseHTTPResErrs}
       />
     </React.Fragment>
   );

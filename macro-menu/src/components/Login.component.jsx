@@ -88,12 +88,7 @@ class Login extends Component {
       let token;
       try {
         token = await auth.login(account.email, account.password);
-        // const token = response.headers["x-auth-token"];
-        // response = await axios.post("http://localhost:5000/auth", account);
-
-        // localStorage.setItem("token", token);
-        this.props.getCurrentUser(token);
-        // this.props.getCurrentUser(token);
+        this.props.decodeToken(token);
       } catch (authErrors) {
         this.setState({
           authErrors: authErrors.response.data,

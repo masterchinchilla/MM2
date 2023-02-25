@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getCurrentUser } from "../services/authService";
 //webps
 import AdobeStockGreenPrdceCrateOnDrkGrnBG from "../assets/adobeStockGreenPrdceCrateOnDrkGrnBG.webp";
 import LadyCurlersKitchenCrazy from "../assets/ladyCurlersKitchenCrazy.webp";
@@ -38,6 +39,7 @@ import ScreenshotCarousel from "./ScreenshotCarousel.component";
 const thisYear = new Date().getFullYear();
 const viewportWidth = window.visualViewport.width;
 const HomePage = (props) => {
+  const { currentGRFUser } = props;
   const scrnshtCrsl1ObjsArry = [
     {
       screenshotType: "mobile",
@@ -163,19 +165,22 @@ const HomePage = (props) => {
       screenshotStyles: ``,
     },
   ];
-  const [currentGRFUser, updateCurrentGRFUser] = useState({
+  const [localUser, updateLocalUser] = useState({
     _id: 1,
     handle: "",
   });
-  function getCurrentUser() {
-    const jwt = localStorage.getItem("token");
-    if (jwt) {
-      const decodedUser = jwtDecode(jwt);
-      updateCurrentGRFUser(decodedUser);
-    }
-  }
+  // function getCurrentUser() {
+  //   const jwt = localStorage.getItem("token");
+  //   if (jwt) {
+  //     const decodedUser = jwtDecode(jwt);
+  //     updateCurrentGRFUser(decodedUser);
+  //   }
+  // }
   useEffect(() => {
-    getCurrentUser();
+    if (!currentGRFUser) {
+      const currentUser = getCurrentUser();
+      updateLocalUser(currentUser);
+    }
   }, []);
   return (
     <div className="pageContent">
@@ -184,11 +189,11 @@ const HomePage = (props) => {
         <br />
         <Link
           to={
-            !currentGRFUser.handle !== 1
+            !localUser.handle !== 1
               ? "/weekMealPlans"
               : {
-                  pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
-                  state: { currentGRFUser: currentGRFUser },
+                  pathname: "/weekMealPlans/usersWMPs/" + localUser._id,
+                  state: { currentGRFUser: localUser },
                 }
           }
           className="homeWMPsLink"
@@ -349,11 +354,11 @@ const HomePage = (props) => {
         <section className="callToAction">
           <Link
             to={
-              !currentGRFUser.handle !== 1
+              !localUser.handle !== 1
                 ? "/weekMealPlans"
                 : {
-                    pathname: "/weekMealPlans/usersWMPs/" + currentGRFUser._id,
-                    state: { currentGRFUser: currentGRFUser },
+                    pathname: "/weekMealPlans/usersWMPs/" + localUser._id,
+                    state: { currentGRFUser: localUser },
                   }
             }
             className="getStartedLink"

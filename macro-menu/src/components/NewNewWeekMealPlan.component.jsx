@@ -20,7 +20,15 @@ import LoadingForkSpoonSpinner from "../assets/lottieForkSpoonSpinner.json";
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
-    const { backEndHtmlRoot, thisGRFUser, match } = this.props;
+    const {
+      backEndHtmlRoot,
+      thisGRFUser,
+      match,
+      parseHTTPResErrs,
+      updateThisObjsValErrs,
+      notifyOfErrors,
+      notifyFn,
+    } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
     this.player = React.createRef();
@@ -214,71 +222,75 @@ class NewNewWeekMealPlan extends Component {
     return thisStateObj;
   };
   notifyOfErrors = (valErrsNestedArray) => {
-    for (let i = 0; i < valErrsNestedArray.length; i++) {
-      let thisValErrorObj = valErrsNestedArray[i];
-      let thisValErrorObjKeys = Object.keys(thisValErrorObj);
-      for (let i = 0; i < thisValErrorObjKeys.length; i++) {
-        let thisValErrorObjKey = thisValErrorObjKeys[i];
-        let thisValErrorObjSubArray = thisValErrorObj[thisValErrorObjKey];
-        for (let i = 0; i < thisValErrorObjSubArray.length; i++) {
-          let thisValError = thisValErrorObjSubArray[i];
-          this.notifyFn(thisValError, "error");
-        }
-      }
-    }
+    this.props.notifyOfErrors(valErrsNestedArray);
+    // for (let i = 0; i < valErrsNestedArray.length; i++) {
+    //   let thisValErrorObj = valErrsNestedArray[i];
+    //   let thisValErrorObjKeys = Object.keys(thisValErrorObj);
+    //   for (let i = 0; i < thisValErrorObjKeys.length; i++) {
+    //     let thisValErrorObjKey = thisValErrorObjKeys[i];
+    //     let thisValErrorObjSubArray = thisValErrorObj[thisValErrorObjKey];
+    //     for (let i = 0; i < thisValErrorObjSubArray.length; i++) {
+    //       let thisValError = thisValErrorObjSubArray[i];
+    //       this.notifyFn(thisValError, "error");
+    //     }
+    //   }
+    // }
   };
   updateThisObjsValErrs = (thisObjsValErrsObj, valErrsNestedArray) => {
+    return this.props.updateThisObjsValErrs(
+      thisObjsValErrsObj,
+      valErrsNestedArray
+    );
     //for valErrsNestedArray, fn expects to receive object with this shape:
     //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
     //for thisObjsValErrsObj, fn expects to receive object with this shape:
     //{prop1Name:[],prop2Name[]}
-    for (let i = 0; i < valErrsNestedArray.length; i++) {
-      let valErrsArrayKeys = Object.keys(valErrsNestedArray[i]);
-      let thisValuesValErrsArrayKey = valErrsArrayKeys[0];
-      thisObjsValErrsObj[thisValuesValErrsArrayKey] =
-        valErrsNestedArray[i][thisValuesValErrsArrayKey];
-    }
-    this.notifyOfErrors(valErrsNestedArray);
-    return thisObjsValErrsObj;
+    // for (let i = 0; i < valErrsNestedArray.length; i++) {
+    //   let valErrsArrayKeys = Object.keys(valErrsNestedArray[i]);
+    //   let thisValuesValErrsArrayKey = valErrsArrayKeys[0];
+    //   thisObjsValErrsObj[thisValuesValErrsArrayKey] =
+    //     valErrsNestedArray[i][thisValuesValErrsArrayKey];
+    // }
+    // this.notifyOfErrors(valErrsNestedArray);
+    // return thisObjsValErrsObj;
   };
   parseHTTPResErrs = (errs) => {
-    let svrErrMsg = errs.response.data;
-    let valErrsNestedArray;
-    // = [{ [propToDisplayErrs]: errMsgs }];
-    let errMsgs = [];
-    let pattern = /castError/;
-    let resStatus = errs.response.status;
-    if (resStatus > 400) {
-      switch (resStatus) {
-        case 401:
-          errMsgs.push(
-            "You must be logged-in to access the requested record(s)"
-          );
-          break;
-        case 403:
-          errMsgs.push(
-            "You do not have permission to access the requested record(s)"
-          );
-          break;
-        case 404:
-          errMsgs.push("Records not found: IDs/names may be invalid");
-          break;
-        default:
-          if (resStatus >= 500) {
-            errMsgs.push("Server error: Refresh, wait a moment and try again");
-          }
-      }
-      valErrsNestedArray = [{ all: errMsgs }];
-    } else if (resStatus === 400) {
-      if (pattern.test(svrErrMsg)) {
-        errMsgs.push("Bad request: URL may be invalid");
-        valErrsNestedArray = [{ all: errMsgs }];
-      } else {
-        console.log(errs.response.data.valErrorsArray);
-        valErrsNestedArray = errs.response.data.valErrorsArray;
-      }
-    }
-    return valErrsNestedArray;
+    return this.props.parseHTTPResErrs(errs);
+    // let svrErrMsg = errs.response.data;
+    // let valErrsNestedArray;
+    // let errMsgs = [];
+    // let pattern = /castError/;
+    // let resStatus = errs.response.status;
+    // if (resStatus > 400) {
+    //   switch (resStatus) {
+    //     case 401:
+    //       errMsgs.push(
+    //         "You must be logged-in to access the requested record(s)"
+    //       );
+    //       break;
+    //     case 403:
+    //       errMsgs.push(
+    //         "You do not have permission to access the requested record(s)"
+    //       );
+    //       break;
+    //     case 404:
+    //       errMsgs.push("Records not found: IDs/names may be invalid");
+    //       break;
+    //     default:
+    //       if (resStatus >= 500) {
+    //         errMsgs.push("Server error: Refresh, wait a moment and try again");
+    //       }
+    //   }
+    //   valErrsNestedArray = [{ all: errMsgs }];
+    // } else if (resStatus === 400) {
+    //   if (pattern.test(svrErrMsg)) {
+    //     errMsgs.push("Bad request: URL may be invalid");
+    //     valErrsNestedArray = [{ all: errMsgs }];
+    //   } else {
+    //     valErrsNestedArray = errs.response.data.valErrorsArray;
+    //   }
+    // }
+    // return valErrsNestedArray;
   };
   assembleStateObjWNewRcrd = (
     recordsArray,
@@ -484,10 +496,17 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   getAllUOMsWTsBrndsNRecipes = async () => {
-    let allUnitOfMeasures = await this.getFullRecordSet("unitOfMeasure");
-    let allWeightTypes = await this.getFullRecordSet("weightType");
-    let allBrands = await this.getFullRecordSet("brand");
-    let allGenRecipes = await this.getFullRecordSet("genRecipe");
+    const [allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes] =
+      await Promise.all([
+        this.getFullRecordSet("unitOfMeasure"),
+        this.getFullRecordSet("weightType"),
+        this.getFullRecordSet("brand"),
+        this.getFullRecordSet("genRecipe"),
+      ]);
+    // let allUnitOfMeasures = await this.getFullRecordSet("unitOfMeasure");
+    // let allWeightTypes = await this.getFullRecordSet("weightType");
+    // let allBrands = await this.getFullRecordSet("brand");
+    // let allGenRecipes = await this.getFullRecordSet("genRecipe");
     return {
       allUnitOfMeasures: allUnitOfMeasures,
       allWeightTypes: allWeightTypes,
@@ -530,46 +549,61 @@ class NewNewWeekMealPlan extends Component {
     let thisWMPRecord = thisWMPStateObj.thisRecord;
     let thisWMPId = thisWMPRecord._id;
     const backEndReqUrl = `${backEndHtmlRoot}weekMealPlans/${thisWMPId}`;
-    let wmpReqResult = await this.getRecordsFromBackEnd(
-      backEndReqUrl,
-      "weekMealPlan",
-      ["weekMealPlan"]
-    );
-    console.log(wmpReqResult);
-    if (wmpReqResult.valErrors) {
-      return;
-    } else {
-      const thisRecordJustCreated = pgReqParams.isNewWMP ? true : false;
-      thisWMPStateObj = wmpReqResult.stateObjsArray[0];
-      thisWMPStateObj.justCreated.weekMealPlan = thisRecordJustCreated;
-      state.thisWMPStateObj = thisWMPStateObj;
-      let getWeeksDaysResult = await this.getThisWeeksDaysFn(
-        state,
-        thisWMPRecord
-      );
-      let updatedState = getWeeksDaysResult.state;
-      let countOfLinkedDays = getWeeksDaysResult.countOfLinkedDays;
-      let countOfLinkedMeals = getWeeksDaysResult.countOfLinkedMeals;
-      let countOfLinkedMealIngrdnts =
-        getWeeksDaysResult.countOfLinkedMealIngrdnts;
-      updatedState.thisWMPStateObj.hasChildren.weekMealPlan =
-        countOfLinkedDays > 0 ? true : false;
-      const { allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes } =
-        await this.getAllUOMsWTsBrndsNRecipes();
-      updatedState.allUnitOfMeasures = allUnitOfMeasures;
-      updatedState.allWeightTypes = allWeightTypes;
-      updatedState.allBrands = allBrands;
-      updatedState.allGenRecipes = allGenRecipes;
-      updatedState.countOfLinkedDays = countOfLinkedDays;
-      updatedState.countOfLinkedMeals = countOfLinkedMeals;
-      updatedState.countOfLinkedMealIngrdnts = countOfLinkedMealIngrdnts;
-      this.player.current.stop();
-      state.pantryItems = await this.handleGetUsersPantryItemsFn(
-        backEndHtmlRoot,
-        currentGRFUser
-      );
-      this.setState(updatedState);
-    }
+    // let wmpReqResult = await this.getRecordsFromBackEnd(
+    //   backEndReqUrl,
+    //   "weekMealPlan",
+    //   ["weekMealPlan"]
+    // );
+    // let getWeeksDaysResult = await this.getThisWeeksDaysFn(
+    //   state,
+    //   thisWMPRecord
+    // );
+    // const { allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes } =
+    //   await this.getAllUOMsWTsBrndsNRecipes();
+    const [
+      wmpReqResult,
+      getWeeksDaysResult,
+      allUOMsWghtTypsBrndsNRcps,
+      pantryItems,
+    ] = await Promise.all([
+      this.getRecordsFromBackEnd(backEndReqUrl, "weekMealPlan", [
+        "weekMealPlan",
+      ]),
+      this.getThisWeeksDaysFn(state, thisWMPRecord),
+      this.getAllUOMsWTsBrndsNRecipes(),
+      this.handleGetUsersPantryItemsFn(backEndHtmlRoot, currentGRFUser),
+    ]);
+    const { allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes } =
+      allUOMsWghtTypsBrndsNRcps;
+    // if (wmpReqResult.valErrors) {
+    //   return;
+    // } else {
+    const thisRecordJustCreated = pgReqParams.isNewWMP ? true : false;
+    thisWMPStateObj = wmpReqResult.stateObjsArray[0];
+    thisWMPStateObj.justCreated.weekMealPlan = thisRecordJustCreated;
+    state.thisWMPStateObj = thisWMPStateObj;
+    let updatedState = getWeeksDaysResult.state;
+    let countOfLinkedDays = getWeeksDaysResult.countOfLinkedDays;
+    let countOfLinkedMeals = getWeeksDaysResult.countOfLinkedMeals;
+    let countOfLinkedMealIngrdnts =
+      getWeeksDaysResult.countOfLinkedMealIngrdnts;
+    updatedState.thisWMPStateObj.hasChildren.weekMealPlan =
+      countOfLinkedDays > 0 ? true : false;
+    updatedState.allUnitOfMeasures = allUnitOfMeasures;
+    updatedState.allWeightTypes = allWeightTypes;
+    updatedState.allBrands = allBrands;
+    updatedState.allGenRecipes = allGenRecipes;
+    updatedState.countOfLinkedDays = countOfLinkedDays;
+    updatedState.countOfLinkedMeals = countOfLinkedMeals;
+    updatedState.countOfLinkedMealIngrdnts = countOfLinkedMealIngrdnts;
+    this.player.current.stop();
+    state.pantryItems = pantryItems;
+    // state.pantryItems = await this.handleGetUsersPantryItemsFn(
+    //   backEndHtmlRoot,
+    //   currentGRFUser
+    // );
+    this.setState(updatedState);
+    // }
   };
   handleCopyWMPFn = async () => {
     let state = this.state;
@@ -599,15 +633,15 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   componentDidMount() {
-    const currentGRFUser = authService.getCurrentUser();
-    if (!currentGRFUser) {
-      this.notifyFn("Your login session has expired", "error");
-      window.location = `/weekMealPlans`;
-    } else {
-      this.setState({ currentGRFUser: currentGRFUser }, () => {
-        this.getThisWMPFn();
-      });
-    }
+    // const currentGRFUser = authService.getCurrentUser();
+    // if (!currentGRFUser) {
+    //   this.notifyFn("Your login session has expired", "error");
+    //   window.location = `/weekMealPlans`;
+    // } else {
+    //   this.setState({ currentGRFUser: currentGRFUser }, () => {
+    this.getThisWMPFn();
+    //   });
+    // }
   }
   getCSValResultForProp = async (
     typeOfRecordToChange,
@@ -2190,13 +2224,13 @@ class NewNewWeekMealPlan extends Component {
                   data-bs-parent={"#accordionFull" + thisWMPRecordId}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
-                    <button
+                    {/* <button
                       type="button"
                       className="btn btn-primary"
                       onClick={this.getThisWMPFn}
                     >
                       Reload
-                    </button>
+                    </button> */}
                     {this.renderDay("sunday", "Sunday")}
                     {this.renderDay("monday", "Monday")}
                     {this.renderDay("tuesday", "Tuesday")}

@@ -179,7 +179,7 @@ const GRFUserDetail = (props) => {
   return (
     <div className="card ms-4 me-4 registerCard">
       <div className="card-header">
-        <h1>GRF User Profile</h1>
+        <h1>User Profile</h1>
       </div>
       <div className="card-body">
         <form className="registerForm">

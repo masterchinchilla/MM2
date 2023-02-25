@@ -6,9 +6,13 @@ import jwtDecode from "jwt-decode";
 class WMPListForUser extends Component {
   constructor(props) {
     super(props);
+    const { thisGRFUser, match } = this.props;
+    const pgReqParams = match.params;
+    const thisUsersId = pgReqParams.id;
     this.state = {
       dataLoaded: false,
-      thisGRFUser: {},
+      thisGRFUser: thisGRFUser,
+      thisUsersId: thisUsersId,
       weekMealPlans: [],
       thisUsersWMPs: [],
       allOtherWMPs: [],
@@ -16,9 +20,10 @@ class WMPListForUser extends Component {
     };
   }
   componentDidMount() {
-    const jwt = localStorage.getItem("token");
-    const decodedToken = jwtDecode(jwt);
-    const thisGRFUserId = decodedToken.currentGRFUser._id;
+    // const jwt = localStorage.getItem("token");
+    // const decodedToken = jwtDecode(jwt);
+    const thisGRFUserId = this.state.thisUsersId;
+    // decodedToken.currentGRFUser._id;
     axios
       .get(this.props.backEndHtmlRoot + "GRFUsers/" + thisGRFUserId)
       .then((response) => {
