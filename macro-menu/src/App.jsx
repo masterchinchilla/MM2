@@ -135,10 +135,39 @@ const App = () => {
     }
     return valErrsNestedArray;
   }
+  function setAllKeysToSameValue(keysSourceObj, objToUpdate, keyValue) {
+    const objKeys = Object.keys(keysSourceObj);
+    for (let i = 0; i < objKeys.length; i++) {
+      objToUpdate[objKeys[i]] = keyValue;
+    }
+    return objToUpdate;
+  }
+  function getRndIntegerFn(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  function returnElementKey(
+    indexOfObj,
+    thisObjName,
+    propToUpdate,
+    typeOfRecordToChange,
+    arrayIndex,
+    thisMealTypeCode,
+    thisDayOfWeekCode
+  ) {
+    return `${thisObjName ? thisObjName : "Null"}${
+      indexOfObj ? indexOfObj : "Null"
+    }ForProp${propToUpdate ? propToUpdate : "Null"}For${
+      typeOfRecordToChange ? typeOfRecordToChange : "Null"
+    }Num${arrayIndex ? arrayIndex : "Null"}ForMeal${
+      thisMealTypeCode ? thisMealTypeCode : "Null"
+    }ForDay${thisDayOfWeekCode ? thisDayOfWeekCode : "Null"}ForThisWMP`;
+  }
   useEffect(() => {
-    const currentUser = auth.getCurrentUser();
-    setCurrentGRFUser(currentUser);
-  }, []);
+    if (!currentGRFUser) {
+      const currentUser = auth.getCurrentUser();
+      setCurrentGRFUser(currentUser);
+    }
+  });
   return (
     <React.Fragment>
       <ToastContainer />
@@ -154,6 +183,9 @@ const App = () => {
         notifyOfErrors={notifyOfErrors}
         updateThisObjsValErrs={updateThisObjsValErrs}
         parseHTTPResErrs={parseHTTPResErrs}
+        setAllKeysToSameValue={setAllKeysToSameValue}
+        getRndIntegerFn={getRndIntegerFn}
+        returnElementKey={returnElementKey}
       />
     </React.Fragment>
   );

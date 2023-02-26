@@ -177,8 +177,15 @@ const HomePage = (props) => {
   //   }
   // }
   useEffect(() => {
+    console.log(currentGRFUser);
     if (!currentGRFUser) {
-      const currentUser = getCurrentUser();
+      const retrievedRecord = getCurrentUser();
+      const currentUser = retrievedRecord
+        ? retrievedRecord
+        : {
+            _id: 1,
+            handle: "",
+          };
       updateLocalUser(currentUser);
     }
   }, []);

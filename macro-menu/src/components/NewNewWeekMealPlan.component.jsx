@@ -28,6 +28,8 @@ class NewNewWeekMealPlan extends Component {
       updateThisObjsValErrs,
       notifyOfErrors,
       notifyFn,
+      setAllKeysToSameValue,
+      returnElementKey,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -73,7 +75,8 @@ class NewNewWeekMealPlan extends Component {
     };
   }
   getRndIntegerFn = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return this.props.getRndIntegerFn(min, max);
+    // return Math.floor(Math.random() * (max - min + 1)) + min;
   };
   notifyFn = (notice, noticeType) => {
     this.props.notifyFn(notice, noticeType);
@@ -91,11 +94,16 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   setAllKeysToSameValue = (keysSourceObj, objToUpdate, keyValue) => {
-    const objKeys = Object.keys(keysSourceObj);
-    for (let i = 0; i < objKeys.length; i++) {
-      objToUpdate[objKeys[i]] = keyValue;
-    }
-    return objToUpdate;
+    return this.props.setAllKeysToSameValue(
+      keysSourceObj,
+      objToUpdate,
+      keyValue
+    );
+    // const objKeys = Object.keys(keysSourceObj);
+    // for (let i = 0; i < objKeys.length; i++) {
+    //   objToUpdate[objKeys[i]] = keyValue;
+    // }
+    // return objToUpdate;
   };
   replaceThisRecordInStateObj = (
     thisStateObj,
@@ -685,13 +693,22 @@ class NewNewWeekMealPlan extends Component {
     thisMealTypeCode,
     thisDayOfWeekCode
   ) => {
-    return `${thisObjName ? thisObjName : "Null"}${
-      indexOfObj ? indexOfObj : "Null"
-    }ForProp${propToUpdate ? propToUpdate : "Null"}For${
-      typeOfRecordToChange ? typeOfRecordToChange : "Null"
-    }Num${arrayIndex ? arrayIndex : "Null"}ForMeal${
-      thisMealTypeCode ? thisMealTypeCode : "Null"
-    }ForDay${thisDayOfWeekCode ? thisDayOfWeekCode : "Null"}ForThisWMP`;
+    return this.props.returnElementKey(
+      indexOfObj,
+      thisObjName,
+      propToUpdate,
+      typeOfRecordToChange,
+      arrayIndex,
+      thisMealTypeCode,
+      thisDayOfWeekCode
+    );
+    // return `${thisObjName ? thisObjName : "Null"}${
+    //   indexOfObj ? indexOfObj : "Null"
+    // }ForProp${propToUpdate ? propToUpdate : "Null"}For${
+    //   typeOfRecordToChange ? typeOfRecordToChange : "Null"
+    // }Num${arrayIndex ? arrayIndex : "Null"}ForMeal${
+    //   thisMealTypeCode ? thisMealTypeCode : "Null"
+    // }ForDay${thisDayOfWeekCode ? thisDayOfWeekCode : "Null"}ForThisWMP`;
   };
   populateMissingMealIngrdnts = async (thisMealStateObj) => {
     let thisMealWUpdtdGenRcpIngrdnts =

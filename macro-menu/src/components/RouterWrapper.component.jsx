@@ -12,6 +12,7 @@ import Logout from "./Logout.component";
 import HomePage from "./HomePage.component";
 import BackToTopButton from "./BackToTopButton.component";
 import UserProfileParent from "./UserProfileParent.component";
+import { getCurrentUser } from "../services/authService";
 class RouterWrapper extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,9 @@ class RouterWrapper extends Component {
       // notifyOfErrors,
       // updateThisObjsValErrs,
       // parseHTTPResErrs,
+      // setAllKeysToSameValue,
+      // getRndIntegerFn,
+      // returnElementKey
     } = this.props;
     this.state = {
       userSignedIn: false,
@@ -53,21 +57,15 @@ class RouterWrapper extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.currentGRFUser);
     window.addEventListener("scroll", this.toggleVisible);
-    // const token = localStorage.getItem("token");
-    // if (!token) {
-    //   return;
-    // } else {
-    //   const decodedToken = jwtDecode(localStorage.token);
-    //   const currentGRFUser = decodedToken.currentGRFUser;
+    const currentUser = this.props.currentGRFUser
+      ? this.props.currentGRFUser
+      : getCurrentUser();
     this.setState({
-      userSignedIn: this.props.currentGRFUser ? true : false,
-      // axiosCallConfig: { "x-auth-token": token },
-      currentGRFUser: this.props.currentGRFUser,
-      // thisUsersId: currentGRFUser._id,
+      currentGRFUser: currentUser,
+      userSignedIn: currentUser ? true : false,
+      thisUsersId: currentUser ? currentUser._id : "",
     });
-    // }
   }
   render() {
     ///data
@@ -76,7 +74,7 @@ class RouterWrapper extends Component {
     const frontEndHtmlRoot = this.state.frontEndHtmlRoot;
     const backEndHtmlRoot = this.state.backEndHtmlRoot;
     const axiosCallConfig = this.state.axiosCallConfig;
-    const currentGRFUser = this.props.currentGRFUser;
+    const currentGRFUser = this.state.currentGRFUser;
     const thisUsersId = currentGRFUser ? currentGRFUser._id : "";
     const scrollBttnVisible = this.state.scrollBttnVisible;
     ///methods
@@ -87,6 +85,9 @@ class RouterWrapper extends Component {
     const notifyOfErrors = this.props.notifyOfErrors;
     const updateThisObjsValErrs = this.props.updateThisObjsValErrs;
     const parseHTTPResErrs = this.props.parseHTTPResErrs;
+    const setAllKeysToSameValue = this.props.setAllKeysToSameValue;
+    const getRndIntegerFn = this.props.getRndIntegerFn;
+    const returnElementKey = this.props.returnElementKey;
     const scrollToTop = this.scrollToTop;
     return (
       <BrowserRouter
@@ -100,6 +101,9 @@ class RouterWrapper extends Component {
         notifyOfErrors={notifyOfErrors}
         updateThisObjsValErrs={updateThisObjsValErrs}
         parseHTTPResErrs={parseHTTPResErrs}
+        setAllKeysToSameValue={setAllKeysToSameValue}
+        getRndIntegerFn={getRndIntegerFn}
+        returnElementKey={returnElementKey}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -117,19 +121,28 @@ class RouterWrapper extends Component {
           notifyOfErrors={notifyOfErrors}
           updateThisObjsValErrs={updateThisObjsValErrs}
           parseHTTPResErrs={parseHTTPResErrs}
+          setAllKeysToSameValue={setAllKeysToSameValue}
+          getRndIntegerFn={getRndIntegerFn}
+          returnElementKey={returnElementKey}
         >
           <Route
             exact
-            path="/createOrEditUser"
-            // /:isNew?/:id?"
+            path="/createOrEditUser/:isNew?"
+            // component={UserProfileParent}
             render={(props) => {
-              <UserProfileParent
-                {...props}
-                thisGRFUser={currentGRFUser}
-                updateThisObjsValErrs={updateThisObjsValErrs}
-                createNewUser={createNewUser}
-                updateUser={updateUser}
-              />;
+              return (
+                <UserProfileParent
+                  {...props}
+                  currentUser={currentGRFUser}
+                  backEndHtmlRoot={backEndHtmlRoot}
+                  updateThisObjsValErrs={updateThisObjsValErrs}
+                  createNewUser={createNewUser}
+                  updateUser={updateUser}
+                  setAllKeysToSameValue={setAllKeysToSameValue}
+                  returnElementKey={returnElementKey}
+                  getRndIntegerFn={getRndIntegerFn}
+                />
+              );
             }}
           />
           <Route exact path="/grfusers" component={GRFUsersList} />
@@ -146,6 +159,9 @@ class RouterWrapper extends Component {
                 updateThisObjsValErrs={updateThisObjsValErrs}
                 notifyOfErrors={notifyOfErrors}
                 notifyFn={notifyFn}
+                setAllKeysToSameValue={setAllKeysToSameValue}
+                getRndIntegerFn={getRndIntegerFn}
+                returnElementKey={returnElementKey}
               />
             )}
           />
@@ -154,7 +170,7 @@ class RouterWrapper extends Component {
             path="/grfusers/edit/:id"
             render={(props) => (
               <GRFUserDetail
-                {...props}
+                // {...props}
                 decodeToken={decodeToken}
                 updateUser={updateUser}
                 thisGRFUser={currentGRFUser}
