@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import NewFormControl from "./NewFormControl.component";
 import NewInputCore from "./NewInputCore.component";
 import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
 import CustomHeading from "./CustomHeading.component";
+import CreateEditPassword from "./CreateEditPassword.component";
 class UserProfileParent extends Component {
   constructor(props) {
     const defaultUserObj = {
@@ -33,6 +34,7 @@ class UserProfileParent extends Component {
       returnElementKey,
       setAllKeysToSameValue,
       getRndIntegerFn,
+      getCSValResultForPropFn,
     } = this.props;
     this.state = {
       defaultUserObj: defaultUserObj,
@@ -51,7 +53,17 @@ class UserProfileParent extends Component {
       pWordLengthOk: false,
     };
   }
-  handleUpdatePropFn = (
+  determineIfSaveDisabled = (thisValErrsObj) => {
+    const objKeys = Object.keys(thisValErrsObj);
+    let countOfValErrs = 0;
+    for (let i = 0; i < objKeys.length; i++) {
+      let thisObjKey = objKeys[i];
+      let thisPropsValErrsArray = thisValErrsObj[thisObjKey];
+      countOfValErrs += thisPropsValErrsArray.length;
+    }
+    return countOfValErrs > 0 ? true : false;
+  };
+  handleUpdatePropFn = async (
     propToUpdate,
     trimmedWNoDblSpcs,
     typeOfRecordToChange,
@@ -59,24 +71,43 @@ class UserProfileParent extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
+    let { _id, valErrors } = this.state;
+    let parentValErrsObj = valErrors;
+    console.log(parentValErrsObj);
+    let thisValErrsObj = parentValErrsObj.GRFUser;
+    console.log(thisValErrsObj);
+    let updatedValErrorsObj = await this.props.getCSValResultForPropFn(
+      "GRFUser",
+      propToUpdate,
+      trimmedWNoDblSpcs,
+      thisValErrsObj,
+      _id
+    );
+    console.log(updatedValErrorsObj);
+    parentValErrsObj.GRFUser = updatedValErrorsObj;
     this.setState({
       [propToUpdate]: trimmedWNoDblSpcs,
+      valErrors: parentValErrsObj,
       recordChanged: true,
-      saveDisabled: false,
+      saveDisabled: this.determineIfSaveDisabled(thisValErrsObj),
     });
   };
   handleSetDefaultStateFn = () => {
-    const { match, currentUser } = this.props;
+    const { match, currentUser, setAllKeysToSameValue } = this.props;
+    const { defaultUserObj } = this.state;
     if (currentUser) {
       const pgReqParams = match.params;
       const userIsNew = pgReqParams.isNew;
       this.setState(
         {
           ...currentUser,
+          valErrors: { GRFUser: setAllKeysToSameValue(defaultUserObj, {}, []) },
           userIsNew: userIsNew,
           userType: currentUser.isAdmin ? "admin" : "author",
           recordLoaded: true,
           editingForm: false,
+          recordChanged: false,
+          saveDisabled: true,
         },
         () => {
           return true;
@@ -112,30 +143,41 @@ class UserProfileParent extends Component {
       console.log(valErrors);
     }
   };
-  handleChangePasswordFn = (e) => {
-    const typedPWord = e.target.value;
-    const pWordHasCapLetterPattern = /[A-Z]/;
-    const pWordHasLCaseLetterPattern = /[a-z]/;
-    const pWordHasNumPattern = /\d/;
-    const pWordHasSpCharPattern = /[^\w\s]/;
-    const pWordHasCapLetter = pWordHasCapLetterPattern.test(typedPWord);
-    const pWordHasLCaseLetter = pWordHasLCaseLetterPattern.test(typedPWord);
-    const pWordHasNum = pWordHasNumPattern.test(typedPWord);
-    const pWordHasSpChar = pWordHasSpCharPattern.test(typedPWord);
-    const pWordLengthOk = typedPWord.length > 7 && typedPWord.length < 101;
+  handleChangePasswordFn = (newPassword, passwordOk) => {
+    const otherValErrs = this.determineIfSaveDisabled(
+      this.state.valErrors.GRFUser
+    );
+    const makeSaveDisabled = otherValErrs || !passwordOk;
+    const pWordChanged = this.state.password !== newPassword;
     this.setState({
-      password: typedPWord,
-      pWordHasCapLetter: pWordHasCapLetter,
-      pWordHasLCaseLetter: pWordHasLCaseLetter,
-      pWordHasNum: pWordHasNum,
-      pWordHasSpChar: pWordHasSpChar,
-      pWordLengthOk: pWordLengthOk,
-      recordChanged: true,
+      password: newPassword,
+      saveDisabled: makeSaveDisabled,
+      recordChanged: this.state.recordChanged || pWordChanged,
     });
   };
-  toggleShowPasswordFn = (e) => {
-    this.setState({ showPassword: e.target.checked });
-  };
+  //   const typedPWord = e.target.value;
+  //   const pWordHasCapLetterPattern = /[A-Z]/;
+  //   const pWordHasLCaseLetterPattern = /[a-z]/;
+  //   const pWordHasNumPattern = /\d/;
+  //   const pWordHasSpCharPattern = /[^\w\s]/;
+  //   const pWordHasCapLetter = pWordHasCapLetterPattern.test(typedPWord);
+  //   const pWordHasLCaseLetter = pWordHasLCaseLetterPattern.test(typedPWord);
+  //   const pWordHasNum = pWordHasNumPattern.test(typedPWord);
+  //   const pWordHasSpChar = pWordHasSpCharPattern.test(typedPWord);
+  //   const pWordLengthOk = typedPWord.length > 7 && typedPWord.length < 101;
+  //   this.setState({
+  //     password: typedPWord,
+  //     pWordHasCapLetter: pWordHasCapLetter,
+  //     pWordHasLCaseLetter: pWordHasLCaseLetter,
+  //     pWordHasNum: pWordHasNum,
+  //     pWordHasSpChar: pWordHasSpChar,
+  //     pWordLengthOk: pWordLengthOk,
+  //     recordChanged: true,
+  //   });
+  // };
+  // toggleShowPasswordFn = (e) => {
+  //   this.setState({ showPassword: e.target.checked });
+  // };
   updateHandleValErrorsStateFn = (handleValErrors) => {
     const valErrors = this.state.valErrors;
     valErrors.GRFUser.handle = handleValErrors;
@@ -483,7 +525,12 @@ class UserProfileParent extends Component {
                         specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                       }}
                     />
-                    <div className="form-group mb-4">
+                    <CreateEditPassword
+                      pWordFromParent={this.state.password}
+                      editingForm={this.state.editingForm}
+                      onUpdatePWordFn={this.handleChangePasswordFn}
+                    />
+                    {/* <div className="form-group mb-4">
                       <label className="form-label">
                         <span className="requiredFldLbl">* </span>Password
                       </label>
@@ -604,7 +651,7 @@ class UserProfileParent extends Component {
                           </label>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     <NewInputWSearchUniqueNew
                       commonProps={{
                         commonData: { backEndHtmlRoot: backEndHtmlRoot },

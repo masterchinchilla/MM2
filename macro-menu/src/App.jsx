@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import jwtDecode from "jwt-decode";
 import httpService from "./services/httpService";
+import { csValidateObj } from "./services/validationService";
 import Bootstrap from "bootstrap";
 import Popper from "popper.js";
 import "./App.css";
@@ -162,6 +163,24 @@ const App = () => {
       thisMealTypeCode ? thisMealTypeCode : "Null"
     }ForDay${thisDayOfWeekCode ? thisDayOfWeekCode : "Null"}ForThisWMP`;
   }
+  async function getCSValResultForPropFn(
+    typeOfRecordToChange,
+    propToUpdate,
+    newValue,
+    thisObjsValErrsObj,
+    parentRecordId
+  ) {
+    const recordToUpdate = { [propToUpdate]: newValue, _id: parentRecordId };
+    const csValResult = await csValidateObj(
+      typeOfRecordToChange,
+      recordToUpdate
+    );
+    const newThisObjsValErrsObj = this.updateThisObjsValErrs(
+      thisObjsValErrsObj,
+      csValResult
+    );
+    return newThisObjsValErrsObj;
+  }
   useEffect(() => {
     if (!currentGRFUser) {
       const currentUser = auth.getCurrentUser();
@@ -186,6 +205,7 @@ const App = () => {
         setAllKeysToSameValue={setAllKeysToSameValue}
         getRndIntegerFn={getRndIntegerFn}
         returnElementKey={returnElementKey}
+        getCSValResultForPropFn={getCSValResultForPropFn}
       />
     </React.Fragment>
   );

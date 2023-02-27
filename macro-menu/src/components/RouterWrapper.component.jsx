@@ -28,14 +28,14 @@ class RouterWrapper extends Component {
       // parseHTTPResErrs,
       // setAllKeysToSameValue,
       // getRndIntegerFn,
-      // returnElementKey
+      // returnElementKey,
+      // getCSValResultForPropFn
     } = this.props;
     this.state = {
       userSignedIn: false,
       serverAuthErrors: serverAuthErrors,
       frontEndHtmlRoot: frontEndHtmlRoot,
       backEndHtmlRoot: backEndHtmlRoot,
-      // axiosCallConfig: {},
       currentGRFUser: currentGRFUser,
       thisUsersId: currentGRFUser ? currentGRFUser._id : "",
       scrollBttnVisible: false,
@@ -88,6 +88,7 @@ class RouterWrapper extends Component {
     const setAllKeysToSameValue = this.props.setAllKeysToSameValue;
     const getRndIntegerFn = this.props.getRndIntegerFn;
     const returnElementKey = this.props.returnElementKey;
+    const getCSValResultForPropFn = this.props.getCSValResultForPropFn;
     const scrollToTop = this.scrollToTop;
     return (
       <BrowserRouter
@@ -95,7 +96,6 @@ class RouterWrapper extends Component {
         thisGRFUser={currentGRFUser}
         backEndHtmlRoot={backEndHtmlRoot}
         frontEndHtmlRoot={frontEndHtmlRoot}
-        // axiosCallConfig={axiosCallConfig}
         updateUser={updateUser}
         notifyFn={notifyFn}
         notifyOfErrors={notifyOfErrors}
@@ -104,6 +104,7 @@ class RouterWrapper extends Component {
         setAllKeysToSameValue={setAllKeysToSameValue}
         getRndIntegerFn={getRndIntegerFn}
         returnElementKey={returnElementKey}
+        getCSValResultForPropFn={getCSValResultForPropFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -115,7 +116,6 @@ class RouterWrapper extends Component {
           thisGRFUser={currentGRFUser}
           backEndHtmlRoot={backEndHtmlRoot}
           frontEndHtmlRoot={frontEndHtmlRoot}
-          // axiosCallConfig={axiosCallConfig}
           updateUser={updateUser}
           notifyFn={notifyFn}
           notifyOfErrors={notifyOfErrors}
@@ -124,11 +124,11 @@ class RouterWrapper extends Component {
           setAllKeysToSameValue={setAllKeysToSameValue}
           getRndIntegerFn={getRndIntegerFn}
           returnElementKey={returnElementKey}
+          getCSValResultForPropFn={getCSValResultForPropFn}
         >
           <Route
             exact
             path="/createOrEditUser/:isNew?"
-            // component={UserProfileParent}
             render={(props) => {
               return (
                 <UserProfileParent
@@ -141,6 +141,7 @@ class RouterWrapper extends Component {
                   setAllKeysToSameValue={setAllKeysToSameValue}
                   returnElementKey={returnElementKey}
                   getRndIntegerFn={getRndIntegerFn}
+                  getCSValResultForPropFn={getCSValResultForPropFn}
                 />
               );
             }}
@@ -162,6 +163,7 @@ class RouterWrapper extends Component {
                 setAllKeysToSameValue={setAllKeysToSameValue}
                 getRndIntegerFn={getRndIntegerFn}
                 returnElementKey={returnElementKey}
+                getCSValResultForPropFn={getCSValResultForPropFn}
               />
             )}
           />

@@ -8,7 +8,9 @@ export function csValidateProp(propName, value, propTypeForVal) {
     const rule = valSchema.extract(propTypeForVal);
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
+    console.log(objToValidate);
     const { error } = subSchema.validate(objToValidate);
+    console.log(error);
     let valErrorDetails = error ? error.details : [];
     let valErrorsArray = [];
     if (valErrorDetails) {
@@ -71,7 +73,6 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                 for(let i=0;i<validationResults.length;i++){
                   thisPropsValErrsArray.push(validationResults[i])
                 }
-                
             };
             if(thisPropsName==="name"&&thisPropsValue){
                 let apiEndpoint=`${backEndHtmlRoot}${typeOfRecordToChange}s/`

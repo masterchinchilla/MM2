@@ -30,6 +30,7 @@ class NewNewWeekMealPlan extends Component {
       notifyFn,
       setAllKeysToSameValue,
       returnElementKey,
+      getCSValResultForPropFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -658,16 +659,23 @@ class NewNewWeekMealPlan extends Component {
     thisObjsValErrsObj,
     parentRecordId
   ) => {
-    const recordToUpdate = { [propToUpdate]: newValue, _id: parentRecordId };
-    const csValResult = await csValidateObj(
+    return await this.props.getCSValResultForProp(
       typeOfRecordToChange,
-      recordToUpdate
-    );
-    const newThisObjsValErrsObj = this.updateThisObjsValErrs(
+      propToUpdate,
+      newValue,
       thisObjsValErrsObj,
-      csValResult
+      parentRecordId
     );
-    return newThisObjsValErrsObj;
+    // const recordToUpdate = { [propToUpdate]: newValue, _id: parentRecordId };
+    // const csValResult = await csValidateObj(
+    //   typeOfRecordToChange,
+    //   recordToUpdate
+    // );
+    // const newThisObjsValErrsObj = this.updateThisObjsValErrs(
+    //   thisObjsValErrsObj,
+    //   csValResult
+    // );
+    // return newThisObjsValErrsObj;
   };
   handleUpdateWMPPropFn = async (propToUpdate, newValue) => {
     let thisWMPStateObj = this.state.thisWMPStateObj;
