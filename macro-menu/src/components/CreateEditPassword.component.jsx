@@ -36,31 +36,43 @@ const CreateEditPassword = (props) => {
     thisMealTypeCode,
     arrayIndex
   ) => {
-    togglePWordHasCapLetterStateFn(pWordHasCapLetterPattern.test(typedPWord));
-    togglePWordHasLCaseLetterStateFn(
-      pWordHasLCaseLetterPattern.test(typedPWord)
-    );
-    togglePWordHasNumStateFn(pWordHasNumPattern.test(typedPWord));
-    togglePWordHasSpCharStateFn(pWordHasSpCharPattern.test(typedPWord));
-    togglePWordLengthOkStateFn(
-      typedPWord.length > 7 && typedPWord.length < 101
-    );
+    const localPWordHasCapLetter = pWordHasCapLetterPattern.test(typedPWord);
+    console.log(localPWordHasCapLetter);
+    togglePWordHasCapLetterStateFn(localPWordHasCapLetter);
+    const localPWordHasLCaseLetter =
+      pWordHasLCaseLetterPattern.test(typedPWord);
+    console.log(localPWordHasLCaseLetter);
+    togglePWordHasLCaseLetterStateFn(localPWordHasLCaseLetter);
+    const localPWordHasNum = pWordHasNumPattern.test(typedPWord);
+    console.log(localPWordHasNum);
+    togglePWordHasNumStateFn(localPWordHasNum);
+    const localPWordHasSpChar = pWordHasSpCharPattern.test(typedPWord);
+    console.log(localPWordHasSpChar);
+    togglePWordHasSpCharStateFn(localPWordHasSpChar);
+    const localPWordLengthOk = typedPWord.length > 7 && typedPWord.length < 101;
+    console.log(localPWordLengthOk);
+    togglePWordLengthOkStateFn(localPWordLengthOk);
     const pWordOk =
-      pWordHasCapLetter &&
-      pWordHasLCaseLetter &&
-      pWordHasNum &&
-      pWordHasSpChar &&
-      pWordLengthOk;
+      localPWordHasCapLetter &&
+      localPWordHasLCaseLetter &&
+      localPWordHasNum &&
+      localPWordHasSpChar &&
+      localPWordLengthOk
+        ? true
+        : false;
+    console.log(pWordOk);
     onUpdatePWordFn(typedPWord, pWordOk);
   };
   useEffect(() => {
-    toggleShowPWordStateFn(false);
-    togglePWordHasCapLetterStateFn(false);
-    togglePWordHasLCaseLetterStateFn(false);
-    togglePWordHasNumStateFn(false);
-    togglePWordHasSpCharStateFn(false);
-    togglePWordLengthOkStateFn(false);
-  }, []);
+    if (fieldsDisabled) {
+      toggleShowPWordStateFn(false);
+      togglePWordHasCapLetterStateFn(false);
+      togglePWordHasLCaseLetterStateFn(false);
+      togglePWordHasNumStateFn(false);
+      togglePWordHasSpCharStateFn(false);
+      togglePWordLengthOkStateFn(false);
+    }
+  });
   return (
     <div className="pWordStrngthChckerFrmGrp">
       <NewInputCore
@@ -120,7 +132,7 @@ const CreateEditPassword = (props) => {
             type="checkbox"
             value={showPassword}
             id="flexCheckDefault"
-            onChange={(e) => toggleShowPWordStateFn(e.target.value)}
+            onChange={() => toggleShowPWordStateFn(!showPassword)}
             checked={showPassword}
             disabled={fieldsDisabled}
           />

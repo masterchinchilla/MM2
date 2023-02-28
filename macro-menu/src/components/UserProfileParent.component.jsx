@@ -101,6 +101,7 @@ class UserProfileParent extends Component {
       this.setState(
         {
           ...currentUser,
+          password: "",
           valErrors: { GRFUser: setAllKeysToSameValue(defaultUserObj, {}, []) },
           userIsNew: userIsNew,
           userType: currentUser.isAdmin ? "admin" : "author",
@@ -144,15 +145,24 @@ class UserProfileParent extends Component {
     }
   };
   handleChangePasswordFn = (newPassword, passwordOk) => {
-    const otherValErrs = this.determineIfSaveDisabled(
-      this.state.valErrors.GRFUser
+    console.log(newPassword, passwordOk);
+    const valErrsParentObj = this.state.valErrors;
+    if (!passwordOk) {
+      valErrsParentObj.GRFUser.password.push(
+        "Password does not meet minimum requirements"
+      );
+    }
+    const makeSaveDisabled = this.determineIfSaveDisabled(
+      valErrsParentObj.GRFUser
     );
-    const makeSaveDisabled = otherValErrs || !passwordOk;
+    console.log(makeSaveDisabled);
     const pWordChanged = this.state.password !== newPassword;
+    console.log(pWordChanged);
     this.setState({
       password: newPassword,
       saveDisabled: makeSaveDisabled,
-      recordChanged: this.state.recordChanged || pWordChanged,
+      recordChanged: this.state.recordChanged || pWordChanged ? true : false,
+      valErrors: valErrsParentObj,
     });
   };
   //   const typedPWord = e.target.value;
