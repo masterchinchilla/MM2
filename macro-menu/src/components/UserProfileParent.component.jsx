@@ -526,9 +526,15 @@ class UserProfileParent extends Component {
                       }}
                     />
                     <CreateEditPassword
-                      pWordFromParent={this.state.password}
-                      editingForm={this.state.editingForm}
+                      password={this.state.password}
+                      fieldsDisabled={fieldsDisabled}
+                      valErrors={this.state.valErrors.GRFUser.password}
+                      recordLoaded={recordLoaded}
                       onUpdatePWordFn={this.handleChangePasswordFn}
+                      trimEnteredValueFn={trimEnteredValueFn}
+                      getRndIntegerFn={getRndIntegerFn}
+                      returnElementKey={returnElementKey}
+                      inputOnKeyUpFn={inputOnKeyUpFn}
                     />
                     {/* <div className="form-group mb-4">
                       <label className="form-label">
@@ -688,9 +694,7 @@ class UserProfileParent extends Component {
                       }}
                     />
                     <div className="form-group mb-2 userPhotoURLFrmGrp">
-                      <label className="form-label userPhotoURLLabel">
-                        Photo URL
-                      </label>
+                      <label className="userPhotoURLLabel">Photo URL</label>
                       <div
                         className="userPhotoPreview"
                         style={
@@ -829,7 +833,7 @@ class UserProfileParent extends Component {
                         specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                       }}
                     />
-                    <div className="form-check mt-4">
+                    <div className="form-check mt-4 checkboxInputInline">
                       <input
                         className="form-check-input"
                         type="checkbox"
@@ -837,7 +841,9 @@ class UserProfileParent extends Component {
                         id="flexCheck"
                         disabled
                       />
-                      <label className="form-check-label">Verified?</label>
+                      <label className="form-check-label vrfdFrmChckLbl">
+                        Verified?
+                      </label>
                     </div>
                   </fieldset>
                 </div>

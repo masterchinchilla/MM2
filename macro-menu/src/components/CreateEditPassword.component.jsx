@@ -1,25 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import NewInputCore from "./NewInputCore.component";
+const typeOfRecordToChange = "GRFUser";
+const arrayIndex = null;
+const thisMealTypeCode = "";
+const thisDayOfWeekCode = "";
 const pWordHasCapLetterPattern = /[A-Z]/;
 const pWordHasLCaseLetterPattern = /[a-z]/;
 const pWordHasNumPattern = /\d/;
 const pWordHasSpCharPattern = /[^\w\s]/;
-const CreateEditPassword = ({
-  pWordFromParent,
-  editingForm,
-  onUpdatePWordFn,
-}) => {
+const CreateEditPassword = (props) => {
+  const {
+    password,
+    fieldsDisabled,
+    valErrors,
+    recordLoaded,
+    onUpdatePWordFn,
+    trimEnteredValueFn,
+    getRndIntegerFn,
+    returnElementKey,
+    inputOnKeyUpFn,
+  } = props;
   const [showPassword, toggleShowPWordStateFn] = useState(false);
-  const [localPassword, updateLocalPasswordStateFn] = useState(pWordFromParent);
   const [pWordHasCapLetter, togglePWordHasCapLetterStateFn] = useState(false);
   const [pWordHasLCaseLetter, togglePWordHasLCaseLetterStateFn] =
     useState(false);
   const [pWordHasNum, togglePWordHasNumStateFn] = useState(false);
   const [pWordHasSpChar, togglePWordHasSpCharStateFn] = useState(false);
   const [pWordLengthOk, togglePWordLengthOkStateFn] = useState(false);
-  const handleChangePasswordFn = (e) => {
-    const typedPWord = e.target.value;
-    updateLocalPasswordStateFn(typedPWord.trim());
+  const handleChangePasswordFn = (
+    propToUpdate,
+    typedPWord,
+    typeOfRecordToChange,
+    thisDayOfWeekCode,
+    thisMealTypeCode,
+    arrayIndex
+  ) => {
     togglePWordHasCapLetterStateFn(pWordHasCapLetterPattern.test(typedPWord));
     togglePWordHasLCaseLetterStateFn(
       pWordHasLCaseLetterPattern.test(typedPWord)
@@ -35,11 +51,10 @@ const CreateEditPassword = ({
       pWordHasNum &&
       pWordHasSpChar &&
       pWordLengthOk;
-    onUpdatePWordFn(localPassword, pWordOk);
+    onUpdatePWordFn(typedPWord, pWordOk);
   };
   useEffect(() => {
     toggleShowPWordStateFn(false);
-    updateLocalPasswordStateFn(pWordFromParent);
     togglePWordHasCapLetterStateFn(false);
     togglePWordHasLCaseLetterStateFn(false);
     togglePWordHasNumStateFn(false);
@@ -47,19 +62,59 @@ const CreateEditPassword = ({
     togglePWordLengthOkStateFn(false);
   }, []);
   return (
-    <div className="form-group mb-4">
-      <label className="form-label">
+    <div className="pWordStrngthChckerFrmGrp">
+      <NewInputCore
+        key={returnElementKey(
+          null,
+          "NewInputCore",
+          "password",
+          typeOfRecordToChange,
+          arrayIndex,
+          thisMealTypeCode,
+          thisDayOfWeekCode
+        )}
+        commonProps={{
+          commonData: {},
+          commonMethods: {
+            getRndIntegerFn: getRndIntegerFn,
+            returnElementKey: returnElementKey,
+            onUpdatePropFn: handleChangePasswordFn,
+            trimEnteredValueFn: trimEnteredValueFn,
+          },
+        }}
+        specificProps={{
+          specificData: {
+            typeOfRecordToChange: typeOfRecordToChange,
+            formGroupClasses: "form-group",
+            label: "Password",
+            thisDayOfWeekCode: thisDayOfWeekCode,
+            thisMealTypeCode: thisMealTypeCode,
+            propToUpdate: "password",
+            arrayIndex: arrayIndex,
+            fieldDisabled: fieldsDisabled,
+            valErrors: valErrors,
+            inputClasses: "form-control",
+            isRequired: true,
+            recordLoaded: recordLoaded,
+            excludeLabel: false,
+            inputTypeForHtml: showPassword ? "text" : "password",
+            propValue: password,
+          },
+          specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
+        }}
+      />
+      {/* <label>
         <span className="requiredFldLbl">* </span>Password
       </label>
       <input
         type={showPassword ? "text" : "password"}
         className="form-control"
-        value={localPassword}
+        value={password}
         onChange={handleChangePasswordFn}
-        disabled={!editingForm}
-      />
+        disabled={fieldsDisabled}
+      /> */}
       <div className="rgstrShwPWrdRow">
-        <div className="form-check rgstrShwPwrdChck">
+        <div className="form-check checkboxInputInline">
           <input
             className="form-check-input"
             type="checkbox"
@@ -67,7 +122,7 @@ const CreateEditPassword = ({
             id="flexCheckDefault"
             onChange={(e) => toggleShowPWordStateFn(e.target.value)}
             checked={showPassword}
-            disabled={!editingForm}
+            disabled={fieldsDisabled}
           />
           <label className="form-check-label">Show Password?</label>
         </div>

@@ -6,7 +6,7 @@
   --offBlack:#342b32; */
   /* --accentColor:#EC759D; */
   :root{
-    --brandColorPrimary: #399d15;
+    --brandColorPrimary: #ff743b;
     --brandColorSecondary:#005b6f;
     --brandColorSecondaryBright:#20c997;
     --brandClrScndryDsbldElmnt:#6e919e;
@@ -21,13 +21,13 @@
     --bootStrapDangerTextColor:#842029;
     --toastifyColorSuccess:#07bc0c;
     --toastifyColorError:#e74c3c;
+    --okCheckMarkGreen:#198754;
   }
   :root{
     --bootStrapCardBorder:1px solid var(--bootStrapCardBorderColor);
     --dominantColor:var(--offWhite);
-    --secondaryColor:var(--brandColorPrimary);
     --textAndDarkColor:var(--brandColorSecondary);
-    --accentColor:#ff743b;
+    --accentColor:var(--brandColorPrimary)
   }
   :root{
     --scrnShtAnnttnShapeColor:var(--accentColor);
@@ -854,17 +854,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top:0.25rem;
   }
-  .pWordStrngthChkMrk{
-    color:green;
+  svg.pWordStrngthChkMrk{
+    color:green !important;
     font-weight: 900;
     font-size: 1.25rem;
   }
   .pWordStrengthChckr{
     font-size: 0.75rem !important;
-          width: 12rem !important;
-          float: right;
-          margin-top: 0.5rem;
+    width: 12rem !important;
+    float: right;
+    margin-top: 0.4rem;
   }
   .rgstrFrmChckItm{
     min-height: unset !important;
@@ -880,10 +881,7 @@
   .pWordHndlLbl{
     width:100%;
   }
-  .rgstrChckBox:checked {
-    background-color: #198754 !important;
-    border-color: #198754 !important;
-  }
+  
   .submitBttnWRightErrs{
     display: flex;
     align-items: stretch;
@@ -1094,7 +1092,7 @@
   }
   .userPhotoPreview{
     grid-area: userPhotoPreview;
-    margin:0.5rem 0 1rem 0;
+    margin: 0.75rem 0 0.25rem 0;
     justify-self: end;
     align-self: start;
     background-position: top left;
@@ -1605,9 +1603,14 @@ stroke: var(--accentColor);
   width:3rem;
   margin:1rem;
 }
+
 .form-check-input:checked{
   background-color: var(--accentColor) !important;
   border-color:var(--textAndDarkColor)
+}
+.rgstrChckBox:checked {
+  background-color: var(--okCheckMarkGreen) !important;
+  border-color: var(--okCheckMarkGreen) !important;
 }
 /* .h1HomePg{
   margin:2rem !important;
@@ -1964,4 +1967,27 @@ margin: 2rem !important;
 }
 .backToTopButton svg{
   color:var(--accentColor) !important
+}
+.pWordStrngthChckerFrmGrp{
+  display: flex;
+  flex-direction: column;
+}
+.checkboxInputInline{
+  display: flex !important;
+  align-items: center;
+  min-height: 1rem !important;
+  padding-left: 1rem !important;
+}
+.checkboxInputInline .form-check-input {
+  margin: 0 0.4rem 0 -1.5em !important;
+}
+.pWordStrngthChckerFrmGrp .form-check-label {
+  margin-bottom: 0;
+  line-height: 0.8rem;
+} 
+.pWordStrengthChckr{
+  align-self: flex-end;
+}
+.vrfdFrmChckLbl{
+  margin-bottom: 0;
 }
