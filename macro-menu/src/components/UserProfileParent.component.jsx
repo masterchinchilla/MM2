@@ -1,66 +1,32 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
 import NewFormControl from "./NewFormControl.component";
 import NewInputCore from "./NewInputCore.component";
 import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
 import CustomHeading from "./CustomHeading.component";
 import CreateEditPassword from "./CreateEditPassword.component";
+
 class UserProfileParent extends Component {
   constructor(props) {
-    const defaultUserObj = {
-      _id: "",
-      namePrefix: "",
-      givenName: "",
-      middleName: "",
-      familyName: "",
-      nameSuffix: "",
-      email: "",
-      password: "",
-      handle: "",
-      certURL: "",
-      certName: "",
-      verified: false,
-      photoURL: "",
-    };
     super(props);
-    const {
-      match,
-      currentUser,
-      backEndHtmlRoot,
-      updateThisObjsValErrs,
-      createNewUser,
-      updateUser,
-      returnElementKey,
-      setAllKeysToSameValue,
-      getRndIntegerFn,
-      getCSValResultForPropFn,
-    } = this.props;
     this.state = {
-      defaultUserObj: defaultUserObj,
-      recordLoaded: false,
-      userIsNew: false,
-      userType: "viewer",
-      editingForm: false,
-      recordChanged: false,
-      valErrors: { GRFUser: setAllKeysToSameValue(defaultUserObj, {}, []) },
-      saveDisabled: true,
-      showPassword: false,
-      pWordHasCapLetter: false,
-      pWordHasLCaseLetter: false,
-      pWordHasNum: false,
-      pWordHasSpChar: false,
-      pWordLengthOk: false,
+      GRFUserStateObj: {
+        recordLoaded: false,
+      },
     };
   }
   determineIfSaveDisabled = (thisValErrsObj) => {
     const objKeys = Object.keys(thisValErrsObj);
+    console.log(objKeys);
     let countOfValErrs = 0;
     for (let i = 0; i < objKeys.length; i++) {
       let thisObjKey = objKeys[i];
+      console.log(thisObjKey);
       let thisPropsValErrsArray = thisValErrsObj[thisObjKey];
+      console.log(thisPropsValErrsArray);
       countOfValErrs += thisPropsValErrsArray.length;
     }
+    console.log(countOfValErrs);
     return countOfValErrs > 0 ? true : false;
   };
   handleUpdatePropFn = async (
@@ -71,53 +37,98 @@ class UserProfileParent extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
-    let { _id, valErrors } = this.state;
-    let parentValErrsObj = valErrors;
-    console.log(parentValErrsObj);
-    let thisValErrsObj = parentValErrsObj.GRFUser;
-    console.log(thisValErrsObj);
-    let updatedValErrorsObj = await this.props.getCSValResultForPropFn(
+    console.log(propToUpdate, trimmedWNoDblSpcs);
+    const { GRFUserStateObj } = this.state;
+    const { thisRecord, valErrors } = GRFUserStateObj;
+    let thisValErrsObj = valErrors.GRFUser;
+    thisValErrsObj = await this.props.getCSValResultForPropFn(
       "GRFUser",
       propToUpdate,
       trimmedWNoDblSpcs,
       thisValErrsObj,
-      _id
+      thisRecord._id
     );
-    console.log(updatedValErrorsObj);
-    parentValErrsObj.GRFUser = updatedValErrorsObj;
+    console.log(thisValErrsObj);
+    GRFUserStateObj.thisRecord[propToUpdate] = trimmedWNoDblSpcs;
+    GRFUserStateObj.recordChanged = true;
+    GRFUserStateObj.saveDisabled = this.determineIfSaveDisabled(thisValErrsObj);
     this.setState({
-      [propToUpdate]: trimmedWNoDblSpcs,
-      valErrors: parentValErrsObj,
-      recordChanged: true,
-      saveDisabled: this.determineIfSaveDisabled(thisValErrsObj),
+      GRFUserStateObj: GRFUserStateObj,
     });
   };
-  handleSetDefaultStateFn = () => {
-    const { match, currentUser, setAllKeysToSameValue } = this.props;
-    const { defaultUserObj } = this.state;
-    if (currentUser) {
-      const pgReqParams = match.params;
-      const userIsNew = pgReqParams.isNew;
-      this.setState(
-        {
-          ...currentUser,
-          password: "",
-          valErrors: { GRFUser: setAllKeysToSameValue(defaultUserObj, {}, []) },
-          userIsNew: userIsNew,
-          userType: currentUser.isAdmin ? "admin" : "author",
-          recordLoaded: true,
-          editingForm: false,
-          recordChanged: false,
-          saveDisabled: true,
+  handleSetDefaultStateFn = (userIsNew, currentUser) => {
+    const GRFUserStateObj = {
+      thisRecord: {
+        _id: currentUser._id,
+        namePrefix: currentUser.namePrefix ? currentUser.namePrefix : "",
+        givenName: currentUser.givenName,
+        middleName: currentUser.middleName ? currentUser.middleName : "",
+        familyName: currentUser.familyName,
+        nameSuffix: currentUser.nameSuffix ? currentUser.nameSuffix : "",
+        email: currentUser.email,
+        password: currentUser.password,
+        handle: currentUser.handle,
+        certURL: currentUser.certURL ? currentUser.certURL : "",
+        certName: currentUser.certName ? currentUser.certName : "",
+        verified: currentUser.verified ? currentUser.verified : false,
+        photoURL: currentUser.photoURL ? currentUser.photoURL : "",
+        createdAt: currentUser.createdAt ? currentUser.createdAt : "",
+        updatedAt: currentUser.updatedAt ? currentUser.updatedAt : "",
+        isAdmin: currentUser.isAdmin ? currentUser.isAdmin : false,
+      },
+      recordLoaded: true,
+      userType: currentUser.isAdmin
+        ? currentUser.isAdmin
+          ? "admin"
+          : "author"
+        : "author",
+      editingForm: false,
+      recordChanged: false,
+      saveDisabled: true,
+      valErrors: {
+        GRFUser: {
+          _id: [],
+          namePrefix: [],
+          givenName: [],
+          middleName: [],
+          familyName: [],
+          nameSuffix: [],
+          email: [],
+          password: [],
+          handle: [],
+          certURL: [],
+          certName: [],
+          verified: [],
+          photoURL: [],
+          createdAt: [],
+          updatedAt: [],
+          isAdmin: [],
         },
-        () => {
-          return true;
-        }
-      );
-    }
+      },
+    };
+    const passwordState = {
+      showPassword: false,
+      pWordHasCapLetter: false,
+      pWordHasLCaseLetter: false,
+      pWordHasNum: false,
+      pWordHasSpChar: false,
+      pWordLengthOk: false,
+    };
+    this.setState({
+      GRFUserStateObj: GRFUserStateObj,
+      userIsNew: userIsNew,
+      passwordState: passwordState,
+    });
+  };
+  handleSetIsNewPerParams = () => {
+    const { match } = this.props;
+    const pgReqParams = match.params;
+    return pgReqParams.isNew;
   };
   handleCancelEditFn = () => {
-    this.handleSetDefaultStateFn();
+    const { currentUser } = this.props;
+    const userIsNew = this.handleSetIsNewPerParams();
+    this.handleSetDefaultStateFn(userIsNew, currentUser);
   };
   handleStartEditingFn = (
     typeOfRecordToChange,
@@ -125,8 +136,10 @@ class UserProfileParent extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
+    const { GRFUserStateObj } = this.state;
+    GRFUserStateObj.editingForm = true;
     this.setState({
-      editingForm: true,
+      GRFUserStateObj: GRFUserStateObj,
     });
   };
   handleSaveChangesFn = async (
@@ -135,35 +148,53 @@ class UserProfileParent extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
-    const isNew = this.state.userIsNew;
-    if (isNew) {
-      const valErrors = await this.createNewUser();
-      console.log(valErrors);
+    const { createNewUser, updateUser } = this.props;
+    const { GRFUserStateObj, userIsNew } = this.state;
+    const { thisRecord } = GRFUserStateObj;
+    let valErrors;
+    if (userIsNew) {
+      valErrors = await createNewUser(thisRecord);
     } else {
-      const valErrors = await this.updateUser();
-      console.log(valErrors);
+      valErrors = await updateUser(thisRecord);
+    }
+    if (valErrors.length > 0) {
+      let valErrObjToUpdate = GRFUserStateObj.valErrors.GRFUser;
+      valErrObjToUpdate = this.props.updateThisObjsValErrs(
+        valErrObjToUpdate,
+        valErrors
+      );
+      GRFUserStateObj.valErrors.GRFUser = valErrObjToUpdate;
+      this.setState({ GRFUserStateObj: GRFUserStateObj });
+    } else {
+      this.handleSetDefaultStateFn(false, thisRecord);
     }
   };
   handleChangePasswordFn = (newPassword, passwordOk) => {
-    console.log(newPassword, passwordOk);
-    const valErrsParentObj = this.state.valErrors;
-    if (!passwordOk) {
-      valErrsParentObj.GRFUser.password.push(
-        "Password does not meet minimum requirements"
-      );
+    const { GRFUserStateObj } = this.state;
+    const { thisRecord, recordChanged, valErrors } = GRFUserStateObj;
+    const currentPWord = thisRecord.password;
+    const pWordChanged = currentPWord !== newPassword;
+    if (pWordChanged) {
+      if (!passwordOk) {
+        GRFUserStateObj.saveDisabled = true;
+        // valErrors.GRFUser.password = [
+        //   "Password does not meet minimum requirements",
+        // ];
+      } else {
+        // valErrors.GRFUser.password = [];
+        GRFUserStateObj.saveDisabled = this.determineIfSaveDisabled(
+          valErrors.GRFUser
+        );
+      }
+      GRFUserStateObj.thisRecord.password = newPassword;
+
+      GRFUserStateObj.recordChanged =
+        recordChanged || pWordChanged ? true : false;
+      GRFUserStateObj.valErrors = valErrors;
+      this.setState({
+        GRFUserStateObj: GRFUserStateObj,
+      });
     }
-    const makeSaveDisabled = this.determineIfSaveDisabled(
-      valErrsParentObj.GRFUser
-    );
-    console.log(makeSaveDisabled);
-    const pWordChanged = this.state.password !== newPassword;
-    console.log(pWordChanged);
-    this.setState({
-      password: newPassword,
-      saveDisabled: makeSaveDisabled,
-      recordChanged: this.state.recordChanged || pWordChanged ? true : false,
-      valErrors: valErrsParentObj,
-    });
   };
   //   const typedPWord = e.target.value;
   //   const pWordHasCapLetterPattern = /[A-Z]/;
@@ -189,24 +220,33 @@ class UserProfileParent extends Component {
   //   this.setState({ showPassword: e.target.checked });
   // };
   updateHandleValErrorsStateFn = (handleValErrors) => {
-    const valErrors = this.state.valErrors;
-    valErrors.GRFUser.handle = handleValErrors;
+    const { GRFUserStateObj } = this.state;
+    GRFUserStateObj.valErrors.GRFUser.handle = handleValErrors;
     this.setState({
-      valErrors: valErrors,
+      GRFUserStateObj: GRFUserStateObj,
     });
   };
+  handleUpdateHandleFn = (newValue) => {
+    this.handleUpdatePropFn("handle", newValue, "GRFUser", "", "", null);
+  };
   componentDidMount() {
-    if (this.state.recordLoaded) {
-      this.handleSetDefaultStateFn();
-    }
+    const { currentUser } = this.props;
+    const userIsNew = this.handleSetIsNewPerParams();
+    this.handleSetDefaultStateFn(userIsNew, currentUser);
   }
   render() {
-    const { recordLoaded } = this.state;
-    const okToRender = recordLoaded
-      ? recordLoaded
-      : this.handleSetDefaultStateFn();
-    if (okToRender) {
+    if (this.state.GRFUserStateObj.recordLoaded) {
       const typeOfRecordToChange = "GRFUser";
+      const { GRFUserStateObj, userIsNew, passwordState } = this.state;
+      const {
+        thisRecord,
+        userType,
+        editingForm,
+        recordChanged,
+        valErrors,
+        saveDisabled,
+        recordLoaded,
+      } = GRFUserStateObj;
       const {
         _id,
         namePrefix,
@@ -221,28 +261,27 @@ class UserProfileParent extends Component {
         certName,
         verified,
         photoURL,
-        userIsNew,
-        userType,
-        editingForm,
-        recordChanged,
-        valErrors,
-        saveDisabled,
+      } = thisRecord;
+      const {
         showPassword,
         pWordHasCapLetter,
         pWordHasLCaseLetter,
         pWordHasNum,
         pWordHasSpChar,
         pWordLengthOk,
-        backEndHtmlRoot,
-      } = this.state;
+      } = passwordState;
       const thisRecordId = _id;
       const thisDayOfWeekCode = "";
       const thisMealTypeCode = "";
       const arrayIndex = null;
       const fieldsDisabled = editingForm ? false : true;
       const inputOnKeyUpFn = () => {};
-      const { returnElementKey, getRndIntegerFn, trimEnteredValueFn } =
-        this.props;
+      const {
+        backEndHtmlRoot,
+        returnElementKey,
+        getRndIntegerFn,
+        trimEnteredValueFn,
+      } = this.props;
       return (
         <div className="pageContent">
           <div className="card ms-4 me-4 registerCard">
@@ -272,9 +311,9 @@ class UserProfileParent extends Component {
                   specificData: {
                     typeOfRecordToChange: typeOfRecordToChange,
                     recordChanged: recordChanged,
-                    thisDayOfWeekCode: "",
-                    thisMealTypeCode: "",
-                    arrayIndex: null,
+                    thisDayOfWeekCode: thisDayOfWeekCode,
+                    thisMealTypeCode: thisMealTypeCode,
+                    arrayIndex: arrayIndex,
                     userType: userType,
                     editingForm: editingForm,
                     saveDisabled: saveDisabled,
@@ -535,17 +574,22 @@ class UserProfileParent extends Component {
                         specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                       }}
                     />
-                    <CreateEditPassword
-                      password={this.state.password}
-                      fieldsDisabled={fieldsDisabled}
-                      valErrors={this.state.valErrors.GRFUser.password}
-                      recordLoaded={recordLoaded}
-                      onUpdatePWordFn={this.handleChangePasswordFn}
-                      trimEnteredValueFn={trimEnteredValueFn}
-                      getRndIntegerFn={getRndIntegerFn}
-                      returnElementKey={returnElementKey}
-                      inputOnKeyUpFn={inputOnKeyUpFn}
-                    />
+                    {userIsNew ? (
+                      <CreateEditPassword
+                        password={password}
+                        fieldsDisabled={fieldsDisabled}
+                        valErrors={valErrors.GRFUser.password}
+                        recordLoaded={recordLoaded}
+                        onUpdatePWordFn={this.handleChangePasswordFn}
+                        trimEnteredValueFn={trimEnteredValueFn}
+                        getRndIntegerFn={getRndIntegerFn}
+                        returnElementKey={returnElementKey}
+                        inputOnKeyUpFn={inputOnKeyUpFn}
+                      />
+                    ) : (
+                      ""
+                    )}
+
                     {/* <div className="form-group mb-4">
                       <label className="form-label">
                         <span className="requiredFldLbl">* </span>Password
@@ -694,10 +738,10 @@ class UserProfileParent extends Component {
                           recordLoaded: recordLoaded,
                           propNameSentenceCase: "Handle",
                           localPropValue: handle,
-                          origPropValue: this.props.currentUser.handle,
+                          origPropValue: handle,
                         },
                         specificMethods: {
-                          changeLocalPropFn: this.handleUpdatePropFn,
+                          changeLocalPropFn: this.handleUpdateHandleFn,
                           updatePropValErrorsStateFn:
                             this.updateHandleValErrorsStateFn,
                         },
@@ -858,23 +902,11 @@ class UserProfileParent extends Component {
                   </fieldset>
                 </div>
                 <div className="form-group registerFrmGrp">
-                  {/* <input
-                type="submit"
-                value="Create GRF User"
-                className="btn-lg btn-primary registerSubmit"
-              /> */}
                   <p className="alreadyRegistered">
                     Already registered?&nbsp;
                     <Link to="/">Login</Link>
                   </p>
                 </div>
-                {/* {this.state.submitError === "" ? (
-              ""
-            ) : (
-              <div className="alert alert-danger" role="alert">
-                User already exists!
-              </div>
-            )} */}
               </form>
             </div>
           </div>

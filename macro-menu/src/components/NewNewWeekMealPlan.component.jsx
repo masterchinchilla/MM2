@@ -31,6 +31,7 @@ class NewNewWeekMealPlan extends Component {
       setAllKeysToSameValue,
       returnElementKey,
       getCSValResultForPropFn,
+      trimEnteredValueFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -1837,11 +1838,7 @@ class NewNewWeekMealPlan extends Component {
       }
     }
   };
-  handleTrimEnteredValueFn = (untrimmedValue) => {
-    let trimmedValue = untrimmedValue.trim();
-    let trimmedValueWNoDblSpcs = trimmedValue.replace(/  +/g, " ");
-    return trimmedValueWNoDblSpcs;
-  };
+
   handleAddIngrdntToRecipeFn = async (thisDayOfWeekCode, thisMealTypeCode) => {
     let state = this.state;
     let thisDayStateObj = state[thisDayOfWeekCode];
@@ -2091,7 +2088,7 @@ class NewNewWeekMealPlan extends Component {
               onStartEditingFn: this.handleStartEditingFn,
               onCancelEditFn: this.handleCancelEditFn,
               onDeleteObjFn: this.handleDeleteObjFn,
-              trimEnteredValueFn: this.handleTrimEnteredValueFn,
+              trimEnteredValueFn: this.props.trimEnteredValueFn,
             },
           }}
           specificProps={{
@@ -2196,7 +2193,7 @@ class NewNewWeekMealPlan extends Component {
                 onStartEditingFn: this.handleStartEditingFn,
                 onCancelEditFn: this.handleCancelEditFn,
                 onDeleteObjFn: this.handleDeleteObjFn,
-                trimEnteredValueFn: this.handleTrimEnteredValueFn,
+                trimEnteredValueFn: this.props.trimEnteredValueFn,
                 onCopyWMPFn: this.handleCopyWMPFn,
               },
             }}
@@ -2284,7 +2281,7 @@ class NewNewWeekMealPlan extends Component {
                 getRndIntegerFn: this.getRndIntegerFn,
                 returnElementKey: this.returnElementKey,
                 onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
-                trimEnteredValueFn: this.handleTrimEnteredValueFn,
+                trimEnteredValueFn: this.props.trimEnteredValueFn,
               },
             }}
             specificProps={{

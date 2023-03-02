@@ -67,7 +67,7 @@ const NewInputWSearchUniqueNew = (props) => {
                 let valFnResults = csValidateProp(
                   propToUpdate,
                   trimmedWNoDblSpcs,
-                  "name"
+                  propToUpdate
                 );
                 if (valFnResults.length > 0) {
                   setLclValErrsStateFn([valFnResults]);

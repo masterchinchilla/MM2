@@ -215,7 +215,8 @@ class Navbar extends Component {
                   <Link
                     className="nav-link"
                     to={{
-                      pathname: "/grfusers/edit/" + currentGRFUser._id,
+                      pathname: "/createOrEditUser",
+                      // pathname: "/grfusers/edit/" + currentGRFUser._id,
                       state: { currentGRFUser: currentGRFUser },
                     }}
                   >

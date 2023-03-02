@@ -36,7 +36,7 @@ import MobileScreenShotAndFrame from "./MobileScreenShotAndFrame.component";
 import ScreenshotFigure from "./ScreenshotFigure.component";
 import ScreenshotCarousel from "./ScreenshotCarousel.component";
 
-const thisYear = new Date().getFullYear();
+// const thisYear = new Date().getFullYear();
 const viewportWidth = window.visualViewport.width;
 const HomePage = (props) => {
   const { currentGRFUser } = props;
@@ -374,9 +374,9 @@ const HomePage = (props) => {
           </Link>
         </section>
       </main>
-      <footer className="footer">
+      {/* <footer className="footer">
         <p>Copyright &copy; {thisYear} by Catharta, Ltd.</p>
-      </footer>
+      </footer> */}
     </div>
   );
 };

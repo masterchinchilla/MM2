@@ -43,22 +43,29 @@ const App = () => {
     } catch (errs) {
       //valErrorsNestedArray shape:
       //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs, "all");
-      this.notifyOfErrors(valErrors);
+      valErrors = parseHTTPResErrs(errs, "all");
+      notifyOfErrors(valErrors);
     }
     return { valErrors };
   }
   async function updateUser(updatedUser) {
-    let valErrors;
+    let savedRecord = null;
+    let valErrors = [];
     const backEndReqUrl = `${backEndHtmlRoot}GRFUsers/update/${updatedUser._id}`;
     try {
-      await httpService.put(backEndReqUrl, updatedUser);
-      this.notifyFn("Record updated successfully", "success");
+      let reqRes = await httpService.put(backEndReqUrl, updatedUser);
+      savedRecord = reqRes.data;
+      notifyFn("Record updated successfully", "success");
+      const token = reqRes.headers["x-auth-token"];
+      auth.loginWithJwt(token);
+      const decodedToken = jwtDecode(token);
+      setCurrentGRFUser(decodedToken.currentGRFUser);
     } catch (errs) {
       //valErrorsNestedArray shape:
       //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs, "all");
-      this.notifyOfErrors(valErrors);
+      valErrors = parseHTTPResErrs(errs, "all");
+      notifyOfErrors(valErrors);
+      return { valErrors };
     }
     return { valErrors };
   }
@@ -175,11 +182,16 @@ const App = () => {
       typeOfRecordToChange,
       recordToUpdate
     );
-    const newThisObjsValErrsObj = this.updateThisObjsValErrs(
+    const newThisObjsValErrsObj = updateThisObjsValErrs(
       thisObjsValErrsObj,
       csValResult
     );
     return newThisObjsValErrsObj;
+  }
+  function handleTrimEnteredValueFn(untrimmedValue) {
+    let trimmedValue = untrimmedValue.trim();
+    let trimmedValueWNoDblSpcs = trimmedValue.replace(/  +/g, " ");
+    return trimmedValueWNoDblSpcs;
   }
   useEffect(() => {
     if (!currentGRFUser) {
@@ -206,6 +218,7 @@ const App = () => {
         getRndIntegerFn={getRndIntegerFn}
         returnElementKey={returnElementKey}
         getCSValResultForPropFn={getCSValResultForPropFn}
+        trimEnteredValueFn={handleTrimEnteredValueFn}
       />
     </React.Fragment>
   );

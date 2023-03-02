@@ -1,5 +1,5 @@
-const jwt =require('jsonwebtoken');
 const config=require('config');
+const jwt = require('jsonwebtoken');
 const router = require('express').Router();
 const _ =require('lodash');
 const bcrypt=require('bcrypt');
@@ -64,7 +64,7 @@ router.route('/findbyname/:valueForSearch').get((req, res)=>{
         })
         .catch(err=>res.status(404).json('Error:'+err));
 });
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').put((req, res) => {
     GRFUserModel.findById(req.params.id)
         .then(thisGRFUser => {
             thisGRFUser.namePrefix = req.body.namePrefix;
@@ -73,14 +73,21 @@ router.route('/update/:id').post((req, res) => {
             thisGRFUser.familyName = req.body.familyName;
             thisGRFUser.nameSuffix = req.body.nameSuffix;
             thisGRFUser.email = req.body.email;
-            thisGRFUser.password = thisGRFUser.password;
+            // thisGRFUser.password = thisGRFUser.password;
             thisGRFUser.handle = req.body.handle;
             thisGRFUser.photoURL=req.body.photoURL;
             thisGRFUser.certURL = req.body.certURL;
             thisGRFUser.certName = req.body.certName;
             thisGRFUser.verified = req.body.verified;
             thisGRFUser.save()
-                .then(() => res.json('GRF User updated!'))
+                .then((savedRecord) => {
+                    const currentGRFUser=_.pick(savedRecord,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","photoURL","certURL","certName","verified","createdAt","updatedAt","isAdmin"]);
+        const token=jwt.sign({currentGRFUser},config.get('jwtPrivateKey'));
+        res
+            .header('x-auth-token',token)
+            .header('access-control-expose-headers','x-auth-token')
+            .send(currentGRFUser);
+                })
                 .catch(err => res.status(400).json('Error: ' + err));
         })
         .catch(err => res.status(400).json('Error: ' + err));

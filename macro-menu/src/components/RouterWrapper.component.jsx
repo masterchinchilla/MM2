@@ -21,6 +21,7 @@ class RouterWrapper extends Component {
       frontEndHtmlRoot,
       backEndHtmlRoot,
       currentGRFUser,
+      //createNewUser,
       // updateUser,
       // notifyFn,
       // notifyOfErrors,
@@ -30,6 +31,7 @@ class RouterWrapper extends Component {
       // getRndIntegerFn,
       // returnElementKey,
       // getCSValResultForPropFn
+      //trimEnteredValueFn,
     } = this.props;
     this.state = {
       userSignedIn: false,
@@ -68,27 +70,34 @@ class RouterWrapper extends Component {
     });
   }
   render() {
+    const thisYear = new Date().getFullYear();
     ///data
-    const userSignedIn = this.state.userSignedIn;
-    const serverAuthErrors = this.state.serverAuthErrors;
-    const frontEndHtmlRoot = this.state.frontEndHtmlRoot;
-    const backEndHtmlRoot = this.state.backEndHtmlRoot;
-    const axiosCallConfig = this.state.axiosCallConfig;
-    const currentGRFUser = this.state.currentGRFUser;
+
+    const {
+      userSignedIn,
+      serverAuthErrors,
+      frontEndHtmlRoot,
+      backEndHtmlRoot,
+      axiosCallConfig,
+      currentGRFUser,
+      scrollBttnVisible,
+    } = this.state;
     const thisUsersId = currentGRFUser ? currentGRFUser._id : "";
-    const scrollBttnVisible = this.state.scrollBttnVisible;
     ///methods
-    const decodeToken = this.props.decodeToken;
-    const createNewUser = this.props.createNewUser;
-    const updateUser = this.props.updateUser;
-    const notifyFn = this.props.notifyFn;
-    const notifyOfErrors = this.props.notifyOfErrors;
-    const updateThisObjsValErrs = this.props.updateThisObjsValErrs;
-    const parseHTTPResErrs = this.props.parseHTTPResErrs;
-    const setAllKeysToSameValue = this.props.setAllKeysToSameValue;
-    const getRndIntegerFn = this.props.getRndIntegerFn;
-    const returnElementKey = this.props.returnElementKey;
-    const getCSValResultForPropFn = this.props.getCSValResultForPropFn;
+    const {
+      decodeToken,
+      createNewUser,
+      updateUser,
+      notifyFn,
+      notifyOfErrors,
+      updateThisObjsValErrs,
+      parseHTTPResErrs,
+      setAllKeysToSameValue,
+      getRndIntegerFn,
+      returnElementKey,
+      getCSValResultForPropFn,
+      trimEnteredValueFn,
+    } = this.props;
     const scrollToTop = this.scrollToTop;
     return (
       <BrowserRouter
@@ -96,6 +105,7 @@ class RouterWrapper extends Component {
         thisGRFUser={currentGRFUser}
         backEndHtmlRoot={backEndHtmlRoot}
         frontEndHtmlRoot={frontEndHtmlRoot}
+        createNewUser={createNewUser}
         updateUser={updateUser}
         notifyFn={notifyFn}
         notifyOfErrors={notifyOfErrors}
@@ -105,6 +115,7 @@ class RouterWrapper extends Component {
         getRndIntegerFn={getRndIntegerFn}
         returnElementKey={returnElementKey}
         getCSValResultForPropFn={getCSValResultForPropFn}
+        trimEnteredValueFn={trimEnteredValueFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -116,6 +127,7 @@ class RouterWrapper extends Component {
           thisGRFUser={currentGRFUser}
           backEndHtmlRoot={backEndHtmlRoot}
           frontEndHtmlRoot={frontEndHtmlRoot}
+          createNewUser={createNewUser}
           updateUser={updateUser}
           notifyFn={notifyFn}
           notifyOfErrors={notifyOfErrors}
@@ -125,25 +137,36 @@ class RouterWrapper extends Component {
           getRndIntegerFn={getRndIntegerFn}
           returnElementKey={returnElementKey}
           getCSValResultForPropFn={getCSValResultForPropFn}
+          trimEnteredValueFn={trimEnteredValueFn}
         >
           <Route
             exact
             path="/createOrEditUser/:isNew?"
             render={(props) => {
-              return (
-                <UserProfileParent
-                  {...props}
-                  currentUser={currentGRFUser}
-                  backEndHtmlRoot={backEndHtmlRoot}
-                  updateThisObjsValErrs={updateThisObjsValErrs}
-                  createNewUser={createNewUser}
-                  updateUser={updateUser}
-                  setAllKeysToSameValue={setAllKeysToSameValue}
-                  returnElementKey={returnElementKey}
-                  getRndIntegerFn={getRndIntegerFn}
-                  getCSValResultForPropFn={getCSValResultForPropFn}
-                />
-              );
+              if (currentGRFUser) {
+                return (
+                  <UserProfileParent
+                    {...props}
+                    currentUser={currentGRFUser}
+                    backEndHtmlRoot={backEndHtmlRoot}
+                    updateThisObjsValErrs={updateThisObjsValErrs}
+                    createNewUser={createNewUser}
+                    updateUser={updateUser}
+                    setAllKeysToSameValue={setAllKeysToSameValue}
+                    returnElementKey={returnElementKey}
+                    getRndIntegerFn={getRndIntegerFn}
+                    getCSValResultForPropFn={getCSValResultForPropFn}
+                    trimEnteredValueFn={trimEnteredValueFn}
+                  />
+                );
+              } else {
+                return (
+                  <div
+                    className="spinner-border text-primary"
+                    role="status"
+                  ></div>
+                );
+              }
             }}
           />
           <Route exact path="/grfusers" component={GRFUsersList} />
@@ -164,6 +187,7 @@ class RouterWrapper extends Component {
                 getRndIntegerFn={getRndIntegerFn}
                 returnElementKey={returnElementKey}
                 getCSValResultForPropFn={getCSValResultForPropFn}
+                trimEnteredValueFn={trimEnteredValueFn}
               />
             )}
           />
@@ -266,6 +290,9 @@ class RouterWrapper extends Component {
             }}
           />
         </Switch>
+        <footer className="footer">
+          <p>Copyright &copy; {thisYear} by Catharta, Ltd.</p>
+        </footer>
         <BackToTopButton
           scrollToTop={scrollToTop}
           scrollBttnVisible={scrollBttnVisible}
