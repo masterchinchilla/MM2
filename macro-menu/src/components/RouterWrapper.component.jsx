@@ -13,6 +13,7 @@ import HomePage from "./HomePage.component";
 import BackToTopButton from "./BackToTopButton.component";
 import UserProfileParent from "./UserProfileParent.component";
 import { getCurrentUser } from "../services/authService";
+import NewLogin from "./NewLogin.component";
 class RouterWrapper extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +22,9 @@ class RouterWrapper extends Component {
       frontEndHtmlRoot,
       backEndHtmlRoot,
       currentGRFUser,
+      leftNavOpen,
+      rightNavOpen,
+      // closeNavOnClick,
       //createNewUser,
       // updateUser,
       // notifyFn,
@@ -30,8 +34,9 @@ class RouterWrapper extends Component {
       // setAllKeysToSameValue,
       // getRndIntegerFn,
       // returnElementKey,
-      // getCSValResultForPropFn
-      //trimEnteredValueFn,
+      // getCSValResultForPropFn,
+      // trimEnteredValueFn,
+      // parseAndUpdateObjValErrsFn,
     } = this.props;
     this.state = {
       userSignedIn: false,
@@ -72,7 +77,7 @@ class RouterWrapper extends Component {
   render() {
     const thisYear = new Date().getFullYear();
     ///data
-
+    const { leftNavOpen, rightNavOpen } = this.props;
     const {
       userSignedIn,
       serverAuthErrors,
@@ -85,6 +90,7 @@ class RouterWrapper extends Component {
     const thisUsersId = currentGRFUser ? currentGRFUser._id : "";
     ///methods
     const {
+      closeNavOnClick,
       decodeToken,
       createNewUser,
       updateUser,
@@ -97,6 +103,7 @@ class RouterWrapper extends Component {
       returnElementKey,
       getCSValResultForPropFn,
       trimEnteredValueFn,
+      parseAndUpdateObjValErrsFn,
     } = this.props;
     const scrollToTop = this.scrollToTop;
     return (
@@ -105,6 +112,9 @@ class RouterWrapper extends Component {
         thisGRFUser={currentGRFUser}
         backEndHtmlRoot={backEndHtmlRoot}
         frontEndHtmlRoot={frontEndHtmlRoot}
+        leftNavOpen={leftNavOpen}
+        rightNavOpen={rightNavOpen}
+        closeNavOnClick={closeNavOnClick}
         createNewUser={createNewUser}
         updateUser={updateUser}
         notifyFn={notifyFn}
@@ -116,10 +126,14 @@ class RouterWrapper extends Component {
         returnElementKey={returnElementKey}
         getCSValResultForPropFn={getCSValResultForPropFn}
         trimEnteredValueFn={trimEnteredValueFn}
+        parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
           backEndHtmlRoot={backEndHtmlRoot}
+          leftNavOpen={leftNavOpen}
+          rightNavOpen={rightNavOpen}
+          closeNavOnClick={closeNavOnClick}
         />
         <br />
         <Switch
@@ -127,6 +141,7 @@ class RouterWrapper extends Component {
           thisGRFUser={currentGRFUser}
           backEndHtmlRoot={backEndHtmlRoot}
           frontEndHtmlRoot={frontEndHtmlRoot}
+          closeNavOnClick={closeNavOnClick}
           createNewUser={createNewUser}
           updateUser={updateUser}
           notifyFn={notifyFn}
@@ -138,35 +153,37 @@ class RouterWrapper extends Component {
           returnElementKey={returnElementKey}
           getCSValResultForPropFn={getCSValResultForPropFn}
           trimEnteredValueFn={trimEnteredValueFn}
+          parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
         >
           <Route
             exact
             path="/createOrEditUser/:isNew?"
             render={(props) => {
-              if (currentGRFUser) {
-                return (
-                  <UserProfileParent
-                    {...props}
-                    currentUser={currentGRFUser}
-                    backEndHtmlRoot={backEndHtmlRoot}
-                    updateThisObjsValErrs={updateThisObjsValErrs}
-                    createNewUser={createNewUser}
-                    updateUser={updateUser}
-                    setAllKeysToSameValue={setAllKeysToSameValue}
-                    returnElementKey={returnElementKey}
-                    getRndIntegerFn={getRndIntegerFn}
-                    getCSValResultForPropFn={getCSValResultForPropFn}
-                    trimEnteredValueFn={trimEnteredValueFn}
-                  />
-                );
-              } else {
-                return (
-                  <div
-                    className="spinner-border text-primary"
-                    role="status"
-                  ></div>
-                );
-              }
+              // if (currentGRFUser) {
+              return (
+                <UserProfileParent
+                  {...props}
+                  currentUser={currentGRFUser}
+                  backEndHtmlRoot={backEndHtmlRoot}
+                  closeNavOnClick={closeNavOnClick}
+                  updateThisObjsValErrs={updateThisObjsValErrs}
+                  createNewUser={createNewUser}
+                  updateUser={updateUser}
+                  setAllKeysToSameValue={setAllKeysToSameValue}
+                  returnElementKey={returnElementKey}
+                  getRndIntegerFn={getRndIntegerFn}
+                  getCSValResultForPropFn={getCSValResultForPropFn}
+                  trimEnteredValueFn={trimEnteredValueFn}
+                />
+              );
+              // } else {
+              //   return (
+              //     <div
+              //       className="spinner-border text-primary"
+              //       role="status"
+              //     ></div>
+              //   );
+              // }
             }}
           />
           <Route exact path="/grfusers" component={GRFUsersList} />
@@ -179,6 +196,7 @@ class RouterWrapper extends Component {
                 // decodeToken={decodeToken}
                 thisGRFUser={currentGRFUser}
                 backEndHtmlRoot={backEndHtmlRoot}
+                closeNavOnClick={closeNavOnClick}
                 parseHTTPResErrs={parseHTTPResErrs}
                 updateThisObjsValErrs={updateThisObjsValErrs}
                 notifyOfErrors={notifyOfErrors}
@@ -213,6 +231,7 @@ class RouterWrapper extends Component {
                 decodeToken={decodeToken}
                 thisGRFUser={currentGRFUser}
                 backEndHtmlRoot={backEndHtmlRoot}
+                closeNavOnClick={closeNavOnClick}
               />
             )}
           />
@@ -253,11 +272,14 @@ class RouterWrapper extends Component {
                 );
               } else {
                 return (
-                  <Login
+                  <NewLogin
                     {...props}
                     decodeToken={decodeToken}
-                    thisGRFUser={currentGRFUser}
-                    serverAuthErrors={serverAuthErrors}
+                    // thisGRFUser={currentGRFUser}
+                    // serverAuthErrors={serverAuthErrors}
+                    closeNavOnClick={closeNavOnClick}
+                    returnElementKey={returnElementKey}
+                    parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
                   />
                 );
               }
@@ -286,7 +308,12 @@ class RouterWrapper extends Component {
             path="/"
             // component={HomePage}
             render={(props) => {
-              return <HomePage currentGRFUser={currentGRFUser} />;
+              return (
+                <HomePage
+                  currentGRFUser={currentGRFUser}
+                  closeNavOnClick={closeNavOnClick}
+                />
+              );
             }}
           />
         </Switch>

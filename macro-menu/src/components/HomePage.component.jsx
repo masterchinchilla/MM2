@@ -39,7 +39,7 @@ import ScreenshotCarousel from "./ScreenshotCarousel.component";
 // const thisYear = new Date().getFullYear();
 const viewportWidth = window.visualViewport.width;
 const HomePage = (props) => {
-  const { currentGRFUser } = props;
+  const { currentGRFUser, closeNavOnClick } = props;
   const scrnshtCrsl1ObjsArry = [
     {
       screenshotType: "mobile",
@@ -190,7 +190,7 @@ const HomePage = (props) => {
     }
   }, []);
   return (
-    <div className="pageContent">
+    <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
       <header>
         <LogoAndWordsCrossWBG />
         <br />

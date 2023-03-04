@@ -19,6 +19,24 @@ const App = () => {
   const frontEndHtmlRoot = "http://localhost:3000/";
   const backEndHtmlRoot = "http://localhost:5000/";
   const [currentGRFUser, setCurrentGRFUser] = useState();
+  const [leftNavOpen, toggleLeftNavOpen] = useState(false);
+  const [rightNavOpen, toggleRightNavOpen] = useState(false);
+  function closeNavOnClick(leftRightOrOutside) {
+    console.log(leftRightOrOutside);
+    switch (leftRightOrOutside) {
+      case "left":
+        toggleLeftNavOpen(leftNavOpen ? false : true);
+        toggleRightNavOpen(false);
+        break;
+      case "right":
+        toggleLeftNavOpen(false);
+        toggleRightNavOpen(rightNavOpen ? false : true);
+        break;
+      default:
+        toggleLeftNavOpen(false);
+        toggleRightNavOpen(false);
+    }
+  }
   // const [authToken,setAuthToken]=useState();
   async function decodeToken(token) {
     const decodedToken = jwtDecode(token);
@@ -91,6 +109,10 @@ const App = () => {
         }
       }
     }
+  }
+  function handleParseAndUpdateObjValErrsFn(errs, thisObjsValErrsObj) {
+    const valErrors = parseHTTPResErrs(errs);
+    return updateThisObjsValErrs(thisObjsValErrsObj, valErrors);
   }
   function updateThisObjsValErrs(thisObjsValErrsObj, valErrsNestedArray) {
     //for valErrsNestedArray, fn expects to receive object with this shape:
@@ -207,6 +229,9 @@ const App = () => {
         frontEndHtmlRoot={frontEndHtmlRoot}
         backEndHtmlRoot={backEndHtmlRoot}
         currentGRFUser={currentGRFUser}
+        leftNavOpen={leftNavOpen}
+        rightNavOpen={rightNavOpen}
+        closeNavOnClick={closeNavOnClick}
         decodeToken={decodeToken}
         createNewUser={createNewUser}
         updateUser={updateUser}
@@ -219,6 +244,8 @@ const App = () => {
         returnElementKey={returnElementKey}
         getCSValResultForPropFn={getCSValResultForPropFn}
         trimEnteredValueFn={handleTrimEnteredValueFn}
+        onClick={closeNavOnClick}
+        parseAndUpdateObjValErrsFn={handleParseAndUpdateObjValErrsFn}
       />
     </React.Fragment>
   );

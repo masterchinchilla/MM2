@@ -80,11 +80,12 @@ class WMPListForUser extends Component {
       });
   };
   render() {
+    const { closeNavOnClick } = this.props;
     if (this.state.dataLoaded === false) {
       return <div className="spinner-border text-primary" role="status"></div>;
     } else {
       return (
-        <div className="pageContent">
+        <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
           <div className="container-fluid pl-3 pr-3 pb-3">
             <div className="card wmpsTblsCard">
               <div className="card-header myWMPsCardHdr">

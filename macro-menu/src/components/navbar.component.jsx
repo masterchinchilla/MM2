@@ -10,15 +10,21 @@ import HowChowHaloFrkAltClrInvrtd from "./HowChowHaloFrkAltClrInvrtd.component";
 import HamburgerMenu from "./HamburgerMenu.component";
 
 class Navbar extends Component {
-  state = {
-    jwt: "",
-    currentGRFUser: {
-      _id: "",
-      userGroups: "GRFUser",
-      handle: "Register or Log-In >",
-    },
-    backEndHtmlRoot: this.props.backEndHtmlRoot,
-  };
+  constructor(props) {
+    super(props);
+    const { leftNavOpen, rightNavOpen, closeNavOnClick } = this.props;
+    this.state = {
+      jwt: "",
+      currentGRFUser: {
+        _id: "",
+        userGroups: "GRFUser",
+        handle: "Register or Log-In >",
+      },
+      backEndHtmlRoot: this.props.backEndHtmlRoot,
+      leftNavOpen: leftNavOpen,
+      rightNavOpen: rightNavOpen,
+    };
+  }
   componentDidMount() {
     const jwt = localStorage.getItem("token");
     if (jwt === null) {
@@ -57,25 +63,33 @@ class Navbar extends Component {
       // children: `${string.split(" ")[0][0]}${string.split(" ")[1][0]}`,
     };
   };
+
   render() {
-    const currentGRFUser = this.state.currentGRFUser;
+    const { closeNavOnClick, leftNavOpen, rightNavOpen } = this.props;
+    const { currentGRFUser } = this.state;
     let jwt = this.state.jwt;
     return (
       <div className="navbarCont">
-        <nav className="navbar">
+        <nav className="navbar" onClick={() => closeNavOnClick("left")}>
           <div className="bsNavCont">
             <button
               className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#bsNavLeftContent"
+              // data-bs-target="#bsNavLeftContent"
               aria-controls="bsNavLeftContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="bsNavLeftContent">
+            <div
+              // className="collapse navbar-collapse"
+              className={`collapse navbar-collapse ${
+                leftNavOpen ? `show` : ``
+              }`}
+              id="bsNavLeftContent"
+            >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <Link to={"/"} className="nav-link">
@@ -160,7 +174,12 @@ class Navbar extends Component {
             </ul>
           </div> */}
         </nav>
-        <nav className="navbarRight">
+        <nav
+          className="navbarRight"
+          onClick={() => {
+            closeNavOnClick("right");
+          }}
+        >
           {/* <div className=""> */}
           <button
             className="navbar-toggler navTogglerRight"
@@ -183,7 +202,9 @@ class Navbar extends Component {
             </span>
           </button>
           <div
-            className="collapse navbar-collapse rightNavDDown"
+            className={`collapse navbar-collapse rightNavDDown ${
+              rightNavOpen ? `show` : ``
+            }`}
             id="bsNavRightContent"
           >
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">

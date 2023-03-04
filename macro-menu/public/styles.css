@@ -33,6 +33,9 @@
     --scrnShtAnnttnShapeColor:var(--accentColor);
     --focusedColor:var(--accentColor);
   }
+  td{
+    vertical-align: middle;
+  }
   body {
     color:var(--textAndDarkColor) !important;
     
@@ -751,6 +754,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding-bottom: 1rem;
   }
   form fieldset{
     min-width: 15rem;
@@ -812,11 +816,10 @@
           margin: 0 0 0 0.5rem;
   }
   .registerFrmGrp{
-        display: flex;
-          align-items: center;
-          /* width: 100%; */
-          flex-wrap: wrap;
-          margin: 1rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1rem;
   }
   .fa-circle-user{
     color:white;
@@ -1451,7 +1454,11 @@ footer{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  /* margin-top:40%; */
+  margin-top:1rem;
+  /* position: absolute;
+  bottom: 0;
+  width: 100%; */
 }
 footer p{
   margin:1rem !important;
@@ -1523,7 +1530,7 @@ stroke: var(--accentColor);
   background-color: var(--offBlack);
   border-radius: 2.25rem;
   margin: 1rem 0;
-}
+} 
 .desktopScreenshot{
   /* background-size: 12.5rem 12.5rem; */
   background-size: contain;
@@ -1923,6 +1930,7 @@ margin: 2rem !important;
 }
 .pageContent{
   margin-top: 3rem;
+  min-height:80vh;
 }
 .navbarRight,.navTogglerRight{
   position:fixed;

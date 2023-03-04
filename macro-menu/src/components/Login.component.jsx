@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Joi from "joi";
-import jwtDecode from "jwt-decode";
-import axios from "axios";
 import auth from "../services/authService";
 //test user credentials:
 //email:johnQPublic@gmail.com

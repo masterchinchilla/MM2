@@ -12,12 +12,9 @@ const schema=Joi.object({
     });
 
 router.post('/',async (req, res)=>{
-    const {error}=schema.validate(req.body);
-    if(error){res.status(400).json(error.details[0].message)
-        // .header('x-auth-errors',error.details[0].message)
-        // .header('access-control-expose-headers','x-auth-errors')
-        // .send()}
-    }else{
+    // const {error}=schema.validate(req.body);
+    // if(error){res.status(400).json(error.details[0].message)
+    // }else{
         try {
         let existingUser=await GRFUserModel.findOne({email:req.body.email});
         try {
@@ -66,15 +63,15 @@ router.post('/',async (req, res)=>{
             .header('access-control-expose-headers','x-auth-token')
             .send(currentGRFUser);
             }else{
-                res.status(400).json('Invalid email or password')
+                res.status(400).json({ok:false,valErrorsArray:[{all:`Invalid email or password`}]})
             }
         } catch (error) {
-            res.status(400).json('Invalid email or password')
+            res.status(400).json({ok:false,valErrorsArray:[{all:`Invalid email or password`}]})
         }
         } catch (error) {
-            return res.status(401).json('Invalid email or password')
+            return res.status(401).json({ok:false,valErrorsArray:[{all:`Invalid email or password`}]})
         }
-    }     
+    // }     
 })
 // router.post('/', (req, res)=>{
 //     const {error}=schema.validate(req.body);

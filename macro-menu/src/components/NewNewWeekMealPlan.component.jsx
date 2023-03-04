@@ -32,6 +32,7 @@ class NewNewWeekMealPlan extends Component {
       returnElementKey,
       getCSValResultForPropFn,
       trimEnteredValueFn,
+      closeNavOnClick,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -660,7 +661,7 @@ class NewNewWeekMealPlan extends Component {
     thisObjsValErrsObj,
     parentRecordId
   ) => {
-    return await this.props.getCSValResultForProp(
+    return await this.props.getCSValResultForPropFn(
       typeOfRecordToChange,
       propToUpdate,
       newValue,
@@ -2107,11 +2108,12 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   render() {
+    const { closeNavOnClick } = this.props;
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;
     const typeOfRecordToChange = this.state.typeOfRecordToChange;
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
     return (
-      <div className="pageContent">
+      <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
         <ul className="nav nav-tabs">
           <li className="nav-item">
             <a

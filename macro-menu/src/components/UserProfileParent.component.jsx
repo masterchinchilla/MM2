@@ -17,16 +17,27 @@ class UserProfileParent extends Component {
   }
   determineIfSaveDisabled = (thisValErrsObj) => {
     const objKeys = Object.keys(thisValErrsObj);
-    console.log(objKeys);
+    const { thisRecord } = this.state.GRFUserStateObj;
+    const propsReqForSave = {
+      givenName: true,
+      familyName: true,
+      email: true,
+      password: true,
+      handle: true,
+    };
     let countOfValErrs = 0;
     for (let i = 0; i < objKeys.length; i++) {
-      let thisObjKey = objKeys[i];
-      console.log(thisObjKey);
-      let thisPropsValErrsArray = thisValErrsObj[thisObjKey];
-      console.log(thisPropsValErrsArray);
-      countOfValErrs += thisPropsValErrsArray.length;
+      const thisObjKey = objKeys[i];
+      const thisPropsValErrsArray = thisValErrsObj[thisObjKey];
+      const numOfLocalValErrs = thisPropsValErrsArray.length;
+      if (numOfLocalValErrs > 0) {
+        countOfValErrs += numOfLocalValErrs;
+      } else {
+        const thisPropInRecord = thisRecord[thisObjKey];
+        const thisPropReqForSave = propsReqForSave[thisObjKey] ? true : false;
+        countOfValErrs += thisPropReqForSave ? (thisPropInRecord ? 0 : 1) : 0;
+      }
     }
-    console.log(countOfValErrs);
     return countOfValErrs > 0 ? true : false;
   };
   handleUpdatePropFn = async (
@@ -59,30 +70,70 @@ class UserProfileParent extends Component {
   handleSetDefaultStateFn = (userIsNew, currentUser) => {
     const GRFUserStateObj = {
       thisRecord: {
-        _id: currentUser._id,
-        namePrefix: currentUser.namePrefix ? currentUser.namePrefix : "",
-        givenName: currentUser.givenName,
-        middleName: currentUser.middleName ? currentUser.middleName : "",
-        familyName: currentUser.familyName,
-        nameSuffix: currentUser.nameSuffix ? currentUser.nameSuffix : "",
-        email: currentUser.email,
-        password: currentUser.password,
-        handle: currentUser.handle,
-        certURL: currentUser.certURL ? currentUser.certURL : "",
-        certName: currentUser.certName ? currentUser.certName : "",
-        verified: currentUser.verified ? currentUser.verified : false,
-        photoURL: currentUser.photoURL ? currentUser.photoURL : "",
-        createdAt: currentUser.createdAt ? currentUser.createdAt : "",
-        updatedAt: currentUser.updatedAt ? currentUser.updatedAt : "",
-        isAdmin: currentUser.isAdmin ? currentUser.isAdmin : false,
+        _id: currentUser ? currentUser._id : "",
+        namePrefix: currentUser
+          ? currentUser.namePrefix
+            ? currentUser.namePrefix
+            : ""
+          : "",
+        givenName: currentUser ? currentUser.givenName : "",
+        middleName: currentUser
+          ? currentUser.middleName
+            ? currentUser.middleName
+            : ""
+          : "",
+        familyName: currentUser ? currentUser.familyName : "",
+        nameSuffix: currentUser
+          ? currentUser.nameSuffix
+            ? currentUser.nameSuffix
+            : ""
+          : "",
+        email: currentUser ? currentUser.email : "",
+        password: currentUser ? currentUser.password : "",
+        handle: currentUser ? currentUser.handle : "",
+        certURL: currentUser
+          ? currentUser.certURL
+            ? currentUser.certURL
+            : ""
+          : "",
+        certName: currentUser
+          ? currentUser.certName
+            ? currentUser.certName
+            : ""
+          : "",
+        verified: currentUser
+          ? currentUser.verified
+            ? currentUser.verified
+            : false
+          : false,
+        photoURL: currentUser
+          ? currentUser.photoURL
+            ? currentUser.photoURL
+            : ""
+          : "",
+        createdAt: currentUser
+          ? currentUser.createdAt
+            ? currentUser.createdAt
+            : ""
+          : "",
+        updatedAt: currentUser
+          ? currentUser.updatedAt
+            ? currentUser.updatedAt
+            : ""
+          : "",
+        isAdmin: currentUser
+          ? currentUser.isAdmin
+            ? currentUser.isAdmin
+            : false
+          : false,
       },
       recordLoaded: true,
-      userType: currentUser.isAdmin
+      userType: currentUser
         ? currentUser.isAdmin
           ? "admin"
           : "author"
         : "author",
-      editingForm: false,
+      editingForm: userIsNew ? true : false,
       recordChanged: false,
       saveDisabled: true,
       valErrors: {
@@ -177,11 +228,11 @@ class UserProfileParent extends Component {
     if (pWordChanged) {
       if (!passwordOk) {
         GRFUserStateObj.saveDisabled = true;
-        // valErrors.GRFUser.password = [
-        //   "Password does not meet minimum requirements",
-        // ];
+        valErrors.GRFUser.password = [
+          "Password does not meet minimum requirements",
+        ];
       } else {
-        // valErrors.GRFUser.password = [];
+        valErrors.GRFUser.password = [];
         GRFUserStateObj.saveDisabled = this.determineIfSaveDisabled(
           valErrors.GRFUser
         );
@@ -281,9 +332,10 @@ class UserProfileParent extends Component {
         returnElementKey,
         getRndIntegerFn,
         trimEnteredValueFn,
+        closeNavOnClick,
       } = this.props;
       return (
-        <div className="pageContent">
+        <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
           <div className="card ms-4 me-4 registerCard">
             <div className="card-header">
               <CustomHeading
@@ -901,8 +953,11 @@ class UserProfileParent extends Component {
                     </div>
                   </fieldset>
                 </div>
-                <div className="form-group registerFrmGrp">
-                  <p className="alreadyRegistered">
+                <div
+                  className={`form-group registerFrmGrp`}
+                  hidden={userIsNew ? false : true}
+                >
+                  <p className={`alreadyRegistered`}>
                     Already registered?&nbsp;
                     <Link to="/">Login</Link>
                   </p>
