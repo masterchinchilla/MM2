@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import _ from "lodash";
 import NewFormControl from "./NewFormControl.component";
 import NewInputCore from "./NewInputCore.component";
 import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
@@ -13,11 +14,14 @@ class UserProfileParent extends Component {
       GRFUserStateObj: {
         recordLoaded: false,
       },
+      GRFUserStateObjBackup: {},
     };
   }
-  determineIfSaveDisabled = (thisValErrsObj) => {
+  determineIfSaveDisabled = async (GRFUserStateObj) => {
+    const { thisRecord, valErrors } = GRFUserStateObj;
+    const thisValErrsObj = valErrors.GRFUser;
+    console.log(thisValErrsObj);
     const objKeys = Object.keys(thisValErrsObj);
-    const { thisRecord } = this.state.GRFUserStateObj;
     const propsReqForSave = {
       givenName: true,
       familyName: true,
@@ -28,10 +32,14 @@ class UserProfileParent extends Component {
     let countOfValErrs = 0;
     for (let i = 0; i < objKeys.length; i++) {
       const thisObjKey = objKeys[i];
+      console.log(thisObjKey);
       const thisPropsValErrsArray = thisValErrsObj[thisObjKey];
+      console.log(thisPropsValErrsArray);
       const numOfLocalValErrs = thisPropsValErrsArray.length;
+      console.log(numOfLocalValErrs);
       if (numOfLocalValErrs > 0) {
         countOfValErrs += numOfLocalValErrs;
+        console.log(countOfValErrs);
       } else {
         const thisPropInRecord = thisRecord[thisObjKey];
         const thisPropReqForSave = propsReqForSave[thisObjKey] ? true : false;
@@ -48,10 +56,12 @@ class UserProfileParent extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
-    console.log(propToUpdate, trimmedWNoDblSpcs);
     const { GRFUserStateObj } = this.state;
     const { thisRecord, valErrors } = GRFUserStateObj;
+    GRFUserStateObj.thisRecord[propToUpdate] = trimmedWNoDblSpcs;
+    GRFUserStateObj.recordChanged = true;
     let thisValErrsObj = valErrors.GRFUser;
+    let thisPropsValErrsArray = thisValErrsObj[propToUpdate];
     thisValErrsObj = await this.props.getCSValResultForPropFn(
       "GRFUser",
       propToUpdate,
@@ -60,9 +70,11 @@ class UserProfileParent extends Component {
       thisRecord._id
     );
     console.log(thisValErrsObj);
-    GRFUserStateObj.thisRecord[propToUpdate] = trimmedWNoDblSpcs;
-    GRFUserStateObj.recordChanged = true;
-    GRFUserStateObj.saveDisabled = this.determineIfSaveDisabled(thisValErrsObj);
+
+    GRFUserStateObj.saveDisabled = await this.determineIfSaveDisabled(
+      GRFUserStateObj
+    );
+    console.log(GRFUserStateObj.saveDisabled);
     this.setState({
       GRFUserStateObj: GRFUserStateObj,
     });
@@ -165,10 +177,12 @@ class UserProfileParent extends Component {
       pWordHasSpChar: false,
       pWordLengthOk: false,
     };
+    const GRFUserStateObjBackup = _.cloneDeep(GRFUserStateObj);
     this.setState({
       GRFUserStateObj: GRFUserStateObj,
       userIsNew: userIsNew,
       passwordState: passwordState,
+      GRFUserStateObjBackup: GRFUserStateObjBackup,
     });
   };
   handleSetIsNewPerParams = () => {
@@ -187,10 +201,12 @@ class UserProfileParent extends Component {
     thisMealTypeCode,
     arrayIndex
   ) => {
-    const { GRFUserStateObj } = this.state;
+    const { GRFUserStateObj, GRFUserStateObjBackup } = this.state;
     GRFUserStateObj.editingForm = true;
+    GRFUserStateObjBackup = _.cloneDeep(GRFUserStateObj);
     this.setState({
       GRFUserStateObj: GRFUserStateObj,
+      GRFUserStateObjBackup: GRFUserStateObjBackup,
     });
   };
   handleSaveChangesFn = async (
@@ -233,9 +249,8 @@ class UserProfileParent extends Component {
         ];
       } else {
         valErrors.GRFUser.password = [];
-        GRFUserStateObj.saveDisabled = this.determineIfSaveDisabled(
-          valErrors.GRFUser
-        );
+        GRFUserStateObj.saveDisabled =
+          this.determineIfSaveDisabled(GRFUserStateObj);
       }
       GRFUserStateObj.thisRecord.password = newPassword;
 
@@ -281,6 +296,7 @@ class UserProfileParent extends Component {
     this.handleUpdatePropFn("handle", newValue, "GRFUser", "", "", null);
   };
   componentDidMount() {
+    console.log("mounted");
     const { currentUser } = this.props;
     const userIsNew = this.handleSetIsNewPerParams();
     this.handleSetDefaultStateFn(userIsNew, currentUser);
@@ -288,7 +304,12 @@ class UserProfileParent extends Component {
   render() {
     if (this.state.GRFUserStateObj.recordLoaded) {
       const typeOfRecordToChange = "GRFUser";
-      const { GRFUserStateObj, userIsNew, passwordState } = this.state;
+      const {
+        GRFUserStateObj,
+        userIsNew,
+        passwordState,
+        GRFUserStateObjBackup,
+      } = this.state;
       const {
         thisRecord,
         userType,
@@ -641,134 +662,11 @@ class UserProfileParent extends Component {
                     ) : (
                       ""
                     )}
-
-                    {/* <div className="form-group mb-4">
-                      <label className="form-label">
-                        <span className="requiredFldLbl">* </span>Password
-                      </label>
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        className="form-control"
-                        value={password}
-                        onChange={this.handleChangePasswordFn}
-                      />
-                      <div className="rgstrShwPWrdRow">
-                        <div className="form-check rgstrShwPwrdChck">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value={showPassword}
-                            id="flexCheckDefault"
-                            onChange={this.toggleShowPasswordFn}
-                            checked={showPassword}
-                          />
-                          <label className="form-check-label">
-                            Show Password?
-                          </label>
-                        </div>
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-check"
-                          className="pWordStrngthChkMrk"
-                          hidden={
-                            !pWordHasCapLetter ||
-                            !pWordHasLCaseLetter ||
-                            !pWordHasNum ||
-                            !pWordHasSpChar ||
-                            !pWordLengthOk
-                          }
-                        />
-                      </div>
-                      <div className="pWordStrengthChckr form-control">
-                        <h6 className="rgstrStrengthChckrHdr">
-                          Password Requirements:
-                        </h6>
-                        <div className="form-check rgstrFrmChckItm">
-                          <input
-                            className="form-check-input rgstrChckBox"
-                            type="checkbox"
-                            value={pWordHasCapLetter}
-                            onChange={() => {}}
-                            checked={pWordHasCapLetter}
-                            readOnly
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
-                          >
-                            At least 1 Capital A-Z
-                          </label>
-                        </div>
-                        <div className="form-check rgstrFrmChckItm">
-                          <input
-                            className="form-check-input rgstrChckBox"
-                            type="checkbox"
-                            value={pWordHasLCaseLetter}
-                            onChange={() => {}}
-                            checked={pWordHasLCaseLetter}
-                            readOnly
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
-                          >
-                            At least 1 lowercase a-z
-                          </label>
-                        </div>
-                        <div className="form-check rgstrFrmChckItm">
-                          <input
-                            className="form-check-input rgstrChckBox"
-                            type="checkbox"
-                            value={pWordHasNum}
-                            onChange={() => {}}
-                            checked={pWordHasNum}
-                            readOnly
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
-                          >
-                            At least 1 number
-                          </label>
-                        </div>
-                        <div className="form-check rgstrFrmChckItm">
-                          <input
-                            className="form-check-input rgstrChckBox"
-                            type="checkbox"
-                            value={pWordHasSpChar}
-                            onChange={() => {}}
-                            checked={pWordHasSpChar}
-                            readOnly
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
-                          >
-                            At least 1 special character
-                          </label>
-                        </div>
-                        <div className="form-check rgstrFrmChckItm">
-                          <input
-                            className="form-check-input rgstrChckBox"
-                            type="checkbox"
-                            value={pWordLengthOk}
-                            onChange={() => {}}
-                            checked={pWordLengthOk}
-                            readOnly
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexCheckDefault"
-                          >
-                            8-100 characters
-                          </label>
-                        </div>
-                      </div>
-                    </div> */}
                     <NewInputWSearchUniqueNew
                       commonProps={{
                         commonData: { backEndHtmlRoot: backEndHtmlRoot },
                         commonMethods: {
-                          onUpdatePropFn: this.handleUpdatePropFn,
+                          onUpdatePropFn: () => {},
                           returnElementKey: returnElementKey,
                           getRndIntegerFn: getRndIntegerFn,
                           trimEnteredValueFn: trimEnteredValueFn,
@@ -790,7 +688,8 @@ class UserProfileParent extends Component {
                           recordLoaded: recordLoaded,
                           propNameSentenceCase: "Handle",
                           localPropValue: handle,
-                          origPropValue: handle,
+                          origPropValue:
+                            GRFUserStateObjBackup.thisRecord.handle,
                         },
                         specificMethods: {
                           changeLocalPropFn: this.handleUpdateHandleFn,
@@ -858,7 +757,6 @@ class UserProfileParent extends Component {
                         }}
                       />
                     </div>
-
                     <NewInputCore
                       key={returnElementKey(
                         null,

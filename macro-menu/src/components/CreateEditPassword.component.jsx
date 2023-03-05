@@ -37,20 +37,15 @@ const CreateEditPassword = (props) => {
     arrayIndex
   ) => {
     const localPWordHasCapLetter = pWordHasCapLetterPattern.test(typedPWord);
-    console.log(localPWordHasCapLetter);
     togglePWordHasCapLetterStateFn(localPWordHasCapLetter);
     const localPWordHasLCaseLetter =
       pWordHasLCaseLetterPattern.test(typedPWord);
-    console.log(localPWordHasLCaseLetter);
     togglePWordHasLCaseLetterStateFn(localPWordHasLCaseLetter);
     const localPWordHasNum = pWordHasNumPattern.test(typedPWord);
-    console.log(localPWordHasNum);
     togglePWordHasNumStateFn(localPWordHasNum);
     const localPWordHasSpChar = pWordHasSpCharPattern.test(typedPWord);
-    console.log(localPWordHasSpChar);
     togglePWordHasSpCharStateFn(localPWordHasSpChar);
     const localPWordLengthOk = typedPWord.length > 7 && typedPWord.length < 101;
-    console.log(localPWordLengthOk);
     togglePWordLengthOkStateFn(localPWordLengthOk);
     const pWordOk =
       localPWordHasCapLetter &&
@@ -60,7 +55,6 @@ const CreateEditPassword = (props) => {
       localPWordLengthOk
         ? true
         : false;
-    console.log(pWordOk);
     onUpdatePWordFn(typedPWord, pWordOk);
   };
   useEffect(() => {

@@ -57,7 +57,7 @@ router.route('/:id').get((req, res) => {
         .then(GRFUser => res.json(GRFUser))
         .catch(err => res.status(400).json('Error: '+err));
 });
-router.route('/findbyname/:valueForSearch').get((req, res)=>{
+router.route('/findbyhandle/:valueForSearch').get((req, res)=>{
     GRFUserModel.findOne({handle:req.params.valueForSearch})
         .then((user)=>{
             if(user){res.json("exists")}else{res.json("ok")}
