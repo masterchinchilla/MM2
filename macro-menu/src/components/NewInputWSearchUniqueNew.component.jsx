@@ -28,7 +28,7 @@ const NewInputWSearchUniqueNew = (props) => {
     recordLoaded,
     propNameSentenceCase,
     localPropValue,
-
+    excludeLabel,
     origPropValue,
   } = specificData;
   const { changeLocalPropFn, updatePropValErrorsStateFn } = specificMethods;
@@ -124,7 +124,7 @@ const NewInputWSearchUniqueNew = (props) => {
           inputClasses: inputClasses,
           isRequired: isRequired,
           recordLoaded: recordLoaded,
-          excludeLabel: false,
+          excludeLabel: excludeLabel,
           inputTypeForHtml: "text",
           propValue: localPropValue,
         },

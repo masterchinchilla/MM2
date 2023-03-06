@@ -280,6 +280,7 @@ const NewRecipeCard = (props) => {
                       recordLoaded: recordLoaded,
                       propNameSentenceCase: "Name",
                       localPropValue: localName,
+                      excludeLabel: false,
                       origPropValue: origName,
                     },
                     specificMethods: {

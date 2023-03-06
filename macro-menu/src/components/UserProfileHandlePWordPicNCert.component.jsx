@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 const typeOfRecordToChange = "GRFUser";
 const thisDayOfWeekCode = "";
 const thisMealTypeCode = "";
@@ -15,9 +15,19 @@ const UserProfileHandlePWordPicNCert = (props) => {
     closeNavOnClick,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { GRFUserStateObj, userIsNew, passwordState, GRFUserStateObjBackup } =
-    specificData;
-  const { onChangePasswordFn } = specificMethods;
+  const {
+    thisStateObj,
+    userIsNew,
+    passwordState,
+    localHandle,
+    origHandle,
+    handleValErrors,
+  } = specificData;
+  const {
+    onChangePasswordFn,
+    updateHandleStateFn,
+    updateHandleValErrorsStateFn,
+  } = specificMethods;
   const {
     thisRecord,
     userType,
@@ -26,7 +36,7 @@ const UserProfileHandlePWordPicNCert = (props) => {
     valErrors,
     saveDisabled,
     recordLoaded,
-  } = GRFUserStateObj;
+  } = thisStateObj;
   const {
     _id,
     namePrefix,
@@ -36,11 +46,13 @@ const UserProfileHandlePWordPicNCert = (props) => {
     nameSuffix,
     email,
     password,
-    handle,
     certURL,
     certName,
     verified,
     photoURL,
+    isAdmin,
+    createdAt,
+    updatedAt,
   } = thisRecord;
   const {
     showPassword,
@@ -51,7 +63,6 @@ const UserProfileHandlePWordPicNCert = (props) => {
     pWordLengthOk,
   } = passwordState;
   const thisRecordId = _id;
-
   const fieldsDisabled = editingForm ? false : true;
   const inputOnKeyUpFn = () => {};
   return (
@@ -131,17 +142,17 @@ const UserProfileHandlePWordPicNCert = (props) => {
             propToUpdate: "handle",
             arrayIndex: arrayIndex,
             fieldDisabled: fieldsDisabled,
-            valErrors: valErrors.GRFUser.handle,
+            valErrors: handleValErrors,
             inputClasses: "form-control",
             isRequired: true,
             recordLoaded: recordLoaded,
             propNameSentenceCase: "Handle",
-            localPropValue: handle,
-            origPropValue: GRFUserStateObjBackup.thisRecord.handle,
+            localPropValue: localHandle,
+            origPropValue: origHandle,
           },
           specificMethods: {
-            changeLocalPropFn: this.handleUpdateHandleFn,
-            updatePropValErrorsStateFn: this.updateHandleValErrorsStateFn,
+            changeLocalPropFn: updateHandleStateFn,
+            updatePropValErrorsStateFn: updateHandleValErrorsStateFn,
           },
         }}
       />
@@ -178,7 +189,7 @@ const UserProfileHandlePWordPicNCert = (props) => {
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,
               returnElementKey: returnElementKey,
-              onUpdatePropFn: this.handleUpdatePropFn,
+              onUpdatePropFn: onUpdatePropFn,
               trimEnteredValueFn: trimEnteredValueFn,
             },
           }}
@@ -219,7 +230,7 @@ const UserProfileHandlePWordPicNCert = (props) => {
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
-            onUpdatePropFn: this.handleUpdatePropFn,
+            onUpdatePropFn: onUpdatePropFn,
             trimEnteredValueFn: trimEnteredValueFn,
           },
         }}
@@ -259,7 +270,7 @@ const UserProfileHandlePWordPicNCert = (props) => {
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
             returnElementKey: returnElementKey,
-            onUpdatePropFn: this.handleUpdatePropFn,
+            onUpdatePropFn: onUpdatePropFn,
             trimEnteredValueFn: trimEnteredValueFn,
           },
         }}

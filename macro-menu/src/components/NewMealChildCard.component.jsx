@@ -102,8 +102,8 @@ const NewMealChildCard = (props) => {
         <div
           className={
             justCreated.meal
-              ? "subCardHeader cardHeaderFocused"
-              : "subCardHeader"
+              ? "recipeSubCardHeader cardHeaderFocused"
+              : "recipeSubCardHeader"
           }
         >
           <CustomHeading
@@ -115,38 +115,6 @@ const NewMealChildCard = (props) => {
             editingForm={editingForm.meal}
             headingClasses="recipeSelectHeader"
           />
-          {/* <NewNewAsyncSearchSelectWCreate
-            commonProps={{
-              commonData: {},
-              commonMethods: {
-                getRndIntegerFn: getRndIntegerFn,
-                returnElementKey: returnElementKey,
-                onUpdatePropFn: onUpdatePropFn,
-                onCreateNewRecordFn: handleCreateNewRecordFn,
-                trimEnteredValueFn: trimEnteredValueFn,
-              },
-            }}
-            specificProps={{
-              specificData: {
-                typeOfRecordToChange: "meal",
-                formGroupClasses: "",
-                label: "Recipe",
-                thisDayOfWeekCode: thisDayOfWeekCode,
-                thisMealTypeCode: thisMealTypeCode,
-                arrayIndex: arrayIndex,
-                propToUpdate: "genRecipe",
-                fieldDisabled: fieldsDisabled,
-                initialFieldValErrs: valErrors.meal.genRecipe,
-                inputClasses: "recipeSelect",
-                isRequired: true,
-                recordLoaded: recordLoaded,
-                excludeLabel: true,
-                selectedRecord: genRecipe,
-                fetchDataUrl: `${backEndHtmlRoot}genRecipes/genRecipesByMealTypeAndName/${mealType._id}`,
-              },
-              specificMethods: {},
-            }}
-          /> */}
           <NewNewSelectSearchListWCreate
             commonProps={{
               commonData: {
