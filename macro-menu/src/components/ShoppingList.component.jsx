@@ -138,7 +138,10 @@ const ShoppingList = (props) => {
           },
         }}
         specificProps={{
-          specificData: { shoppingListItem: item },
+          specificData: {
+            shoppingListItem: item,
+            fieldsDisabled: pattern.test(item.pantryItem.thisRecord._id),
+          },
           specificMethods: {
             onCreatePantryItem: onCreatePantryItem,
             onSavePantryItemChangeFn: onSavePantryItemChangeFn,
@@ -163,26 +166,12 @@ const ShoppingList = (props) => {
           </th>
         </tr>
         <tr className="shopListThRow">
-          {/* <TableCell
-            tCellType="th"
-            data={"Bought"}
-            tCellClasses="perpendicularTextCell"
-            scope="col"
-            recordLoaded={true}
-          /> */}
           <th className="shopListTHPerpendicular" scope="col">
             <span className="shopListTHSubSpan">Bought</span>
           </th>
           <th className="shopListTHPerpendicular" scope="col">
             <span className="shopListTHSubSpan">Qty Needed</span>
           </th>
-          {/* <TableCell
-            tCellType="th"
-            data={"Qty Needed"}
-            tCellClasses="perpendicularTextCell"
-            scope="col"
-            recordLoaded={true}
-          /> */}
           <TableCell
             tCellType="th"
             data={"Qty Have"}

@@ -13,7 +13,7 @@ const ShoppingListItem = (props) => {
     trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { shoppingListItem } = specificData;
+  const { shoppingListItem, fieldsDisabled } = specificData;
   const { onCreatePantryItem, onSavePantryItemChangeFn } = specificMethods;
   const { qtyNeeded, pantryItem, qtyToBuy } = shoppingListItem;
   const {
@@ -110,6 +110,7 @@ const ShoppingListItem = (props) => {
             onChange={(e) => {
               handleCheckUncheckBoughtBoxFn(e.target.value);
             }}
+            disabled={fieldsDisabled}
           />
         </div>
       </td>
@@ -161,6 +162,7 @@ const ShoppingListItem = (props) => {
             valueChangedExternal: checkBoxActive,
             recordChanged: recordChanged.pantryItem,
             shoppingListItem: shoppingListItem,
+            fieldsDisabled: fieldsDisabled,
           },
           specificMethods: {
             inputOnKeyUpFn: () => {},

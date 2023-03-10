@@ -163,7 +163,7 @@ const NewRecipeCard = (props) => {
             specificProps={{
               specificData: {
                 typeOfRecordToChange: typeOfRecordToChange,
-                recordChanged: localRecordChanged,
+                recordChanged: recordChanged.genRecipe,
                 thisDayOfWeekCode: thisDayOfWeekCode,
                 thisMealTypeCode: thisMealTypeCode,
                 arrayIndex: arrayIndex,

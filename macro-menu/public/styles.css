@@ -2008,3 +2008,6 @@ margin: 2rem !important;
 .vrfdFrmChckLbl{
   margin-bottom: 0;
 }
+.nav-link{
+  cursor:pointer;
+}

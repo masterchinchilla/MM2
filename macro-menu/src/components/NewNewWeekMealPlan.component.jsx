@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import httpService from "../services/httpService";
-import authService from "../services/authService";
+import { getCurrentUser } from "../services/authService";
 import { csValidateObj } from "../services/validationService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +17,7 @@ import NewDayCard from "./NewDayCard.component";
 import CustomHeading from "./CustomHeading.component";
 import ShoppingList from "./ShoppingList.component";
 import LoadingForkSpoonSpinner from "../assets/lottieForkSpoonSpinner.json";
+import TabNav from "./TabNav.component";
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -77,9 +78,11 @@ class NewNewWeekMealPlan extends Component {
       pantryItems: [],
     };
   }
+  handleChangeModeFn = (newMode) => {
+    this.setState({ mode: newMode });
+  };
   getRndIntegerFn = (min, max) => {
     return this.props.getRndIntegerFn(min, max);
-    // return Math.floor(Math.random() * (max - min + 1)) + min;
   };
   notifyFn = (notice, noticeType) => {
     this.props.notifyFn(notice, noticeType);
@@ -102,11 +105,6 @@ class NewNewWeekMealPlan extends Component {
       objToUpdate,
       keyValue
     );
-    // const objKeys = Object.keys(keysSourceObj);
-    // for (let i = 0; i < objKeys.length; i++) {
-    //   objToUpdate[objKeys[i]] = keyValue;
-    // }
-    // return objToUpdate;
   };
   replaceThisRecordInStateObj = (
     thisStateObj,
@@ -234,74 +232,15 @@ class NewNewWeekMealPlan extends Component {
   };
   notifyOfErrors = (valErrsNestedArray) => {
     this.props.notifyOfErrors(valErrsNestedArray);
-    // for (let i = 0; i < valErrsNestedArray.length; i++) {
-    //   let thisValErrorObj = valErrsNestedArray[i];
-    //   let thisValErrorObjKeys = Object.keys(thisValErrorObj);
-    //   for (let i = 0; i < thisValErrorObjKeys.length; i++) {
-    //     let thisValErrorObjKey = thisValErrorObjKeys[i];
-    //     let thisValErrorObjSubArray = thisValErrorObj[thisValErrorObjKey];
-    //     for (let i = 0; i < thisValErrorObjSubArray.length; i++) {
-    //       let thisValError = thisValErrorObjSubArray[i];
-    //       this.notifyFn(thisValError, "error");
-    //     }
-    //   }
-    // }
   };
   updateThisObjsValErrs = (thisObjsValErrsObj, valErrsNestedArray) => {
     return this.props.updateThisObjsValErrs(
       thisObjsValErrsObj,
       valErrsNestedArray
     );
-    //for valErrsNestedArray, fn expects to receive object with this shape:
-    //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-    //for thisObjsValErrsObj, fn expects to receive object with this shape:
-    //{prop1Name:[],prop2Name[]}
-    // for (let i = 0; i < valErrsNestedArray.length; i++) {
-    //   let valErrsArrayKeys = Object.keys(valErrsNestedArray[i]);
-    //   let thisValuesValErrsArrayKey = valErrsArrayKeys[0];
-    //   thisObjsValErrsObj[thisValuesValErrsArrayKey] =
-    //     valErrsNestedArray[i][thisValuesValErrsArrayKey];
-    // }
-    // this.notifyOfErrors(valErrsNestedArray);
-    // return thisObjsValErrsObj;
   };
   parseHTTPResErrs = (errs) => {
     return this.props.parseHTTPResErrs(errs);
-    // let svrErrMsg = errs.response.data;
-    // let valErrsNestedArray;
-    // let errMsgs = [];
-    // let pattern = /castError/;
-    // let resStatus = errs.response.status;
-    // if (resStatus > 400) {
-    //   switch (resStatus) {
-    //     case 401:
-    //       errMsgs.push(
-    //         "You must be logged-in to access the requested record(s)"
-    //       );
-    //       break;
-    //     case 403:
-    //       errMsgs.push(
-    //         "You do not have permission to access the requested record(s)"
-    //       );
-    //       break;
-    //     case 404:
-    //       errMsgs.push("Records not found: IDs/names may be invalid");
-    //       break;
-    //     default:
-    //       if (resStatus >= 500) {
-    //         errMsgs.push("Server error: Refresh, wait a moment and try again");
-    //       }
-    //   }
-    //   valErrsNestedArray = [{ all: errMsgs }];
-    // } else if (resStatus === 400) {
-    //   if (pattern.test(svrErrMsg)) {
-    //     errMsgs.push("Bad request: URL may be invalid");
-    //     valErrsNestedArray = [{ all: errMsgs }];
-    //   } else {
-    //     valErrsNestedArray = errs.response.data.valErrorsArray;
-    //   }
-    // }
-    // return valErrsNestedArray;
   };
   assembleStateObjWNewRcrd = (
     recordsArray,
@@ -514,10 +453,6 @@ class NewNewWeekMealPlan extends Component {
         this.getFullRecordSet("brand"),
         this.getFullRecordSet("genRecipe"),
       ]);
-    // let allUnitOfMeasures = await this.getFullRecordSet("unitOfMeasure");
-    // let allWeightTypes = await this.getFullRecordSet("weightType");
-    // let allBrands = await this.getFullRecordSet("brand");
-    // let allGenRecipes = await this.getFullRecordSet("genRecipe");
     return {
       allUnitOfMeasures: allUnitOfMeasures,
       allWeightTypes: allWeightTypes,
@@ -553,24 +488,12 @@ class NewNewWeekMealPlan extends Component {
     pantryItems[matchingPantryItemIndex] = matchingPantryItem;
     this.setState({ pantryItems: pantryItems });
   };
-  getThisWMPFn = async () => {
+  getThisWMPFn = async (currentGRFUser) => {
     let state = this.state;
-    let { thisWMPStateObj, backEndHtmlRoot, pgReqParams, currentGRFUser } =
-      state;
+    let { thisWMPStateObj, backEndHtmlRoot, pgReqParams } = state;
     let thisWMPRecord = thisWMPStateObj.thisRecord;
     let thisWMPId = thisWMPRecord._id;
     const backEndReqUrl = `${backEndHtmlRoot}weekMealPlans/${thisWMPId}`;
-    // let wmpReqResult = await this.getRecordsFromBackEnd(
-    //   backEndReqUrl,
-    //   "weekMealPlan",
-    //   ["weekMealPlan"]
-    // );
-    // let getWeeksDaysResult = await this.getThisWeeksDaysFn(
-    //   state,
-    //   thisWMPRecord
-    // );
-    // const { allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes } =
-    //   await this.getAllUOMsWTsBrndsNRecipes();
     const [
       wmpReqResult,
       getWeeksDaysResult,
@@ -586,9 +509,6 @@ class NewNewWeekMealPlan extends Component {
     ]);
     const { allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes } =
       allUOMsWghtTypsBrndsNRcps;
-    // if (wmpReqResult.valErrors) {
-    //   return;
-    // } else {
     const thisRecordJustCreated = pgReqParams.isNewWMP ? true : false;
     thisWMPStateObj = wmpReqResult.stateObjsArray[0];
     thisWMPStateObj.justCreated.weekMealPlan = thisRecordJustCreated;
@@ -609,12 +529,7 @@ class NewNewWeekMealPlan extends Component {
     updatedState.countOfLinkedMealIngrdnts = countOfLinkedMealIngrdnts;
     this.player.current.stop();
     state.pantryItems = pantryItems;
-    // state.pantryItems = await this.handleGetUsersPantryItemsFn(
-    //   backEndHtmlRoot,
-    //   currentGRFUser
-    // );
     this.setState(updatedState);
-    // }
   };
   handleCopyWMPFn = async () => {
     let state = this.state;
@@ -644,15 +559,10 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   componentDidMount() {
-    // const currentGRFUser = authService.getCurrentUser();
-    // if (!currentGRFUser) {
-    //   this.notifyFn("Your login session has expired", "error");
-    //   window.location = `/weekMealPlans`;
-    // } else {
-    //   this.setState({ currentGRFUser: currentGRFUser }, () => {
-    this.getThisWMPFn();
-    //   });
-    // }
+    const currentUser = this.state.currentGRFUser
+      ? this.state.currentGRFUser
+      : getCurrentUser();
+    this.getThisWMPFn(currentUser);
   }
   getCSValResultForProp = async (
     typeOfRecordToChange,
@@ -668,16 +578,6 @@ class NewNewWeekMealPlan extends Component {
       thisObjsValErrsObj,
       parentRecordId
     );
-    // const recordToUpdate = { [propToUpdate]: newValue, _id: parentRecordId };
-    // const csValResult = await csValidateObj(
-    //   typeOfRecordToChange,
-    //   recordToUpdate
-    // );
-    // const newThisObjsValErrsObj = this.updateThisObjsValErrs(
-    //   thisObjsValErrsObj,
-    //   csValResult
-    // );
-    // return newThisObjsValErrsObj;
   };
   handleUpdateWMPPropFn = async (propToUpdate, newValue) => {
     let thisWMPStateObj = this.state.thisWMPStateObj;
@@ -712,13 +612,6 @@ class NewNewWeekMealPlan extends Component {
       thisMealTypeCode,
       thisDayOfWeekCode
     );
-    // return `${thisObjName ? thisObjName : "Null"}${
-    //   indexOfObj ? indexOfObj : "Null"
-    // }ForProp${propToUpdate ? propToUpdate : "Null"}For${
-    //   typeOfRecordToChange ? typeOfRecordToChange : "Null"
-    // }Num${arrayIndex ? arrayIndex : "Null"}ForMeal${
-    //   thisMealTypeCode ? thisMealTypeCode : "Null"
-    // }ForDay${thisDayOfWeekCode ? thisDayOfWeekCode : "Null"}ForThisWMP`;
   };
   populateMissingMealIngrdnts = async (thisMealStateObj) => {
     let thisMealWUpdtdGenRcpIngrdnts =
@@ -766,18 +659,12 @@ class NewNewWeekMealPlan extends Component {
     return thisMealStateObj;
   };
   handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
-    console.log(newRecordToSave);
     const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
     let savedRecord = null;
-    // let savedRecord = newRecordToSave;
     let valErrors = [];
-    //  = [{ name: ["name too long", "name too short"] }];
     try {
       let reqRes = await httpService.post(reqUrl, newRecordToSave);
       savedRecord = reqRes.data;
-      // savedRecord._id = this.getRndIntegerFn(10000000, 99999999);
-      // savedRecord.createdAt = "";
-      // savedRecord.updatedAt = "";
       let typeOfRcrdToCreateSntcCase =
         rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
       let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
@@ -869,25 +756,19 @@ class NewNewWeekMealPlan extends Component {
       "ingredient",
       "GRFUser",
     ]);
-    console.log(newRecordToSave);
     const createNewRecordResult = await this.handleCreateNewRecordInDb(
       "pantryItem",
       newRecordToSave
     );
-    console.log(createNewRecordResult);
     const { savedRecord, valErrors } = createNewRecordResult;
-    console.log(savedRecord);
     if (valErrors.length > 0) {
       return;
     } else {
       savedRecord.ingredient = newRecordToSave.ingredient;
       savedRecord.GRFUser = newRecordToSave.GRFUser;
-      console.log(savedRecord);
       newPantryItem.thisRecord = savedRecord;
-      console.log(newPantryItem);
       const pantryItems = this.state.pantryItems;
       pantryItems.push(newPantryItem);
-      console.log(pantryItems);
       this.setState({ pantryItems: pantryItems });
     }
   };
@@ -1920,7 +1801,6 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   handleSavePantryItemChangeFn = async (pantryItemRecord) => {
-    console.log(pantryItemRecord);
     const valErrors = await this.handleSaveUpdateToDbFn(
       "pantryItem",
       pantryItemRecord
@@ -1929,19 +1809,13 @@ class NewNewWeekMealPlan extends Component {
       return;
     } else {
       const pantryItemId = pantryItemRecord._id;
-      console.log(pantryItemId);
       const pantryItems = this.state.pantryItems;
-      console.log(pantryItems);
       const thisPantryItemIndex = pantryItems.findIndex(
         (item) => item.thisRecord._id === pantryItemId
       );
-      console.log(thisPantryItemIndex);
       const thisPantryItemFromState = pantryItems[thisPantryItemIndex];
-      console.log(thisPantryItemFromState);
       thisPantryItemFromState.recordChanged.pantryItem = false;
-      console.log(thisPantryItemFromState);
       pantryItems[thisPantryItemIndex] = thisPantryItemFromState;
-      console.log(pantryItems);
       this.setState({ pantryItems: pantryItems });
     }
   };
@@ -1953,7 +1827,6 @@ class NewNewWeekMealPlan extends Component {
   ) => {
     let state = this.state;
     let countOfLinkedMealIngrdnts = state.countOfLinkedMealIngrdnts;
-    console.log(typeOfRecordToSave);
     let thisDayStateObj = thisDayOfWeekCode ? state[thisDayOfWeekCode] : null;
     let thisMealStateObj = thisMealTypeCode
       ? thisDayStateObj[thisMealTypeCode]
@@ -2112,52 +1985,14 @@ class NewNewWeekMealPlan extends Component {
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;
     const typeOfRecordToChange = this.state.typeOfRecordToChange;
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
+    const { mode } = this.state;
     return (
       <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <a
-              disabled={!wmpRecordLoaded}
-              className={
-                this.state.mode === "builder"
-                  ? "nav-link active tabLink"
-                  : "nav-link tabLink"
-              }
-              onClick={() => this.setState({ mode: "builder" })}
-            >
-              <FontAwesomeIcon icon="fa-solid fa-hammer" />
-              <span className="tabNavTitle">Builder</span>
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              disabled={!wmpRecordLoaded}
-              className={
-                this.state.mode === "shoppingList"
-                  ? "nav-link active tabLink"
-                  : "nav-link tabLink"
-              }
-              onClick={() => this.setState({ mode: "shoppingList" })}
-            >
-              <FontAwesomeIcon icon="fa-solid fa-list-check" />
-              <span className="tabNavTitle">Shopping List</span>
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              disabled={!wmpRecordLoaded}
-              className={
-                this.state.mode === "spreadsheet"
-                  ? "nav-link active tabLink"
-                  : "nav-link tabLink"
-              }
-              onClick={() => this.setState({ mode: "spreadsheet" })}
-            >
-              <FontAwesomeIcon icon="fa-solid fa-table" />
-              <span className="tabNavTitle">Spreadsheet</span>
-            </a>
-          </li>
-        </ul>
+        <TabNav
+          wmpRecordLoaded={wmpRecordLoaded}
+          mode={mode}
+          onChangeModeFn={this.handleChangeModeFn}
+        />
         <div
           className="lottieCont"
           hidden={this.state.thisWMPStateObj.recordLoaded}
@@ -2248,13 +2083,6 @@ class NewNewWeekMealPlan extends Component {
                   data-bs-parent={"#accordionFull" + thisWMPRecordId}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
-                    {/* <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={this.getThisWMPFn}
-                    >
-                      Reload
-                    </button> */}
                     {this.renderDay("sunday", "Sunday")}
                     {this.renderDay("monday", "Monday")}
                     {this.renderDay("tuesday", "Tuesday")}

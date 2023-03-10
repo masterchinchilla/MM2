@@ -32,6 +32,7 @@ const TableCellWNestedInput = (props) => {
     valueChangedExternal,
     recordChanged,
     shoppingListItem,
+    fieldsDisabled,
   } = specificData;
   const { inputOnKeyUpFn, onCreatePantryItem, onSavePantryItemChangeFn } =
     specificMethods;
@@ -69,7 +70,7 @@ const TableCellWNestedInput = (props) => {
               thisMealTypeCode: thisMealTypeCode,
               propToUpdate: propToUpdate,
               arrayIndex: arrayIndex,
-              fieldDisabled: missing,
+              fieldDisabled: fieldsDisabled,
               valErrors: valErrors,
               inputClasses: inputClasses,
               isRequired: isRequired,
