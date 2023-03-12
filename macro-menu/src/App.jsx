@@ -22,7 +22,6 @@ const App = () => {
   const [leftNavOpen, toggleLeftNavOpen] = useState(false);
   const [rightNavOpen, toggleRightNavOpen] = useState(false);
   function closeNavOnClick(leftRightOrOutside) {
-    console.log(leftRightOrOutside);
     switch (leftRightOrOutside) {
       case "left":
         toggleLeftNavOpen(leftNavOpen ? false : true);
@@ -150,18 +149,17 @@ const App = () => {
           errMsgs.push("Records not found: IDs/names may be invalid");
           break;
         default:
-          if (resStatus >= 500) {
+          if (resStatus > 500) {
             errMsgs.push("Server error: Refresh, wait a moment and try again");
           }
       }
       valErrsNestedArray = [{ all: errMsgs }];
-    } else if (resStatus === 400) {
-      if (pattern.test(svrErrMsg)) {
-        errMsgs.push("Bad request: URL may be invalid");
-        valErrsNestedArray = [{ all: errMsgs }];
-      } else {
-        valErrsNestedArray = errs.response.data.valErrorsArray;
-      }
+      // } else if (resStatus === 400) {
+    } else if (pattern.test(svrErrMsg)) {
+      errMsgs.push("Bad request: URL may be invalid");
+      valErrsNestedArray = [{ all: errMsgs }];
+    } else {
+      valErrsNestedArray = errs.response.data;
     }
     return valErrsNestedArray;
   }

@@ -20,11 +20,11 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
                         if(!foundRecord){
                             const errMsg=thisPropsName==="GRFUser"?"Invalid author":`${thisPropNameSentenceCase} not found`;
                             valErrorsArray.push({[thisPropsName]:[errMsg]})
-                            res.status(404).json({ok:false,valErrorsArray:valErrorsArray});
+                            res.status(404).json(valErrorsArray);
                             return false;
                         };
                     } catch (errs) {
-                        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+                        res.status(500).json([{all:`Server error, refresh, wait a moment and try again`}]);
                     }
                 }; 
         }else if(
@@ -41,7 +41,7 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
                 try {
                     matchingRecords=await PropObjModel.find({name:thisPropsValue});
                 } catch (error) {
-                    res.status(500).json({ok:false,valErrorsArray:[{all:"Server error - please try again in a moment"}]})
+                    res.status(500).json([{all:"Server error - please try again in a moment"}])
                 }
                 let nameError;
                 for(let i=0;i<matchingRecords.length;i++){
@@ -55,7 +55,7 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
         }
     };
     if(valErrorsArray.length>0){  
-        res.status(400).json({ok:false,valErrorsArray:valErrorsArray});
+        res.status(400).json(valErrorsArray);
         return false;
     }else{
         return true
