@@ -20,7 +20,7 @@ router.get('/:id',async(req, res)=>{
         const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
         res.json(matchingRecord);
     } catch (errs) {
-        res.status(400).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.get('/findbyhandle/:handle',async(req, res)=>{
@@ -29,41 +29,47 @@ router.get('/findbyhandle/:handle',async(req, res)=>{
         // const searchByHandleResult=matchingRecord?"exists":"ok";
         res.json(matchingRecord);
     } catch (errs) {
-        res.status(400).json([{all:`Handle lookup failed,refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Handle lookup failed,refresh, wait a moment and try again`}])
     }
 });
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
     const recordId=req.params.id;
-    const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
-    if(ssValResult){
-        try {
-            const foundRecord=await ThisRecordObjModel.findById(recordId)
-            const authorId=foundRecord._id;
-            const userCanEdit=authEditThisRecord(req,res,authorId)
-            if(userCanEdit){
-                foundRecord.namePrefix = record.namePrefix;
-                foundRecord.givenName = record.givenName;
-                foundRecord.middleName = record.middleName;
-                foundRecord.familyName = record.familyName;
-                foundRecord.nameSuffix = record.nameSuffix;
-                foundRecord.email = record.email;
-                foundRecord.handle = record.handle;
-                foundRecord.photoURL=record.photoURL;
-                foundRecord.certURL = record.certURL;
-                foundRecord.certName = record.certName;
-                foundRecord.verified = record.verified;
-                try {
-                    await foundRecord.save();
-                    res.json(foundRecord);
-                } catch (errs) {
-                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+    try {
+        const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+        if(ssValResult){
+            try {
+                const foundRecord=await ThisRecordObjModel.findById(recordId)
+                const authorId=foundRecord._id;
+                const userCanEdit=authEditThisRecord(req,res,authorId)
+                if(userCanEdit){
+                    foundRecord.namePrefix = record.namePrefix;
+                    foundRecord.givenName = record.givenName;
+                    foundRecord.middleName = record.middleName;
+                    foundRecord.familyName = record.familyName;
+                    foundRecord.nameSuffix = record.nameSuffix;
+                    foundRecord.email = record.email;
+                    foundRecord.handle = record.handle;
+                    foundRecord.photoURL=record.photoURL;
+                    foundRecord.certURL = record.certURL;
+                    foundRecord.certName = record.certName;
+                    foundRecord.verified = record.verified;
+                    try {
+                        await foundRecord.save();
+                        res.json(foundRecord);
+                    } catch (errs) {
+                        res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+                    }
+                }else{
+                    res.status(401).json([{all:`You do not have access to edit this ${typeOfRecordToChange}`}]);
                 }
-            }else{return}
-        } catch (errs) {
-            res.status(404).json([{all:`${typeOfRecordToChange} not found, it might have already been deleted`}])
-        }
-    }else{return};
+            } catch (errs) {
+                res.status(500).json([{all:`${typeOfRecordToChange} not found, it might have already been deleted`}])
+            }
+        }else{return};
+    } catch (errs) {
+        res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
+    }
 });
 router.post('/add',auth,async(req,res)=>{
     const record=req.body;
@@ -73,36 +79,48 @@ router.post('/add',auth,async(req,res)=>{
         if(existingUser){
             res.status(400).json([{all:`User already registered.`}]);
         }else{
-            const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
-            if(ssValResult){
-                const newRecord=new ThisRecordObjModel({
-                    namePrefix : record.namePrefix,
-                    givenName : record.givenName,
-                    middleName : record.middleName,
-                    familyName : record.familyName,
-                    nameSuffix : record.nameSuffix,
-                    email : email,
-                    password:record.password,
-                    handle : record.handle,
-                    photoURL:record.photoURL,
-                    certURL : record.certURL,
-                    certName : record.certName,
-                    verified : record.verified
-                });
-                const salt = await bcrypt.genSalt(10);
-                newRecord.password=await bcrypt.hash(newRecord.password,salt)
-                try {
-                    await newRecord.save();
-                    const newRecordSansPWord=_.pick(newRecord,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","photoURL","certURL","certName","verified","isAdmin","createdAt","updatedAt"]);
-                    const token=jwt.sign({newRecordSansPWord},config.get('jwtPrivateKey'));
-                    res
-                        .header('x-auth-token',token)
-                        .header('access-control-expose-headers','x-auth-token')
-                        .json(newRecordSansPWord);
-                } catch (errs) {
-                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
-                }
-            }else{return}
+            try {
+                const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
+                if(ssValResult){
+                    const newRecord=new ThisRecordObjModel({
+                        namePrefix : record.namePrefix,
+                        givenName : record.givenName,
+                        middleName : record.middleName,
+                        familyName : record.familyName,
+                        nameSuffix : record.nameSuffix,
+                        email : email,
+                        password:record.password,
+                        handle : record.handle,
+                        photoURL:record.photoURL,
+                        certURL : record.certURL,
+                        certName : record.certName,
+                        verified : record.verified
+                    });
+                    try {
+                        const salt = await bcrypt.genSalt(10);
+                        try {
+                            newRecord.password=await bcrypt.hash(newRecord.password,salt)
+                            try {
+                                await newRecord.save();
+                                const newRecordSansPWord=_.pick(newRecord,["_id","namePrefix","givenName","middleName","familyName","nameSuffix","email","handle","photoURL","certURL","certName","verified","isAdmin","createdAt","updatedAt"]);
+                                const token=jwt.sign({newRecordSansPWord},config.get('jwtPrivateKey'));
+                                res
+                                    .header('x-auth-token',token)
+                                    .header('access-control-expose-headers','x-auth-token')
+                                    .json(newRecordSansPWord);
+                            } catch (errs) {
+                                res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+                            }
+                        } catch (errs) {
+                            res.status(500).json([{all:`Hash failed, refresh, wait a moment and try again`}])
+                        }
+                    } catch (errs) {
+                        res.status(500).json([{all:`Salt failed, refresh, wait a moment and try again`}])
+                    } 
+                }else{return}
+            } catch (errs) {
+                res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
+            }
         }
     } catch (errs) {
         res.status(500).json([{all:`Email lookup failed, refresh, wait a moment and try again`}])

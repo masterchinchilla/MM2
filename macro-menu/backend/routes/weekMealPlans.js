@@ -24,7 +24,7 @@ router.get('/',async(req, res)=>{
         const matchingRecords=await ThisRecordObjModel.find().populate("GRFUser");
         res.json(matchingRecords);
     } catch (errs) {
-        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 })
 router.get('/findbyname/:name',async(req, res)=>{
@@ -33,7 +33,7 @@ router.get('/findbyname/:name',async(req, res)=>{
         const searchByNameResult=matchingRecord?"exists":"ok";
         res.json(searchByNameResult);
     } catch (errs) {
-        res.status(400).json([{all:`Lookup by name failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Lookup by name failed, refresh, wait a moment and try again`}])
     }
 })
 router.get('/wmpsofthisuser/:id',async(req, res) => {
@@ -41,7 +41,7 @@ router.get('/wmpsofthisuser/:id',async(req, res) => {
         const wmps=await ThisRecordObjModel.find({GRFUser: req.params.id}).populate("GRFUser");
         res.json(wmps)
     } catch (errs) {
-        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.post('/add',auth,async(req, res) => {
@@ -77,7 +77,7 @@ router.post('/add',auth,async(req, res) => {
         await newWeekMealPlan.save();
         res.json(newWeekMealPlan);
     } catch (errs) {
-        res.status(400).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
     }
 })
 //NOTE on get record get: frontend expects to recieve an array, but findById returns an object, so need to nest result in an array;
@@ -86,7 +86,7 @@ router.get('/:id',async(req,res)=>{
         const matchingRecord=await ThisRecordObjModel.findById(req.params.id).populate("GRFUser");
         res.json([matchingRecord]);
     } catch (errs) {
-        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 })
 router.delete('/:id',auth,async(req,res)=>{
@@ -107,6 +107,8 @@ router.delete('/:id',auth,async(req,res)=>{
                     } catch (errs) {
                         res.status(500).json([{all:`Server error, refresh, wait a moment and try again`}]);
                     }
+                }else{
+                    res.status(401).json([{all:`You do not have access to delete this ${typeOfRecordToChange}`}]);
                 }
             } catch (errs) {
                 res.status(500).json([{all:`Record lookup failed, refresh, wait a moment and try again`}]);
@@ -119,37 +121,43 @@ router.delete('/:id',auth,async(req,res)=>{
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
     const recordId=req.params.id;
-    const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
-    if(ssValResult){
-        try {
-            const foundRecord=await ThisRecordObjModel.findById(recordId).populate("GRFUser");
-            const authorId=foundRecord.GRFUser._id;
-            const userCanEdit=authEditThisRecord(req,res,authorId)
-            if(userCanEdit){
-                foundRecord.name=record.name;
-                foundRecord.GRFUser=record.GRFUser._id;
-                foundRecord.breakfastWeight=record.breakfastWeight;
-                foundRecord.snack1Weight=record.snack1Weight;
-                foundRecord.lunchWeight=record.lunchWeight;
-                foundRecord.snack2Weight=record.snack2Weight;
-                foundRecord.dinnerWeight=record.dinnerWeight;
-                foundRecord.dessertWeight=record.dessertWeight;
-                foundRecord.calsBudget=record.calsBudget;
-                foundRecord.carbsBudget=record.carbsBudget;
-                foundRecord.proteinBudget=record.proteinBudget;
-                foundRecord.fatBudget=record.fatBudget;
-                foundRecord.fiberBudget=record.fiberBudget;
-                try {
-                    await foundRecord.save();
-                    res.json("success");
-                } catch (errs) {
-                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+    try {
+        const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+        if(ssValResult){
+            try {
+                const foundRecord=await ThisRecordObjModel.findById(recordId).populate("GRFUser");
+                const authorId=foundRecord.GRFUser._id;
+                const userCanEdit=authEditThisRecord(req,res,authorId)
+                if(userCanEdit){
+                    foundRecord.name=record.name;
+                    foundRecord.GRFUser=record.GRFUser._id;
+                    foundRecord.breakfastWeight=record.breakfastWeight;
+                    foundRecord.snack1Weight=record.snack1Weight;
+                    foundRecord.lunchWeight=record.lunchWeight;
+                    foundRecord.snack2Weight=record.snack2Weight;
+                    foundRecord.dinnerWeight=record.dinnerWeight;
+                    foundRecord.dessertWeight=record.dessertWeight;
+                    foundRecord.calsBudget=record.calsBudget;
+                    foundRecord.carbsBudget=record.carbsBudget;
+                    foundRecord.proteinBudget=record.proteinBudget;
+                    foundRecord.fatBudget=record.fatBudget;
+                    foundRecord.fiberBudget=record.fiberBudget;
+                    try {
+                        await foundRecord.save();
+                        res.json("success");
+                    } catch (errs) {
+                        res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+                    }
+                }else{
+                    res.status(401).json([{all:`You do not have access to edit this ${typeOfRecordToChange}`}]);
                 }
-            }else{return}
-        } catch (errs) {
-            res.status(404).json([{all:`${typeOfRecordToChange}not found, it might have already been deleted`}])
-        }
-    }else{return};
+            } catch (errs) {
+                res.status(500).json([{all:`${typeOfRecordToChange}not found, it might have already been deleted`}])
+            }
+        }else{return};
+    } catch (errs) {
+       res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}]) 
+    } 
 })
 router.post('/copy/:id',auth,async(req,res)=>{
     const origWMPId=req.params.id;

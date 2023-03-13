@@ -27,7 +27,7 @@ router.get('/daysofthiswmp/:id',async(req, res)=>{
         })
         res.json(matchingRecords);
     } catch (errs) {
-        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.get('/:id',async(req, res)=>{
@@ -42,7 +42,7 @@ router.get('/:id',async(req, res)=>{
             })
         res.json(matchingRecord);
     } catch (errs) {
-        res.status(400).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.post('/add',auth,async(req,res)=>{
@@ -50,20 +50,25 @@ router.post('/add',auth,async(req,res)=>{
     const parentRecordAuthorId=weekMealPlan.GRFUser._id;
     const authorId=req.currentGRFUser._id;
     if(parentRecordAuthorId===authorId){
-        const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
-        if(ssValResult){
-            const newRecord=new ThisRecordObjModel({
-                name:name,
-                dayOfWeek:dayOfWeek._id,
-                weekMealPlan:weekMealPlan._id,
-            });
-            try {
-                await newRecord.save();
-                res.json(newRecord);
-            } catch (errs) {
-                res.status(401).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}]);
-            }
-        }else{return}; 
+        try {
+            const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
+            if(ssValResult){
+                const newRecord=new ThisRecordObjModel({
+                    name:name,
+                    dayOfWeek:dayOfWeek._id,
+                    weekMealPlan:weekMealPlan._id,
+                });
+                try {
+                    await newRecord.save();
+                    res.json(newRecord);
+                } catch (errs) {
+                    res.status(400).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}]);
+                }
+            }else{return}; 
+        } catch (errs) {
+            res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
+        }
+        
     }else{
         res.status(401).json([{all:`You do not have access to add ${typeOfRecordToChange}s to this ${parentTypeOfRecord}`}]);
     }
@@ -92,6 +97,8 @@ router.delete('/:id',auth,async(req,res)=>{
                     } catch (errs) {
                         res.status(500).json([{all:`Server error, refresh, wait a moment and try again`}]);
                     }
+                }else{
+                    res.status(401).json([{all:`You do not have access to delete this ${parentTypeOfRecord}`}]);
                 }
             } catch (errs) {
                 res.status(500).json([{all:`Server error, refresh, wait a moment and try again`}]);

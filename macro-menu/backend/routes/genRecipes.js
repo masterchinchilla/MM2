@@ -18,7 +18,7 @@ router.get('/',async(req, res)=>{
             .populate('availableMealType')
         res.json(matchingRecords);
     } catch (errs) {
-        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.get('/:id',async(req, res)=>{
@@ -28,7 +28,7 @@ router.get('/:id',async(req, res)=>{
             .populate('availableMealType')
         res.json(matchingRecord);
     } catch (errs) {
-        res.status(400).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.get('/findbyname/:name',async(req, res)=>{
@@ -37,56 +37,66 @@ router.get('/findbyname/:name',async(req, res)=>{
         const searchByNameResult=matchingRecord?"exists":"ok";
         res.json(searchByNameResult);
     } catch (errs) {
-        res.status(400).json([{all:`Lookup by name failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Lookup by name failed, refresh, wait a moment and try again`}])
     }
 });
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
     const recordId=req.params.id;
-    const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
-    if(ssValResult){
-        try {
-            const foundRecord=await ThisRecordObjModel.findById(recordId)
-                .populate('GRFUser')
-            const authorId=foundRecord.GRFUser._id;
-            const userCanEdit=authEditThisRecord(req,res,authorId)
-            if(userCanEdit){
-                foundRecord.name=record.name;
-                foundRecord.availableMealType=record.availableMealType._id;
-                foundRecord.GRFUser=record.GRFUser._id;
-                foundRecord.defaultPrepInstructions=record.defaultPrepInstructions;
-                foundRecord.photoURL=record.photoURL;
-                try {
-                    await foundRecord.save();
-                    res.json("success");
-                } catch (errs) {
-                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+    try {
+        const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
+        if(ssValResult){
+            try {
+                const foundRecord=await ThisRecordObjModel.findById(recordId)
+                    .populate('GRFUser')
+                const authorId=foundRecord.GRFUser._id;
+                const userCanEdit=authEditThisRecord(req,res,authorId)
+                if(userCanEdit){
+                    foundRecord.name=record.name;
+                    foundRecord.availableMealType=record.availableMealType._id;
+                    foundRecord.GRFUser=record.GRFUser._id;
+                    foundRecord.defaultPrepInstructions=record.defaultPrepInstructions;
+                    foundRecord.photoURL=record.photoURL;
+                    try {
+                        await foundRecord.save();
+                        res.json("success");
+                    } catch (errs) {
+                        res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+                    }
+                }else{
+                    res.status(401).json([{all:`You do not have access to edit this ${typeOfRecordToChange}`}]);
                 }
-            }else{return}
-        } catch (errs) {
-            res.status(404).json([{all:`${typeOfRecordToChange} not found, it might have already been deleted`}])
-        }
-    }else{return};
+            } catch (errs) {
+                res.status(500).json([{all:`${typeOfRecordToChange} not found, it might have already been deleted`}])
+            }
+        }else{return};
+    } catch (errs) {
+        res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
+    }
 });
 router.post('/add',auth,async(req,res)=>{
     const authorId=req.currentGRFUser._id;
     const record=req.body;
-    const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
-    if(ssValResult){
-        const newRecord=new ThisRecordObjModel({
-            name:record.name,
-            availableMealType:record.availableMealType._id,
-            GRFUser: authorId,
-            defaultPrepInstructions:record.defaultPrepInstructions,
-            photoURL:record.photoURL
-        });
-        try {
-            await newRecord.save();
-            res.json(newRecord);
-        } catch (errs) {
-            res.status(400).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
-        }
-    }else{return}; 
+    try {
+       const ssValResult=await ssValidate2(typeOfRecordToChange, req.body, req, res);
+        if(ssValResult){
+            const newRecord=new ThisRecordObjModel({
+                name:record.name,
+                availableMealType:record.availableMealType._id,
+                GRFUser: authorId,
+                defaultPrepInstructions:record.defaultPrepInstructions,
+                photoURL:record.photoURL
+            });
+            try {
+                await newRecord.save();
+                res.json(newRecord);
+            } catch (errs) {
+                res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+            }
+        }else{return}; 
+    } catch (errs) {
+        res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
+    }
 });
 module.exports=router;
 

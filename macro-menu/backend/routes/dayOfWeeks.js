@@ -9,7 +9,7 @@ router.get('/',(req, res)=>{
         const matchingRecords=ThisRecordObjModel.find().populate(`GRFUser`);
         res.json(matchingRecords);
     } catch (errs) {
-        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 });
 module.exports=router;
