@@ -1,9 +1,15 @@
 const router = require('express').Router();
-const { response } = require('express');
-let MealType = require('../models/mealType.model');
-router.route('/').get((req, res)=>{
-    MealType.find()
-        .then(mealTypes=>res.json(mealTypes))
-        .catch(err=>res.status(400).json('Error: '+err));
+
+const MealType = require('../models/mealType.model');
+
+const ThisRecordObjModel=MealType;
+
+router.get('/',(req, res)=>{
+    try {
+        const matchingRecords=ThisRecordObjModel.find().populate(`GRFUser`);
+        res.json(matchingRecords);
+    } catch (errs) {
+        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+    }
 });
 module.exports=router;

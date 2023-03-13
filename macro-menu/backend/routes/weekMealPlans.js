@@ -24,7 +24,7 @@ router.get('/',async(req, res)=>{
         const matchingRecords=await ThisRecordObjModel.find().populate("GRFUser");
         res.json(matchingRecords);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 })
 router.get('/findbyname/:name',async(req, res)=>{
@@ -33,15 +33,18 @@ router.get('/findbyname/:name',async(req, res)=>{
         const searchByNameResult=matchingRecord?"exists":"ok";
         res.json(searchByNameResult);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+        res.status(400).json([{all:`Lookup by name failed, refresh, wait a moment and try again`}])
     }
 })
-router.route('/wmpsofthisuser/:id').get((req, res) => {
-    WeekMealPlan.find({GRFUser: req.params.id})
-        .then(wmps => res.json(wmps))
-        .catch(err => res.status(400).json('Error: ' + err));
+router.get('/wmpsofthisuser/:id',async(req, res) => {
+    try {
+        const wmps=await ThisRecordObjModel.find({GRFUser: req.params.id}).populate("GRFUser");
+        res.json(wmps)
+    } catch (errs) {
+        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+    }
 });
-router.route('/add').post((req, res) => {
+router.post('/add',auth,async(req, res) => {
     const name = req.body.name;
     const GRFUser = req.body.GRFUser._id;
     const breakfastWeight=req.body.breakfastWeight;
@@ -70,18 +73,20 @@ router.route('/add').post((req, res) => {
         fatBudget,
         fiberBudget,
     });
-    newWeekMealPlan.save()
-        .then(() => res.json(newWeekMealPlan))
-        .catch(err => res.status(400).json('Error: ' + err));
+    try {
+        await newWeekMealPlan.save();
+        res.json(newWeekMealPlan);
+    } catch (errs) {
+        res.status(400).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+    }
 })
 //NOTE on get record get: frontend expects to recieve an array, but findById returns an object, so need to nest result in an array;
 router.get('/:id',async(req,res)=>{
     try {
-        const matchingRecord=await ThisRecordObjModel.findById(req.params.id)
-            .populate("GRFUser")
+        const matchingRecord=await ThisRecordObjModel.findById(req.params.id).populate("GRFUser");
         res.json([matchingRecord]);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 })
 router.delete('/:id',auth,async(req,res)=>{
@@ -89,7 +94,7 @@ router.delete('/:id',auth,async(req,res)=>{
     try {
         const connectedRecords=await ChildRecordObjModel.find({[typeOfRecordToChange]:recordId});
         if(connectedRecords.length>0){
-            res.status(400).json({ok:false,valErrorsArray:[{all:`Cannot delete: Remove connected children (${typesOfChildRecords}) before attempting to delete ${typeOfRecordToChange}`}]});
+            res.status(400).json([{all:`Cannot delete: Remove connected children (${typesOfChildRecords}) before attempting to delete ${typeOfRecordToChange}`}]);
         }else{
             try {
                 const thisRecord=await ThisRecordObjModel.findById(recordId);
@@ -98,18 +103,17 @@ router.delete('/:id',auth,async(req,res)=>{
                 if(userCanEdit){
                     try {
                         await ThisRecordObjModel.findByIdAndDelete(recordId);
-                        res.status(200).json({ok:true,message:`Record successfully deleted`});
+                        res.status(200).json(`Record successfully deleted`);
                     } catch (errs) {
-                        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+                        res.status(500).json([{all:`Server error, refresh, wait a moment and try again`}]);
                     }
                 }
             } catch (errs) {
-                res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+                res.status(500).json([{all:`Record lookup failed, refresh, wait a moment and try again`}]);
             }
         }
     } catch (errs) {
-        console.log(errs);
-        res.status(500).json({ok:false,valErrorsArray:[{all:`Server error, refresh, wait a moment and try again`}]});
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}]);
     }
 });
 router.put('/update/:id',auth,async(req,res)=>{
@@ -137,13 +141,13 @@ router.put('/update/:id',auth,async(req,res)=>{
                 foundRecord.fiberBudget=record.fiberBudget;
                 try {
                     await foundRecord.save();
-                    res.json({ok:true,msg:"success"});
+                    res.json("success");
                 } catch (errs) {
-                    res.status(500).json({ok:false,valErrorsArray:[{all:`Record save to DB failed, refresh, wait a moment and try again`}]})
+                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
                 }
             }else{return}
         } catch (errs) {
-            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange}not found, it might have already been deleted`}]})
+            res.status(404).json([{all:`${typeOfRecordToChange}not found, it might have already been deleted`}])
         }
     }else{return};
 })
@@ -270,7 +274,7 @@ router.post('/copy/:id',auth,async(req,res)=>{
             }
         }
     }
-    res.json({ok:true,wmpCopy:savedNewWMP})
+    res.json(savedNewWMP)
 })
 
 module.exports = router;

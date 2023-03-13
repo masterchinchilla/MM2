@@ -281,7 +281,7 @@ class NewNewWeekMealPlan extends Component {
     } catch (errs) {
       //valErrorsNestedArray shape:
       //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs, "all");
+      valErrors = this.parseHTTPResErrs(errs);
       this.notifyOfErrors(valErrors);
     }
     return { stateObjsArray, valErrors };
@@ -307,7 +307,7 @@ class NewNewWeekMealPlan extends Component {
     } catch (errs) {
       //valErrorsNestedArray shape:
       //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      let valErrors = this.parseHTTPResErrs(errs, "all");
+      let valErrors = this.parseHTTPResErrs(errs);
       this.notifyOfErrors(valErrors);
       thisGenRcpsGenRcpIngrdnts = [];
     }
@@ -440,7 +440,7 @@ class NewNewWeekMealPlan extends Component {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
       return backEndReqResponse.data;
     } catch (errs) {
-      const valErrors = this.parseHTTPResErrs(errs, "all");
+      const valErrors = this.parseHTTPResErrs(errs);
       this.notifyOfErrors(valErrors);
       return [];
     }
@@ -542,20 +542,13 @@ class NewNewWeekMealPlan extends Component {
     let wmpCopyReqResult;
     try {
       wmpCopyReqResult = await httpService.post(backEndReqUrl);
+      const savedWMPCopyId = wmpCopyReqResult.data._id;
+      window.location = `/weekMealPlansNewNew/edit/${savedWMPCopyId}/true`;
     } catch (errs) {
       this.notifyFn("WMP copy failed, refresh and try again.", "error");
       state = this.handleExitFormEdit(state, false);
       state.copyingWMP = false;
       this.setState(state);
-    }
-    if (!wmpCopyReqResult.data.ok) {
-      this.notifyFn("WMP copy failed, refresh and try again.", "error");
-      state = this.handleExitFormEdit(state, false);
-      state.copyingWMP = false;
-      this.setState(state);
-    } else {
-      const savedWMPCopyId = wmpCopyReqResult.data.wmpCopy._id;
-      window.location = `/weekMealPlansNewNew/edit/${savedWMPCopyId}/true`;
     }
   };
   componentDidMount() {
@@ -672,7 +665,7 @@ class NewNewWeekMealPlan extends Component {
     } catch (errs) {
       // valErrorsNestedArray shape:
       // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs, "all");
+      valErrors = this.parseHTTPResErrs(errs);
       this.notifyOfErrors(valErrors);
     }
     return { savedRecord, valErrors };
@@ -1445,7 +1438,6 @@ class NewNewWeekMealPlan extends Component {
     typeOfRecordToUpdate,
     updatedRecordFromState
   ) => {
-    console.log(updatedRecordFromState);
     const url = `${this.state.backEndHtmlRoot}${typeOfRecordToUpdate}s/update/${updatedRecordFromState._id}`;
     let valErrors = [];
     try {
@@ -1455,6 +1447,7 @@ class NewNewWeekMealPlan extends Component {
       // valErrorsNestedArray shape:
       // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
       valErrors = this.parseHTTPResErrs(errs);
+      this.notifyOfErrors(valErrors);
     }
     return valErrors;
   };
@@ -1468,7 +1461,7 @@ class NewNewWeekMealPlan extends Component {
     } catch (errs) {
       //valErrorsNestedArray shape:
       //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      let valErrors = this.parseHTTPResErrs(errs, "all");
+      let valErrors = this.parseHTTPResErrs(errs);
       this.notifyOfErrors(valErrors);
       deleteOk = false;
     }

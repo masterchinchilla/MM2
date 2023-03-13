@@ -56,7 +56,7 @@ router.get('/:id',async(req, res)=>{
             })
         res.json(matchingRecord);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+       res.status(400).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.get('/thisGenRecipesGenRecipeIngredients/:id',async(req, res)=>{
@@ -103,7 +103,7 @@ router.get('/thisGenRecipesGenRecipeIngredients/:id',async(req, res)=>{
             })
         res.json(matchingRecords);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+        res.status(400).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.put('/update/:id',auth,async(req,res)=>{
@@ -127,13 +127,13 @@ router.put('/update/:id',auth,async(req,res)=>{
                 foundRecord.genRecipe=record.genRecipe._id
                 try {
                     await foundRecord.save();
-                    res.json({ok:true,msg:"success"});
+                    res.json("success");
                 } catch (errs) {
-                    res.status(500).json({ok:false,valErrorsArray:[{all:`Record save to DB failed, refresh, wait a moment and try again`}]})
+                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
                 }
             }else{return}
         } catch (errs) {
-            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange} not found, it might have already been deleted`}]})
+            res.status(404).json([{all:`${typeOfRecordToChange} not found, it might have already been deleted`}])
         }
     }else{return};
 });
@@ -155,11 +155,11 @@ router.post('/add',auth,async(req,res)=>{
                 await newRecord.save();
                 res.json(newRecord);
             } catch (errs) {
-                res.status(400).json('Error: '+errs)
+                res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
             }
         }else{return}; 
     }else{
-        res.status(401).json({ok:false,errorMsg:"You do not have access to add Ingredients to this Recipe"});
+        res.status(401).json([{all:`You do not have access to add ${typeOfRecordToChange} to this ${parentTypeOfRecord}`}]);
     }
 });
 

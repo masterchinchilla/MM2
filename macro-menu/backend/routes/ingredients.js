@@ -37,7 +37,7 @@ router.get('/:id',async(req, res)=>{
             })
         res.json(matchingRecord);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+        res.status(400).json([{all:`Record lookup failed, refresh, wait a moment and try again`}])
     }
 });
 router.get('/ingredientsByName/:name',async(req,res)=>{
@@ -64,7 +64,7 @@ router.get('/ingredientsByName/:name',async(req,res)=>{
             })
         res.json(matchingRecords);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+        res.status(400).json([{all:`Lookup by name failed, refresh, wait a moment and try again`}])
     }
 });
 router.get('/findbyname/:name',async(req, res)=>{
@@ -73,25 +73,19 @@ router.get('/findbyname/:name',async(req, res)=>{
         const searchByNameResult=matchingRecord?"exists":"ok";
         res.json(searchByNameResult);
     } catch (errs) {
-        res.status(400).json('Errors: ' + errs)
+        res.status(400).json([{all:`Lookup by name failed, refresh, wait a moment and try again`}])
     }
 });
 router.put('/update/:id',auth,async(req,res)=>{
     const record=req.body;
-    console.log(record)
     const recordId=req.params.id;
-    console.log(recordId)
     const ssValResult=await ssValidate2(typeOfRecordToChange, record, req, res);
-    console.log(ssValResult)
     if(ssValResult){
         try {
             const foundRecord=await ThisRecordObjModel.findById(recordId)
                 .populate('GRFUser')
-                console.log(foundRecord);
             const authorId=foundRecord.GRFUser._id;
-            console.log(authorId)
             const userCanEdit=authEditThisRecord(req,res,authorId)
-            console.log(userCanEdit)
             if(userCanEdit){
                 foundRecord.name=record.name;
                 foundRecord.calories=record.calories;
@@ -106,13 +100,13 @@ router.put('/update/:id',auth,async(req,res)=>{
                 foundRecord.brand=record.brand?record.brand._id:defaultBrand;
                 try {
                     await foundRecord.save();
-                    res.json({ok:true,msg:"success"});
+                    res.json("success");
                 } catch (errs) {
-                    res.status(500).json({ok:false,valErrorsArray:[{all:`Record save to DB failed, refresh, wait a moment and try again`}]})
+                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
                 }
             }else{return}
         } catch (errs) {
-            res.status(404).json({ok:false,valErrorsArray:[{all:`${typeOfRecordToChange} not found, it might have already been deleted`}]})
+            res.status(404).json([{all:`${typeOfRecordToChange} not found, it might have already been deleted`}])
         }
     }else{return};
 });
@@ -138,7 +132,7 @@ router.post('/add',auth,async(req,res)=>{
             await newRecord.save();
             res.json(newRecord);
         } catch (errs) {
-            res.status(400).json('Error: '+errs)
+            res.status(400).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
         }
     }else{return}; 
 });
