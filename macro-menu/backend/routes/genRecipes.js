@@ -13,7 +13,7 @@ const ThisRecordObjModel=GenRecipe;
 
 router.get('/',async(req, res)=>{
     try {
-        const matchingRecords=await ThisRecordObjModel.find()
+        const matchingRecords=await ThisRecordObjModel.find("")
             .populate('GRFUser')
             .populate('availableMealType')
         res.json(matchingRecords);

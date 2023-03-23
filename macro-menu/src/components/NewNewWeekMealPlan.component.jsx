@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import httpService from "../services/httpService";
+import apiService from "../services/apiService";
 import { getCurrentUser } from "../services/authService";
 import { csValidateObj } from "../services/validationService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -272,6 +273,13 @@ class NewNewWeekMealPlan extends Component {
     let stateObjsArray = [];
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
+      // const backEndReqResponse = await apiService(
+      //   "get",
+      //   typeOfRecordToGet,
+      //   "all",
+      //   null,
+      //   null
+      // );
       const recordsArray = backEndReqResponse.data;
       stateObjsArray = this.assembleStateObjWNewRcrd(
         recordsArray,
@@ -303,6 +311,13 @@ class NewNewWeekMealPlan extends Component {
       let genRcpsIngrdntsReqResult = await httpService.get(
         recipeIngrdntsReqURL
       );
+      // let genRcpsIngrdntsReqResult = await apiService(
+      //   "get",
+      //   "genRecipeIngredient",
+      //   "genRecipe",
+      //   thisMealGenRecipeId,
+      //   null
+      // );
       thisGenRcpsGenRcpIngrdnts = genRcpsIngrdntsReqResult.data;
     } catch (errs) {
       //valErrorsNestedArray shape:
@@ -438,7 +453,15 @@ class NewNewWeekMealPlan extends Component {
     const backEndReqUrl = `${backEndHtmlRoot}${typeOfRecordToChange}s/`;
     try {
       const backEndReqResponse = await httpService.get(backEndReqUrl);
-      return backEndReqResponse.data;
+      // const backEndReqResponse = await apiService(
+      //   "get",
+      //   typeOfRecordToChange,
+      //   "all",
+      //   null,
+      //   null
+      // );
+      const fullRecordSet = backEndReqResponse.data;
+      return fullRecordSet;
     } catch (errs) {
       const valErrors = this.parseHTTPResErrs(errs);
       this.notifyOfErrors(valErrors);
@@ -542,6 +565,13 @@ class NewNewWeekMealPlan extends Component {
     let wmpCopyReqResult;
     try {
       wmpCopyReqResult = await httpService.post(backEndReqUrl);
+      // wmpCopyReqResult = await apiService(
+      //   "copy",
+      //   "weekMealPlan",
+      //   null,
+      //   origWMPId,
+      //   null
+      // );
       const savedWMPCopyId = wmpCopyReqResult.data._id;
       window.location = `/weekMealPlansNewNew/edit/${savedWMPCopyId}/true`;
     } catch (errs) {
@@ -657,6 +687,13 @@ class NewNewWeekMealPlan extends Component {
     let valErrors = [];
     try {
       let reqRes = await httpService.post(reqUrl, newRecordToSave);
+      // let reqRes = await apiService(
+      //   "add",
+      //   typeOfRecordToCreate,
+      //   null,
+      //   null,
+      //   newRecordToSave
+      // );
       savedRecord = reqRes.data;
       let typeOfRcrdToCreateSntcCase =
         rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
@@ -1442,6 +1479,13 @@ class NewNewWeekMealPlan extends Component {
     let valErrors = [];
     try {
       await httpService.put(url, updatedRecordFromState);
+      // await apiService(
+      //   "update",
+      //   typeOfRecordToUpdate,
+      //   null,
+      //   updatedRecordFromState._id,
+      //   updatedRecordFromState
+      // );
       this.notifyFn("Record updated successfully", "success");
     } catch (errs) {
       // valErrorsNestedArray shape:
@@ -1456,6 +1500,13 @@ class NewNewWeekMealPlan extends Component {
     let deleteOk;
     try {
       await httpService.delete(url, idOfRecordToDelete);
+      // await apiService(
+      //   "delete",
+      //   typeOfRecordToDelete,
+      //   null,
+      //   idOfRecordToDelete,
+      //   null
+      // );
       deleteOk = true;
       this.notifyFn("Record deleted successfully", "success");
     } catch (errs) {
