@@ -1,6 +1,10 @@
 const Joi =require("joi");
+
 const valSchema=require("../ssStaticRefs/universalJoiValSchemaSS");
+
 const {rcrdOrFldNameCaseValPrpTypNPropObjMod} =require( "../ssStaticRefs/rcrdOrFldNameCaseValPrpTypNPropObjMod");
+const {rcrdKeysToExcldFrmUpdtOrAdd} =require( "../ssStaticRefs/rcrdKeysToExcldFrmUpdtOrAdd");
+
 function ssValidateProp(propName, value, propTypeForVal) {
     const rule = valSchema.extract(propTypeForVal);
     const subSchema = Joi.object({ [propName]: rule });
@@ -27,31 +31,29 @@ async function ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req
                         res.status(500).json([{all:`Server error, refresh, wait a moment and try again`}]);
                     }
                 }; 
-        }else if(
-            thisPropsName==="createdAt"||
-            thisPropsName==="updatedAt"||
-            thisPropsName==="_id"||
-            thisPropsName==="__v"
-        ){}else{
-            let thisPropsErrs=[];
-            let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
-            if(thisPropsValError){thisPropsErrs.push(thisPropsValError)};
-            if(thisPropsName==="name"&&objTypeSnglrSntncCase!=="Day"){
-                let matchingRecords=[];
-                try {
-                    matchingRecords=await PropObjModel.find({name:thisPropsValue});
-                } catch (error) {
-                    res.status(500).json([{all:"Server error - please try again in a moment"}])
-                }
-                let nameError;
-                for(let i=0;i<matchingRecords.length;i++){
-                    console.log(matchingRecords[i]._id.equals(recordId));
-                        if(!(matchingRecords[i]._id.equals(recordId))){
-                            nameError=`Another ${objTypeSnglrSntncCase} is already using that name`}
+        }else{
+            let MatchingKeyValsToExcldFrmUpdt=rcrdKeysToExcldFrmUpdtOrAdd.filter(keyToExcld=>keyToExcld===thisPropsName);
+            if(MatchingKeyValsToExcldFrmUpdt.length<1){
+                let thisPropsErrs=[];
+                let thisPropsValError=ssValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal);
+                if(thisPropsValError){thisPropsErrs.push(thisPropsValError)};
+                if(thisPropsName==="name"&&objTypeSnglrSntncCase!=="Day"){
+                    let matchingRecords=[];
+                    try {
+                        matchingRecords=await PropObjModel.find({name:thisPropsValue});
+                    } catch (error) {
+                        res.status(500).json([{all:"Server error - please try again in a moment"}])
                     }
-                if(nameError){thisPropsErrs.push(nameError)};
-            };
-            if(thisPropsErrs.length>0){valErrorsArray.push({[thisPropsName]:thisPropsErrs})};
+                    let nameError;
+                    for(let i=0;i<matchingRecords.length;i++){
+                        console.log(matchingRecords[i]._id.equals(recordId));
+                            if(!(matchingRecords[i]._id.equals(recordId))){
+                                nameError=`Another ${objTypeSnglrSntncCase} is already using that name`}
+                        }
+                    if(nameError){thisPropsErrs.push(nameError)};
+                };
+                if(thisPropsErrs.length>0){valErrorsArray.push({[thisPropsName]:thisPropsErrs})};
+            }
         }
     };
     if(valErrorsArray.length>0){  
@@ -82,9 +84,9 @@ async function ssValidate2(typeOfRecordToChange, recordToUpdate, req, res){
         };
         propsArray.push(thisPropObj)
     };
-return await ssValidateObject(typeOfRcrdToChngSntncCase, recordId, propsArray, req, res);
+    return await ssValidateObject(typeOfRcrdToChngSntncCase, recordId, propsArray, req, res);
 }
 async function ssValidate(objTypeSnglrSntncCase, recordId, propsArray, req, res){
-return await ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req, res)
+    return await ssValidateObject(objTypeSnglrSntncCase, recordId, propsArray, req, res)
 }
 module.exports= {ssValidateProp,ssValidate2,ssValidate};

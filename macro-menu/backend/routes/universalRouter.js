@@ -1,31 +1,12 @@
 const router = require('express').Router();
 
-const UnitOfMeasure=require('../models/unitOfMeasure.model');
-const WeightType=require('../models/weightType.model');
-const Brand=require('../models/brand.model');
-const GRFUserModel=require('../models/GRFUser.model');
-const GenRecipeIngredient=require('../models/genRecipeIngredient.model');
-const GenRecipe=require('../models/genRecipe.model');
-const Ingredient=require('../models/ingredient.model');
-const Meal=require('../models/meal.model');
-const Day=require('../models/day.model');
-const WeekMealPlan=require('../models/weekMealPlan.model');
-const MealIngredient=require('../models/mealIngredient.model');
-const DayOfWeek=require('../models/dayOfWeek.model');
-const MealType=require('../models/mealType.model');
-
 const auth = require('../middleware/auth');
 
-const authEditThisRecord=require('../backendServices/authorizeThisUserEditThisRecord');
 const {ssValidate2}=require('../backendServices/ssValidation');
 
 const {rcrdOrFldNameCaseValPrpTypNPropObjMod} =require( "../ssStaticRefs/rcrdOrFldNameCaseValPrpTypNPropObjMod");
-
-const typeOfRecordToChange="unitOfMeasure";
-
-const rcrdTypsWhichReqParentAuthorPrmssns=[
-    "meal","mealIngredient","day","genRecipeIngredient"
-]
+const {rcrdKeysToExcldFrmUpdtOrAdd} =require( "../ssStaticRefs/rcrdKeysToExcldFrmUpdtOrAdd");
+const {rcrdTypsWhichReqParentAuthorPrmssns} =require( "../ssStaticRefs/rcrdTypsWhichReqParentAuthorPrmssns");
 
 function dtrnmPrntRcrdProps(childRecordType,childRecord){
     let prntRcrdAthrId;
@@ -55,58 +36,354 @@ function hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal){
     if(srchParam!=="all"){dbSearchParamsObj={[srchParam]:srchParamVal}};
     return dbSearchParamsObj;
 }
-router.delete(`delete/:recordType/:id`,auth,async(req,res)=>{
-    console.log("deleted");
-});
-router.put(`update/:recordType/:id`,auth,async(req,res)=>{
-    console.log("updated");
-});
-router.post('add/:recordType',auth,async(req,res)=>{
-    const params=req.params;
-    const recordType=params.recordType?params.recordType:typeOfRecordToChange;
-    const receivedRecord=req.body;
-    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
-    const authorId=req.currentGRFUser._id;
+function updateRcrdWNewVals(recordToUpdate,reqBody){
+    const recordKeys = Object.keys(reqBody);
+    for(let i=0;i<recordKeys.length;i++){
+        let thisRecordKey=recordKeys[i];
+        let MatchingKeyValsToExcldFrmUpdt=rcrdKeysToExcldFrmUpdtOrAdd.filter(keyToExcld=>keyToExcld===thisRecordKey);
+        if(MatchingKeyValsToExcldFrmUpdt.length<1){
+            let thisRecordKeysPropType=rcrdOrFldNameCaseValPrpTypNPropObjMod[thisRecordKey]["propTypeForVal"];
+            if(thisRecordKeysPropType==="objRef"){
+                recordToUpdate[thisRecordKey]=reqBody[thisRecordKey]["_id"];
+            }else{
+                recordToUpdate[thisRecordKey]=reqBody[thisRecordKey]
+            }
+        }
+    }
+    return recordToUpdate;
+}
+async function findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj){
+    let matchingRecords;
+    switch(recordType){
+        case"day":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate("dayOfWeek")
+                .populate({
+                    path:'weekMealPlan',
+                    populate:{
+                        path:'GRFUser',
+                    }
+                })
+            break;
+        case"meal":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate({
+                    path:'day',
+                    populate:{
+                        path:'weekMealPlan',
+                        populate:'GRFUser'
+                    }
+                })
+                .populate({
+                    path: 'day',
+                    populate: { path: 'dayOfWeek' }
+                })
+                .populate('mealType')
+                .populate({
+                    path: 'genRecipe',
+                    populate: { path: 'GRFUser' }
+                })
+                .populate({
+                    path: 'genRecipe',
+                    populate: { path: 'availableMealType' }
+                })
+            break;
+        case "genRecipe":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate('GRFUser')
+                .populate('availableMealType')
+            break;
+        case"mealIngredient":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate({
+                    path: 'genRecipeIngredient',
+                    populate:{
+                        path: 'genRecipe',
+                        populate:{path:'availableMealType'}
+                    }
+                })
+                .populate({
+                    path: 'genRecipeIngredient',
+                    populate:{
+                        path: 'genRecipe',
+                        populate:{path:'GRFUser'}
+                    }
+                })
+                .populate({
+                    path: 'genRecipeIngredient',
+                    populate:{
+                        path: 'ingredient',
+                        populate:{path: 'unitOfMeasure'}
+                    }
+                })
+                .populate({
+                    path:'genRecipeIngredient',
+                    populate:{
+                        path:'ingredient',
+                        populate:{path:'weightType'}
+                    }
+                })
+                .populate({
+                    path:'genRecipeIngredient',
+                    populate:{
+                        path:'ingredient',
+                        populate:{path:'brand'}
+                    }
+                })
+                .populate({
+                    path:'genRecipeIngredient',
+                    populate:{
+                        path:'ingredient',
+                        populate:{path:'GRFUser'}
+                    }
+                })
+                .populate({
+                    path: 'meal',
+                    populate:{
+                        path: 'day',
+                        populate:{
+                            path:'weekMealPlan',
+                            populate:'GRFUser'
+                        }
+                    }
+                })
+                .populate({
+                    path: 'meal',
+                    populate:{
+                        path: 'genRecipe',
+                        populate:{path:'GRFUser'}
+                    }
+                })
+                .populate({
+                    path: 'meal',
+                    populate:{
+                        path: 'genRecipe',
+                        populate:{path:'availableMealType'}
+                    }
+                })
+                .populate({
+                    path: 'meal',
+                    populate:{
+                        path: 'mealType',
+                    }
+                })
+                .populate({
+                    path: 'meal',
+                    populate:{
+                        path: 'day',
+                        populate:{path:'dayOfWeek'}
+                    }
+                })
+            break;
+        case"genRecipeIngredient":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate({
+                    path: 'genRecipe',
+                    populate:{
+                        path: 'GRFUser',
+                    }
+                })
+                .populate({
+                    path: 'genRecipe',
+                    populate:{
+                        path: 'availableMealType',
+                    }
+                })
+                .populate({
+                    path: 'ingredient',
+                    populate:{
+                        path: 'GRFUser',
+                    }
+                })
+                .populate({
+                    path: 'ingredient',
+                    populate:{
+                        path: 'unitOfMeasure',
+                        populate:{path: 'GRFUser'}
+                    }
+                })
+                .populate({
+                    path:'ingredient',
+                    populate:{
+                        path:'weightType',
+                        populate:{path:'GRFUser'}
+                    }
+                })
+                .populate({
+                    path:'ingredient',
+                    populate:{
+                        path:'brand',
+                        populate:{path:'GRFUser'}
+                    }
+                })
+            break;
+        case"ingredient":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate('GRFUser')
+                .populate({
+                    path:'unitOfMeasure',
+                    populate:{
+                        path:'GRFUser',
+                    }
+                })
+                .populate({
+                    path:'weightType',
+                    populate:{
+                        path:'GRFUser',
+                    }
+                })
+                .populate({
+                    path:'brand',
+                    populate:{
+                        path:'GRFUser',
+                    }
+                })
+            break;
+        case"pantryItem":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate({
+                    path: 'ingredient',
+                    populate:{
+                        path: 'GRFUser',
+                    }
+                })
+                .populate({
+                    path: 'ingredient',
+                    populate:{
+                        path: 'unitOfMeasure',
+                        populate:{path: 'GRFUser'}
+                    }
+                })
+                .populate({
+                    path:'ingredient',
+                    populate:{
+                        path:'weightType',
+                        populate:{path:'GRFUser'}
+                    }
+                })
+                .populate({
+                    path:'ingredient',
+                    populate:{
+                        path:'brand',
+                        populate:{path:'GRFUser'}
+                    }
+                })
+                .populate('GRFUser')
+            break;
+        default:
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
+                .populate("GRFUser");
+    }
+    return matchingRecords;
+}
+function dtrmnIfUsrCanEditThisRcrd(recordType,thisRecord,requestorUsersId,res){
     const rcrdReqParentAuthorPrmssn=rcrdTypsWhichReqParentAuthorPrmssns.filter(rcrdTyp=>rcrdTyp===recordType);
-    let parentRcrdAthrOk=true;
+    let rcrdOfPrntRcrdAthrId;
+    let rcrdOrPrntRcrdAthrOk=true;
     let parentTypeOfRecord;
     if(rcrdReqParentAuthorPrmssn.length>0){
-        const prntRcrdProps=dtrnmPrntRcrdProps(recordType,receivedRecord);
-        const prntRcrdAthrId=prntRcrdProps.prntRcrdAthrId;
+        const prntRcrdProps=dtrnmPrntRcrdProps(recordType,thisRecord);
+        rcrdOfPrntRcrdAthrId=prntRcrdProps.prntRcrdAthrId;
         parentTypeOfRecord=prntRcrdProps.parentTypeOfRecord;
-        if(prntRcrdAthrId!==authorId){parentRcrdAthrOk=false};
+    }else{
+        rcrdOfPrntRcrdAthrId=thisRecord.GRFUser._id;
     }
-    if(parentRcrdAthrOk){
-        try {
-            const ssValResult=await ssValidate2(typeOfRecordToChange, receivedRecord, req, res);
-            if(ssValResult){
-                let recordToMake={};
-                const recordKeys = Object.keys(receivedRecord);
-                for(let i=0;i<recordKeys.length;i++){
-                    let thisRecordKey=recordKeys[i];
-                    let thisRecordKeysPropType=rcrdOrFldNameCaseValPrpTypNPropObjMod[thisRecordKey]["propTypeForVal"];
-                    if(thisRecordKeysPropType==="objRef"){
-                        recordToMake[thisRecordKey]=receivedRecord[thisRecordKey]["_id"];
-                    }else{
-                        recordToMake[thisRecordKey]=receivedRecord[thisRecordKey]
+    if(rcrdOfPrntRcrdAthrId!==requestorUsersId){rcrdOrPrntRcrdAthrOk=false};
+    if(!rcrdOrPrntRcrdAthrOk){
+        if(parentTypeOfRecord){
+            res.status(401).json([{all:`You do not have access to edit ${recordType}s under this ${parentTypeOfRecord}`}]);
+        }else{
+            res.status(401).json([{all:`You do not have access to edit under this ${recordType}`}]);
+        } 
+    }
+    return rcrdOrPrntRcrdAthrOk;
+}    
+router.delete(`delete/:recordType/:id`,auth,async(req,res)=>{
+    const {params,currentGRFUser}=req;
+    const {recordType,id}=params;
+    const recordId=id;
+    const requestorUsersId=currentGRFUser._id;
+    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
+    try {
+        const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId);
+        const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
+        const foundRecord=matchingRecords[0];
+        const rcrdOrPrntRcrdAthrOk=dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
+        if(!rcrdOrPrntRcrdAthrOk){return}else{
+            try {
+                await LocalObjModel.findByIdAndDelete(recordId);
+                res.status(200).json(`success`);
+            } catch (errs) {
+                res.status(500).json([{all:`Server error, refresh, wait a moment and try again`}]);
+            }
+        }
+    } catch (errs) {
+        res.status(500).json([{all:`${recordType} not found, it might have already been deleted`}])
+    }
+});
+router.put(`update/:recordType/:id`,auth,async(req,res)=>{
+    const {params,body,currentGRFUser}=req;
+    const {recordType,id}=params;
+    const recordId=id;
+    const requestorUsersId=currentGRFUser._id;
+    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
+    try {
+        const ssValResult=await ssValidate2(recordType, body, req, res);
+        if(ssValResult){
+            try {
+                const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId);
+                const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
+                const foundRecord=matchingRecords[0];
+                const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
+                if(!rcrdOrPrntRcrdAthrOk){return}else{
+                    try {
+                        await updateRcrdWNewVals(foundRecord,body).save();
+                        res.status(200).json(`success`);
+                    } catch (errs) {
+                        res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
                     }
                 }
-                const newRecord=new LocalObjModel(recordToMake);
-                try {
-                    await newRecord.save();
-                    res.json(newRecord);
-                } catch (errs) {
-                    res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+            } catch (errs) {
+                res.status(500).json([{all:`${recordType} not found, it might have already been deleted`}])
+            }
+        }else{return};
+    } catch (errs) {
+        res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
+    }
+});
+router.post('add/:recordType',auth,async(req,res)=>{
+    const {params,body,currentGRFUser}=req;
+    const {recordType}=params;
+    const requestorUsersId=currentGRFUser._id;
+    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
+    try {
+        const ssValResult=await ssValidate2(recordType, body, req, res);
+        if(ssValResult){
+            try {
+                const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,body,requestorUsersId,res)
+                if(!rcrdOrPrntRcrdAthrOk){return}else{
+                    const recordToUpdate=updateRcrdWNewVals({},body);
+                    const newRecord=new LocalObjModel(recordToUpdate);
+                    try {
+                        await newRecord.save();
+                        res.json(newRecord);
+                    } catch (errs) {
+                        res.status(500).json([{all:`Record save to DB failed, refresh, wait a moment and try again`}])
+                    }
                 }
-            }else{return}; 
-        } catch (errs) {
-            res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
-        }
-    }else{
-        res.status(401).json([{all:`You do not have access to add ${typeOfRecordToChange} to this ${parentTypeOfRecord}`}]);
+            } catch (errs) {
+                res.status(500).json([{all:`${recordType} not found, it might have already been deleted`}])
+            }
+        }else{return};
+    } catch (errs) {
+        res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
     }
 });
 router.post('copy/:recordType/:id',auth,async(req,res)=>{
+    const Meal=rcrdOrFldNameCaseValPrpTypNPropObjMod["meal"]["PropObjModel"];
+    const Day=rcrdOrFldNameCaseValPrpTypNPropObjMod["day"]["PropObjModel"];
+    const WeekMealPlan=rcrdOrFldNameCaseValPrpTypNPropObjMod["weekMealPlan"]["PropObjModel"];
+    const MealIngredient=rcrdOrFldNameCaseValPrpTypNPropObjMod["mealIngredient"]["PropObjModel"];
     const origWMPId=req.params.id;
     const thisGRFUser=req.currentGRFUser;
     let origWMP;
@@ -231,7 +508,7 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
     }
     res.json(savedNewWMP)
 })
-router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
+router.get(':recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
     const params=req.params;
     const recordType=params.recordType?params.recordType:typeOfRecordToChange;
     const srchParam=params.srchParam?params.srchParam:"all";
@@ -239,228 +516,12 @@ router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
     const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal);
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
-        let matchingRecords;
-        switch(recordType){
-            case"day":
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate("dayOfWeek")
-                    .populate({
-                        path:'weekMealPlan',
-                        populate:{
-                            path:'GRFUser',
-                        }
-                    })
-                break;
-            case"meal":
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate({
-                        path:'day',
-                        populate:{
-                            path:'weekMealPlan',
-                            populate:'GRFUser'
-                        }
-                    })
-                    .populate({
-                        path: 'day',
-                        populate: { path: 'dayOfWeek' }
-                    })
-                    .populate('mealType')
-                    .populate({
-                        path: 'genRecipe',
-                        populate: { path: 'GRFUser' }
-                    })
-                    .populate({
-                        path: 'genRecipe',
-                        populate: { path: 'availableMealType' }
-                    })
-                break;
-            case "genRecipe":
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate('GRFUser')
-                    .populate('availableMealType')
-                break;
-            case"mealIngredient":
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate({
-                        path: 'genRecipeIngredient',
-                        populate:{
-                            path: 'genRecipe',
-                            populate:{path:'availableMealType'}
-                        }
-                    })
-                    .populate({
-                        path: 'genRecipeIngredient',
-                        populate:{
-                            path: 'genRecipe',
-                            populate:{path:'GRFUser'}
-                        }
-                    })
-                    .populate({
-                        path: 'genRecipeIngredient',
-                        populate:{
-                            path: 'ingredient',
-                            populate:{path: 'unitOfMeasure'}
-                        }
-                    })
-                    .populate({
-                        path:'genRecipeIngredient',
-                        populate:{
-                            path:'ingredient',
-                            populate:{path:'weightType'}
-                        }
-                    })
-                    .populate({
-                        path:'genRecipeIngredient',
-                        populate:{
-                            path:'ingredient',
-                            populate:{path:'brand'}
-                        }
-                    })
-                    .populate({
-                        path:'genRecipeIngredient',
-                        populate:{
-                            path:'ingredient',
-                            populate:{path:'GRFUser'}
-                        }
-                    })
-                    .populate({
-                        path: 'meal',
-                        populate:{
-                            path: 'day',
-                            populate:{
-                                path:'weekMealPlan',
-                                populate:'GRFUser'
-                            }
-                        }
-                    })
-                    .populate({
-                        path: 'meal',
-                        populate:{
-                            path: 'genRecipe',
-                            populate:{path:'GRFUser'}
-                        }
-                    })
-                    .populate({
-                        path: 'meal',
-                        populate:{
-                            path: 'genRecipe',
-                            populate:{path:'availableMealType'}
-                        }
-                    })
-                    .populate({
-                        path: 'meal',
-                        populate:{
-                            path: 'mealType',
-                        }
-                    })
-                    .populate({
-                        path: 'meal',
-                        populate:{
-                            path: 'day',
-                            populate:{path:'dayOfWeek'}
-                        }
-                    })
-                break;
-            case"genRecipeIngredient":
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate({
-                        path: 'genRecipe',
-                        populate:{
-                            path: 'GRFUser',
-                        }
-                    })
-                    .populate({
-                        path: 'genRecipe',
-                        populate:{
-                            path: 'availableMealType',
-                        }
-                    })
-                    .populate({
-                        path: 'ingredient',
-                        populate:{
-                            path: 'GRFUser',
-                        }
-                    })
-                    .populate({
-                        path: 'ingredient',
-                        populate:{
-                            path: 'unitOfMeasure',
-                            populate:{path: 'GRFUser'}
-                        }
-                    })
-                    .populate({
-                        path:'ingredient',
-                        populate:{
-                            path:'weightType',
-                            populate:{path:'GRFUser'}
-                        }
-                    })
-                    .populate({
-                        path:'ingredient',
-                        populate:{
-                            path:'brand',
-                            populate:{path:'GRFUser'}
-                        }
-                    })
-                break;
-            case"ingredient":
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate('GRFUser')
-                    .populate({
-                        path:'unitOfMeasure',
-                        populate:{
-                            path:'GRFUser',
-                        }
-                    })
-                    .populate({
-                        path:'weightType',
-                        populate:{
-                            path:'GRFUser',
-                        }
-                    })
-                    .populate({
-                        path:'brand',
-                        populate:{
-                            path:'GRFUser',
-                        }
-                    })
-                break;
-            case"pantryItem":
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate({
-                        path: 'ingredient',
-                        populate:{
-                            path: 'GRFUser',
-                        }
-                    })
-                    .populate({
-                        path: 'ingredient',
-                        populate:{
-                            path: 'unitOfMeasure',
-                            populate:{path: 'GRFUser'}
-                        }
-                    })
-                    .populate({
-                        path:'ingredient',
-                        populate:{
-                            path:'weightType',
-                            populate:{path:'GRFUser'}
-                        }
-                    })
-                    .populate({
-                        path:'ingredient',
-                        populate:{
-                            path:'brand',
-                            populate:{path:'GRFUser'}
-                        }
-                    })
-                    .populate('GRFUser')
-                break;
-            default:
-                matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
-                    .populate("GRFUser");
-        }
-        res.json(matchingRecords);
+        let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
+        let reqResult;
+        if(srchParam==="name"){
+            if(matchingRecords.length>0){reqResult="exists"}else{reqResult="ok"}
+        }else{reqResult=matchingRecords};
+        res.json(reqResult);
     } catch (errs) {
         res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }

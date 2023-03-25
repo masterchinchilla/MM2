@@ -58,4 +58,4 @@ const rcrdOrFldNameCaseValPrpTypNPropObjMod={
       _id:{nameSntncCase:"ID",propTypeForVal:null,PropObjModel:null},
       __v:{nameSntncCase:"V",propTypeForVal:null,PropObjModel:null}
 }
-module.exports={rcrdOrFldNameCaseValPrpTypNPropObjMod} ;
+module.exports={rcrdOrFldNameCaseValPrpTypNPropObjMod};
