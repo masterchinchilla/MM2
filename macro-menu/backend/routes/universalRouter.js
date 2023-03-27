@@ -31,7 +31,8 @@ function dtrnmPrntRcrdProps(childRecordType,childRecord){
     return {prntRcrdAthrId:prntRcrdAthrId,parentTypeOfRecord:parentTypeOfRecord};
 }
 function hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal){
-    let dbSearchParamsObj="";
+    console.log(srchParam,srchParamVal);
+    let dbSearchParamsObj=null;
     if(srchParam==="name"){srchParamVal=new RegExp(srchParamVal,"i")};
     if(srchParam!=="all"){dbSearchParamsObj={[srchParam]:srchParamVal}};
     return dbSearchParamsObj;
@@ -508,13 +509,15 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
     }
     res.json(savedNewWMP)
 })
-router.get(':recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
-    const params=req.params;
-    const recordType=params.recordType?params.recordType:typeOfRecordToChange;
+router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
+    const {params}=req;
+    console.log(params);
+    const {recordType}=params;
     const srchParam=params.srchParam?params.srchParam:"all";
     const srchParamVal=params.srchParamVal?params.srchParamVal:null;
-    const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal);
+    const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal):null;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
+    console.log(recordType,LocalObjModel,dbSearchParamsObj);
     try {
         let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
         let reqResult;

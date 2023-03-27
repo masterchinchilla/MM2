@@ -1,11 +1,11 @@
 import httpService from "./httpService";
 import config from "../config.json";
-export async function callApi(action,recordType,srchParam,srchParamVal,payload){
-    let backEndReqRootUrl= `${config.backEndHtmlRoot}${recordType}s/`;
+export default async function callApi(action,recordType,srchParam,srchParamVal,payload){
+    let backEndReqRootUrl= `${config.backEndHtmlRoot}${recordType}/`;
     let backEndReqUrl;
     let backEndReqResponse;
     if(action==="get"){
-        backEndReqUrl=`${backEndReqRootUrl}${srchParam}/${srchParamVal}`;
+        backEndReqUrl=`${backEndReqRootUrl}${srchParam}/${srchParamVal?srchParamVal:``}`;
         backEndReqResponse = await httpService.get(backEndReqUrl); 
     }else{
         backEndReqRootUrl=`${config.backEndHtmlRoot}${action}/${recordType}s`;

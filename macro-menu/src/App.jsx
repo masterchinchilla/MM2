@@ -10,6 +10,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import RouterWrapper from "./components/RouterWrapper.component";
 import auth from "./services/authService";
+import apiService from "./services/apiService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 library.add(fas);
@@ -213,9 +214,29 @@ const App = () => {
     let trimmedValueWNoDblSpcs = trimmedValue.replace(/  +/g, " ");
     return trimmedValueWNoDblSpcs;
   }
+  async function handleGetFullRecordSetFn(typeOfRecordToGet) {
+    try {
+      const backEndReqResponse = await apiService(
+        "get",
+        typeOfRecordToGet,
+        "all",
+        null,
+        null
+      );
+      const fullRecordSet = backEndReqResponse.data;
+      return fullRecordSet;
+    } catch (errs) {
+      const valErrors = parseHTTPResErrs(errs);
+      notifyOfErrors(valErrors);
+      return [];
+    }
+  }
+  function handleGetCurrentUserFn() {
+    return auth.getCurrentUser();
+  }
   useEffect(() => {
     if (!currentGRFUser) {
-      const currentUser = auth.getCurrentUser();
+      const currentUser = handleGetCurrentUserFn();
       setCurrentGRFUser(currentUser);
     }
   });
@@ -244,6 +265,8 @@ const App = () => {
         trimEnteredValueFn={handleTrimEnteredValueFn}
         onClick={closeNavOnClick}
         parseAndUpdateObjValErrsFn={handleParseAndUpdateObjValErrsFn}
+        onGetFullRecordSetFn={handleGetFullRecordSetFn}
+        onGetCurrentUserFn={handleGetCurrentUserFn}
       />
     </React.Fragment>
   );

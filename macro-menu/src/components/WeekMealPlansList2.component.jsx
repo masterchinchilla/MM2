@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import jwtDecode from "jwt-decode";
 class WMPListForUser extends Component {
   constructor(props) {
     super(props);
-    const { thisGRFUser, match } = this.props;
+    const { thisGRFUser, match, onGetFullRecordSetFn, onGetCurrentUserFn } =
+      this.props;
     const pgReqParams = match.params;
     const thisUsersId = pgReqParams.id;
     this.state = {
@@ -19,38 +19,27 @@ class WMPListForUser extends Component {
       backEndHtmlRoot: this.props.backEndHtmlRoot,
     };
   }
+  getData = async (thisGRFUserId) => {
+    // const fullCrntUsrObj = this.props.onGetCurrentUserFn();
+    const allWMPs = await this.props.onGetFullRecordSetFn("weekMealPlan");
+    let thisUsersWMPs = allWMPs.filter((wmp) => {
+      return wmp.GRFUser._id === thisGRFUserId;
+    });
+    if (thisUsersWMPs === undefined) {
+      thisUsersWMPs = [];
+    }
+    const allOtherWMPs = allWMPs.filter((wmp) => {
+      return wmp.GRFUser._id !== thisGRFUserId;
+    });
+    this.setState({
+      thisUsersWMPs: thisUsersWMPs,
+      allOtherWMPs: allOtherWMPs,
+      dataLoaded: true,
+    });
+  };
   componentDidMount() {
-    // const jwt = localStorage.getItem("token");
-    // const decodedToken = jwtDecode(jwt);
     const thisGRFUserId = this.state.thisUsersId;
-    // decodedToken.currentGRFUser._id;
-    axios
-      .get(this.props.backEndHtmlRoot + "GRFUsers/" + thisGRFUserId)
-      .then((response) => {
-        this.setState({ thisGRFUser: response.data });
-      })
-      .catch((error) => console.log(error));
-    axios
-      .get("http://localhost:5000/weekMealPlans")
-      .then((response) => {
-        let thisUsersWMPs = response.data.filter((wmp) => {
-          return wmp.GRFUser._id === thisGRFUserId;
-        });
-        let allOtherWMPs = response.data.filter((wmp) => {
-          return wmp.GRFUser._id !== thisGRFUserId;
-        });
-        if (thisUsersWMPs === undefined) {
-          thisUsersWMPs = [];
-        }
-        this.setState({
-          thisUsersWMPs: thisUsersWMPs,
-          allOtherWMPs: allOtherWMPs,
-          dataLoaded: true,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.getData(thisGRFUserId);
   }
   handleCreateWMP = () => {
     const newWMP = {

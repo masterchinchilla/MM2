@@ -37,6 +37,8 @@ class RouterWrapper extends Component {
       // getCSValResultForPropFn,
       // trimEnteredValueFn,
       // parseAndUpdateObjValErrsFn,
+      // onGetFullRecordSetFn,
+      // onGetCurrentUserFn,
     } = this.props;
     this.state = {
       userSignedIn: false,
@@ -104,6 +106,8 @@ class RouterWrapper extends Component {
       getCSValResultForPropFn,
       trimEnteredValueFn,
       parseAndUpdateObjValErrsFn,
+      onGetFullRecordSetFn,
+      onGetCurrentUserFn,
     } = this.props;
     const scrollToTop = this.scrollToTop;
     return (
@@ -127,6 +131,8 @@ class RouterWrapper extends Component {
         getCSValResultForPropFn={getCSValResultForPropFn}
         trimEnteredValueFn={trimEnteredValueFn}
         parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
+        onGetFullRecordSetFn={onGetFullRecordSetFn}
+        onGetCurrentUserFn={onGetCurrentUserFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -154,6 +160,8 @@ class RouterWrapper extends Component {
           getCSValResultForPropFn={getCSValResultForPropFn}
           trimEnteredValueFn={trimEnteredValueFn}
           parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
+          onGetFullRecordSetFn={onGetFullRecordSetFn}
+          onGetCurrentUserFn={onGetCurrentUserFn}
         >
           <Route
             exact
@@ -206,6 +214,7 @@ class RouterWrapper extends Component {
                 returnElementKey={returnElementKey}
                 getCSValResultForPropFn={getCSValResultForPropFn}
                 trimEnteredValueFn={trimEnteredValueFn}
+                onGetFullRecordSetFn={onGetFullRecordSetFn}
               />
             )}
           />
@@ -232,6 +241,8 @@ class RouterWrapper extends Component {
                 thisGRFUser={currentGRFUser}
                 backEndHtmlRoot={backEndHtmlRoot}
                 closeNavOnClick={closeNavOnClick}
+                onGetFullRecordSetFn={onGetFullRecordSetFn}
+                onGetCurrentUserFn={onGetCurrentUserFn}
               />
             )}
           />
