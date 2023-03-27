@@ -231,6 +231,29 @@ const App = () => {
       return [];
     }
   }
+  async function handleGetRecordsWFilterFn(
+    typeOfRecordToGet,
+    srchParam,
+    srchParamVal
+  ) {
+    let valErrors;
+    let foundRecords = [];
+    try {
+      // callApi(action, recordType, srchParam, srchParamVal, payload);
+      const backEndReqResponse = await apiService(
+        "get",
+        typeOfRecordToGet,
+        srchParam,
+        srchParamVal,
+        null
+      );
+      foundRecords = backEndReqResponse.data;
+    } catch (errs) {
+      valErrors = parseHTTPResErrs(errs);
+      notifyOfErrors(valErrors);
+    }
+    return { foundRecords, valErrors };
+  }
   function handleGetCurrentUserFn() {
     return auth.getCurrentUser();
   }
@@ -267,6 +290,7 @@ const App = () => {
         parseAndUpdateObjValErrsFn={handleParseAndUpdateObjValErrsFn}
         onGetFullRecordSetFn={handleGetFullRecordSetFn}
         onGetCurrentUserFn={handleGetCurrentUserFn}
+        onGetRecordsWFilterFn={handleGetRecordsWFilterFn}
       />
     </React.Fragment>
   );

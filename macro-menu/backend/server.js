@@ -55,7 +55,6 @@ app.use('/mealTypes', mealTypesRouter);
 app.use('/dayOfWeeks', dayOfWeeksRouter);
 app.use('/pantryItems',pantryItemRouter);
 
-
 app.listen(port, () => {
     console.log(`server is running on port: ${port}`);
 });

@@ -1,6 +1,7 @@
 import httpService from "./httpService";
 import config from "../config.json";
 export default async function callApi(action,recordType,srchParam,srchParamVal,payload){
+    console.log(action,recordType,srchParam,srchParamVal,payload);
     let backEndReqRootUrl= `${config.backEndHtmlRoot}${recordType}/`;
     let backEndReqUrl;
     let backEndReqResponse;

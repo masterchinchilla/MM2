@@ -12,7 +12,12 @@ import HamburgerMenu from "./HamburgerMenu.component";
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    const { leftNavOpen, rightNavOpen, closeNavOnClick } = this.props;
+    const {
+      leftNavOpen,
+      rightNavOpen,
+      closeNavOnClick,
+      onGetRecordsWFilterFn,
+    } = this.props;
     this.state = {
       jwt: "",
       currentGRFUser: {
@@ -25,7 +30,7 @@ class Navbar extends Component {
       rightNavOpen: rightNavOpen,
     };
   }
-  componentDidMount() {
+  getData = async () => {
     const jwt = localStorage.getItem("token");
     if (jwt === null) {
       return;
@@ -33,13 +38,25 @@ class Navbar extends Component {
       this.setState({ jwt: jwt });
       const decodedToken = jwtDecode(jwt);
       const currentUserId = decodedToken.currentGRFUser._id;
-      axios
-        .get(this.state.backEndHtmlRoot + "GRFUsers/" + currentUserId)
-        .then((response) => {
-          this.setState({ currentGRFUser: response.data });
-        })
-        .catch((error) => console.log(error));
+      const apiReqRes = await this.props.onGetRecordsWFilterFn(
+        "GRFUser",
+        "_id",
+        currentUserId
+      );
+      const foundRecords = apiReqRes.foundRecords;
+      if (foundRecords.length > 0) {
+        this.setState({ currentGRFUser: foundRecords[0] });
+      }
+      // axios
+      //   .get(this.state.backEndHtmlRoot + "GRFUsers/" + currentUserId)
+      //   .then((response) => {
+      //     this.setState({ currentGRFUser: response.data });
+      //   })
+      //   .catch((error) => console.log(error));
     }
+  };
+  componentDidMount() {
+    this.getData();
   }
   stringToColor = (string) => {
     let hash = 0;

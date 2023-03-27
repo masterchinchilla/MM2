@@ -35,6 +35,7 @@ class NewNewWeekMealPlan extends Component {
       getCSValResultForPropFn,
       trimEnteredValueFn,
       closeNavOnClick,
+      onGetFullRecordSetFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -264,69 +265,77 @@ class NewNewWeekMealPlan extends Component {
     }
     return stateObjsArray;
   };
-  getRecordsFromBackEnd = async (
+  buildStateObjsWBackendData = async (
     backEndReqUrl,
     typeOfRecordToGet,
-    recordTypesForStateObj
+    recordTypesForStateObj,
+    srchParam,
+    srchParamVal
   ) => {
     let valErrors;
     let stateObjsArray = [];
-    try {
-      const backEndReqResponse = await httpService.get(backEndReqUrl);
-      // const backEndReqResponse = await apiService(
-      //   "get",
-      //   typeOfRecordToGet,
-      //   "all",
-      //   null,
-      //   null
-      // );
-      const recordsArray = backEndReqResponse.data;
+    // try {
+    // const backEndReqResponse = await httpService.get(backEndReqUrl);
+    const apiReqRes = await this.props.handleGetRecordsWFilterFn(
+      typeOfRecordToGet,
+      srchParam,
+      srchParamVal
+    );
+    // const recordsArray = backEndReqResponse.data;
+    const recordsArray = apiReqRes.foundRecords;
+    valErrors = apiReqRes.valErrors;
+    if (recordsArray.length > 0) {
       stateObjsArray = this.assembleStateObjWNewRcrd(
         recordsArray,
         typeOfRecordToGet,
         recordTypesForStateObj
       );
-    } catch (errs) {
-      //valErrorsNestedArray shape:
-      //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs);
-      this.notifyOfErrors(valErrors);
     }
+    // } catch (errs) {
+    //   //valErrorsNestedArray shape:
+    //   //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+    //   valErrors = this.parseHTTPResErrs(errs);
+    //   this.notifyOfErrors(valErrors);
+    // }
     return { stateObjsArray, valErrors };
   };
   getThisMealsIngrdnts = async (thisMealsId) => {
     const backEndHtmlRoot = this.state.backEndHtmlRoot;
     const backEndReqUrl = `${backEndHtmlRoot}mealIngredients/thisMealsMealIngredients/${thisMealsId}`;
-    let thisMlsIngrdntsReqResult = await this.getRecordsFromBackEnd(
+    let thisMlsIngrdntsReqResult = await this.buildStateObjsWBackendData(
       backEndReqUrl,
       "mealIngredient",
-      ["mealIngredient", "genRecipeIngredient", "ingredient"]
+      ["mealIngredient", "genRecipeIngredient", "ingredient"],
+      "meal",
+      thisMealsId
     );
     return thisMlsIngrdntsReqResult.stateObjsArray;
   };
   getThisGenRcpsGenRcpIngrdnts = async (thisMealGenRecipeId) => {
-    let recipeIngrdntsReqURL = `${this.state.backEndHtmlRoot}genRecipeIngredients/thisGenRecipesGenRecipeIngredients/${thisMealGenRecipeId}`;
-    let thisGenRcpsGenRcpIngrdnts;
-    try {
-      let genRcpsIngrdntsReqResult = await httpService.get(
-        recipeIngrdntsReqURL
-      );
-      // let genRcpsIngrdntsReqResult = await apiService(
-      //   "get",
-      //   "genRecipeIngredient",
-      //   "genRecipe",
-      //   thisMealGenRecipeId,
-      //   null
-      // );
-      thisGenRcpsGenRcpIngrdnts = genRcpsIngrdntsReqResult.data;
-    } catch (errs) {
-      //valErrorsNestedArray shape:
-      //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      let valErrors = this.parseHTTPResErrs(errs);
-      this.notifyOfErrors(valErrors);
-      thisGenRcpsGenRcpIngrdnts = [];
-    }
-    return thisGenRcpsGenRcpIngrdnts;
+    // let recipeIngrdntsReqURL = `${this.state.backEndHtmlRoot}genRecipeIngredients/thisGenRecipesGenRecipeIngredients/${thisMealGenRecipeId}`;
+    // let thisGenRcpsGenRcpIngrdnts;
+    // let valErrors;
+    const apiReqRes = await this.props.handleGetRecordsWFilterFn(
+      "genRecipeIngredient",
+      "genRecipe",
+      thisMealGenRecipeId
+    );
+    const recordsArray = apiReqRes.foundRecords;
+    // valErrors = apiReqRes.valErrors;
+    return recordsArray;
+    // try {
+    //   let genRcpsIngrdntsReqResult = await httpService.get(
+    //     recipeIngrdntsReqURL
+    //   );
+    //   thisGenRcpsGenRcpIngrdnts = genRcpsIngrdntsReqResult.data;
+    // } catch (errs) {
+    //   //valErrorsNestedArray shape:
+    //   //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+    //   let valErrors = this.parseHTTPResErrs(errs);
+    //   this.notifyOfErrors(valErrors);
+    //   thisGenRcpsGenRcpIngrdnts = [];
+    // }
+    // return thisGenRcpsGenRcpIngrdnts;
   };
   updateMealWGenRcpsGenRcpIngrdnts = async (thisMealStateObjToUpdate) => {
     let thisMealGenRecipeId = thisMealStateObjToUpdate.thisRecord.genRecipe._id;
@@ -344,10 +353,12 @@ class NewNewWeekMealPlan extends Component {
     let thisDaysId = thisDayRecord._id;
     const { mealTypes, backEndHtmlRoot } = this.state;
     const backEndReqUrl = `${backEndHtmlRoot}meals/mealsOfThisDay/${thisDaysId}`;
-    let daysMealsReqResult = await this.getRecordsFromBackEnd(
+    let daysMealsReqResult = await this.buildStateObjsWBackendData(
       backEndReqUrl,
       "meal",
-      ["meal", "genRecipe"]
+      ["meal", "genRecipe"],
+      "day",
+      thisDaysId
     );
     let countOfLinkedMeals = 0;
     let countOfLinkedMealIngrdnts = 0;
@@ -401,10 +412,12 @@ class NewNewWeekMealPlan extends Component {
     const thisWMPId = thisWMPRecord._id;
     const daysOfWeek = state.daysOfWeek;
     const backEndReqUrl = `${state.backEndHtmlRoot}days/daysofthiswmp/${thisWMPId}`;
-    let wmpsDaysReqResult = await this.getRecordsFromBackEnd(
+    let wmpsDaysReqResult = await this.buildStateObjsWBackendData(
       backEndReqUrl,
       "day",
-      ["day"]
+      ["day"],
+      "weekMealPlan",
+      thisWMPId
     );
     let countOfLinkedDays = 0;
     let countOfLinkedMeals = 0;
@@ -471,10 +484,10 @@ class NewNewWeekMealPlan extends Component {
   getAllUOMsWTsBrndsNRecipes = async () => {
     const [allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes] =
       await Promise.all([
-        this.getFullRecordSet("unitOfMeasure"),
-        this.getFullRecordSet("weightType"),
-        this.getFullRecordSet("brand"),
-        this.getFullRecordSet("genRecipe"),
+        this.props.onGetFullRecordSetFn("unitOfMeasure"),
+        this.props.onGetFullRecordSetFn("weightType"),
+        this.props.onGetFullRecordSetFn("brand"),
+        this.props.onGetFullRecordSetFn("genRecipe"),
       ]);
     return {
       allUnitOfMeasures: allUnitOfMeasures,
@@ -485,10 +498,12 @@ class NewNewWeekMealPlan extends Component {
   };
   handleGetUsersPantryItemsFn = async (backEndHtmlRoot, currentGRFUser) => {
     const backEndReqUrl = `${backEndHtmlRoot}pantryItems/thisUsersPantry/${currentGRFUser._id}`;
-    let pantryItemsReqResult = await this.getRecordsFromBackEnd(
+    let pantryItemsReqResult = await this.buildStateObjsWBackendData(
       backEndReqUrl,
       "pantryItem",
-      ["pantryItem"]
+      ["pantryItem"],
+      "GRFUser",
+      currentGRFUser._id
     );
     console.log(pantryItemsReqResult);
     if (pantryItemsReqResult.valErrors) {
@@ -523,8 +538,10 @@ class NewNewWeekMealPlan extends Component {
       allUOMsWghtTypsBrndsNRcps,
       pantryItems,
     ] = await Promise.all([
-      this.getRecordsFromBackEnd(backEndReqUrl, "weekMealPlan", [
+      this.buildStateObjsWBackendData(backEndReqUrl, "weekMealPlan", [
         "weekMealPlan",
+        "_id",
+        thisWMPId,
       ]),
       this.getThisWeeksDaysFn(state, thisWMPRecord),
       this.getAllUOMsWTsBrndsNRecipes(),
