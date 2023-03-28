@@ -31,7 +31,6 @@ function dtrnmPrntRcrdProps(childRecordType,childRecord){
     return {prntRcrdAthrId:prntRcrdAthrId,parentTypeOfRecord:parentTypeOfRecord};
 }
 function hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal){
-    console.log(srchParam,srchParamVal);
     let dbSearchParamsObj=null;
     if(srchParam==="name"){srchParamVal=new RegExp(srchParamVal,"i")};
     if(srchParam!=="all"){dbSearchParamsObj={[srchParam]:srchParamVal}};
@@ -56,6 +55,9 @@ function updateRcrdWNewVals(recordToUpdate,reqBody){
 async function findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj){
     let matchingRecords;
     switch(recordType){
+        case"GRFUser":
+            matchingRecords=await LocalObjModel.find(dbSearchParamsObj);
+            break;
         case"day":
             matchingRecords=await LocalObjModel.find(dbSearchParamsObj)
                 .populate("dayOfWeek")
@@ -511,15 +513,14 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
 })
 router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
     const {params}=req;
-    console.log(params);
     const {recordType}=params;
     const srchParam=params.srchParam?params.srchParam:"all";
     const srchParamVal=params.srchParamVal?params.srchParamVal:null;
     const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal):null;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
-    console.log(recordType,LocalObjModel,dbSearchParamsObj);
     try {
         let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
+        if(recordType==="GRFUser"){console.log(matchingRecords)};
         let reqResult;
         if(srchParam==="name"){
             if(matchingRecords.length>0){reqResult="exists"}else{reqResult="ok"}

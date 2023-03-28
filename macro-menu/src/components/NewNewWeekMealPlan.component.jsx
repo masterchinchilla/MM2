@@ -36,6 +36,7 @@ class NewNewWeekMealPlan extends Component {
       trimEnteredValueFn,
       closeNavOnClick,
       onGetFullRecordSetFn,
+      onGetRecordsWFilterFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -276,7 +277,7 @@ class NewNewWeekMealPlan extends Component {
     let stateObjsArray = [];
     // try {
     // const backEndReqResponse = await httpService.get(backEndReqUrl);
-    const apiReqRes = await this.props.handleGetRecordsWFilterFn(
+    const apiReqRes = await this.props.onGetRecordsWFilterFn(
       typeOfRecordToGet,
       srchParam,
       srchParamVal
@@ -315,7 +316,7 @@ class NewNewWeekMealPlan extends Component {
     // let recipeIngrdntsReqURL = `${this.state.backEndHtmlRoot}genRecipeIngredients/thisGenRecipesGenRecipeIngredients/${thisMealGenRecipeId}`;
     // let thisGenRcpsGenRcpIngrdnts;
     // let valErrors;
-    const apiReqRes = await this.props.handleGetRecordsWFilterFn(
+    const apiReqRes = await this.props.onGetRecordsWFilterFn(
       "genRecipeIngredient",
       "genRecipe",
       thisMealGenRecipeId
@@ -538,11 +539,13 @@ class NewNewWeekMealPlan extends Component {
       allUOMsWghtTypsBrndsNRcps,
       pantryItems,
     ] = await Promise.all([
-      this.buildStateObjsWBackendData(backEndReqUrl, "weekMealPlan", [
+      this.buildStateObjsWBackendData(
+        backEndReqUrl,
         "weekMealPlan",
+        ["weekMealPlan"],
         "_id",
-        thisWMPId,
-      ]),
+        thisWMPId
+      ),
       this.getThisWeeksDaysFn(state, thisWMPRecord),
       this.getAllUOMsWTsBrndsNRecipes(),
       this.handleGetUsersPantryItemsFn(backEndHtmlRoot, currentGRFUser),
@@ -599,8 +602,8 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   componentDidMount() {
-    const currentUser = this.state.currentGRFUser
-      ? this.state.currentGRFUser
+    const currentUser = this.props.thisGRFUser
+      ? this.props.thisGRFUser
       : getCurrentUser();
     this.getThisWMPFn(currentUser);
   }
