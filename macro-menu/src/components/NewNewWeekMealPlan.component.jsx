@@ -266,6 +266,22 @@ class NewNewWeekMealPlan extends Component {
     }
     return stateObjsArray;
   };
+  hndlSrchDBForObjWMtchngNmeFn = async (
+    typeOfRecordToGet,
+    srchParam,
+    srchParamVal
+  ) => {
+    try {
+      const nameOkOrExists = await this.props.onGetRecordsWFilterFn(
+        typeOfRecordToGet,
+        srchParam,
+        srchParamVal
+      );
+      return nameOkOrExists;
+    } catch (valErrsNestedArray) {
+      return valErrsNestedArray;
+    }
+  };
   buildStateObjsWBackendData = async (
     backEndReqUrl,
     typeOfRecordToGet,
@@ -2026,6 +2042,7 @@ class NewNewWeekMealPlan extends Component {
               onStartEditingFn: this.handleStartEditingFn,
               onCancelEditFn: this.handleCancelEditFn,
               onDeleteObjFn: this.handleDeleteObjFn,
+              onSrchDBForObjWMtchngNmeFn: this.hndlSrchDBForObjWMtchngNmeFn,
               trimEnteredValueFn: this.props.trimEnteredValueFn,
             },
           }}
@@ -2094,6 +2111,7 @@ class NewNewWeekMealPlan extends Component {
                 onStartEditingFn: this.handleStartEditingFn,
                 onCancelEditFn: this.handleCancelEditFn,
                 onDeleteObjFn: this.handleDeleteObjFn,
+                onSrchDBForObjWMtchngNmeFn: this.hndlSrchDBForObjWMtchngNmeFn,
                 trimEnteredValueFn: this.props.trimEnteredValueFn,
                 onCopyWMPFn: this.handleCopyWMPFn,
               },

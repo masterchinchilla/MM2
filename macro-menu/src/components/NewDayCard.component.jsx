@@ -23,6 +23,7 @@ const NewDayCard = (props) => {
     onDeleteObjFn,
     returnElementKey,
     trimEnteredValueFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObjBackup } = specificData;
@@ -119,6 +120,7 @@ const NewDayCard = (props) => {
             onDeleteObjFn: onDeleteObjFn,
             returnElementKey: returnElementKey,
             trimEnteredValueFn: trimEnteredValueFn,
+            onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
           },
         }}
         specificProps={{

@@ -236,6 +236,7 @@ const App = () => {
     srchParam,
     srchParamVal
   ) {
+    console.log(typeOfRecordToGet, srchParam, srchParamVal);
     let valErrors;
     let foundRecords = [];
     try {

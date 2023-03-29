@@ -27,6 +27,7 @@ const NewIngredientForm = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const {
     thisStateObj,
@@ -154,6 +155,7 @@ const NewIngredientForm = (props) => {
             onCancelEditFn: handleCancelEditFn,
             trimEnteredValueFn: trimEnteredValueFn,
             onCreateNewRecordFn: onCreateNewRecordFn,
+            onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
           },
         }}
         specificProps={{

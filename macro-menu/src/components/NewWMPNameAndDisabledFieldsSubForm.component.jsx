@@ -16,6 +16,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
     trimEnteredValueFn,
     returnElementKey,
     onCopyWMPFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj, localName, nameValErrors, saveDisabled, origName } =
@@ -52,6 +53,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
               returnElementKey: returnElementKey,
               getRndIntegerFn: getRndIntegerFn,
               trimEnteredValueFn: trimEnteredValueFn,
+              onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
             },
           }}
           specificProps={{

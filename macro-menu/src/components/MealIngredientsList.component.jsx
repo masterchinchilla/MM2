@@ -17,6 +17,7 @@ const MealIngredientsList = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { mealStateObj, mealBackup } = specificData;
   const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
@@ -126,6 +127,7 @@ const MealIngredientsList = (props) => {
                   onDeleteObjFn: onDeleteObjFn,
                   trimEnteredValueFn: trimEnteredValueFn,
                   onCreateNewRecordFn: onCreateNewRecordFn,
+                  onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
                 },
               }}
               specificProps={{

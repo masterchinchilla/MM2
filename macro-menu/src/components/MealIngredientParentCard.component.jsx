@@ -26,6 +26,7 @@ const MealIngredientParentCard = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const {
     thisStateObj,
@@ -128,6 +129,7 @@ const MealIngredientParentCard = (props) => {
               onCancelEditFn: onCancelEditFn,
               trimEnteredValueFn: trimEnteredValueFn,
               onCreateNewRecordFn: onCreateNewRecordFn,
+              onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
             },
           }}
           specificProps={{

@@ -25,6 +25,7 @@ const NewMealParentCard = (props) => {
     onDeleteObjFn,
     onCreateNewRecordFn,
     trimEnteredValueFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
@@ -136,6 +137,7 @@ const NewMealParentCard = (props) => {
                 onStartEditingFn: onStartEditingFn,
                 onCancelEditFn: onCancelEditFn,
                 trimEnteredValueFn: trimEnteredValueFn,
+                onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
               },
             }}
             specificProps={{
@@ -164,6 +166,7 @@ const NewMealParentCard = (props) => {
                 onDeleteObjFn: onDeleteObjFn,
                 trimEnteredValueFn: trimEnteredValueFn,
                 onCreateNewRecordFn: onCreateNewRecordFn,
+                onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
               },
             }}
             specificProps={{

@@ -26,6 +26,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     onCancelEditFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const {
     thisStateObj,
@@ -265,6 +266,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             returnElementKey: returnElementKey,
             getRndIntegerFn: getRndIntegerFn,
             trimEnteredValueFn: trimEnteredValueFn,
+            onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
           },
         }}
         specificProps={{

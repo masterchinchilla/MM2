@@ -17,6 +17,7 @@ const NewWeekMealPlanCard = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCopyWMPFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { onUpdateWeightsFn } = specificMethods;
@@ -162,6 +163,7 @@ const NewWeekMealPlanCard = (props) => {
                       returnElementKey: returnElementKey,
                       trimEnteredValueFn: trimEnteredValueFn,
                       onCopyWMPFn: onCopyWMPFn,
+                      onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
                     },
                   }}
                   specificProps={{

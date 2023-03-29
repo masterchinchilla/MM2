@@ -512,6 +512,7 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
     res.json(savedNewWMP)
 })
 router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
+    console.log(req);
     const {params}=req;
     const {recordType}=params;
     const srchParam=params.srchParam?params.srchParam:"all";

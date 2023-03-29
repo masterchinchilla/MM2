@@ -19,6 +19,7 @@ const NewRecipeCard = (props) => {
     onStartEditingFn,
     onCancelEditFn,
     trimEnteredValueFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup } = specificData;
   const {} = specificMethods;
@@ -262,6 +263,7 @@ const NewRecipeCard = (props) => {
                       returnElementKey: returnElementKey,
                       getRndIntegerFn: getRndIntegerFn,
                       trimEnteredValueFn: trimEnteredValueFn,
+                      onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
                     },
                   }}
                   specificProps={{

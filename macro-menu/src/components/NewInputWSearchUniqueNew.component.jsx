@@ -11,6 +11,7 @@ const NewInputWSearchUniqueNew = (props) => {
     returnElementKey,
     getRndIntegerFn,
     trimEnteredValueFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const {
@@ -56,10 +57,18 @@ const NewInputWSearchUniqueNew = (props) => {
     const newTimer = setTimeout(() => {
       if (origPropValue !== trimmedWNoDblSpcs) {
         if (trimmedWNoDblSpcs) {
-          httpService
-            .get(fetchBaseURL + trimmedWNoDblSpcs)
-            .then((response) => {
-              if (response.data === "exists") {
+          onSrchDBForObjWMtchngNmeFn(
+            typeOfRecordToChange,
+            propToUpdate,
+            trimmedWNoDblSpcs
+          )
+            .then((nameOkOrExists) => {
+              // });
+              // httpService
+              //   .get(fetchBaseURL + trimmedWNoDblSpcs)
+              //   .then((response) => {
+              // if (response.data === "exists") {
+              if (nameOkOrExists === "exists") {
                 let valueTknValErr = `That ${propNameSentenceCase} is already taken`;
                 setLclValErrsStateFn([valueTknValErr]);
                 updatePropValErrorsStateFn([valueTknValErr]);
@@ -87,9 +96,10 @@ const NewInputWSearchUniqueNew = (props) => {
                 }
               }
             })
-            .catch((err) => {
-              setLclValErrsStateFn([JSON.stringify(err.message)]);
-              updatePropValErrorsStateFn([JSON.stringify(err.message)]);
+            .catch((valErrsNestedArray) => {
+              const errMessage = valErrsNestedArray[0]["all"][0];
+              setLclValErrsStateFn(errMessage);
+              updatePropValErrorsStateFn(errMessage);
             });
         }
       }

@@ -26,6 +26,7 @@ const NewDayMealsAndMacros = (props) => {
     onDeleteObjFn,
     returnElementKey,
     trimEnteredValueFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj, thisStateObjBackup } = specificData;
@@ -163,6 +164,7 @@ const NewDayMealsAndMacros = (props) => {
               onCreateNewRecordFn: onCreateNewRecordFn,
               returnElementKey: returnElementKey,
               trimEnteredValueFn: trimEnteredValueFn,
+              onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
             },
           }}
           specificProps={{
