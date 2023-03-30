@@ -271,15 +271,16 @@ class NewNewWeekMealPlan extends Component {
     srchParam,
     srchParamVal
   ) => {
+    let reqRes;
     try {
-      const nameOkOrExists = await this.props.onGetRecordsWFilterFn(
+      reqRes = await this.props.onGetRecordsWFilterFn(
         typeOfRecordToGet,
         srchParam,
         srchParamVal
       );
-      return nameOkOrExists;
+      return reqRes.foundRecords;
     } catch (valErrsNestedArray) {
-      return valErrsNestedArray;
+      return reqRes.valErrors;
     }
   };
   buildStateObjsWBackendData = async (
@@ -642,14 +643,16 @@ class NewNewWeekMealPlan extends Component {
     let thisWMPStateObj = this.state.thisWMPStateObj;
     thisWMPStateObj.thisRecord[propToUpdate] = newValue;
     let thisValErrsObj = thisWMPStateObj.valErrors.weekMealPlan;
-    let updatedValErrsObj = await this.getCSValResultForProp(
-      "weekMealPlan",
-      propToUpdate,
-      newValue,
-      thisValErrsObj,
-      thisWMPStateObj.thisRecord._id
-    );
-    thisWMPStateObj.valErrors.weekMealPlan = updatedValErrsObj;
+    if (propToUpdate !== "name") {
+      let updatedValErrsObj = await this.getCSValResultForProp(
+        "weekMealPlan",
+        propToUpdate,
+        newValue,
+        thisValErrsObj,
+        thisWMPStateObj.thisRecord._id
+      );
+      thisWMPStateObj.valErrors.weekMealPlan = updatedValErrsObj;
+    }
     thisWMPStateObj.recordChanged.weekMealPlan = true;
     this.setState({ thisWMPStateObj: thisWMPStateObj });
   };
