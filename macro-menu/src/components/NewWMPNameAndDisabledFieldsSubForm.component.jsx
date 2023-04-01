@@ -74,6 +74,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
               localPropValue: localName,
               excludeLabel: false,
               origPropValue: origName,
+              thisRecordId: thisRecordId,
             },
             specificMethods: {
               changeLocalPropFn: updateNameStateFn,

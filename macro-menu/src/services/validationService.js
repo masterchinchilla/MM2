@@ -76,12 +76,21 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                 }
             };
             if(thisPropsName==="name"&&thisPropsValue){
-                let apiEndpoint=`${backEndHtmlRoot}${typeOfRecordToChange}s/`
+                // let apiEndpoint=`${backEndHtmlRoot}${typeOfRecordToChange}s/`;
                 try {
-                    const matchingRecords=await httpService.get(`${apiEndpoint}findbyname/${thisPropsValue}`);
+                    // const matchingRecords=await httpService.get(`${apiEndpoint}findbyname/${thisPropsValue}`);
+                    // callApi(action, recordType, srchParam, srchParamVal, payload);
+                    const backEndReqResponse = await apiService(
+                        "get",
+                        typeOfRecordToChange,
+                        "name",
+                        thisPropsValue,
+                        null
+                    );
+                    const matchingRecords = backEndReqResponse.data;
                     let nameError;
                     for(let i=0;i<matchingRecords.length;i++){
-                        if(!(matchingRecords[i]._id.equals(recordId))){
+                        if(!(matchingRecords[i]._id==recordId)){
                             nameError=`Another ${typeOfRcrdToChngSntncCase} is already using that name`}
                     };
                     if(nameError){thisPropsValErrsArray.push(nameError)};

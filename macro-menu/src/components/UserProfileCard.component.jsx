@@ -185,6 +185,7 @@ const UserProfileCard = (props) => {
               localPropValue: localHandle,
               excludeLabel: true,
               origPropValue: origHandle,
+              thisRecordId: thisRecordId,
             },
             specificMethods: {
               changeLocalPropFn: updateHandleStateFn,

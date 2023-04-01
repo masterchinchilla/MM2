@@ -31,6 +31,7 @@ const NewInputWSearchUniqueNew = (props) => {
     localPropValue,
     excludeLabel,
     origPropValue,
+    thisRecordId,
   } = specificData;
   const { changeLocalPropFn, updatePropValErrorsStateFn } = specificMethods;
   const [timer, setTimerStateFn] = useState(null);
@@ -51,56 +52,63 @@ const NewInputWSearchUniqueNew = (props) => {
     }
     changeLocalPropFn(newValue);
   }
-  function searchSetUnique(e) {
+  async function searchSetUnique(e) {
     const trimmedWNoDblSpcs = trimEnteredValueFn(e.target.value);
     clearTimeout(timer);
-    const newTimer = setTimeout(() => {
+    const newTimer = setTimeout(async () => {
       if (origPropValue !== trimmedWNoDblSpcs) {
         if (trimmedWNoDblSpcs) {
-          onSrchDBForObjWMtchngNmeFn(
+          // try {
+          const matchingRecords = await onSrchDBForObjWMtchngNmeFn(
             typeOfRecordToChange,
             propToUpdate,
             trimmedWNoDblSpcs
-          )
-            .then((nameOkOrExists) => {
-              // });
-              // httpService
-              //   .get(fetchBaseURL + trimmedWNoDblSpcs)
-              //   .then((response) => {
-              // if (response.data === "exists") {
-              if (nameOkOrExists === "exists") {
-                let valueTknValErr = `That ${propNameSentenceCase} is already taken`;
-                setLclValErrsStateFn([valueTknValErr]);
-                updatePropValErrorsStateFn([valueTknValErr]);
-              } else {
-                let valFnResults = csValidateProp(
-                  propToUpdate,
-                  trimmedWNoDblSpcs,
-                  propToUpdate
-                );
-                if (valFnResults.length > 0) {
-                  setLclValErrsStateFn([valFnResults]);
-                  updatePropValErrorsStateFn([valFnResults]);
-                  return;
-                } else {
-                  setLclValErrsStateFn("");
-                  updatePropValErrorsStateFn([]);
-                  onUpdatePropFn(
-                    propToUpdate,
-                    trimmedWNoDblSpcs,
-                    typeOfRecordToChange,
-                    thisDayOfWeekCode,
-                    thisMealTypeCode,
-                    arrayIndex
-                  );
-                }
-              }
-            })
-            .catch((valErrsNestedArray) => {
-              const errMessage = valErrsNestedArray[0]["all"][0];
-              setLclValErrsStateFn(errMessage);
-              updatePropValErrorsStateFn(errMessage);
-            });
+          );
+          console.log(matchingRecords);
+          let nameError;
+          for (let i = 0; i < matchingRecords.length; i++) {
+            console.log(matchingRecords[i]);
+            console.log(matchingRecords[i]._id);
+            console.log(matchingRecords[i]._id == thisRecordId);
+            if (matchingRecords[i]._id == thisRecordId) {
+            } else {
+              nameError = `Another ${typeOfRecordToChange} is already using that name`;
+              console.log(nameError);
+              console.log([nameError]);
+              setLclValErrsStateFn([nameError]);
+              console.log(localValErrors);
+              updatePropValErrorsStateFn([nameError]);
+            }
+          }
+          if (!nameError) {
+            let valFnResults = csValidateProp(
+              propToUpdate,
+              trimmedWNoDblSpcs,
+              propToUpdate
+            );
+            console.log(valFnResults);
+            if (valFnResults.length > 0) {
+              setLclValErrsStateFn([valFnResults]);
+              updatePropValErrorsStateFn([valFnResults]);
+              return;
+            } else {
+              setLclValErrsStateFn("");
+              updatePropValErrorsStateFn([]);
+              onUpdatePropFn(
+                propToUpdate,
+                trimmedWNoDblSpcs,
+                typeOfRecordToChange,
+                thisDayOfWeekCode,
+                thisMealTypeCode,
+                arrayIndex
+              );
+            }
+          }
+          // } catch (valErrsNestedArray) {
+          //   const errMessage = valErrsNestedArray[0]["all"][0];
+          //   setLclValErrsStateFn([errMessage]);
+          //   updatePropValErrorsStateFn([errMessage]);
+          // }
         }
       }
     }, 500);

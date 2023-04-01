@@ -521,12 +521,12 @@ router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
         let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
-        if(recordType==="GRFUser"){console.log(matchingRecords)};
-        let reqResult;
-        if(srchParam==="name"){
-            if(matchingRecords.length>0){reqResult="exists"}else{reqResult="ok"}
-        }else{reqResult=matchingRecords};
-        res.json(reqResult);
+        // if(recordType==="GRFUser"){console.log(matchingRecords)};
+        // let reqResult;
+        // if(srchParam==="name"){
+        //     if(matchingRecords.length>0){reqResult="exists"}else{reqResult="ok"}
+        // }else{reqResult=matchingRecords};
+        res.json(matchingRecords);
     } catch (errs) {
         res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
