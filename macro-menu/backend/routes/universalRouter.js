@@ -30,10 +30,13 @@ function dtrnmPrntRcrdProps(childRecordType,childRecord){
     }
     return {prntRcrdAthrId:prntRcrdAthrId,parentTypeOfRecord:parentTypeOfRecord};
 }
-function hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal){
+function hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal,action){
     let dbSearchParamsObj=null;
-    if(srchParam==="name"){srchParamVal=new RegExp(srchParamVal,"i")};
-    if(srchParam!=="all"){dbSearchParamsObj={[srchParam]:srchParamVal}};
+    let srchParamValToUse;
+    if(action===`getSimilar`){srchParamValToUse=new RegExp(srchParamVal, "i")}else{
+        srchParamValToUse=srchParamVal
+    };
+    if(srchParam!=="all"){dbSearchParamsObj={[srchParam]:srchParamValToUse}};
     return dbSearchParamsObj;
 }
 function updateRcrdWNewVals(recordToUpdate,reqBody){
@@ -304,11 +307,12 @@ function dtrmnIfUsrCanEditThisRcrd(recordType,thisRecord,requestorUsersId,res){
 router.delete(`delete/:recordType/:id`,auth,async(req,res)=>{
     const {params,currentGRFUser}=req;
     const {recordType,id}=params;
+    const action=params.action?params.action:`delete`;
     const recordId=id;
     const requestorUsersId=currentGRFUser._id;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
-        const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId);
+        const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId,action);
         const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
         const foundRecord=matchingRecords[0];
         const rcrdOrPrntRcrdAthrOk=dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
@@ -327,14 +331,15 @@ router.delete(`delete/:recordType/:id`,auth,async(req,res)=>{
 router.put(`update/:recordType/:id`,auth,async(req,res)=>{
     const {params,body,currentGRFUser}=req;
     const {recordType,id}=params;
+    const action=params.action?params.action:`update`;
     const recordId=id;
     const requestorUsersId=currentGRFUser._id;
-    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
+    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType][`PropObjModel`];
     try {
         const ssValResult=await ssValidate2(recordType, body, req, res);
         if(ssValResult){
             try {
-                const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId);
+                const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn(`_id`,recordId,action);
                 const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
                 const foundRecord=matchingRecords[0];
                 const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
@@ -401,7 +406,8 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
     let newWMPsName=`${thisGRFUser.handle}'s Copy of ${origWMP.name}`;
     let sameNameWMPs;
     try {
-        sameNameWMPs=await WeekMealPlan.find({name:new RegExp(newWMPsName,"i")});
+        // sameNameWMPs=await WeekMealPlan.find({name:new RegExp(newWMPsName,"i")});
+        sameNameWMPs=await WeekMealPlan.find({name:newWMPsName});
     } catch (errs) {
         logSSError(errs);
         return;
@@ -413,7 +419,8 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
             let newWMPNameOption=`${newWMPsName} ${nameDupsCount++}`;
             let matchingNameWMPs;
             try {
-                matchingNameWMPs=await WeekMealPlan.find({name:new RegExp(newWMPNameOption,"i")});
+                // matchingNameWMPs=await WeekMealPlan.find({name:new RegExp(newWMPNameOption,"i")});
+                sameNameWMPs=await WeekMealPlan.find({name:newWMPNameOption});
                 if(matchingNameWMPs.length<1){
                     newWMPsName=newWMPNameOption;
                     nameUnique=true;
@@ -511,21 +518,33 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
     }
     res.json(savedNewWMP)
 })
-router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
-    console.log(req);
+// router.get('get/:action/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
+//     const {params}=req;
+//     const {recordType}=params;
+//     const action=params.action?params.action:`getMatching`;
+//     const srchParam=params.srchParam?params.srchParam:`all`;
+//     const srchParamVal=params.srchParamVal?params.srchParamVal:null;
+//     const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal,action):null;
+//     console.log(dbSearchParamsObj)
+//     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType][`PropObjModel`];
+//     try {
+//         let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
+//         res.json(matchingRecords);
+//     } catch (errs) {
+//         res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+//     }
+// });
+router.get('/:recordType?/:srchParam?/:srchParamVal?/:getType?',async(req, res)=>{
     const {params}=req;
+    console.log(params);
     const {recordType}=params;
+    const action=params.getType?params.getType:null;
     const srchParam=params.srchParam?params.srchParam:"all";
     const srchParamVal=params.srchParamVal?params.srchParamVal:null;
-    const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal):null;
-    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
+    const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal,action):null;
+    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType][`PropObjModel`];
     try {
         let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
-        // if(recordType==="GRFUser"){console.log(matchingRecords)};
-        // let reqResult;
-        // if(srchParam==="name"){
-        //     if(matchingRecords.length>0){reqResult="exists"}else{reqResult="ok"}
-        // }else{reqResult=matchingRecords};
         res.json(matchingRecords);
     } catch (errs) {
         res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])

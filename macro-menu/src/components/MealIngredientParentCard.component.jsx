@@ -96,6 +96,7 @@ const MealIngredientParentCard = (props) => {
               onCancelEditFn: onCancelEditFn,
               trimEnteredValueFn: trimEnteredValueFn,
               onCreateNewRecordFn: onCreateNewRecordFn,
+              onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
             },
           }}
           specificProps={{

@@ -234,18 +234,20 @@ const App = () => {
   async function handleGetRecordsWFilterFn(
     typeOfRecordToGet,
     srchParam,
-    srchParamVal
+    srchParamVal,
+    action
   ) {
-    console.log(typeOfRecordToGet, srchParam, srchParamVal);
+    const getType = action ? action : null;
     let valErrors;
     let foundRecords = [];
     try {
-      // callApi(action, recordType, srchParam, srchParamVal, payload);
+      // callApi(action, recordType, srchParam, srchParamVal, payload,getType);
       const backEndReqResponse = await apiService(
-        "get",
+        `get`,
         typeOfRecordToGet,
         srchParam,
         srchParamVal,
+        null,
         null
       );
       foundRecords = backEndReqResponse.data;

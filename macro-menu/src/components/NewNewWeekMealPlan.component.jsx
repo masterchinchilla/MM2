@@ -269,14 +269,17 @@ class NewNewWeekMealPlan extends Component {
   hndlSrchDBForObjWMtchngNmeFn = async (
     typeOfRecordToGet,
     srchParam,
-    srchParamVal
+    srchParamVal,
+    action
   ) => {
     let reqRes;
+    const actionToUse = action ? action : `get`;
     try {
       reqRes = await this.props.onGetRecordsWFilterFn(
         typeOfRecordToGet,
         srchParam,
-        srchParamVal
+        srchParamVal,
+        actionToUse
       );
       return reqRes.foundRecords;
     } catch (valErrsNestedArray) {
@@ -523,7 +526,6 @@ class NewNewWeekMealPlan extends Component {
       "GRFUser",
       currentGRFUser._id
     );
-    console.log(pantryItemsReqResult);
     if (pantryItemsReqResult.valErrors) {
       this.notifyFn(
         "Could not get user's Pantry Items, try refreshing the page."
@@ -819,7 +821,6 @@ class NewNewWeekMealPlan extends Component {
     return createNewRecordResult;
   };
   handleCreatePantryItem = async (newPantryItem) => {
-    console.log(newPantryItem);
     const newRecordToSave = _.pick(newPantryItem.thisRecord, [
       "qtyHave",
       "ingredient",
@@ -925,7 +926,6 @@ class NewNewWeekMealPlan extends Component {
         valueToSaveToState
       );
     } else {
-      console.log("errors creating record");
       return;
     }
   };
@@ -1352,7 +1352,6 @@ class NewNewWeekMealPlan extends Component {
   handleLockAllFromEditing = (state) => {
     let pattern = /missing/;
     let { daysOfWeek, mealTypes } = state;
-    console.log(daysOfWeek, mealTypes);
     state.thisWMPStateObj.editingForm.weekMealPlan = false;
     state.thisWMPStateObj.userType.weekMealPlan = "viewer";
     state.thisWMPStateObj.allowCopy.weekMealPlan = false;

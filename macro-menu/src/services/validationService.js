@@ -9,9 +9,7 @@ export function csValidateProp(propName, value, propTypeForVal) {
     const rule = valSchema.extract(propTypeForVal);
     const subSchema = Joi.object({ [propName]: rule });
     const objToValidate = { [propName]: value };
-    console.log(objToValidate);
     const { error } = subSchema.validate(objToValidate);
-    console.log(error);
     let valErrorDetails = error ? error.details : [];
     let valErrorsArray = [];
     if (valErrorDetails) {
@@ -23,7 +21,6 @@ export function csValidateProp(propName, value, propTypeForVal) {
 };
 export async function csValidateObj(typeOfRecordToChange,
         recordToUpdate){
-            console.log(recordToUpdate)
     let typeOfRcrdToChngSntncCase=rcrdOrFldNameSntncCaseAndPropTypForVal[typeOfRecordToChange]["nameSntncCase"];
     let recordId=recordToUpdate._id;
     let propsArray=[];
@@ -37,7 +34,6 @@ export async function csValidateObj(typeOfRecordToChange,
         };
         propsArray.push(thisPropObj)
     };
-    console.log(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray)
     const valErrorsArray=csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray);
     return valErrorsArray;
 }
@@ -57,7 +53,6 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                     let errResponse = err.response ? err.response : null;
                     let errData = errResponse.data ? errResponse.data : { data: null };
                     thisPropsValErrsArray.push("Invalid Author");
-                    console.log(errData);
                 }
             }else{
                 try {await httpService.get(`${apiEndpoint}${thisPropsValueId}`);
@@ -65,7 +60,6 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
                     let errResponse = err.response ? err.response : null;
                     let errData = errResponse.data ? errResponse.data : { data: null };
                     thisPropsValErrsArray.push(`${thisPropNameSentenceCase} not found`);
-                    console.log(errData);
                 }
             };
         }else{
