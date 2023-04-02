@@ -20,6 +20,7 @@ const NewGenRecipeIngredientForm = (props) => {
     onDeleteObjFn,
     trimEnteredValueFn,
     onCreateNewRecordFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { thisStateObj, thisStateObjBackup, thisGenRecipe } = specificData;
   if (!thisStateObj.recordLoaded) {
@@ -236,6 +237,7 @@ const NewGenRecipeIngredientForm = (props) => {
                     onUpdatePropFn: onUpdatePropFn,
                     onCreateNewRecordFn: handleCreateNewRecordFn,
                     trimEnteredValueFn: trimEnteredValueFn,
+                    onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
                   },
                 }}
                 specificProps={{

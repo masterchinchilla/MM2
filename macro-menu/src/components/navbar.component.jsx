@@ -41,7 +41,8 @@ class Navbar extends Component {
       const apiReqRes = await this.props.onGetRecordsWFilterFn(
         "GRFUser",
         "_id",
-        currentUserId
+        currentUserId,
+        `get`
       );
       const foundRecords = apiReqRes.foundRecords;
       if (foundRecords.length > 0) {

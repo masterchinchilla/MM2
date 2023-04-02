@@ -58,57 +58,50 @@ const NewInputWSearchUniqueNew = (props) => {
     const newTimer = setTimeout(async () => {
       if (origPropValue !== trimmedWNoDblSpcs) {
         if (trimmedWNoDblSpcs) {
-          // try {
-          const matchingRecords = await onSrchDBForObjWMtchngNmeFn(
-            typeOfRecordToChange,
-            propToUpdate,
-            trimmedWNoDblSpcs
-          );
-          console.log(matchingRecords);
-          let nameError;
-          for (let i = 0; i < matchingRecords.length; i++) {
-            console.log(matchingRecords[i]);
-            console.log(matchingRecords[i]._id);
-            console.log(matchingRecords[i]._id == thisRecordId);
-            if (matchingRecords[i]._id == thisRecordId) {
-            } else {
-              nameError = `Another ${typeOfRecordToChange} is already using that name`;
-              console.log(nameError);
-              console.log([nameError]);
-              setLclValErrsStateFn([nameError]);
-              console.log(localValErrors);
-              updatePropValErrorsStateFn([nameError]);
-            }
-          }
-          if (!nameError) {
-            let valFnResults = csValidateProp(
+          try {
+            const matchingRecords = await onSrchDBForObjWMtchngNmeFn(
+              typeOfRecordToChange,
               propToUpdate,
               trimmedWNoDblSpcs,
-              propToUpdate
+              `get`
             );
-            console.log(valFnResults);
-            if (valFnResults.length > 0) {
-              setLclValErrsStateFn([valFnResults]);
-              updatePropValErrorsStateFn([valFnResults]);
-              return;
-            } else {
-              setLclValErrsStateFn("");
-              updatePropValErrorsStateFn([]);
-              onUpdatePropFn(
+            let nameError;
+            for (let i = 0; i < matchingRecords.length; i++) {
+              if (matchingRecords[i]._id == thisRecordId) {
+              } else {
+                nameError = `Another ${typeOfRecordToChange} is already using that name`;
+                setLclValErrsStateFn([nameError]);
+                updatePropValErrorsStateFn([nameError]);
+              }
+            }
+            if (!nameError) {
+              let valFnResults = csValidateProp(
                 propToUpdate,
                 trimmedWNoDblSpcs,
-                typeOfRecordToChange,
-                thisDayOfWeekCode,
-                thisMealTypeCode,
-                arrayIndex
+                propToUpdate
               );
+              if (valFnResults.length > 0) {
+                setLclValErrsStateFn([valFnResults]);
+                updatePropValErrorsStateFn([valFnResults]);
+                return;
+              } else {
+                setLclValErrsStateFn("");
+                updatePropValErrorsStateFn([]);
+                onUpdatePropFn(
+                  propToUpdate,
+                  trimmedWNoDblSpcs,
+                  typeOfRecordToChange,
+                  thisDayOfWeekCode,
+                  thisMealTypeCode,
+                  arrayIndex
+                );
+              }
             }
+          } catch (valErrsNestedArray) {
+            const errMessage = valErrsNestedArray[0]["all"][0];
+            setLclValErrsStateFn([errMessage]);
+            updatePropValErrorsStateFn([errMessage]);
           }
-          // } catch (valErrsNestedArray) {
-          //   const errMessage = valErrsNestedArray[0]["all"][0];
-          //   setLclValErrsStateFn([errMessage]);
-          //   updatePropValErrorsStateFn([errMessage]);
-          // }
         }
       }
     }, 500);

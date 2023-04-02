@@ -269,14 +269,16 @@ class NewNewWeekMealPlan extends Component {
   hndlSrchDBForObjWMtchngNmeFn = async (
     typeOfRecordToGet,
     srchParam,
-    srchParamVal
+    srchParamVal,
+    action
   ) => {
     let reqRes;
     try {
       reqRes = await this.props.onGetRecordsWFilterFn(
         typeOfRecordToGet,
         srchParam,
-        srchParamVal
+        srchParamVal,
+        action
       );
       return reqRes.foundRecords;
     } catch (valErrsNestedArray) {
@@ -297,7 +299,8 @@ class NewNewWeekMealPlan extends Component {
     const apiReqRes = await this.props.onGetRecordsWFilterFn(
       typeOfRecordToGet,
       srchParam,
-      srchParamVal
+      srchParamVal,
+      `get`
     );
     // const recordsArray = backEndReqResponse.data;
     const recordsArray = apiReqRes.foundRecords;
@@ -336,7 +339,8 @@ class NewNewWeekMealPlan extends Component {
     const apiReqRes = await this.props.onGetRecordsWFilterFn(
       "genRecipeIngredient",
       "genRecipe",
-      thisMealGenRecipeId
+      thisMealGenRecipeId,
+      `get`
     );
     const recordsArray = apiReqRes.foundRecords;
     // valErrors = apiReqRes.valErrors;

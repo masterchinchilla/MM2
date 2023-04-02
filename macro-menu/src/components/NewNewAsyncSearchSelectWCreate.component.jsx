@@ -13,6 +13,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
     onUpdatePropFn,
     onCreateNewRecordFn,
     trimEnteredValueFn,
+    onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const {
     typeOfRecordToChange,
@@ -35,53 +36,82 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
   const selectedObj = selectedRecord
     ? { label: selectedRecord.name, value: selectedRecord }
     : { label: "", value: { _id: "", name: "" } };
-  const [localNameValErrs, setLclNmValErrsStateFn] =
+  const [localNameValErrs, setLclValErrsStateFn] =
     useState(initialFieldValErrs);
   const [localName, updateLocalName] = useState(selectedObj.value.name);
   const thisRecordId = selectedRecord
     ? selectedRecord._id
     : getRndIntegerFn(10000000, 99999999);
-  function handleValEnteredTextFn(trimmedValueWNoDblSpcs) {
+  function handleValEnteredTextFn(trimmedWNoDblSpcs) {
     const newValErrors = csValidateProp(
       propToUpdate,
-      trimmedValueWNoDblSpcs,
+      trimmedWNoDblSpcs,
       "name"
     );
-    setLclNmValErrsStateFn(newValErrors);
+    setLclValErrsStateFn(newValErrors);
     return newValErrors.length > 0 ? false : true;
   }
-  function fetchData(inputValue, callback) {
+  async function fetchData(inputValue, callback) {
     if (!inputValue) {
       callback([]);
     } else {
-      const trimmedValueWNoDblSpcs = trimEnteredValueFn(inputValue);
-      httpService
-        .get(`${fetchDataUrl}/${trimmedValueWNoDblSpcs}`)
-        .then((response) => {
-          const tempArray = [];
-          if (response.data.length > 0) {
-            response.data.forEach((element) => {
-              tempArray.push({
-                label: `${element.name}`,
-                value: element,
-              });
+      const trimmedWNoDblSpcs = trimEnteredValueFn(inputValue);
+      try {
+        const matchingRecords = await onSrchDBForObjWMtchngNmeFn(
+          typeOfRecordToChange,
+          propToUpdate,
+          trimmedWNoDblSpcs,
+          `getSimilar`
+        );
+        const tempArray = [];
+        if (matchingRecords.length > 0) {
+          matchingRecords.forEach((element) => {
+            tempArray.push({
+              label: `${element.name}`,
+              value: element,
             });
+          });
+        } else {
+          const isValidNewOption = handleValEnteredTextFn(trimmedWNoDblSpcs);
+          if (isValidNewOption) {
+            setLclValErrsStateFn([]);
+            updateLocalName(trimmedWNoDblSpcs);
           } else {
-            const isValidNewOption = handleValEnteredTextFn(
-              trimmedValueWNoDblSpcs
-            );
-            if (isValidNewOption) {
-              setLclNmValErrsStateFn([]);
-              updateLocalName(trimmedValueWNoDblSpcs);
-            } else {
-              updateLocalName("");
-            }
+            updateLocalName("");
           }
-          callback(tempArray);
-        })
-        .catch((err) => {
-          setLclNmValErrsStateFn([JSON.stringify(err.message)]);
-        });
+        }
+        callback(tempArray);
+      } catch (valErrsNestedArray) {
+        const errMessage = valErrsNestedArray[0]["all"][0];
+        setLclValErrsStateFn([errMessage]);
+      }
+      // httpService
+      //   .get(`${fetchDataUrl}/${trimmedWNoDblSpcs}`)
+      //   .then((response) => {
+      //     const tempArray = [];
+      //     if (response.data.length > 0) {
+      //       response.data.forEach((element) => {
+      //         tempArray.push({
+      //           label: `${element.name}`,
+      //           value: element,
+      //         });
+      //       });
+      //     } else {
+      //       const isValidNewOption = handleValEnteredTextFn(
+      //         trimmedWNoDblSpcs
+      //       );
+      //       if (isValidNewOption) {
+      //         setLclValErrsStateFn([]);
+      //         updateLocalName(trimmedWNoDblSpcs);
+      //       } else {
+      //         updateLocalName("");
+      //       }
+      //     }
+      //     callback(tempArray);
+      //   })
+      //   .catch((err) => {
+      //     setLclValErrsStateFn([JSON.stringify(err.message)]);
+      //   });
     }
   }
   function onSearchChange(selectedObj) {
@@ -98,7 +128,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
     }
   }
   function resetLocalState() {
-    setLclNmValErrsStateFn(initialFieldValErrs);
+    setLclValErrsStateFn(initialFieldValErrs);
     updateLocalName(selectedObj.value.name);
   }
   if (recordLoaded) {

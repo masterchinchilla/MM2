@@ -30,9 +30,9 @@ function dtrnmPrntRcrdProps(childRecordType,childRecord){
     }
     return {prntRcrdAthrId:prntRcrdAthrId,parentTypeOfRecord:parentTypeOfRecord};
 }
-function hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal){
+function hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal,action){
     let dbSearchParamsObj=null;
-    if(srchParam==="name"){srchParamVal=new RegExp(srchParamVal,"i")};
+    if(action===`getSimilar`){srchParamVal=new RegExp(srchParamVal,"i")};
     if(srchParam!=="all"){dbSearchParamsObj={[srchParam]:srchParamVal}};
     return dbSearchParamsObj;
 }
@@ -301,14 +301,14 @@ function dtrmnIfUsrCanEditThisRcrd(recordType,thisRecord,requestorUsersId,res){
     }
     return rcrdOrPrntRcrdAthrOk;
 }    
-router.delete(`delete/:recordType/:id`,auth,async(req,res)=>{
+router.delete(`/delete/:recordType/:id`,auth,async(req,res)=>{
     const {params,currentGRFUser}=req;
     const {recordType,id}=params;
     const recordId=id;
     const requestorUsersId=currentGRFUser._id;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
-        const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId);
+        const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId,`delete`);
         const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
         const foundRecord=matchingRecords[0];
         const rcrdOrPrntRcrdAthrOk=dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
@@ -324,7 +324,7 @@ router.delete(`delete/:recordType/:id`,auth,async(req,res)=>{
         res.status(500).json([{all:`${recordType} not found, it might have already been deleted`}])
     }
 });
-router.put(`update/:recordType/:id`,auth,async(req,res)=>{
+router.put(`/update/:recordType/:id`,auth,async(req,res)=>{
     const {params,body,currentGRFUser}=req;
     const {recordType,id}=params;
     const recordId=id;
@@ -334,7 +334,7 @@ router.put(`update/:recordType/:id`,auth,async(req,res)=>{
         const ssValResult=await ssValidate2(recordType, body, req, res);
         if(ssValResult){
             try {
-                const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId);
+                const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId,`update`);
                 const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
                 const foundRecord=matchingRecords[0];
                 const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
@@ -354,7 +354,7 @@ router.put(`update/:recordType/:id`,auth,async(req,res)=>{
         res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
     }
 });
-router.post('add/:recordType',auth,async(req,res)=>{
+router.post('/add/:recordType',auth,async(req,res)=>{
     const {params,body,currentGRFUser}=req;
     const {recordType}=params;
     const requestorUsersId=currentGRFUser._id;
@@ -382,7 +382,7 @@ router.post('add/:recordType',auth,async(req,res)=>{
         res.status(500).json([{all:`Validator call failed, refresh, wait a moment and try again`}])
     }
 });
-router.post('copy/:recordType/:id',auth,async(req,res)=>{
+router.post('/copy/:recordType/:id',auth,async(req,res)=>{
     const Meal=rcrdOrFldNameCaseValPrpTypNPropObjMod["meal"]["PropObjModel"];
     const Day=rcrdOrFldNameCaseValPrpTypNPropObjMod["day"]["PropObjModel"];
     const WeekMealPlan=rcrdOrFldNameCaseValPrpTypNPropObjMod["weekMealPlan"]["PropObjModel"];
@@ -511,24 +511,33 @@ router.post('copy/:recordType/:id',auth,async(req,res)=>{
     }
     res.json(savedNewWMP)
 })
-router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
-    console.log(req);
+router.get('/getSimilar/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
     const {params}=req;
     const {recordType}=params;
     const srchParam=params.srchParam?params.srchParam:"all";
     const srchParamVal=params.srchParamVal?params.srchParamVal:null;
-    const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal):null;
+    const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal,`getSimilar`):null;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
         let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
-        // if(recordType==="GRFUser"){console.log(matchingRecords)};
-        // let reqResult;
-        // if(srchParam==="name"){
-        //     if(matchingRecords.length>0){reqResult="exists"}else{reqResult="ok"}
-        // }else{reqResult=matchingRecords};
         res.json(matchingRecords);
     } catch (errs) {
         res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
     }
 });
+router.get('/:recordType?/:srchParam?/:srchParamVal?',async(req, res)=>{
+    const {params}=req;
+    const {recordType}=params;
+    const srchParam=params.srchParam?params.srchParam:"all";
+    const srchParamVal=params.srchParamVal?params.srchParamVal:null;
+    const dbSearchParamsObj=params.srchParam?hndlDtrmnDBSrchPrmsFn(srchParam,srchParamVal,`get`):null;
+    const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
+    try {
+        let matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
+        res.json(matchingRecords);
+    } catch (errs) {
+        res.status(500).json([{all:`Records lookup failed, refresh, wait a moment and try again`}])
+    }
+});
+
 module.exports=router;
