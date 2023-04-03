@@ -255,6 +255,27 @@ const App = () => {
     }
     return { foundRecords, valErrors };
   }
+  async function handleSaveUpdateToDbFn(
+    typeOfRecordToUpdate,
+    updatedRecordFromState
+  ) {
+    let valErrors;
+    try {
+      // callApi(action, recordType, srchParam, srchParamVal, payload);
+      await apiService(
+        `update`,
+        typeOfRecordToUpdate,
+        `_id`,
+        updatedRecordFromState._id,
+        updatedRecordFromState
+      );
+      this.notifyFn("Record updated successfully", "success");
+    } catch (errs) {
+      valErrors = parseHTTPResErrs(errs);
+      notifyOfErrors(valErrors);
+    }
+    return valErrors;
+  }
   function handleGetCurrentUserFn() {
     return auth.getCurrentUser();
   }
@@ -292,6 +313,7 @@ const App = () => {
         onGetFullRecordSetFn={handleGetFullRecordSetFn}
         onGetCurrentUserFn={handleGetCurrentUserFn}
         onGetRecordsWFilterFn={handleGetRecordsWFilterFn}
+        onSaveUpdateToDbFn={handleSaveUpdateToDbFn}
       />
     </React.Fragment>
   );

@@ -4,7 +4,7 @@ async function callApi(action,recordType,srchParam,srchParamVal,payload){
     let backEndReqRootUrl= `${config.backEndHtmlRoot}${recordType}/`;
     let backEndReqUrl;
     let backEndReqResponse;
-    if(action==="get"){
+    if(action===`get`){
         backEndReqUrl=`${backEndReqRootUrl}${srchParam}/${srchParamVal?srchParamVal:``}`;
         backEndReqResponse = await httpService.get(backEndReqUrl); 
     }else{
@@ -21,17 +21,14 @@ async function callApi(action,recordType,srchParam,srchParamVal,payload){
             default:
                 backEndReqUrl=`${backEndReqRootUrl}/${srchParamVal}`;
                 switch(action){
-                    case"copy":
+                    case `copy`:
                         backEndReqResponse = await httpService.post(backEndReqUrl);
                         break;
-                    case"delete":
+                    case `delete`:
                         backEndReqResponse = await httpService.delete(backEndReqUrl);
                         break;
-                    case `pull`:
-                        backEndReqResponse = await httpService.put(backEndReqUrl);
-                        break;
                     default:
-                        
+                        backEndReqResponse = await httpService.put(backEndReqUrl,payload);
                 }
         }
     }

@@ -39,7 +39,8 @@ class RouterWrapper extends Component {
       // parseAndUpdateObjValErrsFn,
       // onGetFullRecordSetFn,
       // onGetCurrentUserFn,
-      // onGetRecordsWFilterFn
+      // onGetRecordsWFilterFn,
+      // onSaveUpdateToDbFn
     } = this.props;
     this.state = {
       userSignedIn: false,
@@ -110,6 +111,7 @@ class RouterWrapper extends Component {
       onGetFullRecordSetFn,
       onGetCurrentUserFn,
       onGetRecordsWFilterFn,
+      onSaveUpdateToDbFn,
     } = this.props;
     const scrollToTop = this.scrollToTop;
     return (
@@ -136,6 +138,7 @@ class RouterWrapper extends Component {
         onGetFullRecordSetFn={onGetFullRecordSetFn}
         onGetCurrentUserFn={onGetCurrentUserFn}
         onGetRecordsWFilterFn={onGetRecordsWFilterFn}
+        onSaveUpdateToDbFn={onSaveUpdateToDbFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -167,6 +170,7 @@ class RouterWrapper extends Component {
           onGetFullRecordSetFn={onGetFullRecordSetFn}
           onGetCurrentUserFn={onGetCurrentUserFn}
           onGetRecordsWFilterFn={onGetRecordsWFilterFn}
+          onSaveUpdateToDbFn={onSaveUpdateToDbFn}
         >
           <Route
             exact
@@ -187,6 +191,7 @@ class RouterWrapper extends Component {
                   getRndIntegerFn={getRndIntegerFn}
                   getCSValResultForPropFn={getCSValResultForPropFn}
                   trimEnteredValueFn={trimEnteredValueFn}
+                  onSaveUpdateToDbFn={onSaveUpdateToDbFn}
                 />
               );
               // } else {
@@ -221,6 +226,7 @@ class RouterWrapper extends Component {
                 trimEnteredValueFn={trimEnteredValueFn}
                 onGetFullRecordSetFn={onGetFullRecordSetFn}
                 onGetRecordsWFilterFn={onGetRecordsWFilterFn}
+                onSaveUpdateToDbFn={onSaveUpdateToDbFn}
               />
             )}
           />

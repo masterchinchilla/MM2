@@ -280,23 +280,34 @@ async function findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj){
     return matchingRecords;
 }
 function dtrmnIfUsrCanEditThisRcrd(recordType,thisRecord,requestorUsersId,res){
+    console.log(`univRouter Line 283: dtrmnIfUsrCanEditThisRcrd Fn received params: ${recordType} & ${requestorUsersId}`);
+    console.log(thisRecord)
     const rcrdReqParentAuthorPrmssn=rcrdTypsWhichReqParentAuthorPrmssns.filter(rcrdTyp=>rcrdTyp===recordType);
+    console.log(`univRouter Line 286: rcrdReqParentAuthorPrmssn is: `);
+    console.log(rcrdReqParentAuthorPrmssn);
     let rcrdOfPrntRcrdAthrId;
     let rcrdOrPrntRcrdAthrOk=true;
     let parentTypeOfRecord;
     if(rcrdReqParentAuthorPrmssn.length>0){
         const prntRcrdProps=dtrnmPrntRcrdProps(recordType,thisRecord);
+        console.log(`univRouter Line 293: prntRcrdProps: `);
+        console.log(prntRcrdProps);
         rcrdOfPrntRcrdAthrId=prntRcrdProps.prntRcrdAthrId;
+        console.log(`univRouter Line 296: rcrdOfPrntRcrdAthrId: `);
+        console.log(rcrdOfPrntRcrdAthrId);
         parentTypeOfRecord=prntRcrdProps.parentTypeOfRecord;
+        console.log(`univRouter Line 299: parentTypeOfRecord: ${parentTypeOfRecord}`);
     }else{
         rcrdOfPrntRcrdAthrId=thisRecord.GRFUser._id;
+        console.log(`univRouter Line 302: ${rcrdOfPrntRcrdAthrId}`)
     }
-    if(rcrdOfPrntRcrdAthrId!==requestorUsersId){rcrdOrPrntRcrdAthrOk=false};
+    if(!rcrdOfPrntRcrdAthrId.equals(requestorUsersId)){rcrdOrPrntRcrdAthrOk=false};
+    console.log(`univRouter Line 305: ${rcrdOrPrntRcrdAthrOk}`);
     if(!rcrdOrPrntRcrdAthrOk){
         if(parentTypeOfRecord){
             res.status(401).json([{all:`You do not have access to edit ${recordType}s under this ${parentTypeOfRecord}`}]);
         }else{
-            res.status(401).json([{all:`You do not have access to edit under this ${recordType}`}]);
+            res.status(401).json([{all:`You do not have access to edit this ${recordType}`}]);
         } 
     }
     return rcrdOrPrntRcrdAthrOk;

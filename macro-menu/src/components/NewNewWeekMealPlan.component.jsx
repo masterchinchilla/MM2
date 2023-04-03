@@ -37,6 +37,7 @@ class NewNewWeekMealPlan extends Component {
       closeNavOnClick,
       onGetFullRecordSetFn,
       onGetRecordsWFilterFn,
+      onSaveUpdateToDbFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -483,26 +484,26 @@ class NewNewWeekMealPlan extends Component {
       };
     }
   };
-  getFullRecordSet = async (typeOfRecordToChange) => {
-    const backEndHtmlRoot = this.state.backEndHtmlRoot;
-    const backEndReqUrl = `${backEndHtmlRoot}${typeOfRecordToChange}s/`;
-    try {
-      const backEndReqResponse = await httpService.get(backEndReqUrl);
-      // const backEndReqResponse = await apiService(
-      //   "get",
-      //   typeOfRecordToChange,
-      //   "all",
-      //   null,
-      //   null
-      // );
-      const fullRecordSet = backEndReqResponse.data;
-      return fullRecordSet;
-    } catch (errs) {
-      const valErrors = this.parseHTTPResErrs(errs);
-      this.notifyOfErrors(valErrors);
-      return [];
-    }
-  };
+  // getFullRecordSet = async (typeOfRecordToChange) => {
+  //   const backEndHtmlRoot = this.state.backEndHtmlRoot;
+  //   const backEndReqUrl = `${backEndHtmlRoot}${typeOfRecordToChange}s/`;
+  //   try {
+  //     const backEndReqResponse = await httpService.get(backEndReqUrl);
+  //     // const backEndReqResponse = await apiService(
+  //     //   "get",
+  //     //   typeOfRecordToChange,
+  //     //   "all",
+  //     //   null,
+  //     //   null
+  //     // );
+  //     const fullRecordSet = backEndReqResponse.data;
+  //     return fullRecordSet;
+  //   } catch (errs) {
+  //     const valErrors = this.parseHTTPResErrs(errs);
+  //     this.notifyOfErrors(valErrors);
+  //     return [];
+  //   }
+  // };
   getAllUOMsWTsBrndsNRecipes = async () => {
     const [allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes] =
       await Promise.all([
@@ -1514,30 +1515,30 @@ class NewNewWeekMealPlan extends Component {
     let state = this.handleExitFormEdit(this.state, true);
     this.setState(state);
   };
-  handleSaveUpdateToDbFn = async (
-    typeOfRecordToUpdate,
-    updatedRecordFromState
-  ) => {
-    const url = `${this.state.backEndHtmlRoot}${typeOfRecordToUpdate}s/update/${updatedRecordFromState._id}`;
-    let valErrors = [];
-    try {
-      await httpService.put(url, updatedRecordFromState);
-      // await apiService(
-      //   "update",
-      //   typeOfRecordToUpdate,
-      //   null,
-      //   updatedRecordFromState._id,
-      //   updatedRecordFromState
-      // );
-      this.notifyFn("Record updated successfully", "success");
-    } catch (errs) {
-      // valErrorsNestedArray shape:
-      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs);
-      this.notifyOfErrors(valErrors);
-    }
-    return valErrors;
-  };
+  // handleSaveUpdateToDbFn = async (
+  //   typeOfRecordToUpdate,
+  //   updatedRecordFromState
+  // ) => {
+  //   const url = `${this.state.backEndHtmlRoot}${typeOfRecordToUpdate}s/update/${updatedRecordFromState._id}`;
+  //   let valErrors = [];
+  //   try {
+  //     await httpService.put(url, updatedRecordFromState);
+  //     // await apiService(
+  //     //   "update",
+  //     //   typeOfRecordToUpdate,
+  //     //   null,
+  //     //   updatedRecordFromState._id,
+  //     //   updatedRecordFromState
+  //     // );
+  //     this.notifyFn("Record updated successfully", "success");
+  //   } catch (errs) {
+  //     // valErrorsNestedArray shape:
+  //     // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+  //     valErrors = this.parseHTTPResErrs(errs);
+  //     this.notifyOfErrors(valErrors);
+  //   }
+  //   return valErrors;
+  // };
   handleDeleteRecordFn = async (typeOfRecordToDelete, idOfRecordToDelete) => {
     const url = `${this.state.backEndHtmlRoot}${typeOfRecordToDelete}s/${idOfRecordToDelete}`;
     let deleteOk;
@@ -1888,7 +1889,11 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   handleSavePantryItemChangeFn = async (pantryItemRecord) => {
-    const valErrors = await this.handleSaveUpdateToDbFn(
+    // const valErrors = await this.handleSaveUpdateToDbFn(
+    //   "pantryItem",
+    //   pantryItemRecord
+    // );
+    const valErrors = await this.props.onSaveUpdateToDbFn(
       "pantryItem",
       pantryItemRecord
     );
@@ -1963,7 +1968,11 @@ class NewNewWeekMealPlan extends Component {
         countOfLinkedMealIngrdnts += lengthOfNewMealIngrdnts;
       }
     }
-    let valErrors = await this.handleSaveUpdateToDbFn(
+    // let valErrors = await this.handleSaveUpdateToDbFn(
+    //   typeOfRecordToSave,
+    //   recordToSave
+    // );
+    let valErrors = this.props.onSaveUpdateToDbFn(
       typeOfRecordToSave,
       recordToSave
     );
