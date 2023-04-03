@@ -248,7 +248,7 @@ const NewGenRecipeIngredientForm = (props) => {
                     thisDayOfWeekCode: thisDayOfWeekCode,
                     thisMealTypeCode: thisMealTypeCode,
                     arrayIndex: arrayIndex,
-                    propToUpdate: "ingredient",
+                    propToUpdate: `name`,
                     fieldDisabled: fieldsDisabled,
                     initialFieldValErrs:
                       valErrors.genRecipeIngredient.ingredient,
@@ -258,6 +258,7 @@ const NewGenRecipeIngredientForm = (props) => {
                     excludeLabel: false,
                     selectedRecord: ingredient,
                     fetchDataUrl: `${backEndHtmlRoot}ingredients/ingredientsByName`,
+                    typeOfRecordToSelect: `ingredient`,
                   },
                   specificMethods: {},
                 }}

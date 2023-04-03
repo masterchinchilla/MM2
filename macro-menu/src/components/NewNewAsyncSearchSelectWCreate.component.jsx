@@ -31,6 +31,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
     excludeLabel,
     selectedRecord,
     fetchDataUrl,
+    typeOfRecordToSelect,
   } = specificData;
   const {} = specificMethods;
   const selectedObj = selectedRecord
@@ -44,7 +45,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
     : getRndIntegerFn(10000000, 99999999);
   function handleValEnteredTextFn(trimmedWNoDblSpcs) {
     const newValErrors = csValidateProp(
-      propToUpdate,
+      typeOfRecordToSelect,
       trimmedWNoDblSpcs,
       "name"
     );
@@ -58,7 +59,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
       const trimmedWNoDblSpcs = trimEnteredValueFn(inputValue);
       try {
         const matchingRecords = await onSrchDBForObjWMtchngNmeFn(
-          typeOfRecordToChange,
+          typeOfRecordToSelect,
           propToUpdate,
           trimmedWNoDblSpcs,
           `getSimilar`
@@ -118,7 +119,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
     let newValue = selectedObj.value;
     if (newValue) {
       onUpdatePropFn(
-        propToUpdate,
+        typeOfRecordToSelect,
         newValue,
         typeOfRecordToChange,
         thisDayOfWeekCode,
@@ -161,7 +162,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
           )}
         </div>
         <AsyncCreatableSelect
-          key={`AsyncCreateableFor_${propToUpdate}For${typeOfRecordToChange}${thisRecordId}`}
+          key={`AsyncCreateableFor_${typeOfRecordToSelect}For${typeOfRecordToChange}${thisRecordId}`}
           value={selectedObj}
           loadOptions={fetchData}
           placeholder={label}
