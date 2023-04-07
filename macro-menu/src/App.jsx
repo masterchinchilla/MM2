@@ -13,6 +13,7 @@ import auth from "./services/authService";
 import apiService from "./services/apiService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import rcrdOrFldNameSntncCaseAndPropTypForVal from "./staticRefs/rcrdOrFldNameSntncCaseAndPropTypForVal";
 library.add(fas);
 const App = () => {
   // Mosh recommends using ComponentDidMount to run getCurrentUser from auth service, but there is a reason (I don't remember) why we went with a functional component here and not a class component...
@@ -255,6 +256,35 @@ const App = () => {
     }
     return { foundRecords, valErrors };
   }
+  async function handleCreateNewRecordInDbFn(
+    typeOfRecordToCreate,
+    newRecordToSave
+  ) {
+    let savedRecord = null;
+    let valErrors = [];
+    try {
+      const reqRes = await apiService(
+        "add",
+        typeOfRecordToCreate,
+        null,
+        null,
+        newRecordToSave
+      );
+      savedRecord = reqRes.data;
+      const typeOfRcrdToCreateSntcCase =
+        rcrdOrFldNameSntncCaseAndPropTypForVal[typeOfRecordToCreate][
+          `nameSntncCase`
+        ];
+      const successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
+      notifyFn(successMsg, "success");
+    } catch (errs) {
+      // valErrorsNestedArray shape:
+      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+      valErrors = parseHTTPResErrs(errs);
+      notifyOfErrors(valErrors);
+    }
+    return { savedRecord, valErrors };
+  }
   async function handleSaveUpdateToDbFn(
     typeOfRecordToUpdate,
     updatedRecordFromState
@@ -269,7 +299,7 @@ const App = () => {
         updatedRecordFromState._id,
         updatedRecordFromState
       );
-      this.notifyFn("Record updated successfully", "success");
+      notifyFn("Record updated successfully", "success");
     } catch (errs) {
       valErrors = parseHTTPResErrs(errs);
       notifyOfErrors(valErrors);
@@ -314,6 +344,7 @@ const App = () => {
         onGetCurrentUserFn={handleGetCurrentUserFn}
         onGetRecordsWFilterFn={handleGetRecordsWFilterFn}
         onSaveUpdateToDbFn={handleSaveUpdateToDbFn}
+        onCreateNewRecordInDbFn={handleCreateNewRecordInDbFn}
       />
     </React.Fragment>
   );

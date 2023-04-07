@@ -38,6 +38,7 @@ class NewNewWeekMealPlan extends Component {
       onGetFullRecordSetFn,
       onGetRecordsWFilterFn,
       onSaveUpdateToDbFn,
+      onCreateNewRecordInDbFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -725,32 +726,32 @@ class NewNewWeekMealPlan extends Component {
     thisMealStateObj.thisMealsIngrdnts = newStateObjsArray;
     return thisMealStateObj;
   };
-  handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
-    const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
-    let savedRecord = null;
-    let valErrors = [];
-    try {
-      let reqRes = await httpService.post(reqUrl, newRecordToSave);
-      // let reqRes = await apiService(
-      //   "add",
-      //   typeOfRecordToCreate,
-      //   null,
-      //   null,
-      //   newRecordToSave
-      // );
-      savedRecord = reqRes.data;
-      let typeOfRcrdToCreateSntcCase =
-        rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
-      let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
-      this.notifyFn(successMsg, "success");
-    } catch (errs) {
-      // valErrorsNestedArray shape:
-      // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      valErrors = this.parseHTTPResErrs(errs);
-      this.notifyOfErrors(valErrors);
-    }
-    return { savedRecord, valErrors };
-  };
+  // handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
+  //   const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
+  //   let savedRecord = null;
+  //   let valErrors = [];
+  //   try {
+  //     let reqRes = await httpService.post(reqUrl, newRecordToSave);
+  //     // let reqRes = await apiService(
+  //     //   "add",
+  //     //   typeOfRecordToCreate,
+  //     //   null,
+  //     //   null,
+  //     //   newRecordToSave
+  //     // );
+  //     savedRecord = reqRes.data;
+  //     let typeOfRcrdToCreateSntcCase =
+  //       rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
+  //     let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
+  //     this.notifyFn(successMsg, "success");
+  //   } catch (errs) {
+  //     // valErrorsNestedArray shape:
+  //     // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
+  //     valErrors = this.parseHTTPResErrs(errs);
+  //     this.notifyOfErrors(valErrors);
+  //   }
+  //   return { savedRecord, valErrors };
+  // };
   handleCreateNewRecordFn = async (
     typeOfRecordToCreate,
     thisDayOfWeekCode,
@@ -811,7 +812,7 @@ class NewNewWeekMealPlan extends Component {
       default:
         newRecordToSave = { name: newName, GRFUser: state.currentGRFUser };
     }
-    let createNewRecordResult = await this.handleCreateNewRecordInDb(
+    let createNewRecordResult = await this.props.onCreateNewRecordInDbFn(
       typeOfRecordToCreate,
       newRecordToSave
     );
@@ -830,7 +831,7 @@ class NewNewWeekMealPlan extends Component {
       "ingredient",
       "GRFUser",
     ]);
-    const createNewRecordResult = await this.handleCreateNewRecordInDb(
+    const createNewRecordResult = await this.props.onCreateNewRecordInDbFn(
       "pantryItem",
       newRecordToSave
     );
@@ -1001,7 +1002,7 @@ class NewNewWeekMealPlan extends Component {
           "genRecipeIngredient",
           "meal",
         ]);
-        createMealIngrdntResult = await this.handleCreateNewRecordInDb(
+        createMealIngrdntResult = await this.props.onCreateNewRecordInDbFn(
           "mealIngredient",
           mealIngrdntRcrdToSave
         );
@@ -1819,7 +1820,7 @@ class NewNewWeekMealPlan extends Component {
     let newGenRecipeIngredient =
       state.newRecordTemplates.newGenRcpIngrdntsByMealType[thisMealTypeCode];
     newGenRecipeIngredient.genRecipe = thisMealRecord.genRecipe;
-    let createNewGenRcpIngrdntResult = await this.handleCreateNewRecordInDb(
+    let createNewGenRcpIngrdntResult = await this.props.onCreateNewRecordInDbFn(
       "genRecipeIngredient",
       newGenRecipeIngredient
     );
@@ -1838,7 +1839,7 @@ class NewNewWeekMealPlan extends Component {
         genRecipeIngredient: updatedNewGenRcpIngrdnt,
         meal: thisMealRecord,
       };
-      let createNewMealIngrdntResult = await this.handleCreateNewRecordInDb(
+      let createNewMealIngrdntResult = await this.props.onCreateNewRecordInDbFn(
         "mealIngredient",
         newMealIngredient
       );
