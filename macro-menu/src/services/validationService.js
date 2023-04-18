@@ -41,7 +41,7 @@ export async function csValidateObj(typeOfRecordToChange,
     const valErrorsArray=csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray);
     return valErrorsArray;
 }
-export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray){
+export async function csValidate2(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray){
     const valErrorsArray=[];
     for(let i=0;i<propsArray.length;i++){
         let {thisPropsName,thisPropNameSentenceCase,thisPropsValue,thisPropTypeForVal}=propsArray[i];
@@ -107,5 +107,63 @@ export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase
     };
     return valErrorsArray;
 };
+export async function csValidate(typeOfRecordToChange, typeOfRcrdToChngSntncCase, recordId, propsArray){
+    const valErrorsArray=[];
+    for(let i=0;i<propsArray.length;i++){
+        let {thisPropsName,thisPropNameSentenceCase,thisPropsValue,thisPropTypeForVal}=propsArray[i];
+        let thisPropsValErrsArray=[];
+        if(thisPropTypeForVal==="objRef"){
+            let thisPropsValueId=thisPropsValue._id;
+            try {
+                // callApi(action, recordType, srchParam, srchParamVal, payload);
+                await apiService(
+                    `get`,
+                    thisPropsName,
+                    `_id`,
+                    thisPropsValueId,
+                    null
+                );
+            } catch (errs) {
+                const valErrsNestedArray = errs.response.data;
+                thisPropsValErrsArray.push(valErrsNestedArray[0]["all"]);
+            }
+        }else{
+            let validationResults=thisPropTypeForVal?csValidateProp(thisPropsName, thisPropsValue, thisPropTypeForVal):[];
+            if(validationResults.length>0){
+                for(let i=0;i<validationResults.length;i++){
+                  thisPropsValErrsArray.push(validationResults[i])
+                }
+            };
+            if(thisPropsName==="name"&&thisPropsValue){
+                // let apiEndpoint=`${backEndHtmlRoot}${typeOfRecordToChange}s/`;
+                try {
+                    // const matchingRecords=await httpService.get(`${apiEndpoint}findbyname/${thisPropsValue}`);
+                    // callApi(action, recordType, srchParam, srchParamVal, payload);
+                    const backEndReqResponse = await apiService(
+                        `get`,
+                        typeOfRecordToChange,
+                        `name`,
+                        thisPropsValue,
+                        null
+                    );
+                    const matchingRecords = backEndReqResponse.data;
+                    let nameError;
+                    for(let i=0;i<matchingRecords.length;i++){
+                        if(!(matchingRecords[i]._id==recordId)){
+                            nameError=`Another ${typeOfRcrdToChngSntncCase} is already using that name`}
+                    };
+                    if(nameError){thisPropsValErrsArray.push(nameError)};
+                    
+                } catch (errs) {
+                    const valErrsNestedArray = errs.response.data;
+                    thisPropsValErrsArray.push(valErrsNestedArray[0]["all"]);
+                }
+            }
+            
+        };
+        valErrorsArray.push({[thisPropsName]:thisPropsValErrsArray})
+    };
+    return valErrorsArray;
+};
 
-export default {csValidateProp,csValidate,csValidateObj};
+export default {csValidateProp,csValidate,csValidate2,csValidateObj};

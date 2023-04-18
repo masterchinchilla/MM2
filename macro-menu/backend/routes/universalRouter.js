@@ -279,36 +279,40 @@ async function findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj){
     }
     return matchingRecords;
 }
-function dtrmnIfUsrCanEditThisRcrd(recordType,thisRecord,requestorUsersId,res){
-    console.log(`univRouter Line 283: dtrmnIfUsrCanEditThisRcrd Fn received params: ${recordType} & ${requestorUsersId}`);
-    const rcrdReqParentAuthorPrmssn=rcrdTypsWhichReqParentAuthorPrmssns.filter(rcrdTyp=>rcrdTyp===recordType);
-    console.log(`univRouter Line 286: rcrdReqParentAuthorPrmssn is: `);
-    console.log(rcrdReqParentAuthorPrmssn);
-    let rcrdOfPrntRcrdAthrId;
+function dtrmnIfUsrCanEditThisRcrd(recordType,thisRecord,requestorUser,res){
+    const requestorUserIsAdmin=requestorUser.isAdmin?true:false;
     let rcrdOrPrntRcrdAthrOk=true;
-    let parentTypeOfRecord;
-    if(rcrdReqParentAuthorPrmssn.length>0){
-        const prntRcrdProps=dtrnmPrntRcrdProps(recordType,thisRecord);
-        console.log(`univRouter Line 293: prntRcrdProps: `);
-        console.log(prntRcrdProps);
-        rcrdOfPrntRcrdAthrId=prntRcrdProps.prntRcrdAthrId;
-        console.log(`univRouter Line 296: rcrdOfPrntRcrdAthrId: `);
-        console.log(rcrdOfPrntRcrdAthrId);
-        parentTypeOfRecord=prntRcrdProps.parentTypeOfRecord;
-        console.log(`univRouter Line 299: parentTypeOfRecord: ${parentTypeOfRecord}`);
-    }else{
-        rcrdOfPrntRcrdAthrId=thisRecord.GRFUser._id;
-        console.log(`univRouter Line 302: ${rcrdOfPrntRcrdAthrId}`)
-    } 
-    // if(!rcrdOfPrntRcrdAthrId.equals(requestorUsersId)){rcrdOrPrntRcrdAthrOk=false};
-    if(rcrdOfPrntRcrdAthrId!=requestorUsersId){rcrdOrPrntRcrdAthrOk=false};
-    console.log(`univRouter Line 305: ${rcrdOrPrntRcrdAthrOk}`);
-    if(!rcrdOrPrntRcrdAthrOk){
-        if(parentTypeOfRecord){
-            res.status(401).json([{all:`You do not have access to edit ${recordType}s under this ${parentTypeOfRecord}`}]);
+    if(!requestorUserIsAdmin){
+        let rcrdOfPrntRcrdAthrId;
+        const requestorUsersId=requestorUser._id;
+        console.log(`univRouter Line 283: dtrmnIfUsrCanEditThisRcrd Fn received params: ${recordType} & ${requestorUsersId}`);
+        const rcrdReqParentAuthorPrmssn=rcrdTypsWhichReqParentAuthorPrmssns.filter(rcrdTyp=>rcrdTyp===recordType);
+        console.log(`univRouter Line 286: rcrdReqParentAuthorPrmssn is: `);
+        console.log(rcrdReqParentAuthorPrmssn);
+        let parentTypeOfRecord;
+        if(rcrdReqParentAuthorPrmssn.length>0){
+            const prntRcrdProps=dtrnmPrntRcrdProps(recordType,thisRecord);
+            console.log(`univRouter Line 293: prntRcrdProps: `);
+            console.log(prntRcrdProps);
+            rcrdOfPrntRcrdAthrId=prntRcrdProps.prntRcrdAthrId;
+            console.log(`univRouter Line 296: rcrdOfPrntRcrdAthrId: `);
+            console.log(rcrdOfPrntRcrdAthrId);
+            parentTypeOfRecord=prntRcrdProps.parentTypeOfRecord;
+            console.log(`univRouter Line 299: parentTypeOfRecord: ${parentTypeOfRecord}`);
         }else{
-            res.status(401).json([{all:`You do not have access to edit this ${recordType}`}]);
+            rcrdOfPrntRcrdAthrId=thisRecord.GRFUser._id;
+            console.log(`univRouter Line 302: ${rcrdOfPrntRcrdAthrId}`)
         } 
+        // if(!rcrdOfPrntRcrdAthrId.equals(requestorUsersId)){rcrdOrPrntRcrdAthrOk=false};
+        if(rcrdOfPrntRcrdAthrId!=requestorUsersId){rcrdOrPrntRcrdAthrOk=false};
+        console.log(`univRouter Line 305: ${rcrdOrPrntRcrdAthrOk}`);
+        if(!rcrdOrPrntRcrdAthrOk){
+            if(parentTypeOfRecord){
+                res.status(401).json([{all:`You do not have access to edit ${recordType}s under this ${parentTypeOfRecord}`}]);
+            }else{
+                res.status(401).json([{all:`You do not have access to edit this ${recordType}`}]);
+            } 
+        }
     }
     return rcrdOrPrntRcrdAthrOk;
 }    
@@ -316,13 +320,12 @@ router.delete(`/delete/:recordType/:id`,auth,async(req,res)=>{
     const {params,currentGRFUser}=req;
     const {recordType,id}=params;
     const recordId=id;
-    const requestorUsersId=currentGRFUser._id;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
         const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId,`delete`);
         const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
         const foundRecord=matchingRecords[0];
-        const rcrdOrPrntRcrdAthrOk=dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
+        const rcrdOrPrntRcrdAthrOk=dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,currentGRFUser,res)
         if(!rcrdOrPrntRcrdAthrOk){return}else{
             try {
                 await LocalObjModel.findByIdAndDelete(recordId);
@@ -339,7 +342,6 @@ router.put(`/update/:recordType/:id`,auth,async(req,res)=>{
     const {params,body,currentGRFUser}=req;
     const {recordType,id}=params;
     const recordId=id;
-    const requestorUsersId=currentGRFUser._id;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
         const ssValResult=await ssValidate2(recordType, body, req, res);
@@ -348,7 +350,7 @@ router.put(`/update/:recordType/:id`,auth,async(req,res)=>{
                 const dbSearchParamsObj=hndlDtrmnDBSrchPrmsFn("_id",recordId,`update`);
                 const matchingRecords=await findAndPopulate(recordType,LocalObjModel,dbSearchParamsObj);
                 const foundRecord=matchingRecords[0];
-                const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,requestorUsersId,res)
+                const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,foundRecord,currentGRFUser,res)
                 if(!rcrdOrPrntRcrdAthrOk){return}else{
                     try {
                         await updateRcrdWNewVals(foundRecord,body).save();
@@ -368,13 +370,12 @@ router.put(`/update/:recordType/:id`,auth,async(req,res)=>{
 router.post('/add/:recordType',auth,async(req,res)=>{
     const {params,body,currentGRFUser}=req;
     const {recordType}=params;
-    const requestorUsersId=currentGRFUser._id;
     const LocalObjModel=rcrdOrFldNameCaseValPrpTypNPropObjMod[recordType]["PropObjModel"];
     try {
         const ssValResult=await ssValidate2(recordType, body, req, res);
         if(ssValResult){
             try {
-                const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,body,requestorUsersId,res)
+                const rcrdOrPrntRcrdAthrOk= dtrmnIfUsrCanEditThisRcrd(recordType,body,currentGRFUser,res)
                 console.log(`univRouter line 378 - rcrdOrPrntRcrdAthrOk = ${rcrdOrPrntRcrdAthrOk}`);
                 if(!rcrdOrPrntRcrdAthrOk){return}else{
                     const recordToUpdate=updateRcrdWNewVals({},body);
