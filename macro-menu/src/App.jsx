@@ -289,7 +289,7 @@ const App = () => {
     typeOfRecordToUpdate,
     updatedRecordFromState
   ) {
-    let valErrors;
+    let valErrors = [];
     try {
       // callApi(action, recordType, srchParam, srchParamVal, payload);
       await apiService(
@@ -305,6 +305,25 @@ const App = () => {
       notifyOfErrors(valErrors);
     }
     return valErrors;
+  }
+  async function handleCopyInDbFn(typeOfRecordToCopy, origRcrdId) {
+    let copyHadErrs = true;
+    let newRecordCopyId;
+    try {
+      const reqRes = await apiService(
+        `copy`,
+        typeOfRecordToCopy,
+        null,
+        origRcrdId,
+        null
+      );
+      copyHadErrs = false;
+      newRecordCopyId = reqRes.data._id;
+    } catch (errs) {
+      console.log(errs);
+      notifyFn(`WMP copy failed, refresh and try again.`, `error`);
+    }
+    return { copyHadErrs, newRecordCopyId };
   }
   function handleGetCurrentUserFn() {
     return auth.getCurrentUser();
@@ -345,6 +364,7 @@ const App = () => {
         onGetRecordsWFilterFn={handleGetRecordsWFilterFn}
         onSaveUpdateToDbFn={handleSaveUpdateToDbFn}
         onCreateNewRecordInDbFn={handleCreateNewRecordInDbFn}
+        onCopyInDbFn={handleCopyInDbFn}
       />
     </React.Fragment>
   );

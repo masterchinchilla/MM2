@@ -41,7 +41,8 @@ class RouterWrapper extends Component {
       // onGetCurrentUserFn,
       // onGetRecordsWFilterFn,
       // onSaveUpdateToDbFn,
-      //onCreateNewRecordInDbFn,
+      // onCreateNewRecordInDbFn,
+      // onCopyInDbFn,
     } = this.props;
     this.state = {
       userSignedIn: false,
@@ -114,6 +115,7 @@ class RouterWrapper extends Component {
       onGetRecordsWFilterFn,
       onSaveUpdateToDbFn,
       onCreateNewRecordInDbFn,
+      onCopyInDbFn,
     } = this.props;
     const scrollToTop = this.scrollToTop;
     return (
@@ -142,6 +144,7 @@ class RouterWrapper extends Component {
         onGetRecordsWFilterFn={onGetRecordsWFilterFn}
         onSaveUpdateToDbFn={onSaveUpdateToDbFn}
         onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
+        onCopyInDbFn={onCopyInDbFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -175,6 +178,7 @@ class RouterWrapper extends Component {
           onGetRecordsWFilterFn={onGetRecordsWFilterFn}
           onSaveUpdateToDbFn={onSaveUpdateToDbFn}
           onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
+          onCopyInDbFn={onCopyInDbFn}
         >
           <Route
             exact
@@ -232,6 +236,7 @@ class RouterWrapper extends Component {
                 onGetRecordsWFilterFn={onGetRecordsWFilterFn}
                 onSaveUpdateToDbFn={onSaveUpdateToDbFn}
                 onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
+                onCopyInDbFn={onCopyInDbFn}
               />
             )}
           />

@@ -3,7 +3,6 @@ import _ from "lodash";
 import httpService from "../services/httpService";
 import apiService from "../services/apiService";
 import { getCurrentUser } from "../services/authService";
-import { csValidateObj } from "../services/validationService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "react-toastify/dist/ReactToastify.css";
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -39,6 +38,8 @@ class NewNewWeekMealPlan extends Component {
       onGetRecordsWFilterFn,
       onSaveUpdateToDbFn,
       onCreateNewRecordInDbFn,
+      getRndIntegerFn,
+      onCopyInDbFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -48,7 +49,11 @@ class NewNewWeekMealPlan extends Component {
       copyingWMP: false,
       showWMPCopyProgressBar: false,
       numOfWMPItemsToCopy: 0,
-      currentGRFUser: thisGRFUser,
+      currentGRFUser: thisGRFUser
+        ? thisGRFUser
+        : {
+            _id: `placeholderUser${getRndIntegerFn(10000000, 99999999)}`,
+          },
       rcrdOrFldNameSnctncCase: rcrdOrFldNameSnctncCase,
       daysOfWeek: daysOfWeek,
       mealTypes: mealTypes,
@@ -296,15 +301,12 @@ class NewNewWeekMealPlan extends Component {
   ) => {
     let valErrors;
     let stateObjsArray = [];
-    // try {
-    // const backEndReqResponse = await httpService.get(backEndReqUrl);
     const apiReqRes = await this.props.onGetRecordsWFilterFn(
       typeOfRecordToGet,
       srchParam,
       srchParamVal,
       `get`
     );
-    // const recordsArray = backEndReqResponse.data;
     const recordsArray = apiReqRes.foundRecords;
     valErrors = apiReqRes.valErrors;
     if (recordsArray.length > 0) {
@@ -314,12 +316,6 @@ class NewNewWeekMealPlan extends Component {
         recordTypesForStateObj
       );
     }
-    // } catch (errs) {
-    //   //valErrorsNestedArray shape:
-    //   //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-    //   valErrors = this.parseHTTPResErrs(errs);
-    //   this.notifyOfErrors(valErrors);
-    // }
     return { stateObjsArray, valErrors };
   };
   getThisMealsIngrdnts = async (thisMealsId) => {
@@ -335,9 +331,6 @@ class NewNewWeekMealPlan extends Component {
     return thisMlsIngrdntsReqResult.stateObjsArray;
   };
   getThisGenRcpsGenRcpIngrdnts = async (thisMealGenRecipeId) => {
-    // let recipeIngrdntsReqURL = `${this.state.backEndHtmlRoot}genRecipeIngredients/thisGenRecipesGenRecipeIngredients/${thisMealGenRecipeId}`;
-    // let thisGenRcpsGenRcpIngrdnts;
-    // let valErrors;
     const apiReqRes = await this.props.onGetRecordsWFilterFn(
       "genRecipeIngredient",
       "genRecipe",
@@ -345,21 +338,7 @@ class NewNewWeekMealPlan extends Component {
       `get`
     );
     const recordsArray = apiReqRes.foundRecords;
-    // valErrors = apiReqRes.valErrors;
     return recordsArray;
-    // try {
-    //   let genRcpsIngrdntsReqResult = await httpService.get(
-    //     recipeIngrdntsReqURL
-    //   );
-    //   thisGenRcpsGenRcpIngrdnts = genRcpsIngrdntsReqResult.data;
-    // } catch (errs) {
-    //   //valErrorsNestedArray shape:
-    //   //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-    //   let valErrors = this.parseHTTPResErrs(errs);
-    //   this.notifyOfErrors(valErrors);
-    //   thisGenRcpsGenRcpIngrdnts = [];
-    // }
-    // return thisGenRcpsGenRcpIngrdnts;
   };
   updateMealWGenRcpsGenRcpIngrdnts = async (thisMealStateObjToUpdate) => {
     let thisMealGenRecipeId = thisMealStateObjToUpdate.thisRecord.genRecipe._id;
@@ -485,26 +464,6 @@ class NewNewWeekMealPlan extends Component {
       };
     }
   };
-  // getFullRecordSet = async (typeOfRecordToChange) => {
-  //   const backEndHtmlRoot = this.state.backEndHtmlRoot;
-  //   const backEndReqUrl = `${backEndHtmlRoot}${typeOfRecordToChange}s/`;
-  //   try {
-  //     const backEndReqResponse = await httpService.get(backEndReqUrl);
-  //     // const backEndReqResponse = await apiService(
-  //     //   "get",
-  //     //   typeOfRecordToChange,
-  //     //   "all",
-  //     //   null,
-  //     //   null
-  //     // );
-  //     const fullRecordSet = backEndReqResponse.data;
-  //     return fullRecordSet;
-  //   } catch (errs) {
-  //     const valErrors = this.parseHTTPResErrs(errs);
-  //     this.notifyOfErrors(valErrors);
-  //     return [];
-  //   }
-  // };
   getAllUOMsWTsBrndsNRecipes = async () => {
     const [allUnitOfMeasures, allWeightTypes, allBrands, allGenRecipes] =
       await Promise.all([
@@ -604,31 +563,33 @@ class NewNewWeekMealPlan extends Component {
     this.setState(state);
     let thisWMPStateObj = state.thisWMPStateObj;
     const origWMPId = thisWMPStateObj.thisRecord._id;
-    const backEndReqUrl = `${state.backEndHtmlRoot}weekMealPlans/copy/${origWMPId}`;
-    let wmpCopyReqResult;
-    try {
-      wmpCopyReqResult = await httpService.post(backEndReqUrl);
-      // wmpCopyReqResult = await apiService(
-      //   "copy",
-      //   "weekMealPlan",
-      //   null,
-      //   origWMPId,
-      //   null
-      // );
-      const savedWMPCopyId = wmpCopyReqResult.data._id;
-      window.location = `/weekMealPlansNewNew/edit/${savedWMPCopyId}/true`;
-    } catch (errs) {
-      this.notifyFn("WMP copy failed, refresh and try again.", "error");
+    const { copyHadErrs, newRecordCopyId } = await this.props.onCopyInDbFn(
+      `weekMealPlan`,
+      origWMPId
+    );
+    if (copyHadErrs) {
       state = this.handleExitFormEdit(state, false);
       state.copyingWMP = false;
       this.setState(state);
+    } else {
+      window.location = `/weekMealPlansNewNew/edit/${newRecordCopyId}/true`;
     }
   };
-  componentDidMount() {
-    const currentUser = this.props.thisGRFUser
-      ? this.props.thisGRFUser
-      : getCurrentUser();
+  handleGetSetCurrentUserFn = async () => {
+    let currentUserFromProps = this.props.thisGRFUser;
+    console.log(currentUserFromProps);
+    let currentUser;
+    if (currentUserFromProps) {
+      currentUser = currentUserFromProps;
+      console.log(currentUser);
+    } else {
+      currentUser = await getCurrentUser();
+      console.log(currentUser);
+    }
     this.getThisWMPFn(currentUser);
+  };
+  componentDidMount() {
+    this.handleGetSetCurrentUserFn();
   }
   getCSValResultForProp = async (
     typeOfRecordToChange,
@@ -726,32 +687,6 @@ class NewNewWeekMealPlan extends Component {
     thisMealStateObj.thisMealsIngrdnts = newStateObjsArray;
     return thisMealStateObj;
   };
-  // handleCreateNewRecordInDb = async (typeOfRecordToCreate, newRecordToSave) => {
-  //   const reqUrl = `${this.state.backEndHtmlRoot}${typeOfRecordToCreate}s/add`;
-  //   let savedRecord = null;
-  //   let valErrors = [];
-  //   try {
-  //     let reqRes = await httpService.post(reqUrl, newRecordToSave);
-  //     // let reqRes = await apiService(
-  //     //   "add",
-  //     //   typeOfRecordToCreate,
-  //     //   null,
-  //     //   null,
-  //     //   newRecordToSave
-  //     // );
-  //     savedRecord = reqRes.data;
-  //     let typeOfRcrdToCreateSntcCase =
-  //       rcrdOrFldNameSnctncCase[typeOfRecordToCreate];
-  //     let successMsg = `New ${typeOfRcrdToCreateSntcCase} saved successfully.`;
-  //     this.notifyFn(successMsg, "success");
-  //   } catch (errs) {
-  //     // valErrorsNestedArray shape:
-  //     // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-  //     valErrors = this.parseHTTPResErrs(errs);
-  //     this.notifyOfErrors(valErrors);
-  //   }
-  //   return { savedRecord, valErrors };
-  // };
   handleCreateNewRecordFn = async (
     typeOfRecordToCreate,
     thisDayOfWeekCode,
@@ -1516,30 +1451,6 @@ class NewNewWeekMealPlan extends Component {
     let state = this.handleExitFormEdit(this.state, true);
     this.setState(state);
   };
-  // handleSaveUpdateToDbFn = async (
-  //   typeOfRecordToUpdate,
-  //   updatedRecordFromState
-  // ) => {
-  //   const url = `${this.state.backEndHtmlRoot}${typeOfRecordToUpdate}s/update/${updatedRecordFromState._id}`;
-  //   let valErrors = [];
-  //   try {
-  //     await httpService.put(url, updatedRecordFromState);
-  //     // await apiService(
-  //     //   "update",
-  //     //   typeOfRecordToUpdate,
-  //     //   null,
-  //     //   updatedRecordFromState._id,
-  //     //   updatedRecordFromState
-  //     // );
-  //     this.notifyFn("Record updated successfully", "success");
-  //   } catch (errs) {
-  //     // valErrorsNestedArray shape:
-  //     // [{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-  //     valErrors = this.parseHTTPResErrs(errs);
-  //     this.notifyOfErrors(valErrors);
-  //   }
-  //   return valErrors;
-  // };
   handleDeleteRecordFn = async (typeOfRecordToDelete, idOfRecordToDelete) => {
     const url = `${this.state.backEndHtmlRoot}${typeOfRecordToDelete}s/${idOfRecordToDelete}`;
     let deleteOk;
@@ -1809,7 +1720,6 @@ class NewNewWeekMealPlan extends Component {
       }
     }
   };
-
   handleAddIngrdntToRecipeFn = async (thisDayOfWeekCode, thisMealTypeCode) => {
     let state = this.state;
     let thisDayStateObj = state[thisDayOfWeekCode];

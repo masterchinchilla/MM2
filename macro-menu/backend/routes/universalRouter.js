@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const _ = require('lodash');
 
 const auth = require('../middleware/auth');
 
@@ -406,7 +407,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
     try {
         origWMP=await WeekMealPlan.findById(origWMPId);
     } catch (errs) {
-        logSSError(errs);
+        res.status(500).json([{all:JSON.stringify(errs)}])
         return;
     }
     const newWMP=_.omit(origWMP,["_id","__v","createdAt","updatedAt","GRFUser","name"]);
@@ -416,7 +417,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
     try {
         sameNameWMPs=await WeekMealPlan.find({name:new RegExp(newWMPsName,"i")});
     } catch (errs) {
-        logSSError(errs);
+        res.status(500).json([{all:JSON.stringify(errs)}])
         return;
     }
     if(sameNameWMPs.length>0){
@@ -432,7 +433,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
                     nameUnique=true;
                 }    
             } catch (errs) {
-                logSSError(errs);
+                res.status(500).json([{all:JSON.stringify(errs)}])
                 return;
             } 
         }
@@ -442,7 +443,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
     try {
         savedNewWMP=await WeekMealPlan.create(newWMP);
     } catch (errs) {
-        logSSError(errs);
+        res.status(500).json([{all:JSON.stringify(errs)}])
         return;
     }
     let savedNewWMPId=savedNewWMP._id;
@@ -451,7 +452,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
         origWMPsDays=await Day.find({weekMealPlan:origWMPId}).populate("dayOfWeek");
         console.log(origWMPsDays);
     } catch (errs) {
-        logSSError(errs);
+        res.status(500).json([{all:JSON.stringify(errs)}])
         return;
     }
     for(let i=0;i<origWMPsDays.length;i++){
@@ -466,7 +467,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
         try {
             savedCopyOfThisDay=await Day.create(copyOfThisDay);
         } catch (errs) {
-            logSSError(errs);
+            res.status(500).json([{all:JSON.stringify(errs)}])
             return;
         }
         let savedDayCopyId=savedCopyOfThisDay._id;
@@ -476,7 +477,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
             thisOrigDaysMeals=await Meal.find({day:thisOrigWMPDayId}).populate("mealType");
             console.log(thisOrigDaysMeals);
         } catch (errs) {
-            logSSError(errs);
+            res.status(500).json([{all:JSON.stringify(errs)}])
             return;
         }
         for(let i=0;i<thisOrigDaysMeals.length;i++){
@@ -492,7 +493,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
                 savedCopyOfThisMeal=await Meal.create(thisMealCopy);
                 console.log(savedCopyOfThisMeal);
             } catch (errs) {
-                logSSError(errs);
+                res.status(500).json([{all:JSON.stringify(errs)}])
                 return;
             }
             let savedMealCopyId=savedCopyOfThisMeal._id;
@@ -502,7 +503,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
                 origMealsIngrdnts=await MealIngredient.find({meal:thisOrigMealId});
                 console.log(origMealsIngrdnts);
             } catch (errs) {
-                logSSError(errs);
+                res.status(500).json([{all:JSON.stringify(errs)}])
                 return;
             };
             for(let i=0;i<origMealsIngrdnts.length;i++){
@@ -516,7 +517,7 @@ router.post('/copy/:recordType/:id',auth,async(req,res)=>{
                     savedMealIngrdntCopy=await MealIngredient.create(thisMealIngrdntCopy);
                     console.log(savedMealIngrdntCopy);
                 } catch (errs) {
-                    logSSError(errs);
+                    res.status(500).json([{all:JSON.stringify(errs)}])
                     return;
                 }
             }
