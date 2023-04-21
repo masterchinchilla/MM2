@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import httpService from "../services/httpService";
-import apiService from "../services/apiService";
 import { getCurrentUser } from "../services/authService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "react-toastify/dist/ReactToastify.css";
@@ -92,12 +90,6 @@ class NewNewWeekMealPlan extends Component {
   handleChangeModeFn = (newMode) => {
     this.setState({ mode: newMode });
   };
-  getRndIntegerFn = (min, max) => {
-    return this.props.getRndIntegerFn(min, max);
-  };
-  notifyFn = (notice, noticeType) => {
-    this.props.notifyFn(notice, noticeType);
-  };
   determineThisRecordsUserTypeFn = (recordAuthorId) => {
     const thisUser = this.state.currentGRFUser;
     if (thisUser.isAdmin) {
@@ -109,13 +101,6 @@ class NewNewWeekMealPlan extends Component {
         return "viewer";
       }
     }
-  };
-  setAllKeysToSameValue = (keysSourceObj, objToUpdate, keyValue) => {
-    return this.props.setAllKeysToSameValue(
-      keysSourceObj,
-      objToUpdate,
-      keyValue
-    );
   };
   replaceThisRecordInStateObj = (
     thisStateObj,
@@ -205,7 +190,7 @@ class NewNewWeekMealPlan extends Component {
             thisStateObj.allowCopy.weekMealPlan = true;
           }
       }
-      let updatedValErrorsObj = this.setAllKeysToSameValue(
+      let updatedValErrorsObj = this.props.setAllKeysToSameValue(
         recordForKeys,
         {},
         []
@@ -241,18 +226,6 @@ class NewNewWeekMealPlan extends Component {
     }
     return thisStateObj;
   };
-  notifyOfErrors = (valErrsNestedArray) => {
-    this.props.notifyOfErrors(valErrsNestedArray);
-  };
-  updateThisObjsValErrs = (thisObjsValErrsObj, valErrsNestedArray) => {
-    return this.props.updateThisObjsValErrs(
-      thisObjsValErrsObj,
-      valErrsNestedArray
-    );
-  };
-  parseHTTPResErrs = (errs) => {
-    return this.props.parseHTTPResErrs(errs);
-  };
   assembleStateObjWNewRcrd = (
     recordsArray,
     typeOfRecord,
@@ -273,25 +246,6 @@ class NewNewWeekMealPlan extends Component {
       stateObjsArray.push(stateObjWUpdatedRecord);
     }
     return stateObjsArray;
-  };
-  hndlSrchDBForObjWMtchngNmeFn = async (
-    typeOfRecordToGet,
-    srchParam,
-    srchParamVal,
-    action
-  ) => {
-    let reqRes;
-    try {
-      reqRes = await this.props.onGetRecordsWFilterFn(
-        typeOfRecordToGet,
-        srchParam,
-        srchParamVal,
-        action
-      );
-      return reqRes.foundRecords;
-    } catch (valErrsNestedArray) {
-      return reqRes.valErrors;
-    }
   };
   buildStateObjsWBackendData = async (
     backEndReqUrl,
@@ -397,7 +351,7 @@ class NewNewWeekMealPlan extends Component {
         } else {
           thisDayStateObj[mealTypes[i].code] = {
             thisRecord: {
-              _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
+              _id: `missing${this.props.getRndIntegerFn(10000000, 99999999)}`,
               mealType: mealTypes[i],
               day: thisDayRecord,
             },
@@ -450,7 +404,7 @@ class NewNewWeekMealPlan extends Component {
         } else {
           state[thisDayOfWeek.code] = {
             thisRecord: {
-              _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
+              _id: `missing${this.props.getRndIntegerFn(10000000, 99999999)}`,
               dayOfWeek: daysOfWeek[i],
               weekMealPlan: thisWMPRecord,
             },
@@ -491,7 +445,7 @@ class NewNewWeekMealPlan extends Component {
     );
     console.log(pantryItemsReqResult);
     if (pantryItemsReqResult.valErrors) {
-      this.notifyFn(
+      this.props.notifyFn(
         "Could not get user's Pantry Items, try refreshing the page."
       );
     } else {
@@ -592,27 +546,12 @@ class NewNewWeekMealPlan extends Component {
   componentDidMount() {
     this.handleGetSetCurrentUserFn();
   }
-  getCSValResultForProp = async (
-    typeOfRecordToChange,
-    propToUpdate,
-    newValue,
-    thisObjsValErrsObj,
-    parentRecordId
-  ) => {
-    return await this.props.getCSValResultForPropFn(
-      typeOfRecordToChange,
-      propToUpdate,
-      newValue,
-      thisObjsValErrsObj,
-      parentRecordId
-    );
-  };
   handleUpdateWMPPropFn = async (propToUpdate, newValue) => {
     let thisWMPStateObj = this.state.thisWMPStateObj;
     thisWMPStateObj.thisRecord[propToUpdate] = newValue;
     let thisValErrsObj = thisWMPStateObj.valErrors.weekMealPlan;
     if (propToUpdate !== "name") {
-      let updatedValErrsObj = await this.getCSValResultForProp(
+      let updatedValErrsObj = await this.props.getCSValResultForPropFn(
         "weekMealPlan",
         propToUpdate,
         newValue,
@@ -623,25 +562,6 @@ class NewNewWeekMealPlan extends Component {
     }
     thisWMPStateObj.recordChanged.weekMealPlan = true;
     this.setState({ thisWMPStateObj: thisWMPStateObj });
-  };
-  returnElementKey = (
-    indexOfObj,
-    thisObjName,
-    propToUpdate,
-    typeOfRecordToChange,
-    arrayIndex,
-    thisMealTypeCode,
-    thisDayOfWeekCode
-  ) => {
-    return this.props.returnElementKey(
-      indexOfObj,
-      thisObjName,
-      propToUpdate,
-      typeOfRecordToChange,
-      arrayIndex,
-      thisMealTypeCode,
-      thisDayOfWeekCode
-    );
   };
   populateMissingMealIngrdnts = async (thisMealStateObj) => {
     let thisMealWUpdtdGenRcpIngrdnts =
@@ -665,7 +585,7 @@ class NewNewWeekMealPlan extends Component {
           oldMealIngrdntMatchingGenRcpIngrdnt[0].thisRecord;
       } else {
         newMealIngrdntRecord = {
-          _id: `new${this.getRndIntegerFn(10000000, 99999999)}`,
+          _id: `new${this.props.getRndIntegerFn(10000000, 99999999)}`,
           qty: thisGenRcpIngrdnt.defaultQty,
           genRecipeIngredient: thisGenRcpIngrdnt,
           meal: thisMealStateObj.thisRecord,
@@ -897,7 +817,7 @@ class NewNewWeekMealPlan extends Component {
       for (let i = 0; i < mealTypes.length; i++) {
         newStateObj[mealTypes[i].code] = {
           thisRecord: {
-            _id: `missing${this.getRndIntegerFn(10000000, 99999999)}`,
+            _id: `missing${this.props.getRndIntegerFn(10000000, 99999999)}`,
             mealType: mealTypes[i],
             day: newRecord,
           },
@@ -948,7 +868,7 @@ class NewNewWeekMealPlan extends Component {
             valErrors.push(valErr);
           });
           thisMealsIngrdntStateObjsArray.splice(i, 1);
-          this.notifyFn(
+          this.props.notifyFn(
             "A Meal Ingredient save failed, refresh and try 'Populate Ingredients' again",
             "error"
           );
@@ -992,7 +912,7 @@ class NewNewWeekMealPlan extends Component {
         let errorMsg = `Meal Ingredient with ID ${thisMealInrdntId} could not be deleted`;
         newMealIngrdntsArray.push(thisMealIngrdntStateObj);
         valErrors.push({ all: [errorMsg] });
-        this.notifyFn(
+        this.props.notifyFn(
           `${errorMsg}, it has been restored to this meal's ingredients list so you can try manually deleting it from there.`,
           "error"
         );
@@ -1256,7 +1176,7 @@ class NewNewWeekMealPlan extends Component {
         }
       } else {
         updatedValErrsObj = thisValErrsObj;
-        await this.getCSValResultForProp(
+        await this.props.getCSValResultForPropFn(
           typeOfRecordToChange,
           propToUpdate,
           newValue,
@@ -1451,29 +1371,6 @@ class NewNewWeekMealPlan extends Component {
   handleCancelEditFn = () => {
     let state = this.handleExitFormEdit(this.state, true);
     this.setState(state);
-  };
-  handleDeleteRecordFn = async (typeOfRecordToDelete, idOfRecordToDelete) => {
-    const url = `${this.state.backEndHtmlRoot}${typeOfRecordToDelete}s/${idOfRecordToDelete}`;
-    let deleteOk;
-    try {
-      await httpService.delete(url, idOfRecordToDelete);
-      // await apiService(
-      //   "delete",
-      //   typeOfRecordToDelete,
-      //   null,
-      //   idOfRecordToDelete,
-      //   null
-      // );
-      deleteOk = true;
-      this.notifyFn("Record deleted successfully", "success");
-    } catch (errs) {
-      //valErrorsNestedArray shape:
-      //[{prop1Name:[errMsg1,errMsg2]},{prop2Name:[errMsg1,errMsg2]}]
-      let valErrors = this.parseHTTPResErrs(errs);
-      this.notifyOfErrors(valErrors);
-      deleteOk = false;
-    }
-    return deleteOk;
   };
   handleExitFormEdit = (state, restoreFromBackup) => {
     let pattern = /missing/;
@@ -1672,7 +1569,7 @@ class NewNewWeekMealPlan extends Component {
         window.location = `/weekMealPlans`;
       } else {
         if (typeOfRecordToDelete === "day" || typeOfRecordToDelete === "meal") {
-          rplcmentPlchldrRcrd._id = `missing${this.getRndIntegerFn(
+          rplcmentPlchldrRcrd._id = `missing${this.props.getRndIntegerFn(
             10000000,
             99999999
           )}`;
@@ -1755,7 +1652,7 @@ class NewNewWeekMealPlan extends Component {
         newMealIngredient
       );
       if (createNewMealIngrdntResult.valErrors.length > 0) {
-        this.notifyFn(
+        this.props.notifyFn(
           "Unable to create Meal Ingredient, refresh and try 'Populate Ingredients'",
           "error"
         );
@@ -1801,10 +1698,6 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   handleSavePantryItemChangeFn = async (pantryItemRecord) => {
-    // const valErrors = await this.handleSaveUpdateToDbFn(
-    //   "pantryItem",
-    //   pantryItemRecord
-    // );
     const valErrors = await this.props.onSaveUpdateToDbFn(
       "pantryItem",
       pantryItemRecord
@@ -1880,17 +1773,13 @@ class NewNewWeekMealPlan extends Component {
         countOfLinkedMealIngrdnts += lengthOfNewMealIngrdnts;
       }
     }
-    // let valErrors = await this.handleSaveUpdateToDbFn(
-    //   typeOfRecordToSave,
-    //   recordToSave
-    // );
     let valErrors = this.props.onSaveUpdateToDbFn(
       typeOfRecordToSave,
       recordToSave
     );
     if (valErrors.length > 0) {
       let valErrObjToUpdate = stateObjToUpdate.valErrors[typeOfRecordToSave];
-      valErrObjToUpdate = this.updateThisObjsValErrs(
+      valErrObjToUpdate = this.props.updateThisObjsValErrs(
         valErrObjToUpdate,
         valErrors
       );
@@ -1921,6 +1810,12 @@ class NewNewWeekMealPlan extends Component {
     let thisDayStateObjBackup = this.state[`${thisDayOfWeekCode}Backup`];
     let thisDaysId = thisDayStateObj.thisRecord._id;
     let testResult = pattern.test(thisDaysId);
+    const {
+      trimEnteredValueFn,
+      getRndIntegerFn,
+      returnElementKey,
+      onGetRecordsWFilterFn,
+    } = this.props;
     if (testResult) {
       if (wmpUserType === "admin" || wmpUserType === "author") {
         return (
@@ -1928,7 +1823,7 @@ class NewNewWeekMealPlan extends Component {
             commonProps={{
               commonData: {},
               commonMethods: {
-                returnElementKey: this.returnElementKey,
+                returnElementKey: returnElementKey,
                 onCreateNewRecordFn: this.handleCreateNewObjFn,
               },
             }}
@@ -1962,16 +1857,16 @@ class NewNewWeekMealPlan extends Component {
               allGenRecipes: this.state.allGenRecipes,
             },
             commonMethods: {
-              getRndIntegerFn: this.getRndIntegerFn,
-              returnElementKey: this.returnElementKey,
+              getRndIntegerFn: getRndIntegerFn,
+              returnElementKey: returnElementKey,
               onCreateNewRecordFn: this.handleCreateNewObjFn,
               onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
               onSaveChangesFn: this.handleSaveChangesFn,
               onStartEditingFn: this.handleStartEditingFn,
               onCancelEditFn: this.handleCancelEditFn,
               onDeleteObjFn: this.handleDeleteObjFn,
-              onSrchDBForObjWMtchngNmeFn: this.hndlSrchDBForObjWMtchngNmeFn,
-              trimEnteredValueFn: this.props.trimEnteredValueFn,
+              onSrchDBForObjWMtchngNmeFn: onGetRecordsWFilterFn,
+              trimEnteredValueFn: trimEnteredValueFn,
             },
           }}
           specificProps={{
@@ -1990,7 +1885,13 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   render() {
-    const { closeNavOnClick } = this.props;
+    const {
+      closeNavOnClick,
+      getRndIntegerFn,
+      trimEnteredValueFn,
+      returnElementKey,
+      onGetRecordsWFilterFn,
+    } = this.props;
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;
     const typeOfRecordToChange = this.state.typeOfRecordToChange;
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
@@ -2031,16 +1932,16 @@ class NewNewWeekMealPlan extends Component {
             commonProps={{
               commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
               commonMethods: {
-                getRndIntegerFn: this.getRndIntegerFn,
-                returnElementKey: this.returnElementKey,
+                getRndIntegerFn: getRndIntegerFn,
+                returnElementKey: returnElementKey,
                 onCreateNewRecordFn: this.handleCreateNewRecordFn,
                 onUpdatePropFn: this.handleUpdateWMPPropFn,
                 onSaveChangesFn: this.handleSaveChangesFn,
                 onStartEditingFn: this.handleStartEditingFn,
                 onCancelEditFn: this.handleCancelEditFn,
                 onDeleteObjFn: this.handleDeleteObjFn,
-                onSrchDBForObjWMtchngNmeFn: this.hndlSrchDBForObjWMtchngNmeFn,
-                trimEnteredValueFn: this.props.trimEnteredValueFn,
+                onSrchDBForObjWMtchngNmeFn: onGetRecordsWFilterFn,
+                trimEnteredValueFn: trimEnteredValueFn,
                 onCopyWMPFn: this.handleCopyWMPFn,
               },
             }}
@@ -2118,10 +2019,10 @@ class NewNewWeekMealPlan extends Component {
                 mealTypes: this.state.mealTypes,
               },
               commonMethods: {
-                getRndIntegerFn: this.getRndIntegerFn,
-                returnElementKey: this.returnElementKey,
+                getRndIntegerFn: getRndIntegerFn,
+                returnElementKey: returnElementKey,
                 onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
-                trimEnteredValueFn: this.props.trimEnteredValueFn,
+                trimEnteredValueFn: trimEnteredValueFn,
               },
             }}
             specificProps={{

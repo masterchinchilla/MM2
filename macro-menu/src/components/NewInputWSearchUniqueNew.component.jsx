@@ -59,12 +59,13 @@ const NewInputWSearchUniqueNew = (props) => {
       if (origPropValue !== trimmedWNoDblSpcs) {
         if (trimmedWNoDblSpcs) {
           try {
-            const matchingRecords = await onSrchDBForObjWMtchngNmeFn(
+            const reqRes = await onSrchDBForObjWMtchngNmeFn(
               typeOfRecordToChange,
               propToUpdate,
               trimmedWNoDblSpcs,
               `get`
             );
+            const matchingRecords = reqRes.foundRecords;
             let nameError;
             for (let i = 0; i < matchingRecords.length; i++) {
               if (matchingRecords[i]._id == thisRecordId) {

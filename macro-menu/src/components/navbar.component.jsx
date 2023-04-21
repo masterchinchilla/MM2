@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import axios from "axios";
 import { Avatar } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HowChowHaloForkAltColor from "./HowChowHaloForkAltColor.component";
 import HowChowHaloFrkAltClrInvrtd from "./HowChowHaloFrkAltClrInvrtd.component";
-import HamburgerMenu from "./HamburgerMenu.component";
 
 class Navbar extends Component {
   constructor(props) {
@@ -48,12 +46,6 @@ class Navbar extends Component {
       if (foundRecords.length > 0) {
         this.setState({ currentGRFUser: foundRecords[0] });
       }
-      // axios
-      //   .get(this.state.backEndHtmlRoot + "GRFUsers/" + currentUserId)
-      //   .then((response) => {
-      //     this.setState({ currentGRFUser: response.data });
-      //   })
-      //   .catch((error) => console.log(error));
     }
   };
   componentDidMount() {
@@ -94,7 +86,6 @@ class Navbar extends Component {
               className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
-              // data-bs-target="#bsNavLeftContent"
               aria-controls="bsNavLeftContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
@@ -102,7 +93,6 @@ class Navbar extends Component {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div
-              // className="collapse navbar-collapse"
               className={`collapse navbar-collapse ${
                 leftNavOpen ? `show` : ``
               }`}
@@ -134,63 +124,6 @@ class Navbar extends Component {
             <HowChowHaloFrkAltClrInvrtd />
             <span>HowChow</span>
           </Link>
-
-          {/* <div className="btn-group dropstart usrHndlAndDrpDwn">
-            <span className="usrHndlOnNvBr">
-              {this.state.currentGRFUser.handle}
-            </span>
-            <button
-              type="button"
-              className="btn btn-secondary dropdown-toggle profileDDBttn"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              // disabled={window.location.pathname === "/" ? true : false}
-            >
-              <Avatar
-                alt={this.state.currentGRFUser.handle}
-                src={this.state.currentGRFUser.photoURL}
-                {...this.stringAvatar(this.state.currentGRFUser.handle)}
-              />
-            </button>
-            <ul className="dropdown-menu">
-              <li className="dropdown-item profileDDLi">
-                {!jwt ? (
-                  <Link
-                    className="nav-link"
-                    to={{
-                      pathname: "/weekMealPlans",
-                    }}
-                  >
-                    Register or Login
-                  </Link>
-                ) : (
-                  <Link
-                    className="nav-link"
-                    to={{
-                      pathname: "/logout",
-                    }}
-                  >
-                    Logout
-                  </Link>
-                )}
-              </li>
-              <li className="dropdown-item profileDDLi">
-                {!currentGRFUser._id ? (
-                  ""
-                ) : (
-                  <Link
-                    className="nav-link"
-                    to={{
-                      pathname: "/grfusers/edit/" + currentGRFUser._id,
-                      state: { currentGRFUser: currentGRFUser },
-                    }}
-                  >
-                    Profile
-                  </Link>
-                )}
-              </li>
-            </ul>
-          </div> */}
         </nav>
         <nav
           className="navbarRight"
@@ -198,7 +131,6 @@ class Navbar extends Component {
             closeNavOnClick("right");
           }}
         >
-          {/* <div className=""> */}
           <button
             className="navbar-toggler navTogglerRight"
             type="button"
@@ -255,7 +187,6 @@ class Navbar extends Component {
                     className="nav-link"
                     to={{
                       pathname: "/createOrEditUser",
-                      // pathname: "/grfusers/edit/" + currentGRFUser._id,
                       state: { currentGRFUser: currentGRFUser },
                     }}
                   >
@@ -263,59 +194,8 @@ class Navbar extends Component {
                   </Link>
                 )}
               </li>
-              {/* <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Link
-                  </a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link disabled">Disabled</a>
-                </li> */}
             </ul>
-            {/* <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button className="btn btn-outline-success" type="submit">
-                  Search
-                </button>
-              </form> */}
           </div>
-          {/* </div> */}
         </nav>
       </div>
     );

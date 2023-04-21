@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
-import jwtDecode from "jwt-decode";
 import Navbar from "./navbar.component";
 import WeekMealPlansList2 from "./WeekMealPlansList2.component";
-import CreateGRFUser from "./CreateGRFUser.component";
-import GRFUserDetail from "./GRFUserDetail.component";
-import GRFUsersList from "./GRFUsersList.component";
 import NewNewWeekMealPlan from "./NewNewWeekMealPlan.component";
-import Login from "./Login.component";
 import Logout from "./Logout.component";
 import HomePage from "./HomePage.component";
 import BackToTopButton from "./BackToTopButton.component";
@@ -188,7 +183,6 @@ class RouterWrapper extends Component {
             exact
             path="/createOrEditUser/:isNew?"
             render={(props) => {
-              // if (currentGRFUser) {
               return (
                 <UserProfileParent
                   {...props}
@@ -206,24 +200,14 @@ class RouterWrapper extends Component {
                   onSaveUpdateToDbFn={onSaveUpdateToDbFn}
                 />
               );
-              // } else {
-              //   return (
-              //     <div
-              //       className="spinner-border text-primary"
-              //       role="status"
-              //     ></div>
-              //   );
-              // }
             }}
           />
-          <Route exact path="/grfusers" component={GRFUsersList} />
           <Route
             exact
             path="/weekMealPlansNewNew/edit/:id/:isNewWMP?"
             render={(props) => (
               <NewNewWeekMealPlan
                 {...props}
-                // decodeToken={decodeToken}
                 thisGRFUser={currentGRFUser}
                 backEndHtmlRoot={backEndHtmlRoot}
                 closeNavOnClick={closeNavOnClick}
@@ -247,19 +231,6 @@ class RouterWrapper extends Component {
           />
           <Route
             exact
-            path="/grfusers/edit/:id"
-            render={(props) => (
-              <GRFUserDetail
-                // {...props}
-                decodeToken={decodeToken}
-                updateUser={updateUser}
-                thisGRFUser={currentGRFUser}
-                backEndHtmlRoot={backEndHtmlRoot}
-              />
-            )}
-          />
-          <Route
-            exact
             path="/weekMealPlans/usersWMPs/:id"
             render={(props) => (
               <WeekMealPlansList2
@@ -272,29 +243,6 @@ class RouterWrapper extends Component {
                 onGetCurrentUserFn={onGetCurrentUserFn}
               />
             )}
-          />
-          <Route
-            exact
-            path="/grfuser/create"
-            render={(props) => {
-              if (userSignedIn) {
-                return (
-                  <Redirect
-                    to={{
-                      pathname: "/weekMealPlans/usersWMPs/" + thisUsersId,
-                    }}
-                  />
-                );
-              } else {
-                return (
-                  <CreateGRFUser
-                    {...props}
-                    createNewUser={createNewUser}
-                    thisGRFUser={currentGRFUser}
-                  />
-                );
-              }
-            }}
           />
           <Route
             exact
@@ -313,8 +261,6 @@ class RouterWrapper extends Component {
                   <NewLogin
                     {...props}
                     decodeToken={decodeToken}
-                    // thisGRFUser={currentGRFUser}
-                    // serverAuthErrors={serverAuthErrors}
                     closeNavOnClick={closeNavOnClick}
                     returnElementKey={returnElementKey}
                     parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
@@ -344,7 +290,6 @@ class RouterWrapper extends Component {
           />
           <Route
             path="/"
-            // component={HomePage}
             render={(props) => {
               return (
                 <HomePage
