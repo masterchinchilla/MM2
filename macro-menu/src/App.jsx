@@ -306,6 +306,18 @@ const App = () => {
     }
     return valErrors;
   }
+  async function handleDeleteFromDbFn(typeOfRecordToDelete, recordId) {
+    let deleteOk = false;
+    try {
+      await apiService(`delete`, typeOfRecordToDelete, `_id`, recordId, null);
+      deleteOk = true;
+      notifyFn("Record deleted successfully", "success");
+    } catch (errs) {
+      let valErrors = parseHTTPResErrs(errs);
+      notifyOfErrors(valErrors);
+    }
+    return deleteOk;
+  }
   async function handleCopyInDbFn(typeOfRecordToCopy, origRcrdId) {
     let copyHadErrs = true;
     let newRecordCopyId;
@@ -365,6 +377,7 @@ const App = () => {
         onSaveUpdateToDbFn={handleSaveUpdateToDbFn}
         onCreateNewRecordInDbFn={handleCreateNewRecordInDbFn}
         onCopyInDbFn={handleCopyInDbFn}
+        onDeleteFromDbFn={handleDeleteFromDbFn}
       />
     </React.Fragment>
   );

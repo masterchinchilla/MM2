@@ -43,6 +43,7 @@ class RouterWrapper extends Component {
       // onSaveUpdateToDbFn,
       // onCreateNewRecordInDbFn,
       // onCopyInDbFn,
+      // onDeleteFromDbFn,
     } = this.props;
     this.state = {
       userSignedIn: false,
@@ -116,6 +117,7 @@ class RouterWrapper extends Component {
       onSaveUpdateToDbFn,
       onCreateNewRecordInDbFn,
       onCopyInDbFn,
+      onDeleteFromDbFn,
     } = this.props;
     const scrollToTop = this.scrollToTop;
     return (
@@ -145,6 +147,7 @@ class RouterWrapper extends Component {
         onSaveUpdateToDbFn={onSaveUpdateToDbFn}
         onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
         onCopyInDbFn={onCopyInDbFn}
+        onDeleteFromDbFn={onDeleteFromDbFn}
       >
         <Navbar
           currentGRFUser={currentGRFUser}
@@ -179,6 +182,7 @@ class RouterWrapper extends Component {
           onSaveUpdateToDbFn={onSaveUpdateToDbFn}
           onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
           onCopyInDbFn={onCopyInDbFn}
+          onDeleteFromDbFn={onDeleteFromDbFn}
         >
           <Route
             exact
@@ -237,6 +241,7 @@ class RouterWrapper extends Component {
                 onSaveUpdateToDbFn={onSaveUpdateToDbFn}
                 onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
                 onCopyInDbFn={onCopyInDbFn}
+                onDeleteFromDbFn={onDeleteFromDbFn}
               />
             )}
           />

@@ -40,6 +40,7 @@ class NewNewWeekMealPlan extends Component {
       onCreateNewRecordInDbFn,
       getRndIntegerFn,
       onCopyInDbFn,
+      onDeleteFromDbFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisWMPId = pgReqParams.id;
@@ -983,7 +984,7 @@ class NewNewWeekMealPlan extends Component {
       let thisMealIngrdntStateObj = oldMealIngrdntsArray[i];
       let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
       let thisMealInrdntId = thisMealIngrdntRecord._id;
-      let deleteMealIngrdntOk = await this.handleDeleteRecordFn(
+      let deleteMealIngrdntOk = await this.props.onDeleteFromDbFn(
         "mealIngredient",
         thisMealInrdntId
       );
@@ -1660,7 +1661,7 @@ class NewNewWeekMealPlan extends Component {
       default:
         idOfRecordToDelete = thisMealIngrdntStateObj.thisRecord._id;
     }
-    let deleteOk = await this.handleDeleteRecordFn(
+    let deleteOk = await this.props.onDeleteFromDbFn(
       typeOfRecordToDelete,
       idOfRecordToDelete
     );
