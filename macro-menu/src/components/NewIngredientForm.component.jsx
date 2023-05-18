@@ -99,7 +99,9 @@ const NewIngredientForm = (props) => {
     userType,
     hasChildren,
   } = thisStateObj;
-  const thisRecord = thisStateObj.thisRecord.genRecipeIngredient.ingredient;
+  const thisMealIngredientRecord = thisStateObj.thisRecord;
+  const thisGenRecipeIngredient = thisMealIngredientRecord.genRecipeIngredient;
+  const thisRecord = thisGenRecipeIngredient.ingredient;
   const { _id, createdAt, updatedAt, photoURL } = thisRecord;
   if (!thisRecord.weightType) {
     valErrors.ingredient.weightType = [];
@@ -112,6 +114,7 @@ const NewIngredientForm = (props) => {
     valErrors.ingredient.name
   );
   const [localSaveDisabled, toggleSaveDisabledStateFn] = useState(true);
+  const propLineage = `ingredient ${thisRecordId} for genRecipeIngredient ${thisGenRecipeIngredient._id} for mealIngredient ${thisMealIngredientRecord._id}`;
   useEffect(() => {
     let photoURLValErrors = photoURL ? valErrors.ingredient.photoURL : [];
     if (
@@ -136,6 +139,7 @@ const NewIngredientForm = (props) => {
   return (
     <form className={"ingrdntFrm"}>
       <NewIngrdntFormCtrlAndKeyFldsSubForm
+        key={`NewIngrdntFormCtrlAndKeyFldsSubForm for ${propLineage}`}
         commonProps={{
           commonData: {
             backEndHtmlRoot: backEndHtmlRoot,
@@ -165,6 +169,7 @@ const NewIngredientForm = (props) => {
             nameValErrors: nameValErrors,
             saveDisabled: localSaveDisabled,
             userChangedThisMealRecipe: userChangedThisMealRecipe,
+            propLineage: propLineage,
           },
           specificMethods: {
             updateNameValErrorsStateFn: updateNameValErrorsStateFn,
@@ -203,6 +208,7 @@ const NewIngredientForm = (props) => {
           data-bs-parent={"#ingrdntAccrdnFull" + thisRecordId}
         >
           <NewIngrdntMacrosSubForm
+            key={`NewIngrdntMacrosSubForm for ${propLineage}`}
             commonProps={{
               commonData: {
                 backEndHtmlRoot: backEndHtmlRoot,
@@ -221,11 +227,13 @@ const NewIngredientForm = (props) => {
               specificData: {
                 thisStateObj: thisStateObj,
                 thisStateObjBackup: thisStateObjBackup,
+                propLineage: propLineage,
               },
               specificMethods: {},
             }}
           />
           <NewIngrdntDisabledFieldsSubForm
+            key={`NewIngrdntDisabledFieldsSubForm for ${propLineage}`}
             commonProps={{
               commonData: {
                 backEndHtmlRoot: backEndHtmlRoot,
@@ -247,6 +255,7 @@ const NewIngredientForm = (props) => {
               specificData: {
                 thisStateObj: thisStateObj,
                 thisStateObjBackup: thisStateObjBackup,
+                propLineage: propLineage,
               },
               specificMethods: {},
             }}

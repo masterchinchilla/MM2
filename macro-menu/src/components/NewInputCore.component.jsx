@@ -14,6 +14,8 @@ const NewInputCore = (props) => {
     recordLoaded,
     propValue,
     valueChangedExternal,
+    propLineage,
+    componentLineage,
   } = specificData;
   const [timer, setTimerStateFn] = useState(null);
   const [localValue, setLocalVal] = useState(propValue);
@@ -41,20 +43,13 @@ const NewInputCore = (props) => {
   }, [recordLoaded]);
   return (
     <NewInputSubCore
-      key={returnElementKey(
-        null,
-        "NewInputSubCore",
-        propToUpdate,
-        typeOfRecordToChange,
-        arrayIndex,
-        thisMealTypeCode,
-        thisDayOfWeekCode
-      )}
+      key={`NewInputSubCore_for_${propToUpdate}_for_${componentLineage}`}
       commonProps={commonProps}
       specificProps={{
         specificData: {
           ...specificData,
           propValue: localValue,
+          componentLineage: `NewInputSubCore_for_${propToUpdate}_for_${componentLineage}`,
         },
         specificMethods: {
           updateParentValue: updateParentValue,

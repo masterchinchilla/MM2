@@ -24,6 +24,7 @@ const NewNewSelectSearchListWCreate = (props) => {
     isRequired,
     inputClasses,
     recordLoaded,
+    propLineage,
   } = specificData;
   const {} = specificMethods;
   const selectedOption = { label: selectedRecord.name, value: selectedRecord };
@@ -68,9 +69,13 @@ const NewNewSelectSearchListWCreate = (props) => {
           {valErrors.length < 1 ? (
             ""
           ) : (
-            <ul>
-              {valErrors.map((localValError) => (
-                <li key={getRndIntegerFn(10000000, 99999999)}>
+            <ul
+              key={`ul for valErrs for prop ${propToUpdate} for ${propLineage}`}
+            >
+              {valErrors.map((localValError, index) => (
+                <li
+                  key={`li for valErr ${index} for prop ${propToUpdate} for ${propLineage}`}
+                >
                   {localValError}
                 </li>
               ))}
@@ -90,6 +95,7 @@ const NewNewSelectSearchListWCreate = (props) => {
           ""
         )}
         <CreatableSelect
+          key={`CreatableSelect for prop ${propToUpdate} for ${propLineage}`}
           isClearable={false}
           isDisabled={fieldDisabled}
           onChange={(newValue) =>

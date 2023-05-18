@@ -100,8 +100,11 @@ const ShoppingListItem = (props) => {
     }
   });
   return (
-    <tr className="shopListItemTr">
-      <td className="shopListItemCheckTd">
+    <tr key={`tr 1 for ShoppingListItem ${_id}`} className="shopListItemTr">
+      <td
+        key={`td for checkbox for ShoppingListItem ${_id}`}
+        className="shopListItemCheckTd"
+      >
         <div className="shopListItemCheckTdSubDiv">
           <input
             type={"checkBox"}
@@ -115,6 +118,7 @@ const ShoppingListItem = (props) => {
         </div>
       </td>
       <TableCell
+        key={`TableCell td qtyNeeded for ShoppingListItem ${_id}`}
         tCellType="td"
         data={qtyNeeded.toFixed(2)}
         tCellClasses=""
@@ -122,15 +126,7 @@ const ShoppingListItem = (props) => {
         recordLoaded={true}
       />
       <TableCellWNestedInput
-        key={returnElementKey(
-          null,
-          "TableCellWNestedInput",
-          propToUpdate,
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`TableCellWNestedInput for shopListItemQtyHaveTd for ShoppingListItem ${_id}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -172,6 +168,7 @@ const ShoppingListItem = (props) => {
         }}
       />
       <TableCell
+        key={`TableCell td for qtyToBuy for ShoppingListItem ${_id}`}
         tCellType="td"
         data={qtyToBuy.toFixed(2)}
         tCellClasses=""
@@ -179,6 +176,7 @@ const ShoppingListItem = (props) => {
         recordLoaded={true}
       />
       <TableCell
+        key={`TableCell td for UOM for ShoppingListItem ${_id}`}
         tCellType="td"
         data={unitOfMeasure.name}
         tCellClasses=""
@@ -186,6 +184,7 @@ const ShoppingListItem = (props) => {
         recordLoaded={true}
       />
       <TableCell
+        key={`TableCell td for name for ShoppingListItem ${_id}`}
         tCellType="td"
         data={name}
         tCellClasses=""

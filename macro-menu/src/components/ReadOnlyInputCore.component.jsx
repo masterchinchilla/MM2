@@ -11,6 +11,8 @@ const ReadOnlyInputCore = (props) => {
     excludeLabel,
     valErrors,
     getRndIntegerFn,
+    propLineage,
+    componentLineage,
   } = props;
   let formatedPropValue;
   if (!propValue) {
@@ -45,8 +47,12 @@ const ReadOnlyInputCore = (props) => {
               ""
             ) : (
               <ul>
-                {valErrors.map((valError) => (
-                  <li key={getRndIntegerFn(10000000, 99999999)}>{valError}</li>
+                {valErrors.map((valError, index) => (
+                  <li
+                    key={`li_for_valErr_${index}_for_${label}_for_${componentLineage}`}
+                  >
+                    {valError}
+                  </li>
                 ))}
               </ul>
             )}

@@ -13,7 +13,7 @@ const NewIngrdntDisabledFieldsSubForm = (props) => {
     onUpdatePropFn,
     trimEnteredValueFn,
   } = commonMethods;
-  const { thisStateObj, thisStateObjBackup } = specificData;
+  const { thisStateObj, thisStateObjBackup, propLineage } = specificData;
   const {} = specificMethods;
   const {
     recordLoaded,
@@ -59,7 +59,7 @@ const NewIngrdntDisabledFieldsSubForm = (props) => {
         >
           <div className="accordion-body ingrdntInnerAccrdn">
             <ReadOnlyInputCore
-              key={`readOnlyInputForAuthorFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for GRFUser.handle for ${propLineage}`}
               formGroupClasses={"form-group mealIngrdntInputs"}
               label="Author "
               inputClasses="form-control"
@@ -72,7 +72,7 @@ const NewIngrdntDisabledFieldsSubForm = (props) => {
             />
             <div className="accordion-body ingrdntInnerAccrdn">
               <ReadOnlyInputCore
-                key={`readOnlyInputForCreatedFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for createdAt for ${propLineage}`}
                 formGroupClasses={"form-group mealIngrdntInputs"}
                 label="Created "
                 inputClasses="form-control"
@@ -82,7 +82,7 @@ const NewIngrdntDisabledFieldsSubForm = (props) => {
                 excludeLabel={false}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForUpdatedFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for updatedAt for ${propLineage}`}
                 formGroupClasses={"form-group mealIngrdntInputs"}
                 label="Last Update "
                 inputClasses="form-control"
@@ -92,7 +92,7 @@ const NewIngrdntDisabledFieldsSubForm = (props) => {
                 excludeLabel={false}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for _id for ${propLineage}`}
                 formGroupClasses={"form-group mealIngrdntInputs mb-2"}
                 label="Record ID "
                 inputClasses="form-control"

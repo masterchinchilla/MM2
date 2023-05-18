@@ -348,8 +348,9 @@ const App = () => {
   });
   return (
     <React.Fragment>
-      <ToastContainer />
+      <ToastContainer key={`ToastContainer_for_HowChowApp`} />
       <RouterWrapper
+        key={`RouterWrapper_for_HowChowApp`}
         serverAuthErrors={serverAuthErrors}
         frontEndHtmlRoot={frontEndHtmlRoot}
         backEndHtmlRoot={backEndHtmlRoot}

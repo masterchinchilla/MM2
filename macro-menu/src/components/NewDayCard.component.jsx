@@ -83,6 +83,7 @@ const NewDayCard = (props) => {
   return (
     <div className="card mt-3 mb-3">
       <NewDayControlAndDisabledFields
+        key={`NewDayControlAndDisabledFields for Day ${thisRecordId}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -101,6 +102,7 @@ const NewDayCard = (props) => {
         }}
       />
       <NewDayMealsAndMacros
+        key={`NewDayMealsAndMacros for Day ${thisRecordId}`}
         commonProps={{
           commonData: {
             mealTypes: mealTypes,

@@ -31,15 +31,7 @@ const NewMacroBudgetSubForm = (props) => {
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
         <CustomHeading
-          key={returnElementKey(
-            null,
-            "CustomHeading",
-            null,
-            typeOfRecordToChange,
-            arrayIndex,
-            thisMealTypeCode,
-            thisDayOfWeekCode
-          )}
+          key={`CustomHeading for "Macro Daily Budget" for wmp ${thisRecordId}`}
           headingLvl={2}
           recordLoaded={recordLoaded}
           headingText="Macro Daily Budget"
@@ -76,15 +68,7 @@ const NewMacroBudgetSubForm = (props) => {
           >
             <div className="accordion-body accrdnWeekMealPlanMacroBdy">
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "calsBudget",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore for calsBudget for wmp ${thisRecordId}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -116,15 +100,7 @@ const NewMacroBudgetSubForm = (props) => {
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "carbsBudget",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore for carbsBudget for wmp ${thisRecordId}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -156,15 +132,7 @@ const NewMacroBudgetSubForm = (props) => {
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "proteinBudget",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore for proteinBudget for wmp ${thisRecordId}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -196,15 +164,7 @@ const NewMacroBudgetSubForm = (props) => {
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "fatBudget",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore for fatBudget for wmp ${thisRecordId}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -236,15 +196,7 @@ const NewMacroBudgetSubForm = (props) => {
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "fiberBudget",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore for fiberBudget for wmp ${thisRecordId}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {

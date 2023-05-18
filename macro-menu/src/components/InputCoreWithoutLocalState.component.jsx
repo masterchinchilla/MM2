@@ -20,6 +20,8 @@ const InputCoreWithoutLocalState = (props) => {
     excludeLabel,
     inputTypeForHtml,
     propValue,
+    propLineage,
+    componentLineage,
   } = specificData;
   const { inputOnKeyUpFn } = specificMethods;
   if (recordLoaded) {
@@ -68,15 +70,7 @@ const InputCoreWithoutLocalState = (props) => {
               <ul>
                 {valErrors.map((valError, index) => (
                   <li
-                    key={returnElementKey(
-                      index,
-                      "valErr",
-                      propToUpdate,
-                      typeOfRecordToChange,
-                      arrayIndex,
-                      thisMealTypeCode,
-                      thisDayOfWeekCode
-                    )}
+                    key={`li_for_valErr_${index}_for_${propToUpdate}_for_${componentLineage}`}
                   >
                     {valError}
                   </li>

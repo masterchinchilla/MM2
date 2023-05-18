@@ -32,15 +32,7 @@ const NewDayControlAndDisabledFields = (props) => {
     <React.Fragment>
       <div className="card-header">
         <CustomHeading
-          key={returnElementKey(
-            null,
-            "CustomHeading",
-            "ControlAndDisabledSubFields",
-            typeOfRecordToChange,
-            null,
-            null,
-            dayOfWeek.code
-          )}
+          key={`CustomHeading dayOfWeek name for Day ${thisRecordId}`}
           headingLvl={3}
           recordLoaded={recordLoaded}
           headingText={dayOfWeek.name}
@@ -49,7 +41,7 @@ const NewDayControlAndDisabledFields = (props) => {
           headingClasses="card-title"
         />
         <NewFormControl
-          key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`NewFormControl for Day ${thisRecordId}`}
           commonProps={{
             commonData: {},
             commonMethods: {
@@ -77,6 +69,7 @@ const NewDayControlAndDisabledFields = (props) => {
               deleteChildrenWarning:
                 "You must delete all this day's meals before you can delete this day",
               recordLoaded: recordLoaded,
+              formControlLineage: `Day ${thisRecordId}`,
             },
             specificMethods: {},
           }}
@@ -110,7 +103,7 @@ const NewDayControlAndDisabledFields = (props) => {
           >
             <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
               <ReadOnlyInputCore
-                key={`readOnlyInputForNameFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for name for Day ${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Name "
                 inputClasses="form-control"
@@ -122,7 +115,7 @@ const NewDayControlAndDisabledFields = (props) => {
                 getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for _id for Day ${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Record Id "
                 inputClasses="form-control"
@@ -134,7 +127,7 @@ const NewDayControlAndDisabledFields = (props) => {
                 getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForCreatedAtFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for createdAt for Day ${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Created "
                 inputClasses="form-control"
@@ -146,7 +139,7 @@ const NewDayControlAndDisabledFields = (props) => {
                 getRndIntegerFn={getRndIntegerFn}
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForUpdatedAtFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for updatedAt for Day ${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Last Update "
                 inputClasses="form-control"

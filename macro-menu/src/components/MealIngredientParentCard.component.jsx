@@ -52,6 +52,7 @@ const MealIngredientParentCard = (props) => {
     <div className="card mlIngrdntsCard">
       <div className="card-header mlIngrdntCrdBttmSctn">
         <MealIngredientChildForm
+          key={`MealIngredientChildForm for mealIngredient ${thisRecordId}`}
           commonProps={{
             commonData: {
               backEndHtmlRoot: backEndHtmlRoot,
@@ -80,6 +81,7 @@ const MealIngredientParentCard = (props) => {
           }}
         />
         <NewGenRecipeIngredientForm
+          key={`NewGenRecipeIngredientForm for mealIngredient ${thisRecordId}`}
           commonProps={{
             commonData: {
               backEndHtmlRoot: backEndHtmlRoot,
@@ -111,6 +113,7 @@ const MealIngredientParentCard = (props) => {
       </div>
       <div className="mlIngrdntCrdBttmSctn">
         <NewIngredientForm
+          key={`NewIngredientForm for mealIngredient ${thisRecordId}`}
           commonProps={{
             commonData: {
               backEndHtmlRoot: backEndHtmlRoot,

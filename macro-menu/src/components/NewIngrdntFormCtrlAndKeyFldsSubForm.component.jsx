@@ -34,6 +34,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
     nameValErrors,
     saveDisabled,
     userChangedThisMealRecipe,
+    propLineage,
   } = specificData;
   const { updateNameValErrorsStateFn } = specificMethods;
   const {
@@ -97,15 +98,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
       // className="ingrdntFrmHdr"
     >
       <CustomHeading
-        key={returnElementKey(
-          null,
-          "CustomHeading",
-          null,
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`CustomHeading for "Base Ingredient" for ${propLineage}`}
         headingLvl={6}
         recordLoaded={recordLoaded}
         headingText="Base Ingredient"
@@ -114,7 +107,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         headingClasses="ingrdntHdr"
       />
       <NewFormControl
-        key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
+        key={`NewFormControl for ${propLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -143,11 +136,13 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             deleteChildrenWarning:
               "You cannot delete this Base Ingredient until all connected Recipe Ingredients have been disconnected from it.",
             recordLoaded: recordLoaded,
+            formControlLineage: propLineage,
           },
           specificMethods: {},
         }}
       />
       <NewNewSelectSearchListWCreate
+        key={`NewNewSelectSearchListWCreate for unitOfMeasure for ${propLineage}`}
         commonProps={{
           commonData: {
             thisDayOfWeekCode: thisDayOfWeekCode,
@@ -176,11 +171,13 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             inputClasses: "recipeSelect",
             recordLoaded: recordLoaded,
             typeOfRecordToChange: typeOfRecordToChange,
+            propLineage: propLineage,
           },
           specificMethods: {},
         }}
       />
       <NewNewSelectSearchListWCreate
+        key={`NewNewSelectSearchListWCreate for weightType for ${propLineage}`}
         commonProps={{
           commonData: {
             thisDayOfWeekCode: thisDayOfWeekCode,
@@ -209,6 +206,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             inputClasses: "recipeSelect",
             recordLoaded: recordLoaded,
             typeOfRecordToChange: typeOfRecordToChange,
+            propLineage: propLineage,
           },
           specificMethods: {},
         }}
@@ -226,6 +224,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
         }
       ></div>
       <NewNewSelectSearchListWCreate
+        key={`NewNewSelectSearchListWCreate for brand for ${propLineage}`}
         commonProps={{
           commonData: {
             thisDayOfWeekCode: thisDayOfWeekCode,
@@ -254,11 +253,13 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             inputClasses: "recipeSelect",
             recordLoaded: recordLoaded,
             typeOfRecordToChange: typeOfRecordToChange,
+            propLineage: propLineage,
           },
           specificMethods: {},
         }}
       />
       <NewInputWSearchUniqueNew
+        key={`NewInputWSearchUniqueNew for name for ${propLineage}`}
         commonProps={{
           commonData: { backEndHtmlRoot: backEndHtmlRoot },
           commonMethods: {
@@ -289,6 +290,7 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
             excludeLabel: false,
             origPropValue: origName,
             thisRecordId: thisRecordId,
+            propLineage: propLineage,
           },
           specificMethods: {
             changeLocalPropFn: updateNameStateFn,

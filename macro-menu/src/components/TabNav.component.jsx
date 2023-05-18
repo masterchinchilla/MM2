@@ -1,10 +1,16 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const TabNav = (props) => {
-  const { wmpRecordLoaded, mode, onChangeModeFn } = props;
+  const { wmpRecordLoaded, mode, thisWMPRecordId, onChangeModeFn } = props;
   return (
-    <ul className="nav nav-tabs">
-      <li className="nav-item">
+    <ul
+      key={`ul for nav tabs for WMP ${thisWMPRecordId}`}
+      className="nav nav-tabs"
+    >
+      <li
+        key={`li "Builder" for nav tabs for WMP ${thisWMPRecordId}`}
+        className="nav-item"
+      >
         <a
           disabled={!wmpRecordLoaded}
           className={
@@ -16,7 +22,10 @@ const TabNav = (props) => {
           <span className="tabNavTitle">Builder</span>
         </a>
       </li>
-      <li className="nav-item">
+      <li
+        key={`li "Shopping List" for nav tabs for WMP ${thisWMPRecordId}`}
+        className="nav-item"
+      >
         <a
           disabled={!wmpRecordLoaded}
           className={
@@ -30,7 +39,10 @@ const TabNav = (props) => {
           <span className="tabNavTitle">Shopping List</span>
         </a>
       </li>
-      <li className="nav-item">
+      <li
+        key={`li "Spreadsheet" for nav tabs for WMP ${thisWMPRecordId}`}
+        className="nav-item"
+      >
         <a
           disabled={!wmpRecordLoaded}
           className={

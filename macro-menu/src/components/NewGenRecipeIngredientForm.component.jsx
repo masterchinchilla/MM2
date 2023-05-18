@@ -70,6 +70,7 @@ const NewGenRecipeIngredientForm = (props) => {
   const { _id, createdAt, updatedAt, defaultQty, genRecipe, ingredient } =
     thisRecord;
   const thisRecordId = _id;
+  const propLineage = `genRecipeIngredient ${thisRecordId} for mealIngredient ${thisMealIngredientRecord._id}`;
   function handleCreateNewRecordFn(newName) {
     onCreateNewRecordFn(
       "ingredient",
@@ -90,15 +91,7 @@ const NewGenRecipeIngredientForm = (props) => {
     >
       <div className="gnRcpIngrdntFrmHdr">
         <CustomHeading
-          key={returnElementKey(
-            null,
-            "CustomHeading",
-            "defaultQty",
-            typeOfRecordToChange,
-            arrayIndex,
-            thisMealTypeCode,
-            thisDayOfWeekCode
-          )}
+          key={`CustomHeading for "Default Qty" for ${propLineage}`}
           headingLvl={6}
           recordLoaded={recordLoaded}
           headingText="Default Qty"
@@ -107,7 +100,7 @@ const NewGenRecipeIngredientForm = (props) => {
           headingClasses="gnRcpIngrdntHdr doubleHeightLabel"
         />
         <NewFormControl
-          key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`NewFormControl for ${propLineage}`}
           commonProps={{
             commonData: {},
             commonMethods: {
@@ -135,20 +128,13 @@ const NewGenRecipeIngredientForm = (props) => {
                 "If you delete this ingredient from the Recipe, it will be removed everywhere that Recipe is used, including in other Week Meal Plans. Do you want to proceed?",
               deleteChildrenWarning: "",
               recordLoaded: recordLoaded,
+              formControlLineage: propLineage,
             },
             specificMethods: {},
           }}
         />
         <NewInputCore
-          key={returnElementKey(
-            null,
-            "NewInputCore",
-            "defaultQty",
-            typeOfRecordToChange,
-            arrayIndex,
-            thisMealTypeCode,
-            thisDayOfWeekCode
-          )}
+          key={`NewInputCore for defaultQty for ${propLineage}`}
           commonProps={{
             commonData: {},
             commonMethods: {
@@ -175,6 +161,7 @@ const NewGenRecipeIngredientForm = (props) => {
               excludeLabel: true,
               inputTypeForHtml: "number",
               propValue: defaultQty,
+              propLineage: propLineage,
             },
             specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
           }}
@@ -212,15 +199,7 @@ const NewGenRecipeIngredientForm = (props) => {
           <div className="accordion-body">
             <div className="form-group mealIngrdntInputs">
               <CustomHeading
-                key={returnElementKey(
-                  null,
-                  "CustomHeading",
-                  "ingredient",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`CustomHeading for "Recipe Ingredient" for ${propLineage}`}
                 headingLvl={6}
                 recordLoaded={recordLoaded}
                 headingText="Recipe Ingredient"
@@ -229,6 +208,7 @@ const NewGenRecipeIngredientForm = (props) => {
                 headingClasses="genRecipeIngrdntHdr"
               />
               <NewNewAsyncSearchSelectWCreate
+                key={`NewNewAsyncSearchSelectWCreate for ingredient for ${propLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -259,13 +239,14 @@ const NewGenRecipeIngredientForm = (props) => {
                     selectedRecord: ingredient,
                     fetchDataUrl: `${backEndHtmlRoot}ingredients/ingredientsByName`,
                     typeOfRecordToSelect: `ingredient`,
+                    propLineage: propLineage,
                   },
                   specificMethods: {},
                 }}
               />
             </div>
             <ReadOnlyInputCore
-              key={`readOnlyInputForRecipeFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for genRecipe.name for ${propLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -277,9 +258,10 @@ const NewGenRecipeIngredientForm = (props) => {
               excludeLabel={false}
               valErrors={valErrors.genRecipeIngredient.genRecipe}
               getRndIntegerFn={getRndIntegerFn}
+              propLineage={propLineage}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForCreatedDtFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for createdAt for ${propLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -291,9 +273,10 @@ const NewGenRecipeIngredientForm = (props) => {
               excludeLabel={false}
               valErrors={valErrors.genRecipeIngredient.createdAt}
               getRndIntegerFn={getRndIntegerFn}
+              propLineage={propLineage}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForUpdatedDtFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for updatedAt for ${propLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -305,9 +288,10 @@ const NewGenRecipeIngredientForm = (props) => {
               excludeLabel={false}
               valErrors={valErrors.genRecipeIngredient.updatedAt}
               getRndIntegerFn={getRndIntegerFn}
+              propLineage={propLineage}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for _id for ${propLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -319,6 +303,7 @@ const NewGenRecipeIngredientForm = (props) => {
               excludeLabel={false}
               valErrors={valErrors.genRecipeIngredient._id}
               getRndIntegerFn={getRndIntegerFn}
+              propLineage={propLineage}
             />
           </div>
         </div>

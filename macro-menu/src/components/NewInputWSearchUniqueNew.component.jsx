@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import httpService from "../services/httpService";
 import { csValidateProp } from "../services/validationService";
 import InputCoreWithoutLocalState from "./InputCoreWithoutLocalState.component";
 const NewInputWSearchUniqueNew = (props) => {
@@ -32,7 +31,9 @@ const NewInputWSearchUniqueNew = (props) => {
     excludeLabel,
     origPropValue,
     thisRecordId,
+    componentLineage,
   } = specificData;
+  const propLineage = getRndIntegerFn(10000000, 99999999);
   const { changeLocalPropFn, updatePropValErrorsStateFn } = specificMethods;
   const [timer, setTimerStateFn] = useState(null);
   const [localValErrors, setLclValErrsStateFn] = useState(valErrors);
@@ -114,6 +115,7 @@ const NewInputWSearchUniqueNew = (props) => {
   });
   return (
     <InputCoreWithoutLocalState
+      key={`InputCoreWithoutLocalState_for_${propToUpdate}_for_${componentLineage}`}
       commonProps={{
         commonData: {},
         commonMethods: {
@@ -139,6 +141,8 @@ const NewInputWSearchUniqueNew = (props) => {
           excludeLabel: excludeLabel,
           inputTypeForHtml: "text",
           propValue: localPropValue,
+          propLineage: propLineage,
+          componentLineage: `InputCoreWithoutLocalState_for_${propToUpdate}_for_${componentLineage}`,
         },
         specificMethods: { inputOnKeyUpFn: searchSetUnique },
       }}

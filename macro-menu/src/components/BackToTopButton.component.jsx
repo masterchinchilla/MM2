@@ -1,13 +1,18 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const BackToTopButton = ({ scrollToTop, scrollBttnVisible }) => {
+const BackToTopButton = (props) => {
+  const { parentComponent, scrollToTop, scrollBttnVisible, componentLineage } =
+    props;
   return (
     <button
       className="backToTopButton"
       onClick={scrollToTop}
       hidden={!scrollBttnVisible}
     >
-      <FontAwesomeIcon icon="fa-solid fa-circle-up" />
+      <FontAwesomeIcon
+        key={`FontAwesomeIcon_for_backToTop_for_${componentLineage}`}
+        icon="fa-solid fa-circle-up"
+      />
     </button>
   );
 };

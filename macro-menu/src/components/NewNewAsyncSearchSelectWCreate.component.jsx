@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AsyncCreatableSelect from "react-select/async-creatable";
-import httpService from "../services/httpService";
 import { csValidateProp } from "../services/validationService";
 const NewNewAsyncSearchSelectWCreate = (props) => {
   const { commonProps, specificProps } = props;
@@ -32,6 +31,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
     selectedRecord,
     fetchDataUrl,
     typeOfRecordToSelect,
+    propLineage,
   } = specificData;
   const {} = specificMethods;
   const selectedObj = selectedRecord
@@ -86,33 +86,6 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
         const errMessage = valErrsNestedArray[0]["all"][0];
         setLclValErrsStateFn([errMessage]);
       }
-      // httpService
-      //   .get(`${fetchDataUrl}/${trimmedWNoDblSpcs}`)
-      //   .then((response) => {
-      //     const tempArray = [];
-      //     if (response.data.length > 0) {
-      //       response.data.forEach((element) => {
-      //         tempArray.push({
-      //           label: `${element.name}`,
-      //           value: element,
-      //         });
-      //       });
-      //     } else {
-      //       const isValidNewOption = handleValEnteredTextFn(
-      //         trimmedWNoDblSpcs
-      //       );
-      //       if (isValidNewOption) {
-      //         setLclValErrsStateFn([]);
-      //         updateLocalName(trimmedWNoDblSpcs);
-      //       } else {
-      //         updateLocalName("");
-      //       }
-      //     }
-      //     callback(tempArray);
-      //   })
-      //   .catch((err) => {
-      //     setLclValErrsStateFn([JSON.stringify(err.message)]);
-      //   });
     }
   }
   function onSearchChange(selectedObj) {
@@ -162,7 +135,7 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
           )}
         </div>
         <AsyncCreatableSelect
-          key={`AsyncCreateableFor_${typeOfRecordToSelect}For${typeOfRecordToChange}${thisRecordId}`}
+          key={`AsyncCreatableSelect for ${typeOfRecordToSelect} for ${propLineage}`}
           value={selectedObj}
           loadOptions={fetchData}
           placeholder={label}

@@ -65,7 +65,7 @@ const NewMealParentCard = (props) => {
             aria-controls="collapseOne"
           >
             <CustomHeading
-              key={`customNameHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`CustomHeading for dayOfWeek name and mealType name for meal ${thisRecordId}`}
               headingLvl={5}
               recordLoaded={recordLoaded}
               headingText={
@@ -85,13 +85,13 @@ const NewMealParentCard = (props) => {
         data-bs-parent={"#mealOuterAccordionFull" + thisRecordId}
       >
         <StickyBox
-          key={`macroTblStickyBoxFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`StickyBox for NewMacrosTable for meal ${thisRecordId}`}
           offsetTop={172}
           offsetBottom={20}
           className={"mealMacTable"}
         >
           <NewMacrosTable
-            key={`macrosTblFor${typeOfRecordToChange}${thisRecordId}`}
+            key={`NewMacrosTable for meal ${thisRecordId}`}
             thisWMPRecord={weekMealPlan}
             tableType={"Meal Macros"}
             thisMealType={mealType}
@@ -102,6 +102,7 @@ const NewMealParentCard = (props) => {
         </StickyBox>
         <div className="accordion-body wkDaysAccrdnBdy">
           <NewMealChildCard
+            key={`NewMealChildCard for meal ${thisRecordId}`}
             commonProps={{
               commonData: {
                 backEndHtmlRoot: backEndHtmlRoot,
@@ -127,6 +128,7 @@ const NewMealParentCard = (props) => {
             }}
           />
           <NewRecipeCard
+            key={`NewRecipeCard for meal ${thisRecordId}`}
             commonProps={{
               commonData: { backEndHtmlRoot: backEndHtmlRoot },
               commonMethods: {
@@ -149,6 +151,7 @@ const NewMealParentCard = (props) => {
             }}
           />
           <MealIngredientsList
+            key={`MealIngredientsList for meal ${thisRecordId}`}
             commonProps={{
               commonData: {
                 backEndHtmlRoot: backEndHtmlRoot,

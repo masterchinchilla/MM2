@@ -10,7 +10,7 @@ const typeOfRecordToChange = "GRFUser";
 const thisDayOfWeekCode = "";
 const thisMealTypeCode = "";
 const arrayIndex = null;
-const UserProfileCard = (props) => {
+const UserProfileCard = (props, key) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { backEndHtmlRoot } = commonData;
@@ -24,7 +24,13 @@ const UserProfileCard = (props) => {
     onSaveChangesFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj, userIsNew, passwordState, origHandle } = specificData;
+  const {
+    thisStateObj,
+    userIsNew,
+    passwordState,
+    origHandle,
+    componentLineage,
+  } = specificData;
   const { onChangePasswordFn } = specificMethods;
   const {
     thisRecord,
@@ -101,7 +107,7 @@ const UserProfileCard = (props) => {
     <div className="card ms-4 me-4 registerCard">
       <div className="card-header">
         <CustomHeading
-          key={`customCarddHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`CustomHeading_for_"New User"_or_"Update Profile"_for_${componentLineage}`}
           headingLvl={1}
           recordLoaded={recordLoaded}
           headingText={userIsNew ? "New User" : "Update Profile"}
@@ -110,7 +116,7 @@ const UserProfileCard = (props) => {
           headingClasses="card-title"
         />
         <NewFormControl
-          key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`NewFormControl_for_${componentLineage}`}
           commonProps={{
             commonData: {},
             commonMethods: {
@@ -136,6 +142,7 @@ const UserProfileCard = (props) => {
               deleteWarning: "",
               deleteChildrenWarning: "",
               recordLoaded: recordLoaded,
+              componentLineage: `NewFormControl_for_${componentLineage}`,
             },
             specificMethods: {},
           }}
@@ -149,7 +156,7 @@ const UserProfileCard = (props) => {
         }
       >
         <CustomHeading
-          key={`customHandleHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`CustomHeading_for_"Handle:"_for_${componentLineage}`}
           headingLvl={5}
           recordLoaded={recordLoaded}
           headingText={"Handle:"}
@@ -158,6 +165,7 @@ const UserProfileCard = (props) => {
           headingClasses="grfUserSubCardHeading"
         />
         <NewInputWSearchUniqueNew
+          key={`NewInputWSearchUniqueNew_for_handle_for_${componentLineage}`}
           commonProps={{
             commonData: { backEndHtmlRoot: backEndHtmlRoot },
             commonMethods: {
@@ -186,6 +194,7 @@ const UserProfileCard = (props) => {
               excludeLabel: true,
               origPropValue: origHandle,
               thisRecordId: thisRecordId,
+              componentLineage: `NewInputWSearchUniqueNew_for_handle_for_${componentLineage}`,
             },
             specificMethods: {
               changeLocalPropFn: updateHandleStateFn,
@@ -221,7 +230,7 @@ const UserProfileCard = (props) => {
         >
           <div className="accordion-body">
             <ReadOnlyInputCore
-              key={`readOnlyInputForIsAdminFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore_for_isAdmin_for_${componentLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -233,9 +242,10 @@ const UserProfileCard = (props) => {
               excludeLabel={false}
               valErrors={valErrors.GRFUser.isAdmin}
               getRndIntegerFn={getRndIntegerFn}
+              componentLineage={`ReadOnlyInputCore_for_isAdmin_for_${componentLineage}`}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForCreatedDtFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore_for_createdAt_for_${componentLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -247,9 +257,10 @@ const UserProfileCard = (props) => {
               excludeLabel={false}
               valErrors={valErrors.GRFUser.createdAt}
               getRndIntegerFn={getRndIntegerFn}
+              componentLineage={`ReadOnlyInputCore_for_createdAt_for_${componentLineage}`}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForUpdatedDtFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore_for_updatedAt_for_${componentLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -261,9 +272,10 @@ const UserProfileCard = (props) => {
               excludeLabel={false}
               valErrors={valErrors.GRFUser.updatedAt}
               getRndIntegerFn={getRndIntegerFn}
+              componentLineage={`ReadOnlyInputCore_for_updatedAt_for_${componentLineage}`}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore_for_id_for_${componentLineage}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -275,6 +287,7 @@ const UserProfileCard = (props) => {
               excludeLabel={false}
               valErrors={valErrors.GRFUser._id}
               getRndIntegerFn={getRndIntegerFn}
+              componentLineage={`ReadOnlyInputCore_for_id_for_${componentLineage}`}
             />
           </div>
         </div>
@@ -285,15 +298,7 @@ const UserProfileCard = (props) => {
             <fieldset className="registerBox1">
               <legend>Name</legend>
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "prefix",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_namePrefix_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -320,20 +325,13 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "text",
                     propValue: namePrefix,
+                    componentLineage: `NewInputCore_for_namePrefix_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "givenName",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_givenName_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -360,20 +358,13 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "text",
                     propValue: givenName,
+                    componentLineage: `NewInputCore_for_givenName_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "middleName",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_middleName_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -400,20 +391,13 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "text",
                     propValue: middleName,
+                    componentLineage: `NewInputCore_for_middleName_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "familyName",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_familyName_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -440,20 +424,13 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "text",
                     propValue: familyName,
+                    componentLineage: `NewInputCore_for_familyName_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "nameSuffix",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_nameSuffix_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -480,6 +457,7 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "text",
                     propValue: nameSuffix,
+                    componentLineage: `NewInputCore_for_nameSuffix_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
@@ -487,15 +465,7 @@ const UserProfileCard = (props) => {
             </fieldset>
             <fieldset className="registerBox2">
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "email",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_email_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -522,12 +492,14 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "email",
                     propValue: email,
+                    componentLineage: `NewInputCore_for_email_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
               />
               {userIsNew ? (
                 <CreateEditPassword
+                  key={`CreateEditPassword_for_${componentLineage}`}
                   password={password}
                   fieldsDisabled={fieldsDisabled}
                   valErrors={valErrors.GRFUser.password}
@@ -537,6 +509,7 @@ const UserProfileCard = (props) => {
                   getRndIntegerFn={getRndIntegerFn}
                   returnElementKey={returnElementKey}
                   inputOnKeyUpFn={inputOnKeyUpFn}
+                  componentLineage={`CreateEditPassword_for_${componentLineage}`}
                 />
               ) : (
                 ""
@@ -561,15 +534,7 @@ const UserProfileCard = (props) => {
                   }
                 ></div>
                 <NewInputCore
-                  key={returnElementKey(
-                    null,
-                    "NewInputCore",
-                    "photoURL",
-                    typeOfRecordToChange,
-                    arrayIndex,
-                    thisMealTypeCode,
-                    thisDayOfWeekCode
-                  )}
+                  key={`NewInputCore_for_photoURL_for_${componentLineage}`}
                   commonProps={{
                     commonData: {},
                     commonMethods: {
@@ -596,21 +561,14 @@ const UserProfileCard = (props) => {
                       excludeLabel: true,
                       inputTypeForHtml: "url",
                       propValue: photoURL,
+                      componentLineage: `NewInputCore_for_photoURL_for_${componentLineage}`,
                     },
                     specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                   }}
                 />
               </div>
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "certURL",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_certURL_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -637,20 +595,13 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "url",
                     propValue: certURL,
+                    componentLineage: `NewInputCore_for_certURL_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
               />
               <NewInputCore
-                key={returnElementKey(
-                  null,
-                  "NewInputCore",
-                  "certName",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`NewInputCore_for_certName_for_${componentLineage}`}
                 commonProps={{
                   commonData: {},
                   commonMethods: {
@@ -677,6 +628,7 @@ const UserProfileCard = (props) => {
                     excludeLabel: false,
                     inputTypeForHtml: "text",
                     propValue: certName,
+                    componentLineage: `NewInputCore_for_certName_for_${componentLineage}`,
                   },
                   specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
                 }}
@@ -701,7 +653,12 @@ const UserProfileCard = (props) => {
           >
             <p className={`alreadyRegistered`}>
               Already registered?&nbsp;
-              <Link to="/">Login</Link>
+              <Link
+                key={`Link_for_"/"_for_card_bottom_for_${componentLineage}`}
+                to="/"
+              >
+                Login
+              </Link>
             </p>
           </div>
         </form>

@@ -57,7 +57,7 @@ const NewMealChildCard = (props) => {
       <div className="card-header mealCardHeader">
         <div className="mealGenRecipeSctnHdr">
           <CustomHeading
-            key={`customMealHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+            key={`CustomHeading for "Meal" for meal ${thisRecordId}`}
             headingLvl={5}
             recordLoaded={recordLoaded}
             headingText={"Meal"}
@@ -66,7 +66,7 @@ const NewMealChildCard = (props) => {
             headingClasses="formSctnTitle"
           />
           <NewFormControl
-            key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
+            key={`NewFormControl for meal ${thisRecordId}`}
             commonProps={{
               commonData: {},
               commonMethods: {
@@ -94,6 +94,7 @@ const NewMealChildCard = (props) => {
                 deleteChildrenWarning:
                   "You must delete all this meals's ingredients before you can delete this meal",
                 recordLoaded: recordLoaded,
+                formControlLineage: `meal ${thisRecordId}`,
               },
               specificMethods: {},
             }}
@@ -107,7 +108,7 @@ const NewMealChildCard = (props) => {
           }
         >
           <CustomHeading
-            key={`customRecipeHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+            key={`CustomHeading for "Recipe:" for meal ${thisRecordId}`}
             headingLvl={5}
             recordLoaded={recordLoaded}
             headingText={"Recipe:"}
@@ -116,6 +117,7 @@ const NewMealChildCard = (props) => {
             headingClasses="recipeSelectHeader"
           />
           <NewNewSelectSearchListWCreate
+            key={`NewNewSelectSearchListWCreate for genRecipe for meal ${thisRecordId}`}
             commonProps={{
               commonData: {
                 thisDayOfWeekCode: thisDayOfWeekCode,
@@ -186,7 +188,7 @@ const NewMealChildCard = (props) => {
           >
             <div className="accordion-body mealInnerAccordion wmpInnerAccordion">
               <ReadOnlyInputCore
-                key={`ReadOnlyInputCoreForCreatedAtFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for prop createdAt for ${typeOfRecordToChange} ${thisRecordId}`}
                 formGroupClasses={"form-group"}
                 label="Created "
                 inputClasses="form-control"

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ScreenshotFigure from "./ScreenshotFigure.component";
-const ScreenshotCarousel = ({ screenshotObjsArray }) => {
+const ScreenshotCarousel = (props) => {
+  const { componentLineage, screenshotObjsArray } = props;
   const viewportWidth = window.visualViewport.width;
   const screenshotObjsArrayLength = screenshotObjsArray.length;
   const [scrnShtCrslSlideNum, setscrnShtCrslSlideNum] = useState(0);
@@ -31,7 +32,10 @@ const ScreenshotCarousel = ({ screenshotObjsArray }) => {
           handleClickCarouselNextPrev(false, screenshotObjsArrayLength);
         }}
       >
-        <FontAwesomeIcon icon="fa-solid fa-chevron-left" />
+        <FontAwesomeIcon
+          key={`FontAwesomeIcon_for_chevron-left_for_prevImgBttn_for_${componentLineage}`}
+          icon="fa-solid fa-chevron-left"
+        />
       </button>
       <div
         className="innerCarousel"
@@ -42,6 +46,7 @@ const ScreenshotCarousel = ({ screenshotObjsArray }) => {
           return (
             <React.Fragment>
               <ScreenshotFigure
+                key={`ScreenshotFigure_${index}_for_${componentLineage}`}
                 screenshotType={screenshotType}
                 currentSlideNum={scrnShtCrslSlideNum}
                 thisSlideNum={index}
@@ -54,10 +59,12 @@ const ScreenshotCarousel = ({ screenshotObjsArray }) => {
                   screenshotType === "mobile" ? "mobileSSFig" : "desktopSSFig"
                 }
                 screenshotStyles={screenshotObj.screenshotStyles}
+                componentLineage={`ScreenshotFigure_${index}_for_${componentLineage}`}
               />
               {index !== screenshotObjsArrayLength - 1 ? (
                 <FontAwesomeIcon
                   icon="fa-solid fa-chevron-right"
+                  key={`FontAwesomeIcon_for_chevron-right_for_carouselWideViewScrnshtSeparator_${index}_for_${componentLineage}`}
                   hidden={viewportWidth < 1000}
                 />
               ) : (
@@ -79,7 +86,10 @@ const ScreenshotCarousel = ({ screenshotObjsArray }) => {
           handleClickCarouselNextPrev(true, screenshotObjsArrayLength);
         }}
       >
-        <FontAwesomeIcon icon="fa-solid fa-chevron-right" />
+        <FontAwesomeIcon
+          key={`FontAwesomeIcon_for_chevron-right_for_nextImgBttn_for_${componentLineage}`}
+          icon="fa-solid fa-chevron-right"
+        />
       </button>
     </div>
   );

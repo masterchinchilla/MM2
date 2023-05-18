@@ -18,6 +18,8 @@ const NewInputSubCore = (props) => {
     excludeLabel,
     inputTypeForHtml,
     propValue,
+    propLineage,
+    componentLineage,
   } = specificData;
   const { updateParentValue, updateChildValue } = specificMethods;
   if (recordLoaded) {
@@ -60,15 +62,7 @@ const NewInputSubCore = (props) => {
               <ul>
                 {valErrors.map((valError, index) => (
                   <li
-                    key={commonProps.commonMethods.returnElementKey(
-                      index,
-                      "valErr",
-                      propToUpdate,
-                      typeOfRecordToChange,
-                      arrayIndex,
-                      thisMealTypeCode,
-                      thisDayOfWeekCode
-                    )}
+                    key={`li_for_valErr_${index}_for_${propToUpdate}_for_${componentLineage}`}
                   >
                     {valError}
                   </li>

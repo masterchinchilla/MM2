@@ -58,15 +58,7 @@ const MealIngredientChildForm = (props) => {
     <form className="mlIngrdntFrm">
       <div className="mlIngrdntFrmHdr">
         <CustomHeading
-          key={returnElementKey(
-            null,
-            "CustomHeading",
-            "qty",
-            typeOfRecordToChange,
-            arrayIndex,
-            thisMealTypeCode,
-            thisDayOfWeekCode
-          )}
+          key={`CustomHeading for "Qty" for mealIngredient ${thisRecordId}`}
           headingLvl={6}
           recordLoaded={recordLoaded}
           headingText="Qty"
@@ -75,7 +67,7 @@ const MealIngredientChildForm = (props) => {
           headingClasses="mlIngrdntHdr doubleHeightLabel"
         />
         <NewFormControl
-          key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`NewFormControl for mealIngredient ${thisRecordId}`}
           commonProps={{
             commonData: {},
             commonMethods: {
@@ -102,20 +94,13 @@ const MealIngredientChildForm = (props) => {
                 "Meal Ingredient will be deleted. To add it back, you'll need to delete all other Ingredients, then click 'Populate Ingredients.' Do you want to proceed?",
               deleteChildrenWarning: "",
               recordLoaded: recordLoaded,
+              formControlLineage: `mealIngredient ${thisRecordId}`,
             },
             specificMethods: {},
           }}
         />
         <NewInputCore
-          key={returnElementKey(
-            null,
-            "NewInputCore",
-            "qty",
-            typeOfRecordToChange,
-            arrayIndex,
-            thisMealTypeCode,
-            thisDayOfWeekCode
-          )}
+          key={`NewInputCore for qty for mealIngredient ${thisRecordId}`}
           commonProps={{
             commonData: {},
             commonMethods: {
@@ -142,6 +127,7 @@ const MealIngredientChildForm = (props) => {
               excludeLabel: true,
               inputTypeForHtml: "number",
               propValue: qty,
+              propLineage: `mealIngredient ${thisRecordId}`,
             },
             specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
           }}
@@ -175,15 +161,7 @@ const MealIngredientChildForm = (props) => {
           <div className="accordion-body">
             <div className="form-group mealIngrdntInputs">
               <CustomHeading
-                key={returnElementKey(
-                  null,
-                  "CustomHeading",
-                  "customIngredient",
-                  typeOfRecordToChange,
-                  arrayIndex,
-                  thisMealTypeCode,
-                  thisDayOfWeekCode
-                )}
+                key={`CustomHeading for "Custom Ingredient" for mealIngredient ${thisRecordId}`}
                 headingLvl={6}
                 recordLoaded={recordLoaded}
                 headingText="Custom Ingredient"
@@ -192,7 +170,7 @@ const MealIngredientChildForm = (props) => {
                 headingClasses="mealIngrdntHdr"
               />
               <ReadOnlyInputCore
-                key={`readOnlyInputForRecipeIngrdntFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`ReadOnlyInputCore for genRecipeIngredient name for mealIngredient ${thisRecordId}`}
                 formGroupClasses={"ingrdntFrmGrpWBttmPddng"}
                 label="Recipe Ingredient "
                 inputClasses="form-control"
@@ -202,10 +180,11 @@ const MealIngredientChildForm = (props) => {
                 excludeLabel={false}
                 valErrors={valErrors.mealIngredient.genRecipeIngredient}
                 getRndIntegerFn={getRndIntegerFn}
+                propLineage={`mealIngredient ${thisRecordId}`}
               />
             </div>
             <ReadOnlyInputCore
-              key={`readOnlyInputForMealFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for day name and mealType name for mealIngredient ${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -215,9 +194,10 @@ const MealIngredientChildForm = (props) => {
               propValue={`${day.name} ${mealType.name}`}
               recordLoaded={recordLoaded}
               excludeLabel={false}
+              propLineage={`mealIngredient ${thisRecordId}`}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForCreatedDtFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for createdBy for mealIngredient ${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -229,9 +209,10 @@ const MealIngredientChildForm = (props) => {
               excludeLabel={false}
               valErrors={valErrors.mealIngredient.createdAt}
               getRndIntegerFn={getRndIntegerFn}
+              propLineage={`mealIngredient ${thisRecordId}`}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForUpdatedDtFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for updatedAt for mealIngredient ${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -243,9 +224,10 @@ const MealIngredientChildForm = (props) => {
               excludeLabel={false}
               valErrors={valErrors.mealIngredient.updatedAt}
               getRndIntegerFn={getRndIntegerFn}
+              propLineage={`mealIngredient ${thisRecordId}`}
             />
             <ReadOnlyInputCore
-              key={`readOnlyInputForIdFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`ReadOnlyInputCore for _id for mealIngredient ${thisRecordId}`}
               formGroupClasses={
                 "form-group mealIngrdntInputs ingrdntFrmGrpWBttmPddng"
               }
@@ -257,6 +239,7 @@ const MealIngredientChildForm = (props) => {
               excludeLabel={false}
               valErrors={valErrors.mealIngredient._id}
               getRndIntegerFn={getRndIntegerFn}
+              propLineage={`mealIngredient ${thisRecordId}`}
             />
           </div>
         </div>

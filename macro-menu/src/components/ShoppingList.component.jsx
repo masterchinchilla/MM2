@@ -5,7 +5,7 @@ import TableCell from "./TableCell.component";
 const ShoppingList = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { currentGRFUser, daysOfWeek, mealTypes } = commonData;
+  const { currentGRFUser, daysOfWeek, mealTypes, thisWMPRecordId } = commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -119,15 +119,7 @@ const ShoppingList = (props) => {
     }
     return shoppingListItems.map((item, index) => (
       <ShoppingListItem
-        key={returnElementKey(
-          index,
-          "ShoppingListItem",
-          null,
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`ShoppingListItem ${item.pantryItem.thisRecord._id}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -151,11 +143,22 @@ const ShoppingList = (props) => {
     ));
   }
   return (
-    <table className="table table-bordered shopListTbl">
-      <thead className="thead">
-        <tr>
-          <th colSpan={6} scope="col">
+    <table
+      key={`table for ShoppingList for WMP ${thisWMPRecordId}`}
+      className="table table-bordered shopListTbl"
+    >
+      <thead
+        key={`thead for ShoppingList for WMP ${thisWMPRecordId}`}
+        className="thead"
+      >
+        <tr key={`tr 1 for ShoppingList for WMP ${thisWMPRecordId}`}>
+          <th
+            key={`th 1 for ShoppingList for WMP ${thisWMPRecordId}`}
+            colSpan={6}
+            scope="col"
+          >
             <CustomHeading
+              key={`CustomHeading "Shopping List" for WMP ${thisWMPRecordId}`}
               headingLvl={1}
               recordLoaded={true}
               headingText={"Shopping List"}
@@ -165,14 +168,26 @@ const ShoppingList = (props) => {
             />
           </th>
         </tr>
-        <tr className="shopListThRow">
-          <th className="shopListTHPerpendicular" scope="col">
+        <tr
+          key={`tr 2 for ShoppingList for WMP ${thisWMPRecordId}`}
+          className="shopListThRow"
+        >
+          <th
+            key={`th for "Bought" ShoppingList for WMP ${thisWMPRecordId}`}
+            className="shopListTHPerpendicular"
+            scope="col"
+          >
             <span className="shopListTHSubSpan">Bought</span>
           </th>
-          <th className="shopListTHPerpendicular" scope="col">
+          <th
+            key={`th "Qty Needed" for ShoppingList for WMP ${thisWMPRecordId}`}
+            className="shopListTHPerpendicular"
+            scope="col"
+          >
             <span className="shopListTHSubSpan">Qty Needed</span>
           </th>
           <TableCell
+            key={`TableCell th "Qty Have" for ShoppingList for WMP ${thisWMPRecordId}`}
             tCellType="th"
             data={"Qty Have"}
             tCellClasses="perpendicularTextCell"
@@ -180,6 +195,7 @@ const ShoppingList = (props) => {
             recordLoaded={true}
           />
           <TableCell
+            key={`TableCell th "Qty to Buy" for ShoppingList for WMP ${thisWMPRecordId}`}
             tCellType="th"
             data={"Qty to Buy"}
             tCellClasses="perpendicularTextCell"
@@ -187,6 +203,7 @@ const ShoppingList = (props) => {
             recordLoaded={true}
           />
           <TableCell
+            key={`TableCell th "UOM" for ShoppingList for WMP ${thisWMPRecordId}`}
             tCellType="th"
             data={"UOM"}
             tCellClasses="perpendicularTextCell"
@@ -194,6 +211,7 @@ const ShoppingList = (props) => {
             recordLoaded={true}
           />
           <TableCell
+            key={`TableCell th "Ingredient" for ShoppingList for WMP ${thisWMPRecordId}`}
             tCellType="th"
             data={"Ingredient"}
             tCellClasses="perpendicularTextCell"
@@ -202,7 +220,9 @@ const ShoppingList = (props) => {
           />
         </tr>
       </thead>
-      <tbody>{recordLoaded ? renderShoppingList() : ""}</tbody>
+      <tbody key={`tbody for ShoppingList for WMP ${thisWMPRecordId}`}>
+        {recordLoaded ? renderShoppingList() : ""}
+      </tbody>
     </table>
   );
 };

@@ -5,11 +5,14 @@ import UserProfileCard from "./UserProfileCard.component";
 class UserProfileParent extends Component {
   constructor(props) {
     super(props);
+    const { componentLineage } = this.props;
     this.state = {
       thisStateObj: {
         recordLoaded: false,
+        componentLineage: componentLineage,
       },
       thisStateObjBackup: {},
+      // componentLineage: `UserProfileParent_for_${parentComponent}`,
     };
   }
   determineIfSaveDisabled = async (thisStateObj) => {
@@ -276,8 +279,20 @@ class UserProfileParent extends Component {
   render() {
     if (this.state.thisStateObj.recordLoaded) {
       const typeOfRecordToChange = "GRFUser";
-      const { thisStateObj, userIsNew, passwordState, thisStateObjBackup } =
-        this.state;
+      const {
+        backEndHtmlRoot,
+        returnElementKey,
+        getRndIntegerFn,
+        trimEnteredValueFn,
+        closeNavOnClick,
+      } = this.props;
+      const {
+        thisStateObj,
+        userIsNew,
+        passwordState,
+        thisStateObjBackup,
+        componentLineage,
+      } = this.state;
       const {
         thisRecord,
         userType,
@@ -310,22 +325,19 @@ class UserProfileParent extends Component {
         pWordHasSpChar,
         pWordLengthOk,
       } = passwordState;
-      const thisRecordId = _id;
+      const thisRecordId = _id
+        ? _id
+        : `new${getRndIntegerFn(10000000, 99999999)}`;
       const thisDayOfWeekCode = "";
       const thisMealTypeCode = "";
       const arrayIndex = null;
       const fieldsDisabled = editingForm ? false : true;
       const inputOnKeyUpFn = () => {};
-      const {
-        backEndHtmlRoot,
-        returnElementKey,
-        getRndIntegerFn,
-        trimEnteredValueFn,
-        closeNavOnClick,
-      } = this.props;
+
       return (
         <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
           <UserProfileCard
+            key={`UserProfileCard_for_${componentLineage}`}
             commonProps={{
               commonData: { backEndHtmlRoot: backEndHtmlRoot },
               commonMethods: {
@@ -345,6 +357,7 @@ class UserProfileParent extends Component {
                 userIsNew: userIsNew,
                 passwordState: passwordState,
                 origHandle: thisStateObjBackup.thisRecord.handle,
+                componentLineage: componentLineage,
               },
               specificMethods: {
                 onChangePasswordFn: this.handleChangePasswordFn,

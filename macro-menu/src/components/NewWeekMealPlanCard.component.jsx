@@ -113,7 +113,7 @@ const NewWeekMealPlanCard = (props) => {
     <div className="card">
       <div className="card-header">
         <CustomHeading
-          key={`customCarddHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`CustomHeading for "Week Meal Plan Builder" for WMPCard for WMP ${thisRecordId}`}
           headingLvl={1}
           recordLoaded={recordLoaded}
           headingText="Week Meal Plan Builder"
@@ -151,6 +151,7 @@ const NewWeekMealPlanCard = (props) => {
             <div className="accordion-body accrdnWMPDetailsBdy">
               <form className="card">
                 <NewWMPNameAndDisabledFieldsSubForm
+                  key={`NewWMPNameAndDisabledFieldsSubForm for WMP ${thisRecordId}`}
                   commonProps={{
                     commonData: { backEndHtmlRoot: backEndHtmlRoot },
                     commonMethods: {
@@ -182,7 +183,7 @@ const NewWeekMealPlanCard = (props) => {
                   }}
                 />
                 <NewMacroBudgetSubForm
-                  key={`macroBdgtSubFormFor${typeOfRecordToChange}${thisRecordId}`}
+                  key={`NewMacroBudgetSubForm for WMP ${thisRecordId}`}
                   commonProps={{
                     commonData: {},
                     commonMethods: {
@@ -198,7 +199,7 @@ const NewWeekMealPlanCard = (props) => {
                   }}
                 />
                 <NewMealWeightingSubForm
-                  key={`mealWghtngSubFormFor${typeOfRecordToChange}${thisRecordId}`}
+                  key={`NewMealWeightingSubForm for WMP ${thisRecordId}`}
                   commonProps={{
                     commonData: {},
                     commonMethods: {

@@ -27,6 +27,7 @@ const NewFormControl = (props) => {
     recordLoaded,
     allowCopy,
   } = specificData;
+  const componentLineage = `NewFormControl_for_${specificData.componentLineage}`;
   const localUserType = userType ? userType : "";
   const [hideDeleteWarning, toggleHideDeleteWarning] = useState(true);
   const [hideCancelWarning, toggleHideCancelWarning] = useState(true);
@@ -121,6 +122,7 @@ const NewFormControl = (props) => {
             className="iconBttn"
           >
             <FontAwesomeIcon
+              key={`FontAwesomeIcon_for_editIcon_for_${componentLineage}`}
               icon="fa-solid fa-pen-to-square"
               size="xl"
               className="p-1"
@@ -135,6 +137,7 @@ const NewFormControl = (props) => {
             className="iconBttn"
           >
             <FontAwesomeIcon
+              key={`FontAwesomeIcon_for_cancelIcon_for_${componentLineage}`}
               icon="fa-solid fa-circle-xmark"
               size="xl"
               className="p-1"
@@ -149,6 +152,7 @@ const NewFormControl = (props) => {
             className="iconBttn"
           >
             <FontAwesomeIcon
+              key={`FontAwesomeIcon_for_saveIcon_for_${componentLineage}`}
               icon="fa-solid fa-floppy-disk"
               size="xl"
               className={recordChanged ? "changingWarning p-1" : "p-1"}
@@ -163,6 +167,7 @@ const NewFormControl = (props) => {
             className="iconBttn"
           >
             <FontAwesomeIcon
+              key={`FontAwesomeIcon_for_deleteIcon_for_${componentLineage}`}
               icon="fa-solid fa-trash-can"
               size="xl"
               className="p-1"
@@ -179,6 +184,7 @@ const NewFormControl = (props) => {
           >
             <div className="copyIconCont">
               <FontAwesomeIcon
+                key={`FontAwesomeIcon_for_copyIcon_for_${componentLineage}`}
                 icon="fa-solid fa-copy"
                 size="xl"
                 className="p-1"

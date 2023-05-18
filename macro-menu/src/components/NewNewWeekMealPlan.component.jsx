@@ -1803,13 +1803,13 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   renderDay = (thisDayOfWeekCode, thisDayOfWeekName) => {
-    let { thisWMPStateObj } = this.state;
-    let wmpUserType = thisWMPStateObj.userType.weekMealPlan;
-    let pattern = /missing/;
-    let thisDayStateObj = this.state[thisDayOfWeekCode];
-    let thisDayStateObjBackup = this.state[`${thisDayOfWeekCode}Backup`];
-    let thisDaysId = thisDayStateObj.thisRecord._id;
-    let testResult = pattern.test(thisDaysId);
+    const { thisWMPStateObj } = this.state;
+    const wmpUserType = thisWMPStateObj.userType.weekMealPlan;
+    const pattern = /missing/;
+    const thisDayStateObj = this.state[thisDayOfWeekCode];
+    const thisDayStateObjBackup = this.state[`${thisDayOfWeekCode}Backup`];
+    const thisDaysId = thisDayStateObj.thisRecord._id;
+    const testResult = pattern.test(thisDaysId);
     const {
       trimEnteredValueFn,
       getRndIntegerFn,
@@ -1820,6 +1820,7 @@ class NewNewWeekMealPlan extends Component {
       if (wmpUserType === "admin" || wmpUserType === "author") {
         return (
           <NewCreateDayButton
+            key={`NewCreateDayButton for Day ${thisDaysId}`}
             commonProps={{
               commonData: {},
               commonMethods: {
@@ -1846,6 +1847,7 @@ class NewNewWeekMealPlan extends Component {
     } else {
       return (
         <NewDayCard
+          key={`NewDayCard for Day ${thisDaysId}`}
           commonProps={{
             commonData: {
               daysOfWeek: this.state.daysOfWeek,
@@ -1899,8 +1901,10 @@ class NewNewWeekMealPlan extends Component {
     return (
       <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
         <TabNav
+          key={`TabNav for WMP ${thisWMPRecordId}`}
           wmpRecordLoaded={wmpRecordLoaded}
           mode={mode}
+          thisWMPRecordId={thisWMPRecordId}
           onChangeModeFn={this.handleChangeModeFn}
         />
         <div
@@ -1910,6 +1914,7 @@ class NewNewWeekMealPlan extends Component {
           <div className="lottieSubCont">
             <span className="lottieText">Loading...</span>
             <Player
+              key={`loading spinner Player for WMP ${thisWMPRecordId}`}
               autoplay
               loop
               src={LoadingForkSpoonSpinner}
@@ -1929,6 +1934,7 @@ class NewNewWeekMealPlan extends Component {
           hidden={this.state.mode === "builder" ? false : true}
         >
           <NewWeekMealPlanCard
+            key={`NewWeekMealPlanCard for WMP ${thisWMPRecordId}`}
             commonProps={{
               commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
               commonMethods: {
@@ -1958,7 +1964,7 @@ class NewNewWeekMealPlan extends Component {
           <div className="card mt-3 mb-3">
             <div className="card-header">
               <CustomHeading
-                key={`customDayMealPlnsHeadingFor${typeOfRecordToChange}${thisWMPRecordId}`}
+                key={`CustomHeading "Day Meal Plans" for WMP ${thisWMPRecordId}`}
                 headingLvl={2}
                 recordLoaded={wmpRecordLoaded}
                 headingText="Day Meal Plans"
@@ -2012,11 +2018,13 @@ class NewNewWeekMealPlan extends Component {
           hidden={this.state.mode === "shoppingList" ? false : true}
         >
           <ShoppingList
+            key={`ShoppingList for WMP ${thisWMPRecordId}`}
             commonProps={{
               commonData: {
                 currentGRFUser: this.state.currentGRFUser,
                 daysOfWeek: this.state.daysOfWeek,
                 mealTypes: this.state.mealTypes,
+                thisWMPRecordId: thisWMPRecordId,
               },
               commonMethods: {
                 getRndIntegerFn: getRndIntegerFn,

@@ -72,7 +72,7 @@ const NewMacrosTable = (props) => {
         <tr>
           <th colSpan={6} scope="col">
             <CustomHeading
-              key={`customTblTypHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+              key={`CustomHeading for tableType for day or meal ${thisRecordId}`}
               headingLvl={5}
               recordLoaded={recordLoaded}
               headingText={tableType}
@@ -85,6 +85,7 @@ const NewMacrosTable = (props) => {
         <tr>
           <th scope="col" className="perpendicularTextCell"></th>
           <TableCell
+            key={`TableCell for "Cals" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={localCalsBudget ? "Cals" : null}
             tCellClasses="perpendicularTextCell"
@@ -92,6 +93,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for "Carbs" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={localCarbsBudget ? "Carbs" : null}
             tCellClasses="perpendicularTextCell"
@@ -99,6 +101,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for "Protein" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={localProteinBudget ? "Protein" : null}
             tCellClasses="perpendicularTextCell"
@@ -106,6 +109,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for "Fat" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={localFatBudget ? "Fat" : null}
             tCellClasses="perpendicularTextCell"
@@ -113,6 +117,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for "Fiber" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={localFiberBudget ? "Fiber" : null}
             tCellClasses="perpendicularTextCell"
@@ -124,6 +129,7 @@ const NewMacrosTable = (props) => {
       <tbody>
         <tr>
           <TableCell
+            key={`TableCell for "Bdgt" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={localCalsBudget ? "Bdgt" : null}
             tCellClasses=""
@@ -131,6 +137,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for localCalsBudget for day or meal ${thisRecordId}`}
             tCellType="td"
             data={localCalsBudget ? localCalsBudget.toFixed(2) : null}
             tCellClasses=""
@@ -138,6 +145,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for localCarbsBudget for day or meal ${thisRecordId}`}
             tCellType="td"
             data={localCarbsBudget ? localCarbsBudget.toFixed(2) : null}
             tCellClasses=""
@@ -145,6 +153,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for localProteinBudget for day or meal ${thisRecordId}`}
             tCellType="td"
             data={localProteinBudget ? localProteinBudget.toFixed(2) : null}
             tCellClasses=""
@@ -152,6 +161,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for localFatBudget for day or meal ${thisRecordId}`}
             tCellType="td"
             data={localFatBudget ? localFatBudget.toFixed(2) : null}
             tCellClasses=""
@@ -159,6 +169,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for localFiberBudget for day or meal ${thisRecordId}`}
             tCellType="td"
             data={localFiberBudget ? localFiberBudget.toFixed(2) : null}
             tCellClasses=""
@@ -168,6 +179,7 @@ const NewMacrosTable = (props) => {
         </tr>
         <tr>
           <TableCell
+            key={`TableCell for "Crrnt" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={calsCurrent ? "Crrnt" : null}
             tCellClasses=""
@@ -175,6 +187,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for calsCurrent for day or meal ${thisRecordId}`}
             tCellType="td"
             data={calsCurrent ? calsCurrent.toFixed(2) : null}
             tCellClasses=""
@@ -182,6 +195,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for carbsCurrent for day or meal ${thisRecordId}`}
             tCellType="td"
             data={carbsCurrent ? carbsCurrent.toFixed(2) : null}
             tCellClasses=""
@@ -189,6 +203,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for proteinCurrent for day or meal ${thisRecordId}`}
             tCellType="td"
             data={proteinCurrent ? proteinCurrent.toFixed(2) : null}
             tCellClasses=""
@@ -196,6 +211,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for fatCurrent for day or meal ${thisRecordId}`}
             tCellType="td"
             data={fatCurrent ? fatCurrent.toFixed(2) : null}
             tCellClasses=""
@@ -203,6 +219,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for fiberCurrent for day or meal ${thisRecordId}`}
             tCellType="td"
             data={fiberCurrent ? fiberCurrent.toFixed(2) : null}
             tCellClasses=""
@@ -212,6 +229,7 @@ const NewMacrosTable = (props) => {
         </tr>
         <tr>
           <TableCell
+            key={`TableCell for "Left" for day or meal ${thisRecordId}`}
             tCellType="th"
             data={calsCurrent ? "Left" : null}
             tCellClasses=""
@@ -219,6 +237,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for cals left for day or meal ${thisRecordId}`}
             tCellType="td"
             data={calsCurrent ? (calsBudget - calsCurrent).toFixed(2) : null}
             tCellClasses=""
@@ -226,6 +245,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for carbs left for day or meal ${thisRecordId}`}
             tCellType="td"
             data={carbsCurrent ? (carbsBudget - carbsCurrent).toFixed(2) : null}
             tCellClasses=""
@@ -233,6 +253,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for protein left for day or meal ${thisRecordId}`}
             tCellType="td"
             data={
               proteinCurrent
@@ -244,6 +265,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for fat left for day or meal ${thisRecordId}`}
             tCellType="td"
             data={fatCurrent ? (fatBudget - fatCurrent).toFixed(2) : null}
             tCellClasses=""
@@ -251,6 +273,7 @@ const NewMacrosTable = (props) => {
             recordLoaded={recordLoaded}
           />
           <TableCell
+            key={`TableCell for fiber left for day or meal ${thisRecordId}`}
             tCellType="td"
             data={fiberCurrent ? (fiberBudget - fiberCurrent).toFixed(2) : null}
             tCellClasses=""

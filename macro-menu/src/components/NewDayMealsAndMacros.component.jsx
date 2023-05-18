@@ -119,7 +119,7 @@ const NewDayMealsAndMacros = (props) => {
       if (mealUserType === "admin" || mealUserType === "author") {
         return (
           <NewCreateMealButton
-            key={`createMealBttnFor${childTypeOfRecordToChange}${mealRecordId}`}
+            key={`NewCreateMealButton for meal ${thisRecordId}`}
             commonProps={{
               commonData: {},
               commonMethods: {
@@ -144,6 +144,7 @@ const NewDayMealsAndMacros = (props) => {
     } else {
       return (
         <NewMealParentCard
+          key={`NewMealParentCard for meal ${thisRecordId}`}
           commonProps={{
             commonData: {
               backEndHtmlRoot: backEndHtmlRoot,
@@ -210,13 +211,13 @@ const NewDayMealsAndMacros = (props) => {
           >
             <div className="accordion-body">
               <StickyBox
-                key={`macroTblStickyBoxFor${typeOfRecordToChange}${thisRecordId}`}
+                key={`StickyBox for NewMacrosTable for meal ${thisRecordId}`}
                 offsetTop={50}
                 offsetBottom={20}
                 className={"dayMacTable"}
               >
                 <NewMacrosTable
-                  key={`macrosTblFor${typeOfRecordToChange}${thisRecordId}`}
+                  key={`NewMacrosTable for meal ${thisRecordId}`}
                   thisWMPRecord={weekMealPlan}
                   tableType={"Day Macros"}
                   thisMealType={{}}
@@ -228,15 +229,7 @@ const NewDayMealsAndMacros = (props) => {
               <div className="card mt-3 mb-3">
                 <div className="card-header">
                   <CustomHeading
-                    key={returnElementKey(
-                      null,
-                      "CustomHeading",
-                      "MealsAndMacros",
-                      typeOfRecordToChange,
-                      null,
-                      null,
-                      dayOfWeek.code
-                    )}
+                    key={`CustomHeading for dayOfWeek meals for meal ${thisRecordId}`}
                     headingLvl={4}
                     recordLoaded={recordLoaded}
                     headingText={`${dayOfWeek.name} Meals`}

@@ -13,6 +13,7 @@ class Navbar extends Component {
     const {
       leftNavOpen,
       rightNavOpen,
+      parentComponent,
       closeNavOnClick,
       onGetRecordsWFilterFn,
     } = this.props;
@@ -26,6 +27,7 @@ class Navbar extends Component {
       backEndHtmlRoot: this.props.backEndHtmlRoot,
       leftNavOpen: leftNavOpen,
       rightNavOpen: rightNavOpen,
+      componentLineage: `Navbar_for_${parentComponent}`,
     };
   }
   getData = async () => {
@@ -76,7 +78,7 @@ class Navbar extends Component {
 
   render() {
     const { closeNavOnClick, leftNavOpen, rightNavOpen } = this.props;
-    const { currentGRFUser } = this.state;
+    const { currentGRFUser, componentLineage } = this.state;
     let jwt = this.state.jwt;
     return (
       <div className="navbarCont">
@@ -99,19 +101,36 @@ class Navbar extends Component {
               id="bsNavLeftContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <Link to={"/"} className="nav-link">
-                    <FontAwesomeIcon icon="fa-solid fa-earth-europe" />
+                <li
+                  key={`li_for_"Catharta_Home"_Link_for_leftDDown_for_${componentLineage}`}
+                  className="nav-item"
+                >
+                  <Link
+                    key={`Link_for_"Catharta_Home"_for_leftDDown_for_${componentLineage}`}
+                    to={"/"}
+                    className="nav-link"
+                  >
+                    <FontAwesomeIcon
+                      key={`FontAwesomeIcon_for_"earth-europe"_for_leftDDown_for_${componentLineage}`}
+                      icon="fa-solid fa-earth-europe"
+                    />
                     <span className="navTextWIcon">Catharta Home</span>
                   </Link>
                 </li>
-                <li className="nav-item">
+                <li
+                  key={`li_for_"HowChow_Home"_Link_for_leftDDown_for_${componentLineage}`}
+                  className="nav-item"
+                >
                   <Link
+                    key={`Link_for_"HowChow_Home"_for_leftDDown_for_${componentLineage}`}
                     to={"/"}
                     className="nav-link active"
                     aria-current="page"
                   >
-                    <FontAwesomeIcon icon="fa-solid fa-house" />
+                    <FontAwesomeIcon
+                      key={`FontAwesomeIcon_for_"house"_for_leftDDown_for_${componentLineage}`}
+                      icon="fa-solid fa-house"
+                    />
                     <span className="navTextWIcon">HowChow Home</span>
                   </Link>
                 </li>
@@ -120,8 +139,15 @@ class Navbar extends Component {
           </div>
         </nav>
         <nav className="myNavBar">
-          <Link to={"/"} className="myNavBrand">
-            <HowChowHaloFrkAltClrInvrtd />
+          <Link
+            key={`Link_for_"HowChow"_for_navBrandSctn_for_${componentLineage}`}
+            to={"/"}
+            className="myNavBrand"
+          >
+            <HowChowHaloFrkAltClrInvrtd
+              key={`HowChowHaloFrkAltClrInvrtd_for_navBrandSctn_for_${componentLineage}`}
+              componentLineage={componentLineage}
+            />
             <span>HowChow</span>
           </Link>
         </nav>
@@ -145,6 +171,7 @@ class Navbar extends Component {
             </span>
             <span className="navbar-toggler-icon">
               <Avatar
+                key={`Avatar_for_rightDDown_for_${componentLineage}`}
                 alt={this.state.currentGRFUser.handle}
                 src={this.state.currentGRFUser.photoURL}
                 {...this.stringAvatar(this.state.currentGRFUser.handle)}
@@ -158,9 +185,13 @@ class Navbar extends Component {
             id="bsNavRightContent"
           >
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
+              <li
+                key={`li_for_"Register"_or_"Logout"_Links_for_rightDDown_for_${componentLineage}`}
+                className="nav-item"
+              >
                 {!jwt ? (
                   <Link
+                    key={`Link_for_"Register"_for_rightDDown_for_${componentLineage}`}
                     className="nav-link"
                     to={{
                       pathname: "/weekMealPlans",
@@ -170,6 +201,7 @@ class Navbar extends Component {
                   </Link>
                 ) : (
                   <Link
+                    key={`Link_for_"Logout"_for_rightDDown_for_${componentLineage}`}
                     className="nav-link"
                     to={{
                       pathname: "/logout",
@@ -179,11 +211,15 @@ class Navbar extends Component {
                   </Link>
                 )}
               </li>
-              <li className="nav-item">
+              <li
+                key={`li_for_"Profile"_Link_for_rightDDown_for_${componentLineage}`}
+                className="nav-item"
+              >
                 {!currentGRFUser._id ? (
                   ""
                 ) : (
                   <Link
+                    key={`Link_for_"Profile"_for_rightDDown_for_${componentLineage}`}
                     className="nav-link"
                     to={{
                       pathname: "/createOrEditUser",

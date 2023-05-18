@@ -27,7 +27,7 @@ class RouterWrapper extends Component {
       // updateThisObjsValErrs,
       // parseHTTPResErrs,
       // setAllKeysToSameValue,
-      // getRndIntegerFn,
+      getRndIntegerFn,
       // returnElementKey,
       // getCSValResultForPropFn,
       // trimEnteredValueFn,
@@ -40,14 +40,21 @@ class RouterWrapper extends Component {
       // onCopyInDbFn,
       // onDeleteFromDbFn,
     } = this.props;
+    const thisUsersId = currentGRFUser
+      ? currentGRFUser._id
+      : getRndIntegerFn(10000000, 99999999);
+    const componentLineage = `GRFUser_${thisUsersId}`;
     this.state = {
       userSignedIn: false,
       serverAuthErrors: serverAuthErrors,
       frontEndHtmlRoot: frontEndHtmlRoot,
       backEndHtmlRoot: backEndHtmlRoot,
       currentGRFUser: currentGRFUser,
-      thisUsersId: currentGRFUser ? currentGRFUser._id : "",
+      thisUsersId: thisUsersId,
+      componentLineage: componentLineage,
       scrollBttnVisible: false,
+      viewportHeight: window.innerHeight,
+      mainContentPaneHeight: 0,
     };
   }
   toggleVisible = () => {
@@ -64,16 +71,17 @@ class RouterWrapper extends Component {
       behavior: "smooth",
     });
   };
-
   componentDidMount() {
     window.addEventListener("scroll", this.toggleVisible);
     const currentUser = this.props.currentGRFUser
       ? this.props.currentGRFUser
       : getCurrentUser();
+    const mainContentPaneHeight = this.mainContentPane.clientHeight;
     this.setState({
       currentGRFUser: currentUser,
       userSignedIn: currentUser ? true : false,
       thisUsersId: currentUser ? currentUser._id : "",
+      mainContentPaneHeight: mainContentPaneHeight,
     });
   }
   render() {
@@ -88,6 +96,7 @@ class RouterWrapper extends Component {
       axiosCallConfig,
       currentGRFUser,
       scrollBttnVisible,
+      componentLineage,
     } = this.state;
     const thisUsersId = currentGRFUser ? currentGRFUser._id : "";
     ///methods
@@ -117,6 +126,7 @@ class RouterWrapper extends Component {
     const scrollToTop = this.scrollToTop;
     return (
       <BrowserRouter
+        key={`BrowserRouter_for_HowChowApp`}
         decodeToken={decodeToken}
         thisGRFUser={currentGRFUser}
         backEndHtmlRoot={backEndHtmlRoot}
@@ -143,167 +153,213 @@ class RouterWrapper extends Component {
         onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
         onCopyInDbFn={onCopyInDbFn}
         onDeleteFromDbFn={onDeleteFromDbFn}
+        componentLineage={componentLineage}
       >
         <Navbar
+          key={`NavBar_for_HowChowApp`}
           currentGRFUser={currentGRFUser}
           backEndHtmlRoot={backEndHtmlRoot}
+          parentComponent={`HowChowApp`}
           leftNavOpen={leftNavOpen}
           rightNavOpen={rightNavOpen}
           closeNavOnClick={closeNavOnClick}
           onGetRecordsWFilterFn={onGetRecordsWFilterFn}
+          componentLineage={componentLineage}
         />
         <br />
-        <Switch
-          decodeToken={decodeToken}
-          thisGRFUser={currentGRFUser}
-          backEndHtmlRoot={backEndHtmlRoot}
-          frontEndHtmlRoot={frontEndHtmlRoot}
-          closeNavOnClick={closeNavOnClick}
-          createNewUser={createNewUser}
-          updateUser={updateUser}
-          notifyFn={notifyFn}
-          notifyOfErrors={notifyOfErrors}
-          updateThisObjsValErrs={updateThisObjsValErrs}
-          parseHTTPResErrs={parseHTTPResErrs}
-          setAllKeysToSameValue={setAllKeysToSameValue}
-          getRndIntegerFn={getRndIntegerFn}
-          returnElementKey={returnElementKey}
-          getCSValResultForPropFn={getCSValResultForPropFn}
-          trimEnteredValueFn={trimEnteredValueFn}
-          parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
-          onGetFullRecordSetFn={onGetFullRecordSetFn}
-          onGetCurrentUserFn={onGetCurrentUserFn}
-          onGetRecordsWFilterFn={onGetRecordsWFilterFn}
-          onSaveUpdateToDbFn={onSaveUpdateToDbFn}
-          onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
-          onCopyInDbFn={onCopyInDbFn}
-          onDeleteFromDbFn={onDeleteFromDbFn}
+        <div
+          ref={(mainContentPane) => {
+            this.mainContentPane = mainContentPane;
+          }}
         >
-          <Route
-            exact
-            path="/createOrEditUser/:isNew?"
-            render={(props) => {
-              return (
-                <UserProfileParent
+          <Switch
+            key={`Switch_for_BrowserRouter_for_HowChowApp`}
+            decodeToken={decodeToken}
+            thisGRFUser={currentGRFUser}
+            backEndHtmlRoot={backEndHtmlRoot}
+            frontEndHtmlRoot={frontEndHtmlRoot}
+            closeNavOnClick={closeNavOnClick}
+            createNewUser={createNewUser}
+            updateUser={updateUser}
+            notifyFn={notifyFn}
+            notifyOfErrors={notifyOfErrors}
+            updateThisObjsValErrs={updateThisObjsValErrs}
+            parseHTTPResErrs={parseHTTPResErrs}
+            setAllKeysToSameValue={setAllKeysToSameValue}
+            getRndIntegerFn={getRndIntegerFn}
+            returnElementKey={returnElementKey}
+            getCSValResultForPropFn={getCSValResultForPropFn}
+            trimEnteredValueFn={trimEnteredValueFn}
+            parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
+            onGetFullRecordSetFn={onGetFullRecordSetFn}
+            onGetCurrentUserFn={onGetCurrentUserFn}
+            onGetRecordsWFilterFn={onGetRecordsWFilterFn}
+            onSaveUpdateToDbFn={onSaveUpdateToDbFn}
+            onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
+            onCopyInDbFn={onCopyInDbFn}
+            onDeleteFromDbFn={onDeleteFromDbFn}
+            componentLineage={componentLineage}
+          >
+            <Route
+              key={`Route_"/createOrEditUser/:isNew?"_for_HowChowApp`}
+              exact
+              path="/createOrEditUser/:isNew?"
+              render={(props) => {
+                return (
+                  <UserProfileParent
+                    key={`UserProfileParent_Route_Cmpnnt_for_HowChowApp`}
+                    {...props}
+                    currentUser={currentGRFUser}
+                    backEndHtmlRoot={backEndHtmlRoot}
+                    componentLineage={`GRFUser_${thisUsersId}`}
+                    closeNavOnClick={closeNavOnClick}
+                    updateThisObjsValErrs={updateThisObjsValErrs}
+                    createNewUser={createNewUser}
+                    updateUser={updateUser}
+                    setAllKeysToSameValue={setAllKeysToSameValue}
+                    returnElementKey={returnElementKey}
+                    getRndIntegerFn={getRndIntegerFn}
+                    getCSValResultForPropFn={getCSValResultForPropFn}
+                    trimEnteredValueFn={trimEnteredValueFn}
+                    onSaveUpdateToDbFn={onSaveUpdateToDbFn}
+                  />
+                );
+              }}
+            />
+            <Route
+              key={`Route_"/weekMealPlansNewNew/edit/:id/:isNewWMP?"_for_HowChowApp`}
+              exact
+              path="/weekMealPlansNewNew/edit/:id/:isNewWMP?"
+              render={(props) => (
+                <NewNewWeekMealPlan
+                  key={`NewNewWeekMealPlan_Route_Cmpnnt_for_HowChowApp`}
                   {...props}
-                  currentUser={currentGRFUser}
+                  thisGRFUser={currentGRFUser}
                   backEndHtmlRoot={backEndHtmlRoot}
+                  componentLineage={componentLineage}
                   closeNavOnClick={closeNavOnClick}
+                  parseHTTPResErrs={parseHTTPResErrs}
                   updateThisObjsValErrs={updateThisObjsValErrs}
-                  createNewUser={createNewUser}
-                  updateUser={updateUser}
+                  notifyOfErrors={notifyOfErrors}
+                  notifyFn={notifyFn}
                   setAllKeysToSameValue={setAllKeysToSameValue}
-                  returnElementKey={returnElementKey}
                   getRndIntegerFn={getRndIntegerFn}
+                  returnElementKey={returnElementKey}
                   getCSValResultForPropFn={getCSValResultForPropFn}
                   trimEnteredValueFn={trimEnteredValueFn}
+                  onGetFullRecordSetFn={onGetFullRecordSetFn}
+                  onGetRecordsWFilterFn={onGetRecordsWFilterFn}
                   onSaveUpdateToDbFn={onSaveUpdateToDbFn}
+                  onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
+                  onCopyInDbFn={onCopyInDbFn}
+                  onDeleteFromDbFn={onDeleteFromDbFn}
                 />
-              );
-            }}
-          />
-          <Route
-            exact
-            path="/weekMealPlansNewNew/edit/:id/:isNewWMP?"
-            render={(props) => (
-              <NewNewWeekMealPlan
-                {...props}
-                thisGRFUser={currentGRFUser}
-                backEndHtmlRoot={backEndHtmlRoot}
-                closeNavOnClick={closeNavOnClick}
-                parseHTTPResErrs={parseHTTPResErrs}
-                updateThisObjsValErrs={updateThisObjsValErrs}
-                notifyOfErrors={notifyOfErrors}
-                notifyFn={notifyFn}
-                setAllKeysToSameValue={setAllKeysToSameValue}
-                getRndIntegerFn={getRndIntegerFn}
-                returnElementKey={returnElementKey}
-                getCSValResultForPropFn={getCSValResultForPropFn}
-                trimEnteredValueFn={trimEnteredValueFn}
-                onGetFullRecordSetFn={onGetFullRecordSetFn}
-                onGetRecordsWFilterFn={onGetRecordsWFilterFn}
-                onSaveUpdateToDbFn={onSaveUpdateToDbFn}
-                onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
-                onCopyInDbFn={onCopyInDbFn}
-                onDeleteFromDbFn={onDeleteFromDbFn}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/weekMealPlans/usersWMPs/:id"
-            render={(props) => (
-              <WeekMealPlansList2
-                {...props}
-                decodeToken={decodeToken}
-                thisGRFUser={currentGRFUser}
-                backEndHtmlRoot={backEndHtmlRoot}
-                closeNavOnClick={closeNavOnClick}
-                onGetFullRecordSetFn={onGetFullRecordSetFn}
-                onGetCurrentUserFn={onGetCurrentUserFn}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/weekMealPlans"
-            render={(props) => {
-              if (userSignedIn) {
-                return (
-                  <Redirect
-                    to={{
-                      pathname: "/weekMealPlans/usersWMPs/" + thisUsersId,
-                    }}
-                  />
-                );
-              } else {
-                return (
-                  <NewLogin
-                    {...props}
-                    decodeToken={decodeToken}
-                    closeNavOnClick={closeNavOnClick}
-                    returnElementKey={returnElementKey}
-                    parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
-                  />
-                );
-              }
-            }}
-          />
-          <Route
-            exact
-            path="/logout"
-            render={(props) => {
-              if (userSignedIn === true) {
-                console.log("user signed-in is true");
-                return <Logout {...props} />;
-              } else {
-                console.log("user signed-in is false");
-                return (
-                  <Redirect
-                    to={{
-                      pathname: "/",
-                    }}
-                  />
-                );
-              }
-            }}
-          />
-          <Route
-            path="/"
-            render={(props) => {
-              return (
-                <HomePage
-                  currentGRFUser={currentGRFUser}
+              )}
+            />
+            <Route
+              key={`Route_"/weekMealPlans/usersWMPs/:id"_for_HowChowApp`}
+              exact
+              path="/weekMealPlans/usersWMPs/:id"
+              render={(props) => (
+                <WeekMealPlansList2
+                  key={`WeekMealPlansList2_Route_Cmpnnt_for_HowChowApp`}
+                  {...props}
+                  decodeToken={decodeToken}
+                  thisGRFUser={currentGRFUser}
+                  backEndHtmlRoot={backEndHtmlRoot}
+                  componentLineage={componentLineage}
                   closeNavOnClick={closeNavOnClick}
+                  onGetFullRecordSetFn={onGetFullRecordSetFn}
+                  onGetCurrentUserFn={onGetCurrentUserFn}
                 />
-              );
-            }}
-          />
-        </Switch>
-        <footer className="footer">
+              )}
+            />
+            <Route
+              key={`Route_"/weekMealPlans"_for_HowChowApp`}
+              exact
+              path="/weekMealPlans"
+              render={(props) => {
+                if (userSignedIn) {
+                  return (
+                    <Redirect
+                      key={`Redirect_"/weekMealPlans/usersWMPs/"_for_Route_"/weekMealPlans"_for_HowChowApp`}
+                      to={{
+                        pathname: "/weekMealPlans/usersWMPs/" + thisUsersId,
+                      }}
+                    />
+                  );
+                } else {
+                  return (
+                    <NewLogin
+                      key={`NewLogin_Route_Cmpnnt_for_HowChowApp`}
+                      {...props}
+                      decodeToken={decodeToken}
+                      componentLineage={`NewLogin_for_HowChowApp`}
+                      closeNavOnClick={closeNavOnClick}
+                      returnElementKey={returnElementKey}
+                      parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
+                    />
+                  );
+                }
+              }}
+            />
+            <Route
+              key={`Route_"/logout"_for_HowChowApp`}
+              exact
+              path="/logout"
+              render={(props) => {
+                if (userSignedIn === true) {
+                  console.log("user signed-in is true");
+                  return (
+                    <Logout
+                      key={`Logout_Route_Cmpnnt_for_HowChowApp`}
+                      componentLineage={`Logout_for_HowChowApp`}
+                      {...props}
+                    />
+                  );
+                } else {
+                  console.log("user signed-in is false");
+                  return (
+                    <Redirect
+                      key={`Redirect_"/"_for_Route_"/logout"_for_HowChowApp`}
+                      to={{
+                        pathname: "/",
+                      }}
+                    />
+                  );
+                }
+              }}
+            />
+            <Route
+              key={`Route_"/"_for_HowChowApp`}
+              path="/"
+              render={(props) => {
+                return (
+                  <HomePage
+                    key={`HomePage_Route_Cmpnnt_for_HowChowApp`}
+                    currentGRFUser={currentGRFUser}
+                    componentLineage={`HomePage_for_HowChowApp`}
+                    closeNavOnClick={closeNavOnClick}
+                  />
+                );
+              }}
+            />
+          </Switch>
+        </div>
+        <footer
+          className="footer"
+          style={{
+            position:
+              this.state.mainContentPaneHeight > 0.9 * this.state.viewportHeight
+                ? `inherit`
+                : `absolute`,
+          }}
+        >
           <p>Copyright &copy; {thisYear} by Catharta, Ltd.</p>
         </footer>
         <BackToTopButton
+          key={`BackToTopButton_for_HowChowApp`}
+          componentLineage={`BackToTopButton_for_HowChowApp`}
           scrollToTop={scrollToTop}
           scrollBttnVisible={scrollBttnVisible}
         />

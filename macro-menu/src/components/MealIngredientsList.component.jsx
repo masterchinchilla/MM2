@@ -98,15 +98,7 @@ const MealIngredientsList = (props) => {
           thisStateObj.arrayIndex = index;
           return (
             <MealIngredientParentCard
-              key={returnElementKey(
-                null,
-                "ParentCard",
-                null,
-                "mealIngredient",
-                index,
-                thisMealTypeCode,
-                thisDayOfWeekCode
-              )}
+              key={`MealIngredientParentCard for meal ${thisStateObj.thisRecord._id}`}
               commonProps={{
                 commonData: {
                   backEndHtmlRoot: backEndHtmlRoot,

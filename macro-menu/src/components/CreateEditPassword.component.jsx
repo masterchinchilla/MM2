@@ -20,6 +20,7 @@ const CreateEditPassword = (props) => {
     getRndIntegerFn,
     returnElementKey,
     inputOnKeyUpFn,
+    componentLineage,
   } = props;
   const [showPassword, toggleShowPWordStateFn] = useState(false);
   const [pWordHasCapLetter, togglePWordHasCapLetterStateFn] = useState(false);
@@ -70,15 +71,7 @@ const CreateEditPassword = (props) => {
   return (
     <div className="pWordStrngthChckerFrmGrp">
       <NewInputCore
-        key={returnElementKey(
-          null,
-          "NewInputCore",
-          "password",
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`NewInputCore_for_password_for_${componentLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -105,20 +98,11 @@ const CreateEditPassword = (props) => {
             excludeLabel: false,
             inputTypeForHtml: showPassword ? "text" : "password",
             propValue: password,
+            componentLineage: `NewInputCore_for_password_for_${componentLineage}`,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}
       />
-      {/* <label>
-        <span className="requiredFldLbl">* </span>Password
-      </label>
-      <input
-        type={showPassword ? "text" : "password"}
-        className="form-control"
-        value={password}
-        onChange={handleChangePasswordFn}
-        disabled={fieldsDisabled}
-      /> */}
       <div className="rgstrShwPWrdRow">
         <div className="form-check checkboxInputInline">
           <input
@@ -133,6 +117,7 @@ const CreateEditPassword = (props) => {
           <label className="form-check-label">Show Password?</label>
         </div>
         <FontAwesomeIcon
+          key={`FontAwesomeIcon_for_check_for_pWordStrengthOK_for_${componentLineage}`}
           icon="fa-solid fa-check"
           className="pWordStrngthChkMrk"
           hidden={

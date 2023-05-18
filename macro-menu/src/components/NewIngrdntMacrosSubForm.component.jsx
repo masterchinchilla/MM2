@@ -13,7 +13,7 @@ const NewIngrdntMacrosSubForm = (props) => {
     onUpdatePropFn,
     trimEnteredValueFn,
   } = commonMethods;
-  const { thisStateObj, thisStateObjBackup } = specificData;
+  const { thisStateObj, thisStateObjBackup, propLineage } = specificData;
   const {} = specificMethods;
   const {
     recordLoaded,
@@ -46,18 +46,9 @@ const NewIngrdntMacrosSubForm = (props) => {
           ? "accordion-body ingrdntInnrAccrdn cardHeaderFocused"
           : "accordion-body ingrdntInnrAccrdn"
       }
-      // className="accordion-body ingrdntInnrAccrdn"
     >
       <NewInputCore
-        key={returnElementKey(
-          null,
-          "NewInputCore",
-          "calories",
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`NewInputCore for calories for ${propLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -84,20 +75,13 @@ const NewIngrdntMacrosSubForm = (props) => {
             excludeLabel: false,
             inputTypeForHtml: "number",
             propValue: calories,
+            propLineage: propLineage,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}
       />
       <NewInputCore
-        key={returnElementKey(
-          null,
-          "NewInputCore",
-          "carbs",
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`NewInputCore for carbs for ${propLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -124,20 +108,13 @@ const NewIngrdntMacrosSubForm = (props) => {
             excludeLabel: false,
             inputTypeForHtml: "number",
             propValue: carbs,
+            propLineage: propLineage,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}
       />
       <NewInputCore
-        key={returnElementKey(
-          null,
-          "NewInputCore",
-          "protein",
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`NewInputCore for protein for ${propLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -164,20 +141,13 @@ const NewIngrdntMacrosSubForm = (props) => {
             excludeLabel: false,
             inputTypeForHtml: "number",
             propValue: protein,
+            propLineage: propLineage,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}
       />
       <NewInputCore
-        key={returnElementKey(
-          null,
-          "NewInputCore",
-          "fat",
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`NewInputCore for fat for ${propLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -204,20 +174,13 @@ const NewIngrdntMacrosSubForm = (props) => {
             excludeLabel: false,
             inputTypeForHtml: "number",
             propValue: fat,
+            propLineage: propLineage,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}
       />
       <NewInputCore
-        key={returnElementKey(
-          null,
-          "NewInputCore",
-          "fiber",
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`NewInputCore for fiber for ${propLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -244,20 +207,13 @@ const NewIngrdntMacrosSubForm = (props) => {
             excludeLabel: false,
             inputTypeForHtml: "number",
             propValue: fiber,
+            propLineage: propLineage,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}
       />
       <NewInputCore
-        key={returnElementKey(
-          null,
-          "NewInputCore",
-          "photoURL",
-          typeOfRecordToChange,
-          arrayIndex,
-          thisMealTypeCode,
-          thisDayOfWeekCode
-        )}
+        key={`NewInputCore for photoURL for ${propLineage}`}
         commonProps={{
           commonData: {},
           commonMethods: {
@@ -284,6 +240,7 @@ const NewIngrdntMacrosSubForm = (props) => {
             excludeLabel: false,
             inputTypeForHtml: "url",
             propValue: photoURL,
+            propLineage: propLineage,
           },
           specificMethods: { inputOnKeyUpFn: inputOnKeyUpFn },
         }}

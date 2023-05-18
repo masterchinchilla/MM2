@@ -39,7 +39,7 @@ import ScreenshotCarousel from "./ScreenshotCarousel.component";
 // const thisYear = new Date().getFullYear();
 const viewportWidth = window.visualViewport.width;
 const HomePage = (props) => {
-  const { currentGRFUser, closeNavOnClick } = props;
+  const { currentGRFUser, closeNavOnClick, componentLineage } = props;
   const scrnshtCrsl1ObjsArry = [
     {
       screenshotType: "mobile",
@@ -192,9 +192,12 @@ const HomePage = (props) => {
   return (
     <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
       <header>
-        <LogoAndWordsCrossWBG />
+        <LogoAndWordsCrossWBG
+          key={`LogoAndWordsCrossWBG_for_${componentLineage}`}
+        />
         <br />
         <Link
+          key={`Link_for_"/weekMealPlans/usersWMPs/"_for_goToWeekMealPlans_button_for_${componentLineage}`}
           to={
             !localUser.handle !== 1
               ? "/weekMealPlans"
@@ -206,6 +209,7 @@ const HomePage = (props) => {
           className="homeWMPsLink"
         >
           <FontAwesomeIcon
+            key={`FontAwesomeIcon_for_tableList_for_goToWeekMealPlans_button_for_${componentLineage}`}
             icon="fa-solid fa-table-list"
             className="biggerIcon"
           />
@@ -248,7 +252,11 @@ const HomePage = (props) => {
               </g>
             </svg>
           </div>
-          <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl1ObjsArry} />
+          <ScreenshotCarousel
+            key={`ScreenshotCarousel_for_scrnshtCrsl1ObjsArry_for_${componentLineage}`}
+            componentLineage={`ScreenshotCarousel_for_scrnshtCrsl1ObjsArry_for_${componentLineage}`}
+            screenshotObjsArray={scrnshtCrsl1ObjsArry}
+          />
         </section>
         <section>
           <h1 className="h1HomePg ckBkTooHrdSctnHdr">
@@ -306,7 +314,9 @@ const HomePage = (props) => {
           </h2>
           <div className="hlthyCkBkTooHrdFlxBox">
             <div className="ckBkTooHrdCkBkCont">
-              <HowChowLogo />
+              <HowChowLogo
+                key={`HowChowLogo_for_ckBkTooHrdCkBkCont_for_${componentLineage}`}
+              />
             </div>
             <svg
               viewBox="0 0 2247.6 1885.4"
@@ -347,19 +357,32 @@ const HomePage = (props) => {
           </div>
           <br />
           <section>
-            <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl4ObjsArry} />
+            <ScreenshotCarousel
+              key={`ScreenshotCarousel_for_scrnshtCrsl4ObjsArry_for_${componentLineage}`}
+              componentLineage={`ScreenshotCarousel_for_scrnshtCrsl4ObjsArry_for_${componentLineage}`}
+              screenshotObjsArray={scrnshtCrsl4ObjsArry}
+            />
           </section>
         </section>
         <section>
           <h1>Eat social!</h1>
-          <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl2ObjsArry} />
+          <ScreenshotCarousel
+            key={`ScreenshotCarousel_for_scrnshtCrsl2ObjsArry_for_${componentLineage}`}
+            componentLineage={`ScreenshotCarousel_for_scrnshtCrsl2ObjsArry_for_${componentLineage}`}
+            screenshotObjsArray={scrnshtCrsl2ObjsArry}
+          />
         </section>
         <section>
           <h1>Shop efficiently</h1>
-          <ScreenshotCarousel screenshotObjsArray={scrnshtCrsl3ObjsArry} />
+          <ScreenshotCarousel
+            key={`ScreenshotCarousel_for_scrnshtCrsl3ObjsArry_for_${componentLineage}`}
+            componentLineage={`ScreenshotCarousel_for_scrnshtCrsl3ObjsArry_for_${componentLineage}`}
+            screenshotObjsArray={scrnshtCrsl3ObjsArry}
+          />
         </section>
         <section className="callToAction">
           <Link
+            key={`Link_for_"/weekMealPlans"_for_getStartedLink_button_for_${componentLineage}`}
             to={
               !localUser.handle !== 1
                 ? "/weekMealPlans"
@@ -374,9 +397,6 @@ const HomePage = (props) => {
           </Link>
         </section>
       </main>
-      {/* <footer className="footer">
-        <p>Copyright &copy; {thisYear} by Catharta, Ltd.</p>
-      </footer> */}
     </div>
   );
 };

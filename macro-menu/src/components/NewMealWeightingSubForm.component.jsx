@@ -314,7 +314,7 @@ const NewMealWeightingSubForm = (props) => {
     <div className="card weekMealPlanFormCards mt-3 mb-3">
       <div className="card-header">
         <CustomHeading
-          key={`customMacroWghtngHeadingFor${typeOfRecordToChange}${thisRecordId}`}
+          key={`CustomHeading for "Meal Macro Weighting" for wmp ${thisRecordId}`}
           headingLvl={2}
           recordLoaded={recordLoaded}
           headingText="Meal Macro Weighting"
@@ -385,7 +385,10 @@ const NewMealWeightingSubForm = (props) => {
                       }}
                       disabled={subFormUnChangedOrInvalid}
                     >
-                      <FontAwesomeIcon icon="fa-solid fa-check" />
+                      <FontAwesomeIcon
+                        key={`FontAwesomeIcon check for NewMealWeightingSubForm for wmp ${thisRecordId}`}
+                        icon="fa-solid fa-check"
+                      />
                     </button>
                     <label
                       htmlFor="mlWghtPrcntPrgrssBar"
@@ -415,7 +418,7 @@ const NewMealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
-                    key={`sliderForBrkfstPrcntFor${typeOfRecordToChange}${thisRecordId}`}
+                    key={`Slider for localBreakfastWeight for wmp ${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -443,7 +446,7 @@ const NewMealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
-                    key={`sliderForSnck1PrcntFor${typeOfRecordToChange}${thisRecordId}`}
+                    key={`Slider for localSnack1Weight for wmp ${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -471,7 +474,7 @@ const NewMealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
-                    key={`sliderForLnchPrcntFor${typeOfRecordToChange}${thisRecordId}`}
+                    key={`Slider for localLunchWeight for wmp ${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -499,7 +502,7 @@ const NewMealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
-                    key={`sliderForSnck2PrcntFor${typeOfRecordToChange}${thisRecordId}`}
+                    key={`Slider for localSnack2Weight for wmp ${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -527,7 +530,7 @@ const NewMealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
-                    key={`sliderForDnnrPrcntFor${typeOfRecordToChange}${thisRecordId}`}
+                    key={`Slider for localDinnerWeight for wmp ${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
@@ -555,7 +558,7 @@ const NewMealWeightingSubForm = (props) => {
                     %
                   </label>
                   <Slider
-                    key={`sliderForDssrtPrcntFor${typeOfRecordToChange}${thisRecordId}`}
+                    key={`Slider for localDessertWeight for wmp ${thisRecordId}`}
                     defaultValue={0}
                     step={1}
                     min={0}
