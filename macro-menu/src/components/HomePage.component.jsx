@@ -39,7 +39,12 @@ import ScreenshotCarousel from "./ScreenshotCarousel.component";
 // const thisYear = new Date().getFullYear();
 const viewportWidth = window.visualViewport.width;
 const HomePage = (props) => {
-  const { currentGRFUser, closeNavOnClick, componentLineage } = props;
+  const {
+    currentGRFUser,
+    closeNavOnClick,
+    componentLineage,
+    updateMainContentPaneHeight,
+  } = props;
   const scrnshtCrsl1ObjsArry = [
     {
       screenshotType: "mobile",
@@ -177,6 +182,7 @@ const HomePage = (props) => {
   //   }
   // }
   useEffect(() => {
+    updateMainContentPaneHeight();
     console.log(currentGRFUser);
     if (!currentGRFUser) {
       const retrievedRecord = getCurrentUser();

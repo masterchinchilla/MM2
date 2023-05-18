@@ -94,6 +94,9 @@
     }
   .weekMealPlanFormCards {
   }
+  .card{
+    bottom:-1px;
+  }
   .card-header {
     display: flex;
     justify-content: space-between;

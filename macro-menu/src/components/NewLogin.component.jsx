@@ -13,6 +13,7 @@ const NewLogin = (props) => {
     returnElementKey,
     trimEnteredValueFn,
     closeNavOnClick,
+    updateMainContentPaneHeight,
   } = props;
   const [email, updateEmailStateFn] = useState("");
   const [password, updatePasswordStateFn] = useState("");
@@ -81,6 +82,9 @@ const NewLogin = (props) => {
   const thisDayOfWeekCode = "";
   const fieldsDisabled = false;
   function inputOnKeyUpFn() {}
+  useEffect(() => {
+    updateMainContentPaneHeight();
+  }, []);
   return (
     <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
       <div className="card m-5 loginCard">

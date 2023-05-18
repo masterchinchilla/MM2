@@ -5,8 +5,13 @@ import { Link } from "react-router-dom";
 class WMPListForUser extends Component {
   constructor(props) {
     super(props);
-    const { thisGRFUser, match, onGetFullRecordSetFn, onGetCurrentUserFn } =
-      this.props;
+    const {
+      thisGRFUser,
+      match,
+      onGetFullRecordSetFn,
+      onGetCurrentUserFn,
+      updateMainContentPaneHeight,
+    } = this.props;
     const pgReqParams = match.params;
     const thisUsersId = pgReqParams.id;
     this.state = {
@@ -38,6 +43,7 @@ class WMPListForUser extends Component {
     });
   };
   componentDidMount() {
+    this.props.updateMainContentPaneHeight();
     const thisGRFUserId = this.state.thisUsersId;
     this.getData(thisGRFUserId);
   }

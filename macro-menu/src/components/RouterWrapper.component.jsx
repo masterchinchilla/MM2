@@ -71,17 +71,23 @@ class RouterWrapper extends Component {
       behavior: "smooth",
     });
   };
+  updateMainContentPaneHeight = () => {
+    const mainContentPaneHeight = this.mainContentPane.clientHeight;
+    this.setState({ mainContentPaneHeight });
+  };
   componentDidMount() {
     window.addEventListener("scroll", this.toggleVisible);
     const currentUser = this.props.currentGRFUser
       ? this.props.currentGRFUser
       : getCurrentUser();
-    const mainContentPaneHeight = this.mainContentPane.clientHeight;
+    // this.updateMainContentPaneHeight();
+    // window.addEventListener("resize", this.updateMainContentPaneHeight);
+    // const mainContentPaneHeight = this.mainContentPane.clientHeight;
     this.setState({
       currentGRFUser: currentUser,
       userSignedIn: currentUser ? true : false,
       thisUsersId: currentUser ? currentUser._id : "",
-      mainContentPaneHeight: mainContentPaneHeight,
+      // mainContentPaneHeight: mainContentPaneHeight,
     });
   }
   render() {
@@ -154,6 +160,7 @@ class RouterWrapper extends Component {
         onCopyInDbFn={onCopyInDbFn}
         onDeleteFromDbFn={onDeleteFromDbFn}
         componentLineage={componentLineage}
+        updateMainContentPaneHeight={this.updateMainContentPaneHeight}
       >
         <Navbar
           key={`NavBar_for_HowChowApp`}
@@ -199,6 +206,7 @@ class RouterWrapper extends Component {
             onCopyInDbFn={onCopyInDbFn}
             onDeleteFromDbFn={onDeleteFromDbFn}
             componentLineage={componentLineage}
+            updateMainContentPaneHeight={this.updateMainContentPaneHeight}
           >
             <Route
               key={`Route_"/createOrEditUser/:isNew?"_for_HowChowApp`}
@@ -222,6 +230,9 @@ class RouterWrapper extends Component {
                     getCSValResultForPropFn={getCSValResultForPropFn}
                     trimEnteredValueFn={trimEnteredValueFn}
                     onSaveUpdateToDbFn={onSaveUpdateToDbFn}
+                    updateMainContentPaneHeight={
+                      this.updateMainContentPaneHeight
+                    }
                   />
                 );
               }}
@@ -253,6 +264,7 @@ class RouterWrapper extends Component {
                   onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
                   onCopyInDbFn={onCopyInDbFn}
                   onDeleteFromDbFn={onDeleteFromDbFn}
+                  updateMainContentPaneHeight={this.updateMainContentPaneHeight}
                 />
               )}
             />
@@ -271,6 +283,7 @@ class RouterWrapper extends Component {
                   closeNavOnClick={closeNavOnClick}
                   onGetFullRecordSetFn={onGetFullRecordSetFn}
                   onGetCurrentUserFn={onGetCurrentUserFn}
+                  updateMainContentPaneHeight={this.updateMainContentPaneHeight}
                 />
               )}
             />
@@ -298,6 +311,9 @@ class RouterWrapper extends Component {
                       closeNavOnClick={closeNavOnClick}
                       returnElementKey={returnElementKey}
                       parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
+                      updateMainContentPaneHeight={
+                        this.updateMainContentPaneHeight
+                      }
                     />
                   );
                 }
@@ -340,6 +356,9 @@ class RouterWrapper extends Component {
                     currentGRFUser={currentGRFUser}
                     componentLineage={`HomePage_for_HowChowApp`}
                     closeNavOnClick={closeNavOnClick}
+                    updateMainContentPaneHeight={
+                      this.updateMainContentPaneHeight
+                    }
                   />
                 );
               }}
