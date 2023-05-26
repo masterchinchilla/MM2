@@ -13,7 +13,7 @@ const ShoppingList = (props) => {
     trimEnteredValueFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { pantryItems, recordLoaded } = specificData;
+  const { pantryItems, recordLoaded, dayObjs } = specificData;
   const { onCreatePantryItem, onSavePantryItemChangeFn } = specificMethods;
   const typeOfRecordToChange = "pantryItem";
   const thisDayOfWeekCode = null;
@@ -24,7 +24,7 @@ const ShoppingList = (props) => {
     let pattern = /missing/;
     let shoppingListItems = [];
     for (let i = 0; i < daysOfWeek.length; i++) {
-      let thisDayStateObj = specificData[daysOfWeek[i].code];
+      let thisDayStateObj = dayObjs[daysOfWeek[i].code];
       let thisDayRecordId = thisDayStateObj.thisRecord._id;
       if (!pattern.test(thisDayRecordId)) {
         for (let i = 0; i < mealTypes.length; i++) {

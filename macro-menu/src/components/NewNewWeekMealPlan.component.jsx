@@ -14,8 +14,11 @@ import NewCreateDayButton from "./NewCreateDayButton.component";
 import NewDayCard from "./NewDayCard.component";
 import CustomHeading from "./CustomHeading.component";
 import ShoppingList from "./ShoppingList.component";
+import SpreadsheetView from "./SpreadsheetView.component";
 import LoadingForkSpoonSpinner from "../assets/lottieForkSpoonSpinner.json";
 import TabNav from "./TabNav.component";
+import Day from "./Day.component";
+import WeekMealPlanPage from "./WeekMealPlanPage.component";
 class NewNewWeekMealPlan extends Component {
   constructor(props) {
     super(props);
@@ -1897,10 +1900,119 @@ class NewNewWeekMealPlan extends Component {
     const thisWMPRecordId = this.state.thisWMPStateObj.thisRecord._id;
     const typeOfRecordToChange = this.state.typeOfRecordToChange;
     const wmpRecordLoaded = this.state.thisWMPStateObj.recordLoaded;
-    const { mode } = this.state;
+    const {
+      mode,
+      thisWMPStateObj,
+      thisWMPStateBackup,
+      daysOfWeek,
+      mealTypes,
+      backEndHtmlRoot,
+      allUnitOfMeasures,
+      allWeightTypes,
+      allBrands,
+      allGenRecipes,
+      copyingWMP,
+      pantryItems,
+      sunday,
+      monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday,
+      saturday,
+      sundayBackup,
+      mondayBackup,
+      tuesdayBackup,
+      wednesdayBackup,
+      thursdayBackup,
+      fridayBackup,
+      saturdayBackup,
+      currentGRFUser,
+    } = this.state;
+    const onCreateNewRecordFn = this.handleCreateNewObjFn;
+    const onUpdateMealOrChildPropFn = this.handleUpdateMealOrChildPropFn;
+    const onSaveChangesFn = this.handleSaveChangesFn;
+    const onStartEditingFn = this.handleStartEditingFn;
+    const onCancelEditFn = this.handleCancelEditFn;
+    const onDeleteObjFn = this.handleDeleteObjFn;
+    const onCreatePantryItem = this.handleCreatePantryItem;
+    const onSavePantryItemChangeFn = this.handleSavePantryItemChangeFn;
+    const onChangeModeFn = this.handleChangeModeFn;
+    const onUpdateWMPPropFn = this.handleUpdateWMPPropFn;
+    const onCopyWMPFn = this.handleCopyWMPFn;
+    const onUpdateWeightsFn = this.handleUpdateWeightsFn;
+    const populateMissingMealIngrdnts = this.handleRestoreMissingMealIngrdnts;
+    const onAddIngrdntToRecipeFn = this.handleAddIngrdntToRecipeFn;
     return (
       <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
-        <TabNav
+        <WeekMealPlanPage
+          key={`WeekMealPlan_for_WMP_${thisWMPRecordId}`}
+          commonProps={{
+            commonData: {
+              currentGRFUser,
+              daysOfWeek: daysOfWeek,
+              mealTypes: mealTypes,
+              backEndHtmlRoot: backEndHtmlRoot,
+              allUnitOfMeasures: allUnitOfMeasures,
+              allWeightTypes: allWeightTypes,
+              allBrands: allBrands,
+              allGenRecipes: allGenRecipes,
+            },
+            commonMethods: {
+              trimEnteredValueFn: trimEnteredValueFn,
+              getRndIntegerFn: getRndIntegerFn,
+              returnElementKey: returnElementKey,
+              onGetRecordsWFilterFn: onGetRecordsWFilterFn,
+              onCreateNewRecordFn: onCreateNewRecordFn,
+              onSaveChangesFn: onSaveChangesFn,
+              onStartEditingFn: onStartEditingFn,
+              onCancelEditFn: onCancelEditFn,
+              onDeleteObjFn: onDeleteObjFn,
+            },
+          }}
+          specificProps={{
+            specificData: {
+              thisWMPStateObj: thisWMPStateObj,
+              thisWMPStateBackup: thisWMPStateBackup,
+              mode: mode,
+              loadSpinPlayerRef: this.player,
+              copyingWMP: copyingWMP,
+              dayObjsAndBackups: {
+                dayObjs: {
+                  sunday: sunday,
+                  monday: monday,
+                  tuesday: tuesday,
+                  wednesday: wednesday,
+                  thursday: thursday,
+                  friday: friday,
+                  saturday: saturday,
+                },
+                dayBackups: {
+                  sundayBackup: sundayBackup,
+                  mondayBackup: mondayBackup,
+                  tuesdayBackup: tuesdayBackup,
+                  wednesdayBackup: wednesdayBackup,
+                  thursdayBackup: thursdayBackup,
+                  fridayBackup: fridayBackup,
+                  saturdayBackup: saturdayBackup,
+                },
+              },
+              pantryItems: pantryItems,
+            },
+            specificMethods: {
+              onChangeModeFn: onChangeModeFn,
+              populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+              onAddIngrdntToRecipeFn: onAddIngrdntToRecipeFn,
+              onUpdateWMPPropFn: onUpdateWMPPropFn,
+              onUpdateMealOrChildPropFn: onUpdateMealOrChildPropFn,
+              onCopyWMPFn: onCopyWMPFn,
+              onUpdateWeightsFn: onUpdateWeightsFn,
+              onCreatePantryItem: onCreatePantryItem,
+              onSavePantryItemChangeFn: onSavePantryItemChangeFn,
+            },
+          }}
+        />
+        {/* <TabNav
           key={`TabNav for WMP ${thisWMPRecordId}`}
           wmpRecordLoaded={wmpRecordLoaded}
           mode={mode}
@@ -2000,6 +2112,45 @@ class NewNewWeekMealPlan extends Component {
                   data-bs-parent={"#accordionFull" + thisWMPRecordId}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
+                    <Day
+                      commonProps={{
+                        commonData: {
+                          backEndHtmlRoot: backEndHtmlRoot,
+                          daysOfWeek: daysOfWeek,
+                          mealTypes: mealTypes,
+                          allUnitOfMeasures: allUnitOfMeasures,
+                          allWeightTypes: allWeightTypes,
+                          allBrands: allBrands,
+                          allGenRecipes: allGenRecipes,
+                        },
+                        commonMethods: {
+                          getRndIntegerFn: getRndIntegerFn,
+                          returnElementKey: returnElementKey,
+                          onGetRecordsWFilterFn: onGetRecordsWFilterFn,
+                          onCreateNewRecordFn: onCreateNewRecordFn,
+                          onUpdatePropFn: onUpdateMealOrChildPropFn,
+                          onSaveChangesFn: onSaveChangesFn,
+                          onStartEditingFn: onStartEditingFn,
+                          onCancelEditFn: onCancelEditFn,
+                          onDeleteObjFn: onDeleteObjFn,
+                          trimEnteredValueFn: trimEnteredValueFn,
+                        },
+                      }}
+                      specificProps={{
+                        specificData: {
+                          thisDayOfWeekName: `Sunday`,
+                          wmpUserType: thisWMPStateObj.userType.weekMealPlan,
+                          thisDayStateObj: this.state[`sunday`],
+                          thisDayStateObjBackup: this.state[`sundayBackup`],
+                        },
+                        specificMethods: {
+                          populateMissingMealIngrdnts:
+                            this.handleRestoreMissingMealIngrdnts,
+                          onAddIngrdntToRecipeFn:
+                            this.handleAddIngrdntToRecipeFn,
+                        },
+                      }}
+                    />
                     {this.renderDay("sunday", "Sunday")}
                     {this.renderDay("monday", "Monday")}
                     {this.renderDay("tuesday", "Tuesday")}
@@ -2052,6 +2203,12 @@ class NewNewWeekMealPlan extends Component {
             }}
           />
         </div>
+        <div
+          className="container-fluid pl-4 pr-4"
+          hidden={this.state.mode === "spreadsheet" ? false : true}
+        >
+          <SpreadsheetView />
+        </div> */}
       </div>
     );
   }

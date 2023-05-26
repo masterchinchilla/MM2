@@ -2018,3 +2018,15 @@ margin: 2rem !important;
   justify-content: space-between;
   height:100vh;
 }
+.spreadsheetTbl th, .spreadsheetTbl td {
+  border: solid 1px var(--offBlack) !important;
+}
+.twoSidedTH {
+  
+}
+.twoSidedTH{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
