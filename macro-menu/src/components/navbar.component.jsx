@@ -82,12 +82,16 @@ class Navbar extends Component {
     let jwt = this.state.jwt;
     return (
       <div className="navbarCont">
-        <nav className="navbar" onClick={() => closeNavOnClick("left")}>
+        <nav
+          className="navbar"
+          // onClick={() => closeNavOnClick("left")}
+        >
           <div className="bsNavCont">
             <button
               className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
+              data-bs-target="#bsNavLeftContent"
               aria-controls="bsNavLeftContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
@@ -95,9 +99,10 @@ class Navbar extends Component {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div
-              className={`collapse navbar-collapse ${
-                leftNavOpen ? `show` : ``
-              }`}
+              className={`collapse navbar-collapse`}
+              // ${
+              //   leftNavOpen ? `show` : ``
+              // }`}
               id="bsNavLeftContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -153,9 +158,9 @@ class Navbar extends Component {
         </nav>
         <nav
           className="navbarRight"
-          onClick={() => {
-            closeNavOnClick("right");
-          }}
+          // onClick={() => {
+          //   closeNavOnClick("right");
+          // }}
         >
           <button
             className="navbar-toggler navTogglerRight"
@@ -179,9 +184,10 @@ class Navbar extends Component {
             </span>
           </button>
           <div
-            className={`collapse navbar-collapse rightNavDDown ${
-              rightNavOpen ? `show` : ``
-            }`}
+            className={`collapse navbar-collapse rightNavDDown`}
+            // ${
+            //   rightNavOpen ? `show` : ``
+            // }`}
             id="bsNavRightContent"
           >
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">

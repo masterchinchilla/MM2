@@ -13,6 +13,7 @@ const Day = (props) => {
     allWeightTypes,
     allBrands,
     allGenRecipes,
+    mode,
   } = commonData;
   const {
     trimEnteredValueFn,
@@ -43,7 +44,7 @@ const Day = (props) => {
         <NewCreateDayButton
           key={`NewCreateDayButton_for_Day_${thisDaysId}`}
           commonProps={{
-            commonData: {},
+            commonData: { mode: mode },
             commonMethods: {
               returnElementKey: returnElementKey,
               onCreateNewRecordFn: onCreateNewRecordFn,
@@ -77,6 +78,7 @@ const Day = (props) => {
             allWeightTypes: allWeightTypes,
             allBrands: allBrands,
             allGenRecipes: allGenRecipes,
+            mode: mode,
           },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,

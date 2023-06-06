@@ -3,10 +3,12 @@ import CustomHeading from "./CustomHeading.component";
 import NewMacroBudgetSubForm from "./NewMacroBudgetSubForm.component";
 import NewMealWeightingSubForm from "./NewMealWeightingSubForm.component";
 import NewWMPNameAndDisabledFieldsSubForm from "./NewWMPNameAndDisabledFieldsSubForm.component";
+import MacroBudgetSubFormWrapper from "./MacroBudgetSubFormWrapper.component";
+import MealWeightingSubFormWrapper from "./MealWeightingSubFormWrapper.component";
 const NewWeekMealPlanCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { backEndHtmlRoot } = commonData;
+  const { backEndHtmlRoot, mode } = commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -116,7 +118,9 @@ const NewWeekMealPlanCard = (props) => {
           key={`CustomHeading for "Week Meal Plan Builder" for WMPCard for WMP ${thisRecordId}`}
           headingLvl={1}
           recordLoaded={recordLoaded}
-          headingText="Week Meal Plan Builder"
+          headingText={`Week Meal Plan ${
+            mode === `builder` ? `Builder` : `Spreadsheet`
+          }`}
           hdngIsReqFormLbl={false}
           editingForm={null}
           headingClasses="card-title"
@@ -153,7 +157,10 @@ const NewWeekMealPlanCard = (props) => {
                 <NewWMPNameAndDisabledFieldsSubForm
                   key={`NewWMPNameAndDisabledFieldsSubForm for WMP ${thisRecordId}`}
                   commonProps={{
-                    commonData: { backEndHtmlRoot: backEndHtmlRoot },
+                    commonData: {
+                      backEndHtmlRoot: backEndHtmlRoot,
+                      mode: mode,
+                    },
                     commonMethods: {
                       getRndIntegerFn: getRndIntegerFn,
                       onUpdatePropFn: onUpdatePropFn,
@@ -182,10 +189,10 @@ const NewWeekMealPlanCard = (props) => {
                     },
                   }}
                 />
-                <NewMacroBudgetSubForm
-                  key={`NewMacroBudgetSubForm for WMP ${thisRecordId}`}
+                <MacroBudgetSubFormWrapper
+                  key={`MacroBudgetSubFormWrapper for WMP ${thisRecordId}`}
                   commonProps={{
-                    commonData: {},
+                    commonData: { mode: mode },
                     commonMethods: {
                       getRndIntegerFn: getRndIntegerFn,
                       returnElementKey: returnElementKey,
@@ -198,10 +205,26 @@ const NewWeekMealPlanCard = (props) => {
                     specificMethods: {},
                   }}
                 />
-                <NewMealWeightingSubForm
-                  key={`NewMealWeightingSubForm for WMP ${thisRecordId}`}
+                {/* <NewMacroBudgetSubForm
+                  key={`NewMacroBudgetSubForm for WMP ${thisRecordId}`}
                   commonProps={{
-                    commonData: {},
+                    commonData: { mode: mode },
+                    commonMethods: {
+                      getRndIntegerFn: getRndIntegerFn,
+                      returnElementKey: returnElementKey,
+                      onUpdatePropFn: onUpdatePropFn,
+                      trimEnteredValueFn: trimEnteredValueFn,
+                    },
+                  }}
+                  specificProps={{
+                    specificData: { thisStateObj: thisStateObj },
+                    specificMethods: {},
+                  }}
+                /> */}
+                <MealWeightingSubFormWrapper
+                  key={`MealWeightingSubFormWrapper for WMP ${thisRecordId}`}
+                  commonProps={{
+                    commonData: { mode: mode },
                     commonMethods: {
                       getRndIntegerFn: getRndIntegerFn,
                       returnElementKey: returnElementKey,
@@ -219,6 +242,27 @@ const NewWeekMealPlanCard = (props) => {
                     },
                   }}
                 />
+                {/* <NewMealWeightingSubForm
+                  key={`NewMealWeightingSubForm for WMP ${thisRecordId}`}
+                  commonProps={{
+                    commonData: { mode: mode },
+                    commonMethods: {
+                      getRndIntegerFn: getRndIntegerFn,
+                      returnElementKey: returnElementKey,
+                      onUpdatePropFn: onUpdatePropFn,
+                    },
+                  }}
+                  specificProps={{
+                    specificData: {
+                      thisStateObj: thisStateObj,
+                      changesCancelled: changesCancelled,
+                    },
+                    specificMethods: {
+                      onUpdateWeightsFn: onUpdateWeightsFn,
+                      toggleChangesCancelled: toggleChangesCancelled,
+                    },
+                  }}
+                /> */}
               </form>
             </div>
           </div>

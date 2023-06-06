@@ -12,6 +12,7 @@ const NewDayCard = (props) => {
     allWeightTypes,
     allBrands,
     allGenRecipes,
+    mode,
   } = commonData;
   const {
     getRndIntegerFn,
@@ -85,7 +86,7 @@ const NewDayCard = (props) => {
       <NewDayControlAndDisabledFields
         key={`NewDayControlAndDisabledFields for Day ${thisRecordId}`}
         commonProps={{
-          commonData: {},
+          commonData: { mode: mode },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
             onUpdatePropFn: onUpdatePropFn,
@@ -111,6 +112,7 @@ const NewDayCard = (props) => {
             allWeightTypes: allWeightTypes,
             allBrands: allBrands,
             allGenRecipes: allGenRecipes,
+            mode: mode,
           },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,

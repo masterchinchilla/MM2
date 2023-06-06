@@ -5,6 +5,7 @@ import ReadOnlyInputCore from "./ReadOnlyInputCore.component";
 const NewDayControlAndDisabledFields = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { mode } = commonData;
   const {
     getRndIntegerFn,
     onUpdatePropFn,
@@ -43,7 +44,7 @@ const NewDayControlAndDisabledFields = (props) => {
         <NewFormControl
           key={`NewFormControl for Day ${thisRecordId}`}
           commonProps={{
-            commonData: {},
+            commonData: { mode: mode },
             commonMethods: {
               onStartEditingFn: onStartEditingFn,
               onCancelEditFn: onCancelEditFn,

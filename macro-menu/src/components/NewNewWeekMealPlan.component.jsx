@@ -34,7 +34,7 @@ class NewNewWeekMealPlan extends Component {
       returnElementKey,
       getCSValResultForPropFn,
       trimEnteredValueFn,
-      closeNavOnClick,
+      // closeNavOnClick,
       onGetFullRecordSetFn,
       onGetRecordsWFilterFn,
       onSaveUpdateToDbFn,
@@ -1806,7 +1806,17 @@ class NewNewWeekMealPlan extends Component {
     }
   };
   renderDay = (thisDayOfWeekCode, thisDayOfWeekName) => {
-    const { thisWMPStateObj } = this.state;
+    const {
+      thisWMPStateObj,
+      daysOfWeek,
+      mealTypes,
+      backEndHtmlRoot,
+      allUnitOfMeasures,
+      allWeightTypes,
+      allBrands,
+      allGenRecipes,
+      mode,
+    } = this.state;
     const wmpUserType = thisWMPStateObj.userType.weekMealPlan;
     const pattern = /missing/;
     const thisDayStateObj = this.state[thisDayOfWeekCode];
@@ -1825,7 +1835,7 @@ class NewNewWeekMealPlan extends Component {
           <NewCreateDayButton
             key={`NewCreateDayButton for Day ${thisDaysId}`}
             commonProps={{
-              commonData: {},
+              commonData: { mode: mode },
               commonMethods: {
                 returnElementKey: returnElementKey,
                 onCreateNewRecordFn: this.handleCreateNewObjFn,
@@ -1853,13 +1863,14 @@ class NewNewWeekMealPlan extends Component {
           key={`NewDayCard for Day ${thisDaysId}`}
           commonProps={{
             commonData: {
-              daysOfWeek: this.state.daysOfWeek,
-              mealTypes: this.state.mealTypes,
-              backEndHtmlRoot: this.state.backEndHtmlRoot,
-              allUnitOfMeasures: this.state.allUnitOfMeasures,
-              allWeightTypes: this.state.allWeightTypes,
-              allBrands: this.state.allBrands,
-              allGenRecipes: this.state.allGenRecipes,
+              daysOfWeek: daysOfWeek,
+              mealTypes: mealTypes,
+              backEndHtmlRoot: backEndHtmlRoot,
+              allUnitOfMeasures: allUnitOfMeasures,
+              allWeightTypes: allWeightTypes,
+              allBrands: allBrands,
+              allGenRecipes: allGenRecipes,
+              mode: mode,
             },
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,
@@ -1888,10 +1899,50 @@ class NewNewWeekMealPlan extends Component {
         />
       );
     }
+    // return (
+    //   <Day
+    //     key={`NewDayCard for Day ${thisDaysId}`}
+    //     commonProps={{
+    //       commonData: {
+    //         backEndHtmlRoot: backEndHtmlRoot,
+    //         daysOfWeek: daysOfWeek,
+    //         mealTypes: mealTypes,
+    //         allUnitOfMeasures: allUnitOfMeasures,
+    //         allWeightTypes: allWeightTypes,
+    //         allBrands: allBrands,
+    //         allGenRecipes: allGenRecipes,
+    //       },
+    //       commonMethods: {
+    //         getRndIntegerFn: getRndIntegerFn,
+    //         returnElementKey: returnElementKey,
+    //         onGetRecordsWFilterFn: onGetRecordsWFilterFn,
+    //         onCreateNewRecordFn: this.handleCreateNewObjFn,
+    //         onUpdatePropFn: this.handleUpdateMealOrChildPropFn,
+    //         onSaveChangesFn: this.handleSaveChangesFn,
+    //         onStartEditingFn: this.handleStartEditingFn,
+    //         onCancelEditFn: this.handleCancelEditFn,
+    //         onDeleteObjFn: this.handleDeleteObjFn,
+    //         trimEnteredValueFn: trimEnteredValueFn,
+    //       },
+    //     }}
+    //     specificProps={{
+    //       specificData: {
+    //         thisDayOfWeekName: `Sunday`,
+    //         wmpUserType: thisWMPStateObj.userType.weekMealPlan,
+    //         thisDayStateObj: this.state[`sunday`],
+    //         thisDayStateObjBackup: this.state[`sundayBackup`],
+    //       },
+    //       specificMethods: {
+    //         populateMissingMealIngrdnts: this.handleRestoreMissingMealIngrdnts,
+    //         onAddIngrdntToRecipeFn: this.handleAddIngrdntToRecipeFn,
+    //       },
+    //     }}
+    //   />
+    // );
   };
   render() {
     const {
-      closeNavOnClick,
+      // closeNavOnClick,
       getRndIntegerFn,
       trimEnteredValueFn,
       returnElementKey,
@@ -1944,8 +1995,11 @@ class NewNewWeekMealPlan extends Component {
     const populateMissingMealIngrdnts = this.handleRestoreMissingMealIngrdnts;
     const onAddIngrdntToRecipeFn = this.handleAddIngrdntToRecipeFn;
     return (
-      <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
-        <WeekMealPlanPage
+      <div
+        className="pageContent"
+        // onClick={() => closeNavOnClick("outside")}
+      >
+        {/* <WeekMealPlanPage
           key={`WeekMealPlan_for_WMP_${thisWMPRecordId}`}
           commonProps={{
             commonData: {
@@ -2011,8 +2065,8 @@ class NewNewWeekMealPlan extends Component {
               onSavePantryItemChangeFn: onSavePantryItemChangeFn,
             },
           }}
-        />
-        {/* <TabNav
+        /> */}
+        <TabNav
           key={`TabNav for WMP ${thisWMPRecordId}`}
           wmpRecordLoaded={wmpRecordLoaded}
           mode={mode}
@@ -2043,12 +2097,12 @@ class NewNewWeekMealPlan extends Component {
         </div>
         <div
           className="container-fluid pl-4 pr-4"
-          hidden={this.state.mode === "builder" ? false : true}
+          hidden={mode !== "shoppingList" ? false : true}
         >
           <NewWeekMealPlanCard
             key={`NewWeekMealPlanCard for WMP ${thisWMPRecordId}`}
             commonProps={{
-              commonData: { backEndHtmlRoot: this.state.backEndHtmlRoot },
+              commonData: { backEndHtmlRoot: backEndHtmlRoot, mode: mode },
               commonMethods: {
                 getRndIntegerFn: getRndIntegerFn,
                 returnElementKey: returnElementKey,
@@ -2112,7 +2166,7 @@ class NewNewWeekMealPlan extends Component {
                   data-bs-parent={"#accordionFull" + thisWMPRecordId}
                 >
                   <div className="accordion-body wkDaysAccrdnBdy">
-                    <Day
+                    {/* <Day
                       commonProps={{
                         commonData: {
                           backEndHtmlRoot: backEndHtmlRoot,
@@ -2150,7 +2204,7 @@ class NewNewWeekMealPlan extends Component {
                             this.handleAddIngrdntToRecipeFn,
                         },
                       }}
-                    />
+                    /> */}
                     {this.renderDay("sunday", "Sunday")}
                     {this.renderDay("monday", "Monday")}
                     {this.renderDay("tuesday", "Tuesday")}
@@ -2166,7 +2220,7 @@ class NewNewWeekMealPlan extends Component {
         </div>
         <div
           className="container-fluid pl-4 pr-4"
-          hidden={this.state.mode === "shoppingList" ? false : true}
+          hidden={mode === "shoppingList" ? false : true}
         >
           <ShoppingList
             key={`ShoppingList for WMP ${thisWMPRecordId}`}
@@ -2186,13 +2240,6 @@ class NewNewWeekMealPlan extends Component {
             }}
             specificProps={{
               specificData: {
-                sunday: this.state.sunday,
-                monday: this.state.monday,
-                tuesday: this.state.tuesday,
-                wednesday: this.state.wednesday,
-                thursday: this.state.thursday,
-                friday: this.state.friday,
-                saturday: this.state.saturday,
                 pantryItems: this.state.pantryItems,
                 recordLoaded: wmpRecordLoaded,
               },
@@ -2201,14 +2248,15 @@ class NewNewWeekMealPlan extends Component {
                 onSavePantryItemChangeFn: this.handleSavePantryItemChangeFn,
               },
             }}
+            sunday={this.state.sunday}
+            monday={this.state.monday}
+            tuesday={this.state.tuesday}
+            wednesday={this.state.wednesday}
+            thursday={this.state.thursday}
+            friday={this.state.friday}
+            saturday={this.state.saturday}
           />
         </div>
-        <div
-          className="container-fluid pl-4 pr-4"
-          hidden={this.state.mode === "spreadsheet" ? false : true}
-        >
-          <SpreadsheetView />
-        </div> */}
       </div>
     );
   }

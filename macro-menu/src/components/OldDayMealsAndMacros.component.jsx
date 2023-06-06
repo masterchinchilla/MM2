@@ -1,23 +1,20 @@
 import _ from "lodash";
 import React from "react";
-// import StickyBox from "react-sticky-box";
-// import CustomHeading from "./CustomHeading.component";
-// import NewMacrosTable from "./NewMacrosTable.component";
+import StickyBox from "react-sticky-box";
+import CustomHeading from "./CustomHeading.component";
+import NewMacrosTable from "./NewMacrosTable.component";
 import NewCreateMealButton from "./NewCreateMealButton.component";
 import NewMealParentCard from "./NewMealParentCard.component";
-import DayMealsAndMacrosCard from "./DayMealsAndMacrosCard.component";
-import DayMealsAndMacrosTbl from "./DayMealsAndMacrosTbl.component";
 const NewDayMealsAndMacros = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const {
-    // mealTypes,
+    mealTypes,
     backEndHtmlRoot,
     allUnitOfMeasures,
     allWeightTypes,
     allBrands,
     allGenRecipes,
-    mode,
   } = commonData;
   const {
     getRndIntegerFn,
@@ -37,7 +34,7 @@ const NewDayMealsAndMacros = (props) => {
     specificMethods;
   const {
     thisRecord,
-    // recordLoaded,
+    recordLoaded,
     breakfast,
     snack1,
     lunch,
@@ -60,10 +57,10 @@ const NewDayMealsAndMacros = (props) => {
     dinnerIngrdnts ? dinnerIngrdnts : [],
     dessertIngrdnts ? dessertIngrdnts : [],
   ];
-  const { weekMealPlan, _id } = thisRecord;
+  const { dayOfWeek, weekMealPlan, _id } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
-  // const typeOfRecordToChange = "day";
-  // const childTypeOfRecordToChange = "meal";
+  const typeOfRecordToChange = "day";
+  const childTypeOfRecordToChange = "meal";
   function renderMeal(thisMealType) {
     let thisDaysMealStateObj = thisStateObj[thisMealType.code];
     let thisDaysMealStateObjBackup = thisStateObjBackup[thisMealType.code]
@@ -186,35 +183,107 @@ const NewDayMealsAndMacros = (props) => {
       );
     }
   }
-  if (mode !== `spreadsheet`) {
-    return (
-      <DayMealsAndMacrosCard
-        key={`DayMealsAndMacrosCard for Day ${thisRecordId}`}
-        commonProps={commonProps}
-        specificProps={{
-          specificData: specificData,
-          specificMethods: {
-            renderMeal: renderMeal,
-            ...specificMethods,
-          },
-        }}
-      />
-    );
-  } else {
-    return (
-      <DayMealsAndMacrosTbl
-        key={`DayMealsAndMacrosTbl for Day ${thisRecordId}`}
-        commonProps={commonProps}
-        specificProps={{
-          specificData: specificData,
-          specificMethods: {
-            renderMeal: renderMeal,
-            ...specificMethods,
-          },
-        }}
-      />
-    );
-  }
+  return (
+    <div className="card-body">
+      <div
+        className="accordion accordion-flush"
+        id={"accordionFull" + thisRecordId}
+      >
+        <div className="accordion-item">
+          <h2
+            className="accordion-header"
+            id={"accordionHeader" + thisRecordId}
+          >
+            <button
+              className="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target={"#dayAccrdn" + thisRecordId}
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            ></button>
+          </h2>
+          <div
+            id={"dayAccrdn" + thisRecordId}
+            className="accordion-collapse collapse show"
+            aria-labelledby={"#accordionHeader" + thisRecordId}
+            data-bs-parent={"#accordionFull" + thisRecordId}
+          >
+            <div className="accordion-body">
+              <StickyBox
+                key={`StickyBox for NewMacrosTable for meal ${thisRecordId}`}
+                offsetTop={50}
+                offsetBottom={20}
+                className={"dayMacTable"}
+              >
+                <NewMacrosTable
+                  key={`NewMacrosTable for meal ${thisRecordId}`}
+                  thisWMPRecord={weekMealPlan}
+                  tableType={"Day Macros"}
+                  thisMealType={{}}
+                  theseIngrdnts={thisDaysMealsIngrdnts}
+                  recordLoaded={recordLoaded}
+                  getRndIntegerFn={getRndIntegerFn}
+                />
+              </StickyBox>
+              <div className="card mt-3 mb-3">
+                <div className="card-header">
+                  <CustomHeading
+                    key={`CustomHeading for dayOfWeek meals for meal ${thisRecordId}`}
+                    headingLvl={4}
+                    recordLoaded={recordLoaded}
+                    headingText={`${dayOfWeek.name} Meals`}
+                    hdngIsReqFormLbl={false}
+                    editingForm={null}
+                    headingClasses="card-title"
+                  />
+                </div>
+                <div className="card-body">
+                  <div
+                    className="accordion accordion-flush"
+                    id={"daysMealsAccordionFull" + thisRecordId}
+                  >
+                    <div className="accordion-item">
+                      <h2
+                        className="accordion-header"
+                        id={"daysMealsAccordionHeader" + thisRecordId}
+                      >
+                        <button
+                          className="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={"#mealsAccrdn" + thisRecordId}
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        ></button>
+                      </h2>
+                    </div>
+                    <div
+                      id={"mealsAccrdn" + thisRecordId}
+                      className="accordion-collapse collapse show"
+                      aria-labelledby={
+                        "#daysMealsAccordionHeader" + thisRecordId
+                      }
+                      data-bs-parent={"#daysMealsAccordionFull" + thisRecordId}
+                    >
+                      <div className="accordion-body wkDaysAccrdnBdy">
+                        {renderMeal(mealTypes[0])}
+                        {renderMeal(mealTypes[1])}
+                        {renderMeal(mealTypes[2])}
+                        {renderMeal(mealTypes[3])}
+                        {renderMeal(mealTypes[4])}
+                        {renderMeal(mealTypes[5])}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default NewDayMealsAndMacros;

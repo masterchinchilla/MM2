@@ -57,14 +57,14 @@ class RouterWrapper extends Component {
       mainContentPaneHeight: 0,
     };
   }
-  toggleVisible = () => {
-    const scrolled = document.documentElement.scrollTop;
-    if (scrolled > 300) {
-      this.setState({ scrollBttnVisible: true });
-    } else if (scrolled <= 300) {
-      this.setState({ scrollBttnVisible: false });
-    }
-  };
+  // toggleVisible = () => {
+  //   const scrolled = document.documentElement.scrollTop;
+  //   if (scrolled > 300) {
+  //     this.setState({ scrollBttnVisible: true });
+  //   } else if (scrolled <= 300) {
+  //     this.setState({ scrollBttnVisible: false });
+  //   }
+  // };
   scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -79,7 +79,7 @@ class RouterWrapper extends Component {
     // this.setState({ mainContentPaneHeight });
   };
   componentDidMount() {
-    window.addEventListener("scroll", this.toggleVisible);
+    // window.addEventListener("scroll", this.toggleVisible);
     const currentUser = this.props.currentGRFUser
       ? this.props.currentGRFUser
       : getCurrentUser();
@@ -142,7 +142,7 @@ class RouterWrapper extends Component {
         frontEndHtmlRoot={frontEndHtmlRoot}
         leftNavOpen={leftNavOpen}
         rightNavOpen={rightNavOpen}
-        closeNavOnClick={closeNavOnClick}
+        //closeNavOnClick={closeNavOnClick}
         createNewUser={createNewUser}
         updateUser={updateUser}
         notifyFn={notifyFn}
@@ -173,7 +173,7 @@ class RouterWrapper extends Component {
             parentComponent={`HowChowApp`}
             leftNavOpen={leftNavOpen}
             rightNavOpen={rightNavOpen}
-            closeNavOnClick={closeNavOnClick}
+            //closeNavOnClick={closeNavOnClick}
             onGetRecordsWFilterFn={onGetRecordsWFilterFn}
             componentLineage={componentLineage}
           />
@@ -191,7 +191,7 @@ class RouterWrapper extends Component {
               thisGRFUser={currentGRFUser}
               backEndHtmlRoot={backEndHtmlRoot}
               frontEndHtmlRoot={frontEndHtmlRoot}
-              closeNavOnClick={closeNavOnClick}
+              //closeNavOnClick={closeNavOnClick}
               createNewUser={createNewUser}
               updateUser={updateUser}
               notifyFn={notifyFn}
@@ -226,7 +226,7 @@ class RouterWrapper extends Component {
                       currentUser={currentGRFUser}
                       backEndHtmlRoot={backEndHtmlRoot}
                       componentLineage={`GRFUser_${thisUsersId}`}
-                      closeNavOnClick={closeNavOnClick}
+                      //closeNavOnClick={closeNavOnClick}
                       updateThisObjsValErrs={updateThisObjsValErrs}
                       createNewUser={createNewUser}
                       updateUser={updateUser}
@@ -254,7 +254,7 @@ class RouterWrapper extends Component {
                     thisGRFUser={currentGRFUser}
                     backEndHtmlRoot={backEndHtmlRoot}
                     componentLineage={componentLineage}
-                    closeNavOnClick={closeNavOnClick}
+                    //closeNavOnClick={closeNavOnClick}
                     parseHTTPResErrs={parseHTTPResErrs}
                     updateThisObjsValErrs={updateThisObjsValErrs}
                     notifyOfErrors={notifyOfErrors}
@@ -288,7 +288,7 @@ class RouterWrapper extends Component {
                     thisGRFUser={currentGRFUser}
                     backEndHtmlRoot={backEndHtmlRoot}
                     componentLineage={componentLineage}
-                    closeNavOnClick={closeNavOnClick}
+                    //closeNavOnClick={closeNavOnClick}
                     onGetFullRecordSetFn={onGetFullRecordSetFn}
                     onGetCurrentUserFn={onGetCurrentUserFn}
                     updateMainContentPaneHeight={
@@ -318,7 +318,7 @@ class RouterWrapper extends Component {
                         {...props}
                         decodeToken={decodeToken}
                         componentLineage={`NewLogin_for_HowChowApp`}
-                        closeNavOnClick={closeNavOnClick}
+                        //closeNavOnClick={closeNavOnClick}
                         returnElementKey={returnElementKey}
                         parseAndUpdateObjValErrsFn={parseAndUpdateObjValErrsFn}
                         updateMainContentPaneHeight={
@@ -365,7 +365,7 @@ class RouterWrapper extends Component {
                       key={`HomePage_Route_Cmpnnt_for_HowChowApp`}
                       currentGRFUser={currentGRFUser}
                       componentLineage={`HomePage_for_HowChowApp`}
-                      closeNavOnClick={closeNavOnClick}
+                      //closeNavOnClick={closeNavOnClick}
                       updateMainContentPaneHeight={
                         this.updateMainContentPaneHeight
                       }
@@ -392,7 +392,7 @@ class RouterWrapper extends Component {
           key={`BackToTopButton_for_HowChowApp`}
           componentLineage={`BackToTopButton_for_HowChowApp`}
           scrollToTop={scrollToTop}
-          scrollBttnVisible={scrollBttnVisible}
+          // scrollBttnVisible={scrollBttnVisible}
         />
       </BrowserRouter>
     );
