@@ -98,6 +98,9 @@
     bottom:-1px;
     margin-top:1rem; margin-bottom:1rem;
   }
+  .tblCard{
+    width:min-content;
+  }
   .card-header {
     display: flex;
     justify-content: space-between;
