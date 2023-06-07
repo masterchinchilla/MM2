@@ -43,6 +43,7 @@ const ScreenshotCarousel = (props) => {
       >
         {screenshotObjsArray.map((screenshotObj, index) => {
           const screenshotType = screenshotObj.screenshotType;
+          // console.log(`ScreenshotFigure_${index}_for_${componentLineage}`);
           return (
             <React.Fragment>
               <ScreenshotFigure

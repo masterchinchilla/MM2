@@ -43,6 +43,7 @@ const MealParent = (props) => {
             allWeightTypes: allWeightTypes,
             allBrands: allBrands,
             allThisMealTypesRecipes: allThisMealTypesRecipes,
+            mode: mode,
           },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,
@@ -81,6 +82,7 @@ const MealParent = (props) => {
             allWeightTypes: allWeightTypes,
             allBrands: allBrands,
             allThisMealTypesRecipes: allThisMealTypesRecipes,
+            mode: mode,
           },
           commonMethods: {
             getRndIntegerFn: getRndIntegerFn,

@@ -71,20 +71,20 @@ const HomePage = (props) => {
             }}
           >
             <line
-              class="longOrangeArrowCls-1"
+              className="longOrangeArrowCls-1"
               x1="49.0939977262"
               x2="49.0939977262"
               y2="787.2340425532"
             />
             <line
-              class="longOrangeArrowCls-1"
+              className="longOrangeArrowCls-1"
               x1="2.6447576046"
               y1="744.5343465046"
               x2="51.0939977262"
               y2="787.2340425532"
             />
             <line
-              class="longOrangeArrowCls-1"
+              className="longOrangeArrowCls-1"
               x1="95.9527424198"
               y1="744.1248419338"
               x2="47.0939977262"
@@ -182,8 +182,7 @@ const HomePage = (props) => {
   //   }
   // }
   useEffect(() => {
-    updateMainContentPaneHeight();
-    console.log(currentGRFUser);
+    // updateMainContentPaneHeight();
     if (!currentGRFUser) {
       const retrievedRecord = getCurrentUser();
       const currentUser = retrievedRecord
@@ -196,7 +195,8 @@ const HomePage = (props) => {
     }
   }, []);
   return (
-    <div className="pageContent" onClick={() => closeNavOnClick("outside")}>
+    <div className="pageContent">
+      {/* onClick={() => closeNavOnClick("outside")}> */}
       <header>
         <LogoAndWordsCrossWBG
           key={`LogoAndWordsCrossWBG_for_${componentLineage}`}
@@ -239,7 +239,7 @@ const HomePage = (props) => {
           </h1>
           <div className="budgetVeggiesIllstrtn">
             <img src={AdobeStockVeggieHeart} />
-            <svg viewBox="0 0 2247.6 1885.4" class="adobeStockFatArrow">
+            <svg viewBox="0 0 2247.6 1885.4" className="adobeStockFatArrow">
               <path
                 d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2
               c-4-1.9-8.5-1.3-12.2,1.4c-5.6,4.2-7.9,12.4-6.5,22.7v288.2H8c-4.4,0-8,3.6-8,8v1218.2c0,4.4,3.5,7.9,7.9,8
@@ -276,7 +276,7 @@ const HomePage = (props) => {
             </div>
             <svg
               viewBox="0 0 2247.6 1885.4"
-              class="adobeStockFatArrow ckBkTooHrdArrow"
+              className="adobeStockFatArrow ckBkTooHrdArrow"
             >
               <path
                 d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2
@@ -326,7 +326,7 @@ const HomePage = (props) => {
             </div>
             <svg
               viewBox="0 0 2247.6 1885.4"
-              class="adobeStockFatArrow ckBkTooHrdArrow"
+              className="adobeStockFatArrow ckBkTooHrdArrow"
             >
               <path
                 d="M2245.5,950.7C2026.8,708,1789.8,476,1560.6,251.6c-80.6-78.9-163.8-160.4-245.2-241.3c-1-4.3-3.5-7.5-7.1-9.2

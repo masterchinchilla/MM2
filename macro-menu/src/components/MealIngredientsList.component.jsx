@@ -1,12 +1,18 @@
 import React from "react";
 import _ from "lodash";
 import MealIngredientParentCard from "./MealIngredientParentCard.component";
+import MealIngrdntTblCell from "./MealIngrdntTbl.component";
 const MealIngredientsList = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
   const { specificData, specificMethods } = specificProps;
-  const { backEndHtmlRoot, allUnitOfMeasures, allWeightTypes, allBrands } =
-    commonData;
+  const {
+    backEndHtmlRoot,
+    allUnitOfMeasures,
+    allWeightTypes,
+    allBrands,
+    mode,
+  } = commonData;
   const {
     getRndIntegerFn,
     returnElementKey,
@@ -96,44 +102,87 @@ const MealIngredientsList = (props) => {
               : { thisRecord: { meal: { genRecipe: { _id: "" } } } };
           }
           thisStateObj.arrayIndex = index;
-          return (
-            <MealIngredientParentCard
-              key={`MealIngredientParentCard for meal ${thisStateObj.thisRecord._id}`}
-              commonProps={{
-                commonData: {
-                  backEndHtmlRoot: backEndHtmlRoot,
-                  thisDayOfWeekCode: thisDayOfWeekCode,
-                  thisMealTypeCode: thisMealTypeCode,
-                  arrayIndex: index,
-                  allUnitOfMeasures: allUnitOfMeasures,
-                  allWeightTypes: allWeightTypes,
-                  allBrands: allBrands,
-                },
-                commonMethods: {
-                  getRndIntegerFn: getRndIntegerFn,
-                  returnElementKey: returnElementKey,
-                  onUpdatePropFn: onUpdatePropFn,
-                  onSaveChangesFn: onSaveChangesFn,
-                  onStartEditingFn: onStartEditingFn,
-                  onCancelEditFn: onCancelEditFn,
-                  onDeleteObjFn: onDeleteObjFn,
-                  trimEnteredValueFn: trimEnteredValueFn,
-                  onCreateNewRecordFn: onCreateNewRecordFn,
-                  onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
-                },
-              }}
-              specificProps={{
-                specificData: {
-                  thisStateObj: thisStateObj,
-                  thisStateObjBackup: thisStateObjBackup,
-                  thisGenRecipe: genRecipe,
-                  thisGRFUser: weekMealPlan.GRFUser,
-                  userChangedThisMealRecipe: userChangedThisMealRecipe,
-                },
-                specificMethods: {},
-              }}
-            />
-          );
+          if (mode === `builder`) {
+            return (
+              <MealIngredientParentCard
+                key={`MealIngredientParentCard for meal ${thisStateObj.thisRecord._id}`}
+                commonProps={{
+                  commonData: {
+                    backEndHtmlRoot: backEndHtmlRoot,
+                    thisDayOfWeekCode: thisDayOfWeekCode,
+                    thisMealTypeCode: thisMealTypeCode,
+                    arrayIndex: index,
+                    allUnitOfMeasures: allUnitOfMeasures,
+                    allWeightTypes: allWeightTypes,
+                    allBrands: allBrands,
+                    mode: mode,
+                  },
+                  commonMethods: {
+                    getRndIntegerFn: getRndIntegerFn,
+                    returnElementKey: returnElementKey,
+                    onUpdatePropFn: onUpdatePropFn,
+                    onSaveChangesFn: onSaveChangesFn,
+                    onStartEditingFn: onStartEditingFn,
+                    onCancelEditFn: onCancelEditFn,
+                    onDeleteObjFn: onDeleteObjFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
+                    onCreateNewRecordFn: onCreateNewRecordFn,
+                    onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
+                  },
+                }}
+                specificProps={{
+                  specificData: {
+                    thisStateObj: thisStateObj,
+                    thisStateObjBackup: thisStateObjBackup,
+                    thisGenRecipe: genRecipe,
+                    thisGRFUser: weekMealPlan.GRFUser,
+                    userChangedThisMealRecipe: userChangedThisMealRecipe,
+                  },
+                  specificMethods: {},
+                }}
+              />
+            );
+          } else {
+            return (
+              <MealIngrdntTblCell
+                key={`MealIngrdntRbl for meal ${thisStateObj.thisRecord._id}`}
+                commonProps={{
+                  commonData: {
+                    backEndHtmlRoot: backEndHtmlRoot,
+                    thisDayOfWeekCode: thisDayOfWeekCode,
+                    thisMealTypeCode: thisMealTypeCode,
+                    arrayIndex: index,
+                    allUnitOfMeasures: allUnitOfMeasures,
+                    allWeightTypes: allWeightTypes,
+                    allBrands: allBrands,
+                    mode: mode,
+                  },
+                  commonMethods: {
+                    getRndIntegerFn: getRndIntegerFn,
+                    returnElementKey: returnElementKey,
+                    onUpdatePropFn: onUpdatePropFn,
+                    onSaveChangesFn: onSaveChangesFn,
+                    onStartEditingFn: onStartEditingFn,
+                    onCancelEditFn: onCancelEditFn,
+                    onDeleteObjFn: onDeleteObjFn,
+                    trimEnteredValueFn: trimEnteredValueFn,
+                    onCreateNewRecordFn: onCreateNewRecordFn,
+                    onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
+                  },
+                }}
+                specificProps={{
+                  specificData: {
+                    thisStateObj: thisStateObj,
+                    thisStateObjBackup: thisStateObjBackup,
+                    thisGenRecipe: genRecipe,
+                    thisGRFUser: weekMealPlan.GRFUser,
+                    userChangedThisMealRecipe: userChangedThisMealRecipe,
+                  },
+                  specificMethods: {},
+                }}
+              />
+            );
+          }
         });
       } else {
         if (userType.meal === "viewer") {
@@ -162,7 +211,23 @@ const MealIngredientsList = (props) => {
   }
   return (
     <React.Fragment>
-      <div className="mlIngrdntsCntnr">{renderMealIngrdntsFn()}</div>
+      {mode === "builder" ? (
+        <table className="mlIngrdntsCntnr">{renderMealIngrdntsFn()}</table>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Qty - Form Control</th>
+              <th>Dflt Qty</th>
+              <th>UOM</th>
+              <th>Brnd</th>
+              <th>Wght Type</th>
+              <th>Name - Form Control</th>
+            </tr>
+          </thead>
+          <tbody>{renderMealIngrdntsFn()}</tbody>
+        </table>
+      )}
       {allowPopulateIngrdnts ? (
         <div className="form-group mb-3">
           <button

@@ -15,6 +15,7 @@ const NewMealParentCard = (props) => {
     allWeightTypes,
     allBrands,
     allThisMealTypesRecipes,
+    mode,
   } = commonData;
   const {
     getRndIntegerFn,
@@ -171,6 +172,7 @@ const NewMealParentCard = (props) => {
                 allUnitOfMeasures: allUnitOfMeasures,
                 allWeightTypes: allWeightTypes,
                 allBrands: allBrands,
+                mode: mode,
               },
               commonMethods: {
                 getRndIntegerFn: getRndIntegerFn,

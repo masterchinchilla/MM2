@@ -13,6 +13,7 @@ const MealParentTbl = (props) => {
     allWeightTypes,
     allBrands,
     allThisMealTypesRecipes,
+    mode,
   } = commonData;
   const {
     getRndIntegerFn,
@@ -79,7 +80,7 @@ const MealParentTbl = (props) => {
               <NewFormControl
                 key={`NewFormControl for meal ${thisRecordId}`}
                 commonProps={{
-                  commonData: {},
+                  commonData: { mode: mode },
                   commonMethods: {
                     onStartEditingFn: onStartEditingFn,
                     onCancelEditFn: onCancelEditFn,
@@ -180,6 +181,7 @@ const MealParentTbl = (props) => {
                     allUnitOfMeasures: allUnitOfMeasures,
                     allWeightTypes: allWeightTypes,
                     allBrands: allBrands,
+                    mode: mode,
                   },
                   commonMethods: {
                     getRndIntegerFn: getRndIntegerFn,
