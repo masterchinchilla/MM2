@@ -1,12 +1,10 @@
 import _ from "lodash";
 import React from "react";
-// import StickyBox from "react-sticky-box";
-// import CustomHeading from "./CustomHeading.component";
-// import NewMacrosTable from "./NewMacrosTable.component";
 import NewCreateMealButton from "./NewCreateMealButton.component";
 import NewMealParentCard from "./NewMealParentCard.component";
 import DayMealsAndMacrosCard from "./DayMealsAndMacrosCard.component";
 import DayMealsAndMacrosTbl from "./DayMealsAndMacrosTbl.component";
+import MealParent from "./MealParent.component";
 const NewDayMealsAndMacros = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -122,7 +120,7 @@ const NewDayMealsAndMacros = (props) => {
       if (mealUserType === "admin" || mealUserType === "author") {
         return (
           <NewCreateMealButton
-            key={`NewCreateMealButton for meal ${thisRecordId}`}
+            key={`NewCreateMealButton for meal ${mealRecordId}`}
             commonProps={{
               commonData: {},
               commonMethods: {
@@ -146,8 +144,45 @@ const NewDayMealsAndMacros = (props) => {
       }
     } else {
       return (
-        <NewMealParentCard
-          key={`NewMealParentCard for meal ${thisRecordId}`}
+        // <NewMealParentCard
+        //   key={`NewMealParentCard for meal ${mealRecordId}`}
+        //   commonProps={{
+        //     commonData: {
+        //       backEndHtmlRoot: backEndHtmlRoot,
+        //       allUnitOfMeasures: allUnitOfMeasures,
+        //       allWeightTypes: allWeightTypes,
+        //       allBrands: allBrands,
+        //       allThisMealTypesRecipes: allGenRecipes.filter(
+        //         (recipe) => recipe.availableMealType.code === thisMealType.code
+        //       ),
+        //     },
+        //     commonMethods: {
+        //       getRndIntegerFn: getRndIntegerFn,
+        //       onUpdatePropFn: onUpdatePropFn,
+        //       onSaveChangesFn: onSaveChangesFn,
+        //       onStartEditingFn: onStartEditingFn,
+        //       onCancelEditFn: onCancelEditFn,
+        //       onDeleteObjFn: onDeleteObjFn,
+        //       onCreateNewRecordFn: onCreateNewRecordFn,
+        //       returnElementKey: returnElementKey,
+        //       trimEnteredValueFn: trimEnteredValueFn,
+        //       onSrchDBForObjWMtchngNmeFn: onSrchDBForObjWMtchngNmeFn,
+        //     },
+        //   }}
+        //   specificProps={{
+        //     specificData: {
+        //       thisStateObj: thisMealStateObj,
+        //       nestedMealIngrdntArray: thisDaysMealsIngrdnts,
+        //       thisStateObjBackup: thisDaysMealStateObjBackup,
+        //     },
+        //     specificMethods: {
+        //       populateMissingMealIngrdnts: populateMissingMealIngrdnts,
+        //       onAddIngrdntToRecipeFn: onAddIngrdntToRecipeFn,
+        //     },
+        //   }}
+        // />
+        <MealParent
+          key={`MealParent for meal ${mealRecordId}`}
           commonProps={{
             commonData: {
               backEndHtmlRoot: backEndHtmlRoot,
@@ -157,6 +192,7 @@ const NewDayMealsAndMacros = (props) => {
               allThisMealTypesRecipes: allGenRecipes.filter(
                 (recipe) => recipe.availableMealType.code === thisMealType.code
               ),
+              mode: mode,
             },
             commonMethods: {
               getRndIntegerFn: getRndIntegerFn,

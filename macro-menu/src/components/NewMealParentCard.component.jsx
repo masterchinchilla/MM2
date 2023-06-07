@@ -1,10 +1,11 @@
 import React from "react";
-import StickyBox from "react-sticky-box";
+// import StickyBox from "react-sticky-box";
 import CustomHeading from "./CustomHeading.component";
-import NewMacrosTable from "./NewMacrosTable.component";
+// import NewMacrosTable from "./NewMacrosTable.component";
 import MealIngredientsList from "./MealIngredientsList.component";
 import NewMealChildCard from "./NewMealChildCard.component";
 import NewRecipeCard from "./NewRecipeCard.component";
+import MacrosTblInStickyBox from "./MacrosTblInStickyBox.component";
 const NewMealParentCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -84,7 +85,7 @@ const NewMealParentCard = (props) => {
         aria-labelledby={"#mealOuterAccordionHeader" + thisRecordId}
         data-bs-parent={"#mealOuterAccordionFull" + thisRecordId}
       >
-        <StickyBox
+        {/* <StickyBox
           key={`StickyBox for NewMacrosTable for meal ${thisRecordId}`}
           offsetTop={172}
           offsetBottom={20}
@@ -99,7 +100,19 @@ const NewMealParentCard = (props) => {
             recordLoaded={recordLoaded}
             getRndIntegerFn={getRndIntegerFn}
           />
-        </StickyBox>
+        </StickyBox> */}
+        <MacrosTblInStickyBox
+          componentLineage={`MacrosTblInStickyBox for meal ${thisRecordId}`}
+          tableType={"Meal Macros"}
+          thisMealType={mealType}
+          stickyBoxOffsetTop={172}
+          stickyBoxOffsetBottom={20}
+          stickyBoxClasses={"mealMacTable"}
+          thisWMPRecord={weekMealPlan}
+          theseIngrdnts={nestedMealIngrdntArray}
+          recordLoaded={recordLoaded}
+          getRndIntegerFn={getRndIntegerFn}
+        />
         <div className="accordion-body wkDaysAccrdnBdy">
           <NewMealChildCard
             key={`NewMealChildCard for meal ${thisRecordId}`}

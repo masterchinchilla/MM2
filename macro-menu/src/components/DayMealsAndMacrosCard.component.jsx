@@ -2,6 +2,7 @@ import React from "react";
 import StickyBox from "react-sticky-box";
 import CustomHeading from "./CustomHeading.component";
 import NewMacrosTable from "./NewMacrosTable.component";
+import MacrosTblInStickyBox from "./MacrosTblInStickyBox.component";
 const DayMealsAndMacrosCard = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -63,14 +64,14 @@ const DayMealsAndMacrosCard = (props) => {
             data-bs-parent={"#accordionFull" + thisRecordId}
           >
             <div className="accordion-body">
-              <StickyBox
-                key={`StickyBox for NewMacrosTable for meal ${thisRecordId}`}
+              {/* <StickyBox
+                key={`StickyBox for NewMacrosTable for day ${thisRecordId}`}
                 offsetTop={50}
                 offsetBottom={20}
                 className={"dayMacTable"}
               >
                 <NewMacrosTable
-                  key={`NewMacrosTable for meal ${thisRecordId}`}
+                  key={`NewMacrosTable for day ${thisRecordId}`}
                   thisWMPRecord={weekMealPlan}
                   tableType={"Day Macros"}
                   thisMealType={{}}
@@ -78,11 +79,23 @@ const DayMealsAndMacrosCard = (props) => {
                   recordLoaded={recordLoaded}
                   getRndIntegerFn={getRndIntegerFn}
                 />
-              </StickyBox>
+              </StickyBox> */}
+              <MacrosTblInStickyBox
+                componentLineage={`MacrosTblInStickyBox for day ${thisRecordId}`}
+                tableType={"Day Macros"}
+                thisMealType={{}}
+                stickyBoxOffsetTop={50}
+                stickyBoxOffsetBottom={20}
+                stickyBoxClasses={"dayMacTable"}
+                thisWMPRecord={weekMealPlan}
+                theseIngrdnts={thisDaysMealsIngrdnts}
+                recordLoaded={recordLoaded}
+                getRndIntegerFn={getRndIntegerFn}
+              />
               <div className="card mt-3 mb-3">
                 <div className="card-header">
                   <CustomHeading
-                    key={`CustomHeading for dayOfWeek meals for meal ${thisRecordId}`}
+                    key={`CustomHeading for dayOfWeek meals for day ${thisRecordId}`}
                     headingLvl={4}
                     recordLoaded={recordLoaded}
                     headingText={`${dayOfWeek.name} Meals`}

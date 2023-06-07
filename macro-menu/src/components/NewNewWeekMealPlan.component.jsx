@@ -1940,6 +1940,80 @@ class NewNewWeekMealPlan extends Component {
     //   />
     // );
   };
+  renderDaysCards = () => {
+    const { _id, recordLoaded } = this.state.thisWMPStateObj;
+    const thisWMPRecordId = _id;
+    const wmpRecordLoaded = recordLoaded;
+    return (
+      <>
+        <div className="card-header">
+          <CustomHeading
+            key={`CustomHeading "Day Meal Plans" for WMP ${thisWMPRecordId}`}
+            headingLvl={2}
+            recordLoaded={wmpRecordLoaded}
+            headingText="Day Meal Plans"
+            hdngIsReqFormLbl={false}
+            editingForm={false}
+            headingClasses="card-title"
+          />
+        </div>
+        <div className="card-body">
+          <div
+            className="accordion accordion-flush"
+            id={"accordionFull" + thisWMPRecordId}
+          >
+            <div className="accordion-item">
+              <h2
+                className="accordion-header"
+                id={"accordionHeader" + thisWMPRecordId}
+              >
+                <button
+                  className="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={"#dayAccrdn" + thisWMPRecordId}
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                ></button>
+              </h2>
+            </div>
+            <div
+              id={"dayAccrdn" + thisWMPRecordId}
+              className="accordion-collapse collapse show"
+              aria-labelledby={"#accordionHeader" + thisWMPRecordId}
+              data-bs-parent={"#accordionFull" + thisWMPRecordId}
+            >
+              <div className="accordion-body wkDaysAccrdnBdy">
+                {this.renderDay("sunday", "Sunday")}
+                {this.renderDay("monday", "Monday")}
+                {this.renderDay("tuesday", "Tuesday")}
+                {this.renderDay("wednesday", "Wednesday")}
+                {this.renderDay("thursday", "Thursday")}
+                {this.renderDay("friday", "Friday")}
+                {this.renderDay("saturday", "Saturday")}
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+  renderDaysTbls = () => {
+    const { _id, recordLoaded } = this.state.thisWMPStateObj;
+    const thisWMPRecordId = _id;
+    const wmpRecordLoaded = recordLoaded;
+    return (
+      <>
+        {this.renderDay("sunday", "Sunday")}
+        {this.renderDay("monday", "Monday")}
+        {this.renderDay("tuesday", "Tuesday")}
+        {this.renderDay("wednesday", "Wednesday")}
+        {this.renderDay("thursday", "Thursday")}
+        {this.renderDay("friday", "Friday")}
+        {this.renderDay("saturday", "Saturday")}
+      </>
+    );
+  };
   render() {
     const {
       // closeNavOnClick,
@@ -2128,7 +2202,10 @@ class NewNewWeekMealPlan extends Component {
             }}
           />
           <div className="card mt-3 mb-3">
-            <div className="card-header">
+            {mode === `builder`
+              ? this.renderDaysCards()
+              : this.renderDaysTbls()}
+            {/* <div className="card-header">
               <CustomHeading
                 key={`CustomHeading "Day Meal Plans" for WMP ${thisWMPRecordId}`}
                 headingLvl={2}
@@ -2205,7 +2282,7 @@ class NewNewWeekMealPlan extends Component {
                         },
                       }}
                     /> */}
-                    {this.renderDay("sunday", "Sunday")}
+            {/* {this.renderDay("sunday", "Sunday")}
                     {this.renderDay("monday", "Monday")}
                     {this.renderDay("tuesday", "Tuesday")}
                     {this.renderDay("wednesday", "Wednesday")}
@@ -2215,7 +2292,7 @@ class NewNewWeekMealPlan extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div

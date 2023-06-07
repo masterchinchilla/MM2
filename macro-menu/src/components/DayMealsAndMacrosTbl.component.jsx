@@ -1,5 +1,5 @@
 import React from "react";
-import NewMacrosTable from "./NewMacrosTable.component";
+import MacrosTblInStickyBox from "./MacrosTblInStickyBox.component";
 const DayMealsAndMacrosTbl = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -35,41 +35,42 @@ const DayMealsAndMacrosTbl = (props) => {
   const { weekMealPlan, _id } = thisRecord;
   const thisRecordId = _id ? _id : getRndIntegerFn(10000000, 99999999);
   return (
-    <table className="spreadsheetTbl">
-      <tbody>
-        <tr>
-          <td>
-            <NewMacrosTable
-              key={`NewMacrosTable for meal ${thisRecordId}`}
-              thisWMPRecord={weekMealPlan}
-              tableType={"Day Macros"}
-              thisMealType={{}}
-              theseIngrdnts={thisDaysMealsIngrdnts}
-              recordLoaded={recordLoaded}
-              getRndIntegerFn={getRndIntegerFn}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>{renderMeal(mealTypes[0])}</td>
-        </tr>
-        <tr>
-          <td>{renderMeal(mealTypes[1])}</td>
-        </tr>
-        <tr>
-          <td>{renderMeal(mealTypes[2])}</td>
-        </tr>
-        <tr>
-          <td>{renderMeal(mealTypes[3])}</td>
-        </tr>
-        <tr>
-          <td>{renderMeal(mealTypes[4])}</td>
-        </tr>
-        <tr>
-          <td>{renderMeal(mealTypes[5])}</td>
-        </tr>
-      </tbody>
-    </table>
+    <>
+      <MacrosTblInStickyBox
+        componentLineage={`MacrosTblInStickyBox for day ${thisRecordId}`}
+        tableType={"Day Macros"}
+        thisMealType={{}}
+        stickyBoxOffsetTop={50}
+        stickyBoxOffsetBottom={20}
+        stickyBoxClasses={"dayMacTable"}
+        thisWMPRecord={weekMealPlan}
+        theseIngrdnts={thisDaysMealsIngrdnts}
+        recordLoaded={recordLoaded}
+        getRndIntegerFn={getRndIntegerFn}
+      />
+      <table className="spreadsheetTbl">
+        <tbody>
+          <tr>
+            <td>{renderMeal(mealTypes[0])}</td>
+          </tr>
+          <tr>
+            <td>{renderMeal(mealTypes[1])}</td>
+          </tr>
+          <tr>
+            <td>{renderMeal(mealTypes[2])}</td>
+          </tr>
+          <tr>
+            <td>{renderMeal(mealTypes[3])}</td>
+          </tr>
+          <tr>
+            <td>{renderMeal(mealTypes[4])}</td>
+          </tr>
+          <tr>
+            <td>{renderMeal(mealTypes[5])}</td>
+          </tr>
+        </tbody>
+      </table>
+    </>
   );
 };
 
