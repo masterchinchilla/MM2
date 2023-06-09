@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import MealIngredientParentCard from "./MealIngredientParentCard.component";
-import MealIngrdntTblCell from "./MealIngrdntTbl.component";
+import MealIngrdntTblRow from "./MealIngrdntTblRow.component";
 const MealIngredientsList = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -144,8 +144,8 @@ const MealIngredientsList = (props) => {
             );
           } else {
             return (
-              <MealIngrdntTblCell
-                key={`MealIngrdntRbl for meal ${thisStateObj.thisRecord._id}`}
+              <MealIngrdntTblRow
+                key={`MealIngrdntTbl for meal ${thisStateObj.thisRecord._id}`}
                 commonProps={{
                   commonData: {
                     backEndHtmlRoot: backEndHtmlRoot,
@@ -216,13 +216,13 @@ const MealIngredientsList = (props) => {
       ) : (
         <table>
           <thead>
-            <tr>
-              <th>Qty - Form Control</th>
+            <tr className={`mealIngrdntTblTr`}>
+              <th>Qty</th>
               <th>Dflt Qty</th>
               <th>UOM</th>
               <th>Brnd</th>
               <th>Wght Type</th>
-              <th>Name - Form Control</th>
+              <th>Name</th>
             </tr>
           </thead>
           <tbody>{renderMealIngrdntsFn()}</tbody>

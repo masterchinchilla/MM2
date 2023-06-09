@@ -2201,7 +2201,7 @@ class NewNewWeekMealPlan extends Component {
               },
             }}
           />
-          <div className="card mt-3 mb-3">
+          <div className={`${mode === `builder` ? `card` : `tblCard`}`}>
             {mode === `builder`
               ? this.renderDaysCards()
               : this.renderDaysTbls()}

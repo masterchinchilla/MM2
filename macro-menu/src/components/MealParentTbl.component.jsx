@@ -65,52 +65,54 @@ const MealParentTbl = (props) => {
       <table className="spreadsheetTbl">
         <tbody>
           <tr>
-            <td className="2SidedTd">
-              <CustomHeading
-                key={`CustomHeading for dayOfWeek name and mealType name for meal ${thisRecordId}`}
-                headingLvl={5}
-                recordLoaded={recordLoaded}
-                headingText={
-                  recordLoaded ? `${dayOfWeek.name} ${mealType.name}` : ""
-                }
-                hdngIsReqFormLbl={false}
-                editingForm={editingForm.meal}
-                headingClasses=""
-              />
-              <NewFormControl
-                key={`NewFormControl for meal ${thisRecordId}`}
-                commonProps={{
-                  commonData: { mode: mode },
-                  commonMethods: {
-                    onStartEditingFn: onStartEditingFn,
-                    onCancelEditFn: onCancelEditFn,
-                    onSaveChangesFn: onSaveChangesFn,
-                    onDeleteObjFn: onDeleteObjFn,
-                    onCopyWMPFn: () => {},
-                  },
-                }}
-                specificProps={{
-                  specificData: {
-                    typeOfRecordToChange: typeOfRecordToChange,
-                    recordChanged: recordChanged.meal,
-                    thisDayOfWeekCode: thisDayOfWeekCode,
-                    thisMealTypeCode: thisMealTypeCode,
-                    arrayIndex: arrayIndex,
-                    userType: userType.meal,
-                    editingForm: editingForm.meal,
-                    saveDisabled: false,
-                    hasChildren: hasChildren.meal,
-                    saveWarning: null,
-                    deleteWarning:
-                      "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?",
-                    deleteChildrenWarning:
-                      "You must delete all this meals's ingredients before you can delete this meal",
-                    recordLoaded: recordLoaded,
-                    formControlLineage: `meal ${thisRecordId}`,
-                  },
-                  specificMethods: {},
-                }}
-              />
+            <td>
+              <div className="twoSidedTdDiv">
+                <CustomHeading
+                  key={`CustomHeading for dayOfWeek name and mealType name for meal ${thisRecordId}`}
+                  headingLvl={5}
+                  recordLoaded={recordLoaded}
+                  headingText={
+                    recordLoaded ? `${dayOfWeek.name} ${mealType.name}` : ""
+                  }
+                  hdngIsReqFormLbl={false}
+                  editingForm={editingForm.meal}
+                  headingClasses=""
+                />
+                <NewFormControl
+                  key={`NewFormControl for meal ${thisRecordId}`}
+                  commonProps={{
+                    commonData: { mode: mode },
+                    commonMethods: {
+                      onStartEditingFn: onStartEditingFn,
+                      onCancelEditFn: onCancelEditFn,
+                      onSaveChangesFn: onSaveChangesFn,
+                      onDeleteObjFn: onDeleteObjFn,
+                      onCopyWMPFn: () => {},
+                    },
+                  }}
+                  specificProps={{
+                    specificData: {
+                      typeOfRecordToChange: typeOfRecordToChange,
+                      recordChanged: recordChanged.meal,
+                      thisDayOfWeekCode: thisDayOfWeekCode,
+                      thisMealTypeCode: thisMealTypeCode,
+                      arrayIndex: arrayIndex,
+                      userType: userType.meal,
+                      editingForm: editingForm.meal,
+                      saveDisabled: false,
+                      hasChildren: hasChildren.meal,
+                      saveWarning: null,
+                      deleteWarning:
+                        "If you delete this meal plan, your ingredient custom quantities will be deleted as well. Are you sure you want to proceed?",
+                      deleteChildrenWarning:
+                        "You must delete all this meals's ingredients before you can delete this meal",
+                      recordLoaded: recordLoaded,
+                      formControlLineage: `meal ${thisRecordId}`,
+                    },
+                    specificMethods: {},
+                  }}
+                />
+              </div>
             </td>
           </tr>
           <tr>
