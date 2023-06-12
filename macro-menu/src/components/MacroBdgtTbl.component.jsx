@@ -1,14 +1,22 @@
 import React from "react";
-const MacroBdgtTbl = (props) => {
+const MacroBdgtTbl = ({ thisRecord }) => {
+  const {
+    _id,
+    calsBudget,
+    carbsBudget,
+    proteinBudget,
+    fatBudget,
+    fiberBudget,
+  } = thisRecord;
   return (
     <table className="spreadsheetTbl">
       <thead>
-        <tr>
+        <tr className="sprdshtBrdrdTblTr">
           <th colSpan={5}>
             <h2>Daily Macros Budget</h2>
           </th>
         </tr>
-        <tr>
+        <tr className="sprdshtBrdrdTblTr">
           <th>Cals</th>
           <th>Carbs</th>
           <th>Protein</th>
@@ -17,12 +25,12 @@ const MacroBdgtTbl = (props) => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Cals</td>
-          <td>Carbs</td>
-          <td>Protein</td>
-          <td>Fat</td>
-          <td>Fiber</td>
+        <tr className="sprdshtBrdrdTblTr">
+          <td>{calsBudget}</td>
+          <td>{carbsBudget}</td>
+          <td>{proteinBudget}</td>
+          <td>{fatBudget}</td>
+          <td>{fiberBudget}</td>
         </tr>
       </tbody>
     </table>

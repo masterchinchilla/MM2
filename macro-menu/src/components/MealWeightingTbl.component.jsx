@@ -1,14 +1,23 @@
 import React from "react";
-const MealWeightingTbl = (props) => {
+const MealWeightingTbl = ({ thisRecord }) => {
+  const {
+    _id,
+    breakfastWeight,
+    snack1Weight,
+    lunchWeight,
+    snack2Weight,
+    dinnerWeight,
+    dessertWeight,
+  } = thisRecord;
   return (
-    <table className="spreadsheetTbl">
+    <table className="spreadsheetTbl mealWghtTbl">
       <thead>
-        <tr>
+        <tr className="sprdshtBrdrdTblTr">
           <th colSpan={6}>
             <h2>Meal Weighting</h2>
           </th>
         </tr>
-        <tr>
+        <tr className="sprdshtBrdrdTblTr">
           <th>Breakfast</th>
           <th>Snack 1</th>
           <th>Lunch</th>
@@ -18,13 +27,13 @@ const MealWeightingTbl = (props) => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Breakfast</td>
-          <td>Snack 1</td>
-          <td>Lunch</td>
-          <td>Snack 2</td>
-          <td>Dinner</td>
-          <td>Dessert</td>
+        <tr className="sprdshtBrdrdTblTr">
+          <td>{breakfastWeight}</td>
+          <td>{snack1Weight}</td>
+          <td>{lunchWeight}</td>
+          <td>{snack2Weight}</td>
+          <td>{dinnerWeight}</td>
+          <td>{dessertWeight}</td>
         </tr>
       </tbody>
     </table>

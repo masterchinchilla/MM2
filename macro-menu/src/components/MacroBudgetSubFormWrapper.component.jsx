@@ -18,7 +18,7 @@ const MacroBudgetSubFormWrapper = (props) => {
       />
     );
   } else {
-    return <MacroBdgtTbl />;
+    return <MacroBdgtTbl thisRecord={thisRecord} />;
   }
 };
 

@@ -216,7 +216,7 @@ const MealIngredientsList = (props) => {
       ) : (
         <table>
           <thead>
-            <tr className={`mealIngrdntTblTr`}>
+            <tr className={`sprdshtBrdrdTblTr`}>
               <th>Qty</th>
               <th>Dflt Qty</th>
               <th>UOM</th>

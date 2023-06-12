@@ -55,7 +55,7 @@ const MealIngrdntTblRow = (props) => {
   function inputOnKeyUpFn() {}
   return (
     <>
-      <tr className={`mealIngrdntTblTr`}>
+      <tr className={`sprdshtBrdrdTblTr`}>
         <td>
           <div className={`twoSidedTdDiv`}>
             <NewInputCore

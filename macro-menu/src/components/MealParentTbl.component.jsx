@@ -69,14 +69,14 @@ const MealParentTbl = (props) => {
               <div className="twoSidedTdDiv">
                 <CustomHeading
                   key={`CustomHeading for dayOfWeek name and mealType name for meal ${thisRecordId}`}
-                  headingLvl={5}
+                  headingLvl={mode === `builder` ? 5 : 3}
                   recordLoaded={recordLoaded}
                   headingText={
                     recordLoaded ? `${dayOfWeek.name} ${mealType.name}` : ""
                   }
                   hdngIsReqFormLbl={false}
                   editingForm={editingForm.meal}
-                  headingClasses=""
+                  headingClasses={`sprdshtCardHeading`}
                 />
                 <NewFormControl
                   key={`NewFormControl for meal ${thisRecordId}`}

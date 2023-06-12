@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CustomHeading from "./CustomHeading.component";
-import NewMacroBudgetSubForm from "./NewMacroBudgetSubForm.component";
-import NewMealWeightingSubForm from "./NewMealWeightingSubForm.component";
 import NewWMPNameAndDisabledFieldsSubForm from "./NewWMPNameAndDisabledFieldsSubForm.component";
 import MacroBudgetSubFormWrapper from "./MacroBudgetSubFormWrapper.component";
 import MealWeightingSubFormWrapper from "./MealWeightingSubFormWrapper.component";
@@ -112,7 +110,9 @@ const NewWeekMealPlanCard = (props) => {
     updateNameValErrorsStateFn(valErrors.weekMealPlan.name);
   }, [recordLoaded]);
   return (
-    <div className="card">
+    <div
+      className={mode === `builder` ? `card` : `card sprdshtCard wmpSprdShtCrd`}
+    >
       <div className="card-header">
         <CustomHeading
           key={`CustomHeading for "Week Meal Plan Builder" for WMPCard for WMP ${thisRecordId}`}
@@ -123,7 +123,9 @@ const NewWeekMealPlanCard = (props) => {
           }`}
           hdngIsReqFormLbl={false}
           editingForm={null}
-          headingClasses="card-title"
+          headingClasses={`card-title${
+            mode === `spreadsheet` ? ` sprdshtCardHeading` : ``
+          }`}
         />
       </div>
       <div className="card-body">
@@ -148,12 +150,16 @@ const NewWeekMealPlanCard = (props) => {
           </div>
           <div
             id={"dayAccrdn_WMPDetails" + thisRecordId}
-            className="accordion-collapse collapse show"
+            className={`accordion-collapse collapse show${
+              mode === `spreadsheet` ? ` wmpTblAccrdn` : ``
+            }`}
             aria-labelledby={"#accordionHeader_WMPDetails" + thisRecordId}
             data-bs-parent={"#accordionFull_WMPDetails" + thisRecordId}
           >
             <div className="accordion-body accrdnWMPDetailsBdy">
-              <form className="card">
+              <form
+                className={mode === `builder` ? `card` : `card sprdshtFormCard`}
+              >
                 <NewWMPNameAndDisabledFieldsSubForm
                   key={`NewWMPNameAndDisabledFieldsSubForm for WMP ${thisRecordId}`}
                   commonProps={{

@@ -18,7 +18,7 @@ const MealWeightingSubFormWrapper = (props) => {
       />
     );
   } else {
-    return <MealWeightingTbl />;
+    return <MealWeightingTbl thisRecord={thisRecord} />;
   }
 };
 

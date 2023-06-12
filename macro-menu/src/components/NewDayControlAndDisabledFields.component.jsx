@@ -34,12 +34,14 @@ const NewDayControlAndDisabledFields = (props) => {
       <div className="card-header">
         <CustomHeading
           key={`CustomHeading dayOfWeek name for Day ${thisRecordId}`}
-          headingLvl={3}
+          headingLvl={mode === `builder` ? 3 : 2}
           recordLoaded={recordLoaded}
           headingText={dayOfWeek.name}
           hdngIsReqFormLbl={false}
           editingForm={editingForm.day}
-          headingClasses="card-title"
+          headingClasses={`card-title${
+            mode === `spreadsheet` ? ` sprdshtCardHeading` : ``
+          }`}
         />
         <NewFormControl
           key={`NewFormControl for Day ${thisRecordId}`}
@@ -76,7 +78,7 @@ const NewDayControlAndDisabledFields = (props) => {
           }}
         />
       </div>
-      <div className="card-body wmpCardBody">
+      <div hidden={mode !== `builder`} className="card-body wmpCardBody">
         <div
           className="accordion accordion-flush"
           id={"dayHiddenAccordionFull" + thisRecordId}

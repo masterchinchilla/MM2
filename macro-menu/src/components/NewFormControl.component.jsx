@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const NewFormControl = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { mode } = commonData;
   const {
     onSaveChangesFn,
     onStartEditingFn,
@@ -39,8 +40,9 @@ const NewFormControl = (props) => {
       case "copy":
         if (
           !editingForm &&
-          typeOfRecordToChange === "weekMealPlan" &&
-          allowCopy
+          typeOfRecordToChange === `weekMealPlan` &&
+          allowCopy &&
+          mode === `builder`
         ) {
           iconHidden = false;
         } else {

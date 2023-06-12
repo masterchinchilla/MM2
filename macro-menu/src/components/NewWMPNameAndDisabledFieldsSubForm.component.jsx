@@ -5,7 +5,7 @@ import NewInputWSearchUniqueNew from "./NewInputWSearchUniqueNew.component";
 const NewWMPNameAndDisabledFieldsSubForm = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
-  const { backEndHtmlRoot } = commonData;
+  const { backEndHtmlRoot, mode } = commonData;
   const {
     getRndIntegerFn,
     onUpdatePropFn,
@@ -36,14 +36,20 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
   const { _id, GRFUser, name, createdAt, updatedAt } = thisRecord;
   const thisRecordId = _id;
   const typeOfRecordToChange = "weekMealPlan";
+  const cardHdrJustCrtdClasses = justCreated.weekMealPlan
+    ? `cardHeaderFocused`
+    : ``;
+  const cardHdrSprdShtModeClasse = mode === `spreadsheet` ? `wmpTblCrdHdr` : ``;
+  const cardHdrClasses = `card-header wmpCardHeader ${cardHdrJustCrtdClasses} ${cardHdrSprdShtModeClasse}`;
   return (
     <React.Fragment>
       <div
-        className={
-          justCreated.weekMealPlan
-            ? "card-header wmpCardHeader cardHeaderFocused"
-            : "card-header wmpCardHeader"
-        }
+        className={cardHdrClasses}
+        // className={
+        //   justCreated.weekMealPlan
+        //     ? "card-header wmpCardHeader cardHeaderFocused"
+        //     : "card-header wmpCardHeader"
+        // }
       >
         <NewInputWSearchUniqueNew
           commonProps={{
@@ -85,7 +91,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
         <NewFormControl
           key={`formCtrlFor${typeOfRecordToChange}${thisRecordId}`}
           commonProps={{
-            commonData: {},
+            commonData: { mode: mode },
             commonMethods: {
               onStartEditingFn: onStartEditingFn,
               onCancelEditFn: onCancelEditFn,
@@ -117,7 +123,7 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
           }}
         />
       </div>
-      <div className="card-body wmpCardBody">
+      <div hidden={mode !== `builder`} className="card-body wmpCardBody">
         <div
           className="accordion accordion-flush"
           id={"wmpHiddenAccordionFull" + thisRecordId}
