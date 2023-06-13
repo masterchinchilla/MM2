@@ -80,7 +80,9 @@ const MealIngrdntTblRow = (props) => {
                   arrayIndex: arrayIndex,
                   fieldDisabled: fieldsDisabled,
                   valErrors: valErrors.mealIngredient.qty,
-                  inputClasses: "form-control mlIngrdntQty",
+                  inputClasses: `form-control mlIngrdntQty${
+                    mode === `spreadsheet` ? ` sprdshtInput` : ``
+                  }`,
                   isRequired: true,
                   recordLoaded: recordLoaded,
                   excludeLabel: true,
@@ -119,6 +121,7 @@ const MealIngrdntTblRow = (props) => {
                   deleteChildrenWarning: "",
                   recordLoaded: recordLoaded,
                   formControlLineage: `mealIngredient ${thisRecordId}`,
+                  formControlClasses: `sprdshtFrmCtrl`,
                 },
                 specificMethods: {},
               }}

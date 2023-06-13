@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { formControlClasses } from "@mui/material";
 const NewFormControl = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
@@ -27,6 +28,7 @@ const NewFormControl = (props) => {
     deleteChildrenWarning,
     recordLoaded,
     allowCopy,
+    formControlClasses,
   } = specificData;
   const componentLineage = `NewFormControl_for_${specificData.componentLineage}`;
   const localUserType = userType ? userType : "";
@@ -110,7 +112,11 @@ const NewFormControl = (props) => {
   if (recordLoaded) {
     return (
       <React.Fragment>
-        <div className="iconGroup m-1">
+        <div
+          className={`iconGroup ${
+            formControlClasses ? formControlClasses : ``
+          }`}
+        >
           <button
             type="button"
             onClick={() => {

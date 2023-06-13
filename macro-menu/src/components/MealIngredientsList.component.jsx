@@ -229,10 +229,10 @@ const MealIngredientsList = (props) => {
         </table>
       )}
       {allowPopulateIngrdnts ? (
-        <div className="form-group mb-3">
+        <div className="form-group bttnFrmGrp">
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary wmpFormBttn"
             disabled={
               userType.meal === "viewer" || editingForm.meal ? true : false
             }
@@ -249,10 +249,10 @@ const MealIngredientsList = (props) => {
         </div>
       ) : null}
       {userCanEditRecipe && !allowPopulateIngrdnts ? (
-        <div className="form-group mt-4 mb-4">
+        <div className="form-group bttnFrmGrp">
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary wmpFormBttn"
             onClick={() =>
               onAddIngrdntToRecipeFn(thisDayOfWeekCode, thisMealTypeCode)
             }

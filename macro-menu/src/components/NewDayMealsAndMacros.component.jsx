@@ -122,7 +122,7 @@ const NewDayMealsAndMacros = (props) => {
           <NewCreateMealButton
             key={`NewCreateMealButton for meal ${mealRecordId}`}
             commonProps={{
-              commonData: {},
+              commonData: { mode: mode },
               commonMethods: {
                 onCreateNewRecordFn: onCreateNewRecordFn,
               },

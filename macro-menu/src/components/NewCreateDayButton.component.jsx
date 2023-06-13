@@ -1,7 +1,9 @@
 import React from "react";
+import CustomHeading from "./CustomHeading.component";
 const NewCreateDayButton = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { mode } = commonData;
   const { onCreateNewRecordFn } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj } = specificData;
@@ -9,9 +11,30 @@ const NewCreateDayButton = (props) => {
   const { _id, dayOfWeek } = thisRecord;
   const thisRecordId = _id;
   return (
-    <div className="card mt-3 mb-3">
-      <div className="card-header">
-        <h3 className="card-title">{dayOfWeek.name}</h3>
+    <div
+      className={`card${
+        mode === `spreadsheet` ? ` sprdshtCard sprdshtSlimCard` : ``
+      }`}
+    >
+      <div
+        className={`card-header${
+          mode === `spreadsheet` ? ` cntrdSprdshtHdr` : ``
+        }`}
+      >
+        <CustomHeading
+          key={`CustomHeading_for_"NewCreateDayButton"_for_day_${thisRecordId}`}
+          headingLvl={mode === `builder` ? 3 : 2}
+          recordLoaded={
+            thisStateObj.recordLoaded ? thisStateObj.recordLoaded : true
+          }
+          headingText={dayOfWeek.name}
+          hdngIsReqFormLbl={false}
+          editingForm={null}
+          headingClasses={
+            mode === `spreadsheet` ? ` sprdshtCardHeading` : `card-title`
+          }
+        />
+        {/* <h3 className="card-title">{dayOfWeek.name}</h3> */}
       </div>
       <div className="card-body">
         <div
@@ -40,10 +63,10 @@ const NewCreateDayButton = (props) => {
             >
               <div className="accordion-body">
                 <form>
-                  <div className="form-group mt-4 mb-4">
+                  <div className="form-group bttnFrmGrp">
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary wmpFormBttn"
                       onClick={() => {
                         onCreateNewRecordFn(
                           "day",

@@ -1,7 +1,9 @@
 import React from "react";
+import CustomHeading from "./CustomHeading.component";
 const NewCreateMealButton = (props) => {
   const { commonProps, specificProps } = props;
   const { commonData, commonMethods } = commonProps;
+  const { mode } = commonData;
   const { onCreateNewRecordFn } = commonMethods;
   const { specificData, specificMethods } = specificProps;
   const { thisStateObj } = specificData;
@@ -11,7 +13,9 @@ const NewCreateMealButton = (props) => {
   const thisRecordId = _id;
   return (
     <div
-      className="accordion accordionNotFlush"
+      className={`accordion accordionNotFlush${
+        mode === `spreadsheet` ? ` sprdshtCard` : ``
+      }`}
       id={"mealOuterAccordionFull" + thisRecordId}
     >
       <div className="accordion-item accordionItemNotFlush">
@@ -27,15 +31,26 @@ const NewCreateMealButton = (props) => {
             aria-expanded="true"
             aria-controls="collapseOne"
           >
-            <h5>{`${dayOfWeek.name} ${mealType.name}`}</h5>
+            <CustomHeading
+              key={`CustomHeading_for_"NewCreateMealButton"_for_meal_${thisRecordId}`}
+              headingLvl={mode === `builder` ? 5 : 3}
+              recordLoaded={thisStateObj.recordLoaded}
+              headingText={`${dayOfWeek.name} ${mealType.name}`}
+              hdngIsReqFormLbl={false}
+              editingForm={null}
+              headingClasses={
+                mode === `spreadsheet` ? ` sprdshtCardHeading` : `card-title`
+              }
+            />
+            {/* <h5>{`${dayOfWeek.name} ${mealType.name}`}</h5> */}
           </button>
         </h2>
         <form>
-          <div className="form-group mt-4 mb-4">
+          <div className="form-group bttnFrmGrp">
             <button
               type="button"
               value="Create Meal"
-              className="btn btn-primary"
+              className="btn btn-primary wmpFormBttn"
               onClick={() =>
                 onCreateNewRecordFn(
                   "meal",
