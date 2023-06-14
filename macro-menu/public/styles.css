@@ -70,7 +70,7 @@
   .iconGroup {
     white-space: nowrap;
     display: flex;
-    margin:0.25rem;
+    margin: 0 0.5rem 0 0;
   }
   button.iconBttn {
     color: unset;
@@ -2109,4 +2109,7 @@ div.sprdshtSlimCard{
 div.cntrdSprdshtHdr{
   justify-content: center;
   padding:0;
+}
+.card-title{
+  margin-bottom: 0 !important;
 }

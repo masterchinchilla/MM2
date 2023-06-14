@@ -13,7 +13,7 @@ const CustomHeading = (props) => {
     <ThisHeading
       className={
         recordLoaded
-          ? headingClasses
+          ? `card-title ${headingClasses}`
           : `${headingClasses} placeholder-glow w-75`
       }
     >

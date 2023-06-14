@@ -39,9 +39,7 @@ const NewDayControlAndDisabledFields = (props) => {
           headingText={dayOfWeek.name}
           hdngIsReqFormLbl={false}
           editingForm={editingForm.day}
-          headingClasses={`card-title${
-            mode === `spreadsheet` ? ` sprdshtCardHeading` : ``
-          }`}
+          headingClasses={mode === `spreadsheet` ? ` sprdshtCardHeading` : ``}
         />
         <NewFormControl
           key={`NewFormControl for Day ${thisRecordId}`}

@@ -82,7 +82,7 @@ const NewDayCard = (props) => {
   const { _id } = thisRecord;
   const thisRecordId = _id;
   return (
-    <div className={`card${mode ? ` sprdshtCard` : ``}`}>
+    <div className={`card${mode === `spreadsheet` ? ` sprdshtCard` : ``}`}>
       <NewDayControlAndDisabledFields
         key={`NewDayControlAndDisabledFields for Day ${thisRecordId}`}
         commonProps={{
