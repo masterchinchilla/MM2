@@ -210,7 +210,7 @@ const NewDayMealsAndMacros = (props) => {
           specificProps={{
             specificData: {
               thisStateObj: thisMealStateObj,
-              nestedMealIngrdntArray: thisDaysMealsIngrdnts,
+              nestedMealIngrdntArray: [thisMealStateObj.thisMealsIngrdnts],
               thisStateObjBackup: thisDaysMealStateObjBackup,
             },
             specificMethods: {

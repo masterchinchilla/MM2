@@ -58,12 +58,13 @@ const NewNewAsyncSearchSelectWCreate = (props) => {
     } else {
       const trimmedWNoDblSpcs = trimEnteredValueFn(inputValue);
       try {
-        const matchingRecords = await onSrchDBForObjWMtchngNmeFn(
+        const reqRes = await onSrchDBForObjWMtchngNmeFn(
           typeOfRecordToSelect,
           propToUpdate,
           trimmedWNoDblSpcs,
           `getSimilar`
         );
+        const matchingRecords = reqRes.foundRecords;
         const tempArray = [];
         if (matchingRecords.length > 0) {
           matchingRecords.forEach((element) => {

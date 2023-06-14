@@ -294,6 +294,7 @@ class RouterWrapper extends Component {
                     updateMainContentPaneHeight={
                       this.updateMainContentPaneHeight
                     }
+                    onCreateNewRecordInDbFn={onCreateNewRecordInDbFn}
                   />
                 )}
               />

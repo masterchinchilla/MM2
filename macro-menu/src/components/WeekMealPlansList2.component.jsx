@@ -11,6 +11,7 @@ class WMPListForUser extends Component {
       onGetFullRecordSetFn,
       onGetCurrentUserFn,
       updateMainContentPaneHeight,
+      onCreateNewRecordInDbFn,
     } = this.props;
     const pgReqParams = match.params;
     const thisUsersId = pgReqParams.id;
@@ -51,9 +52,9 @@ class WMPListForUser extends Component {
     const newWMP = {
       name:
         this.state.thisGRFUser.handle +
-        " New Week Meal Plan 2 " +
+        " New Week Meal Plan " +
         dayjs().format("M/D/YY"),
-      GRFUser: this.state.thisGRFUser._id,
+      GRFUser: this.state.thisGRFUser,
       breakfastWeight: 1,
       snack1Weight: 1,
       lunchWeight: 1,
@@ -66,13 +67,17 @@ class WMPListForUser extends Component {
       fatBudget: 1,
       fiberBudget: 1,
     };
-    axios
-      .post("http://localhost:5000/weekMealPlans/add", newWMP)
-      .then((response) => {
-        let savedRecord = response.data;
-        let savedRecordId = savedRecord._id;
-        window.location = "/weekMealPlans/edit/" + savedRecordId + "/true";
-      });
+    const reqRes = this.props.onCreateNewRecordInDbFn(`weekMealPlan`, newWMP);
+    const { savedRecord } = reqRes;
+    const savedRecordId = savedRecord._id;
+    window.location = "/weekMealPlans/edit/" + savedRecordId + "/true";
+    // axios
+    //   .post("http://localhost:5000/weekMealPlans/add", newWMP)
+    //   .then((response) => {
+    //     let savedRecord = response.data;
+    //     let savedRecordId = savedRecord._id;
+    //     window.location = "/weekMealPlans/edit/" + savedRecordId + "/true";
+    //   });
   };
   render() {
     // const { closeNavOnClick } = this.props;

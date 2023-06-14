@@ -239,7 +239,9 @@ const NewMacrosTable = (props) => {
           <TableCell
             key={`TableCell for cals left for day or meal ${thisRecordId}`}
             tCellType="td"
-            data={calsCurrent ? (calsBudget - calsCurrent).toFixed(2) : null}
+            data={
+              calsCurrent ? (localCalsBudget - calsCurrent).toFixed(2) : null
+            }
             tCellClasses=""
             scope=""
             recordLoaded={recordLoaded}
@@ -247,7 +249,9 @@ const NewMacrosTable = (props) => {
           <TableCell
             key={`TableCell for carbs left for day or meal ${thisRecordId}`}
             tCellType="td"
-            data={carbsCurrent ? (carbsBudget - carbsCurrent).toFixed(2) : null}
+            data={
+              carbsCurrent ? (localCarbsBudget - carbsCurrent).toFixed(2) : null
+            }
             tCellClasses=""
             scope=""
             recordLoaded={recordLoaded}
@@ -257,7 +261,7 @@ const NewMacrosTable = (props) => {
             tCellType="td"
             data={
               proteinCurrent
-                ? (proteinBudget - proteinCurrent).toFixed(2)
+                ? (localProteinBudget - proteinCurrent).toFixed(2)
                 : null
             }
             tCellClasses=""
@@ -267,7 +271,7 @@ const NewMacrosTable = (props) => {
           <TableCell
             key={`TableCell for fat left for day or meal ${thisRecordId}`}
             tCellType="td"
-            data={fatCurrent ? (fatBudget - fatCurrent).toFixed(2) : null}
+            data={fatCurrent ? (localFatBudget - fatCurrent).toFixed(2) : null}
             tCellClasses=""
             scope=""
             recordLoaded={recordLoaded}
@@ -275,7 +279,9 @@ const NewMacrosTable = (props) => {
           <TableCell
             key={`TableCell for fiber left for day or meal ${thisRecordId}`}
             tCellType="td"
-            data={fiberCurrent ? (fiberBudget - fiberCurrent).toFixed(2) : null}
+            data={
+              fiberCurrent ? (localFiberBudget - fiberCurrent).toFixed(2) : null
+            }
             tCellClasses=""
             scope=""
             recordLoaded={recordLoaded}
