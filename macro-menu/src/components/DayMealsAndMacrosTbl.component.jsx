@@ -6,7 +6,7 @@ const DayMealsAndMacrosTbl = (props) => {
   const { mealTypes } = commonData;
   const { getRndIntegerFn } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj } = specificData;
+  const { thisStateObj, thisWMPRecord } = specificData;
   const { renderMeal } = specificMethods;
   const {
     thisRecord,
@@ -43,7 +43,7 @@ const DayMealsAndMacrosTbl = (props) => {
         stickyBoxOffsetTop={50}
         stickyBoxOffsetBottom={20}
         stickyBoxClasses={"dayMacTable"}
-        thisWMPRecord={weekMealPlan}
+        thisWMPRecord={thisWMPRecord}
         theseIngrdnts={thisDaysMealsIngrdnts}
         recordLoaded={recordLoaded}
         getRndIntegerFn={getRndIntegerFn}

@@ -67,7 +67,8 @@ const NewWeekMealPlanCard = (props) => {
         hasChildren: { weekMealPlan: true },
         allowCopy: { weekMealPlan: false },
       };
-  const { thisRecord, recordLoaded, valErrors, recordChanged } = thisStateObj;
+  const { thisRecord, recordLoaded, valErrors, recordChanged, justCreated } =
+    thisStateObj;
   const { _id, name } = thisRecord;
   const thisRecordId = _id;
   const typeOfRecordToChange = "weekMealPlan";
@@ -83,7 +84,8 @@ const NewWeekMealPlanCard = (props) => {
   function handleCancelEditFn() {
     updateNameValErrorsStateFn(valErrors.weekMealPlan.name);
     toggleChangesCancelled(true);
-    onCancelEditFn();
+    const rcrdIdJstCrtd = justCreated.weekMealPlan ? thisRecordId : null;
+    onCancelEditFn(rcrdIdJstCrtd, null);
   }
   useEffect(() => {
     if (

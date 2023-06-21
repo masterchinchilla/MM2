@@ -32,8 +32,12 @@ const NewMealParentCard = (props) => {
   const { specificData, specificMethods } = specificProps;
   const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
-  const { thisStateObj, thisStateObjBackup, nestedMealIngrdntArray } =
-    specificData;
+  const {
+    thisStateObj,
+    thisStateObjBackup,
+    nestedMealIngrdntArray,
+    thisWMPRecord,
+  } = specificData;
   const {
     thisRecord,
     recordLoaded,
@@ -109,7 +113,7 @@ const NewMealParentCard = (props) => {
           stickyBoxOffsetTop={172}
           stickyBoxOffsetBottom={20}
           stickyBoxClasses={"mealMacTable"}
-          thisWMPRecord={weekMealPlan}
+          thisWMPRecord={thisWMPRecord}
           theseIngrdnts={nestedMealIngrdntArray}
           recordLoaded={recordLoaded}
           getRndIntegerFn={getRndIntegerFn}

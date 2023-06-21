@@ -71,6 +71,8 @@ const NewDayControlAndDisabledFields = (props) => {
                 "You must delete all this day's meals before you can delete this day",
               recordLoaded: recordLoaded,
               formControlLineage: `Day ${thisRecordId}`,
+              thisRecordId: thisRecordId,
+              justCreated: null,
             },
             specificMethods: {},
           }}

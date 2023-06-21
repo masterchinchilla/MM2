@@ -9,7 +9,7 @@ const DayMealsAndMacrosCard = (props) => {
   const { mealTypes } = commonData;
   const { getRndIntegerFn } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj } = specificData;
+  const { thisStateObj, thisWMPRecord } = specificData;
   const { renderMeal } = specificMethods;
   const {
     thisRecord,
@@ -72,7 +72,7 @@ const DayMealsAndMacrosCard = (props) => {
               >
                 <NewMacrosTable
                   key={`NewMacrosTable for day ${thisRecordId}`}
-                  thisWMPRecord={weekMealPlan}
+                  thisWMPRecord={thisWMPRecord}
                   tableType={"Day Macros"}
                   thisMealType={{}}
                   theseIngrdnts={thisDaysMealsIngrdnts}
@@ -87,7 +87,7 @@ const DayMealsAndMacrosCard = (props) => {
                 stickyBoxOffsetTop={50}
                 stickyBoxOffsetBottom={20}
                 stickyBoxClasses={"dayMacTable"}
-                thisWMPRecord={weekMealPlan}
+                thisWMPRecord={thisWMPRecord}
                 theseIngrdnts={thisDaysMealsIngrdnts}
                 recordLoaded={recordLoaded}
                 getRndIntegerFn={getRndIntegerFn}

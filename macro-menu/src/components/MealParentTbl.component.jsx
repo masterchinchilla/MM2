@@ -30,8 +30,12 @@ const MealParentTbl = (props) => {
   const { specificData, specificMethods } = specificProps;
   const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
-  const { thisStateObj, thisStateObjBackup, nestedMealIngrdntArray } =
-    specificData;
+  const {
+    thisStateObj,
+    thisStateObjBackup,
+    nestedMealIngrdntArray,
+    thisWMPRecord,
+  } = specificData;
   const {
     thisRecord,
     recordLoaded,
@@ -108,6 +112,8 @@ const MealParentTbl = (props) => {
                         "You must delete all this meals's ingredients before you can delete this meal",
                       recordLoaded: recordLoaded,
                       formControlLineage: `meal ${thisRecordId}`,
+                      thisRecordId: thisRecordId,
+                      justCreated: justCreated.meal,
                     },
                     specificMethods: {},
                   }}
@@ -170,7 +176,7 @@ const MealParentTbl = (props) => {
                 stickyBoxOffsetTop={172}
                 stickyBoxOffsetBottom={20}
                 stickyBoxClasses={"mealMacTable"}
-                thisWMPRecord={weekMealPlan}
+                thisWMPRecord={thisWMPRecord}
                 theseIngrdnts={nestedMealIngrdntArray}
                 recordLoaded={recordLoaded}
                 getRndIntegerFn={getRndIntegerFn}

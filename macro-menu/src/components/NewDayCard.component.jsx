@@ -27,7 +27,7 @@ const NewDayCard = (props) => {
     onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObjBackup } = specificData;
+  const { thisStateObjBackup, thisWMPRecord } = specificData;
   const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
   let thisStateObj = specificData.thisStateObj;
@@ -131,6 +131,7 @@ const NewDayCard = (props) => {
           specificData: {
             thisStateObj: thisStateObj,
             thisStateObjBackup: thisStateObjBackup,
+            thisWMPRecord: thisWMPRecord,
           },
           specificMethods: {
             populateMissingMealIngrdnts: populateMissingMealIngrdnts,

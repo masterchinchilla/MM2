@@ -30,7 +30,7 @@ const NewDayMealsAndMacros = (props) => {
     onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
   const { specificData, specificMethods } = specificProps;
-  const { thisStateObj, thisStateObjBackup } = specificData;
+  const { thisStateObj, thisStateObjBackup, thisWMPRecord } = specificData;
   const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
   const {
@@ -212,6 +212,7 @@ const NewDayMealsAndMacros = (props) => {
               thisStateObj: thisMealStateObj,
               nestedMealIngrdntArray: [thisMealStateObj.thisMealsIngrdnts],
               thisStateObjBackup: thisDaysMealStateObjBackup,
+              thisWMPRecord: thisWMPRecord,
             },
             specificMethods: {
               populateMissingMealIngrdnts: populateMissingMealIngrdnts,

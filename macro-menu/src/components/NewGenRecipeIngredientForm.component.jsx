@@ -129,6 +129,8 @@ const NewGenRecipeIngredientForm = (props) => {
               deleteChildrenWarning: "",
               recordLoaded: recordLoaded,
               formControlLineage: propLineage,
+              thisRecordId: thisRecordId,
+              justCreated: justCreated.genRecipeIngredient,
             },
             specificMethods: {},
           }}

@@ -95,6 +95,8 @@ const NewMealChildCard = (props) => {
                   "You must delete all this meals's ingredients before you can delete this meal",
                 recordLoaded: recordLoaded,
                 formControlLineage: `meal ${thisRecordId}`,
+                thisRecordId: thisRecordId,
+                justCreated: justCreated.meal,
               },
               specificMethods: {},
             }}

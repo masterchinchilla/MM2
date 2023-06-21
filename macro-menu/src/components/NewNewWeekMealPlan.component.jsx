@@ -526,7 +526,7 @@ class NewNewWeekMealPlan extends Component {
       origWMPId
     );
     if (copyHadErrs) {
-      state = this.handleExitFormEdit(state, false);
+      state = this.handleExitFormEdit(state, false, false, false);
       state.copyingWMP = false;
       this.setState(state);
     } else {
@@ -1371,98 +1371,140 @@ class NewNewWeekMealPlan extends Component {
     state.thisWMPStateObj = thisWMPStateObj;
     this.setState(state);
   };
-  handleCancelEditFn = () => {
-    let state = this.handleExitFormEdit(this.state, true);
+  handleCancelEditFn = (rcrdIdJstCrtd, rcrdIdJstEdtd) => {
+    let state = this.handleExitFormEdit(
+      this.state,
+      true,
+      rcrdIdJstCrtd,
+      rcrdIdJstEdtd
+    );
     this.setState(state);
   };
-  handleExitFormEdit = (state, restoreFromBackup) => {
-    let pattern = /missing/;
+  handleExitFormEdit = (
+    state,
+    restoreFromBackup,
+    rcrdIdJstCrtd,
+    rcrdIdJstEdtd
+  ) => {
+    const pattern = /missing/;
+    const thisWMPStateObj = state.thisWMPStateObj;
+    const thisWMPRecord = thisWMPStateObj.thisRecord;
+    const thisWMPRecordId = thisWMPRecord._id;
     state.thisWMPStateObj = restoreFromBackup
       ? _.cloneDeep(state.thisWMPStateBackup)
       : this.buildInitialStateObj(
-          state.thisWMPStateObj,
+          thisWMPStateObj,
           ["weekMealPlan"],
-          state.thisWMPStateObj.thisRecord
+          thisWMPRecord
         );
-    state.thisWMPStateObj.justCreated.weekMealPlan = false;
-    state.thisWMPStateBackup = {};
-    let daysOfWeek = state.daysOfWeek;
-    for (let i = 0; i < daysOfWeek.length; i++) {
-      let thisDayOfWeek = daysOfWeek[i];
-      let thisDayOfWeekCode = thisDayOfWeek.code;
-      let thisDayStateObj = state[thisDayOfWeekCode];
-      let thisDayRecord = thisDayStateObj.thisRecord;
-      let thisDayRecordId = thisDayRecord._id;
-      let testResult = pattern.test(thisDayRecordId);
-      if (!testResult) {
-        state.thisWMPStateObj.hasChildren.weekMealPlan = true;
-        let thisDayStateObjBackup = state[`${thisDayOfWeekCode}Backup`];
-        thisDayStateObj = restoreFromBackup
-          ? _.cloneDeep(thisDayStateObjBackup)
-          : this.buildInitialStateObj(thisDayStateObj, ["day"], thisDayRecord);
-        state[`${thisDayOfWeekCode}Backup`] = {};
-        let mealTypes = state.mealTypes;
-        for (let i = 0; i < mealTypes.length; i++) {
-          let thisMealType = mealTypes[i];
-          let thisMealTypeCode = thisMealType.code;
-          let thisMealStateObj = thisDayStateObj[thisMealTypeCode];
-          let thisMealRecord = thisMealStateObj.thisRecord;
-          let thisMealRecordId = thisMealRecord._id;
-          let testResult = pattern.test(thisMealRecordId);
-          if (!testResult) {
-            thisDayStateObj.hasChildren.day = true;
-            let thisMealStateObjBackup = thisDayStateObjBackup
-              ? thisDayStateObjBackup[thisMealTypeCode]
-              : null;
-            thisMealStateObj = restoreFromBackup
-              ? _.cloneDeep(thisMealStateObjBackup)
-              : this.buildInitialStateObj(
-                  thisMealStateObj,
-                  ["meal", "genRecipe"],
-                  thisMealRecord
-                );
-            let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
-            thisMealStateObj.hasChildren = {
-              meal: thisMealsIngrdnts.length > 0 ? true : false,
-              genRecipe:
-                thisMealStateObj.thisGenRcpsGenRcpIngrdnts.length > 0
-                  ? true
-                  : false,
-            };
-            for (let i = 0; i < thisMealsIngrdnts.length; i++) {
-              let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
-              let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
-              let thisMealIngrdntId = thisMealIngrdntRecord._id;
-              let thisMealIngrdntStateObjBackup = null;
-              if (restoreFromBackup) {
-                let thisMealsBackupIngrdnts =
-                  thisMealStateObjBackup.thisMealsIngrdnts;
-                thisMealIngrdntStateObjBackup = thisMealsBackupIngrdnts.filter(
-                  (mealIngrdnt) =>
-                    mealIngrdnt.thisRecord._id === thisMealIngrdntId
-                );
-                if (thisMealIngrdntStateObjBackup) {
-                  thisMealIngrdntStateObj = _.cloneDeep(
-                    thisMealIngrdntStateObjBackup[0]
-                  );
-                }
-              }
-              thisMealIngrdntStateObj = this.buildInitialStateObj(
-                thisMealIngrdntStateObj,
-                ["mealIngredient", "genRecipeIngredient", "ingredient"],
-                thisMealIngrdntRecord
+    if (
+      rcrdIdJstCrtd === thisWMPRecordId &&
+      rcrdIdJstEdtd === thisWMPRecordId
+    ) {
+      window.location = "/weekMealPlans/edit/" + thisWMPRecordId + "/false";
+    } else {
+      state.thisWMPStateObj.justCreated.weekMealPlan = false;
+      state.thisWMPStateBackup = {};
+      let daysOfWeek = state.daysOfWeek;
+      for (let i = 0; i < daysOfWeek.length; i++) {
+        let thisDayOfWeek = daysOfWeek[i];
+        let thisDayOfWeekCode = thisDayOfWeek.code;
+        let thisDayStateObj = state[thisDayOfWeekCode];
+        let thisDayRecord = thisDayStateObj.thisRecord;
+        let thisDayRecordId = thisDayRecord._id;
+        let testResult = pattern.test(thisDayRecordId);
+        if (!testResult) {
+          state.thisWMPStateObj.hasChildren.weekMealPlan = true;
+          let thisDayStateObjBackup = state[`${thisDayOfWeekCode}Backup`];
+          thisDayStateObj = restoreFromBackup
+            ? _.cloneDeep(thisDayStateObjBackup)
+            : this.buildInitialStateObj(
+                thisDayStateObj,
+                ["day"],
+                thisDayRecord
               );
-              thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+          state[`${thisDayOfWeekCode}Backup`] = {};
+          let mealTypes = state.mealTypes;
+          for (let i = 0; i < mealTypes.length; i++) {
+            let thisMealType = mealTypes[i];
+            let thisMealTypeCode = thisMealType.code;
+            let thisMealStateObj = thisDayStateObj[thisMealTypeCode];
+            let thisMealRecord = thisMealStateObj.thisRecord;
+            let thisMealRecordId = thisMealRecord._id;
+            let testResult = pattern.test(thisMealRecordId);
+            if (!testResult) {
+              thisDayStateObj.hasChildren.day = true;
+              let thisMealStateObjBackup = thisDayStateObjBackup
+                ? thisDayStateObjBackup[thisMealTypeCode]
+                : null;
+              thisMealStateObj = restoreFromBackup
+                ? _.cloneDeep(thisMealStateObjBackup)
+                : this.buildInitialStateObj(
+                    thisMealStateObj,
+                    ["meal", "genRecipe"],
+                    thisMealRecord
+                  );
+              if (thisMealRecord.genRecipe._id === rcrdIdJstCrtd) {
+                thisMealStateObj.justCreated.genRecipe = true;
+              }
+              let thisMealsIngrdnts = thisMealStateObj.thisMealsIngrdnts;
+              thisMealStateObj.hasChildren = {
+                meal: thisMealsIngrdnts.length > 0 ? true : false,
+                genRecipe:
+                  thisMealStateObj.thisGenRcpsGenRcpIngrdnts.length > 0
+                    ? true
+                    : false,
+              };
+              for (let i = 0; i < thisMealsIngrdnts.length; i++) {
+                let thisMealIngrdntStateObj = thisMealsIngrdnts[i];
+                let thisMealIngrdntRecord = thisMealIngrdntStateObj.thisRecord;
+                let thisGenRcpIngrdntRcrd =
+                  thisMealIngrdntRecord.genRecipeIngredient;
+                let thisIngrdntRecord = thisGenRcpIngrdntRcrd.ingredient;
+                let thisMealIngrdntId = thisMealIngrdntRecord._id;
+                let thisMealIngrdntStateObjBackup = null;
+                if (restoreFromBackup) {
+                  let thisMealsBackupIngrdnts =
+                    thisMealStateObjBackup.thisMealsIngrdnts;
+                  thisMealIngrdntStateObjBackup =
+                    thisMealsBackupIngrdnts.filter(
+                      (mealIngrdnt) =>
+                        mealIngrdnt.thisRecord._id === thisMealIngrdntId
+                    );
+                  if (thisMealIngrdntStateObjBackup) {
+                    thisMealIngrdntStateObj = _.cloneDeep(
+                      thisMealIngrdntStateObjBackup[0]
+                    );
+                  }
+                }
+                thisMealIngrdntStateObj = this.buildInitialStateObj(
+                  thisMealIngrdntStateObj,
+                  ["mealIngredient", "genRecipeIngredient", "ingredient"],
+                  thisMealIngrdntRecord
+                );
+                if (
+                  rcrdIdJstCrtd === thisGenRcpIngrdntRcrd._id &&
+                  rcrdIdJstEdtd !== thisGenRcpIngrdntRcrd._id
+                ) {
+                  thisMealIngrdntStateObj.justCreated.genRecipeIngredient = true;
+                } else if (
+                  rcrdIdJstCrtd === thisIngrdntRecord._id &&
+                  rcrdIdJstEdtd !== thisIngrdntRecord._id
+                ) {
+                  thisMealIngrdntStateObj.justCreated.ingredient = true;
+                }
+                thisMealsIngrdnts[i] = thisMealIngrdntStateObj;
+              }
+              thisMealStateObj.userChangedThisMealRecipe = false;
+              thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
             }
-            thisMealStateObj.userChangedThisMealRecipe = false;
-            thisMealStateObj.thisMealsIngrdnts = thisMealsIngrdnts;
+            thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
           }
-          thisDayStateObj[thisMealTypeCode] = thisMealStateObj;
         }
+        state[thisDayOfWeekCode] = thisDayStateObj;
       }
-      state[thisDayOfWeekCode] = thisDayStateObj;
+      return state;
     }
-    return state;
   };
   handleDetermineIfHasChildrenFn = (
     state,
@@ -1616,7 +1658,7 @@ class NewNewWeekMealPlan extends Component {
             state[thisDayOfWeekCode] = thisDayStateObj;
             state.countOfLinkedMealIngrdnts--;
         }
-        state = this.handleExitFormEdit(state, false);
+        state = this.handleExitFormEdit(state, false, null, null);
         this.setState(state);
       }
     }
@@ -1736,7 +1778,6 @@ class NewNewWeekMealPlan extends Component {
         ? thisMealStateObj.thisMealsIngrdnts[arrayIndex]
         : null;
     let stateObjToUpdate;
-
     let recordToSave;
     if (typeOfRecordToSave === "weekMealPlan") {
       stateObjToUpdate = state.thisWMPStateObj;
@@ -1800,7 +1841,7 @@ class NewNewWeekMealPlan extends Component {
         this.setState({ [thisDayOfWeekCode]: thisDayStateObj });
       }
     } else {
-      state = this.handleExitFormEdit(state, false);
+      state = this.handleExitFormEdit(state, false, false, false);
       state.countOfLinkedMealIngrdnts = countOfLinkedMealIngrdnts;
       this.setState(state);
     }
@@ -1889,6 +1930,7 @@ class NewNewWeekMealPlan extends Component {
             specificData: {
               thisStateObj: thisDayStateObj,
               thisStateObjBackup: thisDayStateObjBackup,
+              thisWMPRecord: thisWMPStateObj.thisRecord,
             },
             specificMethods: {
               populateMissingMealIngrdnts:

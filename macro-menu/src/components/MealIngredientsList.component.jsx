@@ -248,7 +248,7 @@ const MealIngredientsList = (props) => {
           </button>
         </div>
       ) : null}
-      {userCanEditRecipe && !allowPopulateIngrdnts ? (
+      {mode !== `spreadsheet` && userCanEditRecipe && !allowPopulateIngrdnts ? (
         <div className="form-group bttnFrmGrp">
           <button
             type="submit"

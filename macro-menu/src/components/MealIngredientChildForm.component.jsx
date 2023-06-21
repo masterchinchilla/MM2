@@ -95,6 +95,8 @@ const MealIngredientChildForm = (props) => {
               deleteChildrenWarning: "",
               recordLoaded: recordLoaded,
               formControlLineage: `mealIngredient ${thisRecordId}`,
+              thisRecordId: thisRecordId,
+              justCreated: justCreated.mealIngredient,
             },
             specificMethods: {},
           }}

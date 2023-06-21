@@ -178,6 +178,8 @@ const NewRecipeCard = (props) => {
                 deleteChildrenWarning:
                   "You must delete all this recipe's recipe ingredients AND disconnect this recipe from any meals before you can delete it",
                 recordLoaded: recordLoaded,
+                thisRecordId: thisRecordId,
+                justCreated: justCreated.genRecipe,
               },
               specificMethods: {},
             }}

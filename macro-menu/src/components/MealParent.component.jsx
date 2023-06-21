@@ -25,8 +25,12 @@ const MealParent = (props) => {
     trimEnteredValueFn,
     onSrchDBForObjWMtchngNmeFn,
   } = commonMethods;
-  const { thisStateObj, nestedMealIngrdntArray, thisStateObjBackup } =
-    specificData;
+  const {
+    thisStateObj,
+    nestedMealIngrdntArray,
+    thisStateObjBackup,
+    thisWMPRecord,
+  } = specificData;
   const { populateMissingMealIngrdnts, onAddIngrdntToRecipeFn } =
     specificMethods;
   const { thisRecord } = thisStateObj;
@@ -63,6 +67,7 @@ const MealParent = (props) => {
             thisStateObj: thisStateObj,
             nestedMealIngrdntArray: nestedMealIngrdntArray,
             thisStateObjBackup: thisStateObjBackup,
+            thisWMPRecord: thisWMPRecord,
           },
           specificMethods: {
             populateMissingMealIngrdnts: populateMissingMealIngrdnts,
@@ -102,6 +107,7 @@ const MealParent = (props) => {
             thisStateObj: thisStateObj,
             nestedMealIngrdntArray: nestedMealIngrdntArray,
             thisStateObjBackup: thisStateObjBackup,
+            thisWMPRecord: thisWMPRecord,
           },
           specificMethods: {
             populateMissingMealIngrdnts: populateMissingMealIngrdnts,

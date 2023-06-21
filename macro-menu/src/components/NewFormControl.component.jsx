@@ -29,6 +29,8 @@ const NewFormControl = (props) => {
     recordLoaded,
     allowCopy,
     formControlClasses,
+    thisRecordId,
+    justCreated,
   } = specificData;
   const componentLineage = `NewFormControl_for_${specificData.componentLineage}`;
   const localUserType = userType ? userType : "";
@@ -36,6 +38,8 @@ const NewFormControl = (props) => {
   const [hideCancelWarning, toggleHideCancelWarning] = useState(true);
   const [hideSaveWarning, toggleHideSaveWarning] = useState(true);
   const [hideDeleteBlock, toggleHideDeleteBlock] = useState(true);
+  const rcrdIdJstCrtd = justCreated ? thisRecordId : null;
+  const rcrdIdJstEdtd = recordChanged ? thisRecordId : null;
   function hideIcon(icon) {
     let iconHidden = false;
     switch (icon) {
@@ -97,7 +101,9 @@ const NewFormControl = (props) => {
     }
   }
   function handleClickCancel() {
-    recordChanged ? toggleHideCancelWarning(false) : onCancelEditFn();
+    recordChanged
+      ? toggleHideCancelWarning(false)
+      : onCancelEditFn(rcrdIdJstCrtd, rcrdIdJstEdtd);
   }
   function handleClickSave() {
     !saveWarning
@@ -221,7 +227,7 @@ const NewFormControl = (props) => {
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => {
-                    onCancelEditFn();
+                    handleClickCancel();
                     toggleHideDeleteBlock(true);
                   }}
                 >
@@ -249,7 +255,7 @@ const NewFormControl = (props) => {
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => {
-                    onCancelEditFn();
+                    handleClickCancel();
                     toggleHideDeleteWarning(true);
                   }}
                 >
@@ -301,8 +307,7 @@ const NewFormControl = (props) => {
                   type="button"
                   className="btn btn-warning"
                   onClick={() => {
-                    onCancelEditFn();
-                    toggleHideCancelWarning(true);
+                    handleClickCancel();
                   }}
                 >
                   Confirm Cancel
@@ -329,7 +334,7 @@ const NewFormControl = (props) => {
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => {
-                    onCancelEditFn();
+                    handleClickCancel();
                     toggleHideSaveWarning(true);
                   }}
                 >

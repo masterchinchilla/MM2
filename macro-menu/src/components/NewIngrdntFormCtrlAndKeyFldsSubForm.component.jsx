@@ -137,6 +137,8 @@ const NewIngrdntFormCtrlAndKeyFldsSubForm = (props) => {
               "You cannot delete this Base Ingredient until all connected Recipe Ingredients have been disconnected from it.",
             recordLoaded: recordLoaded,
             formControlLineage: propLineage,
+            thisRecordId: thisRecordId,
+            justCreated: justCreated.ingredient,
           },
           specificMethods: {},
         }}

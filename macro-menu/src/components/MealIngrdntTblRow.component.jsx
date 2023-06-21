@@ -122,6 +122,8 @@ const MealIngrdntTblRow = (props) => {
                   recordLoaded: recordLoaded,
                   formControlLineage: `mealIngredient ${thisRecordId}`,
                   formControlClasses: `sprdshtFrmCtrl`,
+                  thisRecordId: thisRecordId,
+                  justCreated: justCreated.mealIngredient,
                 },
                 specificMethods: {},
               }}

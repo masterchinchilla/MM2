@@ -118,6 +118,8 @@ const NewWMPNameAndDisabledFieldsSubForm = (props) => {
                 "You must delete all this week's days before you can delete this Week Meal Plan",
               recordLoaded: recordLoaded,
               allowCopy: allowCopy.weekMealPlan,
+              thisRecordId: thisRecordId,
+              justCreated: justCreated.weekMealPlan,
             },
             specificMethods: {},
           }}
